@@ -1,0 +1,147 @@
+---
+/*
+  FAQ – 1:1 Space Kit (.faq-wrapper, .faq-heading .heading-5, .faq-list, .faq-item mit .faq-top/.faq-bottom).
+  Werte aus dem Original-CSS; Verhalten gemessen:
+  – Hereinscrollen: Überschrift und Fragen gleiten von 100px unten hoch und blenden ein (~1 s, einmalig).
+  – Hover: weiße Fläche (Radius 8px, 0,45 s).
+  – Klick: Antwort klappt auf (Höhe 0 → auto, ~0,5 s) und rutscht von −2rem nach; Pfeil dreht nach oben;
+    mehrere Fragen können gleichzeitig offen sein; geöffnet bleibt die Fläche weiß.
+  Getauscht: Texte.
+*/
+const faqs = [
+  { q: 'Was kostet ein Pool komplett?', a: 'Unsere Komplettpakete beginnen bei 22.700 € – mit Poolschale, Technikbox, Lieferung und Einbau, zuzüglich Erdarbeiten. Den genauen Preis für Ihren Garten nennen wir Ihnen nach der kostenlosen Beratung vor Ort.' },
+  { q: 'Wie schnell steht mein Pool?', a: 'Ist der Untergrund vorbereitet, setzen wir die fertige Poolschale ein und schließen die Technik an. In rund 48 Stunden ist Ihr Pool einsatzbereit.' },
+  { q: 'Warum ohne Beton?', a: 'Unser System kommt ganz ohne Betonarbeiten aus: weniger Baustelle, keine Wartezeit zum Aushärten, ein sauberer Garten. Und bei Bedarf lässt sich der Pool komplett zurückbauen – ohne bleibende Schäden.' },
+  { q: 'Salzwasser oder Chlor – was passt zu mir?', a: 'Beides funktioniert zuverlässig. Salzwasser mit Salzelektrolyse ist hautfreundlich und pflegeleicht, die klassische Chlorpflege ist bewährt und einfach. Wir beraten Sie, was zu Ihrem Pool und Ihren Gewohnheiten passt.' },
+  { q: 'Welche Garantie bekomme ich?', a: 'Je nach Hersteller gibt es bis zu 40 Jahre Garantie auf die Poolschale. Die genauen Bedingungen erklären wir Ihnen bei der Beratung.' },
+  { q: 'Brauche ich eine Baugenehmigung?', a: 'Das hängt von der Größe des Pools und den Vorgaben Ihrer Gemeinde ab. Wir klären das vor dem Einbau gemeinsam mit Ihnen.' },
+];
+const arrow = `<svg width="14" height="9" viewBox="0 0 14 9" fill="none" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M6.2672 8.1507L0 1.35599L1.47013 0L7.0022 5.9977L12.5343 0L14.0045 1.35599L7.7373 8.1507L7.0022 8.9476L6.2672 8.1507Z" fill="currentColor"/></svg>`;
+---
+
+<section id="faq" class="faq-section" aria-labelledby="faq-title" data-faq>
+  <div class="padding-global">
+    <div class="container small">
+      <div class="faq-wrapper">
+        <div class="faq-heading" data-fade-up>
+          <h2 id="faq-title" class="heading-5">Häufige Fragen</h2>
+        </div>
+        <ul class="faq-list" role="list">
+          {faqs.map((f, i) => (
+            <li class="faq-hover">
+              <div class="faq-item" data-fade-up data-faq-item>
+                <h3 class="faq-top">
+                  <button class="faq-button" type="button" aria-expanded="false" aria-controls={`faq-a-${i}`} id={`faq-q-${i}`}>
+                    <span class="faq-title-wrapper">{f.q}</span>
+                    <span class="faq-action-wrapper" set:html={arrow} />
+                  </button>
+                </h3>
+                <div class="faq-bottom" id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}>
+                  <div class="faq-bottom-content"><p>{f.a}</p></div>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .padding-global { padding-inline: 2.5rem; }
+  .container { width: 100%; margin-inline: auto; }
+  .container.small { max-width: 90rem; }
+  .faq-wrapper { display: flex; flex-flow: column; align-items: center; gap: 3.25rem; margin-top: 15vh; }
+  .faq-heading { max-width: 50ch; text-align: center; }
+  .heading-5 { margin: 0; font-size: 3.5rem; line-height: 1.15; font-weight: 400; }
+
+  .faq-list { position: relative; display: flex; flex-direction: column; gap: 0.5rem; width: 100%; margin: 0; padding: 0; list-style: none; }
+  .faq-hover { border-radius: 0.5rem; transition: background-color 0.45s; }
+  .faq-hover:hover { background-color: #fff; }
+  .faq-item { position: relative; display: flex; flex-flow: column; padding: 1.5rem; border-radius: 0.5rem; cursor: pointer; transition: background-color 0.45s; }
+  .faq-item:hover, .faq-item:global(.is-open) { background-color: #fff; }
+  .faq-top { position: relative; z-index: 1; margin: 0; font: inherit; }
+  .faq-button {
+    all: unset; box-sizing: border-box; position: relative; display: block; width: 100%;
+    cursor: pointer; font-size: 1rem; line-height: 1.5; color: var(--ink);
+  }
+  .faq-button:focus-visible { outline: 2px solid var(--pk-navy); outline-offset: 6px; border-radius: 4px; }
+  .faq-title-wrapper { position: relative; z-index: 10; display: block; height: 100%; padding-right: 5rem; }
+  .faq-action-wrapper {
+    position: absolute; inset: 0 0 0 auto; z-index: 25; display: flex; justify-content: center; align-items: center;
+    width: 1.5rem; height: 100%; transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .faq-item:global(.is-open) .faq-action-wrapper { transform: rotate(180deg); }
+  .faq-bottom {
+    position: relative; z-index: 10; margin-right: 12rem; overflow: hidden;
+    height: 0; transform: translateY(-2rem);
+    transition: height 0.5s cubic-bezier(0.22, 1, 0.36, 1), transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .faq-item:global(.is-open) .faq-bottom { transform: none; }
+  .faq-bottom-content { display: grid; gap: 16px; margin-top: 1.5rem; margin-bottom: 0.5rem; opacity: 0.8; }
+  .faq-bottom-content p { margin: 0; }
+
+  /* Einblenden beim Hereinscrollen – Startzustand nur mit aktivem Script */
+  [data-faq][data-reveal-ready] [data-fade-up] { opacity: 0; translate: 0 100px; }
+  [data-faq] [data-fade-up] { transition: opacity 1s cubic-bezier(0.22, 1, 0.36, 1), translate 1s cubic-bezier(0.22, 1, 0.36, 1), background-color 0.45s; }
+  [data-faq][data-reveal-ready] [data-fade-up]:global(.is-in) { opacity: 1; translate: 0 0; }
+
+  @media (max-width: 991px) {
+    .heading-5 { font-size: 2.5rem; }
+    .faq-wrapper { gap: 4rem; }
+    .faq-list { gap: 1rem; }
+    .faq-title-wrapper { padding-right: 3rem; }
+    .faq-action-wrapper { height: 1.5rem; right: 0; }
+    .faq-bottom { margin-right: 0; }
+  }
+  @media (max-width: 767px) {
+    .padding-global { padding-inline: 1.25rem; }
+    .heading-5 { font-size: 2.3rem; }
+  }
+  @media (max-width: 479px) {
+    .padding-global { padding-inline: 1rem; }
+    .heading-5 { font-size: 2rem; line-height: 1.3; }
+    .faq-title-wrapper { padding-right: 3.5rem; }
+  }
+</style>
+
+<script>
+  const faq = document.querySelector<HTMLElement>('[data-faq]');
+  if (faq) {
+    // Aufklappen: Höhe 0 ↔ Inhaltshöhe (danach auto), mehrere gleichzeitig möglich
+    faq.querySelectorAll<HTMLElement>('[data-faq-item]').forEach((item) => {
+      const button = item.querySelector<HTMLButtonElement>('.faq-button')!;
+      const bottom = item.querySelector<HTMLElement>('.faq-bottom')!;
+      const toggle = () => {
+        const open = !item.classList.contains('is-open');
+        item.classList.toggle('is-open', open);
+        button.setAttribute('aria-expanded', String(open));
+        const h = bottom.scrollHeight;
+        if (open) {
+          bottom.style.height = `${h}px`;
+          bottom.addEventListener('transitionend', function done(e) {
+            if (e.propertyName !== 'height') return;
+            if (item.classList.contains('is-open')) bottom.style.height = 'auto';
+            bottom.removeEventListener('transitionend', done);
+          });
+        } else {
+          bottom.style.height = `${h}px`;
+          requestAnimationFrame(() => requestAnimationFrame(() => { bottom.style.height = '0px'; }));
+        }
+      };
+      button.addEventListener('click', toggle);
+      // Ganze Fläche klickbar wie im Original
+      item.addEventListener('click', (e) => { if (!button.contains(e.target as Node)) toggle(); });
+    });
+
+    // Einblenden beim Hereinscrollen
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      faq.dataset.revealReady = '';
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } }
+      }, { rootMargin: '0px 0px -8% 0px' });
+      faq.querySelectorAll('[data-fade-up]').forEach((el) => io.observe(el));
+    }
+  }
+</script>
