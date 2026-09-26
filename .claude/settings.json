@@ -1,0 +1,15 @@
+{
+  "enabledMcpjsonServers": ["playwright", "chrome-devtools"],
+  "permissions": {
+    "allow": ["mcp__playwright", "mcp__chrome-devtools"]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "\"$CLAUDE_PROJECT_DIR\"/.claude/mcp/browser-trust.sh" }
+        ]
+      }
+    ]
+  }
+}
