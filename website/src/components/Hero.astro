@@ -1,0 +1,143 @@
+---
+import { Image } from 'astro:assets';
+import ButtonGroup from './ButtonGroup.astro';
+import heroImg from '../assets/img/hero-pool-terrasse.webp';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <Image
+    src={heroImg}
+    alt="Rechteckiger Pool mit hellen Terrassenplatten in einem sonnigen Garten"
+    class="hero-img"
+    widths={[768, 1280, 1920]}
+    sizes="100vw"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div class="hero-shade" aria-hidden="true"></div>
+
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <a href="#pakete" class="pill hero-pill reveal">
+        <span class="pill-strong">Komplettpaket ab 22.700 €</span>
+        <span class="pill-sep" aria-hidden="true"></span>
+        <span class="pill-soft">inkl. Technik &amp; Einbau · zzgl. Erdarbeiten</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+
+      <h1 id="hero-title" class="display hero-title reveal" data-delay="1">
+        Ihr Traumpool.<br />Fertig in 48&nbsp;Stunden.
+      </h1>
+
+      <p class="text-large hero-lead reveal" data-delay="2">
+        Hochwertige Keramik- und Fiberglaspools, eingebaut ganz ohne Beton –
+        ohne wochenlange Baustelle und mit bis zu 40&nbsp;Jahren Garantie.
+      </p>
+
+      <ButtonGroup class="hero-cta" delay={450}>
+        <a href="#beratung" class="btn btn-light">
+          Kostenlose Beratung vor Ort
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="https://konfig.poolbau-koch.de/" class="btn btn-glass" target="_blank" rel="noopener">
+          Pool konfigurieren
+        </a>
+      </ButtonGroup>
+
+      <ul class="hero-facts reveal" data-delay="3" aria-label="Poolbau Koch in Zahlen">
+        <li><strong>30+</strong> Jahre Erfahrung</li>
+        <li><strong>48 h</strong> Einbauzeit</li>
+        <li><strong>40 J.</strong> Garantie auf die Schale*</li>
+      </ul>
+    </div>
+
+    <a href="#ohne-beton" class="spin-badge" aria-label="Weiter: So funktioniert Poolbau ohne Beton">
+      <svg class="spin-text" viewBox="0 0 200 200" aria-hidden="true">
+        <defs><path id="badge-circle" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" /></defs>
+        <text><textPath href="#badge-circle" textLength="486" lengthAdjust="spacing">OHNE BETON · IN 48 STUNDEN · OHNE BETON · IN 48 STUNDEN ·</textPath></text>
+      </svg>
+      <span class="spin-core">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+      </span>
+    </a>
+  </div>
+  <p class="hero-footnote container">* je nach Hersteller und Modell 10 bis 40 Jahre Herstellergarantie auf die Poolschale</p>
+</section>
+
+<style>
+  .hero {
+    position: relative; min-height: max(100svh, 44rem);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    color: #fff; overflow: hidden; isolation: isolate;
+  }
+  .hero-img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2;
+    animation: hero-zoom 1.8s var(--ease) both;
+  }
+  @keyframes hero-zoom { from { transform: scale(1.08); } }
+  .hero-shade {
+    position: absolute; inset: 0; z-index: -1;
+    background:
+      linear-gradient(0deg, rgba(0, 28, 48, 0.78) 0%, rgba(0, 28, 48, 0.42) 38%, rgba(0, 28, 48, 0) 68%),
+      linear-gradient(90deg, rgba(0, 28, 48, 0.35) 0%, rgba(0, 28, 48, 0) 55%);
+  }
+
+  .hero-inner {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 2rem;
+    padding-top: 9rem; padding-bottom: 1.5rem;
+  }
+  .hero-content { max-width: 58rem; }
+
+  .hero-pill { color: var(--ink); margin-bottom: 1.75rem; flex-wrap: wrap; }
+  .pill-strong { font-weight: 700; }
+  .pill-sep { width: 1px; height: 1rem; background: rgba(21, 21, 21, 0.3); }
+  .pill-soft { color: var(--ink-muted); font-weight: 400; }
+  .hero-pill svg { transition: transform var(--t-fast); }
+  .hero-pill:hover svg { transform: translateX(3px); }
+
+  .hero-title { margin-bottom: 1.5rem; text-wrap: balance; }
+  .hero-lead { max-width: 38ch; color: rgba(255, 255, 255, 0.9); margin-bottom: 2.25rem; }
+
+  .btn-glass {
+    background: rgba(255, 255, 255, 0.14); color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  }
+  .btn-glass:hover { background: rgba(255, 255, 255, 0.26); transform: translateY(3px); }
+
+  .hero-facts {
+    display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; list-style: none; padding: 0; margin: 2.5rem 0 0;
+    font-size: var(--fs-small); color: rgba(255, 255, 255, 0.85);
+  }
+  .hero-facts li { display: flex; align-items: baseline; gap: 0.5rem; }
+  .hero-facts strong { font-size: 1.5rem; font-weight: 500; color: #fff; }
+
+  .spin-badge {
+    position: relative; flex: none; width: 8.5rem; height: 8.5rem; display: grid; place-items: center;
+  }
+  .spin-text { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 30s linear infinite; }
+  .spin-text text { fill: #fff; font-size: 14px; font-weight: 500; }
+  .spin-core {
+    width: 4.5rem; height: 4.5rem; border-radius: 50%; display: grid; place-items: center;
+    background: #fff; color: var(--pk-navy); transition: transform var(--t-fast);
+  }
+  .spin-badge:hover .spin-core { transform: translateY(3px); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .hero-footnote { font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); padding-bottom: 1.25rem; }
+
+  @media (max-width: 767px) {
+    .pill-sep { display: none; }
+    .hero-pill { row-gap: 0.125rem; }
+    .hero-inner { flex-direction: column; align-items: flex-start; padding-top: 7.5rem; }
+    .spin-badge { display: none; }
+    .hero-lead { margin-bottom: 1.75rem; }
+    .hero-facts { gap: 0.5rem 1.5rem; margin-top: 2rem; }
+    .hero-facts strong { font-size: 1.25rem; }
+    .hero :global(.hero-cta) { width: 100%; }
+    .hero :global(.hero-cta .btn) { flex: 1 1 100%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-img, .spin-text { animation: none; }
+  }
+</style>

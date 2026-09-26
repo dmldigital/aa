@@ -1,0 +1,85 @@
+---
+/*
+  Button-Gruppe mit „Auffächern“-Animation (Referenz: website/ANIMATIONEN.md, Nr. 1).
+  Die Buttons starten gestapelt hinter dem ersten und gleiten nacheinander an ihre Position,
+  sobald die Gruppe sichtbar wird. Optik der Buttons bleibt unverändert (.btn-*).
+*/
+interface Props {
+  class?: string;
+  delay?: number; // ms, bevor die Gruppe auffächert
+}
+const { class: className = '', delay = 0 } = Astro.props;
+---
+
+<div class:list={['btn-fan', className]} data-fan-delay={delay}>
+  <slot />
+</div>
+
+<style>
+  .btn-fan {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .btn-fan > :global(*) {
+    position: relative;
+    transition: transform 0.75s var(--ease), opacity 0.4s ease;
+  }
+  /* Vor dem Auffächern: gestapelt (Offsets setzt das Script exakt je Button) */
+  .btn-fan:global(.is-stacked) > :global(*) {
+    transform: translateX(var(--fan-x, 0px));
+    transition: none;
+  }
+  .btn-fan:global(.is-stacked) > :global(*:not(:first-child)) {
+    opacity: 0;
+  }
+</style>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function stack(group: HTMLElement) {
+    const items = Array.from(group.children) as HTMLElement[];
+    const first = items[0];
+    if (!first) return false;
+    // Nur stapeln, wenn alle Buttons in einer Zeile stehen (sonst kein sauberer Stapel)
+    const sameRow = items.every((el) => Math.abs(el.offsetTop - first.offsetTop) < 4);
+    if (!sameRow || items.length < 2) return false;
+    items.forEach((el, i) => {
+      el.style.setProperty('--fan-x', `${first.offsetLeft - el.offsetLeft}px`);
+      el.style.zIndex = String(100 - i);
+    });
+    group.classList.add('is-stacked');
+    return true;
+  }
+
+  function fan(group: HTMLElement) {
+    const items = Array.from(group.children) as HTMLElement[];
+    const delay = Number(group.dataset.fanDelay || 0);
+    items.forEach((el, i) => {
+      el.style.transitionDelay = `${delay + i * 110}ms, ${delay + i * 110}ms`;
+    });
+    // zwei Frames warten, damit der gestapelte Zustand sicher gerendert ist
+    requestAnimationFrame(() =>
+      requestAnimationFrame(() => group.classList.remove('is-stacked')),
+    );
+    setTimeout(() => items.forEach((el) => (el.style.transitionDelay = '')), delay + items.length * 110 + 900);
+  }
+
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          io.unobserve(entry.target);
+          fan(entry.target as HTMLElement);
+        }
+      },
+      { rootMargin: '0px 0px -8% 0px' },
+    );
+    document.querySelectorAll<HTMLElement>('.btn-fan').forEach((group) => {
+      if (stack(group)) io.observe(group);
+    });
+  }
+</script>

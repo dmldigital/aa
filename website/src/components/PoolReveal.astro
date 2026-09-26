@@ -1,0 +1,136 @@
+---
+/*
+  „Scroll & Roll“ (Referenz: website/ANIMATIONEN.md, Nr. 2).
+  Sticky-Bühne; das Bildfenster öffnet sich scrollgesteuert von einer Kapsel zum vollen Bild.
+*/
+import { Image } from 'astro:assets';
+import revealImg from '../assets/img/pool-garten-abendsonne.webp';
+
+const chips = ['100 % ohne Beton', 'Einbau in 48 Stunden', 'Jederzeit rückbaubar', 'Bis zu 40 Jahre Garantie'];
+---
+
+<section id="ohne-beton" class="reveal-section" aria-labelledby="ohne-beton-title">
+  <div class="stage">
+    <div class="container stage-inner">
+      <div class="stage-text" data-reveal-text>
+        <p class="eyebrow">Poolbau ohne Beton</p>
+        <h2 id="ohne-beton-title" class="h2">Vom Rasen zum Pool.<br />In nur zwei Tagen.</h2>
+        <p class="text-medium muted stage-lead">
+          Klassischer Poolbau heißt: Bagger, Betonmischer und wochenlang Dreck im Garten.
+          Unser System kommt ganz ohne Beton aus – die fertige Poolschale wird angeliefert,
+          eingesetzt und angeschlossen. Nach 48&nbsp;Stunden ist Ihr Pool einsatzbereit.
+        </p>
+      </div>
+
+      <div class="media" data-reveal-media>
+        <div class="media-inner" data-reveal-scale>
+          <Image
+            src={revealImg}
+            alt="Fertig eingebauter Pool in einem Garten im Abendlicht"
+            widths={[768, 1280, 1536]}
+            sizes="(max-width: 1760px) 100vw, 1680px"
+          />
+        </div>
+        <ul class="chips" data-reveal-chips aria-label="Ihre Vorteile">
+          {chips.map((c) => <li class="pill">{c}</li>)}
+        </ul>
+      </div>
+
+      <div class="stage-cta" data-reveal-button>
+        <a href="#ablauf" class="btn btn-primary">
+          So läuft der Einbau ab
+          <svg class="arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reveal-section { position: relative; height: 320vh; background: var(--bg); }
+  .stage {
+    position: sticky; top: 0; height: 100svh; min-height: 40rem;
+    display: flex; align-items: center; overflow: hidden;
+  }
+  .stage-inner {
+    display: grid; grid-template-rows: auto minmax(0, 1fr) auto; justify-items: center;
+    gap: 1.5rem; height: 100%; padding-top: 7.5rem; padding-bottom: 2rem; text-align: center;
+  }
+  .stage-text { display: grid; justify-items: center; gap: 1rem; will-change: transform; }
+  .stage-lead { max-width: 60ch; }
+
+  .media {
+    position: relative; width: 100%; height: 100%; min-height: 16rem;
+    clip-path: inset(35.6% round 836px); will-change: clip-path;
+  }
+  .media-inner { width: 100%; height: 100%; transform: scale(0.7625); will-change: transform; }
+  .media-inner :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+  .chips {
+    position: absolute; left: 0; right: 0; bottom: 1.5rem;
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem;
+    list-style: none; margin: 0; padding: 0 1rem; opacity: 0;
+  }
+  .chips .pill { background: rgba(255, 255, 255, 0.82); color: var(--ink); }
+
+  .stage-cta { will-change: transform; }
+
+  @media (max-width: 767px) {
+    .reveal-section { height: 240vh; }
+    .stage-inner { padding-top: 6.5rem; gap: 1rem; }
+    .chips { bottom: 1rem; }
+    .chips .pill { font-size: 0.75rem; }
+  }
+
+  /* Ohne Bewegung: alles direkt im Endzustand, keine Sticky-Strecke */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-section { height: auto; }
+    .stage { position: relative; height: auto; min-height: 0; }
+    .stage-inner { padding-block: var(--section-y); }
+    .media { clip-path: inset(0 round 16px); height: 60vh; }
+    .media-inner { transform: none; }
+    .chips { opacity: 1; }
+  }
+</style>
+
+<script>
+  const section = document.getElementById('ohne-beton');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (section && !reduce) {
+    const media = section.querySelector<HTMLElement>('[data-reveal-media]')!;
+    const scaleEl = section.querySelector<HTMLElement>('[data-reveal-scale]')!;
+    const text = section.querySelector<HTMLElement>('[data-reveal-text]')!;
+    const button = section.querySelector<HTMLElement>('[data-reveal-button]')!;
+    const chips = section.querySelector<HTMLElement>('[data-reveal-chips]')!;
+
+    const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+    const START_INSET = 35.6;
+    let ticking = false;
+
+    const update = () => {
+      ticking = false;
+      const rect = section.getBoundingClientRect();
+      const distance = rect.height - window.innerHeight;
+      const p = clamp(-rect.top / distance);   // Fortschritt der Sektion 0…1
+      const e = clamp(p / 0.8);                // Hauptbewegung fertig bei 80 %
+
+      const radius = p < 0.8 ? lerp(836, 180, e) : lerp(180, 16, (p - 0.8) / 0.2);
+      media.style.clipPath = `inset(${(START_INSET * (1 - e)).toFixed(3)}% round ${radius.toFixed(1)}px)`;
+      scaleEl.style.transform = `scale(${lerp(0.7625, 1, e).toFixed(4)})`;
+      text.style.transform = `translateY(${lerp(80, 0, e).toFixed(1)}px)`;
+      // Button sitzt anfangs direkt unter der Kapsel und wandert mit dem Bild nach unten
+      const startOffset = media.offsetHeight * (START_INSET / 100);
+      button.style.transform = `translateY(${(-startOffset * (1 - e)).toFixed(1)}px)`;
+      chips.style.opacity = String(clamp((e - 0.85) / 0.15));
+    };
+
+    const onScroll = () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+  }
+</script>
