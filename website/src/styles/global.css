@@ -99,21 +99,35 @@ h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
 }
 .eyebrow::before { content: ''; width: 0.4rem; height: 0.4rem; border-radius: 50%; background: var(--pk-teal); }
 
-/* Buttons (Space-Kit-Varianten, Markenfarben) */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 0.75rem;
-  padding: 1rem 2rem; border-radius: var(--radius-sm); border: 0;
-  font-weight: 500; font-size: 1rem; line-height: 1.5; text-transform: uppercase; letter-spacing: 0.02em;
-  cursor: pointer; transition: all var(--t-fast); white-space: nowrap;
+/* Buttons – 1:1 Space Kit (design-system/design.md), Unterkante in Dunkelblau */
+/* Variante A: heller Button mit Unterkante. Der Rahmen .btn-border hat feste Höhe und
+   overflow:hidden – die dickere Unterkante beim Hover verschiebt dadurch nichts. */
+.btn-border {
+  display: inline-flex; align-items: flex-end; justify-content: center;
+  border-radius: 0.25rem; overflow: hidden;
 }
-.btn-primary { background: var(--pk-navy); color: #fff; }
-.btn-primary:hover { background: var(--pk-navy-deep); transform: translateY(3px); }
-.btn-light { background: var(--surface); color: var(--ink); border-bottom: 1px solid var(--pk-teal); }
-.btn-light:hover { border-bottom-width: 4px; }
-.btn-ghost { background: transparent; color: var(--ink); padding-inline: 0; text-transform: none; letter-spacing: 0; }
-.btn-ghost:hover { opacity: 0.6; transform: translateY(1px); }
-.btn .arrow { transition: transform var(--t-fast); }
-.btn:hover .arrow { transform: translateX(4px); }
+.btn-line {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem 1.5rem; border-radius: 0.25rem;
+  background: var(--surface); color: var(--ink);
+  border-bottom: 1px solid var(--pk-navy);
+  font-size: 1rem; line-height: 1.5; font-weight: 500; text-transform: uppercase;
+  transition: all 0.25s; white-space: nowrap;
+}
+.btn-line:hover { border-bottom-width: 2px; }
+.btn-border { max-height: 3.5rem; }
+.btn-border.is-small { max-height: 2.3rem; }
+.btn-border.is-small .btn-line { padding: 0.5rem 1.5rem; font-size: var(--fs-small); font-weight: 400; text-transform: none; }
+
+/* Variante B: dunkler Button (Original „Shop Now“) */
+.btn-dark {
+  display: inline-flex; align-items: center; justify-content: center; gap: 1rem;
+  padding: 1rem 2rem; border-radius: 0.25rem;
+  background: #000; color: #fff;
+  font-size: 1rem; line-height: 1.5; font-weight: 400; text-transform: uppercase;
+  transition: all 0.25s; white-space: nowrap;
+}
+.btn-dark:hover { transform: translate(0, 3px); }
 
 .pill {
   display: inline-flex; align-items: center; gap: 0.625rem;

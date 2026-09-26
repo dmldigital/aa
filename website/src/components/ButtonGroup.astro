@@ -1,85 +1,72 @@
 ---
 /*
-  Button-Gruppe mit „Auffächern“-Animation (Referenz: website/ANIMATIONEN.md, Nr. 1).
-  Die Buttons starten gestapelt hinter dem ersten und gleiten nacheinander an ihre Position,
-  sobald die Gruppe sichtbar wird. Optik der Buttons bleibt unverändert (.btn-*).
+  Button-Gruppe „Auffächern“ – 1:1 nach 21st.dev bundled/10 (website/ANIMATIONEN.md, Nr. 1).
+  Ruhezustand: Buttons gestapelt, jeder weitere um 100px nach links hinter den vorigen geschoben
+  (z-index absteigend). Hover/Fokus: federnd an die eigentliche Position; Maus weg: zurück.
+  Touch-Geräte: erstes Antippen fächert auf, danach funktionieren die Links; Tippen daneben klappt zu.
+  Die Optik der Buttons selbst bleibt unverändert (.btn-border/.btn-line, .btn-dark).
 */
 interface Props {
   class?: string;
-  delay?: number; // ms, bevor die Gruppe auffächert
+  label?: string;
 }
-const { class: className = '', delay = 0 } = Astro.props;
+const { class: className = '', label = 'Aktionen' } = Astro.props;
 ---
 
-<div class:list={['btn-fan', className]} data-fan-delay={delay}>
+<div class:list={['fan', className]} role="group" aria-label={label} data-fan>
   <slot />
 </div>
 
 <style>
-  .btn-fan {
+  .fan {
     display: flex;
-    flex-wrap: wrap;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
+    width: fit-content;
   }
-  .btn-fan > :global(*) {
+  .fan > :global(*) {
     position: relative;
-    transition: transform 0.75s var(--ease), opacity 0.4s ease;
+    /* Feder mit leichtem Überschwingen, gemessen: ~0,9 s bis zur Ruhe, Staffelung ~0,1 s */
+    transition: transform 0.7s cubic-bezier(0.3, 1.25, 0.5, 1);
   }
-  /* Vor dem Auffächern: gestapelt (Offsets setzt das Script exakt je Button) */
-  .btn-fan:global(.is-stacked) > :global(*) {
-    transform: translateX(var(--fan-x, 0px));
-    transition: none;
+  .fan > :global(*:nth-child(1)) { z-index: 100; }
+  .fan > :global(*:nth-child(2)) { z-index: 99; transform: translateX(-100px); }
+  .fan > :global(*:nth-child(3)) { z-index: 98; transform: translateX(-200px); }
+  .fan > :global(*:nth-child(4)) { z-index: 97; transform: translateX(-300px); }
+
+  @media (hover: hover) {
+    .fan:hover > :global(*),
+    .fan:focus-within > :global(*) { transform: none; }
+    .fan:hover > :global(*:nth-child(3)),
+    .fan:focus-within > :global(*:nth-child(3)) { transition-delay: 0.1s; }
+    .fan:hover > :global(*:nth-child(4)),
+    .fan:focus-within > :global(*:nth-child(4)) { transition-delay: 0.2s; }
   }
-  .btn-fan:global(.is-stacked) > :global(*:not(:first-child)) {
-    opacity: 0;
+  .fan:global(.is-open) > :global(*) { transform: none; }
+  .fan:global(.is-open) > :global(*:nth-child(3)) { transition-delay: 0.1s; }
+  .fan:global(.is-open) > :global(*:nth-child(4)) { transition-delay: 0.2s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fan > :global(*) { transition: none; transform: none !important; }
   }
 </style>
 
 <script>
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const touch = window.matchMedia('(hover: none)');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  function stack(group: HTMLElement) {
-    const items = Array.from(group.children) as HTMLElement[];
-    const first = items[0];
-    if (!first) return false;
-    // Nur stapeln, wenn alle Buttons in einer Zeile stehen (sonst kein sauberer Stapel)
-    const sameRow = items.every((el) => Math.abs(el.offsetTop - first.offsetTop) < 4);
-    if (!sameRow || items.length < 2) return false;
-    items.forEach((el, i) => {
-      el.style.setProperty('--fan-x', `${first.offsetLeft - el.offsetLeft}px`);
-      el.style.zIndex = String(100 - i);
+  document.querySelectorAll<HTMLElement>('[data-fan]').forEach((fan) => {
+    // Touch: erstes Antippen fächert auf, statt dem Link zu folgen
+    fan.addEventListener('click', (event) => {
+      if (!touch.matches || reduce.matches || fan.classList.contains('is-open')) return;
+      event.preventDefault();
+      fan.classList.add('is-open');
     });
-    group.classList.add('is-stacked');
-    return true;
-  }
+  });
 
-  function fan(group: HTMLElement) {
-    const items = Array.from(group.children) as HTMLElement[];
-    const delay = Number(group.dataset.fanDelay || 0);
-    items.forEach((el, i) => {
-      el.style.transitionDelay = `${delay + i * 110}ms, ${delay + i * 110}ms`;
+  document.addEventListener('click', (event) => {
+    document.querySelectorAll<HTMLElement>('[data-fan].is-open').forEach((fan) => {
+      if (!fan.contains(event.target as Node)) fan.classList.remove('is-open');
     });
-    // zwei Frames warten, damit der gestapelte Zustand sicher gerendert ist
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => group.classList.remove('is-stacked')),
-    );
-    setTimeout(() => items.forEach((el) => (el.style.transitionDelay = '')), delay + items.length * 110 + 900);
-  }
-
-  if (!reduce && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
-          io.unobserve(entry.target);
-          fan(entry.target as HTMLElement);
-        }
-      },
-      { rootMargin: '0px 0px -8% 0px' },
-    );
-    document.querySelectorAll<HTMLElement>('.btn-fan').forEach((group) => {
-      if (stack(group)) io.observe(group);
-    });
-  }
+  });
 </script>
