@@ -199,7 +199,7 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
 
     // Wasser-Schleife: 95 Ausschnitte (Pool-Bereich, weicher Rand) aus dem Higgsfield-Wasserclip mit fester
     // Kamera (Start = Ende, daher nahtlos), auf Bild 0 ausgerichtet, im 1920×1080-Raster
-    const W_N = 95, W_FPS = 12, W_X = 110, W_Y = 500;
+    const W_N = 95, W_FPS = 6, W_X = 80, W_Y = 480; // Clip hat 12 Bilder/s → halbe Geschwindigkeit
     // Handy-Bildsatz = Hochformat-Ausschnitt aus der Bildmitte (x ab 656,25 bei 1920 Breite, ×1280/1080)
     const W_SCALE = mobile ? 1280 / 1080 : 1, W_OFF = mobile ? -656.25 : 0;
     const water: (HTMLImageElement | null)[] = new Array(W_N).fill(null);
@@ -242,12 +242,16 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
       cover(frames[k]!);
       canvas.classList.add('is-ready');
     };
-    const drawWater = (j: number) => {
-      const w = water[j];
+    // Langsamer als im Clip: zwischen zwei Bildern weich überblenden, damit es nicht ruckelt
+    const drawWater = (t: number) => {
+      const j = Math.floor(t) % W_N, f = t - Math.floor(t);
+      const w = water[j], n = water[(j + 1) % W_N];
       if (!w || !frames[0]) return;
       cover(frames[0]);
       const k = fit.s * W_SCALE;
-      ctx.drawImage(w, fit.x + (W_X + W_OFF) * k, fit.y + W_Y * k, w.naturalWidth * k, w.naturalHeight * k);
+      const put = (img: HTMLImageElement) => ctx.drawImage(img, fit.x + (W_X + W_OFF) * k, fit.y + W_Y * k, img.naturalWidth * k, img.naturalHeight * k);
+      put(w);
+      if (n && f > 0.02) { ctx.globalAlpha = f; put(n); ctx.globalAlpha = 1; }
     };
 
     // Abspielen: pos läuft mit konstantem Tempo auf target zu (Richtungswechsel mitten drin ist weich)
@@ -272,7 +276,7 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
       if (raf || pos !== 0 || target !== 0 || !heroVisible) { waterLast = 0; return; }
       waterT += waterLast ? ((t - waterLast) / 1000) * W_FPS : 0;
       waterLast = t;
-      drawWater(Math.floor(waterT) % W_N);
+      drawWater(waterT % W_N);
       waterRaf = requestAnimationFrame(waterTick);
     };
     function startWater() { if (!waterRaf) { waterLast = 0; waterRaf = requestAnimationFrame(waterTick); } }
