@@ -1,4 +1,5 @@
 ---
+import 'lenis/dist/lenis.css';
 import '../styles/global.css';
 import satoshi300 from '../assets/fonts/satoshi-300.woff2?url';
 import satoshi400 from '../assets/fonts/satoshi-400.woff2?url';
@@ -33,6 +34,17 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <body>
     <a class="skip-link" href="#inhalt">Zum Inhalt springen</a>
     <slot />
+
+    <script>
+      // Weiches Scrollen (Lenis). Bewegt die echte Scroll-Position – alle scrollgekoppelten
+      // Animationen laufen dadurch automatisch weich mit. Bei „Bewegung reduzieren“ aus.
+      import Lenis from 'lenis';
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), anchors: true });
+        const raf = (time: number) => { lenis.raf(time); requestAnimationFrame(raf); };
+        requestAnimationFrame(raf);
+      }
+    </script>
 
     <script>
       // Scroll-Reveal (Fade-up) für alle .reveal-Elemente
