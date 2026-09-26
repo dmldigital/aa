@@ -177,8 +177,10 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
 </style>
 
 <script>
-  // Köpfer-Video als Bildfolge: Sobald man oben losscrollt, läuft es von selbst bis unter Wasser durch
-  // (Seite steht so lange still). Scrollt man wieder ganz nach oben, läuft es genauso rückwärts.
+  // Köpfer-Video als Bildfolge.
+  // Ruhe oben: nur das Wasser bewegt sich (Schleife aus stabilisierten Videobildern, Kamera steht).
+  // Losscrollen: Video läuft von selbst bis unter Wasser durch (Seite steht so lange), danach
+  // scrollt die Seite automatisch zu Sektion 2. Zurück ganz oben: Video läuft genauso rückwärts.
   const hero = document.querySelector<HTMLElement>('[data-scrub]');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -187,15 +189,28 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     const ui = hero.querySelector<HTMLElement>('[data-ui]')!;
     const ctx = canvas.getContext('2d')!;
     const N = Number(hero.dataset.frames);
+    const END = N - 1;
     const DURATION = 3200; // ms für den ganzen Durchlauf
-    // Ruhezustand unter Wasser: das Wasser bewegt sich weiter – Schleife aus den letzten Videobildern
-    // (END … N-1), deren Ende weich in die Bilder davor überblendet. Ab ~Bild 72 ist alles unter Wasser.
-    const LK = 11, LOOP_FPS = 8;
-    const END = N - 1 - LK; // hier endet der Durchlauf und die Schleife übernimmt nahtlos
-    const set = window.matchMedia('(max-aspect-ratio: 4/5)').matches ? 'm' : 'd';
+    const mobile = window.matchMedia('(max-aspect-ratio: 4/5)').matches;
+    const set = mobile ? 'm' : 'd';
     const src = (i: number) => `${hero.dataset.base}${set}/${String(i).padStart(3, '0')}.webp`;
     const frames: (HTMLImageElement | null)[] = new Array(N).fill(null);
     const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+
+    // Wasser-Schleife: 32 Ausschnitte (Pool-Bereich, weicher Rand) im 1920×1080-Raster von Bild 0
+    const W_N = 32, W_FPS = 16, W_X = 110, W_Y = 500;
+    // Handy-Bildsatz = Hochformat-Ausschnitt aus der Bildmitte (x ab 656,25 bei 1920 Breite, ×1280/1080)
+    const W_SCALE = mobile ? 1280 / 1080 : 1, W_OFF = mobile ? -656.25 : 0;
+    const water: (HTMLImageElement | null)[] = new Array(W_N).fill(null);
+
+    const load = (url: string) => new Promise<HTMLImageElement | null>((resolve) => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = () => resolve(img);
+      img.onerror = () => resolve(null);
+      img.src = url;
+    });
+    const loadFrame = async (i: number) => { frames[i] = await load(src(i)); };
 
     // Ladereihenfolge: erst Start/Ende, dann immer feiner verteilt
     const order: number[] = [0, N - 1];
@@ -203,22 +218,15 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
       for (let i = 0; i < N; i += step) if (!order.includes(i)) order.push(i);
       if (step === 1) break;
     }
-    const load = (i: number) => new Promise<void>((resolve) => {
-      const img = new Image();
-      img.decoding = 'async';
-      img.onload = () => { frames[i] = img; resolve(); };
-      img.onerror = () => resolve();
-      img.src = src(i);
-    });
 
-    let current = -1;
-    const cover = (img: HTMLImageElement, alpha = 1) => {
+    // Bild im „cover“-Modus zeichnen; liefert Maßstab und Versatz für die Wasser-Ausschnitte
+    let fit = { s: 1, x: 0, y: 0 };
+    const cover = (img: HTMLImageElement) => {
       const cw = canvas.width, ch = canvas.height;
       const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
       const w = img.naturalWidth * s, h = img.naturalHeight * s;
-      ctx.globalAlpha = alpha;
-      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
-      ctx.globalAlpha = 1;
+      fit = { s, x: (cw - w) / 2, y: (ch - h) / 2 };
+      ctx.drawImage(img, fit.x, fit.y, w, h);
     };
     const nearestLoaded = (i: number) => {
       for (let d = 0; d < N; d++) {
@@ -229,10 +237,16 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     };
     const draw = (i: number) => {
       const k = nearestLoaded(i);
-      if (k < 0 || k === current) return;
-      current = k;
+      if (k < 0) return;
       cover(frames[k]!);
       canvas.classList.add('is-ready');
+    };
+    const drawWater = (j: number) => {
+      const w = water[j];
+      if (!w || !frames[0]) return;
+      cover(frames[0]);
+      const k = fit.s * W_SCALE;
+      ctx.drawImage(w, fit.x + (W_X + W_OFF) * k, fit.y + W_Y * k, w.naturalWidth * k, w.naturalHeight * k);
     };
 
     // Abspielen: pos läuft mit konstantem Tempo auf target zu (Richtungswechsel mitten drin ist weich)
@@ -242,28 +256,32 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     let leftTop = false;    // erst nach echtem Wegscrollen löst „ganz oben“ das Rückwärtslaufen aus
     let raf = 0;
     let last = 0;
+    let heroVisible = true;
+    let waterRaf = 0, waterT = 0, waterLast = 0;
+
     const render = () => {
-      const f = Math.round(pos);
       ui.style.opacity = String(1 - clamp(pos / 12));
       ui.style.pointerEvents = pos > 3 ? 'none' : '';
-      current = -1; draw(f);
+      if (pos === 0 && target === 0 && water[0]) startWater();
+      else draw(Math.round(pos));
     };
-    // Wasser-Schleife: Bild p läuft END → N-1 und bekommt zunehmend Bild p-len darübergeblendet;
-    // bei N-1 ist es ganz END-1, danach geht es mit END weiter – ohne Sprung.
-    let loopRaf = 0, loopT = 0, loopLast = 0, heroVisible = true;
-    const loopTick = (t: number) => {
-      loopRaf = 0;
-      if (raf || pos !== END || target !== END || !heroVisible) { loopLast = 0; return; }
-      loopT += loopLast ? (t - loopLast) / 1000 * LOOP_FPS : 0;
-      loopLast = t;
-      const len = N - END;                       // Bilder END … N-1
-      const p = END + (Math.floor(loopT) % len);
-      const a = frames[p], w = (p - END) / LK, b = frames[p - len];
-      if (a) { cover(a); if (b && w > 0) cover(b, w); current = -1; }
-      loopRaf = requestAnimationFrame(loopTick);
+
+    const waterTick = (t: number) => {
+      waterRaf = 0;
+      if (raf || pos !== 0 || target !== 0 || !heroVisible) { waterLast = 0; return; }
+      waterT += waterLast ? ((t - waterLast) / 1000) * W_FPS : 0;
+      waterLast = t;
+      drawWater(Math.floor(waterT) % W_N);
+      waterRaf = requestAnimationFrame(waterTick);
     };
-    const startLoop = () => { if (!loopRaf) { loopT = 0; loopLast = 0; loopRaf = requestAnimationFrame(loopTick); } };
-    new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; if (heroVisible && pos === END) startLoop(); }).observe(hero);
+    function startWater() { if (!waterRaf) { waterLast = 0; waterRaf = requestAnimationFrame(waterTick); } }
+
+    const scrollToNext = () => {
+      const y = hero.offsetTop + hero.offsetHeight;   // Beginn von Sektion 2
+      const lenis = (window as any).lenis;
+      if (lenis) lenis.scrollTo(y, { duration: 1.4 });
+      else window.scrollTo({ top: y, behavior: 'smooth' });
+    };
 
     const tick = (t: number) => {
       const dt = last ? t - last : 16;
@@ -272,8 +290,8 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
       pos = target > pos ? Math.min(target, pos + step) : Math.max(target, pos - step);
       render();
       if (pos !== target) { raf = requestAnimationFrame(tick); return; }
-      raf = 0; last = 0; locked = false;
-      if (pos === END) startLoop();
+      raf = 0; last = 0;
+      if (locked) { locked = false; scrollToNext(); }   // Ende der Videofahrt → weiter zum Text
     };
     const play = (to: number) => {
       target = to;
@@ -311,23 +329,28 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
       else if (atTop() && leftTop && !locked) backward();    // zurück ganz oben → rückwärts
     }, { passive: true });
 
+    new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; if (heroVisible) render(); }).observe(hero);
+
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(canvas.clientWidth * dpr);
       canvas.height = Math.round(canvas.clientHeight * dpr);
       render();
-      if (pos === END) startLoop();
     };
 
     (async () => {
       // Seite schon weiter unten geladen (Neuladen, Anker): gleich Unterwasserbild zeigen
-      if (window.scrollY > 10) { pos = target = END; leftTop = true; await load(END); }
-      await load(0);
+      if (window.scrollY > 10) { pos = target = END; leftTop = true; await loadFrame(END); }
+      await loadFrame(0);
       resize();
       window.addEventListener('resize', resize);
-      // Rest im Hintergrund laden, 6 gleichzeitig
+      // Wasser-Schleife zuerst, dann die Videobilder – je 6 gleichzeitig
+      const wq = Array.from({ length: W_N }, (_, j) => j);
+      const wWorker = async () => { while (wq.length) { const j = wq.shift()!; water[j] = await load(`${hero.dataset.base}w/${String(j).padStart(3, '0')}.webp`); } };
+      await Promise.all(Array.from({ length: 6 }, wWorker));
+      if (!raf) render();
       const queue = order.slice(1);
-      const worker = async () => { while (queue.length) { await load(queue.shift()!); if (!raf && !loopRaf) render(); } };
+      const worker = async () => { while (queue.length) { await loadFrame(queue.shift()!); if (raf === 0 && pos !== 0) render(); } };
       await Promise.all(Array.from({ length: 6 }, worker));
     })();
   }
