@@ -26,9 +26,7 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
         <div class="right-navbar-content">
           <nav class="nav-menu" aria-label="Hauptnavigation">
             {nav.map((item) => <a href={item.href} class="nav-link">{item.label}</a>)}
-            <span class="btn-border is-small nav-cta">
-              <a href={cta.href} class="btn-line">{cta.label}</a>
-            </span>
+            <a href={cta.href} class="btn-pill is-navy nav-cta">{cta.label}</a>
           </nav>
 
           <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Menü öffnen" data-menu-button>
@@ -42,9 +40,7 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
   <div class="nav-overlay" data-menu-overlay>
     <nav id="mobile-menu" class="mobile-menu" aria-label="Hauptnavigation (mobil)" data-menu>
       {nav.map((item) => <a href={item.href} class="nav-link">{item.label}</a>)}
-      <span class="btn-border is-small">
-        <a href={cta.href} class="btn-line">{cta.label}</a>
-      </span>
+      <a href={cta.href} class="btn-pill is-navy">{cta.label}</a>
     </nav>
   </div>
 </header>

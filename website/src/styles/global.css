@@ -130,6 +130,21 @@ h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
 .btn-dark:hover { transform: translate(0, 3px); }
 /* Kleine Größe wie der Header-Button */
 .btn-dark.is-small { padding: 0.5rem 1.5rem; font-size: var(--fs-small); text-transform: none; }
+/* Runde Farb-Buttons (Pille) in den Logofarben – Größe wie der Header-Button */
+.btn-pill {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 0.5rem 1.5rem; border-radius: 999px; border: 0;
+  font-size: var(--fs-small); line-height: 1.5; font-weight: 500; white-space: nowrap;
+  transition: background-color 0.25s, transform 0.25s;
+}
+.btn-pill:hover { transform: translate(0, 2px); }
+.btn-pill.is-navy { background: var(--pk-navy); color: #fff; }
+.btn-pill.is-navy:hover { background: var(--pk-navy-deep); }
+.btn-pill.is-teal { background: var(--pk-teal); color: var(--ink); }
+.btn-pill.is-teal:hover { background: #1c9d9b; }
+.btn-pill.is-stone { background: var(--pk-stone); color: var(--ink); }
+.btn-pill.is-stone:hover { background: #a9a8a3; }
+
 /* Runde Form (Pille) wie die Buttons aus 21st.dev bundled/10 */
 .is-round, .btn-border.is-round .btn-line { border-radius: 999px; }
 
