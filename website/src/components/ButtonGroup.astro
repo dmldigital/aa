@@ -48,15 +48,22 @@ const { class: className = '', label = 'Aktionen' } = Astro.props;
   /* Nutzerwunsch: im Ruhezustand lugen die hinteren Buttons alle paar Sekunden sachte hervor,
      damit man sieht, dass dahinter noch etwas liegt. Eigene Eigenschaft `translate`, damit es
      sich nicht mit dem Auffächern (`transform`) in die Quere kommt. */
-  .fan > :global(*:nth-child(2)) { --peek: 14px 0; }
-  .fan > :global(*:nth-child(3)) { --peek: 28px 0; }
-  .fan > :global(*:nth-child(n + 2)) { animation: fan-peek 4.5s ease-in-out 2s infinite; }
+  .fan > :global(*:nth-child(2)) { --peek: 16px 0; --peek-x: 16px; }
+  .fan > :global(*:nth-child(3)) { --peek: 32px 0; --peek-x: 32px; }
+  /* Erstes Mal zügig und früh (kurz nach dem Einblenden), danach nur noch sachtes Nachziehen;
+     der zweite hintere Button jeweils spürbar später als der erste */
+  .fan > :global(*:nth-child(2)) { animation: fan-peek-first 0.9s cubic-bezier(0.3, 1.2, 0.5, 1) 1.3s 1, fan-peek 5s ease-in-out 3.6s infinite; }
+  .fan > :global(*:nth-child(3)) { animation: fan-peek-first 0.9s cubic-bezier(0.3, 1.2, 0.5, 1) 1.65s 1, fan-peek 5s ease-in-out 4s infinite; }
   .fan:global(.is-open) > :global(*),
   .fan:focus-within > :global(*) { animation: none; }
   @media (hover: hover) { .fan:hover > :global(*) { animation: none; } }
+  @keyframes fan-peek-first {
+    0%, 100% { translate: 0 0; }
+    40% { translate: var(--peek); }
+  }
   @keyframes fan-peek {
     0%, 55%, 100% { translate: 0 0; }
-    70% { translate: var(--peek); }
+    70% { translate: calc(var(--peek-x, 0px) * 0.6) calc(var(--peek-y, 0px) * 0.6); }
     85% { translate: 0 0; }
   }
   .fan:global(.is-open) > :global(*:nth-child(4)) { transition-delay: 0.2s; }
@@ -70,8 +77,8 @@ const { class: className = '', label = 'Aktionen' } = Astro.props;
     .fan:global(.v-mobile) > :global(*:nth-child(3)) { transform: translateY(calc(-200% - 1rem + 12px)); }
     .fan:global(.v-mobile) > :global(*:nth-child(4)) { transform: translateY(calc(-300% - 1.5rem + 18px)); }
     .fan:global(.v-mobile.is-open) > :global(*) { transform: none; }
-    .fan:global(.v-mobile) > :global(*:nth-child(2)) { --peek: 0 8px; }
-    .fan:global(.v-mobile) > :global(*:nth-child(3)) { --peek: 0 16px; }
+    .fan:global(.v-mobile) > :global(*:nth-child(2)) { --peek: 0 10px; --peek-x: 0px; --peek-y: 10px; }
+    .fan:global(.v-mobile) > :global(*:nth-child(3)) { --peek: 0 20px; --peek-x: 0px; --peek-y: 20px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
