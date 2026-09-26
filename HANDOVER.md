@@ -19,7 +19,7 @@ Kurzfassung für die nächste Sitzung. Arbeitsregeln und festgelegte Entscheidun
 ## Aktueller Stand der Startseite (`website/src/pages/index.astro`)
 
 1. **Header** (`components/Header.astro`) – 1:1 Space Kit (Glas-Leiste, Lade-Animation, Mobile-Menü gleitet 0,4 s von oben). Button „Beratung anfragen“ = runder Pill-Button dunkelblau.
-2. **Hero** (`components/Hero.astro`) – Space-Kit-Aufbau (Pill mit Preis „Komplettpaket ab 22.700 € zzgl. Erdarbeiten“, Headline „Ihr Traumpool. Fertig in 48 Stunden.“, Hotspots, Wellen-Kreis mit Umlauftext).
+2. **Hero** (`components/Hero.astro`) – Space-Kit-Aufbau (Pill mit Preis „Komplettpaket ab 22.700 € zzgl. Erdarbeiten“, Headline „Ihr Traumpool. Fertig in 48 Stunden.“, Wellen-Kreis mit Umlauftext; Hotspots auf Wunsch entfernt).
    - Hintergrund = **Köpfer-Video scroll-gesteuert**: 96 Einzelbilder in `website/public/koepfer/d/` (1920×1080) und `m/` (720×1280, Hochformat), per Canvas gezeichnet, Scroll-Strecke 320vh, UI blendet in den ersten 10 % aus.
    - Drei runde Buttons (Dunkelblau/Türkis/Grau) in `components/ButtonGroup.astro`: Ruhezustand gestapelt, Hover fächert auf (21st.dev bundled/10); Handy: senkrecht gestapelt, Antippen fächert nach unten auf.
 3. **Sektion 2** (`components/BentoSection.astro`) – Space-Kit-Bento: Laufband, Überschrift, 2 Reihen (Text-Feld 35 % + Bild 65 %, Reihe 2 gespiegelt). Bild-Animation: Fläche wächst aus der Mitte, Ecken durchgehend 8 px, startet beim Hereinscrollen und läuft 1,4 s selbstständig; Text blendet gleichzeitig ein.
