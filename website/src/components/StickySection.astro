@@ -1,7 +1,9 @@
 ---
 /*
   Sektion 3 – 1:1 Space Kit (section > .sticky-wrapper: links .sticky-component (50 %, 90vh, sticky top 5vh),
-  rechts .sticky-content mit großem Bild, zwei .sticky-text-Blöcken, kleinen/mittlerem Bild mit Parallax).
+  rechts .sticky-content mit großem Bild und zwei .sticky-text-Blöcken; Bilder mit Parallax).
+  Abweichung auf Nutzerwunsch: statt kleinem + mittlerem Bild zwei gleich hohe Bilder nebeneinander,
+  statt dem letzten kleinen Bild ein breites, flaches Bild.
   Werte aus dem Original-CSS (spacekit-template.webflow.75a22ccde.css).
   Parallax wie Original (Webflow IX2 „while scrolling in view“): Bild ist 110 % hoch und wandert linear
   von 0 auf −10 %, während sein Rahmen von der Unterkante bis ganz über die Oberkante des Fensters läuft.
@@ -10,9 +12,9 @@
 import { Image } from 'astro:assets';
 import imgSticky from '../assets/img/pool-garten-abendsonne.webp';
 import imgBig from '../assets/img/pool-schmal-sichtschutz.webp';
-import imgSmall1 from '../assets/img/pool-treppe-detail.webp';
-import imgMedium from '../assets/img/pool-compass-hochformat.webp';
-import imgSmall2 from '../assets/img/technikbox-offen.webp';
+import imgPair1 from '../assets/img/pool-compass-treppe.webp';
+import imgPair2 from '../assets/img/pool-holzdeck-rasen.webp';
+import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
 ---
 
 <section id="pools" class="sticky-section" aria-label="Pools und Technik">
@@ -35,11 +37,13 @@ import imgSmall2 from '../assets/img/technikbox-offen.webp';
           </div>
         </div>
       </div>
-      <div class="sticky-small-image">
-        <Image class="image-parallax" src={imgSmall1} alt="Einstiegstreppe im klaren Poolwasser" widths={[400]} sizes="(max-width: 767px) 10rem, 12vw" data-parallax />
-      </div>
-      <div class="sticky-medium-image">
-        <Image class="image-parallax" src={imgMedium} alt="COMPASS Keramikpool mit Terrasse im Hochformat" widths={[600, 1000]} sizes="(max-width: 767px) 60vw, 30vw" data-parallax />
+      <div class="sticky-pair">
+        <div class="sticky-pair-image">
+          <Image class="image-parallax" src={imgPair1} alt="COMPASS Keramikpool mit Einstiegstreppe" widths={[500, 900]} sizes="(max-width: 767px) 50vw, 25vw" data-parallax />
+        </div>
+        <div class="sticky-pair-image">
+          <Image class="image-parallax" src={imgPair2} alt="Pool mit Holzdeck im Rasen" widths={[500, 900]} sizes="(max-width: 767px) 50vw, 25vw" data-parallax />
+        </div>
       </div>
 
       <div class="sticky-text">
@@ -52,8 +56,8 @@ import imgSmall2 from '../assets/img/technikbox-offen.webp';
           </div>
         </div>
       </div>
-      <div class="sticky-small-image">
-        <Image class="image-parallax" src={imgSmall2} alt="Geöffnete Technikbox mit Sandfilter und Pumpe" widths={[400]} sizes="(max-width: 767px) 10rem, 12vw" data-parallax />
+      <div class="sticky-wide-image">
+        <Image class="image-parallax" src={imgWide} alt="Pool mit Rollladen-Abdeckung in einem Garten" widths={[800, 1440]} sizes="(max-width: 767px) 100vw, 50vw" data-parallax />
       </div>
     </div>
   </div>
@@ -65,7 +69,7 @@ import imgSmall2 from '../assets/img/technikbox-offen.webp';
   .sticky-content { display: flex; flex-flow: column; align-items: flex-start; width: 50%; padding-bottom: 20vh; position: relative; }
   .sticky-big-image { width: 100%; height: 90vh; overflow: hidden; }
   .sticky-component :global(img), .sticky-big-image :global(img),
-  .sticky-small-image :global(img), .sticky-medium-image :global(img) {
+  .sticky-pair-image :global(img), .sticky-wide-image :global(img) {
     display: inline-block; width: 100%; height: 100%; max-width: 100%; object-fit: cover; vertical-align: middle;
   }
   .sticky-text {
@@ -80,17 +84,14 @@ import imgSmall2 from '../assets/img/technikbox-offen.webp';
   .heading-vw { margin: 0; font-size: 4.8vw; line-height: 1; font-weight: 400; }
   .sticky-paragraph { display: flex; flex-flow: column; align-items: flex-start; gap: 1vw; max-width: 30vw; }
   .regular-vw { margin: 0; font-size: 1.1vw; line-height: 1.5; }
-  .sticky-small-image {
-    flex: none; align-self: flex-end; width: 12vw; height: 12vw;
-    margin-top: 7.5vw; margin-right: 10vw; overflow: hidden;
-  }
-  .sticky-medium-image {
-    flex: none; align-self: flex-end; width: 60%; height: 60vh;
-    margin-top: 13.5vh; position: relative; overflow: hidden;
-  }
+  /* Nutzerwunsch statt kleinem + mittlerem Bild: zwei gleich hohe Bilder nebeneinander,
+     statt letztem kleinen Bild: ein breites, flaches Bild */
+  .sticky-pair { display: flex; gap: 0.5rem; width: 100%; margin-top: 7.5vw; }
+  .sticky-pair-image { flex: 1; aspect-ratio: 4 / 5; overflow: hidden; }
+  .sticky-wide-image { flex: none; width: 100%; aspect-ratio: 16 / 7; margin-top: 7.5vw; overflow: hidden; }
   .sticky-section :global(.image-parallax) { height: 110%; will-change: transform; }
   /* Nutzerwunsch: Bilder mit Radius wie im Rest der Seite (8px) */
-  .sticky-component, .sticky-big-image, .sticky-small-image, .sticky-medium-image { border-radius: 0.5rem; }
+  .sticky-component, .sticky-big-image, .sticky-pair-image, .sticky-wide-image { border-radius: 0.5rem; }
 
   @media (max-width: 991px) {
     .regular-vw-small { font-size: 1rem; }
@@ -106,8 +107,7 @@ import imgSmall2 from '../assets/img/technikbox-offen.webp';
     .sticky-content { width: 100%; padding-bottom: 0; }
     .sticky-text { gap: 1rem; margin-top: 4rem; margin-left: 2rem; }
     .sticky-paragraph { max-width: none; }
-    .sticky-small-image { width: 10rem; height: 10rem; margin-top: 4rem; margin-right: 4rem; }
-    .sticky-medium-image { margin-top: 6rem; }
+    .sticky-pair, .sticky-wide-image { margin-top: 4rem; }
     .heading-vw { font-size: 2.5rem; }
   }
   @media (max-width: 479px) {
