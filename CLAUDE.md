@@ -12,7 +12,7 @@
 - **1:1 heißt 1:1.** Layout, Abstände, Radien, Schriftgrößen, Buttons, Menüs, Badges und Animationen exakt aus dem Original übernehmen (Werte aus Computed Style/CSS des Originals, Original-Assets wie SVG-Formen nachbauen). Getauscht werden nur Farben, Texte, Bilder, Logo – und nur so, wie der Nutzer es festgelegt hat.
 - **Nicht interpretieren.** Jede bewusste Abweichung vom Original vorher als Liste nennen und bestätigen lassen. Keine „Verbesserungen“ auf eigene Faust.
 - **Referenz-Verhalten bestätigen.** Bei jedem Animations-Beispiel alle Zustände messen (Laden, Ruhe, Hover, Klick/Tap, Maus weg, Scroll) und dem Nutzer in einem Satz zurückmelden, wie es funktioniert – erst dann bauen.
-- **Pflicht-Vergleich vor jedem Zeigen:** Original und Nachbau nebeneinander bei 1440 / 768 / 390 px, jeweils Normal-, Hover-, Aktiv-Zustand, offenes Mobile-Menü und mehrere Scroll-Positionen. Dazu automatische Prüfung auf Layout-Verschiebung bei Hover/Fokus (Bounding-Boxen vorher/nachher). Erst zeigen, wenn der Vergleich passt; Vergleichsbilder mitliefern.
+- **Kurz prüfen, dann zeigen:** Nutzer will keine langen Prüf-Schleifen. Beim Bauen die Originalwerte messen; vor dem Deploy nur ein kurzer Blick (1440 + 390 px, Hover/Menü falls betroffen) auf offensichtliche Fehler wie Überlauf oder verschobene Elemente. Dann sofort auf GitHub Pages deployen und nachbessern, was der Nutzer anmerkt.
 
 ## Projektentscheidungen Poolbau Koch (vom Nutzer festgelegt)
 - Design-Vorlage: Space Kit (`design-system/design.md`), 1:1. Hero hell wie im Original (freistehendes Foto, dunkle große leichte Headline, Pill darüber, weißer Kreis mit Umlauftext unten rechts).
