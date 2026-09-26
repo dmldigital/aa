@@ -16,7 +16,7 @@
 
 ## Projektentscheidungen Poolbau Koch (vom Nutzer festgelegt)
 - Design-Vorlage: Space Kit (`design-system/design.md`), 1:1. Hero hell wie im Original (freistehendes Foto, dunkle große leichte Headline, Pill darüber, weißer Kreis mit Umlauftext unten rechts).
-- Header: smart sticky (runterscrollen = ausblenden, hoch = einblenden), Radius 8px wie die Bilder, ganz leichter Schlagschatten. Alle Bilder mit 8px Radius.
+- Header: smart sticky (runterscrollen = ausblenden, hoch = einblenden), Radius 8px wie die Bilder, ganz leichter Schlagschatten. Alle Bilder mit 8px Radius – außer Ecken, die auf dem Desktop am Bildschirmrand liegen (dort eckig).
 - Farben aus dem Logo; Button-Unterkante (im Original Orange) = Dunkelblau `#004A80`.
 - Button-Gruppen: Animation aus 21st.dev `bundled/10` – im Ruhezustand gestapelt, bei Hover federnd auffächern, bei Maus weg zusammenklappen; auf Touch-Geräten beim Antippen auffächern.
 - Hero-Hintergrund: Köpfer-Video (Higgsfield) als Bildfolge – läuft beim ersten Scrollen automatisch durch und scrollt danach selbst zu Sektion 2, ganz oben läuft es rückwärts; im Ruhezustand oben nur Standbild (keine Wasser-Animation); Hero-Buttons = runde Pills in Dunkelblau/Türkis/Grau; Handy: Buttons senkrecht gestapelt.

@@ -97,6 +97,11 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
   .sticky-section :global(.image-parallax) { height: 110%; will-change: transform; }
   /* Nutzerwunsch: Bilder mit Radius wie im Rest der Seite (8px) */
   .sticky-component, .sticky-big-image, .sticky-pair-image, .sticky-wide-image { border-radius: 0.5rem; }
+  /* Nutzerwunsch (Desktop): Ecken am Bildschirmrand ohne Rundung */
+  @media (min-width: 768px) {
+    .sticky-component { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+    .sticky-big-image, .sticky-pair-image:last-child, .sticky-wide-image { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+  }
 
   @media (max-width: 991px) {
     .regular-vw-small { font-size: 1rem; }
