@@ -197,8 +197,8 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     const frames: (HTMLImageElement | null)[] = new Array(N).fill(null);
     const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
-    // Wasser-Schleife: 32 Ausschnitte (Pool-Bereich, weicher Rand) im 1920×1080-Raster von Bild 0
-    const W_N = 32, W_FPS = 16, W_X = 110, W_Y = 500;
+    // Wasser-Schleife: 16 Ausschnitte (Pool-Bereich, weicher Rand) im 1920×1080-Raster von Bild 0
+    const W_N = 16, W_FPS = 16, W_X = 110, W_Y = 500;
     // Handy-Bildsatz = Hochformat-Ausschnitt aus der Bildmitte (x ab 656,25 bei 1920 Breite, ×1280/1080)
     const W_SCALE = mobile ? 1280 / 1080 : 1, W_OFF = mobile ? -656.25 : 0;
     const water: (HTMLImageElement | null)[] = new Array(W_N).fill(null);
