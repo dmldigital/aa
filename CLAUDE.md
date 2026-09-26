@@ -21,6 +21,7 @@
 - Button-Gruppen: Animation aus 21st.dev `bundled/10` – im Ruhezustand gestapelt, bei Hover federnd auffächern, bei Maus weg zusammenklappen; auf Touch-Geräten beim Antippen auffächern.
 - Hero-Hintergrund: Köpfer-Video (Higgsfield) als Bildfolge – läuft beim ersten Scrollen automatisch durch und scrollt danach selbst zu Sektion 2, ganz oben läuft es rückwärts; im Ruhezustand oben nur Standbild (keine Wasser-Animation); Hero-Buttons = runde Pills in Dunkelblau/Türkis/Grau; Handy: Buttons senkrecht gestapelt.
 - Sektion 2: Space-Kit-Bento; kleine Karten = Textfelder; Bild-Animation aus 21st.dev `bundled/1959` (Fläche wächst aus der Mitte, Ecken durchgehend 8px), startet beim Hereinscrollen und läuft selbstständig fertig; Text blendet gleichzeitig ein.
+- Partner-Sektion (zwischen Sektion 2 und 3): Logos grau, farbige Welle läuft beim Scrollen von links nach rechts nahtlos durch.
 - Ergebnisse immer über GitHub Pages zeigen: https://dmldigital.github.io/aa/ (Push auf `website/**` deployt automatisch).
 - Aktueller Stand und nächste Schritte: `HANDOVER.md`.
 
