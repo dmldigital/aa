@@ -18,7 +18,7 @@
 - Design-Vorlage: Space Kit (`design-system/design.md`), 1:1. Hero hell wie im Original (freistehendes Foto, dunkle große leichte Headline, Pill darüber, weißer Kreis mit Umlauftext unten rechts).
 - Header: smart sticky (runterscrollen = ausblenden, hoch = einblenden), Radius 8px wie die Bilder, ganz leichter Schlagschatten. Alle Bilder mit 8px Radius – außer Ecken, die auf dem Desktop am Bildschirmrand liegen (dort eckig).
 - Farben aus dem Logo; Button-Unterkante (im Original Orange) = Dunkelblau `#004A80`.
-- Button-Gruppen: Animation aus 21st.dev `bundled/10` – im Ruhezustand gestapelt, bei Hover federnd auffächern, bei Maus weg zusammenklappen; auf Touch-Geräten beim Antippen auffächern.
+- Button-Gruppen: Animation aus 21st.dev `bundled/10` – im Ruhezustand gestapelt, bei Hover federnd auffächern, bei Maus weg zusammenklappen; auf Touch-Geräten beim Antippen auffächern. Im Ruhezustand lugen die hinteren Buttons alle 4,5 s sachte hervor (14/28 px, Handy 8/16 px nach unten).
 - Hero-Hintergrund: Köpfer-Video (Higgsfield) als Bildfolge – läuft beim ersten Scrollen automatisch durch und scrollt danach selbst zu Sektion 2, ganz oben läuft es rückwärts; im Ruhezustand oben nur Standbild (keine Wasser-Animation); Hero-Buttons = runde Pills in Dunkelblau/Türkis/Grau; Handy: Buttons senkrecht gestapelt.
 - Sektion 2: Space-Kit-Bento; kleine Karten = Textfelder; Bild-Animation aus 21st.dev `bundled/1959` (Fläche wächst aus der Mitte, Ecken durchgehend 8px), startet beim Hereinscrollen und läuft selbstständig fertig; Text blendet gleichzeitig ein.
 - Partner-Sektion (zwischen Sektion 2 und 3): Logos grau, farbige Welle läuft beim Scrollen von links nach rechts nahtlos durch; Hover kehrt um (grau → farbig, farbig → grau).
