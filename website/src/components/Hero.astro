@@ -4,15 +4,22 @@
   .hero-grid-Hotspots, .button-hero mit Umlauftext). Getauscht: Bild, Texte, Akzentfarbe.
   Einzige inhaltliche Ergänzung (vom Nutzer gewünscht): Button-Gruppe mit Auffächern.
 */
-import { Image } from 'astro:assets';
 import ButtonGroup from './ButtonGroup.astro';
-import heroImg from '../assets/img/hero-pool-farbe.jpg';
+import { url } from '../lib/url';
 
-// Hotspots: Position in % der Bildfläche (Bild 16:10, Desktop-Hero 1440×900 = gleicher Ausschnitt)
+/*
+  Hintergrund: scroll-gesteuerte Bildfolge aus dem Köpfer-Video (Higgsfield, MiniMax H3, 2K).
+  96 Einzelbilder (12 pro Videosekunde), Desktop 1920×1080 (d/), Handy 720×1280 Hochformat (m/).
+*/
+const FRAMES = 96;
+const framesBase = url('koepfer/');
+const poster = url('koepfer/d/000.webp');
+
+// Hotspots: Position in % des Videobilds (16:9); die Ebene hat dieselbe „cover“-Geometrie wie das Bild
 const hotspots = [
-  { x: 46, y: 60, title: 'Keramik-Poolschale', text: 'bis 40 Jahre Garantie', href: '#ohne-beton' },
-  { x: 77, y: 70, title: 'Einbau in 48 Stunden', text: 'ganz ohne Beton', href: '#ohne-beton' },
-  { x: 21, y: 47, title: 'Komplettpaket inkl. Technik', text: 'ab 22.700 € zzgl. Erdarbeiten', href: '#pakete' },
+  { x: 47, y: 64, title: 'Keramik-Poolschale', text: 'bis 40 Jahre Garantie', href: '#ohne-beton' },
+  { x: 69, y: 70, title: 'Einbau in 48 Stunden', text: 'ganz ohne Beton', href: '#ohne-beton' },
+  { x: 20, y: 44, title: 'Komplettpaket inkl. Technik', text: 'ab 22.700 € zzgl. Erdarbeiten', href: '#pakete' },
 ];
 
 // Wellen-Kreis wie Original (CIRCLE.svg: 115px, weiß 19 %, Hintergrund-Unschärfe, 37 Bögen)
@@ -25,14 +32,18 @@ const circle = Array.from({ length: 360 }, (_, i) => {
 const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
 ---
 
-<section class="hero" aria-labelledby="hero-title">
+<section class="hero" aria-labelledby="hero-title" data-scrub data-frames={FRAMES} data-base={framesBase}>
   <div class="hero-wrapper">
     <div class="hero-background" aria-hidden="true">
-      <Image src={heroImg} alt="" widths={[800, 1080, 1600, 1920]} sizes="100vw" loading="eager" fetchpriority="high" />
+      <img class="hero-poster" src={poster} alt="" width="1920" height="1080" fetchpriority="high" />
+      <canvas class="hero-canvas" data-canvas></canvas>
     </div>
+
+    <div class="hero-ui" data-ui>
+    <div class="hero-fade" aria-hidden="true"></div>
     <div class="overlay-mobile" aria-hidden="true"></div>
 
-    <div class="hero-grid">
+    <div class="hero-grid"><div class="hotspot-layer">
       {hotspots.map((h) => (
         <a href={h.href} class="hover-relative" style={`left:${h.x}%;top:${h.y}%`}>
           <span class="circle-hover"><span class="circle-hero"></span></span>
@@ -47,7 +58,7 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
           </span>
         </a>
       ))}
-    </div>
+    </div></div>
 
     <div class="hero-heading">
       <a href="#pakete" class="read-more-tag rise" style="--d:.35s">
@@ -87,19 +98,38 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
         </span>
       </span>
     </a>
+    </div>
   </div>
 </section>
 
 <style>
+  /* Scroll-Strecke: Bühne bleibt stehen, das Video läuft mit dem Scrollen */
+  .hero { position: relative; height: 320vh; }
   .hero-wrapper {
-    position: relative; display: flex; flex-flow: column; justify-content: flex-end;
-    height: 100vh; overflow: hidden;
+    position: sticky; top: 0; display: flex; flex-flow: column; justify-content: flex-end;
+    height: 100vh; overflow: hidden; background: #cfe3ee;
   }
   .hero-background { position: absolute; inset: 0; }
-  .hero-background :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+  .hero-poster, .hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .hero-canvas { opacity: 0; }
+  .hero-canvas:global(.is-ready) { opacity: 1; }
 
-  /* Hotspots (Original .hero-grid, nur Desktop) */
-  .hero-grid { position: absolute; inset: 0; z-index: 3; }
+  /* Bedienelemente als Ebene – blendet beim Losscrollen aus */
+  .hero-ui { position: absolute; inset: 0; display: flex; flex-flow: column; justify-content: flex-end; will-change: opacity; }
+  /* Heller Auslauf unten links für die dunkle Schrift (wie zuvor im Hero-Bild) */
+  .hero-fade {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      linear-gradient(0deg, rgba(239, 239, 239, 0.55) 0%, rgba(239, 239, 239, 0) 38%),
+      radial-gradient(75% 60% at 0% 100%, rgba(239, 239, 239, 0.62) 0%, rgba(239, 239, 239, 0) 70%);
+  }
+
+  /* Hotspots (Original .hero-grid, nur Desktop); Ebene mit „cover“-Geometrie des 16:9-Videobilds */
+  .hero-grid { position: absolute; inset: 0; z-index: 3; overflow: hidden; }
+  .hotspot-layer {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    width: max(100%, 100vh * 16 / 9); aspect-ratio: 16 / 9;
+  }
   .hover-relative { position: absolute; transform: translate(-50%, -50%); }
   .circle-hover {
     display: flex; justify-content: center; align-items: center; width: 2rem; height: 2rem;
@@ -171,6 +201,7 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
 
   @media (max-width: 991px) {
     .hero-wrapper { height: 100svh; align-items: stretch; }
+    .hero-ui { align-items: stretch; }
     .hero-grid { display: none; }
     .hero-heading { max-width: 50ch; }
     .heading-3 { font-size: 3rem; }
@@ -195,5 +226,87 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
   }
   @media (prefers-reduced-motion: reduce) {
     .rise, .button-hero, .circular-text { animation: none; }
+    .hero { height: auto; }
+    .hero-canvas { display: none; }
   }
 </style>
+
+<script>
+  // Scroll-gesteuerte Bildfolge (Köpfer-Video). Bild für Bild vor- und rückwärts, auch auf iOS ruckelfrei.
+  const hero = document.querySelector<HTMLElement>('[data-scrub]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (hero && !reduce) {
+    const canvas = hero.querySelector<HTMLCanvasElement>('[data-canvas]')!;
+    const ui = hero.querySelector<HTMLElement>('[data-ui]')!;
+    const ctx = canvas.getContext('2d')!;
+    const N = Number(hero.dataset.frames);
+    const set = window.matchMedia('(max-aspect-ratio: 4/5)').matches ? 'm' : 'd';
+    const src = (i: number) => `${hero.dataset.base}${set}/${String(i).padStart(3, '0')}.webp`;
+    const frames: (HTMLImageElement | null)[] = new Array(N).fill(null);
+    const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+
+    // Ladereihenfolge: erst Start/Ende, dann immer feiner verteilt – Scrollen funktioniert sofort grob, wird dann feiner
+    const order: number[] = [0, N - 1];
+    for (let step = 32; step >= 1; step = Math.floor(step / 2)) {
+      for (let i = 0; i < N; i += step) if (!order.includes(i)) order.push(i);
+      if (step === 1) break;
+    }
+    const load = (i: number) => new Promise<void>((resolve) => {
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = () => { frames[i] = img; resolve(); };
+      img.onerror = () => resolve();
+      img.src = src(i);
+    });
+
+    let current = -1;
+    const nearestLoaded = (i: number) => {
+      for (let d = 0; d < N; d++) {
+        if (frames[i - d]) return i - d;
+        if (frames[i + d]) return i + d;
+      }
+      return -1;
+    };
+    const draw = (i: number) => {
+      const k = nearestLoaded(i);
+      if (k < 0 || k === current) return;
+      current = k;
+      const img = frames[k]!;
+      const cw = canvas.width, ch = canvas.height;
+      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const w = img.naturalWidth * s, h = img.naturalHeight * s;
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      canvas.classList.add('is-ready');
+    };
+
+    let target = 0;
+    const update = () => {
+      const r = hero.getBoundingClientRect();
+      const p = clamp(-r.top / (r.height - window.innerHeight));
+      ui.style.opacity = String(1 - clamp(p / 0.1));
+      ui.style.pointerEvents = p > 0.05 ? 'none' : '';
+      target = Math.round(clamp(p / 0.92) * (N - 1));   // letzte 8 %: Unterwasserbild steht
+      current = -1; draw(target);
+    };
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(canvas.clientWidth * dpr);
+      canvas.height = Math.round(canvas.clientHeight * dpr);
+      update();
+    };
+    let ticking = false;
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; update(); }); } };
+
+    (async () => {
+      await load(0);
+      resize();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', resize);
+      // Rest im Hintergrund laden, 6 gleichzeitig
+      const queue = order.slice(1);
+      const worker = async () => { while (queue.length) { await load(queue.shift()!); if (frames[target] || true) { current = -1; draw(target); } } };
+      await Promise.all(Array.from({ length: 6 }, worker));
+    })();
+  }
+</script>
