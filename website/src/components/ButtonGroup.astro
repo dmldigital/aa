@@ -46,6 +46,17 @@ const { class: className = '', label = 'Aktionen' } = Astro.props;
   .fan:global(.is-open) > :global(*:nth-child(3)) { transition-delay: 0.1s; }
   .fan:global(.is-open) > :global(*:nth-child(4)) { transition-delay: 0.2s; }
 
+  /* Handy (Opt-in .v-mobile): senkrecht gestapelt, hintere Buttons schauen je 6px unten hervor,
+     Antippen fächert nach unten auf. Gleich breite Buttons für einen sauberen Stapel. */
+  @media (max-width: 767px) {
+    .fan:global(.v-mobile) { flex-direction: column; align-items: center; }
+    .fan:global(.v-mobile) > :global(*) { width: 16rem; justify-content: center; }
+    .fan:global(.v-mobile) > :global(*:nth-child(2)) { transform: translateY(calc(-100% - 0.5rem + 6px)); }
+    .fan:global(.v-mobile) > :global(*:nth-child(3)) { transform: translateY(calc(-200% - 1rem + 12px)); }
+    .fan:global(.v-mobile) > :global(*:nth-child(4)) { transform: translateY(calc(-300% - 1.5rem + 18px)); }
+    .fan:global(.v-mobile.is-open) > :global(*) { transform: none; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .fan > :global(*) { transition: none; transform: none !important; }
   }

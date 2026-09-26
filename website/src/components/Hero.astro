@@ -59,10 +59,10 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
         </span>
       </a>
       <h1 id="hero-title" class="heading-3 text-weight-light rise" style="--d:.5s">
-        Ihr Traumpool.<br />Fertig in 48 Stunden.
+        Ihr Traumpool.<br />Fertig in 48&nbsp;Stunden.
       </h1>
       <div class="rise" style="--d:.65s">
-        <ButtonGroup label="Nächste Schritte">
+        <ButtonGroup label="Nächste Schritte" class="v-mobile">
           <a href="#beratung" class="btn-pill is-navy">Kostenlose Beratung</a>
           <a href="https://konfig.poolbau-koch.de/" class="btn-pill is-teal" target="_blank" rel="noopener">Pool konfigurieren</a>
           <a href="#pakete" class="btn-pill is-stone">Komplettpakete</a>
@@ -141,7 +141,7 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
   .text-weight-medium { font-weight: 500; }
   .text-weight-light { font-weight: 300; }
   .opacity-50 { opacity: 0.5; }
-  .heading-3 { margin: 0; font-size: 4.875rem; line-height: 1; color: var(--ink); }
+  .heading-3 { margin: 0; font-size: 4.875rem; line-height: 1; color: var(--ink); text-wrap: balance; }
 
   /* Wellen-Kreis mit Umlauftext (Original .button-hero) */
   .button-hero {
@@ -179,6 +179,11 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     .hero-heading { align-items: center; text-align: center; max-width: none; margin-inline: 1rem; }
     .heading-3 { font-size: 2.7rem; }
     .button-hero { display: none; }
+  }
+  /* Schmale Handys: Pill zweizeilig und zentriert statt zerstückelt */
+  @media (max-width: 420px) {
+    .read-more-tag { flex-direction: column; gap: 0.125rem; padding: 0.625rem 1.25rem; text-align: center; }
+    .vertical-line-tag { display: none; }
   }
   @media (max-width: 479px) {
     .heading-3 { font-size: 2.5rem; }
