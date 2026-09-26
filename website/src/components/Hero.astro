@@ -6,7 +6,15 @@
 */
 import { Image } from 'astro:assets';
 import ButtonGroup from './ButtonGroup.astro';
-import heroImg from '../assets/img/hero-pool-studio.jpg';
+import imgGarten from '../assets/img/hero/ebene-garten.webp';
+import imgTerrasse from '../assets/img/hero/ebene-terrasse.webp';
+import imgVorne from '../assets/img/hero/ebene-vorne.webp';
+import kaustik from '../assets/img/hero/kaustik.png';
+import maskeWasser from '../assets/img/hero/maske-wasser.png';
+
+// Mittelpunkt des Wassers im Quellbild (1920×1282) – Zielpunkt der Kamerafahrt beim Köpfer
+const WATER = { x: 900, y: 860, w: 1920, h: 1282 };
+const layerWidths = [800, 1280, 1920];
 
 // Hotspots: Position in % der Bildfläche (Bild 16:10, Desktop-Hero 1440×900 = gleicher Ausschnitt)
 const hotspots = [
@@ -25,13 +33,32 @@ const circle = Array.from({ length: 360 }, (_, i) => {
 const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
 ---
 
-<section class="hero" aria-labelledby="hero-title">
+<section class="hero" aria-labelledby="hero-title" data-dive
+  data-water-x={WATER.x} data-water-y={WATER.y} data-img-w={WATER.w} data-img-h={WATER.h}>
   <div class="hero-wrapper">
-    <div class="hero-background" aria-hidden="true">
-      <Image src={heroImg} alt="" widths={[800, 1080, 1600, 1920]} sizes="100vw" loading="eager" fetchpriority="high" />
+    <!-- Szene in Ebenen (Studiowand = CSS-Hintergrund). Alle Ebenen haben denselben Bildausschnitt. -->
+    <div class="scene" aria-hidden="true">
+      <div class="cam" data-cam>
+        <div class="layer" data-layer="garden"><Image src={imgGarten} alt="" widths={layerWidths} sizes="100vw" loading="eager" /></div>
+        <div class="layer" data-layer="terrace">
+          <Image src={imgTerrasse} alt="" widths={layerWidths} sizes="100vw" loading="eager" fetchpriority="high" />
+          <div class="shimmer" style={`--kaustik:url(${kaustik.src});--maske:url(${maskeWasser.src})`}></div>
+        </div>
+        <div class="layer" data-layer="front"><Image src={imgVorne} alt="" widths={layerWidths} sizes="100vw" loading="eager" /></div>
+      </div>
     </div>
+    <div class="dive-flash" data-flash aria-hidden="true"></div>
+    <div class="underwater" data-under style={`--kaustik:url(${kaustik.src})`}>
+      <canvas class="bubbles" data-bubbles aria-hidden="true"></canvas>
+      <div class="under-text" data-under-text>
+        <p class="under-title">Einfach eintauchen.</p>
+        <p class="under-lead">Ihr eigener Pool – ohne Baustelle, ohne Beton, fertig in 48&nbsp;Stunden.</p>
+      </div>
+    </div>
+    <div class="surface" data-surface aria-hidden="true"></div>
     <div class="overlay-mobile" aria-hidden="true"></div>
 
+    <div class="hero-ui" data-ui>
     <div class="hero-grid">
       {hotspots.map((h) => (
         <a href={h.href} class="hover-relative" style={`left:${h.x}%;top:${h.y}%`}>
@@ -86,6 +113,7 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
         </span>
       </span>
     </a>
+    </div>
   </div>
 </section>
 
@@ -94,8 +122,48 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     position: relative; display: flex; flex-flow: column; justify-content: flex-end;
     height: 100vh; overflow: hidden;
   }
-  .hero-background { position: absolute; inset: 0; }
-  .hero-background :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+  /* Köpfer: Scroll-Strecke, Bühne bleibt stehen */
+  .hero { position: relative; height: 280vh; }
+  .hero-wrapper { position: sticky; top: 0; }
+  .hero-ui { position: absolute; inset: 0; display: flex; flex-flow: column; justify-content: flex-end; will-change: opacity, transform; }
+
+  .scene {
+    position: absolute; inset: 0; overflow: hidden;
+    /* Studiowand wie im Original: hellgrau, mittig heller */
+    background: radial-gradient(120% 90% at 45% 30%, #e6e6e6 0%, #dcdcdc 60%, #d4d4d4 100%);
+    perspective: 1400px;
+  }
+  .cam, .layer { position: absolute; inset: 0; will-change: transform; }
+  .layer :global(img) { width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+
+  /* Lebendiges Wasser: Lichtnetz, nur auf der Wasserfläche (Maske), langsam driftend */
+  .shimmer {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: var(--kaustik), var(--kaustik);
+    background-size: 240px 240px, 380px 380px;
+    mix-blend-mode: soft-light; opacity: 0.7;
+    -webkit-mask-image: var(--maske); mask-image: var(--maske);
+    -webkit-mask-size: cover; mask-size: cover; -webkit-mask-position: 50% 50%; mask-position: 50% 50%;
+    animation: drift 18s linear infinite;
+  }
+  @keyframes drift { to { background-position: 240px 120px, -380px 190px; } }
+
+  .dive-flash { position: absolute; inset: 0; background: radial-gradient(circle at 50% 55%, #fff 0%, #e8f6ff 45%, rgba(255,255,255,0) 80%); opacity: 0; pointer-events: none; z-index: 6; }
+  .underwater {
+    position: absolute; inset: 0; z-index: 7; opacity: 0; pointer-events: none; overflow: hidden;
+    background:
+      var(--kaustik) 0 0 / 420px 420px,
+      linear-gradient(180deg, #1b8fce 0%, #0b67a8 40%, #004A80 100%);
+    background-blend-mode: soft-light, normal;
+    animation: under-drift 22s linear infinite;
+    display: grid; place-items: center; text-align: center; color: #fff;
+  }
+  @keyframes under-drift { to { background-position: 420px 210px, 0 0; } }
+  .bubbles { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .under-text { position: relative; display: grid; gap: 1rem; padding-inline: 1.5rem; opacity: 0; }
+  .under-title { font-size: clamp(2.5rem, 6vw, 4.875rem); font-weight: 300; line-height: 1; margin: 0; }
+  .under-lead { font-size: 1.125rem; max-width: 36ch; margin: 0 auto; opacity: 0.9; }
+  .surface { position: absolute; inset: 0; z-index: 8; background: var(--bg); opacity: 0; pointer-events: none; }
 
   /* Hotspots (Original .hero-grid, nur Desktop) */
   .hero-grid { position: absolute; inset: 0; z-index: 3; }
@@ -188,6 +256,112 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .rise, .button-hero, .circular-text { animation: none; }
+    .rise, .button-hero, .circular-text, .shimmer { animation: none; }
+    .hero { height: auto; }
+    .underwater, .dive-flash, .surface { display: none; }
   }
 </style>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-dive]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (hero && !reduce) {
+    const cam = hero.querySelector<HTMLElement>('[data-cam]')!;
+    const layers = {
+      garden: hero.querySelector<HTMLElement>('[data-layer="garden"]')!,
+      terrace: hero.querySelector<HTMLElement>('[data-layer="terrace"]')!,
+      front: hero.querySelector<HTMLElement>('[data-layer="front"]')!,
+    };
+    const ui = hero.querySelector<HTMLElement>('[data-ui]')!;
+    const flash = hero.querySelector<HTMLElement>('[data-flash]')!;
+    const under = hero.querySelector<HTMLElement>('[data-under]')!;
+    const underText = hero.querySelector<HTMLElement>('[data-under-text]')!;
+    const surface = hero.querySelector<HTMLElement>('[data-surface]')!;
+    const canvas = hero.querySelector<HTMLCanvasElement>('[data-bubbles]')!;
+    const ctx = canvas.getContext('2d')!;
+
+    const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+    const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+    const easeIn = (t: number) => t * t * t;
+
+    // Wassermittelpunkt (Bildkoordinaten) → Bildschirmkoordinaten bei object-fit: cover
+    const W = Number(hero.dataset.imgW), H = Number(hero.dataset.imgH);
+    const WX = Number(hero.dataset.waterX), WY = Number(hero.dataset.waterY);
+    const setOrigin = () => {
+      const w = hero.clientWidth, h = window.innerHeight;
+      const s = Math.max(w / W, h / H);
+      const ox = (w - W * s) / 2 + WX * s, oy = (h - H * s) / 2 + WY * s;
+      for (const el of [cam, layers.garden, layers.terrace, layers.front]) el.style.transformOrigin = `${ox}px ${oy}px`;
+    };
+
+    // Luftblasen unter Wasser
+    type Bubble = { x: number; y: number; r: number; v: number; ph: number };
+    let bubbles: Bubble[] = [];
+    let underAmount = 0;
+    const resizeCanvas = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = canvas.clientWidth * dpr; canvas.height = canvas.clientHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    const spawn = (n: number) => {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      for (let i = 0; i < n; i++) bubbles.push({ x: w * (0.2 + Math.random() * 0.6), y: h + Math.random() * h * 0.3, r: 2 + Math.random() * 9, v: 0.6 + Math.random() * 1.8, ph: Math.random() * 6.28 });
+    };
+    let bubbleLoop = 0;
+    const drawBubbles = () => {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+      if (bubbles.length < 70 * underAmount) spawn(2);
+      bubbles = bubbles.filter((b) => b.y > -20);
+      for (const b of bubbles) {
+        b.y -= b.v * (1 + b.r / 6); b.ph += 0.05; b.x += Math.sin(b.ph) * 0.6;
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.55)'; ctx.lineWidth = 1.2; ctx.stroke();
+        ctx.beginPath(); ctx.arc(b.x - b.r * 0.35, b.y - b.r * 0.35, b.r * 0.25, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.fill();
+      }
+      bubbleLoop = underAmount > 0.02 ? requestAnimationFrame(drawBubbles) : 0;
+    };
+
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const r = hero.getBoundingClientRect();
+      const p = clamp(-r.top / (r.height - window.innerHeight));
+
+      // 1) Text & Hotspots gehen zuerst
+      const uiOut = clamp(p / 0.12);
+      ui.style.opacity = String(1 - uiOut);
+      ui.style.transform = `translateY(${-40 * uiOut}px)`;
+      ui.style.pointerEvents = uiOut > 0.5 ? 'none' : '';
+
+      // 2) Anlauf: Blick neigt sich zum Wasser, Kamera fährt heran (Ebenen unterschiedlich schnell)
+      const run = easeInOut(clamp(p / 0.55));
+      // 3) Eintauchen: Wasser füllt das Bild
+      const dive = easeIn(clamp((p - 0.46) / 0.22));
+      cam.style.transform = `rotateX(${(16 * run).toFixed(2)}deg)`;
+      layers.garden.style.transform = `scale(${(1 + 0.1 * run + 1.5 * dive).toFixed(4)})`;
+      layers.terrace.style.transform = `scale(${((1 + 0.55 * run) * (1 + 9 * dive)).toFixed(4)})`;
+      layers.front.style.transform = `translateY(${(6 * run).toFixed(2)}vh) scale(${((1 + 1.1 * run) * (1 + 14 * dive)).toFixed(4)})`;
+      layers.front.style.opacity = String(1 - clamp((dive - 0.3) / 0.4));
+
+      // 4) Spritzer / Aufprall
+      flash.style.opacity = String(clamp(1 - Math.abs(p - 0.66) / 0.05) * 0.9);
+
+      // 5) Unter Wasser, Text taucht auf; am Ende Auftauchen ins helle Grau der nächsten Sektion
+      underAmount = clamp((p - 0.63) / 0.08);
+      under.style.opacity = String(underAmount);
+      underText.style.opacity = String(clamp((p - 0.72) / 0.06) * (1 - clamp((p - 0.88) / 0.05)));
+      underText.style.transform = `translateY(${(1 - clamp((p - 0.72) / 0.12)) * 30}px)`;
+      surface.style.opacity = String(clamp((p - 0.9) / 0.1));
+      if (underAmount > 0.02 && !bubbleLoop) bubbleLoop = requestAnimationFrame(drawBubbles);
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    const onResize = () => { setOrigin(); resizeCanvas(); onScroll(); };
+
+    onResize();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onResize);
+  }
+</script>
