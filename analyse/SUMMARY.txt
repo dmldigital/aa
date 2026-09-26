@@ -1,0 +1,67 @@
+WEBSITE ANALYSE: poolbau-kochgmbh.de
+=====================================
+
+Erfassungsdatum: 26.09.2026
+
+ERFASSTE SEITEN
+===============
+1. Startseite (https://poolbau-kochgmbh.de/)
+2. Unsere Pools (https://poolbau-kochgmbh.de/pools/)
+3. Wasseraufbereitung (https://poolbau-kochgmbh.de/wasseraufbereitung/)
+4. Galerie (https://poolbau-kochgmbh.de/galerie/)
+5. Kataloge (https://poolbau-kochgmbh.de/kataloge/)
+6. Partner (https://poolbau-kochgmbh.de/partner/)
+7. Impressum (https://poolbau-kochgmbh.de/impressum/)
+8. Datenschutz (https://poolbau-kochgmbh.de/datenschutz/)
+9. Shop (https://shop.poolbau-kochgmbh.de/)
+
+INHALTE
+=======
+- 9 Seiten erfasst
+- ~1.000 Textblöcke insgesamt
+- 200+ Links erfasst
+- Alle Überschriften (H1-H5) dokumentiert
+
+BILDER
+======
+- Total heruntergeladene Bilder: 49
+  - Hochwertige Qualität (≥1600px): 22 Bilder
+  - Mittlere Qualität (≥800px): 13 Bilder
+  - Niedrige Qualität (<800px): 14 Bilder
+- 5 Partner-Logos separat organisiert
+- Alle Bilder mit Alt-Text und Beschreibungen dokumentiert
+
+DATEIEN
+=======
+1. /home/user/aa/analyse/inhalte.md
+   - Hauptinhalte aller Seiten
+   - Struktur: URLs, Titles, Meta Description, Headings, Text, Images, Links
+   
+2. /home/user/aa/analyse/inhalte_detailliert.md
+   - Detaillierte Textinhalte
+   - Kontaktdaten wenn vorhanden
+   
+3. /home/user/aa/analyse/bilder.md
+   - Bildertabelle mit Auflösung, Alt-Text, Beschreibung
+   - Sortiert nach Seite
+   
+4. poolbau-bilder/
+   - Alle heruntergeladenen Bilder
+   - Unterordner: partner/ für Partner-Logos
+
+BESONDERHEITEN
+===============
+- Website verwendet moderne Web-Technologien (Astro, WebP-Format)
+- Hochwertige Bildqualität bei Pool-Projekten
+- Umfangreiche Produktseiten (Wasseraufbereitung)
+- Keine größeren Inhalts-Lücken identifiziert
+- Konsistente Design und Struktur über alle Seiten
+
+DATENMENGE
+==========
+- Inhalte.md: 31,7 KB
+- Inhalte_detailliert.md: 17,2 KB
+- Bilder.md: 11,7 KB
+- Bilder-Verzeichnis: 8,8 MB
+
+Status: ✓ ERFASSUNG ABGESCHLOSSEN
