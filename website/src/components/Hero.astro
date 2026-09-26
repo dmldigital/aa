@@ -8,7 +8,8 @@ import ButtonGroup from './ButtonGroup.astro';
 import { url } from '../lib/url';
 
 /*
-  Hintergrund: scroll-gesteuerte Bildfolge aus dem Köpfer-Video (Higgsfield, MiniMax H3, 2K).
+  Hintergrund: Bildfolge aus dem Köpfer-Video (Higgsfield, MiniMax H3, 2K), läuft beim ersten Scrollen
+  automatisch durch und ganz oben wieder rückwärts.
   96 Einzelbilder (12 pro Videosekunde), Desktop 1920×1080 (d/), Handy 720×1280 Hochformat (m/).
 */
 const FRAMES = 96;
@@ -79,10 +80,10 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
 </section>
 
 <style>
-  /* Scroll-Strecke: Bühne bleibt stehen, das Video läuft mit dem Scrollen */
-  .hero { position: relative; height: 320vh; }
+  /* Video läuft beim ersten Scrollen von selbst durch (Script unten) */
+  .hero { position: relative; }
   .hero-wrapper {
-    position: sticky; top: 0; display: flex; flex-flow: column; justify-content: flex-end;
+    position: relative; display: flex; flex-flow: column; justify-content: flex-end;
     height: 100vh; overflow: hidden; background: #cfe3ee;
   }
   .hero-background { position: absolute; inset: 0; }
@@ -171,13 +172,13 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
   }
   @media (prefers-reduced-motion: reduce) {
     .rise, .button-hero, .circular-text { animation: none; }
-    .hero { height: auto; }
     .hero-canvas { display: none; }
   }
 </style>
 
 <script>
-  // Scroll-gesteuerte Bildfolge (Köpfer-Video). Bild für Bild vor- und rückwärts, auch auf iOS ruckelfrei.
+  // Köpfer-Video als Bildfolge: Sobald man oben losscrollt, läuft es von selbst bis unter Wasser durch
+  // (Seite steht so lange still). Scrollt man wieder ganz nach oben, läuft es genauso rückwärts.
   const hero = document.querySelector<HTMLElement>('[data-scrub]');
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -186,12 +187,17 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     const ui = hero.querySelector<HTMLElement>('[data-ui]')!;
     const ctx = canvas.getContext('2d')!;
     const N = Number(hero.dataset.frames);
+    const DURATION = 3200; // ms für den ganzen Durchlauf
+    // Ruhezustand unter Wasser: das Wasser bewegt sich weiter – Schleife aus den letzten Videobildern
+    // (END … N-1), deren Ende weich in die Bilder davor überblendet. Ab ~Bild 72 ist alles unter Wasser.
+    const LK = 11, LOOP_FPS = 8;
+    const END = N - 1 - LK; // hier endet der Durchlauf und die Schleife übernimmt nahtlos
     const set = window.matchMedia('(max-aspect-ratio: 4/5)').matches ? 'm' : 'd';
     const src = (i: number) => `${hero.dataset.base}${set}/${String(i).padStart(3, '0')}.webp`;
     const frames: (HTMLImageElement | null)[] = new Array(N).fill(null);
     const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
-    // Ladereihenfolge: erst Start/Ende, dann immer feiner verteilt – Scrollen funktioniert sofort grob, wird dann feiner
+    // Ladereihenfolge: erst Start/Ende, dann immer feiner verteilt
     const order: number[] = [0, N - 1];
     for (let step = 32; step >= 1; step = Math.floor(step / 2)) {
       for (let i = 0; i < N; i += step) if (!order.includes(i)) order.push(i);
@@ -206,6 +212,14 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     });
 
     let current = -1;
+    const cover = (img: HTMLImageElement, alpha = 1) => {
+      const cw = canvas.width, ch = canvas.height;
+      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+      const w = img.naturalWidth * s, h = img.naturalHeight * s;
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      ctx.globalAlpha = 1;
+    };
     const nearestLoaded = (i: number) => {
       for (let d = 0; d < N; d++) {
         if (frames[i - d]) return i - d;
@@ -217,40 +231,103 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
       const k = nearestLoaded(i);
       if (k < 0 || k === current) return;
       current = k;
-      const img = frames[k]!;
-      const cw = canvas.width, ch = canvas.height;
-      const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
-      const w = img.naturalWidth * s, h = img.naturalHeight * s;
-      ctx.drawImage(img, (cw - w) / 2, (ch - h) / 2, w, h);
+      cover(frames[k]!);
       canvas.classList.add('is-ready');
     };
 
+    // Abspielen: pos läuft mit konstantem Tempo auf target zu (Richtungswechsel mitten drin ist weich)
+    let pos = 0;
     let target = 0;
-    const update = () => {
-      const r = hero.getBoundingClientRect();
-      const p = clamp(-r.top / (r.height - window.innerHeight));
-      ui.style.opacity = String(1 - clamp(p / 0.1));
-      ui.style.pointerEvents = p > 0.05 ? 'none' : '';
-      target = Math.round(clamp(p / 0.92) * (N - 1));   // letzte 8 %: Unterwasserbild steht
-      current = -1; draw(target);
+    let locked = false;     // Seite steht, solange das Video vorwärts läuft
+    let leftTop = false;    // erst nach echtem Wegscrollen löst „ganz oben“ das Rückwärtslaufen aus
+    let raf = 0;
+    let last = 0;
+    const render = () => {
+      const f = Math.round(pos);
+      ui.style.opacity = String(1 - clamp(pos / 12));
+      ui.style.pointerEvents = pos > 3 ? 'none' : '';
+      current = -1; draw(f);
     };
+    // Wasser-Schleife: Bild p läuft END → N-1 und bekommt zunehmend Bild p-len darübergeblendet;
+    // bei N-1 ist es ganz END-1, danach geht es mit END weiter – ohne Sprung.
+    let loopRaf = 0, loopT = 0, loopLast = 0, heroVisible = true;
+    const loopTick = (t: number) => {
+      loopRaf = 0;
+      if (raf || pos !== END || target !== END || !heroVisible) { loopLast = 0; return; }
+      loopT += loopLast ? (t - loopLast) / 1000 * LOOP_FPS : 0;
+      loopLast = t;
+      const len = N - END;                       // Bilder END … N-1
+      const p = END + (Math.floor(loopT) % len);
+      const a = frames[p], w = (p - END) / LK, b = frames[p - len];
+      if (a) { cover(a); if (b && w > 0) cover(b, w); current = -1; }
+      loopRaf = requestAnimationFrame(loopTick);
+    };
+    const startLoop = () => { if (!loopRaf) { loopT = 0; loopLast = 0; loopRaf = requestAnimationFrame(loopTick); } };
+    new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; if (heroVisible && pos === END) startLoop(); }).observe(hero);
+
+    const tick = (t: number) => {
+      const dt = last ? t - last : 16;
+      last = t;
+      const step = (dt / DURATION) * (N - 1);
+      pos = target > pos ? Math.min(target, pos + step) : Math.max(target, pos - step);
+      render();
+      if (pos !== target) { raf = requestAnimationFrame(tick); return; }
+      raf = 0; last = 0; locked = false;
+      if (pos === END) startLoop();
+    };
+    const play = (to: number) => {
+      target = to;
+      locked = to === END;
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const forward = () => { if (target !== END) { leftTop = false; play(END); } };
+    const backward = () => { if (target !== 0) play(0); };
+    const atTop = () => window.scrollY <= 2;
+
+    // Scroll-Absicht abfangen (vor Lenis, daher Capture-Phase)
+    const block = (e: Event) => { if (e.cancelable) e.preventDefault(); (e as any).lenisStopPropagation = true; };
+    window.addEventListener('wheel', (e) => {
+      if (e.deltaY > 0 && atTop()) forward();
+      else if (e.deltaY < 0 && atTop() && target === END && !locked) backward();
+      if (locked) block(e);
+    }, { capture: true, passive: false });
+    let touchY = 0;
+    window.addEventListener('touchstart', (e) => { touchY = e.touches[0].clientY; }, { capture: true, passive: true });
+    window.addEventListener('touchmove', (e) => {
+      const dy = touchY - e.touches[0].clientY;   // > 0 = nach unten scrollen
+      if (dy > 8 && atTop()) forward();
+      else if (dy < -8 && atTop() && target === END && !locked) backward();
+      if (locked) block(e);
+    }, { capture: true, passive: false });
+    window.addEventListener('keydown', (e) => {
+      const down = ['ArrowDown', 'PageDown', 'End', ' '].includes(e.key);
+      if (down && atTop() && !(e.target as HTMLElement).closest?.('input, textarea, select')) forward();
+      if (locked && down) e.preventDefault();
+    }, { capture: true });
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (y > 40) leftTop = true;
+      if (y > 10 && target === 0) forward();                 // z. B. Scrollleiste gezogen, Anker-Link
+      else if (atTop() && leftTop && !locked) backward();    // zurück ganz oben → rückwärts
+    }, { passive: true });
+
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = Math.round(canvas.clientWidth * dpr);
       canvas.height = Math.round(canvas.clientHeight * dpr);
-      update();
+      render();
+      if (pos === END) startLoop();
     };
-    let ticking = false;
-    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { ticking = false; update(); }); } };
 
     (async () => {
+      // Seite schon weiter unten geladen (Neuladen, Anker): gleich Unterwasserbild zeigen
+      if (window.scrollY > 10) { pos = target = END; leftTop = true; await load(END); }
       await load(0);
       resize();
-      window.addEventListener('scroll', onScroll, { passive: true });
       window.addEventListener('resize', resize);
       // Rest im Hintergrund laden, 6 gleichzeitig
       const queue = order.slice(1);
-      const worker = async () => { while (queue.length) { await load(queue.shift()!); if (frames[target] || true) { current = -1; draw(target); } } };
+      const worker = async () => { while (queue.length) { await load(queue.shift()!); if (!raf && !loopRaf) render(); } };
       await Promise.all(Array.from({ length: 6 }, worker));
     })();
   }
