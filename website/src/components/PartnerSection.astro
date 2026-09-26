@@ -63,10 +63,14 @@ const logos = [
   .logo-row img { display: block; height: var(--h); width: auto; max-width: 14rem; }
 
   /* Grau: Grundzustand */
-  .is-grey img { filter: grayscale(1); opacity: 0.45; }
+  .is-grey img { filter: grayscale(1); opacity: 0.45; transition: filter 0.3s ease, opacity 0.3s ease; }
+  /* Hover (Nutzerwunsch): Zustand umkehren – grau wird farbig, farbig (in der Welle) wird grau */
+  .is-grey li:global(.hover-color) img { filter: none; opacity: 1; }
+  .is-color li { transition: opacity 0.3s ease; }
+  .is-color li:global(.hover-off) { opacity: 0; }
   /* Farbig: liegt deckungsgleich darüber, nur im Bereich der Welle sichtbar */
   .is-color {
-    position: absolute; inset: 0;
+    position: absolute; inset: 0; pointer-events: none;
     --x: -30%;
     -webkit-mask-image: linear-gradient(100deg, transparent calc(var(--x) - 22%), #000 calc(var(--x) - 7%), #000 calc(var(--x) + 7%), transparent calc(var(--x) + 22%));
             mask-image: linear-gradient(100deg, transparent calc(var(--x) - 22%), #000 calc(var(--x) - 7%), #000 calc(var(--x) + 7%), transparent calc(var(--x) + 22%));
@@ -110,7 +114,30 @@ const logos = [
       const p = Math.min(1, Math.max(0, (vh * 0.9 - mid) / (vh * 0.6)));
       color.style.setProperty('--x', `${(-30 + 160 * p).toFixed(2)}%`);
     };
-    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    // Hover: ist das Logo gerade überwiegend farbig (Welle darüber), wird es grau – sonst farbig
+    const greys = [...stage.querySelectorAll<HTMLElement>('.is-grey li')];
+    const colors = [...color.querySelectorAll<HTMLElement>('li')];
+    let hovered = -1;
+    const coverage = (li: HTMLElement) => {
+      const sr = stage.getBoundingClientRect(), r = li.getBoundingClientRect();
+      const pos = ((r.left + r.width / 2 - sr.left) / sr.width) * 100;
+      const x = parseFloat(color.style.getPropertyValue('--x') || '-30');
+      const d = Math.abs(pos - x);
+      return d <= 7 ? 1 : d >= 22 ? 0 : (22 - d) / 15;
+    };
+    const applyHover = () => {
+      greys.forEach((li, i) => {
+        const on = i === hovered;
+        const colored = on && coverage(li) >= 0.5;
+        li.classList.toggle('hover-color', on && !colored);
+        colors[i].classList.toggle('hover-off', on);
+      });
+    };
+    greys.forEach((li, i) => {
+      li.addEventListener('mouseenter', () => { hovered = i; applyHover(); });
+      li.addEventListener('mouseleave', () => { hovered = -1; applyHover(); });
+    });
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { update(); if (hovered >= 0) applyHover(); }); } };
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
     update();
