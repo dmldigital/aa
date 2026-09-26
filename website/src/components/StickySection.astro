@@ -19,8 +19,10 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
 
 <section id="pools" class="sticky-section" aria-label="Pools und Technik">
   <div class="sticky-wrapper">
-    <div class="sticky-component">
-      <Image src={imgSticky} alt="Pool mit Naturstein-Rand in einem Garten bei Abendsonne" widths={[800, 1440]} sizes="(max-width: 767px) 100vw, 50vw" />
+    <div class="sticky-left" data-sticky-left>
+      <div class="sticky-component">
+        <Image src={imgSticky} alt="Pool mit Naturstein-Rand in einem Garten bei Abendsonne" widths={[800, 1440]} sizes="(max-width: 767px) 100vw, 50vw" />
+      </div>
     </div>
     <div class="sticky-content">
       <div class="sticky-big-image">
@@ -46,7 +48,7 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
         </div>
       </div>
 
-      <div class="sticky-text">
+      <div class="sticky-text" data-sticky-stop>
         <div class="text-weight-medium caps regular-vw-small">Technik &amp; Wasserpflege</div>
         <div class="content">
           <h2 class="heading-vw">Technik, die mitdenkt</h2>
@@ -65,7 +67,10 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
 
 <style>
   .sticky-wrapper { display: flex; gap: 0.5rem; margin-top: 12rem; position: relative; }
-  .sticky-component { width: 50%; height: 90vh; position: sticky; top: 5vh; bottom: 5vh; overflow: hidden; }
+  /* Nutzerwunsch: das linke Bild bleibt nur stehen, bis der zweite Textblock oben bündig mit ihm ist –
+     danach läuft die ganze Seite weiter. Dafür endet die linke Spalte genau dort (Höhe per Script). */
+  .sticky-left { flex: none; width: 50%; align-self: flex-start; }
+  .sticky-component { width: 100%; height: 90vh; position: sticky; top: 5vh; bottom: 5vh; overflow: hidden; }
   .sticky-content { display: flex; flex-flow: column; align-items: flex-start; width: 50%; padding-bottom: 20vh; position: relative; }
   .sticky-big-image { width: 100%; height: 90vh; overflow: hidden; }
   .sticky-component :global(img), .sticky-big-image :global(img),
@@ -103,6 +108,7 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
   }
   @media (max-width: 767px) {
     .sticky-wrapper { gap: 2.5rem; flex-flow: column; width: 100%; margin-top: 4rem; }
+    .sticky-left { width: 100%; height: auto !important; }
     .sticky-component { width: 100%; height: 50vh; position: relative; }
     .sticky-content { width: 100%; padding-bottom: 0; }
     .sticky-text { gap: 1rem; margin-top: 4rem; margin-left: 2rem; }
@@ -116,6 +122,20 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
 </style>
 
 <script>
+  // Linke Spalte endet, wenn der zweite Textblock oben bündig mit dem stehenden Bild ist
+  const left = document.querySelector<HTMLElement>('[data-sticky-left]');
+  const stop = document.querySelector<HTMLElement>('[data-sticky-stop]');
+  if (left && stop) {
+    const fit = () => {
+      const pic = left.firstElementChild as HTMLElement;
+      const t = stop.getBoundingClientRect().top - left.getBoundingClientRect().top;
+      left.style.height = `${Math.round(t + pic.offsetHeight)}px`;
+    };
+    fit();
+    new ResizeObserver(fit).observe(left.parentElement!);
+    window.addEventListener('load', fit);
+  }
+
   // Parallax wie Original: 0 % → −10 %, linear, solange der Bildrahmen durchs Fenster läuft
   const imgs = [...document.querySelectorAll<HTMLElement>('[data-parallax]')];
   if (imgs.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
