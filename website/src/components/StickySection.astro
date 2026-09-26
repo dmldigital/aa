@@ -142,17 +142,66 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
   }
 
   // Parallax wie Original: 0 % → −10 %, linear, solange der Bildrahmen durchs Fenster läuft
+  // + Nutzerwunsch, scroll-gekoppelt:
+  //   Aufziehen: linkes Bild und erstes Bild rechts öffnen sich von unten nach oben (wie Sektion 2, aber
+  //   nur senkrecht), Ecken bleiben gerundet (am Bildschirmrand eckig).
+  //   Einziehen: ab dem Stopp-Punkt zieht sich das breite Bild nach oben weg ein; erreicht seine
+  //   Unterkante die des linken Bildes, zieht sich das linke Bild mit nach oben ein.
   const imgs = [...document.querySelectorAll<HTMLElement>('[data-parallax]')];
-  if (imgs.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  const wrap = document.querySelector<HTMLElement>('.sticky-wrapper');
+  const pic = document.querySelector<HTMLElement>('.sticky-component');
+  const big = document.querySelector<HTMLElement>('.sticky-big-image');
+  const wide = document.querySelector<HTMLElement>('.sticky-wide-image');
+  if (wrap && pic && big && wide && stop && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const desktop = window.matchMedia('(min-width: 768px)');
+    const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+    const R = '0.5rem';
+    const clip = (el: HTMLElement, top: number, bottom: number, edge: 'left' | 'right') => {
+      const round = !desktop.matches ? R : edge === 'left' ? `0 ${R} ${R} 0` : `${R} 0 0 ${R}`;
+      el.style.clipPath = `inset(${top.toFixed(1)}px 0 ${bottom.toFixed(1)}px 0 round ${round})`;
+    };
+    // Aufziehen: Fortschritt, während die Oberkante vom unteren Fensterrand bis 20 % Höhe läuft
+    const reveal = (el: HTMLElement, top: number, vh: number) => {
+      const p = clamp((vh - top) / (0.8 * vh));
+      const e = 1 - Math.pow(1 - p, 3);
+      const h = el.offsetHeight;
+      const img = el.querySelector<HTMLElement>('img');
+      if (img) { img.style.transformOrigin = '50% 100%'; img.style.scale = String(1.15 - 0.15 * e); }
+      return h * (1 - e);
+    };
     let ticking = false;
     const update = () => {
       ticking = false;
       const vh = window.innerHeight;
+      const y = window.scrollY;
       for (const img of imgs) {
         const r = img.parentElement!.getBoundingClientRect();
-        const p = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+        const p = clamp((vh - r.top) / (vh + r.height));
         img.style.transform = `translate3d(0, ${(-10 * p).toFixed(3)}%, 0)`;
       }
+      const wr = wrap.getBoundingClientRect();
+      const pr = pic.getBoundingClientRect();
+      const br = big.getBoundingClientRect();
+      // Aufziehen (links am Anfang an der Oberkante der Sektion ausgerichtet wie rechts)
+      const topPic = reveal(pic, desktop.matches ? wr.top : pr.top, vh);
+      const topBig = reveal(big, br.top, vh);
+      // Einziehen (nur Desktop): Linie in Seitenkoordinaten wandert von Unterkante breites Bild bis Oberkante linkes Bild
+      let botPic = 0, botWide = 0;
+      if (desktop.matches) {
+        const s0 = stop.getBoundingClientRect().top + y - 0.05 * vh;
+        const q = clamp((y - s0) / (0.75 * vh));
+        if (q > 0) {
+          const wdr = wide.getBoundingClientRect();
+          const wTop = wdr.top + y, wBot = wdr.bottom + y;
+          const pTop = pr.top + y, pBot = pr.bottom + y;
+          const line = wBot - (wBot - pTop) * q;
+          botWide = wBot - clamp(line, wTop, wBot);
+          botPic = pBot - clamp(line, pTop, pBot);
+        }
+      }
+      clip(pic, topPic, botPic, 'left');
+      clip(big, topBig, 0, 'right');
+      clip(wide, 0, botWide, 'right');
     };
     const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
     window.addEventListener('scroll', onScroll, { passive: true });
