@@ -2,11 +2,22 @@
   "mcpServers": {
     "playwright": {
       "command": "bash",
-      "args": [".claude/mcp/playwright.sh"]
+      "args": [
+        ".claude/mcp/playwright.sh"
+      ]
     },
     "chrome-devtools": {
       "command": "bash",
-      "args": [".claude/mcp/chrome-devtools.sh"]
+      "args": [
+        ".claude/mcp/chrome-devtools.sh"
+      ]
+    },
+    "21st": {
+      "type": "http",
+      "url": "https://21st.dev/api/mcp",
+      "headers": {
+        "x-api-key": "${API_KEY_21ST:-}"
+      }
     }
   }
 }

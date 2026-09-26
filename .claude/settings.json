@@ -1,12 +1,14 @@
 {
   "enabledMcpjsonServers": [
     "playwright",
-    "chrome-devtools"
+    "chrome-devtools",
+    "21st"
   ],
   "permissions": {
     "allow": [
       "mcp__playwright",
       "mcp__chrome-devtools",
+      "mcp__21st",
       "Bash(npx -y dembrandt@latest:*)",
       "Bash(npx skillui:*)"
     ]

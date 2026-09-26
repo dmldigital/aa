@@ -10,3 +10,4 @@
 
 ## Setup
 - `.mcp.json`: Playwright MCP und Chrome DevTools MCP (Wrapper in `.claude/mcp/`), headless mit vorinstalliertem Chromium.
+- `.mcp.json`: 21st MCP (UI-Komponenten von 21st.dev) – API-Schlüssel kommt aus der Umgebungsvariable `API_KEY_21ST` (nie ins Repo schreiben).
