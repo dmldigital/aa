@@ -5,14 +5,12 @@
   Getauscht: Texte, Bilder, Akzentfarbe (Punkt im Laufband = Türkis).
   Animation (Nutzerwunsch): „Scroll & Roll“-Kapsel aus 21st.dev bundled/1959 auf jeder Karte,
   zeitversetzt; Ecken durchgehend mit Original-Radius 0.5rem (keine Kapselform).
-  Abweichungen: heller Verlauf oben links auf den großen Karten (Lesbarkeit auf Farbfotos),
-  Button der dunklen Karte als runder Türkis-Button (wie im Hero festgelegt).
+  Abweichungen (Nutzerwunsch): kleine Karten sind Textfelder statt Bilder; die Texte blenden
+  gleichzeitig mit dem Bild ihrer Reihe ein. Button als runder Button (wie im Hero festgelegt).
 */
 import { Image } from 'astro:assets';
-import imgKlein1 from '../assets/img/bento-pool-terrasse-hoch.webp';
 import imgGross1 from '../assets/img/bento-pool-von-oben.webp';
 import imgGross2 from '../assets/img/pool-holzdeck-garten.webp';
-import imgKlein2 from '../assets/img/bento-pool-nacht-led.webp';
 
 const tagText = 'Poolbau ohne Beton – fertig in 48 Stunden';
 const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-hidden="true"><path d="M6.25 1.25 10 5m0 0L6.25 8.75M10 5H0" stroke="currentColor" stroke-width=".78"/></svg>`;
@@ -40,42 +38,33 @@ const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-
 
         <div class="bento-component">
           <div class="bento-row">
-            <div class="card-small" data-roll data-roll-delay="0">
-              <Image class="image" src={imgKlein1} alt="Rechteckiger Pool mit hellen Terrassenplatten" widths={[480, 960]} sizes="(max-width: 991px) 90vw, 35vw" />
-            </div>
-            <a href="#pools" class="card-big" data-roll data-roll-delay="0.15">
-              <div class="card-big-content">
-                <div class="max-width-60ch">
-                  <h3 class="heading-6">Keramik- und Fiberglaspools der führenden Marken – mit bis zu 40 Jahren Garantie</h3>
-                </div>
-                <div class="secondary-button">
+            <div class="card-small card-text" data-fade>
+              <div class="text-content">
+                <span class="text-tag"><span class="elipse"></span><span class="text-size-small caps">Unsere Pools</span></span>
+                <h3 class="heading-6">Keramik- und Fiberglaspools der führenden Marken</h3>
+                <p>COMPASS, Waterrows, Leisure Pools und Mon de Pra – langlebig, pflegeleicht und mit bis zu 40&nbsp;Jahren Garantie auf die Poolschale.</p>
+                <a href="#pools" class="secondary-button">
                   <span class="text-size-small text-weight-medium">Pools entdecken</span>
                   <span class="arrow-wrapper" set:html={arrow} />
-                </div>
+                </a>
               </div>
+            </div>
+            <div class="card-big" data-roll>
               <div class="card-image"><Image class="image" src={imgGross1} alt="Pool von oben auf grauer Terrasse" widths={[900, 1600]} sizes="(max-width: 991px) 90vw, 65vw" /></div>
-            </a>
+            </div>
           </div>
 
           <div class="bento-row">
-            <a href="#pakete" class="card-big" data-roll data-roll-delay="0">
-              <div class="card-big-content">
-                <div class="max-width-40ch">
-                  <h3 class="heading-6">Technik, Lieferung und Einbau – alles aus einer Hand.</h3>
-                </div>
-                <div class="secondary-button">
-                  <span class="text-size-small text-weight-medium">Komplettpakete ansehen</span>
-                  <span class="arrow-wrapper" set:html={arrow} />
-                </div>
-              </div>
+            <div class="card-big" data-roll>
               <div class="card-image"><Image class="image" src={imgGross2} alt="Pool mit Holzdeck in einem grünen Garten" widths={[900, 1600]} sizes="(max-width: 991px) 90vw, 65vw" /></div>
-            </a>
-            <div class="card-small" data-roll data-roll-delay="0.15">
-              <div class="relative">
-                <a href="#beratung" class="btn-pill is-teal">Beratung anfragen</a>
+            </div>
+            <div class="card-small card-text" data-fade>
+              <div class="text-content">
+                <span class="text-tag"><span class="elipse"></span><span class="text-size-small caps">Alles aus einer Hand</span></span>
+                <h3 class="heading-6">Technik, Lieferung und Einbau – in nur 48&nbsp;Stunden</h3>
+                <p>Von der kostenlosen Beratung vor Ort über die Technikbox mit Salzwasser- oder Chlorpflege bis zum fertigen Einbau: Sie haben einen Ansprechpartner.</p>
+                <a href="#beratung" class="btn-pill is-navy">Beratung anfragen</a>
               </div>
-              <div class="card-overlay"></div>
-              <div class="card-image"><Image class="image" src={imgKlein2} alt="Beleuchteter Pool bei Nacht" widths={[480, 960]} sizes="(max-width: 991px) 90vw, 35vw" /></div>
             </div>
           </div>
         </div>
@@ -121,25 +110,22 @@ const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-
     width: 100%; height: 100%; object-fit: cover;
     transition: transform 0.6s ease;
   }
-  .card-small > :global(.image) { position: absolute; inset: 0; }
-  .card-small:hover :global(.image), .card-big:hover :global(.image) { transform: scale(1.09); }
+  .card-big:hover :global(.image) { transform: scale(1.09); }
 
-  /* Abweichung: heller Verlauf oben links, damit die dunkle Schrift auf Farbfotos lesbar bleibt */
-  .card-big .card-image::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(239, 239, 239, 0.94) 0%, rgba(239, 239, 239, 0.7) 32%, rgba(239, 239, 239, 0) 62%);
-  }
+  /* Textfelder an Stelle der kleinen Bilder (Nutzerwunsch): ohne Rahmen, Text vertikal zentriert */
+  .card-text { border: 0; align-items: center; justify-content: flex-start; padding: 2.5rem; }
+  .text-content { display: flex; flex-flow: column; align-items: flex-start; gap: 1.25rem; max-width: 40ch; will-change: opacity, transform; }
+  .text-content p { margin: 0; color: var(--ink-muted); }
+  .text-tag { display: inline-flex; align-items: center; gap: 0.6rem; }
   .card-big-content { position: relative; z-index: 2; display: flex; flex-flow: column; align-items: flex-start; gap: 1.5rem; }
   .secondary-button { display: flex; align-items: center; gap: 1rem; }
   .arrow-wrapper { display: flex; transition: transform 0.25s ease; }
-  .card-big:hover .arrow-wrapper { transform: translateX(3.2px); }
+  .secondary-button:hover .arrow-wrapper { transform: translateX(3.2px); }
 
-  .card-overlay { position: absolute; inset: 0; z-index: 1; background-color: #272727e6; }
-  .relative { position: relative; z-index: 5; }
 
   /* Kapsel-Animation (Werte aus 21st.dev bundled/1959, Endradius = Original 0.5rem) */
   [data-roll] { will-change: clip-path; }
-  [data-roll] .card-image, .card-small[data-roll] > :global(.image) { will-change: transform; }
+  [data-roll] .card-image { will-change: transform; }
 
   @media (max-width: 991px) {
     .heading-6 { font-size: 2rem; }
@@ -156,6 +142,7 @@ const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-
     .heading-4 { font-size: 2.5rem; }
     .bento-wrapper { gap: 4rem; margin-top: 6rem; }
     .card-big { padding-top: 1.5rem; padding-left: 1.5rem; }
+    .card-text { height: auto; padding: 1.5rem 0.25rem 1rem; }
   }
   @media (max-width: 479px) {
     .padding-global { padding-inline: 1rem; }
@@ -182,19 +169,28 @@ const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-
     const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
     const START_INSET = 35.6;   // % – wie Original-Beispiel
     const END_RADIUS = 8;       // px – Original-Karten (0.5rem)
-    const inner = (card: HTMLElement) =>
-      card.querySelector<HTMLElement>('.card-image') || card.querySelector<HTMLElement>(':scope > .image');
+    const inner = (card: HTMLElement) => card.querySelector<HTMLElement>('.card-image');
+    const texts = Array.from(document.querySelectorAll<HTMLElement>('[data-fade]'));
+    // Fortschritt einer Reihe: 0 = taucht unten auf, 1 = steht im oberen Drittel (für Bild und Text gleich)
+    const progress = (el: HTMLElement, vh: number, delay = 0) => {
+      const raw = clamp((vh - el.getBoundingClientRect().top) / (vh * 0.8));
+      return clamp((raw - delay) / (0.8 - delay * 0.5));
+    };
     let ticking = false;
 
     const update = () => {
       ticking = false;
       const vh = window.innerHeight;
+      for (const text of texts) {
+        // Text blendet gleichzeitig mit dem Bild seiner Reihe ein (Bild und Text haben dieselbe Oberkante)
+        const row = text.closest<HTMLElement>('.bento-row') || text;
+        const e = progress(row, vh);
+        const content = text.firstElementChild as HTMLElement;
+        content.style.opacity = e.toFixed(3);
+        content.style.transform = `translateY(${(24 * (1 - e)).toFixed(1)}px)`;
+      }
       for (const card of cards) {
-        const r = card.getBoundingClientRect();
-        const delay = Number(card.dataset.rollDelay || 0);
-        // 0 = Karte taucht unten auf, 1 = Karte steht im oberen Drittel
-        const raw = clamp((vh - r.top) / (vh * 0.8));
-        const e = clamp((raw - delay) / (0.8 - delay * 0.5));
+        const e = progress(card, vh, Number(card.dataset.rollDelay || 0));
         // Ecken bleiben während der ganzen Animation beim Original-Radius (Nutzerwunsch)
         card.style.clipPath = `inset(${(START_INSET * (1 - e)).toFixed(2)}% round ${END_RADIUS}px)`;
         const img = inner(card);
