@@ -18,7 +18,7 @@ Kurzfassung für die nächste Sitzung. Arbeitsregeln und festgelegte Entscheidun
 
 ## Aktueller Stand der Startseite (`website/src/pages/index.astro`)
 
-1. **Header** (`components/Header.astro`) – 1:1 Space Kit (Glas-Leiste, Lade-Animation, Mobile-Menü gleitet 0,4 s von oben). Button „Beratung anfragen“ = runder Pill-Button dunkelblau.
+1. **Header** (`components/Header.astro`) – 1:1 Space Kit (Glas-Leiste, Lade-Animation, Mobile-Menü gleitet 0,4 s von oben). Abweichungen auf Nutzerwunsch: smart sticky (runter = weg, hoch = da), Radius 8px (auch Mobile-Menü), ganz leichter Schatten. Button „Beratung anfragen“ = runder Pill-Button dunkelblau.
 2. **Hero** (`components/Hero.astro`) – Space-Kit-Aufbau (Pill mit Preis „Komplettpaket ab 22.700 € zzgl. Erdarbeiten“, Headline „Ihr Traumpool. Fertig in 48 Stunden.“, Wellen-Kreis mit Umlauftext; Hotspots auf Wunsch entfernt).
    - Hintergrund = **Köpfer-Video als Bildfolge**: 96 Einzelbilder in `website/public/koepfer/d/` (1920×1080) und `m/` (720×1280, Hochformat), per Canvas gezeichnet. Beim ersten Scrollen läuft es von selbst in 3,2 s bis unter Wasser durch (Seite steht so lange), Text/Buttons blenden aus; zurück ganz oben läuft es genauso rückwärts. Am Ende der Fahrt scrollt die Seite automatisch zu Sektion 2 (Lenis `scrollTo`, `window.lenis`). Im Ruhezustand oben steht das Standbild (Wasser-Animation auf Nutzerwunsch wieder entfernt; der Higgsfield-Wasserclip mit fester Kamera liegt noch als Quelle in `medien/koepfer/wasser-loop.mp4`).
    - Drei runde Buttons (Dunkelblau/Türkis/Grau) in `components/ButtonGroup.astro`: Ruhezustand gestapelt, Hover fächert auf (21st.dev bundled/10); Handy: senkrecht gestapelt, Antippen fächert nach unten auf.

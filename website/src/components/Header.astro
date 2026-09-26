@@ -46,15 +46,18 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
 </header>
 
 <style>
-  .navbar { position: fixed; inset: 0 0 auto; z-index: 50; }
+  /* Smart sticky (Nutzerwunsch): beim Runterscrollen ausblenden, beim Hochscrollen wieder einblenden */
+  .navbar { position: fixed; inset: 0 0 auto; z-index: 50; transition: transform 0.4s ease; }
+  .navbar:global(.is-hidden) { transform: translateY(calc(-100% - 1.5rem)); }
   .nav-pad { padding-inline: 2.5rem; }
   .nav-container { width: 100%; max-width: 110rem; margin-inline: auto; }
 
   .navbar-component {
     display: flex; justify-content: space-between; align-items: center;
     margin-top: 1.25rem; padding: 1rem 2.2rem 1rem 2.25rem;
-    border-radius: 1.375rem;
+    border-radius: 0.5rem; /* Nutzerwunsch: Radius wie die Bilder (8px) */
     background-color: #ffffff38;
+    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.06); /* Nutzerwunsch: ganz leichter Schlagschatten */
     -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
     /* Lade-Animation Original: fällt von oben herein, leichtes Überschwingen */
     animation: nav-drop 0.9s cubic-bezier(0.3, 1.2, 0.5, 1) 0.5s both;
@@ -95,7 +98,7 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
     .mobile-menu {
       display: flex; flex-direction: column; align-items: center;
       width: 90vw; margin: 1rem 5vw 0; padding: 2rem;
-      background-color: #fffc; border-radius: 1.375rem; text-align: center;
+      background-color: #fffc; border-radius: 0.5rem; text-align: center;
       transform: translateY(calc(-100% - 12rem)); visibility: hidden;
       transition: transform 0.4s ease, visibility 0s linear 0.4s;
     }
@@ -137,4 +140,19 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
   document.addEventListener('click', (e) => {
     if (navbar?.classList.contains('is-open') && !navbar.contains(e.target as Node)) setOpen(false);
   });
+
+  // Smart sticky: runter = weg, hoch = da; ganz oben und bei offenem Menü immer sichtbar
+  let lastY = window.scrollY;
+  let ticking = false;
+  const onScroll = () => {
+    ticking = false;
+    const y = window.scrollY;
+    const dy = y - lastY;
+    if (Math.abs(dy) < 4) return;
+    const hide = dy > 0 && y > 120 && !navbar?.classList.contains('is-open');
+    navbar?.classList.toggle('is-hidden', hide);
+    lastY = y;
+  };
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+  navbar?.addEventListener('focusin', () => navbar.classList.remove('is-hidden'));
 </script>
