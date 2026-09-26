@@ -238,6 +238,7 @@ Menü ist standardmäßig eingeklappt (Hamburger-Icon rechts, `.w-nav-button`, 2
 | Produktkarte (`.product-link`) | 0 px (Bild), Kartenfläche selbst ohne Radius | keiner | keiner | `#FFFFFF` | Bildformat quadratisch, `object-fit: cover`; darunter Meta-Zeile: Name/Variante (`.caps`, 14px) links, Preis rechts |
 | Preis-Badge (Produktdetail) | 2 px | 1px solid `#BEBEBE` | keiner | `#FFFFFF` | Padding 10px, Text 16px |
 | Trennpunkt (`.elipse`) | 50 % (Kreis) | – | – | `#E28E2A` | 5.6 px Durchmesser (.35rem), z. B. zwischen Tag-Wörtern |
+| Rotierendes Scroll-Badge (`.button-hero`, Hero unten rechts) | Kreis | – | – | SVG-Kreis (`CIRCLE.svg`) | Link-Element 115 × 115 px, `position: absolute` im Hero; darüber `.circular-text` (136 × 136 px) mit Umlauftext „STAY TUNED“ als SVG (`Circular Text.svg`, 100 × 100 px), dreht sich endlos (siehe Abschnitt 10) |
 | Icon-System | – | – | – | – | Reine **Inline-SVGs** (Pfeil-Icons `Arrow.svg`, `FAQ Arrow.svg` von Webflow-CDN) statt Icon-Font; keine einheitliche Icon-Bibliothek (kein Feather/Font Awesome erkannt) |
 
 ![Produktkarte normal](screenshots/card-product-normal.png)
@@ -271,6 +272,8 @@ Menü ist standardmäßig eingeklappt (Hamburger-Icon rechts, `.w-nav-button`, 2
 
 **Scroll-Animationen (Webflow-IX2, Inline-Styles/`data-w-id`-Attribute im HTML):** Elemente wie die Hero-Headline, das „More Products"-Tag und Bento-Bilder tragen initiale Inline-Transforms wie `translate3d(0, 10vh, 0)` mit `opacity: 0`, die beim Scrollen in den Viewport über Webflows Interactions-2-Engine auf `translate3d(0,0,0)` / `opacity: 1` animiert werden (klassisches „Fade-Up"-Reveal-Muster). Konkrete Dauer/Easing dieser IX2-Trigger sind nicht als CSS-Transition messbar (sie laufen über von Webflow injizierte JS-Keyframes); als **Schätzung** orientiert an vergleichbaren Webflow-Vorlagen: **Dauer ca. 500–800 ms, Easing „ease-out", Start-Offset ca. 10vh nach unten, keine Verzögerung zwischen einzelnen Elementen** (keine sichtbare Stagger-Sequenz erkannt). Zusätzlich sind einzelne Produktbilder mit `will-change: transform` und leicht skaliertem Ausgangszustand (`scale3d(1.09,1.09,1)`) versehen — deutet auf einen **dezenten Parallax-/Zoom-Effekt beim Scrollen** hin (Bild zoomt beim Einblenden leicht von 109% auf 100%).
 
+**Dauerrotation Scroll-Badge:** Der Umlauftext `.circular-text` im Hero dreht sich ohne Nutzeraktion im Uhrzeigersinn. Gemessen: ca. 12° pro Sekunde, also **ca. 30 s pro Umdrehung** (Schätzung aus zwei Messpunkten im Abstand von 1 s). Die Drehung läuft per Webflow-IX2-JavaScript über `transform: rotate()`, nicht als CSS-`@keyframes`. Nachbau: `animation: spin 30s linear infinite`.
+
 **Reduced Motion:** Im Original-Stylesheet keine `prefers-reduced-motion`-Regel gefunden — für einen barrierefreien Nachbau wird empfohlen, eine `@media (prefers-reduced-motion: reduce)`-Regel zu ergänzen, die alle Transition-/Animation-Dauern auf `0.01ms` reduziert (im Original nicht vorhanden, hier als Verbesserungsvorschlag markiert).
 
 ---
@@ -301,6 +304,7 @@ Bildinhalte skalieren durchgängig fluid (`width: 100%`, `object-fit: cover`); e
 - [x] Navigation Mobile, geschlossen — [Screenshot](screenshots/mobile-header-closed.png)
 - [x] Navigation Mobile, geöffnet — [Screenshot](screenshots/mobile-nav-open.png)
 - [x] Hero-Sektion mit freigestellter Produktfotografie — [Screenshot](screenshots/desktop-hero.png)
+- [x] Rotierendes Scroll-Badge „STAY TUNED“ (Hero unten rechts) — [Screenshot](screenshots/desktop-hero.png)
 - [x] Feature-Intro-Sektion (2-spaltig, Bild + Text) — [Screenshot](screenshots/desktop-section-features.png)
 - [x] Bento-/Highlight-Sektion (65/35-Karten + Bild-Text-Zeilen) — [Screenshot](screenshots/desktop-section-bento.png)
 - [x] Produktraster (3-spaltig, Karten) — [Screenshot](screenshots/desktop-section-products.png)
