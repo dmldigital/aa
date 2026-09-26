@@ -23,13 +23,14 @@ Kurzfassung für die nächste Sitzung. Arbeitsregeln und festgelegte Entscheidun
    - Hintergrund = **Köpfer-Video als Bildfolge**: 96 Einzelbilder in `website/public/koepfer/d/` (1920×1080) und `m/` (720×1280, Hochformat), per Canvas gezeichnet. Beim ersten Scrollen läuft es von selbst in 3,2 s bis unter Wasser durch (Seite steht so lange), Text/Buttons blenden aus; zurück ganz oben läuft es genauso rückwärts. Am Ende der Fahrt scrollt die Seite automatisch zu Sektion 2 (Lenis `scrollTo`, `window.lenis`). Im Ruhezustand oben steht das Standbild (Wasser-Animation auf Nutzerwunsch wieder entfernt; der Higgsfield-Wasserclip mit fester Kamera liegt noch als Quelle in `medien/koepfer/wasser-loop.mp4`).
    - Drei runde Buttons (Dunkelblau/Türkis/Grau) in `components/ButtonGroup.astro`: Ruhezustand gestapelt, Hover fächert auf (21st.dev bundled/10); Handy: senkrecht gestapelt, Antippen fächert nach unten auf.
 3. **Sektion 2** (`components/BentoSection.astro`) – Space-Kit-Bento: Laufband, Überschrift, 2 Reihen (Text-Feld 35 % + Bild 65 %, Reihe 2 gespiegelt). Bild-Animation: Fläche wächst aus der Mitte, Ecken durchgehend 8 px, startet beim Hereinscrollen und läuft 1,4 s selbstständig; Text blendet gleichzeitig ein.
-4. Darunter Platzhalter „Weitere Sektionen folgen.“
+4. **Sektion 3** (`components/StickySection.astro`, `#pools`) – 1:1 Space Kit „Mindful Living“-Sektion: links Bild sticky (50 %, 90vh, top 5vh), rechts scrollen großes Bild, Textblock „Pools für Jahrzehnte“ (Marken, bis 40 J. Garantie), kleines Bild, mittleres Bild, Textblock „Technik, die mitdenkt“ (Technikbox, Salz/Chlor), kleines Bild. Parallax wie Original: Bild 110 % hoch, 0 → −10 % linear während der Rahmen durchs Fenster läuft. Handy (≤767): untereinander, links-Bild nicht sticky (50vh). Bilder aus `medien/poolbau-bilder-original/` (in `src/assets/img/`).
+5. Darunter Platzhalter „Weitere Sektionen folgen.“
 - Weiches Scrollen: **Lenis** (`layouts/Base.astro`).
 - Schriften: Satoshi lokal (`src/assets/fonts/`), Farben/Tokens in `src/styles/global.css`.
 
 ## Offene Punkte / nächste Schritte
 
-1. **Weitere Sektionen** nach Space-Kit-Vorlage (nächste: Sektion 3 „Mindful Living …“-Stil, Produkte/Pools, FAQ, Footer) – jeweils Original vermessen, 1:1 nachbauen, nur Texte/Bilder/Farben tauschen.
+1. **Weitere Sektionen** nach Space-Kit-Vorlage (nächste: Produktraster „Our Products“ → Komplettpakete mit Preis als Ziel für `#pakete`, dann FAQ, Footer) – jeweils Original vermessen, 1:1 nachbauen, nur Texte/Bilder/Farben tauschen.
 2. **Logo-SVG einbauen** (`brand/poolbau-koch-logo-dunkel.svg` in Header; hell-Variante für dunkle Flächen) – Messwerte in `brand/README.md` prüfen.
 3. **Sitemap** noch nicht als Dokument angelegt (Vorschlag aus der Sitzung: Start, Pools (je Marke), Komplettpakete, Poolbau ohne Beton, Technik & Wasserpflege, Wasseraufbereitung, Projekte, Über uns, Ratgeber/FAQ, Kataloge, Kontakt, Impressum, Datenschutz; extern: Konfigurator, Shop).
 4. **Unterseiten-Links** im Menü führen noch ins Leere (`/pools/` usw.), `#beratung`/`#pakete` haben noch keine Ziel-Sektion.
