@@ -123,9 +123,17 @@ const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-
   .secondary-button:hover .arrow-wrapper { transform: translateX(3.2px); }
 
 
-  /* Kapsel-Animation (Werte aus 21st.dev bundled/1959, Endradius = Original 0.5rem) */
-  [data-roll] { will-change: clip-path; }
-  [data-roll] .card-image { will-change: transform; }
+  /* Bild-Animation (Werte aus 21st.dev bundled/1959): Fläche wächst aus der Mitte, Ecken bleiben 8px.
+     Startzustand nur, wenn das Script aktiv ist; Auslösen per Klasse .is-in, dann läuft es zeitbasiert fertig. */
+  .bento-section[data-roll-ready] [data-roll] { clip-path: inset(35.6% round 8px); }
+  .bento-section[data-roll-ready] [data-roll] .card-image { scale: 0.7625; }
+  .bento-section[data-roll-ready] [data-fade] .text-content { opacity: 0; transform: translateY(24px); }
+  [data-roll] { transition: clip-path 1.4s cubic-bezier(0.22, 1, 0.36, 1); }
+  [data-roll] .card-image { transition: scale 1.4s cubic-bezier(0.22, 1, 0.36, 1); }
+  [data-fade] .text-content { transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1), transform 1.4s cubic-bezier(0.22, 1, 0.36, 1); }
+  .bento-section[data-roll-ready] .is-in [data-roll] { clip-path: inset(0% round 8px); }
+  .bento-section[data-roll-ready] .is-in [data-roll] .card-image { scale: 1; }
+  .bento-section[data-roll-ready] .is-in [data-fade] .text-content { opacity: 1; transform: none; }
 
   @media (max-width: 991px) {
     .heading-6 { font-size: 2rem; }
@@ -161,45 +169,22 @@ const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-
     tag.style.setProperty('--marquee-dur', `${(dist / 33).toFixed(2)}s`);
   });
 
-  // Kapsel-Animation pro Karte, gekoppelt an die Scroll-Position der Karte
+  // Bild-Animation (Werte aus 21st.dev bundled/1959, Ecken durchgehend 8px) und Text-Einblenden:
+  // startet, sobald eine Reihe ins Bild kommt, und läuft dann zeitbasiert fertig – unabhängig vom Scrollen.
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-roll]'));
-  if (!reduce && cards.length) {
-    const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-    const START_INSET = 35.6;   // % – wie Original-Beispiel
-    const END_RADIUS = 8;       // px – Original-Karten (0.5rem)
-    const inner = (card: HTMLElement) => card.querySelector<HTMLElement>('.card-image');
-    const texts = Array.from(document.querySelectorAll<HTMLElement>('[data-fade]'));
-    // Fortschritt einer Reihe: 0 = taucht unten auf, 1 = steht im oberen Drittel (für Bild und Text gleich)
-    const progress = (el: HTMLElement, vh: number, delay = 0) => {
-      const raw = clamp((vh - el.getBoundingClientRect().top) / (vh * 0.8));
-      return clamp((raw - delay) / (0.8 - delay * 0.5));
-    };
-    let ticking = false;
-
-    const update = () => {
-      ticking = false;
-      const vh = window.innerHeight;
-      for (const text of texts) {
-        // Text blendet gleichzeitig mit dem Bild seiner Reihe ein (Bild und Text haben dieselbe Oberkante)
-        const row = text.closest<HTMLElement>('.bento-row') || text;
-        const e = progress(row, vh);
-        const content = text.firstElementChild as HTMLElement;
-        content.style.opacity = e.toFixed(3);
-        content.style.transform = `translateY(${(24 * (1 - e)).toFixed(1)}px)`;
-      }
-      for (const card of cards) {
-        const e = progress(card, vh, Number(card.dataset.rollDelay || 0));
-        // Ecken bleiben während der ganzen Animation beim Original-Radius (Nutzerwunsch)
-        card.style.clipPath = `inset(${(START_INSET * (1 - e)).toFixed(2)}% round ${END_RADIUS}px)`;
-        const img = inner(card);
-        if (img) img.style.scale = String(lerp(0.7625, 1, e).toFixed(4));
-      }
-    };
-    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
+  const section = document.querySelector<HTMLElement>('.bento-section');
+  if (section && !reduce && 'IntersectionObserver' in window) {
+    section.dataset.rollReady = '';
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('is-in');
+          io.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15 },
+    );
+    section.querySelectorAll('.bento-row').forEach((row) => io.observe(row));
   }
 </script>
