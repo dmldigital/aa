@@ -4,7 +4,7 @@
   zwei .bento-row mit .card-small 35 % / .card-big 65 %). Werte aus dem Original-CSS.
   Getauscht: Texte, Bilder, Akzentfarbe (Punkt im Laufband = Türkis).
   Animation (Nutzerwunsch): „Scroll & Roll“-Kapsel aus 21st.dev bundled/1959 auf jeder Karte,
-  zeitversetzt; Endradius = Original-Radius 0.5rem.
+  zeitversetzt; Ecken durchgehend mit Original-Radius 0.5rem (keine Kapselform).
   Abweichungen: heller Verlauf oben links auf den großen Karten (Lesbarkeit auf Farbfotos),
   Button der dunklen Karte als runder Türkis-Button (wie im Hero festgelegt).
 */
@@ -195,8 +195,8 @@ const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-
         // 0 = Karte taucht unten auf, 1 = Karte steht im oberen Drittel
         const raw = clamp((vh - r.top) / (vh * 0.8));
         const e = clamp((raw - delay) / (0.8 - delay * 0.5));
-        const radius = e < 0.8 ? lerp(836, 180, e / 0.8) : lerp(180, END_RADIUS, (e - 0.8) / 0.2);
-        card.style.clipPath = `inset(${(START_INSET * (1 - e)).toFixed(2)}% round ${radius.toFixed(1)}px)`;
+        // Ecken bleiben während der ganzen Animation beim Original-Radius (Nutzerwunsch)
+        card.style.clipPath = `inset(${(START_INSET * (1 - e)).toFixed(2)}% round ${END_RADIUS}px)`;
         const img = inner(card);
         if (img) img.style.scale = String(lerp(0.7625, 1, e).toFixed(4));
       }
