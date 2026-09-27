@@ -1,5 +1,7 @@
 # Pool-Konfigurator – Neuaufbau (Plan, Stand 27.09.2026)
 
+> **Status:** umgesetzt – siehe HANDOVER.md (Punkt 0) und docs/konfigurator-cloudflare.md.
+
 ## Ist-Zustand (konfig.poolbau-koch.de, v1.12.2)
 - PHP-Seite + Vanilla-JS (`medien/konfigurator/app-v1.12.2.js`). Katalog steckt als JSON im HTML (`CFG`), Snapshot: `medien/konfigurator/katalog-snapshot-2026-09-27.json`.
 - Katalog: 3 Hersteller (WaterRows 13, Compass 37, Freedom 28 = 78 Becken mit Maßen, Form, Treppe, LED-Fähigkeit, Bild), 22 Farben (je Hersteller/Modell, mit Bild), 16 Ausstattungen (Abdeckung 6, Technik 3, iWash 2, Wärmepumpe 3, Licht 2).

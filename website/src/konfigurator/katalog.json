@@ -58,7 +58,8 @@
    "img": "model-catalog_7620001_1785494141227-bay-klein_9b2b4319.webp",
    "thumb": "thumb-catalog_7620001_1785494141227-bay-klein_9b2b4319.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-bliss-6",
@@ -79,7 +80,8 @@
    "img": "model-catalog_7620001_1784833422931-bliss6-pool-spanischer-garten-breitbild_7ac5f0bf.webp",
    "thumb": "thumb-catalog_7620001_1784833422931-bliss6-pool-spanischer-garten-breitbild_7ac5f0bf.webp",
    "fx": 50,
-   "fy": 76
+   "fy": 76,
+   "ledImg": null
   },
   {
    "id": "waterrows-bay-74-jevgrw",
@@ -100,7 +102,8 @@
    "img": "model-catalog_7620001_1785494679157-bay-european-luxury-garden-pool-45-degree_e5071578.webp",
    "thumb": "thumb-catalog_7620001_1785494679157-bay-european-luxury-garden-pool-45-degree_e5071578.webp",
    "fx": 65,
-   "fy": 77
+   "fy": 77,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-city",
@@ -121,7 +124,8 @@
    "img": "model-catalog_7620001_1785155489491-city1_8486bc7e.webp",
    "thumb": "thumb-catalog_7620001_1785155489491-city1_8486bc7e.webp",
    "fx": 100,
-   "fy": 71
+   "fy": 71,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-city-80",
@@ -142,7 +146,8 @@
    "img": "model-catalog_7620001_1785155447799-city80_d0147c64.webp",
    "thumb": "thumb-catalog_7620001_1785155447799-city80_d0147c64.webp",
    "fx": 0,
-   "fy": 51
+   "fy": 51,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-entertainer-4",
@@ -163,7 +168,8 @@
    "img": "model-catalog_7620001_1784833627456-entertainer4_b781fcc7.webp",
    "thumb": "thumb-catalog_7620001_1784833627456-entertainer4_b781fcc7.webp",
    "fx": 50,
-   "fy": 58
+   "fy": 58,
+   "ledImg": null
   },
   {
    "id": "waterrows-montreal-6-ys-6fr",
@@ -182,7 +188,8 @@
    "img": "model-catalog_7620001_1784833913399-montreal6_ac49e5e2.webp",
    "thumb": "thumb-catalog_7620001_1784833913399-montreal6_ac49e5e2.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-sidney",
@@ -203,7 +210,8 @@
    "img": "model-catalog_7620001_1785155211468-sidney_24afc5aa.webp",
    "thumb": "thumb-catalog_7620001_1785155211468-sidney_24afc5aa.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-platinum-6",
@@ -224,7 +232,8 @@
    "img": "model-catalog_7620001_1785163254463-platinum6-luxusgarten_d24adaa7.webp",
    "thumb": "thumb-catalog_7620001_1785163254463-platinum6-luxusgarten_d24adaa7.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-lagoona",
@@ -246,7 +255,8 @@
    "img": "model-catalog_7620001_1785158640641-lagoona-2_b92c50f8.webp",
    "thumb": "thumb-catalog_7620001_1785158640641-lagoona-2_b92c50f8.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-yacht-pool",
@@ -267,7 +277,8 @@
    "img": "model-catalog_1_1784542967741-yacht-pool-jpg_23ecb6c8.webp",
    "thumb": "thumb-catalog_1_1784542967741-yacht-pool-jpg_23ecb6c8.webp",
    "fx": 63,
-   "fy": 55
+   "fy": 55,
+   "ledImg": null
   },
   {
    "id": "compass-pools-xxl-trainer-133",
@@ -286,7 +297,8 @@
    "img": "model-catalog_1_1784545376216-xl-trainer-133-nova-gray-5-freshwater-uv-system-biggest-one-piece-pool-jpg_2e485efe.webp",
    "thumb": "thumb-catalog_1_1784545376216-xl-trainer-133-nova-gray-5-freshwater-uv-system-biggest-one-piece-pool-jpg_2e485efe.webp",
    "fx": 63,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-lido-100",
@@ -305,7 +317,8 @@
    "img": "model-catalog_1_1784411562998-lido-luxury-garden_cf27d85a.webp",
    "thumb": "thumb-catalog_1_1784411562998-lido-luxury-garden_cf27d85a.webp",
    "fx": 12,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-lido-120",
@@ -324,7 +337,8 @@
    "img": "model-catalog_1_1784411447425-lido-luxury-garden_2db9bd08.webp",
    "thumb": "thumb-catalog_1_1784411447425-lido-luxury-garden_2db9bd08.webp",
    "fx": 52,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-plunge-35",
@@ -345,7 +359,8 @@
    "img": "model-catalog_1_1784545609582-sr-korenbloem-21-eijsden-hr-4-jpeg_beb78ee9.webp",
    "thumb": "thumb-catalog_1_1784545609582-sr-korenbloem-21-eijsden-hr-4-jpeg_beb78ee9.webp",
    "fx": 0,
-   "fy": 54
+   "fy": 54,
+   "ledImg": null
   },
   {
    "id": "compass-pools-classic-53",
@@ -364,7 +379,8 @@
    "img": "model-compass-classic_d7678ee3.webp",
    "thumb": "thumb-compass-classic_d7678ee3.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-classic-63",
@@ -383,7 +399,8 @@
    "img": "model-compass-classic_d7678ee3.webp",
    "thumb": "thumb-compass-classic_d7678ee3.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-brilliant-74",
@@ -404,7 +421,8 @@
    "img": "model-catalog_1_1784543828018-xl-brilliant_1f14dc02.webp",
    "thumb": "thumb-catalog_1_1784543828018-xl-brilliant_1f14dc02.webp",
    "fx": 51,
-   "fy": 63
+   "fy": 63,
+   "ledImg": null
   },
   {
    "id": "compass-pools-brilliant-66",
@@ -425,7 +443,8 @@
    "img": "model-catalog_1_1784545695119-briliant-66-blue-saphire-04-jpg_1f3bf99a.webp",
    "thumb": "thumb-catalog_1_1784545695119-briliant-66-blue-saphire-04-jpg_1f3bf99a.webp",
    "fx": 0,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-riverina-67",
@@ -447,7 +466,8 @@
    "img": "model-catalog_1_1784545758821-riv-67-gp-3-jpg_b876350e.webp",
    "thumb": "thumb-catalog_1_1784545758821-riv-67-gp-3-jpg_b876350e.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-classic-73",
@@ -466,7 +486,8 @@
    "img": "model-compass-classic_d7678ee3.webp",
    "thumb": "thumb-compass-classic_d7678ee3.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-fun-74",
@@ -485,7 +506,8 @@
    "img": "model-catalog_1_1784542294471-fun74-1920w_9d07460b.webp",
    "thumb": "thumb-catalog_1_1784542294471-fun74-1920w_9d07460b.webp",
    "fx": 72,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-fun-74-s",
@@ -504,7 +526,8 @@
    "img": "model-compass-pool-topview_536731da.webp",
    "thumb": "thumb-compass-pool-topview_536731da.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-baby-pool",
@@ -525,7 +548,8 @@
    "img": "model-catalog_1_1784546208097-baby-pool-nova-navy-kabin-paul-001-rooftop-pool-jpg_ce3ad12d.webp",
    "thumb": "thumb-catalog_1_1784546208097-baby-pool-nova-navy-kabin-paul-001-rooftop-pool-jpg_ce3ad12d.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-aqua-nova-53",
@@ -544,7 +568,8 @@
    "img": "model-catalog_1_1784545990349-aqua-nova-53-nova-stone-huegel-garten-pool-bau-09_25e99855.webp",
    "thumb": "thumb-catalog_1_1784545990349-aqua-nova-53-nova-stone-huegel-garten-pool-bau-09_25e99855.webp",
    "fx": 0,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-compass-swim-50",
@@ -565,7 +590,8 @@
    "img": "model-catalog_1_1784544938439-swim_193ebf33.webp",
    "thumb": "thumb-catalog_1_1784544938439-swim_193ebf33.webp",
    "fx": 58,
-   "fy": 0
+   "fy": 0,
+   "ledImg": null
   },
   {
    "id": "compass-pools-compass-swim-60",
@@ -586,7 +612,8 @@
    "img": "model-catalog_1_1784544975565-swim_2fbcacb2.webp",
    "thumb": "thumb-catalog_1_1784544975565-swim_2fbcacb2.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-x-trainer-45-sb",
@@ -608,7 +635,8 @@
    "img": "model-catalog_1_1784411735137-cp-xtr45-antraciet-plungepool-14-jpg_8795054c.webp",
    "thumb": "thumb-catalog_1_1784411735137-cp-xtr45-antraciet-plungepool-14-jpg_8795054c.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-xl-trainer-72",
@@ -627,7 +655,8 @@
    "img": "model-catalog_1_1784546130843-x-trainer-72-nova-grey-beek-en-donk-13-jpeg_aaca3f5e.webp",
    "thumb": "thumb-catalog_1_1784546130843-x-trainer-72-nova-grey-beek-en-donk-13-jpeg_aaca3f5e.webp",
    "fx": 50,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-fit-43",
@@ -648,7 +677,8 @@
    "img": "model-catalog_1_1784546329070-fit43_01073b0c.webp",
    "thumb": "thumb-catalog_1_1784546329070-fit43_01073b0c.webp",
    "fx": 50,
-   "fy": 20
+   "fy": 20,
+   "ledImg": null
   },
   {
    "id": "compass-pools-fit-53",
@@ -669,7 +699,8 @@
    "img": "model-catalog_1_1784546329070-fit43_01073b0c.webp",
    "thumb": "thumb-catalog_1_1784546329070-fit43_01073b0c.webp",
    "fx": 38,
-   "fy": 17
+   "fy": 17,
+   "ledImg": null
   },
   {
    "id": "compass-pools-classic-83",
@@ -688,7 +719,8 @@
    "img": "model-compass-classic_d7678ee3.webp",
    "thumb": "thumb-compass-classic_d7678ee3.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-x-trainer-82",
@@ -710,7 +742,8 @@
    "img": "model-catalog_1_1784546395878-xt-82-gr-3-jpg_6220d3a4.webp",
    "thumb": "thumb-catalog_1_1784546395878-xt-82-gr-3-jpg_6220d3a4.webp",
    "fx": 58,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-xl-briliant-88",
@@ -729,7 +762,8 @@
    "img": "model-catalog_1_1784543692243-hil-03_a0b46551.webp",
    "thumb": "thumb-catalog_1_1784543692243-hil-03_a0b46551.webp",
    "fx": 32,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-fun-80",
@@ -748,7 +782,8 @@
    "img": "model-compass-pool-garden_832bb641.webp",
    "thumb": "thumb-compass-pool-garden_832bb641.webp",
    "fx": 55,
-   "fy": 62
+   "fy": 62,
+   "ledImg": null
   },
   {
    "id": "compass-pools-java-101",
@@ -769,7 +804,8 @@
    "img": "model-catalog_1_1784547238402-kxqxgtyv-andrew-tyler-jb-14xl-java-114-nova-gray-outdoor-inground-pool-installat_e1d92879.webp",
    "thumb": "thumb-catalog_1_1784547238402-kxqxgtyv-andrew-tyler-jb-14xl-java-114-nova-gray-outdoor-inground-pool-installat_e1d92879.webp",
    "fx": 93,
-   "fy": 58
+   "fy": 58,
+   "ledImg": null
   },
   {
    "id": "compass-pools-xl-fast-lane-122",
@@ -788,7 +824,8 @@
    "img": "model-catalog_1_1784546522947-dsc-0997-1-jpg_d2af9fe8.webp",
    "thumb": "thumb-catalog_1_1784546522947-dsc-0997-1-jpg_d2af9fe8.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-xl-trainer-110-fb",
@@ -807,7 +844,8 @@
    "img": "model-catalog_1_1784546612949-rebecca-tabor-7-jpg_5782ea78.webp",
    "thumb": "thumb-catalog_1_1784546612949-rebecca-tabor-7-jpg_5782ea78.webp",
    "fx": 50,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-xl-lounger-95",
@@ -826,7 +864,8 @@
    "img": "model-catalog_1_1784543521847-xl-lounger-95-papyrus-white-vitabad-14_476ae9d1.webp",
    "thumb": "thumb-catalog_1_1784543521847-xl-lounger-95-papyrus-white-vitabad-14_476ae9d1.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-xl-lounger-115",
@@ -845,7 +884,8 @@
    "img": "model-catalog_1_1784543521847-xl-lounger-95-papyrus-white-vitabad-14_476ae9d1.webp",
    "thumb": "thumb-catalog_1_1784543521847-xl-lounger-95-papyrus-white-vitabad-14_476ae9d1.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-classic-93",
@@ -864,7 +904,8 @@
    "img": "model-catalog_1_1784543161980-classic93-uk-classic-83-nova-grey-colour-jpg_0fe25b1f.webp",
    "thumb": "thumb-catalog_1_1784543161980-classic93-uk-classic-83-nova-grey-colour-jpg_0fe25b1f.webp",
    "fx": 48,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-aqua-nova-77",
@@ -883,7 +924,8 @@
    "img": "model-catalog_1_1784546964479-glombitza-14_4e189d6e.webp",
    "thumb": "thumb-catalog_1_1784546964479-glombitza-14_4e189d6e.webp",
    "fx": 50,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "compass-pools-aqua-nova-84",
@@ -902,7 +944,8 @@
    "img": "model-catalog_1_1784546984309-glombitza-39_b3fd9c15.webp",
    "thumb": "thumb-catalog_1_1784546984309-glombitza-39_b3fd9c15.webp",
    "fx": 100,
-   "fy": 55
+   "fy": 55,
+   "ledImg": null
   },
   {
    "id": "compass-pools-riverina-106",
@@ -924,7 +967,8 @@
    "img": "model-catalog_1_1784547106970-riverina-free-form-compass-pool-1-jpg_00b1ffb9.webp",
    "thumb": "thumb-catalog_1_1784547106970-riverina-free-form-compass-pool-1-jpg_00b1ffb9.webp",
    "fx": 54,
-   "fy": 91
+   "fy": 91,
+   "ledImg": null
   },
   {
    "id": "compass-pools-xl-java-114",
@@ -946,7 +990,8 @@
    "img": "model-catalog_1_1784547198813-andrew-tyler-jb-19xl-java-114-nova-gray-outdoor-inground-pool-installation_2f493239.webp",
    "thumb": "thumb-catalog_1_1784547198813-andrew-tyler-jb-19xl-java-114-nova-gray-outdoor-inground-pool-installation_2f493239.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-classic-103",
@@ -965,7 +1010,8 @@
    "img": "model-catalog_1_1784543161980-classic93-uk-classic-83-nova-grey-colour-jpg_0fe25b1f.webp",
    "thumb": "thumb-catalog_1_1784543161980-classic93-uk-classic-83-nova-grey-colour-jpg_0fe25b1f.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "compass-pools-fun-100",
@@ -984,7 +1030,8 @@
    "img": "model-catalog_1_1784541738595-fun100-32-jpg_e2cdcb1b.webp",
    "thumb": "thumb-catalog_1_1784541738595-fun100-32-jpg_e2cdcb1b.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "waterrows-single-54",
@@ -1003,7 +1050,8 @@
    "img": "model-waterrows-single_dbb10f9e.webp",
    "thumb": "thumb-waterrows-single_dbb10f9e.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "waterrows-single-64",
@@ -1022,7 +1070,8 @@
    "img": "model-waterrows-single_dbb10f9e.webp",
    "thumb": "thumb-waterrows-single_dbb10f9e.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "waterrows-single-78",
@@ -1041,7 +1090,8 @@
    "img": "model-waterrows-single_dbb10f9e.webp",
    "thumb": "thumb-waterrows-single_dbb10f9e.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "waterrows-double-75",
@@ -1060,7 +1110,8 @@
    "img": "model-catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
    "thumb": "thumb-catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
    "fx": 52,
-   "fy": 58
+   "fy": 58,
+   "ledImg": null
   },
   {
    "id": "waterrows-double-88",
@@ -1079,7 +1130,8 @@
    "img": "model-catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
    "thumb": "thumb-catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "waterrows-double-108",
@@ -1098,7 +1150,8 @@
    "img": "model-catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
    "thumb": "thumb-catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "waterrows-sunlounge-75",
@@ -1117,7 +1170,8 @@
    "img": "model-catalog_1_1784530207662-sunlounge-14_8638f72f.webp",
    "thumb": "thumb-catalog_1_1784530207662-sunlounge-14_8638f72f.webp",
    "fx": 75,
-   "fy": 86
+   "fy": 86,
+   "ledImg": null
   },
   {
    "id": "waterrows-sunlounge-85",
@@ -1136,7 +1190,8 @@
    "img": "model-catalog_1_1784530207662-sunlounge-14_8638f72f.webp",
    "thumb": "thumb-catalog_1_1784530207662-sunlounge-14_8638f72f.webp",
    "fx": 76,
-   "fy": 71
+   "fy": 71,
+   "ledImg": null
   },
   {
    "id": "waterrows-jetswim-86",
@@ -1157,7 +1212,8 @@
    "img": "model-waterrows-jetswim_06b27888.webp",
    "thumb": "thumb-waterrows-jetswim_06b27888.webp",
    "fx": 100,
-   "fy": 75
+   "fy": 75,
+   "ledImg": null
   },
   {
    "id": "waterrows-linear-65",
@@ -1182,7 +1238,8 @@
    "img": "model-waterrows-linear_58b797cd.webp",
    "thumb": "thumb-waterrows-linear_58b797cd.webp",
    "fx": 50,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "waterrows-linear-85",
@@ -1207,7 +1264,8 @@
    "img": "model-waterrows-linear_58b797cd.webp",
    "thumb": "thumb-waterrows-linear_58b797cd.webp",
    "fx": 49,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-cube",
@@ -1228,7 +1286,8 @@
    "img": "model-catalog_7620001_1785155376780-cube_15530b67.webp",
    "thumb": "thumb-catalog_7620001_1785155376780-cube_15530b67.webp",
    "fx": 100,
-   "fy": 66
+   "fy": 66,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-platinum-7",
@@ -1247,7 +1306,8 @@
    "img": "model-catalog_7620001_1785163610177-platinum7-pool_845e73c9.webp",
    "thumb": "thumb-catalog_7620001_1785163610177-platinum7-pool_845e73c9.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-platinum-8",
@@ -1266,7 +1326,8 @@
    "img": "model-catalog_7620001_1785163349165-platinum8-4_50ec656f.webp",
    "thumb": "thumb-catalog_7620001_1785163349165-platinum8-4_50ec656f.webp",
    "fx": 0,
-   "fy": 43
+   "fy": 43,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-platinum-10",
@@ -1285,7 +1346,8 @@
    "img": "model-catalog_7620001_1785156124396-platinum10-3_f50a8347.webp",
    "thumb": "thumb-catalog_7620001_1785156124396-platinum10-3_f50a8347.webp",
    "fx": 45,
-   "fy": 41
+   "fy": 41,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-riviera-8",
@@ -1304,7 +1366,8 @@
    "img": "model-catalog_7620001_1785156565955-riviera8-2_7ba9b678.webp",
    "thumb": "thumb-catalog_7620001_1785156565955-riviera8-2_7ba9b678.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-riviera-10",
@@ -1323,7 +1386,8 @@
    "img": "model-catalog_7620001_1785156618685-rivera10_5f599707.webp",
    "thumb": "thumb-catalog_7620001_1785156618685-rivera10_5f599707.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-lap-pool",
@@ -1344,7 +1408,8 @@
    "img": "model-catalog_7620001_1785156801576-lap-11_137414d8.webp",
    "thumb": "thumb-catalog_7620001_1785156801576-lap-11_137414d8.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-manhattan",
@@ -1365,7 +1430,8 @@
    "img": "model-catalog_7620001_1785156875060-manhattan-2_2e8aba22.webp",
    "thumb": "thumb-catalog_7620001_1785156875060-manhattan-2_2e8aba22.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-liberty",
@@ -1386,7 +1452,8 @@
    "img": "model-catalog_7620001_1785157727958-oiberty-pool_e105e3ab.webp",
    "thumb": "thumb-catalog_7620001_1785157727958-oiberty-pool_e105e3ab.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-bliss",
@@ -1407,7 +1474,8 @@
    "img": "model-catalog_7620001_1785158410549-blissv2_1c398928.webp",
    "thumb": "thumb-catalog_7620001_1785158410549-blissv2_1c398928.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-entertainer-7",
@@ -1426,7 +1494,8 @@
    "img": "model-catalog_7620001_1784832995936-entertainer7_16a505b5.webp",
    "thumb": "thumb-catalog_7620001_1784832995936-entertainer7_16a505b5.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-entertainer-10",
@@ -1446,7 +1515,8 @@
    "img": "model-catalog_7620001_1785157803097-entertainer-10-granite-freedom-pools-1_7ff7a6d2.webp",
    "thumb": "thumb-catalog_7620001_1785157803097-entertainer-10-granite-freedom-pools-1_7ff7a6d2.webp",
    "fx": 34,
-   "fy": 81
+   "fy": 81,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-vicepresident",
@@ -1467,7 +1537,8 @@
    "img": "model-catalog_7620001_1785158183482-vicepresident_d3d49d0b.webp",
    "thumb": "thumb-catalog_7620001_1785158183482-vicepresident_d3d49d0b.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-malibu",
@@ -1486,7 +1557,8 @@
    "img": "model-catalog_7620001_1785158492602-malibu-1_0938bfcc.webp",
    "thumb": "thumb-catalog_7620001_1785158492602-malibu-1_0938bfcc.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-grecian",
@@ -1508,7 +1580,8 @@
    "img": "model-catalog_7620001_1785158695670-grecian-4_1a0d7fa9.webp",
    "thumb": "thumb-catalog_7620001_1785158695670-grecian-4_1a0d7fa9.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-majestic",
@@ -1528,7 +1601,8 @@
    "img": "model-catalog_7620001_1785158730334-majestic-1_92fcb778.webp",
    "thumb": "thumb-catalog_7620001_1785158730334-majestic-1_92fcb778.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-jamaican",
@@ -1549,7 +1623,8 @@
    "img": "model-catalog_7620001_1785158883709-jamaican-1_85270e54.webp",
    "thumb": "thumb-catalog_7620001_1785158883709-jamaican-1_85270e54.webp",
    "fx": 100,
-   "fy": 100
+   "fy": 100,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-hawaiian",
@@ -1570,7 +1645,8 @@
    "img": "model-catalog_7620001_1785159336436-hawaiian-2_c393a507.webp",
    "thumb": "thumb-catalog_7620001_1785159336436-hawaiian-2_c393a507.webp",
    "fx": 48,
-   "fy": 64
+   "fy": 64,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-san-remo",
@@ -1591,7 +1667,8 @@
    "img": "model-catalog_7620001_1785159397464-san-remo-4_220a6f1a.webp",
    "thumb": "thumb-catalog_7620001_1785159397464-san-remo-4_220a6f1a.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   },
   {
    "id": "freedom-pools-oasis",
@@ -1613,7 +1690,8 @@
    "img": "model-catalog_7620001_1785159489933-oasis-2_068dad6e.webp",
    "thumb": "thumb-catalog_7620001_1785159489933-oasis-2_068dad6e.webp",
    "fx": 50,
-   "fy": 50
+   "fy": 50,
+   "ledImg": null
   }
  ],
  "slots": [
@@ -1631,5 +1709,449 @@
   "website": "https://poolbau-kochgmbh.de",
   "privacy": "https://poolbau-kochgmbh.de/datenschutz",
   "imprint": "https://poolbau-kochgmbh.de/impressum"
- }
+ },
+ "colors": [
+  {
+   "id": "compass-cyber-white",
+   "man": "compass-pools",
+   "model": null,
+   "name": "Cyber White",
+   "desc": "Helle Compass-Oberfläche mit klarer, moderner Wasserwirkung.",
+   "img": "color-compass-cyber-white_10f47ff6.webp",
+   "thumb": "cthumb-compass-cyber-white_10f47ff6.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "freedom-standard",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Granite",
+   "desc": "Farbe Granite",
+   "img": "color-catalog_7620001_1785160522720-granite1_8d4cfd38.webp",
+   "thumb": "cthumb-catalog_7620001_1785160522720-granite1_8d4cfd38.webp",
+   "fx": 50,
+   "fy": 67,
+   "zoom": 114
+  },
+  {
+   "id": "waterrows-sparkling-grey",
+   "man": "waterrows",
+   "model": null,
+   "name": "Sparkling Grey",
+   "desc": "Graphene-Keramik-Oberfläche in funkelndem Grau.",
+   "img": "color-Waterrows_Farbe_sparkling_grey_0de4695d.webp",
+   "thumb": "cthumb-Waterrows_Farbe_sparkling_grey_0de4695d.webp",
+   "fx": 100,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "waterrows-alabaster",
+   "man": "waterrows",
+   "model": null,
+   "name": "Alabaster",
+   "desc": "Helle Graphene-Keramik-Oberfläche mit ruhiger Wasserwirkung.",
+   "img": "color-Waterrows_Farbe_alabaster_515d8158.webp",
+   "thumb": "cthumb-Waterrows_Farbe_alabaster_515d8158.webp",
+   "fx": 100,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "compass-smokey-quartz",
+   "man": "compass-pools",
+   "model": null,
+   "name": "Smokey Quartz",
+   "desc": "Ausdrucksstarke, dunklere Compass-Farbausführung.",
+   "img": "color-compass-smokey-quartz_86658e71.webp",
+   "thumb": "cthumb-compass-smokey-quartz_86658e71.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "compass-golden",
+   "man": "compass-pools",
+   "model": null,
+   "name": "Golden Pebble",
+   "desc": "Warme Oberfläche für eine natürliche Wasserwirkung.",
+   "img": "color-compass-golden_e6d62a43.webp",
+   "thumb": "cthumb-compass-golden_e6d62a43.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "waterrows-lunar-granite",
+   "man": "waterrows",
+   "model": null,
+   "name": "Lunar Granite",
+   "desc": "Dunklere Graphene-Keramik-Oberfläche mit Granitoptik.",
+   "img": "color-Waterrows_Farbe_Lunar_Granite_29d6c8b9.webp",
+   "thumb": "cthumb-Waterrows_Farbe_Lunar_Granite_29d6c8b9.webp",
+   "fx": 97,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "waterrows-champagne-pearl",
+   "man": "waterrows",
+   "model": null,
+   "name": "Champagne Pearl",
+   "desc": "Warme Graphene-Keramik-Oberfläche mit feinem Perlglanz.",
+   "img": "color-Waterrows_Farbe_champagne_pearl_de977b0f.webp",
+   "thumb": "cthumb-Waterrows_Farbe_champagne_pearl_de977b0f.webp",
+   "fx": 100,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "compass-nova-anthracite",
+   "man": "compass-pools",
+   "model": null,
+   "name": "Nova Anthracite",
+   "desc": "Dunkle Nova-Oberfläche mit markanter Tiefenwirkung.",
+   "img": "color-compass-nova-anthracite_b8cbf041.webp",
+   "thumb": "cthumb-compass-nova-anthracite_b8cbf041.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "compass-nova-grey",
+   "man": "compass-pools",
+   "model": null,
+   "name": "Nova Grey",
+   "desc": "Zeitlose graue Nova-Oberfläche.",
+   "img": "color-compass-nova-grey_a9a98ce2.webp",
+   "thumb": "cthumb-compass-nova-grey_a9a98ce2.webp",
+   "fx": 50,
+   "fy": 56,
+   "zoom": 138
+  },
+  {
+   "id": "compass-nova-stone",
+   "man": "compass-pools",
+   "model": null,
+   "name": "Nova Stone",
+   "desc": "Steinbetonte Nova-Farbe mit natürlichem Charakter.",
+   "img": "color-compass-nova-stone_05932c6d.webp",
+   "thumb": "cthumb-compass-nova-stone_05932c6d.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "compass-nova-pearl",
+   "man": "compass-pools",
+   "model": null,
+   "name": "Nova Pearl",
+   "desc": "Helle Nova-Farbe mit feiner Perlmuttwirkung.",
+   "img": "color-compass-nova-pearl_aada23ae.webp",
+   "thumb": "cthumb-compass-nova-pearl_aada23ae.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "farbe-freedom-pools-alabaster-fwnqhe",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Alabaster",
+   "desc": "Farbe Alabaster",
+   "img": "color-catalog_7620001_1785160565478-alabaster_eb784555.webp",
+   "thumb": "cthumb-catalog_7620001_1785160565478-alabaster_eb784555.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 113
+  },
+  {
+   "id": "farbe-freedom-pools-ankara-x5jexz",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Ankara",
+   "desc": "Farbe Ankara",
+   "img": "color-catalog_7620001_1785160709393-ankara1_003126a9.webp",
+   "thumb": "cthumb-catalog_7620001_1785160709393-ankara1_003126a9.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 112
+  },
+  {
+   "id": "farbe-freedom-pools-black-pearl-izdjql",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Black Pearl",
+   "desc": "Farbe Black Pearl",
+   "img": "color-catalog_7620001_1785160764262-black-pearl2_2a22caa1.webp",
+   "thumb": "cthumb-catalog_7620001_1785160764262-black-pearl2_2a22caa1.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 108
+  },
+  {
+   "id": "farbe-freedom-pools-byzantine-white-jso3q_",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Byzantine White",
+   "desc": "Farbe Byzantine White",
+   "img": "color-catalog_7620001_1785160678272-byzantine-white1_983e8051.webp",
+   "thumb": "cthumb-catalog_7620001_1785160678272-byzantine-white1_983e8051.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 111
+  },
+  {
+   "id": "farbe-freedom-pools-dark-grey-ylabqx",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Dark Grey",
+   "desc": "Farbe Dark Grey",
+   "img": "color-catalog_7620001_1785160850170-dark-grey1_f87ed658.webp",
+   "thumb": "cthumb-catalog_7620001_1785160850170-dark-grey1_f87ed658.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 109
+  },
+  {
+   "id": "farbe-freedom-pools-ivory-rcbfer",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Ivory",
+   "desc": "Farbe Ivory",
+   "img": "color-catalog_7620001_1785160595354-ivory1_5bc455ff.webp",
+   "thumb": "cthumb-catalog_7620001_1785160595354-ivory1_5bc455ff.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "farbe-freedom-pools-mara-grey-kynu2e",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Mara Grey",
+   "desc": "Farbe Mara Grey",
+   "img": "color-catalog_7620001_1785160789304-mara-grey_a21ec35c.webp",
+   "thumb": "cthumb-catalog_7620001_1785160789304-mara-grey_a21ec35c.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 110
+  },
+  {
+   "id": "farbe-freedom-pools-silver-grey-jpz5yb",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Silver Grey",
+   "desc": "Farbe Silver Grey",
+   "img": "color-catalog_7620001_1785160825106-silver-grey_c939d070.webp",
+   "thumb": "cthumb-catalog_7620001_1785160825106-silver-grey_c939d070.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 109
+  },
+  {
+   "id": "farbe-freedom-pools-white-pearl-sk_g_l",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "White Pearl",
+   "desc": "Farbe White Pearl",
+   "img": "color-catalog_7620001_1785160616721-white-pearl1_98de93b7.webp",
+   "thumb": "cthumb-catalog_7620001_1785160616721-white-pearl1_98de93b7.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 109
+  },
+  {
+   "id": "farbe-waterrows-blue-sapphire-xk7wwk",
+   "man": "freedom-pools",
+   "model": null,
+   "name": "Blue Sapphire",
+   "desc": "Farbe Blue Sapphire",
+   "img": "color-catalog_7620001_1785160880663-blue-saphire_41d8d288.webp",
+   "thumb": "cthumb-catalog_7620001_1785160880663-blue-saphire_41d8d288.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 103
+  }
+ ],
+ "equipment": [
+  {
+   "id": "underfloor-rollo",
+   "cat": "cover",
+   "name": "Unterflurrollo",
+   "desc": "Unsichtbar im Becken integriert und besonders komfortabel.",
+   "badge": "Aufpreis ab 9000€",
+   "img": "equip-catalog_1_1784650023929-waterrows-logo-entfernt_4645c992.webp",
+   "fx": 48,
+   "fy": 21,
+   "zoom": 154
+  },
+  {
+   "id": "above-ground-standard",
+   "cat": "cover",
+   "name": "Oberflurrollo Standard",
+   "desc": "Funktionale Abdeckung mit zuverlässigem Bedienkomfort.",
+   "badge": "Aufpreis ab 4500€",
+   "img": "equip-cover-above-standard_8518df26.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "bar-cover",
+   "cat": "cover",
+   "name": "Stangenabdeckung",
+   "desc": "Robuste, manuell bedienbare Ganzjahresabdeckung.",
+   "badge": "Aufpreis ab 1400€",
+   "img": "equip-cover-bar_737ec354.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "above-ground-premium",
+   "cat": "cover",
+   "name": "Oberflurrollo Premium",
+   "desc": "mit Liegefäche , Hochwertige Ausführung mit elegantem Gehäuse.",
+   "badge": "Aufpreis ab 12000€",
+   "img": "equip-cover-above-premium_4b1be1e3.webp",
+   "fx": 14,
+   "fy": 0,
+   "zoom": 100
+  },
+  {
+   "id": "electric-bar-cover",
+   "cat": "cover",
+   "name": "Elektrische Stangenabdeckung",
+   "desc": "Elektrisch betriebene Stangenabdeckung für hohen Komfort.",
+   "badge": "Aufpreis ab 6000€",
+   "img": "equip-cover-bar-electric_9b00518b.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "cover-ohne-abdeckung-fs49ha",
+   "cat": "cover",
+   "name": "Ohne Abdeckung",
+   "desc": "Ohne Abdeckung, eine Abdeckung kann auch später nachgerüstet werden. \nAußer Unterflurrollos, die können nicht nachgerüstet werden.",
+   "badge": "",
+   "img": null,
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "box-essential",
+   "cat": "technology",
+   "name": "Technikbox Essential Salz",
+   "desc": "Kompakte Kunststoffbox mit Pooltechnik\nSalzelektroyseanlage\nMessung - automatische Dosierung und Regelung pH, Redox\nSmartphone App Steuerung mit WLAN - Zeitprogramm\nFrostschutz Funktion für aktive Überwinterung\nFilterkessel mit verstärktem Glasfaserbehälter salzwasserbeständig\n6 Wege Ventil mit Rückspülfunktion (alternativ iWash)\nFreqenzgeregelte Filterpumpe mit InverSilence® Technologie mit nur 36 dB(A) außergewöhnlich leise",
+   "badge": "Ab 4800€",
+   "img": "equip-catalog_1_1784398070811-kunststoffbox_73579f3e.webp",
+   "fx": 50,
+   "fy": 38,
+   "zoom": 100
+  },
+  {
+   "id": "box-premium",
+   "cat": "technology",
+   "name": "Technikbox Premium Salz",
+   "desc": "Hochwertige Aluminiumbox mit langlebiger, aufgeräumter Ausführung.\nSalzelektroyseanlage\nMessung - automatische Dosierung und Regelung pH, Redox\nSmartphone App Steuerung mit WLAN - Zeitprogramm\nFrostschutz Funktion für aktive Überwinterung\nFilterkessel mit verstärktem Glasfaserbehälter salzwasserbeständig\n6 Wege Ventil mit Rückspülfunktion (alternativ iWash)\nFreqenzgeregelte Filterpumpe mit InverSilence® Technologie mit nur 36 dB(A) außergewöhnlich leise",
+   "badge": "Ab 8800€",
+   "img": "equip-technikbox-premium.webp",
+   "fx": 50,
+   "fy": 57,
+   "zoom": 100
+  },
+  {
+   "id": "technology-wall",
+   "cat": "technology",
+   "name": "Technikwand",
+   "desc": "Vormontierte Technikwand, auch für Gartenhaus oder Garage geeignet.\nSalzelektroyseanlage\nMessung - automatische Dosierung und Regelung pH, Redox\nSmartphone App Steuerung mit WLAN - Zeitprogramm\nFrostschutz Funktion für aktive Überwinterung\nFilterkessel mit verstärktem Glasfaserbehälter salzwasserbeständig\n6 Wege Ventil mit Rückspülfunktion (alternativ iWash)\nFreqenzgeregelte Filterpumpe mit InverSilence® Technologie mit nur 36 dB(A) außergewöhnlich leise",
+   "badge": "Ab 4900€",
+   "img": "equip-technology-wall_8d8e5a8d.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "iwash-without",
+   "cat": "iwash",
+   "name": "Standard 6 Wege Ventil",
+   "desc": "Die Rückspülung wird klassisch manuell durchgeführt.",
+   "badge": "Inklusive",
+   "img": "equip-catalog_7620001_1784722502761-6wegeventil_69c64af5.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "iwash-with",
+   "cat": "iwash",
+   "name": "Mit iWash",
+   "desc": "Automatische Rückspülfunktion für weniger manuellen Pflegeaufwand.\nMit automatischer Wassernachspeisung.",
+   "badge": "Aufpreis ab ca 1100€",
+   "img": "equip-iwash_186e0477.webp",
+   "fx": 36,
+   "fy": 100,
+   "zoom": 100
+  },
+  {
+   "id": "none",
+   "cat": "heatpump",
+   "name": "Ohne Wärmepumpe",
+   "desc": "Keine zusätzliche Beckenbeheizung.",
+   "badge": "",
+   "img": null,
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "standard",
+   "cat": "heatpump",
+   "name": "Wärmepumpe Standard",
+   "desc": "Effiziente Standard-Ausführung mit COP 15–18.",
+   "badge": "COP 15–18",
+   "img": "equip-heatpump-standard_c751afdd.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "premium",
+   "cat": "heatpump",
+   "name": "Wärmepumpe Premium",
+   "desc": "Besonders effiziente Premium-Ausführung mit COP 26.",
+   "badge": "COP 26",
+   "img": "equip-heatpump-premium_9f7b4a18.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "rgb",
+   "cat": "lighting",
+   "name": "RGB-Scheinwerfer",
+   "desc": "Farbe frei wählbar - \nInklusive Trafo, DMX, WLAN/Bluetooth-Steuerung und Dimmfunktion.",
+   "badge": "",
+   "img": "equip-spotlight-led_d99c85fc.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  },
+  {
+   "id": "white",
+   "cat": "lighting",
+   "name": "Scheinwerfer Weiß",
+   "desc": "Klassische, klare Unterwasserbeleuchtung in Weiß.",
+   "badge": "",
+   "img": "equip-catalog_1_1784531280106-spectra-vision-led-weiss-uw-scheinwerfer-r-17-cm-245-w_a72e4101.webp",
+   "fx": 50,
+   "fy": 50,
+   "zoom": 100
+  }
+ ]
 }

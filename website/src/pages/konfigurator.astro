@@ -1,10 +1,13 @@
 ---
 /*
-  Pool-Konfigurator „Pool-Studio“ – Prototyp (Start, Hersteller, Becken). Wireframe: /konfigurator-wireframe/.
-  Daten: src/konfigurator/katalog.json (aus dem alten Konfigurator übernommen), Bilder: public/konfig/img/.
-  Logik + Animationen: src/konfigurator/app.ts (Motion).
+  Pool-Konfigurator „Pool-Studio“ – Seite mit Header/Footer der Website; der Konfigurator selbst ist immer
+  100vh hoch (Kopfleiste der Website liegt darüber). Wireframe: /konfigurator-wireframe/.
+  Daten: src/konfigurator/katalog.json, Regeln: summary.ts, PDF: pdf.ts, Logik/Animationen: app.ts (Motion).
+  Versand: Cloudflare Pages Function functions/api/konfiguration.ts (auf GitHub Pages → Testmodus).
 */
-import '../styles/global.css';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
 import katalog from '../konfigurator/katalog.json';
 import { url } from '../lib/url';
 
@@ -12,127 +15,120 @@ const steps = ['Hersteller', 'Becken', 'Farbe & LED', 'Abdeckung', 'Technik', 'W
 const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'waterrows')?.img ?? ''));
 ---
 
-<!doctype html>
-<html lang="de">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="robots" content="noindex" />
-  <meta name="theme-color" content="#EFEFEF" />
-  <title>Pool-Konfigurator | Poolbau Koch</title>
-  <meta name="description" content="Planen Sie Ihren Wunschpool Schritt für Schritt – Hersteller, Becken, Farbe, Abdeckung, Technik und Licht. Ihre Konfiguration kommt als PDF per E-Mail." />
-</head>
-<body>
-  <div class="kf" id="kf" data-view="start">
-    <header class="kf-top">
-      <a class="kf-logo" href={url('')} aria-label="Zur Startseite von Poolbau Koch"><img src={url('brand/logo-temp.png')} alt="Poolbau Koch" width="256" height="53" /></a>
-      <nav class="kf-progress" aria-label="Fortschritt">
-        <ol>
-          {steps.map((s, i) => (
-            <li data-pstep={i + 1}><button type="button" data-goto={i + 1} disabled><i>{i + 1}</i><span>{s}</span></button></li>
-          ))}
-        </ol>
-        <div class="kf-pline"><div class="kf-pfill" data-pfill></div></div>
-      </nav>
-      <div class="kf-mstep" aria-hidden="true"><b data-mstep>1</b>/7</div>
-      <button type="button" class="kf-cart" data-cart aria-expanded="false">Ihr Pool <span class="kf-badge" data-badge>0</span></button>
-      <a class="kf-tel" href="tel:+491774509500">0177 450 95 00</a>
-      <div class="kf-mbar"><div class="kf-pfill" data-pfill></div></div>
-    </header>
-
-    <!-- Start -->
-    <section class="kf-start" data-start aria-labelledby="kf-start-title">
-      <div class="kf-start-media"><img src={startImg} alt="" data-start-img /></div>
-      <div class="kf-start-text">
-        <p class="kf-eyebrow"><span class="dot"></span>Pool-Studio · Katalogmodelle 2026</p>
-        <h1 id="kf-start-title" class="kf-h1" data-rise>Ihr Traumpool.<br />In 5 Minuten geplant.</h1>
-        <p class="kf-lead" data-rise>Wählen Sie Hersteller, Becken, Farbe, Abdeckung und Technik. Ihre fertige Konfiguration bekommen Sie als PDF per E-Mail – wir melden uns zur persönlichen Beratung.</p>
-        <div class="kf-start-cta" data-rise>
-          <button type="button" class="btn-pill is-navy kf-btn-lg" data-begin>Pool konfigurieren <span aria-hidden="true">→</span></button>
-          <span class="kf-muted">ca. 5 Minuten · unverbindlich</span>
-        </div>
-        <ul class="kf-facts" data-rise>
-          <li><b>{katalog.models.length}</b><span>Becken aus den Katalogen 2026</span></li>
-          <li><b>{katalog.manufacturers.length}</b><span>Hersteller</span></li>
-          <li><b>PDF</b><span>Ihre Konfiguration per E-Mail</span></li>
-        </ul>
+<Base
+  title="Pool-Konfigurator | Poolbau Koch"
+  description="Planen Sie Ihren Wunschpool Schritt für Schritt – Hersteller, Becken, Farbe, Abdeckung, Technik und Licht. Ihre Konfiguration kommt als PDF per E-Mail."
+>
+  <Header />
+  <main id="inhalt">
+    <section class="kf" id="kf" data-view="start" aria-label="Pool-Konfigurator">
+      <div class="kf-bar">
+        <nav class="kf-progress" aria-label="Fortschritt">
+          <ol>
+            {steps.map((s, i) => (
+              <li data-pstep={i + 1}><button type="button" data-goto={i + 1} disabled><i>{i + 1}</i><span>{s}</span></button></li>
+            ))}
+          </ol>
+          <div class="kf-pline"><div class="kf-pfill" data-pfill></div></div>
+        </nav>
+        <div class="kf-mstep" aria-hidden="true">Schritt <b data-mstep>1</b>/7</div>
+        <button type="button" class="kf-cart" data-cart aria-expanded="false">Ihr Pool <span class="kf-badge" data-badge>0</span></button>
+        <div class="kf-mbar"><div class="kf-pfill" data-pfill></div></div>
       </div>
+
+      <!-- Start -->
+      <div class="kf-start" data-start>
+        <div class="kf-start-media"><img src={startImg} alt="" data-start-img /></div>
+        <div class="kf-start-text">
+          <p class="kf-eyebrow"><span class="dot"></span>Pool-Studio · Katalogmodelle 2026</p>
+          <h1 class="kf-h1" data-rise>Ihr Traumpool.<br />In 5 Minuten geplant.</h1>
+          <p class="kf-lead" data-rise>Wählen Sie Hersteller, Becken, Farbe, Abdeckung und Technik. Ihre fertige Konfiguration bekommen Sie als PDF per E-Mail – auf Wunsch melden wir uns zur persönlichen Beratung.</p>
+          <div class="kf-start-cta" data-rise>
+            <button type="button" class="btn-pill is-navy kf-btn-lg" data-begin>Pool konfigurieren <span aria-hidden="true">→</span></button>
+            <span class="kf-muted">ca. 5 Minuten · unverbindlich</span>
+          </div>
+          <ul class="kf-facts" data-rise>
+            <li><b>{katalog.models.length}</b><span>Becken aus den Katalogen 2026</span></li>
+            <li><b>{katalog.manufacturers.length}</b><span>Hersteller</span></li>
+            <li><b>PDF</b><span>Ihre Konfiguration per E-Mail</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Studio -->
+      <div class="kf-studio" data-studio hidden>
+        <div class="kf-stage" data-stage>
+          <div class="kf-photo"><img data-layer="a" alt="" /><img data-layer="b" alt="" /></div>
+          <div class="kf-night" aria-hidden="true"><i></i></div>
+          <div class="kf-shade"></div>
+          <div class="kf-stage-info" data-stage-info></div>
+          <div class="kf-chips" data-chips></div>
+          <button type="button" class="kf-daynight" data-daynight hidden>Nacht</button>
+        </div>
+        <section class="kf-panel" aria-live="polite">
+          <div class="kf-panel-scroll" data-scroll data-lenis-prevent>
+            <div class="kf-panel-head" data-head></div>
+            <div class="kf-panel-body" data-body></div>
+          </div>
+          <div class="kf-panel-foot" data-foot>
+            <button type="button" class="kf-back" data-back>← Zurück</button>
+            <span class="kf-hint" data-hint></span>
+            <button type="button" class="btn-pill is-navy kf-next" data-next>Weiter →</button>
+          </div>
+        </section>
+      </div>
+
+      <aside class="kf-cart-pop" data-cart-pop hidden data-lenis-prevent>
+        <p class="kf-eyebrow"><span class="dot"></span>Ihr Pool</p>
+        <ul data-cart-list></ul>
+      </aside>
     </section>
+  </main>
+  <Footer />
 
-    <!-- Studio -->
-    <main class="kf-studio" data-studio hidden>
-      <div class="kf-stage" data-stage>
-        <div class="kf-photo"><img data-layer="a" alt="" /><img data-layer="b" alt="" /></div>
-        <div class="kf-shade"></div>
-        <div class="kf-stage-info" data-stage-info></div>
-        <div class="kf-chips" data-chips></div>
-      </div>
-      <section class="kf-panel" aria-live="polite">
-        <div class="kf-panel-scroll" data-scroll>
-          <div class="kf-panel-head" data-head></div>
-          <div class="kf-panel-body" data-body></div>
-        </div>
-        <div class="kf-panel-foot">
-          <button type="button" class="kf-back" data-back>← Zurück</button>
-          <span class="kf-hint" data-hint></span>
-          <button type="button" class="btn-pill is-navy kf-next" data-next>Weiter →</button>
-        </div>
-      </section>
-    </main>
-
-    <aside class="kf-cart-pop" data-cart-pop hidden>
-      <p class="kf-eyebrow"><span class="dot"></span>Ihr Pool</p>
-      <ul data-cart-list></ul>
-    </aside>
-  </div>
-
-  <script type="application/json" id="kf-data" set:html={JSON.stringify({ ...katalog, base: url('konfig/img/') })} />
+  <script type="application/json" id="kf-data" set:html={JSON.stringify({ ...katalog, base: url('konfig/img/'), pdfBase: url('konfig/pdf/'), logo: url('brand/logo-temp.png'), api: url('api/konfiguration'), privacy: 'https://poolbau-kochgmbh.de/datenschutz' })} />
   <script>
     import '../konfigurator/app';
   </script>
 
   <style is:global>
-    html, body { height: 100%; }
-    body { margin: 0; background: var(--bg); color: var(--ink); overflow: hidden; }
-    .kf { position: relative; height: 100dvh; display: flex; flex-direction: column; }
+    .kf { --kf-top: 6.6rem; position: relative; height: 100vh; height: 100svh; min-height: 36rem; display: flex; flex-direction: column; padding-top: var(--kf-top); box-sizing: border-box; }
     .kf [hidden] { display: none !important; }
     .kf .dot { width: 0.35rem; height: 0.35rem; border-radius: 50%; background: var(--pk-teal); flex: none; }
     .kf-eyebrow { display: inline-flex; align-items: center; gap: 0.6rem; margin: 0; font-size: var(--fs-small); font-weight: 500; text-transform: uppercase; letter-spacing: 0.02em; }
     .kf-muted { font-size: var(--fs-small); color: var(--ink-muted); }
 
-    /* Kopfleiste */
-    .kf-top { position: relative; z-index: 20; flex: none; display: flex; align-items: center; gap: 1.5rem; height: 4.75rem; padding: 0 1.5rem; }
-    .kf-logo img { display: block; width: 10.5rem; height: auto; }
-    .kf-progress { position: relative; flex: 1; max-width: 62rem; margin: 0 auto; opacity: 0; transition: opacity 0.5s; }
-    .kf[data-view="studio"] .kf-progress { opacity: 1; }
+    /* Leiste: Fortschritt + Ihr Pool */
+    .kf-bar { position: relative; z-index: 5; flex: none; display: flex; align-items: center; gap: 1.5rem; height: 3.25rem; padding: 0 2.5rem; }
+    .kf-progress { position: relative; flex: 1; opacity: 0; transition: opacity 0.6s; }
+    .kf[data-view="studio"] .kf-progress, .kf[data-view="done"] .kf-progress { opacity: 1; }
     .kf-progress ol { display: flex; justify-content: space-between; margin: 0; padding: 0; list-style: none; }
     .kf-progress button { all: unset; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8125rem; color: #8e8c87; cursor: default; white-space: nowrap; }
     .kf-progress button:not(:disabled) { cursor: pointer; }
     .kf-progress button:not(:disabled):hover span { color: var(--ink); }
-    .kf-progress i { font-style: normal; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; border: 1px solid #c9c8c3; font-size: 0.7rem; transition: all 0.4s; }
+    .kf-progress i { font-style: normal; display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: 50%; border: 1px solid #c9c8c3; font-size: 0.7rem; transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
     .kf-progress li.is-done button { color: var(--ink); }
     .kf-progress li.is-done i { background: var(--ink); border-color: var(--ink); color: #fff; }
     .kf-progress li.is-current button { color: var(--pk-navy); font-weight: 500; }
     .kf-progress li.is-current i { background: var(--pk-navy); border-color: var(--pk-navy); color: #fff; box-shadow: 0 0 0 4px #004a8022; }
-    .kf-pline { position: absolute; left: 0; right: 0; bottom: -0.9rem; height: 3px; border-radius: 3px; background: #dcdbd6; overflow: hidden; }
+    .kf-pline { position: absolute; left: 0; right: 0; bottom: -0.8rem; height: 3px; border-radius: 3px; background: #dcdbd6; overflow: hidden; }
     .kf-pfill { height: 100%; width: 0; border-radius: 3px; background: var(--pk-navy); }
     .kf-mstep, .kf-mbar { display: none; }
-    .kf-cart { all: unset; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem 0.45rem 1rem; border-radius: 999px; background: #fff; font-size: var(--fs-small); font-weight: 500; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.5s; box-shadow: 0 2px 14px rgb(0 0 0 / 0.06); }
-    .kf[data-view="studio"] .kf-cart { opacity: 1; pointer-events: auto; }
+    .kf-cart { all: unset; flex: none; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.45rem 0.6rem 0.45rem 1rem; border-radius: 999px; background: #fff; font-size: var(--fs-small); font-weight: 500; cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.6s; box-shadow: 0 2px 14px rgb(0 0 0 / 0.06); }
+    .kf[data-view="studio"] .kf-cart, .kf[data-view="done"] .kf-cart { opacity: 1; pointer-events: auto; }
     .kf-badge { display: grid; place-items: center; min-width: 1.5rem; height: 1.5rem; padding: 0 0.35rem; border-radius: 999px; background: var(--pk-navy); color: #fff; font-size: 0.75rem; }
-    .kf-tel { font-size: var(--fs-small); color: var(--ink-muted); white-space: nowrap; }
-    .kf-cart-pop { position: absolute; z-index: 30; top: 4.5rem; right: 1.5rem; width: 20rem; padding: 1.25rem; border-radius: 0.5rem; background: #fff; box-shadow: 0 20px 40px -18px rgb(0 0 0 / 0.3); }
+    .kf-cart-pop { position: absolute; z-index: 30; top: calc(var(--kf-top) + 3.25rem); right: 2.5rem; width: 22rem; max-height: 60vh; overflow: auto; padding: 1.25rem; border-radius: 0.5rem; background: #fff; box-shadow: 0 20px 40px -18px rgb(0 0 0 / 0.3); }
     .kf-cart-pop ul { margin: 0.75rem 0 0; padding: 0; list-style: none; }
-    .kf-cart-pop li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-top: 1px solid #eee; font-size: var(--fs-small); }
+    .kf-cart-pop li { display: grid; grid-template-columns: 7rem 1fr; gap: 0.75rem; padding: 0.6rem 0; border-top: 1px solid #eee; font-size: var(--fs-small); }
     .kf-cart-pop li span:first-child { color: var(--ink-muted); }
-    .kf-cart-pop .empty { color: var(--ink-muted); border: 0; }
+    .kf-cart-pop .empty { display: block; color: var(--ink-muted); border: 0; }
 
     /* Start */
-    .kf-start { position: relative; flex: 1; display: grid; grid-template-columns: 1fr 1.25fr; gap: 1rem; padding: 0 1rem 1rem; min-height: 0; }
+    .kf-start { position: relative; flex: 1; display: grid; grid-template-columns: 1fr 1.25fr; gap: 1rem; padding: 0 2.5rem 1.5rem; min-height: 0; }
     .kf-start-media { order: 2; position: relative; border-radius: 0.5rem; overflow: hidden; view-transition-name: kf-stage; }
-    .kf-start-media img { width: 100%; height: 100%; object-fit: cover; animation: kf-kenburns 14s ease-out both; }
-    @keyframes kf-kenburns { from { scale: 1.12; } to { scale: 1; } }
-    .kf-start-text { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; padding: 2rem 2.5rem 2rem 1.5rem; }
+    .kf-start-media img { width: 100%; height: 100%; object-fit: cover; animation: kf-kenburns 16s cubic-bezier(0.16, 1, 0.3, 1) both; }
+    @keyframes kf-kenburns { from { scale: 1.14; } to { scale: 1; } }
+    .kf-start-text { display: flex; flex-direction: column; justify-content: center; gap: 1.5rem; padding: 1rem 2.5rem 1rem 0; }
     .kf-h1 { margin: 0; font-size: clamp(2.6rem, 4.6vw, 4.875rem); line-height: 1; font-weight: 300; letter-spacing: -0.01em; }
     .kf-lead { margin: 0; max-width: 44ch; color: var(--ink-muted); }
     .kf-start-cta { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
@@ -143,28 +139,39 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
     .kf-facts span { font-size: 0.8125rem; color: var(--ink-muted); }
 
     /* Studio */
-    .kf-studio { flex: 1; display: grid; grid-template-columns: 1.45fr 1fr; gap: 1rem; padding: 1.25rem 1rem 1rem; min-height: 0; }
+    .kf-studio { flex: 1; display: grid; grid-template-columns: 1.45fr 1fr; gap: 1rem; padding: 1.25rem 2.5rem 1.5rem; min-height: 0; }
     .kf-stage { position: relative; border-radius: 0.5rem; overflow: hidden; background: #dfe6e7; view-transition-name: kf-stage; }
-    .kf-photo, .kf-photo img { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .kf-photo { pointer-events: none; }
-    .kf-photo img { object-fit: cover; opacity: 0; }
+    .kf-photo { position: absolute; inset: 0; pointer-events: none; transition: filter 1.2s cubic-bezier(0.22, 1, 0.36, 1); }
+    .kf-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; will-change: transform, opacity; transform-origin: 50% 50%; }
+    .kf-stage.is-dim .kf-photo { filter: brightness(0.62) saturate(0.9); }
     .kf-shade { position: absolute; inset: 0; z-index: 3; pointer-events: none; background: linear-gradient(0deg, rgb(0 0 0 / 0.55) 0%, rgb(0 0 0 / 0.12) 40%, rgb(0 0 0 / 0) 65%); }
     .kf-stage-info { position: absolute; z-index: 4; left: 1.5rem; right: 1.5rem; bottom: 1.5rem; color: #fff; }
-    .kf-chips { position: absolute; z-index: 4; left: 1.5rem; top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; max-width: calc(100% - 3rem); }
+    .kf-chips { position: absolute; z-index: 4; left: 1.5rem; top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; max-width: calc(100% - 9rem); }
     .kf-chip { display: inline-flex; align-items: center; gap: 0.4rem; height: 2rem; padding: 0 0.9rem; border-radius: 999px; background: rgb(255 255 255 / 0.9); color: var(--ink); font-size: 0.8125rem; font-weight: 500; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); white-space: nowrap; }
-    .kf-chip small { color: var(--ink-muted); font-weight: 400; }
+    .kf-fly { position: fixed; z-index: 90; pointer-events: none; }
+
+    /* Nachtmodus (LED / Licht) */
+    .kf-night { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1); background: radial-gradient(120% 90% at 50% 60%, rgb(4 20 34 / 0.35), rgb(2 10 20 / 0.82)); }
+    .kf-night i { position: absolute; inset: 14% 10% 26%; border-radius: 1rem; box-shadow: inset 0 0 0 2px rgb(125 240 255 / 0.9), 0 0 40px 6px rgb(90 220 255 / 0.45), inset 0 0 60px rgb(90 220 255 / 0.35); opacity: 0; transition: opacity 1.6s 0.3s; }
+    .kf-stage.is-night .kf-night { opacity: 1; }
+    .kf-stage.is-night.has-led .kf-night i { opacity: 1; animation: kf-glow 3.2s ease-in-out infinite; }
+    .kf-stage.is-night.has-rgb .kf-night i { opacity: 1; animation: kf-rgb 8s linear infinite; }
+    @keyframes kf-glow { 50% { box-shadow: inset 0 0 0 2px rgb(125 240 255 / 0.6), 0 0 26px 3px rgb(90 220 255 / 0.3), inset 0 0 40px rgb(90 220 255 / 0.2); } }
+    @keyframes kf-rgb { to { filter: hue-rotate(360deg); } }
+    .kf-daynight { all: unset; position: absolute; z-index: 5; right: 1.5rem; top: 1.5rem; display: inline-flex; gap: 0.4rem; align-items: center; padding: 0.45rem 1rem; border-radius: 999px; background: rgb(255 255 255 / 0.9); font-size: 0.8125rem; font-weight: 500; cursor: pointer; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
 
     /* Bühne: Marke */
     .kf-brand { display: grid; gap: 0.75rem; max-width: 36rem; }
-    .kf-brand-logo { display: grid; place-items: center; width: 11rem; height: 4.5rem; padding: 0.6rem 1rem; border-radius: 0.5rem; background: #fff; }
-    .kf-brand-logo img { max-width: 100%; max-height: 3.3rem; object-fit: contain; }
+    .kf-brand-logo { display: flex; align-items: center; height: 4.25rem; }
+    .kf-brand-logo img { max-width: 13rem; max-height: 100%; object-fit: contain; filter: brightness(0) invert(1) drop-shadow(0 2px 12px rgb(0 0 0 / 0.25)); }
     .kf-brand h2 { margin: 0; font-size: 2.75rem; line-height: 1.05; font-weight: 400; }
     .kf-brand ul { display: grid; gap: 0.35rem; margin: 0; padding: 0; list-style: none; font-size: 0.95rem; opacity: 0.95; }
     .kf-brand li::before { content: '—'; margin-right: 0.5rem; opacity: 0.7; }
     .kf-tag { display: inline-flex; width: fit-content; padding: 0.25rem 0.7rem; border-radius: 999px; background: rgb(255 255 255 / 0.18); font-size: 0.75rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 
-    /* Bühne: Becken (Maßkarte) */
-    .kf-plan { display: grid; grid-template-columns: 1fr auto; gap: 1.25rem; align-items: end; padding: 1.25rem; border-radius: 0.5rem; background: rgb(255 255 255 / 0.92); color: var(--ink); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+    /* Bühne: Karten (Maß, Farbe, Produkt, Zusammenfassung) */
+    .kf-card { padding: 1.25rem; border-radius: 0.5rem; background: rgb(255 255 255 / 0.93); color: var(--ink); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+    .kf-plan { display: grid; grid-template-columns: 1fr auto; gap: 1.25rem; align-items: end; }
     .kf-plan-title { display: flex; align-items: baseline; gap: 0.75rem; flex-wrap: wrap; margin: 0 0 0.25rem; }
     .kf-plan-title h2 { margin: 0; font-size: 2rem; font-weight: 400; line-height: 1.1; }
     .kf-plan-title span { color: var(--ink-muted); font-size: var(--fs-small); }
@@ -174,10 +181,28 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
     .kf-plan-nums small { font-size: 0.75rem; color: var(--ink-muted); text-transform: uppercase; letter-spacing: 0.04em; }
     .kf-plan-desc { margin: 0.35rem 0 0; font-size: var(--fs-small); color: var(--ink-muted); max-width: 46ch; }
     .kf-plan svg { display: block; width: 19rem; height: auto; overflow: visible; }
-    .kf-compare { all: unset; justify-self: start; margin-top: 0.6rem; font-size: 0.8125rem; font-weight: 500; color: var(--pk-navy); cursor: pointer; }
-    .kf-compare:hover { text-decoration: underline; }
+    .kf-link { all: unset; justify-self: start; margin-top: 0.6rem; font-size: 0.8125rem; font-weight: 500; color: var(--pk-navy); cursor: pointer; }
+    .kf-link:hover { text-decoration: underline; }
     .kf-legend { display: flex; gap: 1rem; font-size: 0.75rem; color: var(--ink-muted); margin-top: 0.4rem; }
     .kf-legend i { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 3px; margin-right: 0.35rem; vertical-align: -1px; }
+    .kf-product { display: grid; grid-template-columns: 13rem 1fr; gap: 1.25rem; align-items: center; max-width: 42rem; }
+    .kf-product-img { height: 9.5rem; border-radius: 0.375rem; background: #fff; display: grid; place-items: center; overflow: hidden; }
+    .kf-product-img img { width: 100%; height: 100%; object-fit: contain; }
+    .kf-product-img.is-cover img { object-fit: cover; }
+    .kf-product h2 { margin: 0.2rem 0 0.35rem; font-size: 1.6rem; font-weight: 400; line-height: 1.15; }
+    .kf-product p { margin: 0; font-size: var(--fs-small); color: var(--ink-muted); }
+    .kf-badge-inline { display: inline-flex; margin-top: 0.6rem; padding: 0.25rem 0.7rem; border-radius: 999px; background: #e9f4f3; color: #146c6b; font-size: 0.75rem; font-weight: 500; }
+    .kf-season { margin-top: 0.9rem; }
+    .kf-season-bar { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; }
+    .kf-season-bar span { height: 0.6rem; border-radius: 3px; background: #e3e2de; }
+    .kf-season-bar span.on { background: linear-gradient(90deg, #ffb347, #ffcc70); }
+    .kf-season-lbl { display: grid; grid-template-columns: repeat(12, 1fr); margin-top: 0.3rem; font-size: 0.65rem; color: var(--ink-muted); text-align: center; }
+    .kf-sum { max-height: calc(100% - 3rem); overflow: auto; }
+    .kf-sum h2 { margin: 0 0 0.6rem; font-size: 1.6rem; font-weight: 400; }
+    .kf-sum ul { margin: 0; padding: 0; list-style: none; }
+    .kf-sum li { display: grid; grid-template-columns: 7.5rem 1fr auto; gap: 0.75rem; align-items: baseline; padding: 0.5rem 0; border-top: 1px solid #e9e9e6; font-size: var(--fs-small); }
+    .kf-sum li span:first-child { color: var(--ink-muted); }
+    .kf-sum li small { display: block; color: var(--ink-muted); font-size: 0.75rem; }
 
     /* Panel */
     .kf-panel { position: relative; display: flex; flex-direction: column; min-height: 0; border-radius: 0.5rem; background: #f7f7f5; }
@@ -190,97 +215,148 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
     .kf-back:hover { transform: translate(0, 2px); }
     .kf-next { padding: 0.65rem 1.6rem; font-size: 0.95rem; }
     .kf-next[aria-disabled="true"] { opacity: 0.35; cursor: not-allowed; }
+    .kf-next[aria-busy="true"] { opacity: 0.7; cursor: progress; }
     .kf-hint { flex: 1; text-align: right; font-size: 0.8125rem; color: var(--ink-muted); }
+    .kf-section-t { margin: 1.5rem 0 0.75rem; font-size: 0.8125rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-muted); }
+    .kf-note { display: flex; gap: 0.75rem; margin-bottom: 1rem; padding: 0.85rem 1rem; border-radius: 0.5rem; background: #e9f4f3; font-size: var(--fs-small); color: #1c4f4e; }
 
     /* Optionen */
     .kf-opts { display: grid; gap: 0.75rem; margin: 0; padding: 0; list-style: none; }
-    .kf-opts.is-models { grid-template-columns: 1fr 1fr; }
-    .kf-opt { all: unset; box-sizing: border-box; position: relative; display: block; width: 100%; padding: 0.75rem; border-radius: 0.5rem; background: #fff; cursor: pointer; outline: 1.5px solid transparent; transition: outline-color 0.25s, box-shadow 0.35s, transform 0.35s cubic-bezier(0.3, 1.25, 0.5, 1); }
+    .kf-opts.is-2 { grid-template-columns: 1fr 1fr; }
+    .kf-opt { all: unset; box-sizing: border-box; position: relative; display: block; width: 100%; padding: 0.75rem; border-radius: 0.5rem; background: #fff; cursor: pointer; outline: 1.5px solid transparent; transition: outline-color 0.4s, box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
     .kf-opt:hover { box-shadow: 0 14px 30px -20px rgb(0 0 0 / 0.35); transform: translateY(-2px); }
     .kf-opt:focus-visible { outline-color: var(--pk-teal); }
     .kf-opt[aria-checked="true"] { outline-color: var(--pk-navy); box-shadow: 0 16px 34px -20px #004a80aa; }
-    .kf-tick { position: absolute; top: 0.6rem; right: 0.6rem; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--pk-navy); color: #fff; font-size: 0.8rem; scale: 0; }
+    .kf-tick { position: absolute; top: 0.6rem; right: 0.6rem; z-index: 2; display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--pk-navy); color: #fff; font-size: 0.8rem; scale: 0; }
     .kf-opt[aria-checked="true"] .kf-tick { scale: 1; }
+    .kf-opt h3 { margin: 0.6rem 0 0.15rem; font-size: 1rem; font-weight: 500; }
+    .kf-opt p { margin: 0; font-size: 0.8125rem; color: var(--ink-muted); }
+    .kf-opt .kf-badge-inline { margin-top: 0.5rem; }
+    .kf-media { aspect-ratio: 16 / 10; border-radius: 0.375rem; overflow: hidden; background: #f1f0ed; }
+    .kf-media img { width: 100%; height: 100%; object-fit: cover; transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .kf-media.is-product img { object-fit: contain; padding: 0.5rem; box-sizing: border-box; background: #fff; }
+    .kf-media.is-empty { display: grid; place-items: center; font-size: 1.6rem; color: #b8b7b1; }
+    .kf-opt:hover .kf-media img { scale: 1.06; }
     .kf-opt-brand { display: grid; grid-template-columns: 9.5rem 1fr; gap: 1.1rem; align-items: center; padding: 1rem; }
-    .kf-opt-brand .logo { display: grid; place-items: center; height: 5.5rem; padding: 0.75rem; border-radius: 0.375rem; background: #f3f3f1; }
-    .kf-opt-brand .logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
-    .kf-opt-brand h3 { margin: 0.2rem 0 0.25rem; font-size: 1.25rem; font-weight: 500; }
-    .kf-opt-brand p { margin: 0; font-size: var(--fs-small); color: var(--ink-muted); }
+    .kf-opt-brand .logo { display: grid; place-items: center; height: 5.5rem; padding: 0.25rem 0.5rem; }
+    .kf-opt-brand .logo img { max-width: 100%; max-height: 100%; object-fit: contain; transition: filter 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .kf-opt-brand h3 { margin: 0.2rem 0 0.25rem; font-size: 1.25rem; }
     .kf-opt-brand .meta { display: flex; gap: 0.75rem; margin-top: 0.5rem; font-size: 0.75rem; color: var(--ink-muted); }
+    /* Hover (Nutzerwunsch): die übrigen Logos/Bilder werden grau und treten zurück */
+    .kf-opts:has(.kf-opt:hover) .kf-opt:not(:hover) .logo img,
+    .kf-opts:has(.kf-opt:hover) .kf-opt:not(:hover) .kf-media img { filter: grayscale(1); opacity: 0.45; }
     .kf-kicker { font-size: 0.7rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pk-teal); }
-    .kf-opt-model .thumb { aspect-ratio: 16 / 9; border-radius: 0.375rem; overflow: hidden; background: #eceae6; }
-    .kf-opt-model .thumb img { width: 100%; height: 100%; object-fit: cover; transition: scale 0.6s ease; }
-    .kf-opt-model:hover .thumb img { scale: 1.06; }
-    .kf-opt-model h3 { margin: 0.6rem 0 0.15rem; font-size: 1rem; font-weight: 500; }
-    .kf-opt-model p { margin: 0; font-size: 0.8125rem; color: var(--ink-muted); }
     .kf-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1.1rem; }
-    .kf-fchip { all: unset; padding: 0.4rem 0.95rem; border-radius: 999px; background: #fff; border: 1px solid #deded9; font-size: 0.8125rem; cursor: pointer; transition: all 0.25s; }
+    .kf-fchip { all: unset; padding: 0.4rem 0.95rem; border-radius: 999px; background: #fff; border: 1px solid #deded9; font-size: 0.8125rem; cursor: pointer; transition: all 0.3s; }
     .kf-fchip:hover { border-color: #b9b8b2; }
-    .kf-fchip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+    .kf-fchip[aria-pressed="true"], .kf-fchip[aria-checked="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
     .kf-count { margin-left: auto; font-size: 0.8125rem; color: var(--ink-muted); }
-    .kf-soon { padding: 1.5rem; border-radius: 0.5rem; background: #fff; }
-    .kf-soon h3 { margin: 0 0 0.4rem; font-weight: 500; }
-    .kf-soon p { margin: 0; color: var(--ink-muted); }
 
-    /* Flug-Chip */
-    .kf-fly { position: fixed; z-index: 50; pointer-events: none; }
+    /* Formular */
+    .kf-form { display: grid; gap: 0.85rem; }
+    .kf-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .kf-grid3 { display: grid; grid-template-columns: 7rem 1fr; gap: 0.85rem; }
+    .kf-field { display: grid; gap: 0.35rem; }
+    .kf-field label { font-size: 0.8125rem; font-weight: 500; }
+    .kf-field input, .kf-field textarea { font: inherit; font-size: 0.95rem; padding: 0.75rem 0.9rem; border-radius: 0.5rem; border: 1px solid #deded9; background: #fff; color: var(--ink); transition: border-color 0.3s, box-shadow 0.3s; }
+    .kf-field textarea { min-height: 5.5rem; resize: vertical; }
+    .kf-field input:focus, .kf-field textarea:focus { outline: none; border-color: var(--pk-navy); box-shadow: 0 0 0 3px #004a8022; }
+    .kf-field.has-error input { border-color: #c0392b; }
+    .kf-err { font-size: 0.75rem; color: #c0392b; }
+    .kf-check { display: flex; gap: 0.7rem; align-items: flex-start; font-size: 0.8125rem; color: var(--ink-muted); cursor: pointer; }
+    .kf-check input { margin-top: 0.15rem; width: 1.05rem; height: 1.05rem; accent-color: var(--pk-navy); flex: none; }
+    .kf-check a { color: var(--pk-navy); text-decoration: underline; }
+    .kf-switch { position: relative; display: flex; gap: 0.9rem; align-items: center; padding: 0.9rem 1rem; border-radius: 0.5rem; background: #fff; cursor: pointer; }
+    .kf-switch input { position: absolute; opacity: 0; pointer-events: none; }
+    .kf-switch .tr { position: relative; flex: none; width: 2.75rem; height: 1.6rem; border-radius: 1rem; background: #d5d4cf; transition: background 0.35s; }
+    .kf-switch .tr::after { content: ''; position: absolute; top: 0.2rem; left: 0.2rem; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: #fff; transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 1px 4px rgb(0 0 0 / 0.2); }
+    .kf-switch input:checked + .tr { background: var(--pk-teal); }
+    .kf-switch input:checked + .tr::after { transform: translateX(1.15rem); }
+    .kf-switch b { display: block; font-weight: 500; font-size: 0.95rem; }
+    .kf-switch small { color: var(--ink-muted); font-size: 0.8125rem; }
+    .kf-consult { display: grid; gap: 0.85rem; }
+    .kf-hp { position: absolute; left: -9999px; }
 
-    ::view-transition-old(kf-stage), ::view-transition-new(kf-stage) { animation-duration: 0.7s; animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
-    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.45s; }
+    /* Erfolg */
+    .kf-done { display: grid; justify-items: start; gap: 1rem; }
+    .kf-done-icon { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%; background: var(--pk-teal); color: #fff; font-size: 1.8rem; }
+    .kf-done h2 { margin: 0; font-size: 2.25rem; font-weight: 400; line-height: 1.1; }
+    .kf-done p { margin: 0; color: var(--ink-muted); max-width: 46ch; }
+    .kf-ref { display: inline-flex; gap: 0.6rem; align-items: baseline; padding: 0.6rem 1rem; border-radius: 0.5rem; background: #fff; font-size: var(--fs-small); }
+    .kf-ref b { font-size: 1.1rem; font-weight: 500; letter-spacing: 0.04em; }
+    .kf-test { padding: 0.85rem 1rem; border-radius: 0.5rem; background: #fff4e0; color: #7a4d00; font-size: 0.8125rem; }
+    .kf-wave { position: absolute; left: 0; right: 0; bottom: 0; height: 60%; z-index: 3; pointer-events: none; }
+
+    ::view-transition-old(kf-stage), ::view-transition-new(kf-stage) { animation-duration: 0.9s; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+    ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 0.5s; }
 
     /* Handy */
     @media (max-width: 900px) {
-      .kf-top { height: 3.75rem; gap: 0.75rem; padding: 0 1rem; }
-      .kf-logo img { width: 8.5rem; }
-      .kf-progress, .kf-tel { display: none; }
-      .kf-mstep { display: block; margin-left: auto; font-size: 0.8125rem; color: var(--ink-muted); opacity: 0; transition: opacity 0.4s; }
+      .kf { --kf-top: 5.4rem; }
+      .kf-bar { height: 2.75rem; padding: 0 1rem; gap: 0.75rem; }
+      .kf-progress { display: none; }
+      .kf-mstep { display: block; margin-right: auto; font-size: 0.8125rem; color: var(--ink-muted); opacity: 0; transition: opacity 0.4s; }
       .kf-mstep b { color: var(--pk-navy); font-size: 1rem; font-weight: 500; }
-      .kf[data-view="studio"] .kf-mstep { opacity: 1; }
-      .kf-cart { padding: 0.35rem 0.45rem 0.35rem 0.8rem; font-size: 0.8125rem; }
-      .kf-mbar { display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #dcdbd6; opacity: 0; transition: opacity 0.4s; }
-      .kf[data-view="studio"] .kf-mbar { opacity: 1; }
-      .kf-cart-pop { top: 3.5rem; right: 0.75rem; left: 0.75rem; width: auto; }
+      .kf[data-view="studio"] .kf-mstep, .kf[data-view="done"] .kf-mstep { opacity: 1; }
+      .kf-cart { margin-left: auto; padding: 0.35rem 0.45rem 0.35rem 0.8rem; font-size: 0.8125rem; }
+      .kf-mbar { display: block; position: absolute; left: 1rem; right: 1rem; bottom: 0; height: 3px; border-radius: 3px; background: #dcdbd6; overflow: hidden; opacity: 0; transition: opacity 0.4s; }
+      .kf[data-view="studio"] .kf-mbar, .kf[data-view="done"] .kf-mbar { opacity: 1; }
+      .kf-cart-pop { top: calc(var(--kf-top) + 2.75rem); right: 0.75rem; left: 0.75rem; width: auto; }
 
-      .kf-start { grid-template-columns: 1fr; grid-template-rows: 42% 1fr; padding: 0 0.75rem 0.75rem; }
+      .kf-start { grid-template-columns: 1fr; grid-template-rows: 40% 1fr; padding: 0 0.75rem 0.75rem; }
       .kf-start-media { order: 0; }
-      .kf-start-text { justify-content: flex-start; gap: 1rem; padding: 1.25rem 0.5rem 0; overflow-y: auto; }
-      .kf-h1 { font-size: 2.4rem; }
+      .kf-start-text { justify-content: flex-start; gap: 0.9rem; padding: 1.1rem 0.25rem 0; overflow-y: auto; }
+      .kf-h1 { font-size: 2.3rem; }
       .kf-lead { font-size: 0.95rem; }
       .kf-facts { gap: 0.5rem; margin-top: 0; }
-      .kf-facts li { padding: 0.75rem; } .kf-facts b { font-size: 1.3rem; } .kf-facts span { font-size: 0.72rem; }
+      .kf-facts li { padding: 0.7rem; } .kf-facts b { font-size: 1.25rem; } .kf-facts span { font-size: 0.72rem; }
       .kf-start-cta .kf-muted { display: none; }
       .kf-start-cta .btn-pill { width: 100%; }
 
-      .kf-studio { grid-template-columns: 1fr; grid-template-rows: 38% 1fr; gap: 0; padding: 0; }
+      .kf-studio { grid-template-columns: 1fr; grid-template-rows: 36% 1fr; gap: 0; padding: 0.5rem 0 0; }
       .kf-stage { border-radius: 0; }
-      .kf-stage-info { left: 1rem; right: 1rem; bottom: 1.6rem; }
-      .kf-chips { left: 1rem; top: 1rem; }
-      .kf-panel { margin-top: -1rem; border-radius: 1.1rem 1.1rem 0 0; box-shadow: 0 -12px 30px -20px rgb(0 0 0 / 0.4); }
+      .kf-stage-info { left: 0.9rem; right: 0.9rem; bottom: 1.6rem; }
+      .kf-chips { left: 0.9rem; top: 0.9rem; }
+      .kf-daynight { right: 0.9rem; top: 0.9rem; }
+      .kf-panel { margin-top: -1rem; border-radius: 1.1rem 1.1rem 0 0; box-shadow: 0 -12px 30px -20px rgb(0 0 0 / 0.4); z-index: 6; }
       .kf-panel::before { content: ''; position: absolute; top: 0.5rem; left: 50%; width: 2.75rem; height: 0.3rem; margin-left: -1.375rem; border-radius: 1rem; background: #d3d2cd; }
       .kf-panel-scroll { margin-top: 1.1rem; padding: 0.4rem 1rem 1rem; }
       .kf-panel-head { margin-bottom: 1rem; gap: 0.4rem; }
       .kf-panel-head h1 { font-size: 1.6rem; }
       .kf-panel-head p { font-size: 0.9rem; }
-      .kf-panel-foot { padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom)); background: #fff; }
+      .kf-panel-foot { padding: 0.7rem 1rem calc(0.7rem + env(safe-area-inset-bottom)); background: #fff; }
       .kf-hint { display: none; }
       .kf-next { flex: 1; }
+      .kf-opts.is-2 { grid-template-columns: 1fr 1fr; gap: 0.6rem; }
       .kf-opts.is-models { grid-template-columns: 1fr; }
-      .kf-opt-model { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.85rem; align-items: center; }
-      .kf-opt-model h3 { margin-top: 0; }
+      .kf-opts.is-models .kf-opt { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.85rem; align-items: center; }
+      .kf-opts.is-models .kf-opt h3 { margin-top: 0; }
+      .kf-opt { padding: 0.6rem; }
+      .kf-opt h3 { font-size: 0.9rem; margin-top: 0.45rem; }
+      .kf-opt p { font-size: 0.75rem; }
       .kf-opt-brand { grid-template-columns: 6.5rem 1fr; gap: 0.85rem; padding: 0.85rem; }
       .kf-opt-brand .logo { height: 4.25rem; }
-      .kf-opt-brand ul { display: none; }
-      .kf-brand h2 { font-size: 1.7rem; }
-      .kf-brand ul, .kf-brand-logo { display: none; }
-      .kf-plan { grid-template-columns: 1fr; padding: 0.85rem 1rem; }
-      .kf-plan svg, .kf-plan-desc, .kf-compare, .kf-legend { display: none; }
+      .kf-opt-brand .meta span:last-child { display: none; }
+      .kf-brand h2 { font-size: 1.6rem; }
+      .kf-brand ul { display: none; }
+      .kf-brand-logo { height: 2.6rem; }
+      .kf-card { padding: 0.85rem 1rem; }
+      .kf-plan { grid-template-columns: 1fr; }
+      .kf-plan svg, .kf-plan-desc, .kf-legend, .kf-plan .kf-link { display: none; }
       .kf-plan-title h2 { font-size: 1.35rem; }
       .kf-plan-nums { gap: 1rem; margin: 0.25rem 0 0; }
       .kf-plan-nums b { font-size: 1.15rem; }
+      .kf-product { grid-template-columns: 5.5rem 1fr; gap: 0.85rem; }
+      .kf-product-img { height: 4.5rem; }
+      .kf-product h2 { font-size: 1.15rem; }
+      .kf-product p { display: none; }
+      .kf-season { display: none; }
+      .kf-sum { display: none; }
+      .kf-grid2 { grid-template-columns: 1fr; }
     }
     @media (prefers-reduced-motion: reduce) {
       .kf-start-media img { animation: none; }
+      .kf-stage.is-night .kf-night i { animation: none; }
     }
   </style>
-</body>
-</html>
+</Base>

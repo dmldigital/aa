@@ -9,17 +9,17 @@
 import { url } from '../lib/url';
 
 const cols = [
-  { title: 'Entdecken', links: [['Pools', '#pools'], ['Partner', '#partner']] },
-  { title: 'Service', links: [['Leistungen', '#leistungen'], ['Häufige Fragen', '#faq']] },
+  { title: 'Entdecken', links: [['Pools', url('#pools')], ['Partner', url('#partner')]] },
+  { title: 'Service', links: [['Leistungen', url('#leistungen')], ['Häufige Fragen', url('#faq')]] },
   { title: 'Kontakt', links: [['0177 - 450 95 00', 'tel:+491774509500'], ['E-Mail schreiben', 'mailto:info@poolbau-kochgmbh.de']] },
-  { title: 'Online', links: [['Pool-Konfigurator', 'https://konfig.poolbau-koch.de/'], ['Shop', 'https://shop.poolbau-kochgmbh.de/']] },
+  { title: 'Online', links: [['Pool-Konfigurator', url('konfigurator/')], ['Shop', 'https://shop.poolbau-kochgmbh.de/']] },
 ];
 const icon = (d: string) => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
 const socials = [
   { label: 'Anrufen', href: 'tel:+491774509500', svg: icon('<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>') },
   { label: 'E-Mail schreiben', href: 'mailto:info@poolbau-kochgmbh.de', svg: icon('<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>') },
   { label: 'Route planen', href: 'https://www.google.com/maps/search/?api=1&query=Mozartstra%C3%9Fe+33+59227+Ahlen', svg: icon('<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>') },
-  { label: 'Pool-Konfigurator', href: 'https://konfig.poolbau-koch.de/', svg: icon('<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>') },
+  { label: 'Pool-Konfigurator', href: url('konfigurator/'), svg: icon('<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>') },
 ];
 ---
 
