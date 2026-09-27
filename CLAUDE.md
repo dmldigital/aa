@@ -24,7 +24,7 @@
 - Sektion 2: Space-Kit-Bento; kleine Karten = Textfelder; Bild-Animation aus 21st.dev `bundled/1959` (Fläche wächst aus der Mitte, Ecken durchgehend 8px), startet beim Hereinscrollen und läuft selbstständig fertig; Text blendet gleichzeitig ein.
 - Partner-Sektion (zwischen Sektion 2 und 3): Logos grau, farbige Welle läuft beim Scrollen von links nach rechts nahtlos durch; Hover kehrt um (grau → farbig, farbig → grau).
 - Sektion „Warum Poolbau Koch?“: Scroll-Bento aus 21st.dev `bundled/1849` mit 6 Bildboxen + Text (große Box geteilt).
-- Pool-Konfigurator: eigene Seite `/konfigurator/` im Website-Look (Header/Footer der Website, Konfigurator 100vh), kein PHP – Hosting später Cloudflare (Pages Functions, D1, R2; Mails via Resend). Kunde bekommt die Konfiguration als PDF per E-Mail. Hover: übrige Logos/Bilder grau. Animationen weich/premium (keine Federn beim Schrittwechsel).
+- Pool-Konfigurator: eigene Seite `/konfigurator/` im Website-Look (Header/Footer der Website, Konfigurator 100vh), kein PHP – Hosting später Cloudflare (Pages Functions, D1, R2; Mails via Resend). Kunde bekommt die Konfiguration als PDF per E-Mail. Hover: übrige Logos/Bilder grau. Animationen weich/premium (keine Federn beim Schrittwechsel). Auswahlkarten immer gleich groß; jede Option mit „i“-Info (Info-Fenster), „Gut zu wissen“-Hinweis je Schritt. Bühnenbild wechselt per Wachsen aus der Mitte (wie Bento). Handy/Tablet (bis 1024 px): die Seite scrollt, Bühne bleibt oben stehen, Panel gleitet darüber, Zurück/Weiter klebt unten.
 - Ergebnisse immer über GitHub Pages zeigen: https://dmldigital.github.io/aa/ (Push auf `website/**` deployt automatisch).
 - Aktueller Stand und nächste Schritte: `HANDOVER.md`.
 

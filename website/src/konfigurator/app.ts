@@ -13,7 +13,8 @@ const root = document.getElementById('kf')!;
 const $ = <T extends HTMLElement = HTMLElement>(s: string) => root.querySelector<T>(s)!;
 const $$ = <T extends HTMLElement = HTMLElement>(s: string) => [...root.querySelectorAll<T>(s)];
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const mobile = () => window.matchMedia('(max-width: 900px)').matches;
+const mobile = () => window.matchMedia('(max-width: 1024px)').matches;
+const phone = () => window.matchMedia('(max-width: 599px)').matches;
 const premium = [0.16, 1, 0.3, 1] as const;
 const smooth = [0.65, 0, 0.35, 1] as const;
 const fmt = (n: number) => n.toLocaleString('de-DE', { maximumFractionDigits: 2 });
@@ -28,6 +29,17 @@ const STEPS = [
   { title: 'Wärme & Licht', intro: 'Verlängern Sie die Badesaison mit einer Wärmepumpe und setzen Sie Ihren Pool abends in Szene.' },
   { title: 'Ihr Pool ist geplant', intro: 'Wir schicken Ihnen die Konfiguration als PDF per E-Mail. Auf Wunsch melden wir uns zur kostenlosen Beratung.' },
 ];
+// „Gut zu wissen“ je Schritt (Hinweis oben im Panel)
+const TIPS = [
+  'Alle Hersteller liefern fertige Poolschalen, die ohne Beton in rund 48 Stunden eingebaut werden. Unterschiede gibt es bei Material, Formensprache und Treppen.',
+  'Maße laut Herstellerkatalog 2026 (Länge × Breite × Tiefe). Über das Info-Symbol sehen Sie Bilder, Treppenform und Ausstattungsmöglichkeiten.',
+  'Die Beckenfarbe bestimmt die Wasserfarbe: helle Oberflächen wirken türkis, dunkle tiefblau.',
+  'Eine Abdeckung hält Wärme im Wasser, Schmutz draußen und sichert den Pool. Die Preise sind Richtwerte für den Aufpreis.',
+  'Alle Technikvarianten arbeiten mit Salzelektrolyse, automatischer Dosierung und App-Steuerung. iWash übernimmt die Rückspülung automatisch.',
+  'Eine Wärmepumpe verlängert die Badesaison um mehrere Monate. Die Beleuchtung setzt Ihren Pool abends in Szene.',
+  'Wir nutzen Ihre Angaben nur für Ihre Anfrage. Die Beratung ist kostenlos und unverbindlich.',
+];
+const tip = () => `<div class="kf-note kf-tip">${INFO}<span><b>Gut zu wissen:</b> ${esc(TIPS[state.step - 1])}</span></div>`;
 const SIZES = [
   { id: 'all', label: 'Alle', test: () => true },
   { id: 's', label: 'bis 6 m', test: (m: Model) => m.l < 6 },
@@ -60,6 +72,8 @@ const heroOf = (id: string) => modelsOf(id).find((m) => m.img) || data.models[0]
 const ledCap = () => model()?.led || 'none';
 const galleryOf = (id: string) => modelsOf(id).sort((a, c) => a.l - c.l);
 const CHEV = '<svg viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5l5-5" /></svg>';
+const NONE = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M6 18 18 6"/></svg>';
+const INFO = '<svg class="kf-i" viewBox="0 0 8 16" aria-hidden="true"><circle cx="4" cy="2.4" r="1.35" /><path d="M2.4 6.6H4.3v7.2M2.2 13.8h4" /></svg>';
 
 // ---------- Bühne: Foto-Übergang ----------
 // Neues Bild wird mit weichem, schrägem Verlauf freigelegt und zoomt langsam aus; das alte wird unscharf.
@@ -77,16 +91,15 @@ function setPhoto(file: string | null, focus?: { x: number; y: number }, delay =
     photoAnims.forEach((a) => a.stop()); photoAnims = [];
     next.style.zIndex = '2'; prev.style.zIndex = '1';
     if (reduce) { next.style.opacity = '1'; prev.style.opacity = '0'; return; }
+    // Neues Bild wächst als Fläche aus der Mitte auf volle Größe (Ecken 8px) und zoomt dabei weich aus –
+    // gleiche Bildsprache wie die Bento-Karten der Startseite; das alte tritt leicht unscharf zurück.
     next.style.opacity = '1'; next.style.filter = 'none';
-    const mask = (p: number) => {
-      const a = -35 + p * 150; const m = `linear-gradient(105deg, #000 ${a}%, transparent ${a + 35}%)`;
-      next.style.maskImage = m; (next.style as any).webkitMaskImage = m;
-    };
-    mask(0);
+    const clip = (p: number) => { next.style.clipPath = `inset(${(1 - p) * 28}% ${(1 - p) * 30}% round ${8 + (1 - p) * 4}px)`; };
+    clip(0);
     photoAnims.push(
-      animate(0, 1, { duration: 1.25, ease: smooth, onUpdate: mask, onComplete: () => { next.style.maskImage = ''; (next.style as any).webkitMaskImage = ''; prev.style.opacity = '0'; } }),
-      animate(next, { scale: [1.12, 1] }, { duration: 2.2, ease: premium }),
-      animate(prev, { scale: [Number(prev.style.scale) || 1, 1.05], filter: ['blur(0px)', 'blur(6px)'] }, { duration: 1.25, ease: smooth }),
+      animate(0, 1, { duration: 1.35, ease: premium, onUpdate: clip, onComplete: () => { next.style.clipPath = ''; prev.style.opacity = '0'; prev.style.filter = 'none'; } }),
+      animate(next, { scale: [1.35, 1] }, { duration: 1.9, ease: premium }),
+      animate(prev, { scale: [Number(prev.style.scale) || 1, 1.08], filter: ['brightness(1) blur(0px)', 'brightness(0.75) blur(5px)'] }, { duration: 1.35, ease: smooth }),
     );
   };
   next.onload = null; next.src = img(file);
@@ -195,10 +208,15 @@ function drawPlan(md: Model, cmp: Model | null) {
   animate(svg.querySelectorAll('.p-lbl, .p-cmp'), { opacity: [0, 1] }, { duration: 0.6, delay: 0.7 });
 }
 
+// Noch nichts gewählt: Hinweiskarte statt leerem Bildfeld
+function pickCard(kick: string, text: string, extra = '') {
+  return `<div class="kf-card kf-pickcard"><span class="kf-kicker">${kick}</span><h2>Bitte wählen</h2>
+    <p>${esc(text)}</p><p class="kf-pickcard-hint">${mobile() ? 'Optionen unten' : 'Optionen rechts'} · ${INFO} für Details</p>${extra}</div>`;
+}
 function colorCard(id: string | null) {
   const c = byId(data.colors, id);
   const led = ledSelected(state) ? LED_LABELS[state.led!] : '';
-  if (!c) { swapInfo('color-none', `<div class="kf-card kf-product"><div class="kf-product-img is-cover"></div><div><span class="kf-kicker">Beckenfarbe</span><h2>Bitte wählen</h2><p>Die Farbe verändert die Wasserwirkung: von strahlendem Türkis bis zu tiefem Blau.</p></div></div>`); return; }
+  if (!c) { swapInfo('color-none', pickCard('Beckenfarbe', 'Die Farbe verändert die Wasserwirkung: von strahlendem Türkis bis zu tiefem Blau.')); return; }
   swapInfo('color-' + c.id + led, `<div class="kf-card kf-product">
     <div class="kf-product-img is-cover"><img src="${img(c.img)}" alt="" style="object-position:${c.fx}% ${c.fy}%"></div>
     <div><span class="kf-kicker">Beckenfarbe</span><h2>${esc(c.name)}</h2><p>${esc(c.desc)}</p>${led ? `<span class="kf-badge-inline">${esc(led)}</span>` : ''}</div>
@@ -207,11 +225,11 @@ function colorCard(id: string | null) {
 function productCard(cat: Equip['cat'], e: Equip | null) {
   const kick = { cover: 'Abdeckung', technology: 'Technik', iwash: 'Rückspülung', heatpump: 'Wärmepumpe', lighting: 'Beleuchtung' }[cat];
   const season = state.step === 6 ? seasonHtml() : '';
-  if (!e) { swapInfo(cat + '-none', `<div class="kf-card kf-product"><div class="kf-product-img"></div><div><span class="kf-kicker">${kick}</span><h2>Bitte wählen</h2>${season}</div></div>`); return; }
+  if (!e) { swapInfo(cat + '-none', pickCard(kick, TIPS[state.step - 1], season)); return; }
   const light = state.step === 6 && !ledSelected(state) && eq(state.light) ? `<span class="kf-badge-inline">${esc(eq(state.light)!.name)}</span>` : '';
   swapInfo(`${cat}-${e.id}-${state.light || ''}`, `<div class="kf-card kf-product">
     <div class="kf-product-img">${e.img ? `<img src="${img(e.img)}" alt="">` : ''}</div>
-    <div><span class="kf-kicker">${kick}</span><h2>${esc(e.name)}</h2><p>${esc(e.desc)}</p>${e.badge ? `<span class="kf-badge-inline">${esc(e.badge)}</span>` : ''} ${light}${season}</div>
+    <div><span class="kf-kicker">${kick}</span><h2>${esc(e.name)}</h2><p>${esc(firstLine(e.desc))}</p>${e.badge ? `<span class="kf-badge-inline">${esc(e.badge)}</span>` : ''} ${light}${season}</div>
   </div>`, () => {
     const on = $('[data-stage-info]').querySelectorAll('.kf-season-bar .on');
     if (on.length && !reduce) animate(on, { scaleX: [0, 1], opacity: [0, 1] }, { delay: stagger(0.06, { startDelay: 0.4 }), duration: 0.6, ease: premium });
@@ -240,17 +258,20 @@ function head() {
   $('[data-head]').innerHTML = `<p class="kf-eyebrow"><span class="dot"></span>Schritt ${state.step} von 7</p><h1>${s.title}</h1>${s.intro ? `<p>${s.intro}</p>` : ''}`;
 }
 const tick = '<span class="kf-tick" aria-hidden="true">✓</span>';
-function optCard(attrs: string, checked: boolean, media: string, title: string, sub = '', badge = '') {
-  return `<li><button type="button" class="kf-opt" role="radio" aria-checked="${checked}" ${attrs}>${media}<h3>${esc(title)}</h3>${sub ? `<p>${esc(sub)}</p>` : ''}${badge ? `<span class="kf-badge-inline">${esc(badge)}</span>` : ''}${tick}</button></li>`;
+function optCard(attrs: string, checked: boolean, media: string, title: string, sub = '', badges: string[] = [], info = '', liAttrs = '') {
+  const chips = badges.filter(Boolean).map((b, i) => `<span class="${i ? 'kf-chip-s' : 'kf-badge-inline'}">${esc(b)}</span>`).join('');
+  return `<li class="kf-item" ${liAttrs}><button type="button" class="kf-opt" role="radio" aria-checked="${checked}" ${attrs}>${media}<span class="kf-opt-body"><h3>${esc(title)}</h3>${sub ? `<p>${esc(sub)}</p>` : ''}</span><span class="kf-opt-foot">${chips}</span>${tick}</button>${info ? `<button type="button" class="kf-info" data-info="${info}" aria-label="Details zu ${esc(title)}">${INFO}</button>` : ''}</li>`;
 }
+const firstLine = (t: string) => (t || '').split('\n')[0].trim();
+const modelChips = (m: Model) => [m.led === 'side-selectable' ? 'LED ein- oder beidseitig' : m.led !== 'none' ? 'LED-Streifen möglich' : '', m.excluded.includes('underfloor-rollo') ? 'Kein Unterflurrollo' : ''];
 function equipList(cat: Equip['cat'], key: keyof Config, cols = 2) {
   const list = equipFor(data, state, cat);
   const blocked = blockedFor(data, state, cat);
   const note = blocked.length ? `<div class="kf-note">ⓘ <span>${esc(blocked.map((b) => b.name).join(', '))} ist für ${esc(model()?.name || 'dieses Becken')} bauartbedingt nicht möglich.</span></div>` : '';
   return note + `<ul class="kf-opts ${cols === 2 ? 'is-2' : ''}" role="radiogroup">${list.map((e) => optCard(
     `data-pick="${key}" data-val="${e.id}"`, state[key] === e.id,
-    e.img ? `<span class="kf-media is-product"><img src="${img(e.img)}" alt="" loading="lazy"></span>` : '<span class="kf-media is-empty"></span>',
-    e.name, e.desc, e.badge)).join('')}</ul>`;
+    e.img ? `<span class="kf-media is-product"><img src="${img(e.img)}" alt="" loading="lazy"></span>` : `<span class="kf-media is-empty">${NONE}</span>`,
+    e.name, firstLine(e.desc), [e.badge], `equip:${e.id}`)).join('')}</ul>`;
 }
 function body() {
   const b = $('[data-body]');
@@ -263,9 +284,10 @@ function body() {
           <span><span class="kf-kicker">${esc(m.tech)}</span><h3>${esc(m.name)}</h3><p>${esc(m.tagline)}</p>
             <span class="meta"><span>${modelsOf(m.id).length} Becken</span><span>${esc(m.points[1] || '')}</span></span></span>
           ${tick}</button>
-        <button type="button" class="kf-more" data-more="${m.id}" aria-expanded="false" aria-controls="kf-models-${m.id}" aria-label="Becken von ${esc(m.name)} anzeigen">
-          <span class="kf-more-pill">${CHEV}${CHEV}</span></button></div>
+        <button type="button" class="kf-more" data-more="${m.id}" aria-expanded="false" aria-controls="kf-models-${m.id}" aria-label="Infos und Becken von ${esc(m.name)}">
+          <span class="kf-more-pill">${INFO}</span></button></div>
         <div class="kf-models" id="kf-models-${m.id}" data-models-of="${m.id}" hidden>
+          <ul class="kf-brand-points">${m.points.map((pt) => `<li>${esc(pt)}</li>`).join('')}</ul>
           <p class="kf-models-head"><span>${modelsOf(m.id).length} Becken von ${esc(m.name)}</span><span>Zum Vergrößern Bild anklicken</span></p>
           <ul class="kf-gal">${galleryOf(m.id).map((md, i) => `<li><button type="button" class="kf-gal-item" data-gal="${m.id}" data-i="${i}" aria-label="${esc(md.name)} vergrößern">
             <span class="kf-gal-img"><img src="${img(md.thumb)}" alt="" loading="lazy" style="object-position:${md.fx}% ${md.fy}%"></span>
@@ -274,8 +296,9 @@ function body() {
   } else if (s === 2) {
     const list = modelsOf(state.man).sort((a, c) => a.l - c.l);
     b.innerHTML = `<div class="kf-filter" role="group" aria-label="Länge">${SIZES.filter((x) => x.id === 'all' || list.some(x.test)).map((x) => `<button type="button" class="kf-fchip" aria-pressed="${state.size === x.id}" data-size="${x.id}">${x.label}</button>`).join('')}<span class="kf-count" data-count-lbl></span></div>
-      <ul class="kf-opts is-2 is-models" role="radiogroup" aria-label="Becken">${list.map((m) => `<li data-mid="${m.id}">${optCard(`data-model="${m.id}"`, state.model === m.id,
-        `<span class="kf-media"><img src="${img(m.thumb)}" alt="" loading="lazy" style="object-position:${m.fx}% ${m.fy}%"></span>`, m.name, m.dims + (m.stairs ? ' · ' + m.stairs : '')).replace(/^<li>|<\/li>$/g, '')}</li>`).join('')}</ul>`;
+      <ul class="kf-opts is-2 is-models" role="radiogroup" aria-label="Becken">${list.map((m) => optCard(`data-model="${m.id}"`, state.model === m.id,
+        `<span class="kf-media"><img src="${img(m.thumb)}" alt="" loading="lazy" style="object-position:${m.fx}% ${m.fy}%"></span>`, m.name, m.dims + (m.stairs ? ' · ' + m.stairs : ''),
+        ['', ...modelChips(m)], `model:${m.id}`, `data-mid="${m.id}"`)).join('')}</ul>`;
     applyFilter(false);
   } else if (s === 3) {
     const cols = colorsFor(data, state);
@@ -284,7 +307,7 @@ function body() {
       ? [['none', 'Ohne LED-Streifen'], ['one-side', 'Einseitig'], ['both-sides', 'Beidseitig']]
       : [['none', 'Ohne LED-Streifen'], ['yes', 'Mit LED-Streifen']];
     b.innerHTML = `<ul class="kf-opts is-2" role="radiogroup" aria-label="Beckenfarbe">${cols.map((c) => optCard(`data-pick="color" data-val="${c.id}"`, state.color === c.id,
-      `<span class="kf-media"><img src="${img(c.thumb)}" alt="" loading="lazy" style="object-position:${c.fx}% ${c.fy}%"></span>`, c.name, c.desc)).join('')}</ul>
+      `<span class="kf-media"><img src="${img(c.thumb)}" alt="" loading="lazy" style="object-position:${c.fx}% ${c.fy}%"></span>`, c.name, c.desc, [], `color:${c.id}`)).join('')}</ul>
       ${ledOpts.length ? `<p class="kf-section-t">LED-Streifen am Beckenrand</p>
         <div class="kf-filter" role="radiogroup" aria-label="LED-Streifen">${ledOpts.map(([v, t]) => `<button type="button" class="kf-fchip" role="radio" aria-checked="${state.led === v}" data-pick="led" data-val="${v}">${t}</button>`).join('')}</div>
         <p class="kf-muted">Die integrierte Lichtlinie setzt die Beckenform abends in Szene. Mit LED-Streifen entfällt die Wahl der Scheinwerfer.</p>`
@@ -301,6 +324,7 @@ function body() {
   } else if (s === 7) {
     b.innerHTML = formHtml();
   }
+  b.insertAdjacentHTML('afterbegin', tip());
   bindBody();
 }
 
@@ -337,6 +361,7 @@ function bindBody() {
   });
   b.querySelectorAll<HTMLElement>('[data-more]').forEach((el) => el.addEventListener('click', () => toggleModels(el)));
   b.querySelectorAll<HTMLElement>('[data-gal]').forEach((el) => el.addEventListener('click', () => openGallery(el.dataset.gal!, +el.dataset.i!, el)));
+  b.querySelectorAll<HTMLElement>('[data-info]').forEach((el) => el.addEventListener('click', () => openInfo(el)));
   b.querySelectorAll<HTMLElement>('[data-size]').forEach((el) => el.addEventListener('click', () => {
     state.size = el.dataset.size!; save();
     b.querySelectorAll('[data-size]').forEach((x) => x.setAttribute('aria-pressed', String(x === el)));
@@ -475,6 +500,30 @@ function pick(key: keyof Config, val: string, el: HTMLElement) {
   updateNav(); chips();
 }
 
+// ---------- Scrollen ----------
+// Desktop: eigener Scrollbereich im Panel (Konfigurator 100vh). Handy/Tablet: die Seite scrollt,
+// Bühne bleibt oben stehen, das Panel gleitet darüber, die Weiter-Leiste klebt unten.
+const lenis = () => (window as any).lenis as { scrollTo: (t: number, o?: object) => void } | undefined;
+function pageScroll(y: number) {
+  const l = lenis(); if (l && !reduce) l.scrollTo(y, { duration: 0.9 }); else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
+}
+function scrollToEl(el: HTMLElement, shift = 0) {
+  if (mobile()) {
+    const bar = $('.kf-bar').getBoundingClientRect().bottom;
+    pageScroll(window.scrollY + el.getBoundingClientRect().top - shift - Math.max(bar, 0) - 12);
+  } else {
+    const scroll = $('[data-scroll]');
+    scroll.scrollTo({ top: scroll.scrollTop + el.getBoundingClientRect().top - scroll.getBoundingClientRect().top - shift - 12, behavior: reduce ? 'auto' : 'smooth' });
+  }
+}
+function scrollStepTop() {
+  if (!mobile()) { $('[data-scroll]').scrollTop = 0; return; }
+  const top = root.getBoundingClientRect().top + window.scrollY;
+  if (window.scrollY > top + 4) pageScroll(top);
+}
+const syncScrollMode = () => $('[data-scroll]').toggleAttribute('data-lenis-prevent', !mobile());
+syncScrollMode(); window.addEventListener('resize', syncScrollMode);
+
 // ---------- Hersteller: Becken aufklappen ----------
 // Höhe weich auf/zu, Karten gestaffelt mit Unschärfe herein; immer nur ein Hersteller offen
 const openAnims = new WeakMap<HTMLElement, { stop: () => void }[]>();
@@ -488,7 +537,7 @@ function setModelsOpen(btn: HTMLElement, open: boolean) {
   if (open) {
     panel.hidden = false; panel.style.height = 'auto';
     const h = panel.offsetHeight;
-    const items = panel.querySelectorAll('.kf-models-head, .kf-gal li');
+    const items = panel.querySelectorAll('.kf-brand-points li, .kf-models-head, .kf-gal li');
     openAnims.set(panel, [
       animate(panel, { height: [from, h], opacity: [from ? Number(getComputedStyle(panel).opacity) : 0, 1] }, { duration: 0.85, ease: premium, onComplete: () => { panel.style.height = 'auto'; } }),
       animate(items, { opacity: [0, 1], y: [22, 0], filter: ['blur(8px)', 'blur(0px)'] }, { delay: (i: number) => 0.12 + Math.min(i, 12) * 0.035, duration: 0.9, ease: premium }),
@@ -509,11 +558,7 @@ function toggleModels(btn: HTMLElement) {
   });
   setModelsOpen(btn, open);
   if (!reduce) animate(btn.querySelector('.kf-more-pill')!, { scale: [0.88, 1] }, { duration: 0.6, ease: premium });
-  if (open) {
-    const scroll = $('[data-scroll]');
-    const top = scroll.scrollTop + item.getBoundingClientRect().top - scroll.getBoundingClientRect().top - shift - 12;
-    window.setTimeout(() => scroll.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' }), 120);
-  }
+  if (open) window.setTimeout(() => scrollToEl(item, shift), 120);
 }
 
 // ---------- Galerie (Lightbox) ----------
@@ -668,6 +713,82 @@ async function closeGallery(picked = false) {
   done();
 }
 
+// ---------- Info-Fenster ----------
+// Desktop: Karte in der Mitte, Handy: Blatt von unten. Inhalt gestaffelt weich herein, „Auswählen“ wählt wie ein Klick auf die Karte.
+let infoOpen = false; let infoEl: HTMLElement | null = null; let infoFrom: HTMLElement | null = null;
+function infoHtml(kind: string, id: string) {
+  const list = (t: string) => { const l = (t || '').split('\n').map((x) => x.trim()).filter(Boolean); return l.length > 1 ? `<p>${esc(l[0])}</p><ul>${l.slice(1).map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : `<p>${esc(l[0] || '')}</p>`; };
+  const facts = (f: [string, string][]) => `<dl class="kf-sheet-facts">${f.filter(([, v]) => v).map(([k, v]) => `<div${v.length > 12 ? ' class="is-wide"' : ''}><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
+  if (kind === 'model') {
+    const m = byId(data.models, id)!; const mn = byId(data.manufacturers, m.man);
+    const depth = m.d.length > 1 ? `${fmt(m.d[0])}–${fmt(m.d[1])} m` : `${fmt(m.d[0])} m`;
+    const ex = m.excluded.map((x) => eq(x)?.name).filter(Boolean).join(', ');
+    return { img: m.img, fit: 'cover', kick: mn?.name || '', title: m.name, badges: modelChips(m).filter(Boolean),
+      body: facts([['Länge', fmt(m.l) + ' m'], ['Breite', fmt(m.w) + ' m'], ['Tiefe', depth], ['Treppe', m.stairs || '']]) +
+        (m.desc && !/^\d/.test(m.desc) ? `<p>${esc(m.desc)}</p>` : '') + (ex ? `<p class="kf-sheet-warn">Bauartbedingt nicht möglich: ${esc(ex)}</p>` : ''),
+      sel: `[data-model="${id}"]` };
+  }
+  if (kind === 'color') {
+    const c = byId(data.colors, id)!;
+    return { img: c.img, fit: 'cover', kick: 'Beckenfarbe · ' + (man()?.name || ''), title: c.name, badges: [], body: `<p>${esc(c.desc)}</p>`, sel: `[data-pick="color"][data-val="${id}"]` };
+  }
+  const e = eq(id)!;
+  const kick = { cover: 'Abdeckung', technology: 'Technik', iwash: 'Rückspülung', heatpump: 'Wärmepumpe', lighting: 'Beleuchtung' }[e.cat];
+  const key = { cover: 'cover', technology: 'tech', iwash: 'iwash', heatpump: 'heat', lighting: 'light' }[e.cat];
+  return { img: e.img, fit: 'contain', kick, title: e.name, badges: [e.badge].filter(Boolean), body: list(e.desc), sel: `[data-pick="${key}"][data-val="${id}"]` };
+}
+function openInfo(from: HTMLElement) {
+  if (infoOpen) return;
+  const [kind, id] = from.dataset.info!.split(':');
+  const d = infoHtml(kind, id);
+  const card = root.querySelector<HTMLElement>(d.sel);
+  const checked = card?.getAttribute('aria-checked') === 'true';
+  if (!infoEl) {
+    infoEl = document.createElement('div'); infoEl.className = 'kf-sheet-wrap'; infoEl.hidden = true;
+    infoEl.setAttribute('data-lenis-prevent', '');
+    document.body.append(infoEl);
+    infoEl.addEventListener('click', (ev) => { const t = ev.target as HTMLElement; if (t.closest('[data-sheet-close]')) closeInfo(); else if (t.closest('[data-sheet-pick]')) { const c = root.querySelector<HTMLElement>(infoEl!.dataset.sel!); closeInfo().then(() => c?.click()); } });
+    document.addEventListener('keydown', (ev) => { if (infoOpen && ev.key === 'Escape') { ev.stopPropagation(); closeInfo(); } }, true);
+  }
+  infoEl.dataset.sel = d.sel;
+  infoEl.innerHTML = `<div class="kf-sheet-bg" data-sheet-close></div>
+    <div class="kf-sheet" role="dialog" aria-modal="true" aria-label="${esc(d.title)}">
+      ${d.img ? `<div class="kf-sheet-img ${d.fit === 'contain' ? 'is-contain' : ''}"><img src="${img(d.img)}" alt=""></div>` : ''}
+      <div class="kf-sheet-body">
+        <span class="kf-kicker">${esc(d.kick)}</span>
+        <h2>${esc(d.title)}</h2>
+        ${d.badges.length ? `<div class="kf-sheet-badges">${d.badges.map((b, i) => `<span class="${i ? 'kf-chip-s' : 'kf-badge-inline'}">${esc(b)}</span>`).join('')}</div>` : ''}
+        <div class="kf-sheet-text">${d.body}</div>
+        <div class="kf-sheet-actions">
+          <button type="button" class="kf-back" data-sheet-close>Schließen</button>
+          <button type="button" class="btn-pill is-navy" data-sheet-pick>${checked ? '✓ Ausgewählt' : 'Auswählen'}</button>
+        </div>
+      </div>
+      <button type="button" class="kf-lb-close kf-sheet-x" data-sheet-close aria-label="Schließen"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2 2 12"/></svg></button>
+    </div>`;
+  infoOpen = true; infoFrom = from; infoEl.hidden = false; lenis() && (window as any).lenis.stop();
+  document.documentElement.classList.add('kf-lb-open');
+  infoEl.querySelector<HTMLElement>('[data-sheet-pick]')!.focus({ preventScroll: true });
+  if (reduce) return;
+  const sheet = infoEl.querySelector<HTMLElement>('.kf-sheet')!;
+  animate(infoEl.querySelector('.kf-sheet-bg')!, { opacity: [0, 1] }, { duration: 0.5, ease: smooth });
+  animate(sheet, phone() ? { y: ['100%', '0%'] } : { opacity: [0, 1], y: [40, 0], scale: [0.96, 1] }, { duration: 0.8, ease: premium });
+  const im = sheet.querySelector('.kf-sheet-img img'); if (im) animate(im, { scale: [1.15, 1] }, { duration: 1.4, ease: premium });
+  animate(sheet.querySelectorAll('.kf-sheet-body > *'), { opacity: [0, 1], y: [18, 0], filter: ['blur(6px)', 'blur(0px)'] }, { delay: stagger(0.05, { startDelay: 0.15 }), duration: 0.8, ease: premium });
+}
+async function closeInfo() {
+  if (!infoOpen || !infoEl) return;
+  infoOpen = false;
+  const el = infoEl; const sheet = el.querySelector<HTMLElement>('.kf-sheet')!;
+  if (!reduce) {
+    animate(el.querySelector('.kf-sheet-bg')!, { opacity: 0 }, { duration: 0.4, ease: smooth });
+    await animate(sheet, phone() ? { y: '100%' } : { opacity: 0, y: 24, scale: 0.97 }, { duration: 0.45, ease: [0.4, 0, 1, 1] });
+  }
+  el.hidden = true; el.innerHTML = '';
+  document.documentElement.classList.remove('kf-lb-open'); lenis() && (window as any).lenis.start();
+  infoFrom?.focus({ preventScroll: true });
+}
+
 // ---------- Navigation ----------
 function canNextAt(step: number) {
   switch (step) {
@@ -711,14 +832,14 @@ function cartList() {
 }
 
 function renderStep(dir: 1 | -1 = 1) {
-  const scroll = $('[data-scroll]');
   const content = [$('[data-head]'), $('[data-body]')];
   const draw = () => {
-    head(); body(); stage(); updateNav(); chips(); scroll.scrollTop = 0;
+    head(); body(); stage(); updateNav(); chips(); scrollStepTop();
     if (reduce) return;
-    content.forEach((c) => { c.style.opacity = '1'; c.style.transform = ''; c.style.filter = ''; });
+    // über Motion zurücksetzen, damit das Ende der Ausblendung den Wert nicht nachträglich wieder auf 0 setzt
+    animate(content, { opacity: 1, y: 0, filter: 'blur(0px)' }, { duration: 0 });
     animate(content[0].children, { opacity: [0, 1], y: [34 * dir, 0], filter: ['blur(10px)', 'blur(0px)'] }, { delay: stagger(0.08), duration: 1.1, ease: premium });
-    const cards = $$('[data-body] .kf-opt, [data-body] .kf-more, [data-body] .kf-fchip, [data-body] .kf-count, [data-body] .kf-note, [data-body] .kf-section-t, [data-body] .kf-field, [data-body] .kf-switch, [data-body] .kf-check')
+    const cards = $$('[data-body] .kf-opt, [data-body] .kf-more, [data-body] .kf-info, [data-body] .kf-fchip, [data-body] .kf-count, [data-body] .kf-note, [data-body] .kf-section-t, [data-body] .kf-field, [data-body] .kf-switch, [data-body] .kf-check')
       .filter((el) => !el.closest('[hidden]')).slice(0, 18);
     animate(cards, { opacity: [0, 1], y: [48, 0], filter: ['blur(8px)', 'blur(0px)'] }, { delay: stagger(0.05, { startDelay: 0.18 }), duration: 1.1, ease: premium });
   };
@@ -769,11 +890,11 @@ function showDone() {
         <button type="button" class="btn-pill is-teal" data-pdf-preview>PDF-Vorschau öffnen</button>` : ''}
       <button type="button" class="kf-back" data-restart>Neue Konfiguration starten</button>
     </div>`;
-  const scroll = $('[data-scroll]');
   const out = reduce ? Promise.resolve() : animate([$('[data-head]'), $('[data-body]')], { opacity: 0, y: -18, filter: 'blur(8px)' }, { duration: 0.38 }).then(() => {});
   out.then(() => {
-    $('[data-head]').innerHTML = ''; $('[data-body]').innerHTML = html; $('[data-foot]').hidden = true; scroll.scrollTop = 0;
-    [$('[data-head]'), $('[data-body]')].forEach((c) => { c.style.opacity = '1'; c.style.transform = ''; c.style.filter = ''; });
+    $('[data-head]').innerHTML = ''; $('[data-body]').innerHTML = html; $('[data-foot]').hidden = true; scrollStepTop();
+    if (reduce) [$('[data-head]'), $('[data-body]')].forEach((c) => { c.style.opacity = '1'; c.style.transform = ''; c.style.filter = ''; });
+    else animate([$('[data-head]'), $('[data-body]')], { opacity: 1, y: 0, filter: 'blur(0px)' }, { duration: 0 });
     $('[data-body]').querySelector('[data-restart]')!.addEventListener('click', restart);
     $('[data-body]').querySelector('[data-pdf-preview]')?.addEventListener('click', previewPdf);
     updateNav(); chips(); stage(); wave(); bumpBadge();
@@ -863,7 +984,7 @@ $('[data-cart]').addEventListener('click', (e) => {
 });
 document.addEventListener('click', (e) => { if (!pop.hidden && !pop.contains(e.target as Node)) { pop.hidden = true; $('[data-cart]').setAttribute('aria-expanded', 'false'); } });
 document.addEventListener('keydown', (e) => {
-  if (state.view !== 'studio' || gallery || (e.target as HTMLElement).closest('input, textarea')) return;
+  if (state.view !== 'studio' || gallery || infoOpen || (e.target as HTMLElement).closest('input, textarea')) return;
   if (e.key === 'ArrowRight' && canNext() && state.step < 7) go(state.step + 1);
   if (e.key === 'ArrowLeft' && state.step > 1) go(state.step - 1);
 });

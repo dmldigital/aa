@@ -74,7 +74,7 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
 
   .right-navbar-content { display: flex; align-items: center; gap: 0.8rem; }
   .nav-menu { display: flex; align-items: center; gap: 1rem; }
-  .nav-link { padding-inline: 0.5rem; transition: all 0.25s; }
+  .nav-link { padding-inline: 0.5rem; white-space: nowrap; transition: all 0.25s; }
   .nav-link:hover { opacity: 0.6; transform: translate(0, 1px); }
   .nav-cta { margin-left: 1rem; }
 
@@ -87,6 +87,11 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
 
   .nav-overlay { display: none; }
 
+  @media (max-width: 1200px) {
+    .nav-menu { gap: 0.5rem; }
+    .nav-cta { margin-left: 0.5rem; }
+    .logo-navbar { width: 10.5rem; }
+  }
   @media (max-width: 991px) {
     .nav-container { max-width: 90vw; }
     .navbar-component { padding: 0.5rem 1rem 0.5rem 2.25rem; position: relative; }
