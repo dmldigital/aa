@@ -242,7 +242,70 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
     .kf-opt-brand .meta { display: flex; gap: 0.75rem; margin-top: 0.5rem; font-size: 0.75rem; color: var(--ink-muted); }
     /* Hover (Nutzerwunsch): die übrigen Logos/Bilder werden grau und treten zurück */
     .kf-opts:has(.kf-opt:hover) .kf-opt:not(:hover) .logo img,
-    .kf-opts:has(.kf-opt:hover) .kf-opt:not(:hover) .kf-media img { filter: grayscale(1); opacity: 0.45; }
+    .kf-opts:has(.kf-opt:hover) .kf-opt:not(:hover) .kf-media img,
+    .kf-opts.is-brands:has(.kf-brand-card:hover) .kf-brand-card:not(:hover) .logo img,
+    .kf-gal:has(.kf-gal-item:hover) .kf-gal-item:not(:hover) img { filter: grayscale(1); opacity: 0.45; }
+
+    /* Hersteller: Becken aufklappen (Nutzerwunsch) – Chevron-Pille in der Sprache des Scroll-Hinweises, leicht bläulich */
+    .kf-brand-card { position: relative; }
+    .kf-brand-card .kf-opt-brand { padding-right: 3.25rem; }
+    .kf-brand-card:hover .kf-opt { box-shadow: 0 14px 30px -20px rgb(0 0 0 / 0.35); transform: translateY(-2px); }
+    .kf-brand-card:hover .kf-opt[aria-checked="true"] { box-shadow: 0 16px 34px -20px #004a80aa; }
+    .kf-more { all: unset; position: absolute; right: 0.85rem; bottom: 0.85rem; z-index: 3; display: grid; place-items: center; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: translate 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .kf-brand-card:hover .kf-more { translate: 0 -2px; }
+    .kf-more-pill {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      width: 1.6rem; height: 2.6rem; border-radius: 999px;
+      background-color: rgb(0 74 128 / 0.08); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      box-shadow: inset 0 0 0 1px rgb(0 74 128 / 0.06);
+      transition: background-color 0.4s, rotate 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: kf-hint-float 3s ease-in-out infinite;
+    }
+    .kf-more:hover .kf-more-pill { background-color: rgb(0 74 128 / 0.14); }
+    .kf-more:focus-visible .kf-more-pill { outline: 2px solid var(--pk-teal); outline-offset: 2px; }
+    .kf-more svg { width: 0.62rem; height: auto; fill: none; stroke: var(--pk-navy); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; opacity: 0.3; animation: kf-hint-chev 1.8s ease-in-out infinite; }
+    .kf-more svg + svg { margin-top: -0.12rem; animation-delay: 0.25s; }
+    .kf-brand-item.is-open .kf-more-pill { rotate: 180deg; animation: none; background-color: rgb(0 74 128 / 0.14); }
+    @keyframes kf-hint-float { 50% { transform: translateY(-3px); } }
+    @keyframes kf-hint-chev { 0%, 100% { opacity: 0.25; transform: translateY(-1px); } 45% { opacity: 0.9; transform: translateY(1.5px); } }
+    .kf-models { overflow: hidden; }
+    .kf-models-head { display: flex; justify-content: space-between; gap: 1rem; margin: 0; padding: 1rem 0.25rem 0.6rem; font-size: 0.75rem; color: var(--ink-muted); }
+    .kf-models-head span:first-child { font-weight: 500; color: var(--pk-navy); }
+    .kf-gal { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; margin: 0; padding: 0 0 0.35rem; list-style: none; }
+    .kf-gal-item { all: unset; box-sizing: border-box; display: block; width: 100%; padding: 0.45rem; border-radius: 0.5rem; background: #fff; cursor: zoom-in; transition: box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .kf-gal-item:hover { box-shadow: 0 14px 30px -20px rgb(0 0 0 / 0.35); transform: translateY(-2px); }
+    .kf-gal-item:focus-visible { outline: 1.5px solid var(--pk-teal); }
+    .kf-gal-img { display: block; aspect-ratio: 4 / 3; border-radius: 0.375rem; overflow: hidden; background: #f1f0ed; }
+    .kf-gal-img img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    .kf-gal-item:hover .kf-gal-img img { scale: 1.06; }
+    .kf-gal-item b { display: block; margin-top: 0.45rem; font-size: 0.8125rem; font-weight: 500; }
+    .kf-gal-item small { display: block; font-size: 0.7rem; color: var(--ink-muted); }
+
+    /* Galerie (Lightbox) – hell wie die Seite, Bedienelemente als bläuliche Glas-Pillen */
+    .kf-lb-open, .kf-lb-open body { overflow: hidden; }
+    .kf-lb { position: fixed; inset: 0; z-index: 1000; touch-action: pan-y; }
+    .kf-lb-bg { position: absolute; inset: 0; background: rgb(239 239 239 / 0.94); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+    .kf-lb-stage { position: absolute; inset: 4.5rem 6rem 7.5rem; pointer-events: none; }
+    .kf-lb-img { position: absolute; left: 50%; top: 50%; margin: 0; translate: -50% -50%; border-radius: 0.5rem; box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.45); object-fit: cover; will-change: transform; }
+    .kf-lb-cap { position: absolute; left: 50%; bottom: 2rem; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; width: min(40rem, 80vw); text-align: center; }
+    .kf-lb-count { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.06em; color: var(--pk-teal); }
+    .kf-lb-cap b { font-size: 1.35rem; font-weight: 500; color: var(--ink); }
+    .kf-lb-cap small { font-size: 0.8125rem; color: var(--ink-muted); }
+    .kf-lb-btn, .kf-lb-close {
+      all: unset; position: absolute; display: grid; place-items: center; cursor: pointer; border-radius: 999px;
+      background-color: rgb(0 74 128 / 0.08); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+      box-shadow: inset 0 0 0 1px rgb(0 74 128 / 0.06); transition: background-color 0.4s, translate 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .kf-lb-btn:hover, .kf-lb-close:hover { background-color: rgb(0 74 128 / 0.16); }
+    .kf-lb-btn:focus-visible, .kf-lb-close:focus-visible { outline: 2px solid var(--pk-teal); outline-offset: 2px; }
+    .kf-lb-btn { top: 50%; width: 2.6rem; height: 4rem; margin-top: -2.75rem; }
+    .kf-lb-btn svg { width: 0.8rem; fill: none; stroke: var(--pk-navy); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+    .kf-lb-btn.is-prev { left: 2rem; } .kf-lb-btn.is-prev svg { rotate: 90deg; }
+    .kf-lb-btn.is-next { right: 2rem; } .kf-lb-btn.is-next svg { rotate: -90deg; }
+    .kf-lb-btn.is-prev:hover { translate: -3px 0; } .kf-lb-btn.is-next:hover { translate: 3px 0; }
+    .kf-lb-close { top: 1.25rem; right: 1.25rem; width: 2.6rem; height: 2.6rem; }
+    .kf-lb-close svg { width: 0.75rem; fill: none; stroke: var(--pk-navy); stroke-width: 1.6; stroke-linecap: round; }
     .kf-kicker { font-size: 0.7rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; color: var(--pk-teal); }
     .kf-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; margin-bottom: 1.1rem; }
     .kf-fchip { all: unset; padding: 0.4rem 0.95rem; border-radius: 999px; background: #fff; border: 1px solid #deded9; font-size: 0.8125rem; cursor: pointer; transition: all 0.3s; }
@@ -335,6 +398,15 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
       .kf-opt-brand { grid-template-columns: 6.5rem 1fr; gap: 0.85rem; padding: 0.85rem; }
       .kf-opt-brand .logo { height: 4.25rem; }
       .kf-opt-brand .meta span:last-child { display: none; }
+      .kf-brand-card .kf-opt-brand { padding-right: 2.9rem; }
+      .kf-more { right: 0.65rem; bottom: 0.65rem; }
+      .kf-models-head span:last-child { display: none; }
+      .kf-gal { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+      .kf-lb-stage { inset: 4.5rem 0.75rem 9.5rem; }
+      .kf-lb-btn { top: auto; bottom: 1.75rem; margin: 0; width: 3.2rem; height: 3.2rem; }
+      .kf-lb-btn.is-prev { left: 1rem; } .kf-lb-btn.is-next { right: 1rem; }
+      .kf-lb-cap { bottom: 1.6rem; width: calc(100vw - 9.5rem); }
+      .kf-lb-cap b { font-size: 1.1rem; }
       .kf-brand h2 { font-size: 1.6rem; }
       .kf-brand ul { display: none; }
       .kf-brand-logo { height: 2.6rem; }
@@ -355,6 +427,8 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
     @media (prefers-reduced-motion: reduce) {
       .kf-start-media img { animation: none; }
       .kf-stage.is-night .kf-night i { animation: none; }
+      .kf-more-pill, .kf-more svg { animation: none; }
+      .kf-more svg { opacity: 0.6; }
     }
   </style>
 </Base>

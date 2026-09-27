@@ -58,6 +58,8 @@ const eq = (id: string | null) => byId(data.equipment, id);
 const modelsOf = (id: string | null) => data.models.filter((m) => m.man === id);
 const heroOf = (id: string) => modelsOf(id).find((m) => m.img) || data.models[0];
 const ledCap = () => model()?.led || 'none';
+const galleryOf = (id: string) => modelsOf(id).sort((a, c) => a.l - c.l);
+const CHEV = '<svg viewBox="0 0 12 8" aria-hidden="true"><path d="M1 1.5 6 6.5l5-5" /></svg>';
 
 // ---------- Bühne: Foto-Übergang ----------
 // Neues Bild wird mit weichem, schrägem Verlauf freigelegt und zoomt langsam aus; das alte wird unscharf.
@@ -254,12 +256,21 @@ function body() {
   const b = $('[data-body]');
   const s = state.step;
   if (s === 1) {
-    b.innerHTML = `<ul class="kf-opts" role="radiogroup" aria-label="Hersteller">${data.manufacturers.map((m) => `
-      <li><button type="button" class="kf-opt kf-opt-brand" role="radio" aria-checked="${state.man === m.id}" data-man="${m.id}">
-        <span class="logo"><img src="${img(m.logo)}" alt=""></span>
-        <span><span class="kf-kicker">${esc(m.tech)}</span><h3>${esc(m.name)}</h3><p>${esc(m.tagline)}</p>
-          <span class="meta"><span>${modelsOf(m.id).length} Becken</span><span>${esc(m.points[1] || '')}</span></span></span>
-        ${tick}</button></li>`).join('')}</ul>`;
+    b.innerHTML = `<ul class="kf-opts is-brands" role="radiogroup" aria-label="Hersteller">${data.manufacturers.map((m) => `
+      <li class="kf-brand-item"><div class="kf-brand-card" data-brand-card="${m.id}">
+        <button type="button" class="kf-opt kf-opt-brand" role="radio" aria-checked="${state.man === m.id}" data-man="${m.id}">
+          <span class="logo"><img src="${img(m.logo)}" alt=""></span>
+          <span><span class="kf-kicker">${esc(m.tech)}</span><h3>${esc(m.name)}</h3><p>${esc(m.tagline)}</p>
+            <span class="meta"><span>${modelsOf(m.id).length} Becken</span><span>${esc(m.points[1] || '')}</span></span></span>
+          ${tick}</button>
+        <button type="button" class="kf-more" data-more="${m.id}" aria-expanded="false" aria-controls="kf-models-${m.id}" aria-label="Becken von ${esc(m.name)} anzeigen">
+          <span class="kf-more-pill">${CHEV}${CHEV}</span></button></div>
+        <div class="kf-models" id="kf-models-${m.id}" data-models-of="${m.id}" hidden>
+          <p class="kf-models-head"><span>${modelsOf(m.id).length} Becken von ${esc(m.name)}</span><span>Zum Vergrößern Bild anklicken</span></p>
+          <ul class="kf-gal">${galleryOf(m.id).map((md, i) => `<li><button type="button" class="kf-gal-item" data-gal="${m.id}" data-i="${i}" aria-label="${esc(md.name)} vergrößern">
+            <span class="kf-gal-img"><img src="${img(md.thumb)}" alt="" loading="lazy" style="object-position:${md.fx}% ${md.fy}%"></span>
+            <b>${esc(md.name)}</b><small>${esc(md.dims)}</small></button></li>`).join('')}</ul>
+        </div></li>`).join('')}</ul>`;
   } else if (s === 2) {
     const list = modelsOf(state.man).sort((a, c) => a.l - c.l);
     b.innerHTML = `<div class="kf-filter" role="group" aria-label="Länge">${SIZES.filter((x) => x.id === 'all' || list.some(x.test)).map((x) => `<button type="button" class="kf-fchip" aria-pressed="${state.size === x.id}" data-size="${x.id}">${x.label}</button>`).join('')}<span class="kf-count" data-count-lbl></span></div>
@@ -319,11 +330,13 @@ function formHtml() {
 let hoverTimer2 = 0;
 function bindBody() {
   const b = $('[data-body]');
-  b.querySelectorAll<HTMLElement>('[data-man]').forEach((el) => {
-    el.addEventListener('click', () => pickMan(el.dataset.man!, el));
-    el.addEventListener('mouseenter', () => { if (!mobile()) { window.clearTimeout(hoverTimer2); hoverTimer2 = window.setTimeout(() => stage({ brand: byId(data.manufacturers, el.dataset.man!)! }), 180); } });
+  b.querySelectorAll<HTMLElement>('[data-man]').forEach((el) => el.addEventListener('click', () => pickMan(el.dataset.man!, el)));
+  b.querySelectorAll<HTMLElement>('[data-brand-card]').forEach((el) => {
+    el.addEventListener('mouseenter', () => { if (!mobile()) { window.clearTimeout(hoverTimer2); hoverTimer2 = window.setTimeout(() => stage({ brand: byId(data.manufacturers, el.dataset.brandCard!)! }), 180); } });
     el.addEventListener('mouseleave', () => { if (!mobile()) { window.clearTimeout(hoverTimer2); hoverTimer2 = window.setTimeout(() => stage(), 260); } });
   });
+  b.querySelectorAll<HTMLElement>('[data-more]').forEach((el) => el.addEventListener('click', () => toggleModels(el)));
+  b.querySelectorAll<HTMLElement>('[data-gal]').forEach((el) => el.addEventListener('click', () => openGallery(el.dataset.gal!, +el.dataset.i!, el)));
   b.querySelectorAll<HTMLElement>('[data-size]').forEach((el) => el.addEventListener('click', () => {
     state.size = el.dataset.size!; save();
     b.querySelectorAll('[data-size]').forEach((x) => x.setAttribute('aria-pressed', String(x === el)));
@@ -462,6 +475,183 @@ function pick(key: keyof Config, val: string, el: HTMLElement) {
   updateNav(); chips();
 }
 
+// ---------- Hersteller: Becken aufklappen ----------
+// Höhe weich auf/zu, Karten gestaffelt mit Unschärfe herein; immer nur ein Hersteller offen
+const openAnims = new WeakMap<HTMLElement, { stop: () => void }[]>();
+function setModelsOpen(btn: HTMLElement, open: boolean) {
+  const panel = root.querySelector<HTMLElement>(`[data-models-of="${btn.dataset.more}"]`)!;
+  btn.setAttribute('aria-expanded', String(open));
+  btn.closest('.kf-brand-item')!.classList.toggle('is-open', open);
+  openAnims.get(panel)?.forEach((a) => a.stop());
+  if (reduce) { panel.hidden = !open; return; }
+  const from = panel.hidden ? 0 : panel.offsetHeight;
+  if (open) {
+    panel.hidden = false; panel.style.height = 'auto';
+    const h = panel.offsetHeight;
+    const items = panel.querySelectorAll('.kf-models-head, .kf-gal li');
+    openAnims.set(panel, [
+      animate(panel, { height: [from, h], opacity: [from ? Number(getComputedStyle(panel).opacity) : 0, 1] }, { duration: 0.85, ease: premium, onComplete: () => { panel.style.height = 'auto'; } }),
+      animate(items, { opacity: [0, 1], y: [22, 0], filter: ['blur(8px)', 'blur(0px)'] }, { delay: (i: number) => 0.12 + Math.min(i, 12) * 0.035, duration: 0.9, ease: premium }),
+    ]);
+  } else {
+    openAnims.set(panel, [animate(panel, { height: [from, 0], opacity: [1, 0] }, { duration: 0.55, ease: smooth, onComplete: () => { panel.hidden = true; panel.style.height = ''; } })]);
+  }
+}
+function toggleModels(btn: HTMLElement) {
+  const open = btn.getAttribute('aria-expanded') !== 'true';
+  const item = btn.closest<HTMLElement>('.kf-brand-item')!;
+  let shift = 0; // Höhe der darüber zuklappenden Liste (für das Nachscrollen)
+  $$('[data-more][aria-expanded="true"]').forEach((b) => {
+    if (b === btn) return;
+    const p = root.querySelector<HTMLElement>(`[data-models-of="${b.dataset.more}"]`)!;
+    if (p.compareDocumentPosition(item) & Node.DOCUMENT_POSITION_FOLLOWING) shift += p.offsetHeight;
+    setModelsOpen(b, false);
+  });
+  setModelsOpen(btn, open);
+  if (!reduce) animate(btn.querySelector('.kf-more-pill')!, { scale: [0.88, 1] }, { duration: 0.6, ease: premium });
+  if (open) {
+    const scroll = $('[data-scroll]');
+    const top = scroll.scrollTop + item.getBoundingClientRect().top - scroll.getBoundingClientRect().top - shift - 12;
+    window.setTimeout(() => scroll.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' }), 120);
+  }
+}
+
+// ---------- Galerie (Lightbox) ----------
+// Öffnen: Bild wächst aus dem Vorschaubild (FLIP mit Zuschnitt), Blättern: weich seitlich mit Unschärfe,
+// Schließen: zurück ins Vorschaubild. Pfeiltasten, Esc, Wischen.
+let gallery: { list: Model[]; i: number; man: string; busy?: boolean } | null = null;
+let lb: HTMLElement | null = null;
+let lbImg: HTMLImageElement | null = null;
+function lbEl() {
+  if (lb) return lb;
+  lb = document.createElement('div');
+  lb.className = 'kf-lb'; lb.hidden = true;
+  lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-modal', 'true'); lb.setAttribute('aria-label', 'Becken-Galerie');
+  lb.setAttribute('data-lenis-prevent', '');
+  lb.innerHTML = `<div class="kf-lb-bg" data-lb-close></div>
+    <div class="kf-lb-stage" data-lb-stage></div>
+    <div class="kf-lb-cap" data-lb-cap></div>
+    <button type="button" class="kf-lb-btn is-prev" data-lb-step="-1" aria-label="Vorheriges Becken">${CHEV}</button>
+    <button type="button" class="kf-lb-btn is-next" data-lb-step="1" aria-label="Nächstes Becken">${CHEV}</button>
+    <button type="button" class="kf-lb-close" data-lb-close aria-label="Galerie schließen"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2 2 12"/></svg></button>`;
+  document.body.append(lb);
+  lb.querySelectorAll('[data-lb-close]').forEach((b) => b.addEventListener('click', closeGallery));
+  lb.querySelectorAll<HTMLElement>('[data-lb-step]').forEach((b) => b.addEventListener('click', () => stepGallery(+b.dataset.lbStep!)));
+  let sx = 0, sy = 0;
+  lb.addEventListener('pointerdown', (e) => { sx = e.clientX; sy = e.clientY; });
+  lb.addEventListener('pointerup', (e) => { const dx = e.clientX - sx; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(e.clientY - sy)) stepGallery(dx < 0 ? 1 : -1); });
+  document.addEventListener('keydown', (e) => {
+    if (!gallery) return;
+    if (e.key === 'Escape') closeGallery();
+    else if (e.key === 'ArrowRight') stepGallery(1);
+    else if (e.key === 'ArrowLeft') stepGallery(-1);
+    else return;
+    e.preventDefault(); e.stopPropagation();
+  }, true);
+  window.addEventListener('resize', () => { if (gallery && lbImg) fitImg(lbImg); });
+  return lb;
+}
+// Bild „contain“ in die Bühne einpassen – mit echten Maßen, damit die 8px-Ecken am Bild sitzen
+function fitImg(im: HTMLImageElement) {
+  const st = lb!.querySelector<HTMLElement>('[data-lb-stage]')!.getBoundingClientRect();
+  const k = Math.min(st.width / im.naturalWidth, st.height / im.naturalHeight, 1.6);
+  const w = Math.round(im.naturalWidth * k), h = Math.round(im.naturalHeight * k);
+  im.style.width = w + 'px'; im.style.height = h + 'px';
+  return { w, h, cx: st.left + st.width / 2, cy: st.top + st.height / 2 };
+}
+const loadImg = (src: string) => new Promise<HTMLImageElement>((ok) => {
+  const im = new Image(); im.className = 'kf-lb-img'; im.alt = ''; im.decoding = 'async';
+  im.onload = im.onerror = () => ok(im); im.src = src;
+});
+function caption(dir = 0) {
+  const g = gallery!; const md = g.list[g.i];
+  const cap = lb!.querySelector<HTMLElement>('[data-lb-cap]')!;
+  cap.innerHTML = `<span class="kf-lb-count">${g.i + 1} / ${g.list.length}</span><b>${esc(md.name)}</b>
+    <small>${esc([md.dims, md.stairs].filter(Boolean).join(' · '))}</small>`;
+  if (!reduce) animate(cap.children, { opacity: [0, 1], x: [dir * 16, 0], y: [dir ? 0 : 10, 0], filter: ['blur(6px)', 'blur(0px)'] }, { delay: stagger(0.05), duration: 0.7, ease: premium });
+  lbImg!.alt = `${md.name}, ${md.dims}`;
+  // Nachbarn vorladen
+  [g.i - 1, g.i + 1].forEach((j) => { const n = g.list[(j + g.list.length) % g.list.length]; if (n?.img) new Image().src = img(n.img); });
+}
+function thumbRect(g = gallery) {
+  if (!g) return null;
+  const t = root.querySelector<HTMLElement>(`[data-gal="${g.man}"][data-i="${g.i}"] .kf-gal-img`);
+  if (!t || !t.getClientRects().length) return null;
+  const r = t.getBoundingClientRect();
+  return r.bottom > 0 && r.top < window.innerHeight ? r : null;
+}
+// Transform + Zuschnitt, damit das große Bild genau wie das Vorschaubild aussieht
+function flip(f: { w: number; h: number; cx: number; cy: number }, t: DOMRect) {
+  const s = Math.max(t.width / f.w, t.height / f.h);
+  const ix = Math.max(0, (f.w - t.width / s) / 2), iy = Math.max(0, (f.h - t.height / s) / 2);
+  return {
+    transform: `translate(${t.left + t.width / 2 - f.cx}px, ${t.top + t.height / 2 - f.cy}px) scale(${s})`,
+    clipPath: `inset(${iy}px ${ix}px round ${6 / s}px)`,
+  };
+}
+async function openGallery(manId: string, i: number, from: HTMLElement) {
+  if (gallery) return;
+  const list = galleryOf(manId);
+  gallery = { list, i, man: manId, busy: true };
+  const el = lbEl();
+  const im = await loadImg(img(list[i].img || list[i].thumb));
+  const stageEl = el.querySelector('[data-lb-stage]')!;
+  stageEl.replaceChildren(im); lbImg = im;
+  el.hidden = false; document.documentElement.classList.add('kf-lb-open'); (window as any).lenis?.stop();
+  caption();
+  const f = fitImg(im); const t = thumbRect();
+  el.querySelector<HTMLElement>('.kf-lb-close')!.focus({ preventScroll: true });
+  (el as any)._from = from;
+  if (reduce) { gallery.busy = false; return; }
+  animate(el.querySelector('.kf-lb-bg')!, { opacity: [0, 1] }, { duration: 0.6, ease: smooth });
+  animate(el.querySelectorAll('.kf-lb-btn, .kf-lb-close'), { opacity: [0, 1], scale: [0.8, 1] }, { delay: stagger(0.05, { startDelay: 0.3 }), duration: 0.7, ease: premium });
+  const a = t
+    ? (() => { const p = flip(f, t); return animate(im, { transform: [p.transform, 'translate(0px, 0px) scale(1)'], clipPath: [p.clipPath, 'inset(0px 0px round 8px)'] }, { duration: 0.9, ease: premium }); })()
+    : animate(im, { opacity: [0, 1], scale: [0.92, 1], filter: ['blur(10px)', 'blur(0px)'] }, { duration: 0.8, ease: premium });
+  await a; im.style.transform = ''; im.style.clipPath = '';
+  if (gallery) gallery.busy = false;
+}
+async function stepGallery(dir: number) {
+  const g = gallery; if (!g || g.busy || g.list.length < 2) return;
+  g.busy = true;
+  g.i = (g.i + dir + g.list.length) % g.list.length;
+  const md = g.list[g.i];
+  const old = lbImg!;
+  const im = await loadImg(img(md.img || md.thumb));
+  if (gallery !== g) return;
+  lb!.querySelector('[data-lb-stage]')!.append(im); lbImg = im; fitImg(im);
+  caption(dir);
+  if (reduce) { old.remove(); g.busy = false; return; }
+  animate(old, { x: -dir * 90, opacity: 0, filter: 'blur(10px)', scale: 0.97 }, { duration: 0.55, ease: smooth }).then(() => old.remove());
+  await animate(im, { x: [dir * 120, 0], opacity: [0, 1], filter: ['blur(10px)', 'blur(0px)'], scale: [1.03, 1] }, { duration: 0.95, ease: premium });
+  g.busy = false;
+}
+async function closeGallery() {
+  const g = gallery; if (!g || !lb) return;
+  gallery = null;
+  const el = lb; const im = lbImg!;
+  const from: HTMLElement | undefined = (el as any)._from;
+  const back = root.querySelector<HTMLElement>(`[data-gal="${g.man}"][data-i="${g.i}"]`) || from;
+  const done = () => {
+    el.hidden = true; el.querySelector('[data-lb-stage]')!.replaceChildren(); lbImg = null;
+    document.documentElement.classList.remove('kf-lb-open'); (window as any).lenis?.start();
+    back?.focus({ preventScroll: true });
+  };
+  if (reduce) return done();
+  const t = thumbRect(g);
+  animate(el.querySelectorAll('.kf-lb-cap, .kf-lb-btn, .kf-lb-close'), { opacity: 0 }, { duration: 0.3 });
+  animate(el.querySelector('.kf-lb-bg')!, { opacity: 0 }, { duration: 0.6, delay: 0.1, ease: smooth });
+  if (t) {
+    const r = im.getBoundingClientRect();
+    const p = flip({ w: r.width, h: r.height, cx: r.left + r.width / 2, cy: r.top + r.height / 2 }, t);
+    await animate(im, { transform: ['translate(0px, 0px) scale(1)', p.transform], clipPath: ['inset(0px 0px round 8px)', p.clipPath] }, { duration: 0.75, ease: premium });
+  } else {
+    await animate(im, { opacity: 0, scale: 0.94, filter: 'blur(10px)' }, { duration: 0.5, ease: smooth });
+  }
+  el.querySelectorAll<HTMLElement>('.kf-lb-cap, .kf-lb-btn, .kf-lb-close').forEach((x) => { x.style.opacity = ''; });
+  done();
+}
+
 // ---------- Navigation ----------
 function canNextAt(step: number) {
   switch (step) {
@@ -512,7 +702,7 @@ function renderStep(dir: 1 | -1 = 1) {
     if (reduce) return;
     content.forEach((c) => { c.style.opacity = '1'; c.style.transform = ''; c.style.filter = ''; });
     animate(content[0].children, { opacity: [0, 1], y: [34 * dir, 0], filter: ['blur(10px)', 'blur(0px)'] }, { delay: stagger(0.08), duration: 1.1, ease: premium });
-    const cards = $$('[data-body] .kf-opt, [data-body] .kf-fchip, [data-body] .kf-count, [data-body] .kf-note, [data-body] .kf-section-t, [data-body] .kf-field, [data-body] .kf-switch, [data-body] .kf-check')
+    const cards = $$('[data-body] .kf-opt, [data-body] .kf-more, [data-body] .kf-fchip, [data-body] .kf-count, [data-body] .kf-note, [data-body] .kf-section-t, [data-body] .kf-field, [data-body] .kf-switch, [data-body] .kf-check')
       .filter((el) => !el.closest('[hidden]')).slice(0, 18);
     animate(cards, { opacity: [0, 1], y: [48, 0], filter: ['blur(8px)', 'blur(0px)'] }, { delay: stagger(0.05, { startDelay: 0.18 }), duration: 1.1, ease: premium });
   };
@@ -657,7 +847,7 @@ $('[data-cart]').addEventListener('click', (e) => {
 });
 document.addEventListener('click', (e) => { if (!pop.hidden && !pop.contains(e.target as Node)) { pop.hidden = true; $('[data-cart]').setAttribute('aria-expanded', 'false'); } });
 document.addEventListener('keydown', (e) => {
-  if (state.view !== 'studio' || (e.target as HTMLElement).closest('input, textarea')) return;
+  if (state.view !== 'studio' || gallery || (e.target as HTMLElement).closest('input, textarea')) return;
   if (e.key === 'ArrowRight' && canNext() && state.step < 7) go(state.step + 1);
   if (e.key === 'ArrowLeft' && state.step > 1) go(state.step - 1);
 });
