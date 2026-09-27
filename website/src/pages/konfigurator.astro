@@ -146,7 +146,7 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
     .kf-stage-info { position: absolute; z-index: 4; left: 1.5rem; right: 1.5rem; bottom: 1.5rem; color: #fff; }
     .kf-chips { position: absolute; z-index: 4; left: 1.5rem; top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; max-width: calc(100% - 9rem); }
     .kf-chip { display: inline-flex; align-items: center; gap: 0.4rem; height: 2rem; padding: 0 0.9rem; border-radius: 999px; background: rgb(255 255 255 / 0.9); color: var(--ink); font-size: 0.8125rem; font-weight: 500; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); white-space: nowrap; }
-    .kf-fly { position: fixed; z-index: 90; pointer-events: none; }
+    .kf-fly { position: fixed; z-index: 1100; pointer-events: none; }
 
     /* Nachtmodus (LED / Licht) */
     .kf-night { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0; transition: opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1); background: radial-gradient(120% 90% at 50% 60%, rgb(4 20 34 / 0.35), rgb(2 10 20 / 0.82)); }
@@ -285,12 +285,13 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
     .kf-lb-open, .kf-lb-open body { overflow: hidden; }
     .kf-lb { position: fixed; inset: 0; z-index: 1000; touch-action: pan-y; }
     .kf-lb-bg { position: absolute; inset: 0; background: rgb(239 239 239 / 0.94); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
-    .kf-lb-stage { position: absolute; inset: 4.5rem 6rem 7.5rem; pointer-events: none; }
+    .kf-lb-stage { position: absolute; inset: 4.5rem 6rem 10.5rem; pointer-events: none; }
     .kf-lb-img { position: absolute; left: 50%; top: 50%; margin: 0; translate: -50% -50%; border-radius: 0.5rem; box-shadow: 0 30px 60px -30px rgb(0 0 0 / 0.45); object-fit: cover; will-change: transform; }
     .kf-lb-cap { position: absolute; left: 50%; bottom: 2rem; translate: -50% 0; display: flex; flex-direction: column; align-items: center; gap: 0.2rem; width: min(40rem, 80vw); text-align: center; }
     .kf-lb-count { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.06em; color: var(--pk-teal); }
     .kf-lb-cap b { font-size: 1.35rem; font-weight: 500; color: var(--ink); }
     .kf-lb-cap small { font-size: 0.8125rem; color: var(--ink-muted); }
+    .kf-lb-pick { margin-top: 0.9rem; cursor: pointer; }
     .kf-lb-btn, .kf-lb-close {
       all: unset; position: absolute; display: grid; place-items: center; cursor: pointer; border-radius: 999px;
       background-color: rgb(0 74 128 / 0.08); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
@@ -402,7 +403,8 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
       .kf-more { right: 0.65rem; bottom: 0.65rem; }
       .kf-models-head span:last-child { display: none; }
       .kf-gal { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-      .kf-lb-stage { inset: 4.5rem 0.75rem 9.5rem; }
+      .kf-lb-stage { inset: 4.5rem 0.75rem 13rem; }
+      .kf-lb-cap .kf-lb-pick { margin-top: 0.5rem; }
       .kf-lb-btn { top: auto; bottom: 1.75rem; margin: 0; width: 3.2rem; height: 3.2rem; }
       .kf-lb-btn.is-prev { left: 1rem; } .kf-lb-btn.is-next { right: 1rem; }
       .kf-lb-cap { bottom: 1.6rem; width: calc(100vw - 9.5rem); }

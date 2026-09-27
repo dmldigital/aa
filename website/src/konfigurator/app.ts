@@ -537,6 +537,7 @@ function lbEl() {
   document.body.append(lb);
   lb.querySelectorAll('[data-lb-close]').forEach((b) => b.addEventListener('click', closeGallery));
   lb.querySelectorAll<HTMLElement>('[data-lb-step]').forEach((b) => b.addEventListener('click', () => stepGallery(+b.dataset.lbStep!)));
+  lb.addEventListener('click', (e) => { if ((e.target as HTMLElement).closest('[data-lb-pick]')) chooseFromGallery(); });
   let sx = 0, sy = 0;
   lb.addEventListener('pointerdown', (e) => { sx = e.clientX; sy = e.clientY; });
   lb.addEventListener('pointerup', (e) => { const dx = e.clientX - sx; if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(e.clientY - sy)) stepGallery(dx < 0 ? 1 : -1); });
@@ -567,7 +568,8 @@ function caption(dir = 0) {
   const g = gallery!; const md = g.list[g.i];
   const cap = lb!.querySelector<HTMLElement>('[data-lb-cap]')!;
   cap.innerHTML = `<span class="kf-lb-count">${g.i + 1} / ${g.list.length}</span><b>${esc(md.name)}</b>
-    <small>${esc([md.dims, md.stairs].filter(Boolean).join(' · '))}</small>`;
+    <small>${esc([md.dims, md.stairs].filter(Boolean).join(' · '))}</small>
+    <button type="button" class="btn-pill is-navy kf-lb-pick" data-lb-pick>${state.model === md.id ? '✓ Ausgewählt – weiter' : 'Dieses Becken wählen'}</button>`;
   if (!reduce) animate(cap.children, { opacity: [0, 1], x: [dir * 16, 0], y: [dir ? 0 : 10, 0], filter: ['blur(6px)', 'blur(0px)'] }, { delay: stagger(0.05), duration: 0.7, ease: premium });
   lbImg!.alt = `${md.name}, ${md.dims}`;
   // Nachbarn vorladen
@@ -626,19 +628,33 @@ async function stepGallery(dir: number) {
   await animate(im, { x: [dir * 120, 0], opacity: [0, 1], filter: ['blur(10px)', 'blur(0px)'], scale: [1.03, 1] }, { duration: 0.95, ease: premium });
   g.busy = false;
 }
-async function closeGallery() {
+// „Dieses Becken wählen“: Hersteller + Becken übernehmen, Chip fliegt in „Ihr Pool“, weiter zu Schritt 2
+function chooseFromGallery() {
+  const g = gallery; if (!g || !lb) return;
+  const md = g.list[g.i];
+  if (state.man !== g.man) Object.assign(state, { ...empty, man: g.man, compare: null });
+  if (state.model !== md.id) {
+    state.model = md.id;
+    Object.assign(state, { color: null, led: null, light: null });
+    if (state.cover && (md.excluded || []).includes(state.cover)) state.cover = null;
+  }
+  state.size = 'all'; state.compare = null; save();
+  flyChip(lb.querySelector<HTMLElement>('[data-lb-pick]')!, md.name);
+  closeGallery(true).then(() => go(2));
+}
+async function closeGallery(picked = false) {
   const g = gallery; if (!g || !lb) return;
   gallery = null;
   const el = lb; const im = lbImg!;
   const from: HTMLElement | undefined = (el as any)._from;
-  const back = root.querySelector<HTMLElement>(`[data-gal="${g.man}"][data-i="${g.i}"]`) || from;
+  const back = picked ? null : root.querySelector<HTMLElement>(`[data-gal="${g.man}"][data-i="${g.i}"]`) || from;
   const done = () => {
     el.hidden = true; el.querySelector('[data-lb-stage]')!.replaceChildren(); lbImg = null;
     document.documentElement.classList.remove('kf-lb-open'); (window as any).lenis?.start();
     back?.focus({ preventScroll: true });
   };
   if (reduce) return done();
-  const t = thumbRect(g);
+  const t = picked ? null : thumbRect(g);
   animate(el.querySelectorAll('.kf-lb-cap, .kf-lb-btn, .kf-lb-close'), { opacity: 0 }, { duration: 0.3 });
   animate(el.querySelector('.kf-lb-bg')!, { opacity: 0 }, { duration: 0.6, delay: 0.1, ease: smooth });
   if (t) {
