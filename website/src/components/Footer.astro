@@ -11,7 +11,7 @@ import { url } from '../lib/url';
 const cols = [
   { title: 'Entdecken', links: [['Pools', url('#pools')], ['Partner', url('#partner')]] },
   { title: 'Service', links: [['Leistungen', url('#leistungen')], ['Häufige Fragen', url('#faq')]] },
-  { title: 'Kontakt', links: [['0177 - 450 95 00', 'tel:+491774509500'], ['E-Mail schreiben', 'mailto:info@poolbau-kochgmbh.de']] },
+  { title: 'Kontakt', links: [['0177 450 95 00', 'tel:+491774509500'], ['E-Mail schreiben', 'mailto:info@poolbau-kochgmbh.de']] },
   { title: 'Online', links: [['Pool-Konfigurator', url('konfigurator/')], ['Shop', 'https://shop.poolbau-kochgmbh.de/']] },
 ];
 const icon = (d: string) => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
@@ -78,6 +78,7 @@ const socials = [
   .text-weight-medium { font-weight: 500; }
   .footer-links-wrapper { display: flex; flex-flow: column; justify-content: flex-start; align-items: center; gap: 1rem; }
   .footer-link { color: #8e8c87; font-size: 1rem; font-weight: 400; text-decoration: none; transition: all 0.25s; }
+  .footer-link[href^="tel:"] { white-space: nowrap; }
   .footer-link:hover { color: #151515; transform: translate(0, -2px); }
   .footer-social-wrapper { display: flex; justify-content: center; align-items: center; gap: 1.5rem; margin-top: 4.8rem; margin-bottom: 11rem; }
   .footer-social {

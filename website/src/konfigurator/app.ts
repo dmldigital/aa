@@ -22,9 +22,9 @@ const esc = (s: string) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&a
 const STEPS = [
   { title: 'Welcher Hersteller passt zu Ihnen?', intro: 'Wählen Sie zuerst Bauweise und Designsprache. Danach zeigen wir nur passende Becken.' },
   { title: 'Wählen Sie Ihr Becken', intro: 'Alle Modelle und Maße aus den Herstellerkatalogen 2026. Filtern Sie nach Länge.' },
-  { title: 'Farbe & LED', intro: 'Wählen Sie die Oberfläche, die zu Garten und Architektur passt – und auf Wunsch eine Lichtlinie am Beckenrand.' },
+  { title: 'Farbe & LED', intro: 'Wählen Sie die Oberfläche, die zu Garten und Architektur passt, und auf Wunsch eine Lichtlinie am Beckenrand.' },
   { title: 'Wie soll Ihr Pool abgedeckt werden?', intro: 'Eine Abdeckung erhöht Komfort, Sicherheit und Energieeffizienz.' },
-  { title: 'Wo sitzt die Technik?', intro: 'Kompakte Technikbox neben dem Pool oder flexible Technikwand für Gartenhaus und Garage – dazu die Rückspülung.' },
+  { title: 'Wo sitzt die Technik?', intro: 'Kompakte Technikbox neben dem Pool oder flexible Technikwand für Gartenhaus und Garage, dazu die Rückspülung.' },
   { title: 'Wärme & Licht', intro: 'Verlängern Sie die Badesaison mit einer Wärmepumpe und setzen Sie Ihren Pool abends in Szene.' },
   { title: 'Ihr Pool ist geplant', intro: 'Wir schicken Ihnen die Konfiguration als PDF per E-Mail. Auf Wunsch melden wir uns zur kostenlosen Beratung.' },
 ];
@@ -160,7 +160,7 @@ function plan(md: Model) {
         <div><b>${depth}</b><small>Tiefe m</small></div>
       </div>
       ${md.stairs || md.desc ? `<p class="kf-plan-desc">${esc([md.stairs, md.desc].filter(Boolean).join(' · '))}</p>` : ''}
-      <button type="button" class="kf-link" data-compare>${state.compare ? (cmp ? '✕ Vergleich beenden' : '✕ Vergleich beenden – jetzt zweites Becken wählen') : '⇆ Mit anderem Becken vergleichen'}</button>
+      <button type="button" class="kf-link" data-compare>${state.compare ? (cmp ? '✕ Vergleich beenden' : 'Jetzt zweites Becken wählen · ✕ Vergleich beenden') : '⇆ Mit anderem Becken vergleichen'}</button>
       ${cmp ? `<div class="kf-legend"><span><i style="background:#7cc5d8"></i>${esc(md.name)}</span><span><i style="border:2px dashed var(--pk-teal)"></i>${esc(cmp.name)} · ${fmt(cmp.l)} × ${fmt(cmp.w)} m</span></div>` : ''}
     </div>
     <svg viewBox="0 0 320 170" aria-hidden="true" data-plan></svg>
@@ -198,7 +198,7 @@ function drawPlan(md: Model, cmp: Model | null) {
 function colorCard(id: string | null) {
   const c = byId(data.colors, id);
   const led = ledSelected(state) ? LED_LABELS[state.led!] : '';
-  if (!c) { swapInfo('color-none', `<div class="kf-card kf-product"><div class="kf-product-img is-cover"></div><div><span class="kf-kicker">Beckenfarbe</span><h2>Bitte wählen</h2><p>Die Farbe verändert die Wasserwirkung – von strahlendem Türkis bis zu tiefem Blau.</p></div></div>`); return; }
+  if (!c) { swapInfo('color-none', `<div class="kf-card kf-product"><div class="kf-product-img is-cover"></div><div><span class="kf-kicker">Beckenfarbe</span><h2>Bitte wählen</h2><p>Die Farbe verändert die Wasserwirkung: von strahlendem Türkis bis zu tiefem Blau.</p></div></div>`); return; }
   swapInfo('color-' + c.id + led, `<div class="kf-card kf-product">
     <div class="kf-product-img is-cover"><img src="${img(c.img)}" alt="" style="object-position:${c.fx}% ${c.fy}%"></div>
     <div><span class="kf-kicker">Beckenfarbe</span><h2>${esc(c.name)}</h2><p>${esc(c.desc)}</p>${led ? `<span class="kf-badge-inline">${esc(led)}</span>` : ''}</div>
@@ -210,7 +210,7 @@ function productCard(cat: Equip['cat'], e: Equip | null) {
   if (!e) { swapInfo(cat + '-none', `<div class="kf-card kf-product"><div class="kf-product-img"></div><div><span class="kf-kicker">${kick}</span><h2>Bitte wählen</h2>${season}</div></div>`); return; }
   const light = state.step === 6 && !ledSelected(state) && eq(state.light) ? `<span class="kf-badge-inline">${esc(eq(state.light)!.name)}</span>` : '';
   swapInfo(`${cat}-${e.id}-${state.light || ''}`, `<div class="kf-card kf-product">
-    <div class="kf-product-img">${e.img ? `<img src="${img(e.img)}" alt="">` : '<span style="font-size:2rem;color:#c9c8c3">—</span>'}</div>
+    <div class="kf-product-img">${e.img ? `<img src="${img(e.img)}" alt="">` : ''}</div>
     <div><span class="kf-kicker">${kick}</span><h2>${esc(e.name)}</h2><p>${esc(e.desc)}</p>${e.badge ? `<span class="kf-badge-inline">${esc(e.badge)}</span>` : ''} ${light}${season}</div>
   </div>`, () => {
     const on = $('[data-stage-info]').querySelectorAll('.kf-season-bar .on');
@@ -249,7 +249,7 @@ function equipList(cat: Equip['cat'], key: keyof Config, cols = 2) {
   const note = blocked.length ? `<div class="kf-note">ⓘ <span>${esc(blocked.map((b) => b.name).join(', '))} ist für ${esc(model()?.name || 'dieses Becken')} bauartbedingt nicht möglich.</span></div>` : '';
   return note + `<ul class="kf-opts ${cols === 2 ? 'is-2' : ''}" role="radiogroup">${list.map((e) => optCard(
     `data-pick="${key}" data-val="${e.id}"`, state[key] === e.id,
-    e.img ? `<span class="kf-media is-product"><img src="${img(e.img)}" alt="" loading="lazy"></span>` : '<span class="kf-media is-empty">—</span>',
+    e.img ? `<span class="kf-media is-product"><img src="${img(e.img)}" alt="" loading="lazy"></span>` : '<span class="kf-media is-empty"></span>',
     e.name, e.desc, e.badge)).join('')}</ul>`;
 }
 function body() {
@@ -288,7 +288,7 @@ function body() {
       ${ledOpts.length ? `<p class="kf-section-t">LED-Streifen am Beckenrand</p>
         <div class="kf-filter" role="radiogroup" aria-label="LED-Streifen">${ledOpts.map(([v, t]) => `<button type="button" class="kf-fchip" role="radio" aria-checked="${state.led === v}" data-pick="led" data-val="${v}">${t}</button>`).join('')}</div>
         <p class="kf-muted">Die integrierte Lichtlinie setzt die Beckenform abends in Szene. Mit LED-Streifen entfällt die Wahl der Scheinwerfer.</p>`
-      : `<div class="kf-note">ⓘ <span>Für ${esc(model()?.name || 'dieses Becken')} ist kein integrierter LED-Streifen vorgesehen – die Beleuchtung wählen Sie in Schritt 6.</span></div>`}`;
+      : `<div class="kf-note">ⓘ <span>Für ${esc(model()?.name || 'dieses Becken')} ist kein integrierter LED-Streifen vorgesehen. Die Beleuchtung wählen Sie in Schritt 6.</span></div>`}`;
   } else if (s === 4) {
     b.innerHTML = equipList('cover', 'cover');
   } else if (s === 5) {
@@ -296,7 +296,7 @@ function body() {
   } else if (s === 6) {
     b.innerHTML = `<p class="kf-section-t" style="margin-top:0">Wärmepumpe</p>` + equipList('heatpump', 'heat') +
       (ledSelected(state)
-        ? `<div class="kf-note" style="margin-top:1rem">✦ <span>Ihre Beleuchtung übernimmt der LED-Streifen am Beckenrand – zusätzliche Scheinwerfer sind nicht nötig.</span></div>`
+        ? `<div class="kf-note" style="margin-top:1rem">✦ <span>Ihre Beleuchtung übernimmt der LED-Streifen am Beckenrand. Zusätzliche Scheinwerfer sind nicht nötig.</span></div>`
         : `<p class="kf-section-t">Scheinwerfer</p>` + equipList('lighting', 'light'));
   } else if (s === 7) {
     b.innerHTML = formHtml();
@@ -312,7 +312,7 @@ function formHtml() {
   const c = contact.consult;
   return `<form class="kf-form" data-form novalidate>
     <div class="kf-grid2">${field('name', 'Vor- und Nachname', 'text', 'autocomplete="name"')}${field('email', 'E-Mail', 'email', 'autocomplete="email"')}</div>
-    <label class="kf-switch"><input type="checkbox" name="consult" ${c ? 'checked' : ''}><span class="tr"></span><span><b>Persönliche Beratung anfragen</b><small>Wir rufen Sie an und planen alles mit Ihnen – kostenlos und unverbindlich.</small></span></label>
+    <label class="kf-switch"><input type="checkbox" name="consult" ${c ? 'checked' : ''}><span class="tr"></span><span><b>Persönliche Beratung anfragen</b><small>Wir rufen Sie an und planen alles mit Ihnen, kostenlos und unverbindlich.</small></span></label>
     <div class="kf-consult" data-consult ${c ? '' : 'hidden'}>
       <div class="kf-grid2">${field('phone', 'Telefon', 'tel', 'autocomplete="tel"', c)}${field('street', 'Straße und Nr.', 'text', 'autocomplete="street-address"', false)}</div>
       <div class="kf-grid3">${field('zip', 'PLZ', 'text', 'inputmode="numeric" maxlength="5" autocomplete="postal-code"', c)}${field('city', 'Ort', 'text', 'autocomplete="address-level2"', c)}</div>
@@ -569,7 +569,7 @@ function caption(dir = 0) {
   const cap = lb!.querySelector<HTMLElement>('[data-lb-cap]')!;
   cap.innerHTML = `<span class="kf-lb-count">${g.i + 1} / ${g.list.length}</span><b>${esc(md.name)}</b>
     <small>${esc([md.dims, md.stairs].filter(Boolean).join(' · '))}</small>
-    <button type="button" class="btn-pill is-navy kf-lb-pick" data-lb-pick>${state.model === md.id ? '✓ Ausgewählt – weiter' : 'Dieses Becken wählen'}</button>`;
+    <button type="button" class="btn-pill is-navy kf-lb-pick" data-lb-pick>${state.model === md.id ? '✓ Ausgewählt, weiter' : 'Dieses Becken wählen'}</button>`;
   if (!reduce) animate(cap.children, { opacity: [0, 1], x: [dir * 16, 0], y: [dir ? 0 : 10, 0], filter: ['blur(6px)', 'blur(0px)'] }, { delay: stagger(0.05), duration: 0.7, ease: premium });
   lbImg!.alt = `${md.name}, ${md.dims}`;
   // Nachbarn vorladen

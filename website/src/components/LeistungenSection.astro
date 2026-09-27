@@ -19,11 +19,11 @@ import img5 from '../assets/img/karte-rueckbaubar.webp';
 import img6 from '../assets/img/karte-beratung.webp';
 
 const boxes = [
-  { img: img1, alt: 'Pool mit Liegen und Sonnenschirmen auf einer hellen Terrasse', title: 'Poolbau ohne Beton', text: 'Die fertige Poolschale wird geliefert, eingesetzt und angeschlossen – ohne Betonarbeiten und wochenlange Baustelle. In 48 Stunden ist Ihr Pool einsatzbereit.' },
+  { img: img1, alt: 'Pool mit Liegen und Sonnenschirmen auf einer hellen Terrasse', title: 'Poolbau ohne Beton', text: 'Die fertige Poolschale wird geliefert, eingesetzt und angeschlossen, ohne Betonarbeiten und wochenlange Baustelle. In 48 Stunden ist Ihr Pool einsatzbereit.' },
   { img: img2, alt: 'Pool in L-Form mit Sitzbank im Rasen', title: 'Poolbecken nach Maß', text: 'Rund, oval oder rechteckig, schlicht oder mit Sitzbank und Treppe: Keramik- und Fiberglaspools in vielen Formen und Größen.' },
-  { img: img3, alt: 'Geöffnete Technikbox mit Filter, Pumpe und Salzelektrolyse', title: 'Wasseraufbereitung', text: 'Salzwasser mit Bayrol Salz-Hydrolyse oder klassisches Chlor – fertig verbaut in der Technikbox.' },
+  { img: img3, alt: 'Geöffnete Technikbox mit Filter, Pumpe und Salzelektrolyse', title: 'Wasseraufbereitung', text: 'Salzwasser mit Bayrol Salz-Hydrolyse oder klassisches Chlor, fertig verbaut in der Technikbox.' },
   { img: img4, alt: 'Keramikpool von oben mit grauer Terrasse', title: 'Bis zu 40 Jahre Garantie', text: 'Auf die Poolschale, je nach Hersteller. Hochwertige Materialien, Made in EU.' },
-  { img: img5, alt: 'Pool mit Einstiegsstufen auf einer Terrasse', title: 'Rückbaubar', text: 'Bei Bedarf wird der Pool komplett zurückgebaut – ohne bleibende Schäden im Garten.' },
+  { img: img5, alt: 'Pool mit Einstiegsstufen auf einer Terrasse', title: 'Rückbaubar', text: 'Bei Bedarf wird der Pool komplett zurückgebaut, ohne bleibende Schäden im Garten.' },
   { img: img6, alt: 'Langer schmaler Pool in einem grünen Garten', title: 'Beratung vor Ort', text: 'Persönlich, kostenlos und unverbindlich: Wir kommen zu Ihnen und planen Ihren Pool gemeinsam mit Ihnen.' },
 ];
 ---
@@ -44,7 +44,7 @@ const boxes = [
       <div class="center" data-center>
         <div class="center-tag"><span class="elipse" aria-hidden="true"></span><span class="caps">Warum Poolbau Koch?</span></div>
         <h2 id="leistungen-title" class="center-title">Über 30 Jahre Erfahrung im Poolbau</h2>
-        <p class="center-copy">Unsere Lösungen machen den Traum vom eigenen Pool einfacher denn je – deutschlandweit, schnell und sauber.</p>
+        <p class="center-copy">Unsere Lösungen machen den Traum vom eigenen Pool einfacher denn je: deutschlandweit, schnell und sauber.</p>
         <div class="center-buttons">
           <a href="#beratung" class="btn-pill is-navy">Beratung anfragen</a>
           <a href={url('konfigurator/')} class="btn-pill is-teal">Pool konfigurieren</a>
@@ -83,7 +83,7 @@ const boxes = [
     position: absolute; inset: auto 0 0 0; padding: 1.5rem;
     display: flex; flex-flow: column; gap: 0.5rem; color: #fff;
   }
-  .box-title { margin: 0; font-size: 1.5rem; line-height: 1.2; font-weight: 500; }
+  .box-title { margin: 0; font-size: 1.5rem; line-height: 1.2; font-weight: 500; hyphens: auto; }
   .box-copy { margin: 0; max-width: 42ch; font-size: 0.95rem; line-height: 1.45; opacity: 0.92; }
 
   .center {

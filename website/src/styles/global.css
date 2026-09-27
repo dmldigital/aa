@@ -74,6 +74,10 @@ img { display: block; max-width: 100%; height: auto; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
 h1, h2, h3, h4, p, ul, ol, figure, blockquote { margin: 0; }
+/* Zeilenumbruch: Überschriften ausgewogen, Fließtext ohne einzelnes Wort in der letzten Zeile;
+   lange deutsche Wörter dürfen in schmalen Spalten getrennt werden */
+h1, h2, h3, h4, h5, h6 { text-wrap: balance; overflow-wrap: break-word; hyphens: manual; }
+p, li, dd, figcaption, small, label { text-wrap: pretty; overflow-wrap: break-word; }
 
 :focus-visible { outline: 2px solid var(--pk-teal); outline-offset: 3px; border-radius: 2px; }
 

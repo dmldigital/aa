@@ -85,13 +85,13 @@ export async function buildPdf(inp: PdfInput): Promise<Uint8Array> {
   text('SO GEHT ES WEITER', M + 16, by, 8, bold, NAVY); by -= 16;
   const c = inp.contact;
   const next = c?.consult
-    ? `Wir prüfen Ihre Auswahl und rufen Sie${c.slot ? ` im gewünschten Zeitfenster ${c.slot} Uhr` : ''} an – für eine persönliche, kostenlose Beratung vor Ort.`
-    : 'Sie möchten beraten werden? Rufen Sie uns an oder antworten Sie einfach auf diese E-Mail – die Beratung vor Ort ist kostenlos.';
+    ? `Wir prüfen Ihre Auswahl und rufen Sie${c.slot ? ` im gewünschten Zeitfenster ${c.slot} Uhr` : ''} an, für eine persönliche, kostenlose Beratung vor Ort.`
+    : 'Sie möchten beraten werden? Rufen Sie uns an oder antworten Sie einfach auf diese E-Mail. Die Beratung vor Ort ist kostenlos.';
   for (const ln of wrap(next, 10, W - 2 * M - 32)) { text(ln, M + 16, by, 10); by -= 14; }
   if (c) { by -= 4; text(`Für: ${c.name}${c.email ? ` · ${c.email}` : ''}${c.phone ? ` · ${c.phone}` : ''}${c.zip ? ` · ${c.zip} ${c.city || ''}` : ''}`, M + 16, by, 8.5, reg, MUTED); }
 
   // Fuß
-  const f1 = 'Planungsgrundlage – kein verbindliches Angebot. Preise, Maße und Ausführung laut Herstellerkatalog 2026, Änderungen vorbehalten.';
+  const f1 = 'Planungsgrundlage, kein verbindliches Angebot. Preise, Maße und Ausführung laut Herstellerkatalog 2026, Änderungen vorbehalten.';
   const f2 = 'Poolbau Koch · Garten- und Landschaftsbau Koch GmbH · Mozartstraße 33, 59227 Ahlen · 0177 450 95 00 · info@poolbau-kochgmbh.de';
   page.drawLine({ start: { x: M, y: 58 }, end: { x: W - M, y: 58 }, thickness: 0.5, color: LINE });
   let fy = 44; for (const ln of wrap(f1, 7.5, W - 2 * M)) { text(ln, M, fy, 7.5, reg, MUTED); fy -= 10; }

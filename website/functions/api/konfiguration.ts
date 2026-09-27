@@ -73,15 +73,15 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       <table style="border-collapse:collapse;font-size:14px">${table}</table>
       <p>${ct.consult ? `Wir melden uns${ct.slot ? ` im Zeitfenster ${esc(ct.slot)} Uhr` : ''} bei Ihnen zur kostenlosen Beratung.` : 'Sie möchten beraten werden? Antworten Sie einfach auf diese E-Mail oder rufen Sie uns an: 0177 450 95 00.'}</p>
       <p>Ihre Referenz: <b>${ref}</b></p>
-      <p style="color:#5e5d59;font-size:12px">Planungsgrundlage – kein verbindliches Angebot.<br>Poolbau Koch · Garten- und Landschaftsbau Koch GmbH · Mozartstraße 33, 59227 Ahlen</p></div>`;
+      <p style="color:#5e5d59;font-size:12px">Planungsgrundlage, kein verbindliches Angebot.<br>Poolbau Koch · Garten- und Landschaftsbau Koch GmbH · Mozartstraße 33, 59227 Ahlen</p></div>`;
     const team = `<div style="font-family:Arial,sans-serif;color:#151515">
-      <h2 style="font-weight:400">Neue Konfiguration ${ref}${ct.consult ? ' – Beratung gewünscht' : ''}</h2>
+      <h2 style="font-weight:400">Neue Konfiguration ${ref}${ct.consult ? ' (Beratung gewünscht)' : ''}</h2>
       <p><b>${esc(ct.name)}</b><br>${esc(ct.email)}${ct.phone ? `<br>${esc(ct.phone)}` : ''}${ct.street ? `<br>${esc(ct.street)}` : ''}${ct.zip ? `<br>${esc(ct.zip)} ${esc(ct.city)}` : ''}${ct.slot ? `<br>Rückruf: ${esc(ct.slot)} Uhr` : ''}</p>
       ${ct.wishes ? `<p><b>Wünsche:</b><br>${esc(ct.wishes).replace(/\n/g, '<br>')}</p>` : ''}
       <table style="border-collapse:collapse;font-size:14px">${table}</table></div>`;
     const results = await Promise.all([
-      send({ from: env.MAIL_FROM, to: [ct.email], reply_to: env.MAIL_TEAM, subject: `Ihre Pool-Konfiguration ${ref} – Poolbau Koch`, html: kunde, attachments: attach }),
-      env.MAIL_TEAM ? send({ from: env.MAIL_FROM, to: [env.MAIL_TEAM], reply_to: ct.email, subject: `Konfigurator: ${ct.name} – ${model.name}${ct.consult ? ' (Beratung)' : ''}`, html: team, attachments: attach }) : Promise.resolve(null),
+      send({ from: env.MAIL_FROM, to: [ct.email], reply_to: env.MAIL_TEAM, subject: `Ihre Pool-Konfiguration ${ref} | Poolbau Koch`, html: kunde, attachments: attach }),
+      env.MAIL_TEAM ? send({ from: env.MAIL_FROM, to: [env.MAIL_TEAM], reply_to: ct.email, subject: `Konfigurator: ${ct.name}, ${model.name}${ct.consult ? ' (Beratung)' : ''}`, html: team, attachments: attach }) : Promise.resolve(null),
     ]);
     if (results[0] && !results[0].ok) return json({ ok: false, error: 'Die E-Mail konnte nicht versendet werden. Bitte versuchen Sie es später erneut.' }, 502);
   }
