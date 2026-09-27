@@ -98,6 +98,12 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
   /* Nutzerwunsch: Bilder mit Radius wie im Rest der Seite (8px) */
   .sticky-component, .sticky-big-image, .sticky-pair-image, .sticky-wide-image { border-radius: 0.5rem; }
   /* Nutzerwunsch (Desktop): Ecken am Bildschirmrand ohne Rundung */
+  @media (max-width: 767px) {
+    /* Handy: Bilder gehen über die volle Breite → Ecken am Bildschirmrand eckig */
+    .sticky-component, .sticky-big-image, .sticky-wide-image { border-radius: 0; }
+    .sticky-pair-image:first-child { border-top-left-radius: 0; border-bottom-left-radius: 0; }
+    .sticky-pair-image:last-child { border-top-right-radius: 0; border-bottom-right-radius: 0; }
+  }
   @media (min-width: 768px) {
     .sticky-component { border-top-left-radius: 0; border-bottom-left-radius: 0; }
     .sticky-big-image, .sticky-pair-image:last-child, .sticky-wide-image { border-top-right-radius: 0; border-bottom-right-radius: 0; }
@@ -157,7 +163,8 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
     const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
     const R = '0.5rem';
     const clip = (el: HTMLElement, top: number, bottom: number, edge: 'left' | 'right') => {
-      const round = !desktop.matches ? R : edge === 'left' ? `0 ${R} ${R} 0` : `${R} 0 0 ${R}`;
+      // Ecken am Bildschirmrand eckig: Handy volle Breite (alle), Desktop je nach Seite
+      const round = !desktop.matches ? '0' : edge === 'left' ? `0 ${R} ${R} 0` : `${R} 0 0 ${R}`;
       el.style.clipPath = `inset(${top.toFixed(1)}px 0 ${bottom.toFixed(1)}px 0 round ${round})`;
     };
     // Aufziehen: Fortschritt, während die Oberkante vom unteren Fensterrand bis 20 % Höhe läuft
