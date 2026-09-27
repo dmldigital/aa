@@ -38,7 +38,7 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     <div class="overlay-mobile" aria-hidden="true"></div>
 
     <div class="hero-heading">
-      <a href="#pakete" class="read-more-tag rise" style="--d:.35s">
+      <a href="#pakete" class="read-more-tag rise" style="--d:.35s" data-m="tag">
         <span class="text-size-small text-weight-bold">Komplettpaket ab 22.700 €</span>
         <span class="vertical-line-tag"></span>
         <span class="read-more-button">
@@ -46,10 +46,10 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
           <svg class="arrow" width="11" height="10" viewBox="0 0 11 10" fill="none" aria-hidden="true"><path d="M6.25 1.25 10 5m0 0L6.25 8.75M10 5H0" stroke="#1F1F1F" stroke-width=".78"/></svg>
         </span>
       </a>
-      <h1 id="hero-title" class="heading-3 text-weight-light rise" style="--d:.5s">
+      <h1 id="hero-title" class="heading-3 text-weight-light rise" style="--d:.5s" data-m="h1">
         Ihr Traumpool.<br />Fertig in 48&nbsp;Stunden.
       </h1>
-      <div class="rise" style="--d:.65s">
+      <div class="rise" style="--d:.65s" data-m="btns">
         <ButtonGroup label="Nächste Schritte" class="v-mobile">
           <a href="#beratung" class="btn-pill is-navy">Kostenlose Beratung</a>
           <a href={url('konfigurator/')} class="btn-pill is-teal">Pool konfigurieren</a>
@@ -145,6 +145,21 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
   @keyframes rise-fade { from { opacity: 0; } 30% { opacity: 0; } }
 
   .overlay-mobile { display: none; }
+
+  /* Handy (Nutzerwunsch): eigener Ein-/Ausstieg per Klassen
+     Laden: Kasten fährt von oben herein (unter dem Header durch), H1 blendet auf, Buttons steigen auf und fächern auf.
+     Scrollen: Buttons fächern zu und fahren nach unten weg, Kasten nach links raus, H1 blendet aus. */
+  @media (max-width: 767px) and (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+    .hero-heading .rise { animation: none; }
+    .hero [data-m="tag"] { transform: translateY(-48vh); transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.2s; }
+    .hero [data-m="h1"] { opacity: 0; transition: opacity 1.2s ease 0.75s; }
+    .hero [data-m="btns"] { opacity: 0; transform: translateY(90px); transition: transform 0.8s cubic-bezier(0.3, 1.25, 0.5, 1) 1s, opacity 0.9s ease 1s; }
+    .hero:global(.m-in) [data-m] { transform: none; opacity: 1; }
+    .hero:global(.m-in.m-out) [data-m="tag"] { transform: translateX(-120vw); transition: transform 0.9s cubic-bezier(0.55, 0, 0.7, 0.2) 0.1s; }
+    .hero:global(.m-in.m-out) [data-m="h1"] { opacity: 0; transition: opacity 0.7s ease 0.1s; }
+    .hero:global(.m-in.m-out) [data-m="btns"] { transform: translateY(160px); opacity: 0; transition: transform 0.75s cubic-bezier(0.55, 0, 0.7, 0.2) 0.4s, opacity 0.5s ease 0.6s; }
+    .hero:global(.m-reset) [data-m] { transition: none !important; }
+  }
 
   @media (max-width: 991px) {
     .hero-wrapper { height: 100svh; align-items: stretch; }
@@ -244,8 +259,28 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
     let raf = 0;
     let last = 0;
 
+    // Handy: eigene Ein-/Ausstiegs-Animation der Texte/Buttons (CSS-Klassen m-in / m-out)
+    const phone = window.matchMedia('(max-width: 767px)');
+    const fan = hero.querySelector<HTMLElement>('[data-fan]');
+    let fanTimer = 0;
+    const phoneIn = () => {
+      if (!phone.matches) return;
+      hero.classList.add('m-reset'); hero.classList.remove('m-in', 'm-out'); void hero.offsetWidth;
+      hero.classList.remove('m-reset');
+      requestAnimationFrame(() => hero.classList.add('m-in'));
+      window.clearTimeout(fanTimer);
+      fanTimer = window.setTimeout(() => fan?.classList.add('is-open'), 1900);  // nach dem Aufsteigen auffächern
+    };
+    const phoneOut = () => {
+      if (!phone.matches || hero.classList.contains('m-out')) return;
+      window.clearTimeout(fanTimer);
+      fan?.classList.remove('is-open');   // zufächern …
+      hero.classList.add('m-out');        // … und nach unten weg, Kasten nach links, H1 aus
+    };
+
     const render = () => {
-      ui.style.opacity = String(1 - clamp(pos / 12));
+      // Handy: Ebene erst ausblenden, wenn die Ausstiegs-Animation gelaufen ist
+      ui.style.opacity = String(1 - clamp(phone.matches ? (pos - 34) / 12 : pos / 12));
       ui.style.pointerEvents = pos > 3 ? 'none' : '';
       draw(Math.round(pos));
     };
@@ -266,13 +301,14 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
       if (pos !== target) { raf = requestAnimationFrame(tick); return; }
       raf = 0; last = 0;
       if (locked) { locked = false; scrollToNext(); }   // Ende der Videofahrt → weiter zum Text
+      else if (pos === 0) phoneIn();                   // zurück ganz oben → Einstieg erneut
     };
     const play = (to: number) => {
       target = to;
       locked = to === END;
       if (!raf) raf = requestAnimationFrame(tick);
     };
-    const forward = () => { if (target !== END) { leftTop = false; play(END); } };
+    const forward = () => { if (target !== END) { leftTop = false; phoneOut(); play(END); } };
     const backward = () => { if (target !== 0) play(0); };
     const atTop = () => window.scrollY <= 2;
 
@@ -313,7 +349,8 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
 
     (async () => {
       // Seite schon weiter unten geladen (Neuladen, Anker): gleich Unterwasserbild zeigen
-      if (window.scrollY > 10) { pos = target = END; leftTop = true; await loadFrame(END); }
+      if (window.scrollY > 10) { pos = target = END; leftTop = true; hero.classList.add('m-in', 'm-out'); await loadFrame(END); }
+      else phoneIn();
       await loadFrame(0);
       resize();
       window.addEventListener('resize', resize);
