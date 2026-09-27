@@ -11,7 +11,7 @@
 */
 import { Image } from 'astro:assets';
 import imgSticky from '../assets/img/pool-garten-abendsonne.webp';
-import imgBig from '../assets/img/pool-schmal-sichtschutz.webp';
+import imgBig from '../assets/img/pool-wasserfall-whirlpool.webp';
 import imgPair1 from '../assets/img/pool-compass-treppe.webp';
 import imgPair2 from '../assets/img/pool-holzdeck-rasen.webp';
 import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
@@ -26,7 +26,7 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
     </div>
     <div class="sticky-content">
       <div class="sticky-big-image">
-        <Image src={imgBig} alt="Schmaler Pool mit Wasserfall vor einer hellen Sichtschutzwand" widths={[800, 1440]} sizes="(max-width: 767px) 100vw, 50vw" />
+        <Image src={imgBig} alt="Pool mit Wasserfall und Whirlpool vor einem Holzzaun" widths={[800, 1260]} sizes="(max-width: 767px) 100vw, 50vw" />
       </div>
 
       <div class="sticky-text">
@@ -121,6 +121,8 @@ import imgWide from '../assets/img/pool-rollladen-abdeckung.webp';
     .sticky-wrapper { gap: 2.5rem; flex-flow: column; width: 100%; margin-top: 4rem; }
     .sticky-left { width: 100%; height: auto !important; }
     .sticky-component { width: 100%; height: 50vh; position: relative; }
+    /* Nutzerwunsch: großes Bild auf dem Handy im Querformat statt 90vh hoch */
+    .sticky-big-image { height: auto; aspect-ratio: 4 / 3; }
     .sticky-content { width: 100%; padding-bottom: 0; }
     .sticky-text { gap: 1rem; margin-top: 4rem; margin-left: 2rem; }
     .sticky-paragraph { max-width: none; }
