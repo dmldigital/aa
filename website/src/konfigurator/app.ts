@@ -39,7 +39,7 @@ const TIPS = [
   'Eine Wärmepumpe verlängert die Badesaison um mehrere Monate. Die Beleuchtung setzt Ihren Pool abends in Szene.',
   'Wir nutzen Ihre Angaben nur für Ihre Anfrage. Die Beratung ist kostenlos und unverbindlich.',
 ];
-const tip = () => `<div class="kf-note kf-tip">${INFO}<span><b>Gut zu wissen:</b> ${esc(TIPS[state.step - 1])}</span></div>`;
+const tip = () => `<div class="kf-note kf-tip"><span class="dot"></span><span><b>Gut zu wissen:</b> ${esc(TIPS[state.step - 1])}</span></div>`;
 const SIZES = [
   { id: 'all', label: 'Alle', test: () => true },
   { id: 's', label: 'bis 6 m', test: (m: Model) => m.l < 6 },
@@ -211,7 +211,7 @@ function drawPlan(md: Model, cmp: Model | null) {
 // Noch nichts gewählt: Hinweiskarte statt leerem Bildfeld
 function pickCard(kick: string, text: string, extra = '') {
   return `<div class="kf-card kf-pickcard"><span class="kf-kicker">${kick}</span><h2>Bitte wählen</h2>
-    <p>${esc(text)}</p><p class="kf-pickcard-hint">${mobile() ? 'Optionen unten' : 'Optionen rechts'} · ${INFO} für Details</p>${extra}</div>`;
+    <p>${esc(text)}</p><p class="kf-pickcard-hint">${mobile() ? 'Optionen unten' : 'Optionen rechts'} · <span class="kf-mini-chev">${CHEV}</span> für Details</p>${extra}</div>`;
 }
 function colorCard(id: string | null) {
   const c = byId(data.colors, id);
@@ -260,7 +260,7 @@ function head() {
 const tick = '<span class="kf-tick" aria-hidden="true">✓</span>';
 function optCard(attrs: string, checked: boolean, media: string, title: string, sub = '', badges: string[] = [], info = '', liAttrs = '') {
   const chips = badges.filter(Boolean).map((b, i) => `<span class="${i ? 'kf-chip-s' : 'kf-badge-inline'}">${esc(b)}</span>`).join('');
-  return `<li class="kf-item" ${liAttrs}><button type="button" class="kf-opt" role="radio" aria-checked="${checked}" ${attrs}>${media}<span class="kf-opt-body"><h3>${esc(title)}</h3>${sub ? `<p>${esc(sub)}</p>` : ''}</span><span class="kf-opt-foot">${chips}</span>${tick}</button>${info ? `<button type="button" class="kf-info" data-info="${info}" aria-label="Details zu ${esc(title)}">${INFO}</button>` : ''}</li>`;
+  return `<li class="kf-item" ${liAttrs}><button type="button" class="kf-opt" role="radio" aria-checked="${checked}" ${attrs}>${media}<span class="kf-opt-body"><h3>${esc(title)}</h3>${sub ? `<p>${esc(sub)}</p>` : ''}</span><span class="kf-opt-foot">${chips}</span>${tick}</button>${info ? `<button type="button" class="kf-info" data-info="${info}" aria-label="Details zu ${esc(title)}">${CHEV}</button>` : ''}</li>`;
 }
 const firstLine = (t: string) => (t || '').split('\n')[0].trim();
 const modelChips = (m: Model) => [m.led === 'side-selectable' ? 'LED ein- oder beidseitig' : m.led !== 'none' ? 'LED-Streifen möglich' : '', m.excluded.includes('underfloor-rollo') ? 'Kein Unterflurrollo' : ''];
@@ -285,7 +285,7 @@ function body() {
             <span class="meta"><span>${modelsOf(m.id).length} Becken</span><span>${esc(m.points[1] || '')}</span></span></span>
           ${tick}</button>
         <button type="button" class="kf-more" data-more="${m.id}" aria-expanded="false" aria-controls="kf-models-${m.id}" aria-label="Infos und Becken von ${esc(m.name)}">
-          <span class="kf-more-pill">${INFO}</span></button></div>
+          <span class="kf-more-pill">${CHEV}</span></button></div>
         <div class="kf-models" id="kf-models-${m.id}" data-models-of="${m.id}" hidden>
           <ul class="kf-brand-points">${m.points.map((pt) => `<li>${esc(pt)}</li>`).join('')}</ul>
           <p class="kf-models-head"><span>${modelsOf(m.id).length} Becken von ${esc(m.name)}</span><span>Zum Vergrößern Bild anklicken</span></p>
