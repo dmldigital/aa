@@ -25,11 +25,13 @@ große Live-Bühne mit dem gewählten Pool, jede Auswahl verändert sichtbar die
 - **Abschluss:** „Ihr Pool“-Zusammenfassung als Karte mit allen Komponenten, Kontaktformular mit Zeitfenstern als Pills, Erfolgsseite mit Wasser-Welle.
 - **Komfort:** Auswahl bleibt gespeichert (Browser + teilbarer Link), Tastatur/Screenreader, „Bewegung reduzieren“ respektiert.
 
-## Technik
-- Astro-Seite `/konfigurator/` im bestehenden Projekt (gleiche Schriften, Farben, Buttons, Header/Footer).
-- Animationen mit der Bibliothek **Motion** (motion.dev, Federn/FLIP) + CSS/View Transitions – keine Eigenbauten.
-- Daten: Katalog-JSON (vorerst Snapshot, später live vom bestehenden Backend).
-- Absenden: vorhandenes `api.php?a=submit` weiterverwenden (braucht gleiche Domain oder CORS-Freigabe); für die Vorschau auf GitHub Pages nur Attrappe.
+## Technik (Vorgabe Nutzer: kein PHP, Cloudflare)
+- Seite: Cloudflare Pages (Astro, wie die Website), Konfigurator als eigene Seite.
+- Katalog (Becken, Farben, Ausstattung) in Cloudflare D1, Bilder in R2; später kleine Admin-Seite zur Pflege.
+- Absenden: Pages Function (Worker) speichert Anfrage in D1, erzeugt PDF (pdf-lib), verschickt E-Mails.
+- E-Mail an Kunden: Cloudflare Email Workers schicken nur an bestätigte eigene Adressen → für Kunden-Mails Mail-Dienst mit Gratis-Kontingent (z. B. Resend, 3.000/Monat). Mail an Poolbau Koch geht auch direkt über Cloudflare.
+- Animationen: Motion (motion.dev) + View Transitions.
+- Wireframe: https://dmldigital.github.io/aa/konfigurator-wireframe/
 
 ## Phasen
 1. Klärung (siehe offene Fragen) + Bildmaterial sichten.
@@ -40,6 +42,6 @@ große Live-Bühne mit dem gewählten Pool, jede Auswahl verändert sichtbar die
 
 ## Offene Fragen an den Nutzer
 1. Wo soll der neue Konfigurator leben – unter der neuen Website (`/konfigurator/`) oder weiter auf konfig.poolbau-koch.de?
-2. Wer betreut das Backend (api.php, Katalogpflege)? Zugang vorhanden? Vorschlag: Backend behalten, nur Oberfläche neu.
+2. ~~Backend~~ entschieden: kein PHP, alles auf Cloudflare.
 3. Schritte zusammenlegen? Vorschlag 7 statt 10: Hersteller · Becken · Farbe & LED · Abdeckung · Technik & iWash · Wärme & Licht · Kontakt.
 4. Preisangabe: Konfigurator sagt „ab 30.000 €“, Website „Komplettpaket ab 22.700 €“ – was gilt?
