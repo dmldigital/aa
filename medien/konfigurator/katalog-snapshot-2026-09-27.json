@@ -1,0 +1,2254 @@
+{
+ "base": "",
+ "catalog": {
+  "manufacturers": [
+   {
+    "id": "waterrows",
+    "name": "WaterRows",
+    "technology": "GFK Graphene-Keramik",
+    "tagline": "GFK Graphene Keramik Pools",
+    "description": "Hochwertige GFK Graphene-Keramik Pools mit abgerundeten Treppenformen, organischen Linien und optionaler LED-Streifenbeleuchtung.\nBis 36 Grad Temperaturbeständig.\nintergrierter Skimmer einlaminiert, Wasserlinie von 3cm bis zu den Bodenplatten, fast wie ein Infinitypool",
+    "accent": "#0b758a",
+    "image": {
+     "full": "/assets/img/full/logo-waterrows_4e6c9d5f.svg",
+     "thumb": "/assets/img/thumb/logo-waterrows_4e6c9d5f.svg",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools",
+    "name": "Compass Pools",
+    "technology": "GFK Carbon-Keramik",
+    "tagline": "GFK Carbon-Keramik-Pools",
+    "description": "Hochwertige GFK Carbon Keramik Pools mit klarer Beckenarchitektur mit eckigen Treppenformen.\nBis 36 Grad Temperaturbeständig.\nintergrierter Skimmer einlaminiert, Wasserlinie von 3cm bis zu den Bodenplatten, fast wie ein Infinitypool",
+    "accent": "#d57b28",
+    "image": {
+     "full": "/assets/img/full/logo-compass_f041452e.webp",
+     "thumb": "/assets/img/thumb/logo-compass_f041452e.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools",
+    "name": "Freedom Pools",
+    "technology": "GFK",
+    "tagline": "Preisbewusste GFK-Pools",
+    "description": "Große Auswahl an kompakten, rechteckigen, klassischen und geschwungenen GFK-Becken.",
+    "accent": "#E5B14B",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785163717438-logo-freedom-pools-color_2a2eb627.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785163717438-logo-freedom-pools-color_2a2eb627.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 136
+    }
+   }
+  ],
+  "models": [
+   {
+    "id": "waterrows-bay-64-vgortl",
+    "manufacturerId": "waterrows",
+    "family": "Bay 64",
+    "name": "Bay 64",
+    "description": "Neues WaterRows Becken, eine Treppe mit Sitzbank - Kein Unterflurrollo möglich",
+    "dimensions": "6,4 x 3,1 x 1,5 m",
+    "shape": "Geschwungen",
+    "stairs": "Treppe mit Sitzbank",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785494141227-bay-klein_9b2b4319.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785494141227-bay-klein_9b2b4319.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-bliss-6",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "BLISS 6",
+    "description": "Rechteckig",
+    "dimensions": "D 6.60 x 3.50 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1784833422931-bliss6-pool-spanischer-garten-breitbild_7ac5f0bf.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1784833422931-bliss6-pool-spanischer-garten-breitbild_7ac5f0bf.webp",
+     "x": 50,
+     "y": 76,
+     "zoom": 156
+    }
+   },
+   {
+    "id": "waterrows-bay-74-jevgrw",
+    "manufacturerId": "waterrows",
+    "family": "Bay 74",
+    "name": "Bay 74",
+    "description": "Neues WaterRows Becken, eine Treppe mit Sitzbank - Kein Unterflurrollo möglich",
+    "dimensions": "7 ,4 x 3,1 x 1,5 m",
+    "shape": null,
+    "stairs": "Treppe mit Sitzbank",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785494679157-bay-european-luxury-garden-pool-45-degree_e5071578.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785494679157-bay-european-luxury-garden-pool-45-degree_e5071578.webp",
+     "x": 65,
+     "y": 77,
+     "zoom": 169
+    }
+   },
+   {
+    "id": "freedom-pools-city",
+    "manufacturerId": "freedom-pools",
+    "family": "Minipools",
+    "name": "CITY",
+    "description": "Minipools",
+    "dimensions": "D 4.40 x 2.65 m. P 1.40 m. m",
+    "shape": "Minipools",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785155489491-city1_8486bc7e.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785155489491-city1_8486bc7e.webp",
+     "x": 100,
+     "y": 71,
+     "zoom": 118
+    }
+   },
+   {
+    "id": "freedom-pools-city-80",
+    "manufacturerId": "freedom-pools",
+    "family": "Minipools",
+    "name": "CITY 80",
+    "description": "Minipools",
+    "dimensions": "D 4.40 x 2.65 m. P 0.80 m. m",
+    "shape": "Minipools",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785155447799-city80_d0147c64.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785155447799-city80_d0147c64.webp",
+     "x": 0,
+     "y": 51,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-entertainer-4",
+    "manufacturerId": "freedom-pools",
+    "family": "Minipools",
+    "name": "ENTERTAINER 4",
+    "description": "Minipools",
+    "dimensions": "D 4.00 x 2.50 m. P 1.20 m. m",
+    "shape": "Minipools",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1784833627456-entertainer4_b781fcc7.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1784833627456-entertainer4_b781fcc7.webp",
+     "x": 50,
+     "y": 58,
+     "zoom": 109
+    }
+   },
+   {
+    "id": "waterrows-montreal-6-ys-6fr",
+    "manufacturerId": "freedom-pools",
+    "family": "Montreal 6",
+    "name": "Montreal 6",
+    "description": "6.50 m x 3.30 m. x 1.50 m",
+    "dimensions": "6.50 m x 3.30 m. x 1.50 m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1784833913399-montreal6_ac49e5e2.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1784833913399-montreal6_ac49e5e2.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-sidney",
+    "manufacturerId": "freedom-pools",
+    "family": "Minipools",
+    "name": "SIDNEY",
+    "description": "Minipools",
+    "dimensions": "D 4.40 x 2.70 m. P 1.40 m. m",
+    "shape": "Minipools",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785155211468-sidney_24afc5aa.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785155211468-sidney_24afc5aa.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-platinum-6",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "PLATINUM 6",
+    "description": "Rechteckig",
+    "dimensions": "D 5.95 x 3.35 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785163254463-platinum6-luxusgarten_d24adaa7.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785163254463-platinum6-luxusgarten_d24adaa7.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 122
+    }
+   },
+   {
+    "id": "freedom-pools-lagoona",
+    "manufacturerId": "freedom-pools",
+    "family": "Klassisch",
+    "name": "LAGOONA",
+    "description": "Klassisch",
+    "dimensions": "D 6.95 x 3.50 m. P 1.05 - 1.65 m. m",
+    "shape": "Klassisch",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785158640641-lagoona-2_b92c50f8.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785158640641-lagoona-2_b92c50f8.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-yacht-pool",
+    "manufacturerId": "compass-pools",
+    "family": "Yacht",
+    "name": "YACHT POOL",
+    "description": "Yacht mit den Katalogmaßen 11,54 x 4,04 x 1,50 m.",
+    "dimensions": "11,54 x 4,04 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784542967741-yacht-pool-jpg_23ecb6c8.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784542967741-yacht-pool-jpg_23ecb6c8.webp",
+     "x": 63,
+     "y": 55,
+     "zoom": 115
+    }
+   },
+   {
+    "id": "compass-pools-xxl-trainer-133",
+    "manufacturerId": "compass-pools",
+    "family": "XXL Trainer",
+    "name": "XXL-TRAINER 133",
+    "description": "XXL Trainer mit den Katalogmaßen 13,28 x 4,49 x 1,50 m.",
+    "dimensions": "13,28 x 4,49 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784545376216-xl-trainer-133-nova-gray-5-freshwater-uv-system-biggest-one-piece-pool-jpg_2e485efe.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784545376216-xl-trainer-133-nova-gray-5-freshwater-uv-system-biggest-one-piece-pool-jpg_2e485efe.webp",
+     "x": 63,
+     "y": 100,
+     "zoom": 154
+    }
+   },
+   {
+    "id": "compass-pools-lido-100",
+    "manufacturerId": "compass-pools",
+    "family": "Lido",
+    "name": "LIDO 100",
+    "description": "Lido mit den Katalogmaßen 10 x 4 x 1,50 m.",
+    "dimensions": "10 x 4 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784411562998-lido-luxury-garden_cf27d85a.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784411562998-lido-luxury-garden_cf27d85a.webp",
+     "x": 12,
+     "y": 100,
+     "zoom": 108
+    }
+   },
+   {
+    "id": "compass-pools-lido-120",
+    "manufacturerId": "compass-pools",
+    "family": "Lido",
+    "name": "LIDO 120",
+    "description": "Lido mit den Katalogmaßen 12 x 4 x 1,50 m.",
+    "dimensions": "12 x 4 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784411447425-lido-luxury-garden_2db9bd08.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784411447425-lido-luxury-garden_2db9bd08.webp",
+     "x": 52,
+     "y": 100,
+     "zoom": 115
+    }
+   },
+   {
+    "id": "compass-pools-plunge-35",
+    "manufacturerId": "compass-pools",
+    "family": "Plunge",
+    "name": "PLUNGE 35",
+    "description": "Plunge mit den Katalogmaßen 3,50 x 2,45 x 1,25 m.",
+    "dimensions": "3,50 x 2,45 x 1,25 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784545609582-sr-korenbloem-21-eijsden-hr-4-jpeg_beb78ee9.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784545609582-sr-korenbloem-21-eijsden-hr-4-jpeg_beb78ee9.webp",
+     "x": 0,
+     "y": 54,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-classic-53",
+    "manufacturerId": "compass-pools",
+    "family": "Classic",
+    "name": "CLASSIC 53",
+    "description": "Classic mit den Katalogmaßen 5,35 x 3,18 x 1,50 m.",
+    "dimensions": "5,35 x 3,18 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/compass-classic_d7678ee3.webp",
+     "thumb": "/assets/img/thumb/compass-classic_d7678ee3.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-classic-63",
+    "manufacturerId": "compass-pools",
+    "family": "Classic",
+    "name": "CLASSIC 63",
+    "description": "Classic mit den Katalogmaßen 6,37 x 3,15 x 1,50 m.",
+    "dimensions": "6,37 x 3,15 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/compass-classic_d7678ee3.webp",
+     "thumb": "/assets/img/thumb/compass-classic_d7678ee3.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-brilliant-74",
+    "manufacturerId": "compass-pools",
+    "family": "Brilliant",
+    "name": "BRILLIANT 74",
+    "description": "Brilliant mit den Katalogmaßen 7,63 x 3,64 x 1,40 m.",
+    "dimensions": "7,63 x 3,64 x 1,40 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784543828018-xl-brilliant_1f14dc02.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784543828018-xl-brilliant_1f14dc02.webp",
+     "x": 51,
+     "y": 63,
+     "zoom": 101
+    }
+   },
+   {
+    "id": "compass-pools-brilliant-66",
+    "manufacturerId": "compass-pools",
+    "family": "Brilliant",
+    "name": "BRILLIANT 66",
+    "description": "Brilliant mit den Katalogmaßen 6,62 x 3,62 x 1,40 m.",
+    "dimensions": "6,62 x 3,62 x 1,40 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784545695119-briliant-66-blue-saphire-04-jpg_1f3bf99a.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784545695119-briliant-66-blue-saphire-04-jpg_1f3bf99a.webp",
+     "x": 0,
+     "y": 100,
+     "zoom": 120
+    }
+   },
+   {
+    "id": "compass-pools-riverina-67",
+    "manufacturerId": "compass-pools",
+    "family": "Riverina",
+    "name": "RIVERINA 67",
+    "description": "Riverina mit den Katalogmaßen 6,72 x 3,44 x 1,11–1,57 m.",
+    "dimensions": "6,72 x 3,44 x 1,11–1,57 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784545758821-riv-67-gp-3-jpg_b876350e.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784545758821-riv-67-gp-3-jpg_b876350e.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-classic-73",
+    "manufacturerId": "compass-pools",
+    "family": "Classic",
+    "name": "CLASSIC 73",
+    "description": "Classic mit den Katalogmaßen 7,40 x 3,18 x 1,50 m.",
+    "dimensions": "7,40 x 3,18 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/compass-classic_d7678ee3.webp",
+     "thumb": "/assets/img/thumb/compass-classic_d7678ee3.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-fun-74",
+    "manufacturerId": "compass-pools",
+    "family": "Fun",
+    "name": "FUN 74",
+    "description": "Fun mit den Katalogmaßen 7,53 x 3,77 x 1,50 m.",
+    "dimensions": "7,53 x 3,77 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784542294471-fun74-1920w_9d07460b.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784542294471-fun74-1920w_9d07460b.webp",
+     "x": 72,
+     "y": 100,
+     "zoom": 108
+    }
+   },
+   {
+    "id": "compass-pools-fun-74-s",
+    "manufacturerId": "compass-pools",
+    "family": "Fun",
+    "name": "FUN 74 S",
+    "description": "Fun mit den Katalogmaßen 7,50 x 3,71 x 1,50 m.",
+    "dimensions": "7,50 x 3,71 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/compass-pool-topview_536731da.webp",
+     "thumb": "/assets/img/thumb/compass-pool-topview_536731da.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-baby-pool",
+    "manufacturerId": "compass-pools",
+    "family": "Baby-Pool",
+    "name": "BABY-POOL",
+    "description": "Baby-Pool mit den Katalogmaßen 6,52 x 2,40 x 0,88 m.",
+    "dimensions": "6,52 x 2,40 x 0,88 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784546208097-baby-pool-nova-navy-kabin-paul-001-rooftop-pool-jpg_ce3ad12d.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784546208097-baby-pool-nova-navy-kabin-paul-001-rooftop-pool-jpg_ce3ad12d.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-aqua-nova-53",
+    "manufacturerId": "compass-pools",
+    "family": "Aqua",
+    "name": "AQUA NOVA 53",
+    "description": "Aqua mit den Katalogmaßen 5,30 x 3,20 x 1,50 m.",
+    "dimensions": "5,30 x 3,20 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784545990349-aqua-nova-53-nova-stone-huegel-garten-pool-bau-09_25e99855.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784545990349-aqua-nova-53-nova-stone-huegel-garten-pool-bau-09_25e99855.webp",
+     "x": 0,
+     "y": 100,
+     "zoom": 121
+    }
+   },
+   {
+    "id": "compass-pools-compass-swim-50",
+    "manufacturerId": "compass-pools",
+    "family": "Compass",
+    "name": "SWIM 50",
+    "description": "Compass mit den Katalogmaßen 5,00 x 2,45 x 1,35 m.",
+    "dimensions": "5,00 x 2,45 x 1,35 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784544938439-swim_193ebf33.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784544938439-swim_193ebf33.webp",
+     "x": 58,
+     "y": 0,
+     "zoom": 143
+    }
+   },
+   {
+    "id": "compass-pools-compass-swim-60",
+    "manufacturerId": "compass-pools",
+    "family": "Compass",
+    "name": "SWIM 60",
+    "description": "Compass mit den Katalogmaßen 6,00 x 2,45 x 1,35 m.",
+    "dimensions": "6,00 x 2,45 x 1,35 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784544975565-swim_2fbcacb2.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784544975565-swim_2fbcacb2.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-x-trainer-45-sb",
+    "manufacturerId": "compass-pools",
+    "family": "X-Trainer",
+    "name": "X-TRAINER 45 SB",
+    "description": "X-Trainer mit den Katalogmaßen 4,45 x 2,94 x 1,21–1,49 m.",
+    "dimensions": "4,45 x 2,94 x 1,21–1,49 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784411735137-cp-xtr45-antraciet-plungepool-14-jpg_8795054c.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784411735137-cp-xtr45-antraciet-plungepool-14-jpg_8795054c.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 121
+    }
+   },
+   {
+    "id": "compass-pools-xl-trainer-72",
+    "manufacturerId": "compass-pools",
+    "family": "XL Trainer",
+    "name": "XL-TRAINER 72",
+    "description": "XL Trainer mit den Katalogmaßen 7,19 x 3,30 x 1,50 m.",
+    "dimensions": "7,19 x 3,30 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784546130843-x-trainer-72-nova-grey-beek-en-donk-13-jpeg_aaca3f5e.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784546130843-x-trainer-72-nova-grey-beek-en-donk-13-jpeg_aaca3f5e.webp",
+     "x": 50,
+     "y": 100,
+     "zoom": 119
+    }
+   },
+   {
+    "id": "compass-pools-fit-43",
+    "manufacturerId": "compass-pools",
+    "family": "Fit",
+    "name": "FIT 43",
+    "description": "Fit mit den Katalogmaßen 4,3 x 2,3 x 1,1 m.",
+    "dimensions": "4,3 x 2,3 x 1,1 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784546329070-fit43_01073b0c.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784546329070-fit43_01073b0c.webp",
+     "x": 50,
+     "y": 20,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-fit-53",
+    "manufacturerId": "compass-pools",
+    "family": "Fit",
+    "name": "FIT 53",
+    "description": "Fit mit den Katalogmaßen 5,3 x 2,3 x 1,1 m.",
+    "dimensions": "5,3 x 2,3 x 1,1 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784546329070-fit43_01073b0c.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784546329070-fit43_01073b0c.webp",
+     "x": 38,
+     "y": 17,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-classic-83",
+    "manufacturerId": "compass-pools",
+    "family": "Classic",
+    "name": "CLASSIC 83",
+    "description": "Classic mit den Katalogmaßen 8,37 x 3,52 x 1,50 m.",
+    "dimensions": "8,37 x 3,52 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/compass-classic_d7678ee3.webp",
+     "thumb": "/assets/img/thumb/compass-classic_d7678ee3.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-x-trainer-82",
+    "manufacturerId": "compass-pools",
+    "family": "X-Trainer",
+    "name": "X-TRAINER 82",
+    "description": "X-Trainer mit den Katalogmaßen 8,25 x 3,68 x 1,09–1,76 m.",
+    "dimensions": "8,25 x 3,68 x 1,09–1,76 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784546395878-xt-82-gr-3-jpg_6220d3a4.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784546395878-xt-82-gr-3-jpg_6220d3a4.webp",
+     "x": 58,
+     "y": 100,
+     "zoom": 110
+    }
+   },
+   {
+    "id": "compass-pools-xl-briliant-88",
+    "manufacturerId": "compass-pools",
+    "family": "XL Briliant",
+    "name": "XL-BRILIANT 88",
+    "description": "XL Briliant mit den Katalogmaßen 8,70 x 3,75 x 1,50 m.",
+    "dimensions": "8,70 x 3,75 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784543692243-hil-03_a0b46551.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784543692243-hil-03_a0b46551.webp",
+     "x": 32,
+     "y": 100,
+     "zoom": 196
+    }
+   },
+   {
+    "id": "compass-pools-fun-80",
+    "manufacturerId": "compass-pools",
+    "family": "Fun",
+    "name": "FUN 80",
+    "description": "Fun mit den Katalogmaßen 8,00 x 3,70 x 1,50 m.",
+    "dimensions": "8,00 x 3,70 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/compass-pool-garden_832bb641.webp",
+     "thumb": "/assets/img/thumb/compass-pool-garden_832bb641.webp",
+     "x": 55,
+     "y": 62,
+     "zoom": 109
+    }
+   },
+   {
+    "id": "compass-pools-java-101",
+    "manufacturerId": "compass-pools",
+    "family": "Java",
+    "name": "JAVA 101",
+    "description": "Java mit den Katalogmaßen 10,03 x 3,80 x 1,50 m.",
+    "dimensions": "10,03 x 3,80 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784547238402-kxqxgtyv-andrew-tyler-jb-14xl-java-114-nova-gray-outdoor-inground-pool-installat_e1d92879.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784547238402-kxqxgtyv-andrew-tyler-jb-14xl-java-114-nova-gray-outdoor-inground-pool-installat_e1d92879.webp",
+     "x": 93,
+     "y": 58,
+     "zoom": 121
+    }
+   },
+   {
+    "id": "compass-pools-xl-fast-lane-122",
+    "manufacturerId": "compass-pools",
+    "family": "XL Fast",
+    "name": "XL-FAST LANE 122",
+    "description": "XL Fast mit den Katalogmaßen 12,15 x 2,89 x 1,50 m.",
+    "dimensions": "12,15 x 2,89 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784546522947-dsc-0997-1-jpg_d2af9fe8.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784546522947-dsc-0997-1-jpg_d2af9fe8.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-xl-trainer-110-fb",
+    "manufacturerId": "compass-pools",
+    "family": "XL Trainer",
+    "name": "XL-TRAINER 110 FB",
+    "description": "XL Trainer mit den Katalogmaßen 11,02 x 4,02 x 1,50 m.",
+    "dimensions": "11,02 x 4,02 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784546612949-rebecca-tabor-7-jpg_5782ea78.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784546612949-rebecca-tabor-7-jpg_5782ea78.webp",
+     "x": 50,
+     "y": 100,
+     "zoom": 118
+    }
+   },
+   {
+    "id": "compass-pools-xl-lounger-95",
+    "manufacturerId": "compass-pools",
+    "family": "XL Lounger",
+    "name": "XL-LOUNGER 95",
+    "description": "XL Lounger mit den Katalogmaßen 9,54 x 4,08 x 1,50 m.",
+    "dimensions": "9,54 x 4,08 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784543521847-xl-lounger-95-papyrus-white-vitabad-14_476ae9d1.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784543521847-xl-lounger-95-papyrus-white-vitabad-14_476ae9d1.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-xl-lounger-115",
+    "manufacturerId": "compass-pools",
+    "family": "XL Lounger",
+    "name": "XL-LOUNGER 115",
+    "description": "XL Lounger mit den Katalogmaßen 11,50 x 4,06 x 1,50 m.",
+    "dimensions": "11,50 x 4,06 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784543521847-xl-lounger-95-papyrus-white-vitabad-14_476ae9d1.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784543521847-xl-lounger-95-papyrus-white-vitabad-14_476ae9d1.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-pools-classic-93",
+    "manufacturerId": "compass-pools",
+    "family": "Classic",
+    "name": "CLASSIC 93",
+    "description": "Classic mit den Katalogmaßen 9,37 x 3,52 x 1,50 m.",
+    "dimensions": "9,37 x 3,52 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784543161980-classic93-uk-classic-83-nova-grey-colour-jpg_0fe25b1f.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784543161980-classic93-uk-classic-83-nova-grey-colour-jpg_0fe25b1f.webp",
+     "x": 48,
+     "y": 100,
+     "zoom": 170
+    }
+   },
+   {
+    "id": "compass-pools-aqua-nova-77",
+    "manufacturerId": "compass-pools",
+    "family": "Aqua",
+    "name": "AQUA NOVA 77",
+    "description": "Aqua mit den Katalogmaßen 7,75 x 3,55 x 1,50 m.",
+    "dimensions": "7,75 x 3,55 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784546964479-glombitza-14_4e189d6e.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784546964479-glombitza-14_4e189d6e.webp",
+     "x": 50,
+     "y": 100,
+     "zoom": 128
+    }
+   },
+   {
+    "id": "compass-pools-aqua-nova-84",
+    "manufacturerId": "compass-pools",
+    "family": "Aqua",
+    "name": "AQUA NOVA 84",
+    "description": "Aqua mit den Katalogmaßen 8,45 x 3,55 x 1,50 m.",
+    "dimensions": "8,45 x 3,55 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784546984309-glombitza-39_b3fd9c15.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784546984309-glombitza-39_b3fd9c15.webp",
+     "x": 100,
+     "y": 55,
+     "zoom": 223
+    }
+   },
+   {
+    "id": "compass-pools-riverina-106",
+    "manufacturerId": "compass-pools",
+    "family": "Riverina",
+    "name": "RIVERINA 106",
+    "description": "Riverina mit den Katalogmaßen 10,62 x 3,78 x 1,04–1,88 m.",
+    "dimensions": "10,62 x 3,78 x 1,04–1,88 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784547106970-riverina-free-form-compass-pool-1-jpg_00b1ffb9.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784547106970-riverina-free-form-compass-pool-1-jpg_00b1ffb9.webp",
+     "x": 54,
+     "y": 91,
+     "zoom": 112
+    }
+   },
+   {
+    "id": "compass-pools-xl-java-114",
+    "manufacturerId": "compass-pools",
+    "family": "XL Java",
+    "name": "XL-JAVA 114",
+    "description": "XL Java mit den Katalogmaßen 11,40 x 3,96 x 1,10–1,68 m.",
+    "dimensions": "11,40 x 3,96 x 1,10–1,68 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784547198813-andrew-tyler-jb-19xl-java-114-nova-gray-outdoor-inground-pool-installation_2f493239.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784547198813-andrew-tyler-jb-19xl-java-114-nova-gray-outdoor-inground-pool-installation_2f493239.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 133
+    }
+   },
+   {
+    "id": "compass-pools-classic-103",
+    "manufacturerId": "compass-pools",
+    "family": "Classic",
+    "name": "CLASSIC 103",
+    "description": "Classic mit den Katalogmaßen 10,37 x 3,52 x 1,50 m.",
+    "dimensions": "10,37 x 3,52 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784543161980-classic93-uk-classic-83-nova-grey-colour-jpg_0fe25b1f.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784543161980-classic93-uk-classic-83-nova-grey-colour-jpg_0fe25b1f.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 111
+    }
+   },
+   {
+    "id": "compass-pools-fun-100",
+    "manufacturerId": "compass-pools",
+    "family": "Fun",
+    "name": "FUN 100",
+    "description": "Fun mit den Katalogmaßen 10,00 x 4,00 x 1,50 m.",
+    "dimensions": "10,00 x 4,00 x 1,50 m",
+    "shape": null,
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784541738595-fun100-32-jpg_e2cdcb1b.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784541738595-fun100-32-jpg_e2cdcb1b.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 141
+    }
+   },
+   {
+    "id": "waterrows-single-54",
+    "manufacturerId": "waterrows",
+    "family": "Single",
+    "name": "SINGLE 54",
+    "description": "",
+    "dimensions": "5,4 x 3,5 x 1,5 m",
+    "shape": "Asymmetrisch, Stufen auf der linken Seite",
+    "stairs": "Stufen auf der linken Seite",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/waterrows-single_dbb10f9e.webp",
+     "thumb": "/assets/img/thumb/waterrows-single_dbb10f9e.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "waterrows-single-64",
+    "manufacturerId": "waterrows",
+    "family": "Single",
+    "name": "SINGLE 64",
+    "description": "Asymmetrisch, Stufen auf der linken Seite · Stufen auf der linken Seite",
+    "dimensions": "6,4 x 3,5 x 1,5 m",
+    "shape": null,
+    "stairs": "Stufen auf der linken Seite",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/waterrows-single_dbb10f9e.webp",
+     "thumb": "/assets/img/thumb/waterrows-single_dbb10f9e.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "waterrows-single-78",
+    "manufacturerId": "waterrows",
+    "family": "Single",
+    "name": "SINGLE 78",
+    "description": "Asymmetrisch, Stufen auf der linken Seite · Stufen auf der linken Seite",
+    "dimensions": "7,8 x 3,5 x 1,5 m",
+    "shape": null,
+    "stairs": "Stufen auf der linken Seite",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/waterrows-single_dbb10f9e.webp",
+     "thumb": "/assets/img/thumb/waterrows-single_dbb10f9e.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "waterrows-double-75",
+    "manufacturerId": "waterrows",
+    "family": "Double",
+    "name": "DOUBLE 75",
+    "description": "Symmetrisch, Stufen auf beiden Seiten und zentrale Bank · Stufen auf beiden Seiten",
+    "dimensions": "7,5 x 3,8 x 1,5 m",
+    "shape": null,
+    "stairs": "Stufen auf beiden Seiten",
+    "ledCapability": "side-selectable",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
+     "x": 52,
+     "y": 58,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "waterrows-double-88",
+    "manufacturerId": "waterrows",
+    "family": "Double",
+    "name": "DOUBLE 88",
+    "description": "Symmetrisch, Stufen auf beiden Seiten und zentrale Bank",
+    "dimensions": "8,8 x 3,8 x 1,5 m",
+    "shape": null,
+    "stairs": "Stufen auf beiden Seiten",
+    "ledCapability": "side-selectable",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "waterrows-double-108",
+    "manufacturerId": "waterrows",
+    "family": "Double",
+    "name": "DOUBLE 108",
+    "description": "Symmetrisch, Stufen auf beiden Seiten und zentrale Bank",
+    "dimensions": "10,8 x 3,8 x 1,5 m",
+    "shape": null,
+    "stairs": "Stufen auf beiden Seiten",
+    "ledCapability": "side-selectable",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784412157665-dopuble-werbung2_77b664e7.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "waterrows-sunlounge-75",
+    "manufacturerId": "waterrows",
+    "family": "Sunlounge",
+    "name": "SUNLOUNGE 75",
+    "description": "Erweiterte Sonnenliege, Treppe auf der rechten Seite ·",
+    "dimensions": "7,5 x 3,8 x 1,5 m",
+    "shape": null,
+    "stairs": "Treppe auf der rechten Seite",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784530207662-sunlounge-14_8638f72f.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784530207662-sunlounge-14_8638f72f.webp",
+     "x": 75,
+     "y": 86,
+     "zoom": 117
+    }
+   },
+   {
+    "id": "waterrows-sunlounge-85",
+    "manufacturerId": "waterrows",
+    "family": "Sunlounge",
+    "name": "SUNLOUNGE 85",
+    "description": "Erweiterte Sonnenliege, Treppe auf der rechten Seite ·",
+    "dimensions": "8,5 x 3,8 x 1,5 m",
+    "shape": null,
+    "stairs": "Treppe auf der rechten Seite",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784530207662-sunlounge-14_8638f72f.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784530207662-sunlounge-14_8638f72f.webp",
+     "x": 76,
+     "y": 71,
+     "zoom": 117
+    }
+   },
+   {
+    "id": "waterrows-jetswim-86",
+    "manufacturerId": "waterrows",
+    "family": "Jetswim",
+    "name": "JETSWIM 86",
+    "description": "Großzügige Entspannungsbereiche · Erhöhte Treppe, Seitentreppe",
+    "dimensions": "8,6 x 3,8 x 1,5 m",
+    "shape": null,
+    "stairs": "Erhöhte Treppe, Seitentreppe",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/waterrows-jetswim_06b27888.webp",
+     "thumb": "/assets/img/thumb/waterrows-jetswim_06b27888.webp",
+     "x": 100,
+     "y": 75,
+     "zoom": 109
+    }
+   },
+   {
+    "id": "waterrows-linear-65",
+    "manufacturerId": "waterrows",
+    "family": "Linear",
+    "name": "LINEAR 65",
+    "description": "Klare Linien, Treppe auf der linken Seite · Treppe auf der linken Seite",
+    "dimensions": "6,5 x 3,7 x 1,5 m",
+    "shape": null,
+    "stairs": "Treppe auf der linken Seite",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [
+     "above-ground-premium",
+     "above-ground-standard",
+     "bar-cover",
+     "cover-ohne-abdeckung-fs49ha",
+     "electric-bar-cover"
+    ],
+    "image": {
+     "full": "/assets/img/full/waterrows-linear_58b797cd.webp",
+     "thumb": "/assets/img/thumb/waterrows-linear_58b797cd.webp",
+     "x": 50,
+     "y": 100,
+     "zoom": 134
+    }
+   },
+   {
+    "id": "waterrows-linear-85",
+    "manufacturerId": "waterrows",
+    "family": "Linear",
+    "name": "LINEAR 85",
+    "description": "Klare Linien, Treppe auf der linken Seite · Treppe auf der linken Seite",
+    "dimensions": "8,5 x 3,7 x 1,5 m",
+    "shape": "Klare Linien, Treppe auf der linken Seite",
+    "stairs": "Treppe auf der linken Seite",
+    "ledCapability": "simple",
+    "ledPreview": null,
+    "excluded": [
+     "above-ground-premium",
+     "above-ground-standard",
+     "bar-cover",
+     "cover-ohne-abdeckung-fs49ha",
+     "electric-bar-cover"
+    ],
+    "image": {
+     "full": "/assets/img/full/waterrows-linear_58b797cd.webp",
+     "thumb": "/assets/img/thumb/waterrows-linear_58b797cd.webp",
+     "x": 49,
+     "y": 100,
+     "zoom": 132
+    }
+   },
+   {
+    "id": "freedom-pools-cube",
+    "manufacturerId": "freedom-pools",
+    "family": "Minipools",
+    "name": "CUBE",
+    "description": "Minipools",
+    "dimensions": "D 3.45 x 3.45 m. P 1.40 m. m",
+    "shape": "Minipools",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785155376780-cube_15530b67.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785155376780-cube_15530b67.webp",
+     "x": 100,
+     "y": 66,
+     "zoom": 123
+    }
+   },
+   {
+    "id": "freedom-pools-platinum-7",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "PLATINUM 7",
+    "description": "Rechteckig",
+    "dimensions": "D 7.00 x 4.20 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785163610177-platinum7-pool_845e73c9.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785163610177-platinum7-pool_845e73c9.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 121
+    }
+   },
+   {
+    "id": "freedom-pools-platinum-8",
+    "manufacturerId": "freedom-pools",
+    "family": ".",
+    "name": "PLATINUM 8",
+    "description": "Rechteckig",
+    "dimensions": "D 8.40 x 4.20 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785163349165-platinum8-4_50ec656f.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785163349165-platinum8-4_50ec656f.webp",
+     "x": 0,
+     "y": 43,
+     "zoom": 127
+    }
+   },
+   {
+    "id": "freedom-pools-platinum-10",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "PLATINUM 10",
+    "description": "Rechteckig",
+    "dimensions": "D 10.35 x 4.25 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785156124396-platinum10-3_f50a8347.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785156124396-platinum10-3_f50a8347.webp",
+     "x": 45,
+     "y": 41,
+     "zoom": 132
+    }
+   },
+   {
+    "id": "freedom-pools-riviera-8",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "RIVIERA 8",
+    "description": "Rechteckig",
+    "dimensions": "D 8.40 x 4.20 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785156565955-riviera8-2_7ba9b678.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785156565955-riviera8-2_7ba9b678.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-riviera-10",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "RIVIERA 10",
+    "description": "Rechteckig",
+    "dimensions": "D 10.40 x 4.20 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785156618685-rivera10_5f599707.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785156618685-rivera10_5f599707.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 108
+    }
+   },
+   {
+    "id": "freedom-pools-lap-pool",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "LAP POOL",
+    "description": "Rechteckig",
+    "dimensions": "D 11.45 x 3.20 m. P 1.40 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785156801576-lap-11_137414d8.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785156801576-lap-11_137414d8.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-manhattan",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "MANHATTAN",
+    "description": "Rechteckig",
+    "dimensions": "D 8.50 x 4.25 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785156875060-manhattan-2_2e8aba22.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785156875060-manhattan-2_2e8aba22.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-liberty",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "LIBERTY",
+    "description": "Rechteckig",
+    "dimensions": "D 8.40 x 4.25 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785157727958-oiberty-pool_e105e3ab.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785157727958-oiberty-pool_e105e3ab.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-bliss",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "BLISS",
+    "description": "Rechteckig",
+    "dimensions": "D 8.40 x 4.25 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785158410549-blissv2_1c398928.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785158410549-blissv2_1c398928.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 111
+    }
+   },
+   {
+    "id": "freedom-pools-entertainer-7",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "ENTERTAINER 7",
+    "description": "Rechteckig",
+    "dimensions": "D 6.80 x 4.00 m. P 1.40 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1784832995936-entertainer7_16a505b5.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1784832995936-entertainer7_16a505b5.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 104
+    }
+   },
+   {
+    "id": "freedom-pools-entertainer-10",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "ENTERTAINER 10",
+    "description": "Rechteckig",
+    "dimensions": "D 9.50 x 3.60 m. P 1.20 -1.75 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785157803097-entertainer-10-granite-freedom-pools-1_7ff7a6d2.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785157803097-entertainer-10-granite-freedom-pools-1_7ff7a6d2.webp",
+     "x": 34,
+     "y": 81,
+     "zoom": 107
+    }
+   },
+   {
+    "id": "freedom-pools-vicepresident",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "VICEPRESIDENT",
+    "description": "Rechteckig",
+    "dimensions": "D 10.40 x 4.25 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785158183482-vicepresident_d3d49d0b.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785158183482-vicepresident_d3d49d0b.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-malibu",
+    "manufacturerId": "freedom-pools",
+    "family": "Rechteckig",
+    "name": "MALIBU",
+    "description": "Rechteckig",
+    "dimensions": "D 10.25 x 4.00 m. P 1.45 m. m",
+    "shape": "Rechteckig",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785158492602-malibu-1_0938bfcc.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785158492602-malibu-1_0938bfcc.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-grecian",
+    "manufacturerId": "freedom-pools",
+    "family": "Klassisch",
+    "name": "GRECIAN",
+    "description": "Klassisch",
+    "dimensions": "D 8.15 x 4.15 m. P 1.05 - 1.70 m. m",
+    "shape": "Klassisch",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785158695670-grecian-4_1a0d7fa9.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785158695670-grecian-4_1a0d7fa9.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-majestic",
+    "manufacturerId": "freedom-pools",
+    "family": "Klassisch",
+    "name": "MAJESTIC",
+    "description": "Klassisch",
+    "dimensions": "D 9.30 x 4.15 m. P 1.05 - 1.80 m. m",
+    "shape": "Klassisch",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785158730334-majestic-1_92fcb778.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785158730334-majestic-1_92fcb778.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 205
+    }
+   },
+   {
+    "id": "freedom-pools-jamaican",
+    "manufacturerId": "freedom-pools",
+    "family": "Klassisch",
+    "name": "JAMAICAN",
+    "description": "Klassisch",
+    "dimensions": "D 8.15 x 4.15 m. P 1.45 m. m",
+    "shape": "Klassisch",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785158883709-jamaican-1_85270e54.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785158883709-jamaican-1_85270e54.webp",
+     "x": 100,
+     "y": 100,
+     "zoom": 152
+    }
+   },
+   {
+    "id": "freedom-pools-hawaiian",
+    "manufacturerId": "freedom-pools",
+    "family": "Klassisch",
+    "name": "HAWAIIAN",
+    "description": "Klassisch",
+    "dimensions": "D 10.05 x 4.15 m. P 1.45 m. m",
+    "shape": "Klassisch",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785159336436-hawaiian-2_c393a507.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785159336436-hawaiian-2_c393a507.webp",
+     "x": 48,
+     "y": 64,
+     "zoom": 123
+    }
+   },
+   {
+    "id": "freedom-pools-san-remo",
+    "manufacturerId": "freedom-pools",
+    "family": "Geschwungen",
+    "name": "SAN REMO",
+    "description": "Geschwungen",
+    "dimensions": "D 5.15 x 2.60 m. P 1.20 m. m",
+    "shape": "Geschwungen",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785159397464-san-remo-4_220a6f1a.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785159397464-san-remo-4_220a6f1a.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-pools-oasis",
+    "manufacturerId": "freedom-pools",
+    "family": "Geschwungen",
+    "name": "OASIS",
+    "description": "Geschwungen",
+    "dimensions": "D 7.60 x 3.85 m. P 1.05 - 1.70 m. m",
+    "shape": "Geschwungen",
+    "stairs": null,
+    "ledCapability": "none",
+    "ledPreview": null,
+    "excluded": [
+     "underfloor-rollo"
+    ],
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785159489933-oasis-2_068dad6e.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785159489933-oasis-2_068dad6e.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   }
+  ],
+  "colors": [
+   {
+    "id": "compass-cyber-white",
+    "manufacturerId": "compass-pools",
+    "modelId": null,
+    "name": "Cyber White",
+    "description": "Helle Compass-Oberfläche mit klarer, moderner Wasserwirkung.",
+    "image": {
+     "full": "/assets/img/full/compass-cyber-white_10f47ff6.webp",
+     "thumb": "/assets/img/thumb/compass-cyber-white_10f47ff6.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "freedom-standard",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Granite",
+    "description": "Farbe Granite",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160522720-granite1_8d4cfd38.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160522720-granite1_8d4cfd38.webp",
+     "x": 50,
+     "y": 67,
+     "zoom": 114
+    }
+   },
+   {
+    "id": "waterrows-sparkling-grey",
+    "manufacturerId": "waterrows",
+    "modelId": null,
+    "name": "Sparkling Grey",
+    "description": "Graphene-Keramik-Oberfläche in funkelndem Grau.",
+    "image": {
+     "full": "/assets/img/full/Waterrows_Farbe_sparkling_grey_0de4695d.webp",
+     "thumb": "/assets/img/thumb/Waterrows_Farbe_sparkling_grey_0de4695d.webp",
+     "x": 100,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "waterrows-alabaster",
+    "manufacturerId": "waterrows",
+    "modelId": null,
+    "name": "Alabaster",
+    "description": "Helle Graphene-Keramik-Oberfläche mit ruhiger Wasserwirkung.",
+    "image": {
+     "full": "/assets/img/full/Waterrows_Farbe_alabaster_515d8158.webp",
+     "thumb": "/assets/img/thumb/Waterrows_Farbe_alabaster_515d8158.webp",
+     "x": 100,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-smokey-quartz",
+    "manufacturerId": "compass-pools",
+    "modelId": null,
+    "name": "Smokey Quartz",
+    "description": "Ausdrucksstarke, dunklere Compass-Farbausführung.",
+    "image": {
+     "full": "/assets/img/full/compass-smokey-quartz_86658e71.webp",
+     "thumb": "/assets/img/thumb/compass-smokey-quartz_86658e71.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-golden",
+    "manufacturerId": "compass-pools",
+    "modelId": null,
+    "name": "Golden Pebble",
+    "description": "Warme Oberfläche für eine natürliche Wasserwirkung.",
+    "image": {
+     "full": "/assets/img/full/compass-golden_e6d62a43.webp",
+     "thumb": "/assets/img/thumb/compass-golden_e6d62a43.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "waterrows-lunar-granite",
+    "manufacturerId": "waterrows",
+    "modelId": null,
+    "name": "Lunar Granite",
+    "description": "Dunklere Graphene-Keramik-Oberfläche mit Granitoptik.",
+    "image": {
+     "full": "/assets/img/full/Waterrows_Farbe_Lunar_Granite_29d6c8b9.webp",
+     "thumb": "/assets/img/thumb/Waterrows_Farbe_Lunar_Granite_29d6c8b9.webp",
+     "x": 97,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "waterrows-champagne-pearl",
+    "manufacturerId": "waterrows",
+    "modelId": null,
+    "name": "Champagne Pearl",
+    "description": "Warme Graphene-Keramik-Oberfläche mit feinem Perlglanz.",
+    "image": {
+     "full": "/assets/img/full/Waterrows_Farbe_champagne_pearl_de977b0f.webp",
+     "thumb": "/assets/img/thumb/Waterrows_Farbe_champagne_pearl_de977b0f.webp",
+     "x": 100,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-nova-anthracite",
+    "manufacturerId": "compass-pools",
+    "modelId": null,
+    "name": "Nova Anthracite",
+    "description": "Dunkle Nova-Oberfläche mit markanter Tiefenwirkung.",
+    "image": {
+     "full": "/assets/img/full/compass-nova-anthracite_b8cbf041.webp",
+     "thumb": "/assets/img/thumb/compass-nova-anthracite_b8cbf041.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-nova-grey",
+    "manufacturerId": "compass-pools",
+    "modelId": null,
+    "name": "Nova Grey",
+    "description": "Zeitlose graue Nova-Oberfläche.",
+    "image": {
+     "full": "/assets/img/full/compass-nova-grey_a9a98ce2.webp",
+     "thumb": "/assets/img/thumb/compass-nova-grey_a9a98ce2.webp",
+     "x": 50,
+     "y": 56,
+     "zoom": 138
+    }
+   },
+   {
+    "id": "compass-nova-stone",
+    "manufacturerId": "compass-pools",
+    "modelId": null,
+    "name": "Nova Stone",
+    "description": "Steinbetonte Nova-Farbe mit natürlichem Charakter.",
+    "image": {
+     "full": "/assets/img/full/compass-nova-stone_05932c6d.webp",
+     "thumb": "/assets/img/thumb/compass-nova-stone_05932c6d.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "compass-nova-pearl",
+    "manufacturerId": "compass-pools",
+    "modelId": null,
+    "name": "Nova Pearl",
+    "description": "Helle Nova-Farbe mit feiner Perlmuttwirkung.",
+    "image": {
+     "full": "/assets/img/full/compass-nova-pearl_aada23ae.webp",
+     "thumb": "/assets/img/thumb/compass-nova-pearl_aada23ae.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "farbe-freedom-pools-alabaster-fwnqhe",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Alabaster",
+    "description": "Farbe Alabaster",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160565478-alabaster_eb784555.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160565478-alabaster_eb784555.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 113
+    }
+   },
+   {
+    "id": "farbe-freedom-pools-ankara-x5jexz",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Ankara",
+    "description": "Farbe Ankara",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160709393-ankara1_003126a9.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160709393-ankara1_003126a9.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 112
+    }
+   },
+   {
+    "id": "farbe-freedom-pools-black-pearl-izdjql",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Black Pearl",
+    "description": "Farbe Black Pearl",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160764262-black-pearl2_2a22caa1.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160764262-black-pearl2_2a22caa1.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 108
+    }
+   },
+   {
+    "id": "farbe-freedom-pools-byzantine-white-jso3q_",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Byzantine White",
+    "description": "Farbe Byzantine White",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160678272-byzantine-white1_983e8051.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160678272-byzantine-white1_983e8051.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 111
+    }
+   },
+   {
+    "id": "farbe-freedom-pools-dark-grey-ylabqx",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Dark Grey",
+    "description": "Farbe Dark Grey",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160850170-dark-grey1_f87ed658.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160850170-dark-grey1_f87ed658.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 109
+    }
+   },
+   {
+    "id": "farbe-freedom-pools-ivory-rcbfer",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Ivory",
+    "description": "Farbe Ivory",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160595354-ivory1_5bc455ff.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160595354-ivory1_5bc455ff.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "farbe-freedom-pools-mara-grey-kynu2e",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Mara Grey",
+    "description": "Farbe Mara Grey",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160789304-mara-grey_a21ec35c.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160789304-mara-grey_a21ec35c.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 110
+    }
+   },
+   {
+    "id": "farbe-freedom-pools-silver-grey-jpz5yb",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Silver Grey",
+    "description": "Farbe Silver Grey",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160825106-silver-grey_c939d070.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160825106-silver-grey_c939d070.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 109
+    }
+   },
+   {
+    "id": "farbe-freedom-pools-white-pearl-sk_g_l",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "White Pearl",
+    "description": "Farbe White Pearl",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160616721-white-pearl1_98de93b7.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160616721-white-pearl1_98de93b7.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 109
+    }
+   },
+   {
+    "id": "farbe-waterrows-blue-sapphire-xk7wwk",
+    "manufacturerId": "freedom-pools",
+    "modelId": null,
+    "name": "Blue Sapphire",
+    "description": "Farbe Blue Sapphire",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1785160880663-blue-saphire_41d8d288.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1785160880663-blue-saphire_41d8d288.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 103
+    }
+   }
+  ],
+  "equipment": [
+   {
+    "id": "underfloor-rollo",
+    "category": "cover",
+    "name": "Unterflurrollo",
+    "description": "Unsichtbar im Becken integriert und besonders komfortabel.",
+    "badge": "Aufpreis ab 9000€",
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784650023929-waterrows-logo-entfernt_4645c992.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784650023929-waterrows-logo-entfernt_4645c992.webp",
+     "x": 48,
+     "y": 21,
+     "zoom": 154
+    }
+   },
+   {
+    "id": "above-ground-standard",
+    "category": "cover",
+    "name": "Oberflurrollo Standard",
+    "description": "Funktionale Abdeckung mit zuverlässigem Bedienkomfort.",
+    "badge": "Aufpreis ab 4500€",
+    "image": {
+     "full": "/assets/img/full/cover-above-standard_8518df26.webp",
+     "thumb": "/assets/img/thumb/cover-above-standard_8518df26.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "bar-cover",
+    "category": "cover",
+    "name": "Stangenabdeckung",
+    "description": "Robuste, manuell bedienbare Ganzjahresabdeckung.",
+    "badge": "Aufpreis ab 1400€",
+    "image": {
+     "full": "/assets/img/full/cover-bar_737ec354.webp",
+     "thumb": "/assets/img/thumb/cover-bar_737ec354.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "above-ground-premium",
+    "category": "cover",
+    "name": "Oberflurrollo Premium",
+    "description": "mit Liegefäche , Hochwertige Ausführung mit elegantem Gehäuse.",
+    "badge": "Aufpreis ab 12000€",
+    "image": {
+     "full": "/assets/img/full/cover-above-premium_4b1be1e3.webp",
+     "thumb": "/assets/img/thumb/cover-above-premium_4b1be1e3.webp",
+     "x": 14,
+     "y": 0,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "electric-bar-cover",
+    "category": "cover",
+    "name": "Elektrische Stangenabdeckung",
+    "description": "Elektrisch betriebene Stangenabdeckung für hohen Komfort.",
+    "badge": "Aufpreis ab 6000€",
+    "image": {
+     "full": "/assets/img/full/cover-bar-electric_9b00518b.webp",
+     "thumb": "/assets/img/thumb/cover-bar-electric_9b00518b.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "cover-ohne-abdeckung-fs49ha",
+    "category": "cover",
+    "name": "Ohne Abdeckung",
+    "description": "Ohne Abdeckung, eine Abdeckung kann auch später nachgerüstet werden. \nAußer Unterflurrollos, die können nicht nachgerüstet werden.",
+    "badge": null,
+    "image": {
+     "full": null,
+     "thumb": null,
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "box-essential",
+    "category": "technology",
+    "name": "Technikbox Essential Salz",
+    "description": "Kompakte Kunststoffbox mit Pooltechnik\nSalzelektroyseanlage\nMessung - automatische Dosierung und Regelung pH, Redox\nSmartphone App Steuerung mit WLAN - Zeitprogramm\nFrostschutz Funktion für aktive Überwinterung\nFilterkessel mit verstärktem Glasfaserbehälter salzwasserbeständig\n6 Wege Ventil mit Rückspülfunktion (alternativ iWash)\nFreqenzgeregelte Filterpumpe mit InverSilence® Technologie mit nur 36 dB(A) außergewöhnlich leise",
+    "badge": "Ab 4800€",
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784398070811-kunststoffbox_73579f3e.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784398070811-kunststoffbox_73579f3e.webp",
+     "x": 50,
+     "y": 38,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "box-premium",
+    "category": "technology",
+    "name": "Technikbox Premium Salz",
+    "description": "Hochwertige Aluminiumbox mit langlebiger, aufgeräumter Ausführung.\nSalzelektroyseanlage\nMessung - automatische Dosierung und Regelung pH, Redox\nSmartphone App Steuerung mit WLAN - Zeitprogramm\nFrostschutz Funktion für aktive Überwinterung\nFilterkessel mit verstärktem Glasfaserbehälter salzwasserbeständig\n6 Wege Ventil mit Rückspülfunktion (alternativ iWash)\nFreqenzgeregelte Filterpumpe mit InverSilence® Technologie mit nur 36 dB(A) außergewöhnlich leise",
+    "badge": "Ab 8800€",
+    "image": {
+     "full": "/uploads/20260920-160423-42891b24.png",
+     "thumb": "/uploads/20260920-160423-42891b24.png",
+     "x": 50,
+     "y": 57,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "technology-wall",
+    "category": "technology",
+    "name": "Technikwand",
+    "description": "Vormontierte Technikwand, auch für Gartenhaus oder Garage geeignet.\nSalzelektroyseanlage\nMessung - automatische Dosierung und Regelung pH, Redox\nSmartphone App Steuerung mit WLAN - Zeitprogramm\nFrostschutz Funktion für aktive Überwinterung\nFilterkessel mit verstärktem Glasfaserbehälter salzwasserbeständig\n6 Wege Ventil mit Rückspülfunktion (alternativ iWash)\nFreqenzgeregelte Filterpumpe mit InverSilence® Technologie mit nur 36 dB(A) außergewöhnlich leise",
+    "badge": "Ab 4900€",
+    "image": {
+     "full": "/assets/img/full/technology-wall_8d8e5a8d.webp",
+     "thumb": "/assets/img/thumb/technology-wall_8d8e5a8d.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "iwash-without",
+    "category": "iwash",
+    "name": "Standard 6 Wege Ventil",
+    "description": "Die Rückspülung wird klassisch manuell durchgeführt.",
+    "badge": "Inklusive",
+    "image": {
+     "full": "/assets/img/full/catalog_7620001_1784722502761-6wegeventil_69c64af5.webp",
+     "thumb": "/assets/img/thumb/catalog_7620001_1784722502761-6wegeventil_69c64af5.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "iwash-with",
+    "category": "iwash",
+    "name": "Mit iWash",
+    "description": "Automatische Rückspülfunktion für weniger manuellen Pflegeaufwand.\nMit automatischer Wassernachspeisung.",
+    "badge": "Aufpreis ab ca 1100€",
+    "image": {
+     "full": "/assets/img/full/iwash_186e0477.webp",
+     "thumb": "/assets/img/thumb/iwash_186e0477.webp",
+     "x": 36,
+     "y": 100,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "none",
+    "category": "heatpump",
+    "name": "Ohne Wärmepumpe",
+    "description": "Keine zusätzliche Beckenbeheizung.",
+    "badge": null,
+    "image": {
+     "full": null,
+     "thumb": null,
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "standard",
+    "category": "heatpump",
+    "name": "Wärmepumpe Standard",
+    "description": "Effiziente Standard-Ausführung mit COP 15–18.",
+    "badge": "COP 15–18",
+    "image": {
+     "full": "/assets/img/full/heatpump-standard_c751afdd.webp",
+     "thumb": "/assets/img/thumb/heatpump-standard_c751afdd.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "premium",
+    "category": "heatpump",
+    "name": "Wärmepumpe Premium",
+    "description": "Besonders effiziente Premium-Ausführung mit COP 26.",
+    "badge": "COP 26",
+    "image": {
+     "full": "/assets/img/full/heatpump-premium_9f7b4a18.webp",
+     "thumb": "/assets/img/thumb/heatpump-premium_9f7b4a18.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "rgb",
+    "category": "lighting",
+    "name": "RGB-Scheinwerfer",
+    "description": "Farbe frei wählbar - \nInklusive Trafo, DMX, WLAN/Bluetooth-Steuerung und Dimmfunktion.",
+    "badge": null,
+    "image": {
+     "full": "/assets/img/full/spotlight-led_d99c85fc.webp",
+     "thumb": "/assets/img/thumb/spotlight-led_d99c85fc.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   },
+   {
+    "id": "white",
+    "category": "lighting",
+    "name": "Scheinwerfer Weiß",
+    "description": "Klassische, klare Unterwasserbeleuchtung in Weiß.",
+    "badge": null,
+    "image": {
+     "full": "/assets/img/full/catalog_1_1784531280106-spectra-vision-led-weiss-uw-scheinwerfer-r-17-cm-245-w_a72e4101.webp",
+     "thumb": "/assets/img/thumb/catalog_1_1784531280106-spectra-vision-led-weiss-uw-scheinwerfer-r-17-cm-245-w_a72e4101.webp",
+     "x": 50,
+     "y": 50,
+     "zoom": 100
+    }
+   }
+  ]
+ },
+ "slots": [
+  "08:00–10:00",
+  "10:00–12:00",
+  "12:00–14:00",
+  "14:00–16:00",
+  "16:00–18:00",
+  "18:00–20:00"
+ ],
+ "budgets": [],
+ "analytics": true,
+ "privacyUrl": "https://poolbau-kochgmbh.de/datenschutz",
+ "priceHint": "Unsere Pool-Projekte starten ab 30.000 €",
+ "company": {
+  "name": "Poolbau Koch ",
+  "phone": "+49 177 45 095 00",
+  "email": "info@poolbau-kochgmbh.de",
+  "website": "https://poolbau-kochgmbh.de",
+  "privacy": "https://poolbau-kochgmbh.de/datenschutz",
+  "imprint": "https://poolbau-kochgmbh.de/impressum"
+ }
+}

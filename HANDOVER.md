@@ -33,6 +33,7 @@ Kurzfassung für die nächste Sitzung. Arbeitsregeln und festgelegte Entscheidun
 
 ## Offene Punkte / nächste Schritte
 
+0. **Pool-Konfigurator neu:** Plan in `docs/konfigurator-plan.md`, Katalog-Snapshot + alte JS in `medien/konfigurator/`. Wartet auf Antworten zu den offenen Fragen dort.
 1. **Offen auf der Startseite:** Kontakt-Sektion mit Formular (Ziel für `#beratung`, Formular braucht Dienst wie Formspree o. ä., GitHub Pages kann nicht senden). Angebote/Komplettpakete vom Nutzer vorerst weggelassen – `#pakete` hat noch kein Ziel. Impressum/Datenschutz verlinken vorerst auf poolbau-kochgmbh.de. – jeweils Original vermessen, 1:1 nachbauen, nur Texte/Bilder/Farben tauschen.
 2. **Logo-SVG einbauen** (`brand/poolbau-koch-logo-dunkel.svg` in Header; hell-Variante für dunkle Flächen) – Messwerte in `brand/README.md` prüfen.
 3. **Sitemap** noch nicht als Dokument angelegt (Vorschlag aus der Sitzung: Start, Pools (je Marke), Komplettpakete, Poolbau ohne Beton, Technik & Wasserpflege, Wasseraufbereitung, Projekte, Über uns, Ratgeber/FAQ, Kataloge, Kontakt, Impressum, Datenschutz; extern: Konfigurator, Shop).
