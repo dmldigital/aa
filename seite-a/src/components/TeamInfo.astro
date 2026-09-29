@@ -1,0 +1,15 @@
+---
+// Text der geöffneten Team-Box (Desktop-Akkordeon und Handy-Bildunterschrift): Kopfzeile, Name, Rolle, Linie,
+// Qualifikation, Zitat, Erfahrung als Kennzahl. Die Reihenfolge --i steuert den gestaffelten Aufbau.
+interface Props { m: { code: string; name: string; role: string; qualification: string; department: string; experience?: string; quote: string } }
+const { m } = Astro.props;
+const e = /^(\d+\+?)\s*(.*)$/.exec(m.experience || '');
+const exp = e ? { n: e[1], t: e[2] || 'Jahre' } : null;
+---
+<p class="ti-top" style="--i:0"><span class="ti-code">{m.code}</span><span class="ti-dep">{m.department}</span></p>
+<h3 class="ti-name" style="--i:1">{m.name}</h3>
+<p class="ti-role" style="--i:2">{m.role}</p>
+<span class="ti-rule" style="--i:3" aria-hidden="true"></span>
+<div class="ti-block" style="--i:4"><span class="ti-label">Qualifikation</span><p>{m.qualification}</p></div>
+<blockquote class="ti-quote" style="--i:5">„{m.quote}“</blockquote>
+{exp && <p class="ti-exp" style="--i:6"><b>{exp.n}</b><span>{exp.t} Erfahrung</span></p>}

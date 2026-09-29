@@ -1,156 +1,75 @@
 ---
-// Team in drei ruhigen Varianten zum Vergleich (Umschalter unten links, auch per ?team=1 bis 3):
-// 1 Index: Namensliste, der gewählte Eintrag öffnet sich, freigestelltes Porträt im Bogen daneben
-// 2 Reihe: alle Personen freigestellt in einer Reihe, Text erscheint darunter
-// 3 Fokus: eine Person groß, Auswahl über eine schmale Leiste mit kleinen Porträts
-// Die Porträts sind freigestellt (public/media/team-cut), Inhalte kommen aus data/content.ts.
+// Team: ab 1100 px ein Bild-Akkordeon in voller Breite. Die Personen sind freigestellt (public/media/team-cut) und stehen auf dunklem
+// Grund; ein schmaler Streifen zeigt sie wie durch einen Spalt, der gewählte öffnet sich langsam und zeigt Text und Person.
+// (Muster nach 21st.dev "image accordion", eigene Umsetzung.) Darunter: Wischreihe mit Text darunter.
 import { team } from '../data/content';
-const variants = ['Index', 'Reihe', 'Fokus'];
+import TeamInfo from './TeamInfo.astro';
 const cut = (m: { image: string }) => `/media/team-cut/${m.image}.webp`;
-const pad = (i: number) => String(i + 1).padStart(2, '0');
 ---
-<script is:inline>
-  (function () {
-    var v = '1';
-    try { v = new URLSearchParams(location.search).get('team') || localStorage.getItem('mw-tv') || '1'; } catch (e) {}
-    if (!/^[1-3]$/.test(v)) v = '1';
-    document.documentElement.dataset.tv = v;
-  })();
-</script>
-<section class="team" id="team" aria-labelledby="team-title">
+<section class="team grain" id="team" aria-labelledby="team-title">
   <div class="wrap team-head">
     <p class="label" data-reveal>Ihr Projekt, unser Team</p>
     <h2 id="team-title" class="team-title" data-lines>Meisterhafte Kompetenz am Bau</h2>
   </div>
 
-  <!-- 1 Index -->
-  <div class="tv tv1 wrap">
-    <ol class="ix-list" role="list">
+  <!-- Desktop: Akkordeon -->
+  <div class="team-acc">
+    <ul class="tm-list" role="list">
       {team.map((m, i) => (
-        <li class={`ix-row${i === 0 ? ' on' : ''}`} data-i={i} tabindex="0" aria-label={`${m.name}, ${m.role}`}>
-          <span class="ix-num">{pad(i)}</span>
-          <span class="ix-main"><span class="ix-name">{m.name}</span><span class="ix-role">{m.shortRole}</span></span>
-          <span class="ix-more"><span class="ix-more-in">
-            <img class="ix-inline" src={cut(m)} alt="" width="956" height="1100" loading="lazy" decoding="async" />
-            <span class="ix-qual">{m.qualification}</span>
-            <span class="ix-quote">„{m.quote}“</span>
-            {m.experience && <span class="ix-exp">{m.experience}</span>}
-          </span></span>
+        <li class={`tm${i === 0 ? ' on' : ''}`} data-i={i} tabindex="0" aria-label={`${m.name}, ${m.role}`}>
+          <div class="tm-media">
+            <img class="tm-img" src={cut(m)} alt={m.name} width="956" height="1100" loading={i < 3 ? 'eager' : 'lazy'} decoding="async" />
+          </div>
+          <div class="tm-strip" aria-hidden="true"><span class="tm-strip-name">{m.name}</span></div>
+          <div class="tm-panel"><TeamInfo m={m} /></div>
         </li>
       ))}
-    </ol>
-    <div class="ix-stage" aria-hidden="true">
-      <span class="ix-arch"></span>
-      {team.map((m, i) => <img class={`ix-img${i === 0 ? ' on' : ''}`} data-i={i} src={cut(m)} alt="" width="956" height="1100" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />)}
-    </div>
+    </ul>
   </div>
 
-  <!-- 2 Reihe -->
-  <div class="tv tv2">
-    <div class="ln-stage">
-      <ul class="ln-row" role="list" data-ln-row>
-        {team.map((m, i) => (
-          <li class={`ln-item${i === 0 ? ' on' : ''}`} data-i={i} tabindex="0" aria-label={`${m.name}, ${m.role}`}>
-            <img src={cut(m)} alt={m.name} width="956" height="1100" loading="lazy" decoding="async" />
-          </li>
-        ))}
-      </ul>
-      <span class="ln-floor" aria-hidden="true"></span>
-    </div>
-    <div class="wrap ln-caption">
+  <!-- Handy/Tablet: Wischreihe, Text darunter -->
+  <div class="team-swipe">
+    <ul class="sw-row" role="list" data-sw-row>
       {team.map((m, i) => (
-        <div class={`ln-cap${i === 0 ? ' on' : ''}`} data-i={i}>
-          <div class="ln-cap-a"><small>{m.code} · {m.department}</small><h3>{m.name}</h3><p>{m.role}</p></div>
-          <p class="ln-cap-b">{m.qualification}</p>
-          <p class="ln-cap-c">„{m.quote}“{m.experience && <span>{m.experience}</span>}</p>
-        </div>
+        <li class={`sw-item${i === 0 ? ' on' : ''}`} data-i={i} tabindex="0" aria-label={`${m.name}, ${m.role}`}>
+          <img src={cut(m)} alt={m.name} width="956" height="1100" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
+        </li>
       ))}
-    </div>
-  </div>
-
-  <!-- 3 Fokus -->
-  <div class="tv tv3 wrap">
-    <div class="fx-grid">
-      <div class="fx-photo" aria-hidden="true">
-        <span class="fx-glow"></span>
-        {team.map((m, i) => <img class={`fx-img${i === 0 ? ' on' : ''}`} data-i={i} src={cut(m)} alt="" width="956" height="1100" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />)}
-      </div>
-      <div class="fx-text">
-        {team.map((m, i) => (
-          <article class={`fx-info${i === 0 ? ' on' : ''}`} data-i={i}>
-            <small class="fx-code" style="--s:0">{m.code} · {m.department}</small>
-            <h3 class="fx-name" style="--s:1">{m.name}</h3>
-            <p class="fx-role" style="--s:2">{m.role}</p>
-            <span class="fx-rule" style="--s:3" aria-hidden="true"></span>
-            <p class="fx-qual" style="--s:4">{m.qualification}</p>
-            <p class="fx-quote" style="--s:5">„{m.quote}“</p>
-            {m.experience && <p class="fx-exp" style="--s:6">{m.experience}</p>}
-          </article>
-        ))}
-      </div>
-    </div>
-    <div class="fx-bar">
-      <ul class="fx-rail" role="list">
-        {team.map((m, i) => (
-          <li><button type="button" class={`fx-thumb${i === 0 ? ' on' : ''}`} data-i={i} aria-label={`${m.name} anzeigen`}><img src={cut(m)} alt="" width="956" height="1100" loading="lazy" decoding="async" /></button></li>
-        ))}
-      </ul>
-      <p class="fx-count"><b data-count>01</b> / {pad(team.length - 1)}</p>
+    </ul>
+    <div class="wrap sw-caption">
+      {team.map((m, i) => <div class={`sw-cap${i === 0 ? ' on' : ''}`} data-i={i}><TeamInfo m={m} /></div>)}
     </div>
   </div>
 </section>
 
-<!-- Umschalter für den Vergleich (nach der Entscheidung entfernen) -->
-<div class="tv-switch" role="group" aria-label="Team-Variante wählen">
-  <span class="tv-switch-t">Team</span>
-  {variants.map((n, i) => <button type="button" data-tv-set={i + 1} aria-label={`Variante ${i + 1}: ${n}`} aria-pressed="false">{i + 1}</button>)}
-  <span class="tv-switch-n" data-tv-name aria-live="polite"></span>
-</div>
-
 <script>
-  const root = document.documentElement;
   const sec = document.getElementById('team')!;
-  const names = ['Index', 'Reihe', 'Fokus'];
-  const items = () => [...sec.querySelectorAll<HTMLElement>('[data-i]')];
+  const set = (i: number) => sec.querySelectorAll<HTMLElement>('[data-i]').forEach((el) => el.classList.toggle('on', Number(el.dataset.i) === i));
 
-  // Auswahl: gleiche Nummer in allen Varianten; before/after bestimmen die Richtung der Übergänge
-  const set = (i: number) => {
-    items().forEach((el) => {
-      const k = Number(el.dataset.i);
-      el.classList.toggle('on', k === i);
-      el.classList.toggle('before', k < i);
-      el.classList.toggle('after', k > i);
-    });
-    const c = sec.querySelector('[data-count]');
-    if (c) c.textContent = String(i + 1).padStart(2, '0');
-  };
-  set(0);
-
-  // Hover (Maus, mit kurzer Verzögerung), Fokus (Tastatur), Klick/Tippen
+  // Hover (Maus, mit Verzögerung), Fokus (Tastatur), Klick/Tippen; der zuletzt gewählte bleibt offen
   let timer = 0;
-  sec.querySelectorAll<HTMLElement>('.ix-row, .ln-item, .fx-thumb').forEach((el) => {
+  sec.querySelectorAll<HTMLElement>('.tm, .sw-item').forEach((el) => {
     const i = Number(el.dataset.i);
     el.addEventListener('pointerenter', (e) => {
       if (e.pointerType === 'touch') return;
       window.clearTimeout(timer);
-      timer = window.setTimeout(() => set(i), 130);
+      timer = window.setTimeout(() => set(i), 140);
     });
     el.addEventListener('pointerleave', () => window.clearTimeout(timer));
     el.addEventListener('focus', () => set(i));
     el.addEventListener('click', () => set(i));
   });
 
-  // Reihe auf dem Handy: die Person in der Mitte des Streifens ist die gewählte
-  const row = sec.querySelector<HTMLElement>('[data-ln-row]');
-  const phone = window.matchMedia('(max-width: 899px)');
+  // Wischreihe: die Person in der Mitte ist die gewählte
+  const row = sec.querySelector<HTMLElement>('[data-sw-row]');
   let raf = 0;
   row?.addEventListener('scroll', () => {
-    if (!phone.matches || raf) return;
+    if (raf) return;
     raf = requestAnimationFrame(() => {
       raf = 0;
       const mid = row.getBoundingClientRect().left + row.clientWidth / 2;
       let best = 0, bestD = Infinity;
-      row.querySelectorAll<HTMLElement>('.ln-item').forEach((el, i) => {
+      row.querySelectorAll<HTMLElement>('.sw-item').forEach((el, i) => {
         const r = el.getBoundingClientRect();
         const d = Math.abs(r.left + r.width / 2 - mid);
         if (d < bestD) { bestD = d; best = i; }
@@ -158,24 +77,4 @@ const pad = (i: number) => String(i + 1).padStart(2, '0');
       set(best);
     });
   }, { passive: true });
-
-  // Umschalter
-  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-tv-set]');
-  const label = document.querySelector<HTMLElement>('[data-tv-name]');
-  const show = () => {
-    const v = Number(root.dataset.tv || '1');
-    buttons.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.tvSet) === v)));
-    if (label) label.textContent = names[v - 1] || '';
-  };
-  buttons.forEach((b) => b.addEventListener('click', () => {
-    const v = b.dataset.tvSet!;
-    root.dataset.tv = v;
-    try { localStorage.setItem('mw-tv', v); } catch {}
-    const u = new URL(location.href);
-    u.searchParams.set('team', v);
-    history.replaceState(null, '', u);
-    show();
-    window.dispatchEvent(new Event('resize'));
-  }));
-  show();
 </script>
