@@ -505,6 +505,7 @@ function pick(key: keyof Config, val: string, el: HTMLElement) {
 // Bühne bleibt oben stehen, das Panel gleitet darüber, die Weiter-Leiste klebt unten.
 const lenis = () => (window as any).lenis as { scrollTo: (t: number, o?: object) => void } | undefined;
 function pageScroll(y: number) {
+  (window as any).__noPeek = performance.now() + 1800;   // Header nicht wegen dieser Fahrt einblenden
   const l = lenis(); if (l && !reduce) l.scrollTo(y, { duration: 0.9 }); else window.scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' });
 }
 function scrollToEl(el: HTMLElement, shift = 0) {
@@ -819,6 +820,12 @@ function updateNav() {
     li.classList.toggle('is-done', i < state.step || state.view === 'done');
     li.querySelector('button')!.disabled = state.view === 'done' || i > reach;
   });
+  $$('[data-step-go]').forEach((b) => {
+    const i = +b.dataset.stepGo!; const li = b.closest('li')!;
+    li.classList.toggle('is-current', i === state.step && state.view !== 'done');
+    li.classList.toggle('is-done', i < state.step || state.view === 'done');
+    (b as HTMLButtonElement).disabled = state.view === 'done' || i > reach;
+  });
   $('[data-mstep]').textContent = String(state.step);
   const pct = state.view === 'done' ? 100 : (state.step / 7) * 100;
   $$('[data-pfill]').forEach((f) => animate(f, { width: `${pct}%` }, reduce ? { duration: 0 } : { duration: 0.9, ease: premium }));
@@ -977,14 +984,25 @@ $('[data-back]').addEventListener('click', () => {
 });
 $('[data-daynight]').addEventListener('click', () => { state.night = !state.night; save(); stage(); });
 $$('[data-goto]').forEach((b) => b.addEventListener('click', () => go(+b.dataset.goto!)));
-const pop = $('[data-cart-pop]');
-$('[data-cart]').addEventListener('click', (e) => {
-  e.stopPropagation(); cartList();
-  const open = pop.hidden; pop.hidden = !open;
-  pop.style.top = mobile() ? `${$('.kf-bar').getBoundingClientRect().bottom + 8}px` : ''; $('[data-cart]').setAttribute('aria-expanded', String(open));
-  if (open && !reduce) animate(pop, { opacity: [0, 1], y: [-10, 0], scale: [0.98, 1] }, { duration: 0.45, ease: premium });
-});
-document.addEventListener('click', (e) => { if (!pop.hidden && !pop.contains(e.target as Node)) { pop.hidden = true; $('[data-cart]').setAttribute('aria-expanded', 'false'); } });
+// Aufklapp-Fenster in der Leiste: „Ihr Pool“ und (Handy) „Schritt x/7“; immer nur eines offen
+const pops = [
+  { btn: $('[data-cart]'), pop: $('[data-cart-pop]'), before: cartList },
+  { btn: $('[data-mstep-btn]'), pop: $('[data-steps-pop]'), before: updateNav },
+];
+const closePops = (except?: HTMLElement) => pops.forEach(({ btn, pop }) => { if (pop !== except && !pop.hidden) { pop.hidden = true; btn.setAttribute('aria-expanded', 'false'); } });
+pops.forEach(({ btn, pop, before }) => btn.addEventListener('click', (e) => {
+  e.stopPropagation(); before();
+  const open = pop.hidden; closePops(pop); pop.hidden = !open;
+  pop.style.top = mobile() ? `${$('.kf-bar').getBoundingClientRect().bottom + 8}px` : '';
+  btn.setAttribute('aria-expanded', String(open));
+  if (open && !reduce) {
+    animate(pop, { opacity: [0, 1], y: [-10, 0], scale: [0.98, 1] }, { duration: 0.45, ease: premium });
+    const rows = pop.querySelectorAll('.kf-steps-list li');
+    if (rows.length) animate(rows, { opacity: [0, 1], x: [-10, 0] }, { delay: stagger(0.04, { startDelay: 0.1 }), duration: 0.55, ease: premium });
+  }
+}));
+document.addEventListener('click', (e) => { if (pops.some(({ pop }) => !pop.hidden && !pop.contains(e.target as Node))) closePops(); });
+$$('[data-step-go]').forEach((b) => b.addEventListener('click', () => { closePops(); go(+b.dataset.stepGo!); }));
 document.addEventListener('keydown', (e) => {
   if (state.view !== 'studio' || gallery || infoOpen || (e.target as HTMLElement).closest('input, textarea')) return;
   if (e.key === 'ArrowRight' && canNext() && state.step < 7) go(state.step + 1);

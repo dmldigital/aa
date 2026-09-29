@@ -7,7 +7,7 @@ import { url } from '../lib/url';
 import { BERATUNG, GALERIE, anchor } from '../lib/links';
 
 /* smart = false: normaler, immer sichtbarer Header (Konfigurator, Nutzerwunsch) */
-const { smart = true } = Astro.props;
+const { smart = true, peek = false } = Astro.props;
 const home = Astro.url.pathname === url();
 
 const nav = [
@@ -21,7 +21,7 @@ const cta = { href: BERATUNG, label: 'Beratung anfragen' };
 const ext = (i: { external?: boolean }) => (i.external ? { target: '_blank', rel: 'noopener' } : {});
 ---
 
-<header class="navbar" data-navbar data-smart={String(smart)}>
+<header class="navbar" data-navbar data-smart={String(smart)} data-peek={String(peek)}>
   <div class="nav-pad">
     <div class="nav-container">
       <div class="navbar-component">
@@ -98,10 +98,6 @@ const ext = (i: { external?: boolean }) => (i.external ? { target: '_blank', rel
     .nav-cta { margin-left: 0.5rem; }
     .logo-navbar { width: 10.5rem; }
   }
-  /* Konfigurator (Handy/Tablet, Nutzerwunsch): Header steht nur oben und scrollt mit der Seite weg – nicht sticky */
-  @media (max-width: 1024px) {
-    .navbar[data-smart='false'] { position: absolute; }
-  }
   @media (max-width: 991px) {
     .nav-container { max-width: 90vw; }
     .navbar-component { padding: 0.5rem 1rem 0.5rem 2.25rem; position: relative; }
@@ -166,13 +162,45 @@ const ext = (i: { external?: boolean }) => (i.external ? { target: '_blank', rel
   let ticking = false;
   const onScroll = () => {
     ticking = false;
+    if (navbar?.dataset.smart === 'false') return;   // Seite ohne Smart Sticky (Konfigurator): eigene Steuerung, siehe unten
     const y = window.scrollY;
     const dy = y - lastY;
     if (Math.abs(dy) < 4) return;
-    const hide = navbar?.dataset.smart !== 'false' && dy > 0 && y > 120 && !navbar?.classList.contains('is-open');
+    const hide = dy > 0 && y > 120 && !navbar?.classList.contains('is-open');
     navbar?.classList.toggle('is-hidden', hide);
     lastY = y;
   };
   window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
   navbar?.addEventListener('focusin', () => navbar.classList.remove('is-hidden'));
+
+  // Peek (Konfigurator, Handy/Tablet, Nutzerwunsch): Header erscheint beim Laden kurz, zieht sich nach ein paar
+  // Sekunden nach oben ein und kommt nur beim Hochscrollen bzw. Herunterziehen am Seitenanfang wieder
+  if (navbar?.dataset.peek === 'true') {
+    const small = window.matchMedia('(max-width: 1024px)');
+    let timer = 0;
+    const arm = (ms: number) => {
+      window.clearTimeout(timer);
+      if (small.matches) timer = window.setTimeout(() => { if (!navbar.classList.contains('is-open')) navbar.classList.add('is-hidden'); }, ms);
+    };
+    // Am Seitenanfang schiebt der sichtbare Header den Inhalt nach unten (Klasse peek-top), sonst überlagert er ihn
+    const root = document.documentElement;
+    const sync = () => root.classList.toggle('peek-top', small.matches && !navbar.classList.contains('is-hidden') && window.scrollY < 60);
+    new MutationObserver(sync).observe(navbar, { attributes: true, attributeFilter: ['class'] });
+    const show = () => { navbar.classList.remove('is-hidden'); arm(4000); };
+    const programmatic = () => ((window as any).__noPeek || 0) > performance.now();   // z. B. Schrittwechsel im Konfigurator
+    arm(4200); sync();
+    let py = window.scrollY;
+    window.addEventListener('scroll', () => {
+      if (!small.matches) return;
+      const y = window.scrollY; const dy = y - py;
+      if (dy < -6) { if (!programmatic()) show(); }
+      else if (dy > 6 && y > 10 && !navbar.classList.contains('is-open')) { window.clearTimeout(timer); navbar.classList.add('is-hidden'); }
+      py = y; sync();
+    }, { passive: true });
+    window.addEventListener('wheel', (e) => { if (small.matches && e.deltaY < -2) show(); }, { passive: true });
+    let ty = 0;
+    window.addEventListener('touchstart', (e) => { ty = e.touches[0].clientY; }, { passive: true });
+    window.addEventListener('touchmove', (e) => { if (small.matches && window.scrollY <= 1 && e.touches[0].clientY - ty > 24) show(); }, { passive: true });
+    button?.addEventListener('click', () => { if (button.getAttribute('aria-expanded') === 'true') window.clearTimeout(timer); else arm(4000); });
+  }
 </script>
