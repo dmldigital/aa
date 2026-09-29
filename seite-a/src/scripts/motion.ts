@@ -17,15 +17,85 @@ const once = (trigger: Element | string, start = 'top 85%') => ({ trigger, start
 const DESKTOP = '(min-width: 1024px) and (pointer: fine)';
 
 // ---------- HERO ----------------------------------------------------------------------------
+// The headline is split into characters. In: every character rises out of its line mask and comes into focus
+// (21st.dev "Vertical Cut Reveal" + "Soft Blur In"). Out: the characters lift off, blur and dissolve one after the other
+// (21st.dev "Blur Out Up" + "Text Disperse"), the same way in reverse when scrolling back.
+let heroChars: HTMLElement[][] | null = null;
+function heroText() {
+  if (!heroChars) {
+    heroChars = all('.ht-in').map(el => SplitText.create(el, { type: 'chars', charsClass: 'hc' }).chars as HTMLElement[]);
+    gsap.set(heroChars.flat(), { yPercent: 118, opacity: 0, filter: 'blur(10px)' });
+    gsap.set('.ht-in', { visibility: 'visible' });
+  }
+  return heroChars;
+}
+const CHAR_IN = { yPercent: 0, opacity: 1, filter: 'blur(0px)' };
+
 function heroIntro() {
-  gsap.timeline({ defaults: { ease: EASE } })
+  const lines = heroText();
+  const tl = gsap.timeline({ defaults: { ease: EASE } })
     .fromTo('#site-header', { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, clearProps: 'transform,opacity' }, .2)
-    .fromTo('.hero-video', { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 1.8 }, 0)
-    .to('.ht-in', { yPercent: 0, y: 0, duration: 1.2, stagger: .1 }, .3)
-    .from('.hero-frame b', { opacity: 0, duration: 1, stagger: .06 }, .8)
-    .from('.hero-scroll', { opacity: 0, y: 12, duration: 1 }, 1.3);
-  // Phone/tablet: the white/red box follows the headline (on desktop it arrives at the end of the scrub).
-  if (!matchMedia(DESKTOP).matches) gsap.from('.hero-box', { y: 24, opacity: 0, duration: 1.1, ease: EASE, delay: .9 });
+    .fromTo('.hero-video, .hero-canvas', { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 2 }, 0);
+  lines.forEach((chars, i) => tl.to(chars, { ...CHAR_IN, duration: 1.3, stagger: { each: .026, ease: 'power1.in' } }, .45 + i * .2));
+  tl.from('.hero-frame b', { opacity: 0, duration: 1, stagger: .06 }, 1)
+    .from('.hero-scroll', { opacity: 0, y: 12, duration: 1 }, 1.6);
+  // Phone/tablet: the box follows the headline (on desktop it arrives at the end of the scrub).
+  if (!matchMedia(DESKTOP).matches) gsap.from('.hero-box', { y: 24, opacity: 0, duration: 1.2, ease: EASE, delay: 1.2 });
+}
+
+// Frame sequence on a canvas: the wanted position is eased towards (so scroll steps never show as jumps) and the two
+// neighbouring frames are cross-blended for every fractional position.
+function frameSequence(canvas: HTMLCanvasElement) {
+  const N = Number(canvas.dataset.frames);
+  const base = canvas.dataset.base!;
+  const ctx = canvas.getContext('2d')!;
+  const imgs: (HTMLImageElement | undefined)[] = new Array(N);
+  let target = 0, cur = 0, raf = 0, dead = false, lastKey = '', loaded = 0;
+  const load = (i: number) => new Promise<void>(res => {
+    const im = new Image();
+    im.decoding = 'async';
+    im.onload = () => { imgs[i] = im; loaded++; if (!dead) kick(); res(); };
+    im.onerror = () => res();
+    im.src = `${base}f${String(i).padStart(3, '0')}.webp`;
+  });
+  const near = (i: number) => { for (let d = 0; d < N; d++) { if (imgs[i - d]) return imgs[i - d]; if (imgs[i + d]) return imgs[i + d]; } return undefined; };
+  const cover = (im: HTMLImageElement) => {
+    const s = Math.max(canvas.width / im.naturalWidth, canvas.height / im.naturalHeight);
+    const w = im.naturalWidth * s, h = im.naturalHeight * s;
+    ctx.drawImage(im, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
+  };
+  const draw = () => {
+    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    const w = Math.round(canvas.clientWidth * dpr), h = Math.round(canvas.clientHeight * dpr);
+    if (!w || !h) return;
+    if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; lastKey = ''; }
+    const f = cur * (N - 1), a = Math.min(N - 1, Math.floor(f)), t = f - a;
+    const key = `${a}|${Math.round(t * 40)}|${w}|${loaded}`;
+    if (key === lastKey) return;
+    lastKey = key;
+    const A = near(a), B = near(Math.min(N - 1, a + 1));
+    if (A) cover(A);
+    if (A && B && B !== A && t > .02) { ctx.globalAlpha = t; cover(B); ctx.globalAlpha = 1; }
+  };
+  const tick = () => {
+    raf = 0;
+    cur += (target - cur) * .16;
+    if (Math.abs(target - cur) < .0004) cur = target;
+    draw();
+    if (cur !== target && !dead) raf = requestAnimationFrame(tick);
+  };
+  const kick = () => { if (!raf && !dead) raf = requestAnimationFrame(tick); };
+  // Loading order: first and last frame, then every 8th, then the rest (six at a time).
+  const idx = Array.from({ length: N }, (_, i) => i);
+  const queue = [0, N - 1, ...idx.filter(i => i % 8 === 0 && i !== 0), ...idx.filter(i => i % 8 !== 0 && i !== N - 1)];
+  const worker = async () => { while (queue.length && !dead) await load(queue.shift()!); };
+  Array.from({ length: 6 }, worker);
+  const onResize = () => { lastKey = ''; kick(); };
+  addEventListener('resize', onResize);
+  return {
+    to(p: number) { target = Math.min(1, Math.max(0, p)); kick(); },
+    destroy() { dead = true; if (raf) cancelAnimationFrame(raf); removeEventListener('resize', onResize); },
+  };
 }
 
 // Desktop: the flight is scrubbed by the scroll position while its frame grows to full screen.
@@ -33,33 +103,32 @@ function heroScrub() {
   const stage = document.querySelector<HTMLElement>('.hero-stage')!;
   const media = stage.querySelector<HTMLElement>('.hero-media')!;
   const frame = stage.querySelector<HTMLElement>('.hero-frame')!;
-  const video = stage.querySelector<HTMLVideoElement>('.hero-video')!;
-  video.src = video.dataset.scrub!;
-  video.loop = false;
-  video.pause();
-  let want = 0;
-  const pump = () => { if (video.readyState >= 1 && !video.seeking && Math.abs(video.currentTime - want) > 1 / 40) video.currentTime = want; };
-  video.addEventListener('seeked', pump);
+  const seq = frameSequence(stage.querySelector<HTMLCanvasElement>('.hero-canvas')!);
+  const lines = heroText();
   const inset = () => {
     const s = stage.getBoundingClientRect(), f = frame.getBoundingClientRect();
     return `inset(${f.top - s.top}px ${s.right - f.right}px ${s.bottom - f.bottom}px ${f.left - s.left}px)`;
   };
-  gsap.timeline({
-    scrollTrigger: {
-      trigger: '.hero', start: 'top top', end: '+=220%', pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true,
-      onUpdate: self => { want = self.progress * ((video.duration || 9) - .05); pump(); },
-    },
+  const OUT = { yPercent: -125, opacity: 0, filter: 'blur(8px)', ease: 'power2.in', duration: .5, immediateRender: false };
+  const tl = gsap.timeline({
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=260%', pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true },
   })
     .fromTo(media, { clipPath: inset }, { clipPath: 'inset(0px 0px 0px 0px)', ease: 'power2.inOut', duration: 1 }, 0)
     .to(['.hero-frame', '.hero-scroll'], { opacity: 0, duration: .2 }, 0)
-    .to('.ht-1 .ht-in', { xPercent: -70, opacity: 0, ease: 'power2.in', duration: .6 }, .05)
-    .to('.ht-2 .ht-in', { xPercent: 70, opacity: 0, ease: 'power2.in', duration: .6 }, .05)
+    // Lines 1 and 2: characters lift out of their masks and blur away, line 1 from the left, line 2 from the right; the lines drift apart.
+    .fromTo(lines[0], CHAR_IN, { ...OUT, stagger: { each: .014, from: 'start' } }, .04)
+    .fromTo(lines[1], CHAR_IN, { ...OUT, stagger: { each: .014, from: 'end' } }, .1)
+    .fromTo('.ht-1 .ht-in', { xPercent: 0 }, { xPercent: -5, ease: 'none', duration: .8, immediateRender: false }, .04)
+    .fromTo('.ht-2 .ht-in', { xPercent: 0 }, { xPercent: 5, ease: 'none', duration: .8, immediateRender: false }, .04)
     .to('.hero-shade', { opacity: 1, duration: .5 }, .45)
-    // "Werte schaffen." rises to sit above the box, which then slides in below it.
+    // "Werte schaffen." rises to sit above the box, which is then uncovered from below; its text follows line by line.
     .to('.ht-3', { y: () => -(document.querySelector<HTMLElement>('.hero-box')!.offsetHeight + 34), ease: 'power2.inOut', duration: .4 }, .5)
-    .fromTo('.hero-box', { autoAlpha: 0, y: 70 }, { autoAlpha: 1, y: 0, ease: 'power3.out', duration: .35 }, .66)
+    .fromTo('.hero-box', { autoAlpha: 0, clipPath: 'inset(100% -60px -60px -60px)' }, { autoAlpha: 1, clipPath: 'inset(0% -60px -60px -60px)', ease: 'power3.inOut', duration: .36 }, .64)
+    .fromTo('.hero-box p, .hero-box-cta', { y: 22, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out', duration: .3, stagger: .07 }, .74)
     .to({}, { duration: .3 });
-  return () => { video.removeEventListener('seeked', pump); };
+  // The flight ends a little before the pin ends, so the last frames hold while the box is read.
+  tl.eventCallback('onUpdate', () => seq.to(tl.progress() / .9));
+  return () => seq.destroy();
 }
 function heroLoop() {
   const video = document.querySelector<HTMLVideoElement>('.hero-video')!;
@@ -67,6 +136,9 @@ function heroLoop() {
   video.loop = true;
   video.play().catch(() => {});
   gsap.to('.hero-video', { yPercent: 6, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  // Text and box lift off and fade while the page scrolls away.
+  gsap.to('.hero-title', { y: -50, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '55% top', scrub: true } });
+  gsap.to('.hero-box', { y: -30, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '15% top', end: '70% top', scrub: true } });
 }
 
 // ---------- SHARED ENTRANCES ------------------------------------------------------------------

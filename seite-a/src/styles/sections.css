@@ -211,7 +211,7 @@ html.motion [data-reveal] { opacity: 0; transform: translateY(16px); }
 html.motion [data-rise] { opacity: 0; transform: translateY(24px); }
 html.motion [data-clip] { clip-path: inset(100% 0 0 0); }
 html.motion [data-lines] { visibility: hidden; }
-html.motion .ht-in { transform: translateY(110%); }
+html.motion .ht-in { visibility: hidden; }
 html.motion .stat { --rule: 0; }
 .statement .w { display: inline; }
 html.motion .statement .w { opacity: .28; }

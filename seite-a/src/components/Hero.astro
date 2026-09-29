@@ -1,6 +1,7 @@
 ---
-// Desktop: the drone flight starts as a framed card between the headline and plays with the scroll
-// position while the card grows to full screen (21st.dev "Hero Scrub" / "Hero Scroll Video Pin Reveal").
+// Desktop: the drone flight starts as a framed card between the headline and plays with the scroll position while the card
+// grows to full screen (21st.dev "Hero Scrub" / "Hero Scroll Video Pin Reveal"). The flight is a frame sequence on a canvas
+// (130 frames, eased and cross-blended between frames), which is much smoother than seeking a video.
 // Touch and small screens: full-bleed looping video, no pin.
 import { hero } from '../data/content';
 ---
@@ -9,7 +10,8 @@ import { hero } from '../data/content';
     <div class="hero-frame" aria-hidden="true"><b></b><b></b><b></b><b></b></div>
     <div class="hero-media">
       <video class="hero-video" muted playsinline loop preload="auto" poster="/media/video/DJI_0144.webp"
-        data-loop="/media/video/DJI_0144.mp4" data-scrub="/media/video/DJI_0144-scrub.mp4" aria-hidden="true"></video>
+        data-loop="/media/video/DJI_0144.mp4" aria-hidden="true"></video>
+      <canvas class="hero-canvas" data-frames="130" data-base="/media/hero/" aria-hidden="true"></canvas>
       <span class="hero-shade" aria-hidden="true"></span>
     </div>
     <h1 class="hero-title">
