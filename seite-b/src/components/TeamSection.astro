@@ -1,0 +1,687 @@
+---
+// TeamSection.astro - Original Foundix Card-Slide System (aus /our-team Sektion 3)
+// 100% Weißer Hintergrund, exakt 1440px Gesamtbreite wie alle anderen Sektionen, verringerter Abstand (gap-4)
+// Exakte Typografie 1:1 identisch zu ServicesList.astro (font-heading font-medium)
+
+const row1Members = [
+  {
+    code: "MW-GL-01",
+    name: "Marco Weber",
+    role: "Geschäftsleitung der technischen Abteilung",
+    shortRole: "Geschäftsleitung Technik",
+    image: "/team/marco.png",
+    qualification: "Staatlich geprüfter Hochbautechniker (Fachrichtung Hochbau) • Maurergeselle",
+    department: "TECHNIK & LEITUNG",
+    experience: "15+ Jahre",
+    quote: "Präzision im Rohbau ist das Fundament für jedes generationenüberdauernde Bauwerk."
+  },
+  {
+    code: "MW-GL-02",
+    name: "Michelle Weber",
+    role: "Geschäftsleitung der kaufmännischen Abteilung",
+    shortRole: "Geschäftsleitung Kaufmännisch",
+    image: "/team/michelle.png",
+    qualification: "Finanzen & Buchhaltung • Strategische Unternehmensplanung",
+    department: "FINANZEN & LEITUNG",
+    experience: "12+ Jahre",
+    quote: "Zuverlässige kaufmännische Abwicklung schafft Vertrauen und Planungssicherheit."
+  },
+  {
+    code: "MW-AS-03",
+    name: "Melissa Weber",
+    role: "Assistentin der Geschäftsleitung",
+    shortRole: "Assistenz Geschäftsleitung",
+    image: "/team/melissa.png",
+    qualification: "Kaufmännische Kundenbetreuung & Projektassistenz",
+    department: "ORGANISATION",
+    experience: "8+ Jahre",
+    quote: "Eine transparente Kommunikation ist das Bindeglied zwischen Bauherr und Baustelle."
+  },
+  {
+    code: "MW-SV-04",
+    name: "Martin Weber",
+    role: "Beratung & Sachverständiger",
+    shortRole: "Maurermeister & Sachverständiger",
+    image: "/team/martin.png",
+    qualification: "Meister im Maurerhandwerk • Sachverständiger BDSHev",
+    department: "MEISTER & GUTACHTEN",
+    experience: "35+ Jahre",
+    quote: "Jahrzehntelange Meistererfahrung garantiert bautechnische Perfektion bis ins kleinste Detail."
+  },
+  {
+    code: "MW-VW-05",
+    name: "Claudia Weber",
+    role: "Buchhaltung & Verwaltung",
+    shortRole: "Buchhaltung & Verwaltung",
+    image: "/team/claudia.png",
+    qualification: "Rechnungswesen • Kaufmännische Auftragsabwicklung",
+    department: "VERWALTUNG",
+    experience: "25+ Jahre",
+    quote: "Sorgfalt in den Zahlen sorgt für reibungslose Abläufe bei allen Bauprojekten."
+  }
+];
+
+const row2Members = [
+  {
+    code: "MW-BT-06",
+    name: "Andreas Finkenstein",
+    role: "Bautechnik & Fachplanung",
+    shortRole: "Bautechnik & Fachplanung",
+    image: "/team/andreas.png",
+    qualification: "Staatlich geprüfter Hochbautechniker • Schwerpunkt Hochbau",
+    department: "HOCHBAUTECHNIK",
+    experience: "18+ Jahre",
+    quote: "Fundierte Ausführungsplanung schützt vor Überraschungen am Bau."
+  },
+  {
+    code: "MW-BL-07",
+    name: "Fabian May",
+    role: "Bauleiter",
+    shortRole: "Bauleitung Hochbau",
+    image: "/team/fabian.png",
+    qualification: "Staatlich geprüfter Hochbautechniker • Maurergeselle",
+    department: "BAULEITUNG",
+    experience: "10+ Jahre",
+    quote: "Auf der Baustelle zählt jede Minute und jeder Millimeter. Wir behalten den Überblick."
+  },
+  {
+    code: "MW-MB-08",
+    name: "Manuel Knabe",
+    role: "Maurer- & Betonbauermeister",
+    shortRole: "Maurer- & Betonbauermeister",
+    image: "/team/manuel.png",
+    qualification: "Maurer- & Betonbauermeister • Bautechniker",
+    department: "MEISTERBETRIEB",
+    experience: "14+ Jahre",
+    quote: "Beton und Mauerwerk erfordern meisterhaftes Gespür für Material und Statik."
+  },
+  {
+    code: "MW-MB-09",
+    name: "Christian Schmidt",
+    role: "Maurer- & Betonbauermeister",
+    shortRole: "Maurer- & Betonbauermeister",
+    image: "/team/christian.png",
+    qualification: "Maurer- & Betonbauermeister • Qualitätssicherung",
+    department: "MEISTERBETRIEB",
+    experience: "16+ Jahre",
+    quote: "Qualitätssicherung vor Ort garantiert, dass kein Mangel unentdeckt bleibt."
+  }
+];
+
+const dogs = [
+  {
+    code: "MW-SEC-10",
+    name: "Calea",
+    role: "Wachhund",
+    image: "/team/calea.png",
+    qualification: "Sicherheit & Wachdienst auf dem Betriebsgelände",
+    department: "WACHDIENST",
+    quote: "Aufmerksamkeit und Wachsamkeit rund um die Uhr."
+  },
+  {
+    code: "MW-FGM-11",
+    name: "Atilla",
+    role: "Feel Good Manager",
+    image: "/team/atilla.png",
+    qualification: "Betriebsklima, Motivation & Büro-Wohlbefinden",
+    department: "FEEL GOOD",
+    quote: "Verantwortlich für gute Laune und beste Stimmung im Team."
+  }
+];
+
+const teamMembers = [...row1Members, ...row2Members, ...dogs];
+---
+
+<section class="section-team w-full bg-white text-[#111111] py-20 sm:py-24 border-t border-black/10" id="team">
+  <!-- Exakt dieselbe maximale Breite wie ServicesList, AboutIntro und Hero (1440px) -->
+  <div class="max-w-[1440px] mx-auto px-5 sm:px-8 w-full">
+    
+    <!-- Section Header (Exakt selbe Typografie und Klassen wie ServicesList.astro) -->
+    <div class="wrap-heading-service mb-10 sm:mb-12">
+      <div class="sub-heading font-heading text-[11px] sm:text-xs font-semibold uppercase tracking-[2.5px] text-[#e41e13] mb-2">
+        Ihr Projekt – Unser Team
+      </div>
+      <h2 class="heading-2 svl font-heading font-medium text-2xl sm:text-3xl lg:text-[32px] leading-[1.2] uppercase tracking-tight text-[#111111] m-0">
+        Meisterhafte Kompetenz am Bau
+      </h2>
+    </div>
+
+    <!-- Mobile Team-Galerie mit drei Bildern pro Reihe -->
+    <div class="lg:hidden mb-8" data-team-mobile>
+      <div class="grid grid-cols-3 gap-2.5 sm:gap-3">
+        {teamMembers.map((member, index) => (
+          <button
+            type="button"
+            class="mobile-team-card group relative aspect-[4/5] overflow-hidden bg-[#111111] p-0 text-left shadow-sm"
+            aria-label={`Profil ${member.name} öffnen`}
+            data-team-open
+            data-team-name={member.name}
+            data-team-role={member.role}
+            data-team-image={member.image}
+            data-team-code={member.code}
+            data-team-department={member.department}
+            data-team-qualification={member.qualification}
+            data-team-quote={member.quote}
+            data-team-experience={member.experience || ""}
+          >
+            <img
+              src={member.image}
+              alt={member.name}
+              class="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-110 group-focus-visible:scale-110"
+              loading={index < 3 ? "eager" : "lazy"}
+            />
+            <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent px-2 pb-2 pt-8 text-white">
+              <span class="block truncate font-mono text-[8px] font-bold uppercase tracking-wider text-[#ff4d40] sm:text-[10px]">
+                {member.code}
+              </span>
+              <span class="block truncate font-heading text-[11px] font-bold uppercase leading-tight sm:text-sm">
+                {member.name}
+              </span>
+            </div>
+            <span class="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center bg-[#e41e13] text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden="true">
+              <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M15 3h6v6M10 14 21 3M21 14v7H3V3h7" />
+              </svg>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <dialog class="mobile-team-dialog" data-team-dialog aria-labelledby="team-dialog-name">
+        <div class="team-dialog-panel">
+          <button type="button" class="team-dialog-close" data-team-dialog-close aria-label="Profil schließen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="m6 6 12 12M18 6 6 18" />
+            </svg>
+          </button>
+          <img class="team-dialog-image" data-team-dialog-image src="" alt="" />
+          <div class="p-5 sm:p-7">
+            <div class="mb-2 font-mono text-[10px] font-bold uppercase tracking-[2px] text-[#ff4d40]" data-team-dialog-code></div>
+            <div class="mb-1 font-mono text-[9px] uppercase tracking-[1.5px] text-white/50" data-team-dialog-department></div>
+            <h3 id="team-dialog-name" class="mb-2 mt-0 font-heading text-2xl font-bold uppercase tracking-tight text-white sm:text-3xl" data-team-dialog-name></h3>
+            <p class="mb-5 mt-0 font-body text-sm font-semibold text-white/75" data-team-dialog-role></p>
+            <div class="mb-4 h-[2px] w-12 bg-[#e41e13]"></div>
+            <p class="mb-5 mt-0 font-body text-sm leading-relaxed text-white/75" data-team-dialog-qualification></p>
+            <blockquote class="m-0 border-l-2 border-[#e41e13] pl-4 font-heading text-base leading-relaxed text-white">
+              &bdquo;<span data-team-dialog-quote></span>&ldquo;
+            </blockquote>
+            <div class="mt-5 font-mono text-[10px] uppercase tracking-[1.5px] text-white/50" data-team-dialog-experience hidden></div>
+          </div>
+        </div>
+      </dialog>
+    </div>
+
+    <!-- REIHEN-RASTER: 5 SPALTEN PRO REIHE MIT VERPFLICHTENDEM GAP-4 (16px) -->
+    <div class="hidden lg:block">
+    <div class="flex flex-col gap-4">
+      
+      <!-- ===================================================================
+           REIHE 1: 5 PROFILE (Geschäftsführung, Assistenz, Meister, Verwaltung)
+           =================================================================== -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {row1Members.map(member => (
+          <div class="foundix-team-card relative aspect-[4/5] w-full overflow-hidden bg-[#111111] border border-black/10 group cursor-pointer shadow-sm">
+            
+            <!-- Eckiges Farbbild (scale 1.35 eliminiert Vignettenkreis vollständig) -->
+            <div class="absolute inset-0 w-full h-full overflow-hidden bg-[#111111]">
+              <img 
+                src={member.image} 
+                alt={member.name}
+                class="w-full h-full object-cover object-top contrast-105 group-hover:scale-105 transition-all duration-700 ease-out"
+                style="transform: scale(1.35) translateY(-4%);"
+              />
+            </div>
+
+            <!-- Dezenter Ruhezustand-Tag am unteren Rand -->
+            <div class="absolute inset-x-0 bottom-0 p-3.5 sm:p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end transition-opacity duration-300 group-hover:opacity-0 pointer-events-none z-[5]">
+              <span class="font-mono text-[10px] uppercase tracking-wider text-[#e41e13] font-bold mb-0.5">
+                {member.code}
+              </span>
+              <h3 class="font-heading font-bold text-sm sm:text-base text-white uppercase tracking-tight m-0">
+                {member.name}
+              </h3>
+              <p class="font-body text-[11px] text-white/70 m-0 line-clamp-1">
+                {member.shortRole}
+              </p>
+            </div>
+
+            <!-- DOPPELTER ROT-SCHWARZ VORHANG BEIM AUFKLAPPEN (Hover) -->
+            <!-- Ebene 1: Roter Weber-Vorhang (#e41e13) - fährt sofort bei 0ms ein -->
+            <div class="absolute inset-0 bg-[#e41e13] pointer-events-none -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out group-hover:delay-0 delay-100 z-10"></div>
+
+            <!-- Ebene 2: Schwarze Info-Karte (#111111) - folgt 100ms später dem roten Vorhang -->
+            <div class="absolute inset-0 bg-[#111111] p-4 sm:p-5 flex flex-col justify-between text-white -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out group-hover:delay-100 delay-0 z-20 border-l-2 border-[#e41e13]">
+              
+              <!-- Top Info -->
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-mono text-[10px] font-bold text-[#e41e13] tracking-widest uppercase">
+                    {member.code}
+                  </span>
+                  <span class="px-1.5 py-0.5 bg-white/10 text-[8px] font-mono tracking-widest text-white/80 uppercase">
+                    {member.department}
+                  </span>
+                </div>
+                
+                <h3 class="font-heading font-bold text-base sm:text-lg uppercase tracking-tight text-white mb-1">
+                  {member.name}
+                </h3>
+                <div class="font-body text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#ff4d40] mb-2.5">
+                  {member.role}
+                </div>
+
+                <div class="w-full h-px bg-white/15 mb-2.5"></div>
+
+                <p class="font-body text-[11px] text-white/75 leading-relaxed m-0 mb-2">
+                  {member.qualification}
+                </p>
+                
+                <div class="font-body text-[10px] text-[#aaaaaa] italic">
+                  &bdquo;{member.quote}&ldquo;
+                </div>
+              </div>
+
+              <!-- Bottom Action Button (Foundix White Square with Arrow) -->
+              <div class="pt-2.5 border-t border-white/10 flex items-center justify-between">
+                <span class="text-[9px] font-mono uppercase tracking-widest text-white/50">
+                  {member.experience}
+                </span>
+                <div class="w-7 h-7 sm:w-8 sm:h-8 bg-white text-black flex items-center justify-center group-hover:bg-[#e41e13] group-hover:text-white transition-colors duration-300 shadow-md">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        ))}
+      </div>
+
+
+      <!-- ===================================================================
+           REIHE 2: 4 PROFILE + 2 GETRENNTE HUNDE-KARTEN MIT EXAKT DEMSELBEN ABSTAND (GAP-4)
+           =================================================================== -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 items-stretch">
+        
+        <!-- Die 4 Meister & Techniker -->
+        {row2Members.map(member => (
+          <div class="foundix-team-card relative aspect-[4/5] w-full overflow-hidden bg-[#111111] border border-black/10 group cursor-pointer shadow-sm">
+            
+            <!-- Eckiges Farbbild -->
+            <div class="absolute inset-0 w-full h-full overflow-hidden bg-[#111111]">
+              <img 
+                src={member.image} 
+                alt={member.name}
+                class="w-full h-full object-cover object-top contrast-105 group-hover:scale-105 transition-all duration-700 ease-out"
+                style="transform: scale(1.35) translateY(-4%);"
+              />
+            </div>
+
+            <!-- Dezenter Ruhezustand-Tag am unteren Rand -->
+            <div class="absolute inset-x-0 bottom-0 p-3.5 sm:p-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end transition-opacity duration-300 group-hover:opacity-0 pointer-events-none z-[5]">
+              <span class="font-mono text-[10px] uppercase tracking-wider text-[#e41e13] font-bold mb-0.5">
+                {member.code}
+              </span>
+              <h3 class="font-heading font-bold text-sm sm:text-base text-white uppercase tracking-tight m-0">
+                {member.name}
+              </h3>
+              <p class="font-body text-[11px] text-white/70 m-0 line-clamp-1">
+                {member.shortRole}
+              </p>
+            </div>
+
+            <!-- DOPPELTER ROT-SCHWARZ VORHANG BEIM AUFKLAPPEN (Hover) -->
+            <!-- Ebene 1: Roter Weber-Vorhang (#e41e13) - fährt sofort bei 0ms ein -->
+            <div class="absolute inset-0 bg-[#e41e13] pointer-events-none -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out group-hover:delay-0 delay-100 z-10"></div>
+
+            <!-- Ebene 2: Schwarze Info-Karte (#111111) - folgt 100ms später dem roten Vorhang -->
+            <div class="absolute inset-0 bg-[#111111] p-4 sm:p-5 flex flex-col justify-between text-white -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out group-hover:delay-100 delay-0 z-20 border-l-2 border-[#e41e13]">
+              
+              <!-- Top Info -->
+              <div>
+                <div class="flex items-center justify-between mb-2">
+                  <span class="font-mono text-[10px] font-bold text-[#e41e13] tracking-widest uppercase">
+                    {member.code}
+                  </span>
+                  <span class="px-1.5 py-0.5 bg-white/10 text-[8px] font-mono tracking-widest text-white/80 uppercase">
+                    {member.department}
+                  </span>
+                </div>
+                
+                <h3 class="font-heading font-bold text-base sm:text-lg uppercase tracking-tight text-white mb-1">
+                  {member.name}
+                </h3>
+                <div class="font-body text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-[#ff4d40] mb-2.5">
+                  {member.role}
+                </div>
+
+                <div class="w-full h-px bg-white/15 mb-2.5"></div>
+
+                <p class="font-body text-[11px] text-white/75 leading-relaxed m-0 mb-2">
+                  {member.qualification}
+                </p>
+                
+                <div class="font-body text-[10px] text-[#aaaaaa] italic">
+                  &bdquo;{member.quote}&ldquo;
+                </div>
+              </div>
+
+              <!-- Bottom Action Button (Foundix White Square with Arrow) -->
+              <div class="pt-2.5 border-t border-white/10 flex items-center justify-between">
+                <span class="text-[9px] font-mono uppercase tracking-widest text-white/50">
+                  {member.experience}
+                </span>
+                <div class="w-7 h-7 sm:w-8 sm:h-8 bg-white text-black flex items-center justify-center group-hover:bg-[#e41e13] group-hover:text-white transition-colors duration-300 shadow-md">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        ))}
+
+
+        <!-- ===============================================================
+             5. SPALTE: DIE 2 HUNDE IN 2 SEPARATEN KARTEN MIT GAP-4 ABSTAND
+             Exakt derselbe Abstand (16px) wie zwischen allen anderen Bildern!
+             =============================================================== -->
+        <div class="flex flex-col gap-4 h-full">
+          
+          <!-- OBERE KARTE: CALEA (Wachhund) -->
+          <div class="flex-1 relative overflow-hidden bg-[#111111] border border-black/10 shadow-sm group/calea cursor-pointer" id="card-calea">
+            
+            <!-- Eckiges Farbbild Calea: Kopf & Gesicht optimal zentriert und vollständig sichtbar -->
+            <div class="absolute inset-0 w-full h-full overflow-hidden bg-[#111111]">
+              <img 
+                src={dogs[0].image} 
+                alt={dogs[0].name}
+                class="w-full h-full object-cover object-[center_10%] scale-105 group-hover/calea:scale-110 transition-all duration-500 ease-out"
+              />
+            </div>
+
+            <!-- Ruhezustand Label -->
+            <div class="absolute inset-x-0 bottom-0 p-2.5 sm:p-3 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end justify-between transition-opacity duration-300 group-hover/calea:opacity-0 pointer-events-none z-[5]">
+              <div>
+                <span class="font-mono text-[9px] uppercase tracking-wider text-[#e41e13] font-bold block">
+                  {dogs[0].code}
+                </span>
+                <span class="font-heading font-bold text-sm text-white uppercase tracking-tight">
+                  {dogs[0].name}
+                </span>
+              </div>
+              <span class="font-body text-[10px] text-white/80 uppercase tracking-wider">
+                {dogs[0].role}
+              </span>
+            </div>
+
+            <!-- DOPPELTER ROT-SCHWARZ VORHANG CALEA -->
+            <!-- Ebene 1: Roter Weber-Vorhang (#e41e13) -->
+            <div class="absolute inset-0 bg-[#e41e13] pointer-events-none -translate-x-full group-hover/calea:translate-x-0 transition-transform duration-500 ease-out group-hover/calea:delay-0 delay-100 z-10"></div>
+
+            <!-- Ebene 2: Schwarze Info-Karte (#111111) -->
+            <div class="absolute inset-0 bg-[#111111] p-3.5 flex flex-col justify-between text-white -translate-x-full group-hover/calea:translate-x-0 transition-transform duration-500 ease-out group-hover/calea:delay-100 delay-0 z-20 border-l-2 border-[#e41e13]">
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-mono text-[9px] font-bold text-[#e41e13] tracking-widest uppercase">
+                    {dogs[0].code}
+                  </span>
+                  <span class="px-1.5 py-0.5 bg-white/10 text-[8px] font-mono tracking-widest text-white/80 uppercase">
+                    {dogs[0].department}
+                  </span>
+                </div>
+                <h4 class="font-heading font-bold text-sm sm:text-base uppercase tracking-tight text-white mb-0.5">
+                  {dogs[0].name}
+                </h4>
+                <div class="font-body text-[10px] font-semibold uppercase tracking-wider text-[#ff4d40] mb-1">
+                  {dogs[0].role}
+                </div>
+                <p class="font-body text-[10px] text-white/70 leading-tight m-0 line-clamp-2">
+                  {dogs[0].quote}
+                </p>
+              </div>
+
+              <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+                <span class="text-[8px] font-mono uppercase tracking-widest text-white/50">
+                  WACHDIENST
+                </span>
+                <div class="w-6 h-6 bg-white text-black flex items-center justify-center group-hover/calea:bg-[#e41e13] group-hover/calea:text-white transition-colors duration-300">
+                  <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          <!-- UNTERE KARTE: ATILLA (Feel Good Manager) -->
+          <div class="flex-1 relative overflow-hidden bg-[#111111] border border-black/10 shadow-sm group/atilla cursor-pointer" id="card-atilla">
+            
+            <!-- Eckiges Farbbild Atilla: Kopf, Ohren & Gesicht optimal zentriert und vollständig sichtbar -->
+            <div class="absolute inset-0 w-full h-full overflow-hidden bg-[#111111]">
+              <img 
+                src={dogs[1].image} 
+                alt={dogs[1].name}
+                class="w-full h-full object-cover object-[center_10%] scale-105 group-hover/atilla:scale-110 transition-all duration-500 ease-out"
+              />
+            </div>
+
+            <!-- Ruhezustand Label -->
+            <div class="absolute inset-x-0 bottom-0 p-2.5 sm:p-3 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-end justify-between transition-opacity duration-300 group-hover/atilla:opacity-0 pointer-events-none z-[5]">
+              <div>
+                <span class="font-mono text-[9px] uppercase tracking-wider text-[#e41e13] font-bold block">
+                  {dogs[1].code}
+                </span>
+                <span class="font-heading font-bold text-sm text-white uppercase tracking-tight">
+                  {dogs[1].name}
+                </span>
+              </div>
+              <span class="font-body text-[10px] text-white/80 uppercase tracking-wider">
+                {dogs[1].role}
+              </span>
+            </div>
+
+            <!-- DOPPELTER ROT-SCHWARZ VORHANG ATILLA -->
+            <!-- Ebene 1: Roter Weber-Vorhang (#e41e13) -->
+            <div class="absolute inset-0 bg-[#e41e13] pointer-events-none -translate-x-full group-hover/atilla:translate-x-0 transition-transform duration-500 ease-out group-hover/atilla:delay-0 delay-100 z-10"></div>
+
+            <!-- Ebene 2: Schwarze Info-Karte (#111111) -->
+            <div class="absolute inset-0 bg-[#111111] p-3.5 flex flex-col justify-between text-white -translate-x-full group-hover/atilla:translate-x-0 transition-transform duration-500 ease-out group-hover/atilla:delay-100 delay-0 z-20 border-l-2 border-[#e41e13]">
+              <div>
+                <div class="flex items-center justify-between mb-1">
+                  <span class="font-mono text-[9px] font-bold text-[#e41e13] tracking-widest uppercase">
+                    {dogs[1].code}
+                  </span>
+                  <span class="px-1.5 py-0.5 bg-white/10 text-[8px] font-mono tracking-widest text-white/80 uppercase">
+                    {dogs[1].department}
+                  </span>
+                </div>
+                <h4 class="font-heading font-bold text-sm sm:text-base uppercase tracking-tight text-white mb-0.5">
+                  {dogs[1].name}
+                </h4>
+                <div class="font-body text-[10px] font-semibold uppercase tracking-wider text-[#ff4d40] mb-1">
+                  {dogs[1].role}
+                </div>
+                <p class="font-body text-[10px] text-white/70 leading-tight m-0 line-clamp-2">
+                  {dogs[1].quote}
+                </p>
+              </div>
+
+              <div class="pt-2 border-t border-white/10 flex items-center justify-between">
+                <span class="text-[8px] font-mono uppercase tracking-widest text-white/50">
+                  FEEL GOOD
+                </span>
+                <div class="w-6 h-6 bg-white text-black flex items-center justify-center group-hover/atilla:bg-[#e41e13] group-hover/atilla:text-white transition-colors duration-300">
+                  <svg class="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GSAP ScrollTrigger Script for Team Section Entrance -->
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  window.addEventListener('DOMContentLoaded', () => {
+    ScrollTrigger.create({
+      trigger: '#team',
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.fromTo('.foundix-team-card, .group\\/calea, .group\\/atilla',
+          { y: 25, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, stagger: 0.05, ease: 'power3.out' }
+        );
+      }
+    });
+
+    const mobileTeam = document.querySelector('[data-team-mobile]');
+    const teamDialog = mobileTeam?.querySelector('[data-team-dialog]');
+    if (mobileTeam && teamDialog) {
+      mobileTeam.addEventListener('click', (event) => {
+        const trigger = event.target.closest('[data-team-open]');
+        if (trigger) {
+          const fields = {
+            name: trigger.dataset.teamName,
+            role: trigger.dataset.teamRole,
+            image: trigger.dataset.teamImage,
+            code: trigger.dataset.teamCode,
+            department: trigger.dataset.teamDepartment,
+            qualification: trigger.dataset.teamQualification,
+            quote: trigger.dataset.teamQuote,
+            experience: trigger.dataset.teamExperience,
+          };
+          mobileTeam.querySelector('[data-team-dialog-image]').src = fields.image;
+          mobileTeam.querySelector('[data-team-dialog-image]').alt = fields.name;
+          mobileTeam.querySelector('[data-team-dialog-code]').textContent = fields.code;
+          mobileTeam.querySelector('[data-team-dialog-department]').textContent = fields.department;
+          mobileTeam.querySelector('[data-team-dialog-name]').textContent = fields.name;
+          mobileTeam.querySelector('[data-team-dialog-role]').textContent = fields.role;
+          mobileTeam.querySelector('[data-team-dialog-qualification]').textContent = fields.qualification;
+          mobileTeam.querySelector('[data-team-dialog-quote]').textContent = fields.quote;
+          const experience = mobileTeam.querySelector('[data-team-dialog-experience]');
+          experience.hidden = !fields.experience;
+          experience.textContent = fields.experience ? `${fields.experience} Erfahrung` : '';
+          teamDialog.showModal();
+          return;
+        }
+
+        if (event.target.closest('[data-team-dialog-close]')) teamDialog.close();
+      });
+
+      teamDialog.addEventListener('click', (event) => {
+        if (event.target === teamDialog) teamDialog.close();
+      });
+    }
+  });
+</script>
+
+<style>
+  .mobile-team-card:focus-visible {
+    outline: 3px solid #e41e13;
+    outline-offset: 2px;
+  }
+
+  .mobile-team-dialog {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: white;
+    background: transparent;
+    overflow: auto;
+  }
+
+  .mobile-team-dialog::backdrop {
+    background-color: rgb(23 25 28 / 82%);
+    background-image: url('/footer-grain.svg');
+    background-size: 180px 180px;
+    backdrop-filter: blur(4px);
+  }
+
+  .team-dialog-panel {
+    position: relative;
+    width: min(100% - 32px, 560px);
+    max-height: calc(100% - 32px);
+    margin: 16px auto;
+    overflow: auto;
+    background-color: #17191c;
+    background-image: url('/footer-grain.svg');
+    background-size: 180px 180px;
+    box-shadow: 0 24px 80px rgb(0 0 0 / 35%);
+    animation: team-dialog-zoom 260ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  }
+
+  .team-dialog-image {
+    display: block;
+    width: 100%;
+    height: min(43svh, 360px);
+    min-height: 220px;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .team-dialog-close {
+    position: absolute;
+    z-index: 2;
+    top: 12px;
+    right: 12px;
+    display: grid;
+    width: 42px;
+    height: 42px;
+    place-items: center;
+    border: 0;
+    background: #e41e13;
+    color: white;
+    cursor: pointer;
+  }
+
+  .team-dialog-close svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  @keyframes team-dialog-zoom {
+    from { opacity: 0; transform: scale(0.92); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-team-card img,
+    .team-dialog-panel {
+      transition: none;
+      animation: none;
+    }
+  }
+</style>

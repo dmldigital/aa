@@ -1,0 +1,37 @@
+---
+// Index.astro - Manfred Weber GmbH & CoKG Homepage Prototype (Foundix Theme)
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import AboutIntro from '../components/AboutIntro.astro';
+import ServicesList from '../components/ServicesList.astro';
+import CompanyShowcase from '../components/CompanyShowcase.astro';
+import TeamSection from '../components/TeamSection.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout 
+  title="Manfred Weber GmbH & CoKG – Wir bauen für Sie!" 
+  description="Exklusiver Prototyp für die Manfred Weber GmbH & CoKG auf Basis des Foundix-Architektur-Themes. Hochbau, Tiefbau und Sanierungsbau mit Meisterhafter Präzision."
+>
+  <!-- 1. Foundix Absolute Header -->
+  <Header />
+
+  <!-- 2. Foundix Hero with Background Video -->
+  <Hero />
+
+  <!-- 3. Foundix Section 2: Marquee, Intro, Rolling Counter & Curtain Quote -->
+  <AboutIntro />
+
+  <!-- 4. Foundix Section 3: Services Grid (Leistungen) -->
+  <ServicesList />
+
+  <!-- 5. Foundix Section 4: Company Showcase with Dual Videos (Unternehmen) -->
+  <CompanyShowcase />
+
+  <!-- 6. Foundix Section 5: Team with 70% Pinned Image and 30% Synchronized Scroll -->
+  <TeamSection />
+
+  <!-- 7. Foundix Footer: Architectural Grid with Black & Red Squares & Media -->
+  <Footer />
+</Layout>

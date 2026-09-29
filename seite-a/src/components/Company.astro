@@ -1,0 +1,39 @@
+---
+// Fuhrpark & Werte: tall fleet video between motto and promise; statistics roll in digit by digit
+// with a short motion blur (21st.dev "Animated Blur Number").
+import { company } from '../data/content';
+---
+<section class="company" id="unternehmen" aria-labelledby="company-title">
+  <div class="wrap company-head">
+    <p class="label" data-reveal>{company.label}</p>
+    <h2 id="company-title" class="h2" data-lines>{company.title}</h2>
+    <p class="lead" data-lines>{company.text}</p>
+  </div>
+  <div class="wrap company-grid">
+    <div class="company-card grain" data-rise>
+      <p class="micro">{company.motto.label}</p>
+      <p class="company-quote">{company.motto.quote}</p>
+      <p class="company-note">{company.motto.note}</p>
+    </div>
+    <figure class="company-video" data-clip>
+      <video muted playsinline loop preload="none" poster="/media/video/DJI_0100.webp" data-autoplay aria-label="Fuhrpark und Krane auf einer Großbaustelle">
+        <source src="/media/video/DJI_0100.mp4" type="video/mp4" />
+      </video>
+      <figcaption class="media-badge"><i></i>Fuhrpark &amp; Krane</figcaption>
+    </figure>
+    <div class="company-card company-card-light" data-rise>
+      <p class="micro">{company.promise.label}</p>
+      <p class="company-promise">{company.promise.text}</p>
+      <p class="company-note red">{company.promise.note}</p>
+    </div>
+  </div>
+  <div class="wrap stats">
+    {company.stats.slice(0, 2).map(s => (
+      <div class="stat" data-rule><span class="stat-label">{s.label}</span><span class="stat-value"><span data-roll={s.value}>{s.value}</span><small>{s.unit}</small></span></div>
+    ))}
+    <a href="#kontakt" class="stat stat-cta" data-magnetic><span>{company.cta[0]}<br />{company.cta[1]}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></a>
+    {company.stats.slice(2).map(s => (
+      <div class="stat" data-rule><span class="stat-label">{s.label}</span><span class="stat-value"><span data-roll={s.value}>{s.value}</span><small>{s.unit}</small></span></div>
+    ))}
+  </div>
+</section>

@@ -1,0 +1,37 @@
+---
+// Portrait wall (21st.dev "Scroll Portrait Wall"): portraits grow in as their row reaches the middle of the
+// screen and step back as it leaves; the title stays in place and inverts over the photos.
+import { team } from '../data/content';
+---
+<section class="team grain" id="team" aria-labelledby="team-title">
+  <p class="label" data-reveal>Ihr Projekt – Unser Team</p>
+  <div class="team-title-wrap">
+    <h2 id="team-title" class="team-title">Meisterhafte<br />Kompetenz am Bau</h2>
+  </div>
+  <ul class="wrap team-wall">
+    {team.map((m, i) => (
+      <li class="member" style={`--col:${i % 3}`}>
+        <button type="button" class="member-card" data-member={i} aria-label={`Profil ${m.name} öffnen`}>
+          <span class="member-photo"><img src={`/media/team/${m.image}.webp`} alt={m.name} width="900" height="900" loading="lazy" /></span>
+          <span class="member-meta"><small>{m.code}</small><strong>{m.name}</strong><span>{m.shortRole}</span></span>
+        </button>
+      </li>
+    ))}
+  </ul>
+  <dialog class="member-dialog" aria-labelledby="member-name">
+    <div class="member-dialog-panel grain">
+      <button type="button" class="dialog-close" aria-label="Profil schließen"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
+      <img class="member-dialog-photo" src="" alt="" width="900" height="900" />
+      <div class="member-dialog-body">
+        <p class="micro red" data-f="code"></p>
+        <p class="micro" data-f="department"></p>
+        <h3 id="member-name" data-f="name"></h3>
+        <p class="member-role" data-f="role"></p>
+        <p class="member-qual" data-f="qualification"></p>
+        <blockquote>„<span data-f="quote"></span>“</blockquote>
+        <p class="micro" data-f="experience"></p>
+      </div>
+    </div>
+  </dialog>
+  <script type="application/json" id="team-data" set:html={JSON.stringify(team)}></script>
+</section>

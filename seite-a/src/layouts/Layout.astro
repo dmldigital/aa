@@ -1,0 +1,38 @@
+---
+interface Props { title?: string; description?: string }
+const {
+  title = 'Manfred Weber GmbH & CoKG – Wir bauen für Sie!',
+  description = 'Meisterhafter Hochbau, Tiefbau und Sanierungsbau. Für Ihr Bauvorhaben sperren wir Brücken und bringen Ihre Leistung auf den Punkt.',
+} = Astro.props;
+import '../styles/global.css';
+---
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#17191c" />
+    <link rel="icon" type="image/png" href="/cropped-Button-32x32.png" />
+    <link rel="preload" as="image" href="/media/video/DJI_0144.webp" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
+    <script is:inline>
+      // Motion start states only while JS is expected to take over; if it never arrives, show everything.
+      if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion');
+        setTimeout(function () { if (!document.documentElement.classList.contains('ready')) document.documentElement.classList.remove('motion'); }, 3000);
+      }
+    </script>
+  </head>
+  <body>
+    <a href="#inhalt" class="skip-link">Zum Inhalt springen</a>
+    <slot />
+    <script>
+      import { initSite } from '../scripts/main';
+      initSite();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,25 @@
+---
+import { nav, phone, mail, footer } from '../data/content';
+---
+<header class="site-header" id="site-header">
+  <a href="#start" class="brand" aria-label="Manfred Weber Bauunternehmen – zum Seitenanfang">
+    <img src="/media/img/schriftzug.png" alt="" width="250" height="90" />
+    <span class="brand-text"><strong>Manfred Weber</strong><small>Bauunternehmen</small></span>
+  </a>
+  <nav class="main-nav" aria-label="Hauptnavigation">
+    {nav.map(([label, href]) => <a href={href}><span class="roll-text" data-text={label}>{label}</span></a>)}
+  </nav>
+  <a href={phone.href} class="header-phone">{phone.label}</a>
+  <a href="#kontakt" class="btn btn-red header-cta" data-magnetic><span>Angebot anfragen</span></a>
+  <button class="menu-toggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
+</header>
+
+<div class="drawer" id="drawer" inert>
+  <nav class="drawer-nav" aria-label="Mobile Navigation">
+    {nav.map(([label, href]) => <a href={href} class="drawer-link"><span class="drawer-label">{label}</span></a>)}
+  </nav>
+  <div class="drawer-foot">
+    <div><small>Direktkontakt</small><a href={phone.href}>{phone.label}</a><a href={`mailto:${mail}`}>{mail}</a></div>
+    <div><small>Standort</small><p>{footer.address.slice(1, 3).join(', ')}</p></div>
+  </div>
+</div>

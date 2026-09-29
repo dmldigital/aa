@@ -1,0 +1,29 @@
+---
+// Manfred Weber GmbH & CoKG – homepage, free redesign (same colours, logo, copy, images and videos).
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Ticker from '../components/Ticker.astro';
+import About from '../components/About.astro';
+import Services from '../components/Services.astro';
+import Impressions from '../components/Impressions.astro';
+import Company from '../components/Company.astro';
+import Team from '../components/Team.astro';
+import Footer from '../components/Footer.astro';
+---
+<Layout
+  title="Manfred Weber GmbH & CoKG – Wir bauen für Sie!"
+  description="Meisterhafter Hochbau, Tiefbau und Sanierungsbau. Für Ihr Bauvorhaben sperren wir Brücken und bringen Ihre Leistung auf den Punkt."
+>
+  <Header />
+  <main id="inhalt">
+    <Hero />
+    <Ticker />
+    <About />
+    <Services />
+    <Impressions />
+    <Company />
+    <Team />
+  </main>
+  <Footer />
+</Layout>

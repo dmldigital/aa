@@ -1,0 +1,40 @@
+---
+// The statement lights up word by word with the scroll position; the 25 rolls in digit by digit.
+import { about } from '../data/content';
+---
+<section class="about" id="ueber-uns" aria-labelledby="about-title">
+  <div class="wrap about-grid">
+    <aside class="about-side">
+      <p class="label" data-reveal>{about.intro.title}</p>
+      <div class="about-counter" aria-label="25+ Jahre meisterhafte Bau-Erfahrung">
+        <span class="about-number" data-roll="25" aria-hidden="true">25</span><span class="about-plus" aria-hidden="true">+</span>
+        <p aria-hidden="true">Jahre <span>meisterhafte</span> Bau-Erfahrung</p>
+      </div>
+    </aside>
+    <div class="about-main">
+      <h2 id="about-title" class="visually-hidden">{about.intro.title}</h2>
+      <p class="statement" data-words>{about.intro.text}</p>
+      <div class="about-aim">
+        <p class="label" data-reveal>{about.aim.title}</p>
+        <p class="about-aim-text" data-lines>{about.aim.text}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap quote-row">
+    <figure class="quote-video" data-clip>
+      <video muted playsinline loop preload="none" poster="/media/video/DJI_0165.webp" data-autoplay aria-label="Drohnenflug über eine Baustelle im Morgendunst">
+        <source src="/media/video/DJI_0165.mp4" type="video/mp4" />
+      </video>
+      <figcaption class="media-badge"><i></i>Projekt-Einblick</figcaption>
+    </figure>
+    <blockquote class="quote-box" data-clip>
+      <p class="quote-text" data-lines>{about.quote}</p>
+      <footer>
+        <img src={about.person.image} alt="" width="48" height="48" loading="lazy" />
+        <cite><strong>{about.person.name}</strong><span>{about.person.role}</span></cite>
+      </footer>
+      <a href="#unternehmen" class="btn btn-white" data-magnetic><span>Mehr über uns</span></a>
+    </blockquote>
+  </div>
+</section>

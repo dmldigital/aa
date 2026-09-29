@@ -1,0 +1,389 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+    color: #111111;
+    background-color: #ffffff;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Schibsted Grotesk', sans-serif;
+  }
+}
+
+/* Lenis Smooth Scroll */
+html.lenis {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   FOUNDIX EXACT BUTTON SYSTEM (.button-style-1)
+   Infused with Exact Weber Logo Red (#e41e13 / #c51910)
+   ========================================================================== */
+
+.button-style-1 {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  border: none !important;
+  outline: none;
+  background-color: #e41e13;
+  color: #ffffff;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button-style-1:hover {
+  background-color: #c51910;
+  color: #ffffff;
+}
+
+/* Foundix Expanding Background Hover Container */
+.button-style-1 .before_button_hover {
+  position: absolute;
+  inset: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.button-style-1 .bg_before_button_hover {
+  position: absolute;
+  inset: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background-color: #c51910;
+  transform: scale(0);
+  transform-origin: center center;
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: none;
+}
+
+.button-style-1:hover .bg_before_button_hover {
+  transform: scale(1.05);
+}
+
+.button-style-1 .wrap_textbutton {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* White Button Variant (Used inside Weber Red Quote Card) */
+.button-style-1.light-variant {
+  background-color: #ffffff;
+  color: #e41e13;
+  border: 1px solid #ffffff;
+}
+
+.button-style-1.light-variant .bg_before_button_hover {
+  background-color: #111111;
+}
+
+.button-style-1.light-variant:hover {
+  color: #ffffff;
+}
+
+/* Dark Button Variant */
+.button-style-1.dark-variant {
+  background-color: #111111;
+  color: #ffffff;
+  border: 1px solid #111111;
+}
+
+.button-style-1.dark-variant .bg_before_button_hover {
+  background-color: #c51910;
+}
+
+/* ==========================================================================
+   FOUNDIX EXACT BUTTON SYSTEM (.button-style-2)
+   Used across Services List and Section Cards
+   ========================================================================== */
+
+.button-style-2 {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Schibsted Grotesk', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  background-color: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: #111111;
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
+}
+
+.button-style-2 .bg_before_button_hover {
+  position: absolute;
+  inset: -2px;
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  background-color: #111111; /* Anthrazit */
+  transform: scale(0);
+  transform-origin: center center;
+  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.button-style-2:hover .bg_before_button_hover {
+  transform: scale(1.05);
+}
+
+.button-style-2 .wrap_textbutton {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+  transition: color 0.3s ease;
+}
+
+.button-style-2 .bt2_iconbox {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.button-style-2:hover {
+  color: #ffffff !important;
+  border-color: #111111 !important;
+  background-color: #111111;
+}
+
+.button-style-2:hover .bt2_iconbox {
+  transform: translateX(4px);
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   FOUNDIX EXACT HEADER SYSTEM
+   ========================================================================== */
+
+.main-header-smart {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.main-header {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  min-width: 100%;
+  padding: 0 20px;
+}
+
+.btn-hd-panel {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Site-wide grainy anthracite treatment for formerly solid black surfaces. */
+:where(
+  [class~="bg-[#111111]"],
+  [class~="bg-[#141414]"],
+  [class~="bg-[#1c1c1c]"],
+  [class~="bg-black"],
+  [class~="bg-[#111111]/85"]
+) {
+  background-color: #17191c !important;
+  background-image: url('/footer-grain.svg') !important;
+  background-size: 180px 180px !important;
+  background-repeat: repeat !important;
+}
+
+:where([class*="bg-black/70"], [class*="bg-black/45"]) {
+  background-color: rgba(23, 25, 28, 0.9) !important;
+  background-image: url('/footer-grain.svg') !important;
+  background-size: 140px 140px !important;
+}
+
+:where([class*="bg-black/75"]) {
+  background-color: rgba(23, 25, 28, 0.75) !important;
+  background-image: url('/footer-grain.svg') !important;
+  background-size: 180px 180px !important;
+  background-repeat: repeat !important;
+}
+
+:where([class*="bg-black/40"]) {
+  background-color: rgba(23, 25, 28, 0.4) !important;
+  background-image: url('/footer-grain.svg') !important;
+  background-size: 180px 180px !important;
+  background-repeat: repeat !important;
+}
+
+:where([class*="bg-black/25"]) {
+  background-color: rgba(23, 25, 28, 0.25) !important;
+  background-image: url('/footer-grain.svg') !important;
+  background-size: 180px 180px !important;
+  background-repeat: repeat !important;
+}
+
+:where([class*="bg-black/10"]) {
+  background-color: rgba(23, 25, 28, 0.1) !important;
+  background-image: url('/footer-grain.svg') !important;
+  background-size: 180px 180px !important;
+  background-repeat: repeat !important;
+}
+
+.button-style-1 .bg_before_button_hover,
+.button-style-1.light-variant .bg_before_button_hover,
+.button-style-1.dark-variant,
+.button-style-2 .bg_before_button_hover,
+.button-style-2:hover,
+.team-dialog-panel {
+  background-color: #17191c !important;
+  background-image: url('/footer-grain.svg') !important;
+  background-size: 180px 180px !important;
+  background-repeat: repeat !important;
+}
+
+.button-style-1.dark-variant {
+  border-color: #17191c !important;
+}
+
+/* Use the same deeper red whenever an interactive red element is hovered. */
+:where(a, button, [role="button"], [class~="cursor-pointer"])[class~="bg-[#e41e13]"]:hover,
+.button-style-1:not(.light-variant):not(.dark-variant):hover,
+.button-style-1:not(.light-variant):not(.dark-variant) .bg_before_button_hover {
+  background-color: #c51910 !important;
+  background-image: none !important;
+}
+
+.button-style-1.dark-variant .bg_before_button_hover {
+  background-color: #c51910 !important;
+  background-image: none !important;
+}
+
+[class*="hover:bg-[#e41e13]"]:hover,
+.group:hover [class*="group-hover:bg-[#e41e13]"] {
+  background-color: #c51910 !important;
+  background-image: none !important;
+}
+
+[class*="hover:text-[#e41e13]"]:hover,
+.group:hover [class*="group-hover:text-[#e41e13]"] {
+  color: #c51910 !important;
+}
+
+[class*="hover:border-[#e41e13]"]:hover,
+.group:hover [class*="group-hover:border-[#e41e13]"] {
+  border-color: #c51910 !important;
+}
+
+.group:hover [class*="bg-[#e41e13]"],
+[class*="group/"]:hover [class*="bg-[#e41e13]"] {
+  background-color: #c51910 !important;
+  background-image: none !important;
+}
+
+.group:hover [class*="text-[#e41e13]"],
+[class*="group/"]:hover [class*="text-[#e41e13]"] {
+  color: #c51910 !important;
+}
+
+.group:hover [class*="border-[#e41e13]"],
+[class*="group/"]:hover [class*="border-[#e41e13]"] {
+  border-color: #c51910 !important;
+}
+
+.wrap-dot-hidden-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.dot-hidden-panel {
+  position: absolute;
+  width: 5px;
+  height: 5px;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+.dot-hidden-panel:nth-child(1) { top: 3px; left: 3px; }
+.dot-hidden-panel.dot-2 { top: 3px; right: 3px; }
+.dot-hidden-panel.dot-3 { bottom: 3px; left: 3px; }
+.dot-hidden-panel.dot-4 { bottom: 3px; right: 3px; }
+
+.btn-hd-panel:hover .dot-hidden-panel {
+  transform: scale(1.3);
+  background-color: #c51910;
+}
+
+.line-vertical {
+  width: 1px;
+  height: 55px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.line-vertical._02 {
+  height: 35px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Foundix Marquee Slip */
+@keyframes slipContinuous {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-slip {
+  display: flex;
+  width: max-content;
+  animation: slipContinuous 30s linear infinite;
+}
+
+.animate-slip:hover {
+  animation-play-state: paused;
+}

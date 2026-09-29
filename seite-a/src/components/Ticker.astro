@@ -1,0 +1,18 @@
+---
+// Two bands that run in opposite directions and react to the scroll speed (21st.dev "Scroll Velocity").
+import { ticker } from '../data/content';
+const rows = [ticker, [...ticker].reverse()];
+---
+<section class="ticker" aria-label="Unsere Werte">
+  {rows.map((row, r) => (
+    <div class:list={['ticker-row', { 'ticker-row-alt': r === 1 }]} data-direction={r === 0 ? 1 : -1}>
+      <div class="ticker-track">
+        {[0, 1].map(copy => (
+          <ul aria-hidden={copy === 1 || r === 1 ? 'true' : undefined}>
+            {row.map(item => <li><span>{item}</span><i aria-hidden="true"></i></li>)}
+          </ul>
+        ))}
+      </div>
+    </div>
+  ))}
+</section>

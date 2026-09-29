@@ -1,0 +1,328 @@
+---
+// LogoShowcase.astro - 6 exklusive freistehende Logo-Varianten zum direkten Vergleich
+---
+
+<section id="logo-showcase" class="relative z-30 py-20 px-4 sm:px-8 bg-[#141414] border-t border-b border-white/10 text-white">
+  <div class="max-w-[1200px] mx-auto">
+    <!-- Header Info -->
+    <div class="mb-12 text-center">
+      <span class="inline-block px-3 py-1 bg-[#e41e13]/20 border border-[#e41e13]/40 text-[#e41e13] font-heading font-semibold text-xs tracking-widest uppercase mb-3">
+        Design-Auswahl • 6 Varianten
+      </span>
+      <h2 class="font-heading font-medium text-3xl sm:text-4xl uppercase tracking-tight text-white mb-4">
+        Freistehendes Logo: <span class="text-[#e41e13]">6 Versionen im Vergleich</span>
+      </h2>
+      <p class="text-white/70 max-w-2xl mx-auto text-sm sm:text-base">
+        Hier sehen Sie alle 6 Versionen direkt untereinander über einem echten Baustellen-Hintergrund. Klicken Sie auf eine Variante, um sie sofort oben im echten Header zu aktivieren!
+      </p>
+    </div>
+
+    <!-- 6 Versions Stacked Untereinander -->
+    <div class="flex flex-col gap-8">
+      
+      <!-- VARIANT 1: Reiner Minimalismus -->
+      <div 
+        class="logo-variant-card group relative p-6 sm:p-8 rounded-xl bg-[#1c1c1c] border border-white/10 hover:border-[#e41e13]/50 transition-all duration-300 cursor-pointer overflow-hidden"
+        data-variant="1"
+      >
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-mono text-[#e41e13] font-bold tracking-wider uppercase">Variante 01</span>
+            <h3 class="text-lg font-heading font-semibold text-white">Reiner Minimalismus (Dezenter Schatten)</h3>
+            <p class="text-xs text-white/60">Ganz zarter, natürlicher Schatten. Leicht, unaufdringlich und puristisch.</p>
+          </div>
+
+          <!-- Logo Preview over realistic background sample -->
+          <div class="relative p-6 sm:p-8 rounded-lg overflow-hidden bg-cover bg-center flex items-center justify-center min-w-[320px] sm:min-w-[420px] shadow-inner" style="background-image: url('/portfolio_0.jpg');">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <!-- Logo Markup V1 -->
+            <div class="relative z-10 flex items-center gap-4 select-none">
+              <img 
+                src="/schriftzug.png" 
+                alt="Manfred Weber" 
+                class="h-[56px] w-auto object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
+              />
+              <div class="flex flex-col text-left leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+                <span class="font-heading font-bold text-[22px] tracking-[1.8px] uppercase text-white">MANFRED WEBER</span>
+                <span class="font-heading font-semibold text-[11px] tracking-[3px] uppercase text-[#e41e13]">BAUUNTERNEHMEN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 2: Cinematic Deep Shadow -->
+      <div 
+        class="logo-variant-card group relative p-6 sm:p-8 rounded-xl bg-[#1c1c1c] border border-white/10 hover:border-[#e41e13]/50 transition-all duration-300 cursor-pointer overflow-hidden"
+        data-variant="2"
+      >
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-mono text-[#e41e13] font-bold tracking-wider uppercase">Variante 02</span>
+            <h3 class="text-lg font-heading font-semibold text-white">Cinematic Deep Shadow (Empfehlung)</h3>
+            <p class="text-xs text-white/60">Mehrstufiger 3D-Schlagschatten. Hebt das Logo auch bei hellen Wolken oder Beton messerscharf ab.</p>
+          </div>
+
+          <!-- Logo Preview over realistic background sample -->
+          <div class="relative p-6 sm:p-8 rounded-lg overflow-hidden bg-cover bg-center flex items-center justify-center min-w-[320px] sm:min-w-[420px] shadow-inner" style="background-image: url('/portfolio_0.jpg');">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <!-- Logo Markup V2 -->
+            <div class="relative z-10 flex items-center gap-4 select-none">
+              <img 
+                src="/schriftzug.png" 
+                alt="Manfred Weber" 
+                class="h-[58px] w-auto object-contain filter drop-shadow-[0_3px_8px_rgba(0,0,0,0.95)] drop-shadow-[0_8px_20px_rgba(0,0,0,0.85)]"
+              />
+              <div class="flex flex-col text-left leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+                <span class="font-heading font-bold text-[22px] tracking-[1.8px] uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">MANFRED WEBER</span>
+                <span class="font-heading font-semibold text-[11px] tracking-[3px] uppercase text-[#e41e13] drop-shadow-[0_1px_3px_rgba(0,0,0,0.95)]">BAUUNTERNEHMEN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 3: Dark Frosted Glass Pill -->
+      <div 
+        class="logo-variant-card group relative p-6 sm:p-8 rounded-xl bg-[#1c1c1c] border border-white/10 hover:border-[#e41e13]/50 transition-all duration-300 cursor-pointer overflow-hidden"
+        data-variant="3"
+      >
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-mono text-[#e41e13] font-bold tracking-wider uppercase">Variante 03</span>
+            <h3 class="text-lg font-heading font-semibold text-white">Dark Frosted Glass Pill (Milchglas-Kapsel)</h3>
+            <p class="text-xs text-white/60">Zarte, transluzente Glaskapsel (`backdrop-blur`). Modern, edel und 100 % kontraststabil.</p>
+          </div>
+
+          <!-- Logo Preview over realistic background sample -->
+          <div class="relative p-6 sm:p-8 rounded-lg overflow-hidden bg-cover bg-center flex items-center justify-center min-w-[320px] sm:min-w-[420px] shadow-inner" style="background-image: url('/portfolio_0.jpg');">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <!-- Logo Markup V3 -->
+            <div class="relative z-10 inline-flex items-center gap-4 px-6 py-3 rounded-full bg-black/45 backdrop-blur-md border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)] select-none">
+              <img 
+                src="/schriftzug.png" 
+                alt="Manfred Weber" 
+                class="h-[48px] w-auto object-contain"
+              />
+              <div class="flex flex-col text-left leading-tight">
+                <span class="font-heading font-bold text-[19px] tracking-[1.6px] uppercase text-white">MANFRED WEBER</span>
+                <span class="font-heading font-semibold text-[10px] tracking-[2.8px] uppercase text-[#e41e13]">BAUUNTERNEHMEN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 4: Light Frosted Glass Pill -->
+      <div 
+        class="logo-variant-card group relative p-6 sm:p-8 rounded-xl bg-[#1c1c1c] border border-white/10 hover:border-[#e41e13]/50 transition-all duration-300 cursor-pointer overflow-hidden"
+        data-variant="4"
+      >
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-mono text-[#e41e13] font-bold tracking-wider uppercase">Variante 04</span>
+            <h3 class="text-lg font-heading font-semibold text-white">Light Frosted Glass Pill (Helle Glaskapsel)</h3>
+            <p class="text-xs text-white/60">Helles transluzentes Glas mit weißer Lichtkante. Wirkt luftig und architektonisch.</p>
+          </div>
+
+          <!-- Logo Preview over realistic background sample -->
+          <div class="relative p-6 sm:p-8 rounded-lg overflow-hidden bg-cover bg-center flex items-center justify-center min-w-[320px] sm:min-w-[420px] shadow-inner" style="background-image: url('/portfolio_0.jpg');">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <!-- Logo Markup V4 -->
+            <div class="relative z-10 inline-flex items-center gap-4 px-6 py-3 rounded-full bg-white/15 backdrop-blur-md border border-white/35 shadow-[0_8px_32px_rgba(0,0,0,0.25)] select-none">
+              <img 
+                src="/schriftzug.png" 
+                alt="Manfred Weber" 
+                class="h-[48px] w-auto object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
+              />
+              <div class="flex flex-col text-left leading-tight">
+                <span class="font-heading font-bold text-[19px] tracking-[1.6px] uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">MANFRED WEBER</span>
+                <span class="font-heading font-semibold text-[10px] tracking-[2.8px] uppercase text-[#e41e13]">BAUUNTERNEHMEN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 5: Ambient Glow / Backlight Halo -->
+      <div 
+        class="logo-variant-card group relative p-6 sm:p-8 rounded-xl bg-[#1c1c1c] border border-white/10 hover:border-[#e41e13]/50 transition-all duration-300 cursor-pointer overflow-hidden"
+        data-variant="5"
+      >
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-mono text-[#e41e13] font-bold tracking-wider uppercase">Variante 05</span>
+            <h3 class="text-lg font-heading font-semibold text-white">Ambient Glow / Soft Halo (Lichtschein)</h3>
+            <p class="text-xs text-white/60">Sanfter Hintergrund-Glow um das Mauerwerk und die Typografie. Gibt Tiefe ohne Rand.</p>
+          </div>
+
+          <!-- Logo Preview over realistic background sample -->
+          <div class="relative p-6 sm:p-8 rounded-lg overflow-hidden bg-cover bg-center flex items-center justify-center min-w-[320px] sm:min-w-[420px] shadow-inner" style="background-image: url('/portfolio_0.jpg');">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <!-- Logo Markup V5 -->
+            <div class="relative z-10 flex items-center gap-4 select-none">
+              <!-- Radial halo glow -->
+              <div class="absolute inset-0 bg-white/10 blur-xl rounded-full -z-10 scale-125"></div>
+              <img 
+                src="/schriftzug.png" 
+                alt="Manfred Weber" 
+                class="h-[56px] w-auto object-contain filter drop-shadow-[0_0_18px_rgba(255,255,255,0.3)] drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]"
+              />
+              <div class="flex flex-col text-left leading-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] drop-shadow-[0_3px_8px_rgba(0,0,0,0.9)]">
+                <span class="font-heading font-bold text-[22px] tracking-[1.8px] uppercase text-white">MANFRED WEBER</span>
+                <span class="font-heading font-semibold text-[11px] tracking-[3px] uppercase text-[#e41e13]">BAUUNTERNEHMEN</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VARIANT 6: Architectural Red Precision Line (Aktuell im Header) -->
+      <div 
+        class="logo-variant-card group relative p-6 sm:p-8 rounded-xl bg-[#1c1c1c] border-2 border-[#e41e13] shadow-[0_0_20px_rgba(228,30,19,0.15)] transition-all duration-300 cursor-pointer overflow-hidden"
+        data-variant="6"
+      >
+        <div class="absolute top-3 right-4 px-2.5 py-0.5 bg-[#e41e13] text-white text-[10px] font-heading font-bold uppercase tracking-wider rounded">
+          Aktuell Aktiv
+        </div>
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+          <div class="flex flex-col gap-1">
+            <span class="text-xs font-mono text-[#e41e13] font-bold tracking-wider uppercase">Variante 06</span>
+            <h3 class="text-lg font-heading font-semibold text-white">Architektonische Akzentlinie (Rote Bodenlinie)</h3>
+            <p class="text-xs text-white/60">Freistehend mit roter Präzisionslinie. Schafft visuelle Erdung und Stabilität.</p>
+          </div>
+
+          <!-- Logo Preview over realistic background sample -->
+          <div class="relative p-6 sm:p-8 rounded-lg overflow-hidden bg-cover bg-center flex items-center justify-center min-w-[320px] sm:min-w-[420px] shadow-inner" style="background-image: url('/portfolio_0.jpg');">
+            <div class="absolute inset-0 bg-black/40"></div>
+            <!-- Logo Markup V6 -->
+            <div class="relative z-10 flex items-center gap-4 select-none">
+              <img 
+                src="/schriftzug.png" 
+                alt="Manfred Weber" 
+                class="h-[56px] w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]"
+              />
+              <div class="flex flex-col text-left leading-tight">
+                <span class="font-heading font-bold text-[22px] tracking-[1.8px] uppercase text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">MANFRED WEBER</span>
+                <span class="font-heading font-semibold text-[11px] tracking-[3px] uppercase text-[#e41e13] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">BAUUNTERNEHMEN</span>
+                <div class="h-[2px] w-full bg-[#e41e13] mt-1.5 shadow-[0_2px_6px_rgba(228,30,19,0.6)]"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Script to switch active header logo when clicking a variant -->
+<script>
+  const cards = document.querySelectorAll('.logo-variant-card');
+  const headerLogo = document.querySelector('#main-header .site-logo');
+
+  const variantTemplates: Record<string, string> = {
+    '1': `
+      <img 
+        src="/schriftzug.png" 
+        alt="Manfred Weber" 
+        class="h-[56px] w-auto object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]"
+      />
+      <div class="flex flex-col text-left leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+        <span class="font-heading font-bold text-[22px] tracking-[1.8px] uppercase text-white">MANFRED WEBER</span>
+        <span class="font-heading font-semibold text-[11px] tracking-[3px] uppercase text-[#e41e13]">BAUUNTERNEHMEN</span>
+      </div>
+    `,
+    '2': `
+      <img 
+        src="/schriftzug.png" 
+        alt="Manfred Weber" 
+        class="h-[58px] w-auto object-contain filter drop-shadow-[0_3px_8px_rgba(0,0,0,0.95)] drop-shadow-[0_8px_20px_rgba(0,0,0,0.85)]"
+      />
+      <div class="flex flex-col text-left leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
+        <span class="font-heading font-bold text-[22px] tracking-[1.8px] uppercase text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.95)]">MANFRED WEBER</span>
+        <span class="font-heading font-semibold text-[11px] tracking-[3px] uppercase text-[#e41e13] drop-shadow-[0_1px_3px_rgba(0,0,0,0.95)]">BAUUNTERNEHMEN</span>
+      </div>
+    `,
+    '3': `
+      <div class="inline-flex items-center gap-4 px-5 py-2.5 rounded-full bg-black/45 backdrop-blur-md border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+        <img 
+          src="/schriftzug.png" 
+          alt="Manfred Weber" 
+          class="h-[48px] w-auto object-contain"
+        />
+        <div class="flex flex-col text-left leading-tight">
+          <span class="font-heading font-bold text-[19px] tracking-[1.6px] uppercase text-white">MANFRED WEBER</span>
+          <span class="font-heading font-semibold text-[10px] tracking-[2.8px] uppercase text-[#e41e13]">BAUUNTERNEHMEN</span>
+        </div>
+      </div>
+    `,
+    '4': `
+      <div class="inline-flex items-center gap-4 px-5 py-2.5 rounded-full bg-white/15 backdrop-blur-md border border-white/35 shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
+        <img 
+          src="/schriftzug.png" 
+          alt="Manfred Weber" 
+          class="h-[48px] w-auto object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
+        />
+        <div class="flex flex-col text-left leading-tight">
+          <span class="font-heading font-bold text-[19px] tracking-[1.6px] uppercase text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.6)]">MANFRED WEBER</span>
+          <span class="font-heading font-semibold text-[10px] tracking-[2.8px] uppercase text-[#e41e13]">BAUUNTERNEHMEN</span>
+        </div>
+      </div>
+    `,
+    '5': `
+      <div class="relative flex items-center gap-4">
+        <div class="absolute inset-0 bg-white/10 blur-xl rounded-full -z-10 scale-125"></div>
+        <img 
+          src="/schriftzug.png" 
+          alt="Manfred Weber" 
+          class="h-[56px] w-auto object-contain filter drop-shadow-[0_0_18px_rgba(255,255,255,0.3)] drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)]"
+        />
+        <div class="flex flex-col text-left leading-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] drop-shadow-[0_3px_8px_rgba(0,0,0,0.9)]">
+          <span class="font-heading font-bold text-[22px] tracking-[1.8px] uppercase text-white">MANFRED WEBER</span>
+          <span class="font-heading font-semibold text-[11px] tracking-[3px] uppercase text-[#e41e13]">BAUUNTERNEHMEN</span>
+        </div>
+      </div>
+    `,
+    '6': `
+      <img 
+        src="/schriftzug.png" 
+        alt="Manfred Weber" 
+        class="h-[56px] w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]"
+      />
+      <div class="flex flex-col text-left leading-tight">
+        <span class="font-heading font-bold text-[22px] tracking-[1.8px] uppercase text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">MANFRED WEBER</span>
+        <span class="font-heading font-semibold text-[11px] tracking-[3px] uppercase text-[#e41e13] drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">BAUUNTERNEHMEN</span>
+        <div class="h-[2px] w-full bg-[#e41e13] mt-1.5 shadow-[0_2px_6px_rgba(228,30,19,0.6)]"></div>
+      </div>
+    `
+  };
+
+  cards.forEach(card => {
+    card.addEventListener('click', () => {
+      const v = card.getAttribute('data-variant');
+      if (v && headerLogo && variantTemplates[v]) {
+        headerLogo.innerHTML = variantTemplates[v];
+
+        // Update active card styling
+        cards.forEach(c => {
+          c.classList.remove('border-2', 'border-[#e41e13]', 'shadow-[0_0_20px_rgba(228,30,19,0.15)]');
+          c.classList.add('border', 'border-white/10');
+          const badge = c.querySelector('.absolute.top-3.right-4');
+          if (badge) badge.remove();
+        });
+
+        card.classList.remove('border', 'border-white/10');
+        card.classList.add('border-2', 'border-[#e41e13]', 'shadow-[0_0_20px_rgba(228,30,19,0.15)]');
+        
+        const badge = document.createElement('div');
+        badge.className = 'absolute top-3 right-4 px-2.5 py-0.5 bg-[#e41e13] text-white text-[10px] font-heading font-bold uppercase tracking-wider rounded';
+        badge.textContent = 'Aktuell Aktiv';
+        card.appendChild(badge);
+
+        // Smooth scroll to top to view in header
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+  });
+</script>

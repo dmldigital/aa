@@ -1,0 +1,30 @@
+---
+// Desktop: zoom parallax (21st.dev "Zoom Parallax") – stills from their drone flights fly past at different
+// speeds while the panorama video in the centre fills the screen. Phone: a swipeable strip, no pin.
+import { impressions } from '../data/content';
+---
+<section class="impressions" id="impressionen" aria-labelledby="impressions-title">
+  <div class="wrap section-head impressions-head">
+    <p class="label" data-reveal>Impressionen</p>
+    <h2 id="impressions-title" class="h2" data-lines>Kein Weg zu weit, kein Platz zu klein.</h2>
+  </div>
+  <div class="zoom">
+    <div class="zoom-stage">
+      <div class="zoom-layer zoom-center">
+        <figure class="zoom-item">
+          <video muted playsinline loop preload="none" poster="/media/video/DJI_0145.webp" data-autoplay aria-label="Großbaustellen-Panorama aus der Luft">
+            <source src="/media/video/DJI_0145.mp4" type="video/mp4" />
+          </video>
+          <figcaption class="media-badge"><i></i>Großbaustellen-Panorama</figcaption>
+        </figure>
+      </div>
+      {impressions.map((p, i) => (
+        <div class={`zoom-layer zoom-${i + 1}`}>
+          <figure class="zoom-item">
+            <img src={`${p.src}-960.webp`} srcset={`${p.src}-960.webp 960w, ${p.src}.webp 1920w`} sizes="(max-width: 900px) 80vw, 30vw" alt={p.alt} width="1920" height="1080" loading="lazy" />
+          </figure>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

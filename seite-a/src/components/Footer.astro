@@ -1,0 +1,68 @@
+---
+// The footer is uncovered from underneath while the page scrolls into it (21st.dev "Motion Footer").
+import { footer, phone, mail } from '../data/content';
+---
+<footer class="footer grain" id="kontakt">
+  <div class="footer-inner">
+    <div class="wrap footer-top">
+      <div class="footer-intro">
+        <div class="footer-brand">
+          <img src="/media/img/schriftzug.png" alt="Manfred Weber Logo" width="250" height="90" loading="lazy" />
+          <span><strong>Manfred Weber</strong><small>GmbH &amp; Co. KG</small></span>
+        </div>
+        <h2 class="h2" data-lines>{footer.title}</h2>
+        <p class="lead">{footer.text}</p>
+        <p class="footer-slogan"><i></i>{footer.slogan}</p>
+      </div>
+      <div class="footer-cta" data-clip>
+        <p class="micro">Projektanfrage &amp; Direktkontakt</p>
+        <p class="footer-cta-title">Lassen Sie uns über Ihr Bauvorhaben sprechen.</p>
+        <a href={phone.href} class="footer-phone">{phone.label}</a>
+        <p class="footer-fax">Telefax: {phone.fax}</p>
+        <div class="footer-cta-actions">
+          <a href={`mailto:${mail}?subject=Projektanfrage`} class="btn btn-white" data-magnetic><span>Jetzt anfragen</span></a>
+          <a href={phone.href} class="btn btn-line-light" data-magnetic><span>Direkt anrufen</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap footer-media">
+      {footer.media.map(m => (
+        <figure class="footer-media-item" data-clip>
+          {m.type === 'video'
+            ? <video muted playsinline loop preload="none" poster={`${m.src}.webp`} data-autoplay aria-label={m.label}><source src={`${m.src}.mp4`} type="video/mp4" /></video>
+            : <img src={m.src} alt={m.alt} width="440" height="425" loading="lazy" />}
+          <figcaption class="media-badge"><i></i>{m.label}</figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <div class="wrap footer-cols">
+      <div>
+        <p class="micro"><i></i>Navigation</p>
+        <ul>{footer.links.map(([label, href]) => <li><a href={href}>{label}</a></li>)}</ul>
+      </div>
+      <div>
+        <p class="micro"><i></i>Standort</p>
+        <address><strong>{footer.address[0]}</strong>{footer.address.slice(1).map(l => <span>{l}</span>)}</address>
+        <p class="micro red footer-region">{footer.region}</p>
+      </div>
+      <div>
+        <p class="micro"><i></i>Bürozeiten</p>
+        <dl>{footer.hours.map(([d, t]) => <div><dt>{d}</dt><dd>{t}</dd></div>)}</dl>
+        <p class="footer-mail">E-Mail: <a href={`mailto:${mail}`}>{mail}</a></p>
+      </div>
+    </div>
+
+    <div class="wrap footer-bottom">
+      <span>&copy; {new Date().getFullYear()} Manfred Weber GmbH &amp; Co. KG. Alle Rechte vorbehalten.</span>
+      <span class="footer-claim">{footer.claim}</span>
+      <span class="footer-legal">
+        <a href="https://mw-bauen.de/impressum/" target="_blank" rel="noopener noreferrer">Impressum</a>
+        <a href="https://mw-bauen.de/datenschutz/" target="_blank" rel="noopener noreferrer">Datenschutz</a>
+        <a href="#start">Nach oben ↑</a>
+      </span>
+    </div>
+    <div class="footer-mark" aria-hidden="true"><span>Manfred Weber</span></div>
+  </div>
+</footer>

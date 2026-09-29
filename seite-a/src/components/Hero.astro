@@ -1,0 +1,26 @@
+---
+// Desktop: the drone flight starts as a framed card between the headline and plays with the scroll
+// position while the card grows to full screen (21st.dev "Hero Scrub" / "Hero Scroll Video Pin Reveal").
+// Touch and small screens: full-bleed looping video, no pin.
+import { hero } from '../data/content';
+---
+<section class="hero" id="start" aria-label="Einstieg">
+  <div class="hero-stage">
+    <div class="hero-frame" aria-hidden="true"><b></b><b></b><b></b><b></b></div>
+    <div class="hero-media">
+      <video class="hero-video" muted playsinline loop preload="auto" poster="/media/video/DJI_0144.webp"
+        data-loop="/media/video/DJI_0144.mp4" data-scrub="/media/video/DJI_0144-scrub.mp4" aria-hidden="true"></video>
+      <span class="hero-shade" aria-hidden="true"></span>
+    </div>
+    <h1 class="hero-title">
+      <span class="ht ht-1"><span class="ht-in">{hero.lines[0]}</span></span>
+      <span class="ht ht-2"><span class="ht-in">{hero.lines[1]}</span></span>
+      <span class="ht ht-3"><span class="ht-in">{hero.lines[2]}</span></span>
+    </h1>
+    <div class="hero-box">
+      <p>{hero.text}</p>
+      <a href="#leistungen" class="hero-box-cta" data-magnetic><span>Unsere Leistungen</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></a>
+    </div>
+    <div class="hero-scroll" aria-hidden="true"><span>Scrollen</span><i></i></div>
+  </div>
+</section>

@@ -1,0 +1,375 @@
+---
+// Footer.astro - Architectural Foundix "Why Choose Us" Grid Architecture
+// Footer grid with the drone video, one project photo, contact information, and interactive elements.
+// full Weber contact info, navigation, opening hours, and interactive elements.
+---
+
+<footer class="footer-foundix footer-anthracite-panel w-full text-white border-t border-white/10 select-none overflow-hidden" id="kontakt">
+  
+  <!-- Container aligned to exact normal website width (1440px) -->
+  <div class="max-w-[1440px] mx-auto px-5 sm:px-8 w-full">
+    
+    <!-- ===================================================================
+         ROW 1: 5-COLUMN ARCHITECTURAL GRID (Intro & 3 Media Squares)
+         =================================================================== -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-l border-b border-white/10">
+      
+      <!-- Col 1 & 2 (Spans 2 columns): Heading, Intro & Brand Wordmark (pl-0 for exact flush alignment) -->
+      <div class="lg:col-span-2 py-8 sm:py-10 lg:py-12 pr-8 sm:pr-10 lg:pr-12 pl-5 sm:pl-6 lg:pl-8 border-b md:border-b-0 md:border-r border-white/10 flex flex-col justify-between footer-anthracite-panel min-h-[320px]">
+        <div>
+          <div class="flex items-center gap-3 mb-5">
+            <img 
+              src="/schriftzug.png" 
+              alt="Manfred Weber Logo" 
+              class="h-10 sm:h-12 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]"
+            />
+            <div class="flex flex-col text-left">
+              <span class="font-heading font-bold text-lg sm:text-xl tracking-[1.5px] uppercase text-white">MANFRED WEBER</span>
+              <span class="font-heading font-semibold text-[10px] tracking-[2.5px] uppercase text-[#e41e13]">GMBH &amp; CO. KG</span>
+            </div>
+          </div>
+
+          <h2 class="font-body font-normal text-2xl sm:text-3xl lg:text-[32px] leading-[1.2] text-white m-0 mb-4">
+            Bereit für Ihr nächstes Bauvorhaben?
+          </h2>
+          <p class="font-body text-[14px] text-white/70 leading-relaxed m-0 max-w-[480px]">
+            Ob anspruchsvoller Hochbau, fundierter Tiefbau oder nachhaltige Sanierung: Wir stehen für meisterhafte Handwerksqualität, absolute Termintreue und persönliche Betreuung.
+          </p>
+        </div>
+
+        <!-- Slogan Tag -->
+        <div class="pt-6 mt-6 border-t border-white/10 flex items-center gap-3">
+          <span class="w-2 h-2 rounded-full bg-[#e41e13] animate-pulse"></span>
+          <span class="font-heading text-xs uppercase tracking-[2px] text-white/60">
+            „Kein Weg zu weit, kein Platz zu klein.“
+          </span>
+        </div>
+      </div>
+
+      <!-- Col 3: Media 1 - Drone Video (DJI_0204.mp4) -->
+      <div 
+        class="col-span-1 relative self-start overflow-hidden group cursor-pointer footer-anthracite-panel border-b md:border-b-0 md:border-r border-white/10 aspect-video min-h-0 lg:aspect-auto lg:self-stretch lg:min-h-[320px]"
+        id="footer-video-box"
+      >
+        <video 
+          id="footer-drone-video"
+          playsinline 
+          muted 
+          loop 
+          preload="metadata"
+          poster="/videos/DJI_0204_poster.jpg"
+          class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 lg:static"
+        >
+          <source src="/videos/DJI_0204.mp4" type="video/mp4" />
+          <source src="https://mw-bauen.de/wp-content/uploads/2025/02/DJI_0204.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Scrim -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none group-hover:opacity-60 transition-opacity z-[5]"></div>
+
+        <!-- Centered Play Button -->
+        <div 
+          id="footer-play-btn"
+          class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none transition-all duration-300 ease-out"
+        >
+          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/90 text-[#111111] shadow-xl backdrop-blur-sm flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:bg-[#e41e13] group-hover:text-white">
+            <svg class="w-5 h-5 fill-current translate-x-0.5" viewBox="0 0 24 24">
+              <polygon points="5 3 19 12 5 21 5 3" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- Badge -->
+        <div class="absolute top-3 left-3 z-10 px-2.5 py-1 footer-anthracite-badge backdrop-blur-sm text-white text-[10px] font-body uppercase tracking-wider rounded-sm pointer-events-none flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#e41e13] animate-pulse"></span>
+          <span>Drohnen-Überblick</span>
+        </div>
+      </div>
+
+      <!-- Col 4: Media 2 - Photo (portfolio_4.jpg: Kran-Großbaustelle) -->
+      <div class="hidden md:block col-span-1 relative overflow-hidden group cursor-pointer footer-anthracite-panel border-b md:border-b-0 md:border-r border-white/10 min-h-[260px] lg:min-h-[320px]">
+        <img 
+          src="/portfolio_4.jpg" 
+          alt="Manfred Weber Großbaustelle & Krane"
+          class="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+        />
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none group-hover:opacity-60 transition-opacity z-[5]"></div>
+
+        <!-- Badge -->
+        <div class="absolute top-3 left-3 z-10 px-2.5 py-1 footer-anthracite-badge backdrop-blur-sm text-white text-[10px] font-body uppercase tracking-wider rounded-sm pointer-events-none flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#e41e13]"></span>
+          <span>Großbaustelle &amp; Krane</span>
+        </div>
+
+        <!-- Corner Arrow Button -->
+        <div class="absolute bottom-3 right-3 z-10 w-9 h-9 bg-white text-[#111111] flex items-center justify-center shadow-md transition-all duration-300 group-hover:bg-[#e41e13] group-hover:text-white">
+          <svg class="w-4 h-4 stroke-current fill-none stroke-2 transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24">
+            <path d="M7 17L17 7M7 7h10v10" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Col 5: Media 3 - Photo (portfolio_5.jpg: Fundament & Betonbau) -->
+      <div class="hidden md:block lg:hidden col-span-1 relative overflow-hidden group cursor-pointer footer-anthracite-panel min-h-[260px] lg:min-h-[320px]">
+        <img 
+          src="/portfolio_5.jpg" 
+          alt="Manfred Weber Fundament- & Betonbau"
+          class="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+        />
+
+        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20 pointer-events-none group-hover:opacity-60 transition-opacity z-[5]"></div>
+
+        <!-- Badge -->
+        <div class="absolute top-3 left-3 z-10 px-2.5 py-1 footer-anthracite-badge backdrop-blur-sm text-white text-[10px] font-body uppercase tracking-wider rounded-sm pointer-events-none flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-[#e41e13]"></span>
+          <span>Fundament &amp; Betonbau</span>
+        </div>
+
+        <!-- Corner Arrow Button -->
+        <div class="absolute bottom-3 right-3 z-10 w-9 h-9 bg-white text-[#111111] flex items-center justify-center shadow-md transition-all duration-300 group-hover:bg-[#e41e13] group-hover:text-white">
+          <svg class="w-4 h-4 stroke-current fill-none stroke-2 transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24">
+            <path d="M7 17L17 7M7 7h10v10" />
+          </svg>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================================
+         ROW 2: SCHWARZE & ROTE QUADRATE (Inhalte, Navigation, Kontakt, CTAs)
+         =================================================================== -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-l border-b border-white/10">
+      
+      <!-- Quadrat 1 (SCHWARZ): Navigation Links (pl-0 for flush alignment) -->
+      <div class="py-6 sm:py-8 lg:py-9 pr-6 sm:pr-8 lg:pr-9 pl-5 sm:pl-6 lg:pl-8 border-b lg:border-b-0 sm:border-r border-white/10 flex flex-col justify-between footer-anthracite-panel min-h-[220px]">
+        <div>
+          <div class="text-[11px] font-body uppercase tracking-[2px] text-white/50 mb-4 flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#e41e13]"></span>
+            Navigation
+          </div>
+          <ul role="list" class="space-y-2.5 m-0 p-0 list-none font-body text-[13px] sm:text-[14px]">
+            <li><a href="/" class="text-white/80 hover:text-[#e41e13] transition-colors flex items-center gap-2"><span>•</span> Startseite</a></li>
+            <li><a href="#leistungen" class="text-white/80 hover:text-[#e41e13] transition-colors flex items-center gap-2"><span>•</span> Unsere Leistungen</a></li>
+            <li><a href="#ueber-uns" class="text-white/80 hover:text-[#e41e13] transition-colors flex items-center gap-2"><span>•</span> Über uns &amp; Werte</a></li>
+            <li><a href="#unternehmen" class="text-white/80 hover:text-[#e41e13] transition-colors flex items-center gap-2"><span>•</span> Fuhrpark &amp; Einblicke</a></li>
+            <li><a href="#team" class="text-white/80 hover:text-[#e41e13] transition-colors flex items-center gap-2"><span>•</span> Unser Team</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Quadrat 2 (SCHWARZ): Standort & Adresse -->
+      <div class="p-6 sm:p-8 lg:p-9 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col justify-between footer-anthracite-panel min-h-[220px]">
+        <div>
+          <div class="text-[11px] font-body uppercase tracking-[2px] text-white/50 mb-4 flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#e41e13]"></span>
+            Standort
+          </div>
+          <div class="font-heading font-medium text-[15px] sm:text-[16px] text-white uppercase tracking-tight mb-2">
+            Manfred Weber GmbH &amp; Co. KG
+          </div>
+          <address class="not-italic font-body text-[13px] text-white/70 leading-relaxed mb-3">
+            Jahnstraße 9<br />
+            67273 Weisenheim am Berg<br />
+            Deutschland
+          </address>
+        </div>
+        <div class="font-mono text-[11px] text-[#e41e13] tracking-wider uppercase pt-2 border-t border-white/10">
+          Region Rhein-Neckar &amp; Pfalz
+        </div>
+      </div>
+
+      <!-- Quadrat 3 (ROT #e41e13): Projekt-CTA -->
+      <div class="p-6 sm:p-8 lg:p-9 border-b lg:border-b-0 sm:border-r border-white/10 flex flex-col justify-between bg-[#e41e13] text-white group cursor-pointer hover:bg-[#c51910] transition-colors min-h-[220px] lg:hidden">
+        <div class="text-[11px] font-body uppercase tracking-[2px] text-white/80 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+          Projekt anfragen
+        </div>
+        <div class="my-auto py-2">
+          <span class="font-body font-normal text-xl sm:text-2xl lg:text-[23px] text-white leading-tight block">
+            Lassen Sie uns über Ihr Bauvorhaben sprechen.
+          </span>
+        </div>
+        <div class="pt-3 border-t border-white/20 flex items-center justify-between">
+          <span class="font-heading text-[11px] uppercase tracking-wider font-semibold text-white">
+            Jetzt anfragen
+          </span>
+          <div class="w-8 h-8 bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover:translate-x-1">
+            <svg class="w-4 h-4 stroke-current fill-none stroke-2" viewBox="0 0 24 24">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quadrat 4 (SCHWARZ): Erreichbarkeit & Bürozeiten -->
+      <div class="p-6 sm:p-8 lg:p-9 border-b sm:border-b-0 sm:border-r border-white/10 flex flex-col justify-between footer-anthracite-panel min-h-[220px]">
+        <div>
+          <div class="text-[11px] font-body uppercase tracking-[2px] text-white/50 mb-4 flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#e41e13]"></span>
+            Bürozeiten
+          </div>
+          <div class="space-y-2 font-body text-[13px] text-white/75 leading-snug mb-3">
+            <div class="flex justify-between">
+              <span class="text-white/50">Mo – Do:</span>
+              <span>07:00 – 17:00 Uhr</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-white/50">Freitag:</span>
+              <span>07:00 – 15:30 Uhr</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-white/50">Sa &amp; So:</span>
+              <span class="text-white/50">Geschlossen</span>
+            </div>
+          </div>
+        </div>
+        <div class="font-body text-[12px] text-white/60 pt-2 border-t border-white/10">
+          E-Mail: <a href="mailto:info@mw-bauen.de" class="text-white hover:text-[#e41e13] transition-colors underline underline-offset-2">info@mw-bauen.de</a>
+        </div>
+      </div>
+
+      <!-- Quadrat 5 (ROT #e41e13): Sofort-Telefonkontakt -->
+      <div class="p-6 sm:p-8 lg:p-9 flex flex-col justify-between bg-[#e41e13] text-white group cursor-pointer hover:bg-[#c51910] transition-colors min-h-[220px] lg:hidden">
+        <div class="text-[11px] font-body uppercase tracking-[2px] text-white/80 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+          Direktkontakt
+        </div>
+        <div class="my-auto py-2">
+          <a href="tel:+4963538060" class="block text-white no-underline">
+            <span class="font-heading font-bold text-2xl sm:text-[26px] lg:text-[24px] tracking-tight text-white leading-tight block">
+              0 63 53 / 80 60
+            </span>
+            <span class="font-body text-[12px] text-white/85 mt-1 block">
+              Telefax: 0 63 53 / 50 80 402
+            </span>
+          </a>
+        </div>
+        <div class="pt-3 border-t border-white/20 flex items-center justify-between">
+          <span class="font-heading text-[11px] uppercase tracking-wider font-semibold text-white">
+            Direkt anrufen
+          </span>
+          <div class="w-8 h-8 bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.12.45 2.33.69 3.48.69a1 1 0 011 1v3.5a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.15.24 2.36.69 3.48a1 1 0 01-.21 1.11l-2.36 2.2z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop: Projektanfrage & Telefonnummer in einer gemeinsamen roten Kachel -->
+      <div class="hidden lg:flex p-6 lg:p-9 flex-col justify-between bg-[#e41e13] text-white group hover:bg-[#c51910] transition-colors min-h-[220px]">
+        <div class="text-[11px] font-body uppercase tracking-[2px] text-white/80 flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-white"></span>
+          Projektanfrage &amp; Direktkontakt
+        </div>
+        <div class="my-auto py-2">
+          <p class="font-body font-normal text-lg text-white leading-tight m-0 mb-3">
+            Lassen Sie uns über Ihr Bauvorhaben sprechen.
+          </p>
+          <a href="tel:+4963538060" class="font-heading font-bold text-[clamp(14px,1.6vw,23px)] tracking-tight text-white leading-tight block no-underline whitespace-nowrap">
+            0 63 53 / 80 60
+          </a>
+          <span class="font-body text-[12px] text-white/85 mt-1 block">
+            Telefax: 0 63 53 / 50 80 402
+          </span>
+        </div>
+        <div class="pt-3 border-t border-white/20 flex items-center justify-between">
+          <a href="mailto:info@mw-bauen.de?subject=Projektanfrage" class="font-heading text-[11px] uppercase tracking-wider font-semibold text-white no-underline">
+            Jetzt anfragen
+          </a>
+          <a href="tel:+4963538060" aria-label="Manfred Weber anrufen" class="w-8 h-8 bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1 1 0 011.11-.21c1.12.45 2.33.69 3.48.69a1 1 0 011 1v3.5a1 1 0 01-1 1C10.61 21 3 13.39 3 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.15.24 2.36.69 3.48a1 1 0 01-.21 1.11l-2.36 2.2z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================================
+       ROW 3: BOTTOM BAR (Copyright, Legal Links & Back-To-Top)
+       =================================================================== -->
+  <div class="max-w-[1440px] mx-auto px-5 sm:px-8 py-6 sm:py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-body text-white/60">
+    
+    <!-- Left: Copyright -->
+    <div>
+      &copy; {new Date().getFullYear()} Manfred Weber GmbH &amp; Co. KG. Alle Rechte vorbehalten.
+    </div>
+
+    <!-- Center: Claim -->
+    <div class="hidden md:block font-heading text-[11px] uppercase tracking-[1.5px] text-white/40">
+      Handwerkliche Perfektion seit über 25 Jahren
+    </div>
+
+    <!-- Right: Legal Links & Back to Top -->
+    <div class="flex items-center gap-6">
+      <a href="https://mw-bauen.de/impressum/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Impressum</a>
+      <span class="text-white/20">•</span>
+      <a href="https://mw-bauen.de/datenschutz/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Datenschutz</a>
+      <span class="text-white/20">•</span>
+      <button 
+        type="button"
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })" 
+        class="hover:text-[#e41e13] transition-colors flex items-center gap-1 cursor-pointer"
+        aria-label="Nach oben scrollen"
+      >
+        <span>Nach oben</span>
+        <svg class="w-3 h-3 stroke-current stroke-2 fill-none" viewBox="0 0 24 24">
+          <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+</footer>
+
+<!-- Video hover/click playback -->
+<script>
+  const videoBox = document.getElementById('footer-video-box');
+  const video = document.getElementById('footer-drone-video') as HTMLVideoElement | null;
+  const playBtn = document.getElementById('footer-play-btn');
+
+  if (videoBox && video) {
+    const play = () => {
+      video.play().then(() => {
+        if (playBtn) playBtn.classList.add('opacity-0', 'scale-90');
+      }).catch(() => {});
+    };
+
+    const pause = () => {
+      video.pause();
+      if (playBtn) playBtn.classList.remove('opacity-0', 'scale-90');
+    };
+
+    videoBox.addEventListener('mouseenter', play);
+    videoBox.addEventListener('mouseleave', pause);
+    videoBox.addEventListener('click', () => {
+      if (video.paused) play();
+      else pause();
+    });
+  }
+</script>
+
+<style>
+  .footer-foundix,
+  .footer-anthracite-panel {
+    background-color: #17191c;
+    background-image: url('/footer-grain.svg');
+    background-size: 180px 180px;
+    background-repeat: repeat;
+  }
+
+  .footer-anthracite-badge {
+    background-color: rgba(23, 25, 28, 0.9);
+    background-image: url('/footer-grain.svg');
+    background-size: 140px 140px;
+  }
+</style>

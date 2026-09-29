@@ -1,0 +1,307 @@
+---
+// ServicesList.astro - Sektion 3: Leistungen im kompakten Featured-Projects Stil
+const services = [
+  {
+    category: "Hoch- & Tiefbau",
+    badge: "Neubau & Tiefbau",
+    title: "Hoch- & Tiefbau",
+    description: "Erstellung von Ein- und Mehrfamilienhäusern, Wohnanlagen und Tiefgaragen sowie Erdarbeiten, Kanalbau und Entwässerung.",
+    image: "/portfolio_0.jpg",
+    link: "#kontakt"
+  },
+  {
+    category: "Sanierung",
+    badge: "Werterhalt",
+    title: "Sanierungsbau",
+    description: "Professionelle Feuchtigkeits- und Betonsanierung sowie strukturelle Reparaturen von Fundamenten, Trägern und Stützwänden.",
+    image: "/portfolio_3.jpg",
+    link: "#kontakt"
+  },
+  {
+    category: "Umbau",
+    badge: "Bestand & Modernisierung",
+    title: "Umbau & Renovierung",
+    description: "Maßgeschneiderte Gebäudeerweiterungen, Grundrissänderungen und umfassende Renovierungsmaßnahmen im privaten und gewerblichen Bestand.",
+    image: "/portfolio_1.jpg",
+    link: "#kontakt"
+  },
+  {
+    category: "Gewerbebau",
+    badge: "Schlüsselfertig",
+    title: "Gewerbe & Hallenbau",
+    description: "Termingerechte Realisierung gewerblicher Objekte, Industriehallen und schlüsselfertiger Wohnbauten aus meisterhafter Hand.",
+    image: "/portfolio_2.jpg",
+    link: "#kontakt"
+  }
+];
+---
+
+<section id="leistungen" class="section-services relative z-20 py-20 sm:py-24 bg-white text-[#111111] overflow-visible md:overflow-hidden">
+  <div class="max-w-[1440px] mx-auto px-5 sm:px-8">
+    
+    <!-- Dezentere, nicht gewaltige Überschrift -->
+    <div class="wrap-heading-service mb-10 sm:mb-12 hidden md:block">
+      <div class="sub-heading font-heading text-[11px] sm:text-xs font-semibold uppercase tracking-[2.5px] text-[#e41e13] mb-2">
+        Unsere Leistungen
+      </div>
+      <h2 class="heading-2 svl font-heading font-medium text-2xl sm:text-3xl lg:text-[32px] leading-[1.2] uppercase tracking-tight text-[#111111] m-0">
+        Meisterhafte Bauleistungen &amp; Fachkompetenz
+      </h2>
+    </div>
+
+    <!-- Mobile-only: centered, overlapping service panels controlled by scroll -->
+    <div class="md:hidden" data-mobile-services-track>
+      <div class="service-mobile-sticky">
+        <div class="wrap-heading-service mb-10 sm:mb-12">
+          <div class="sub-heading font-heading text-[11px] sm:text-xs font-semibold uppercase tracking-[2.5px] text-[#e41e13] mb-2">
+            Unsere Leistungen
+          </div>
+          <h2 class="heading-2 svl font-heading font-medium text-2xl sm:text-3xl lg:text-[32px] leading-[1.2] uppercase tracking-tight text-[#111111] m-0">
+            Meisterhafte Bauleistungen &amp; Fachkompetenz
+          </h2>
+        </div>
+        <div class="service-mobile-stage relative w-full overflow-hidden bg-white" data-mobile-services-stage>
+        {services.map((item, index) => (
+          <article
+            class={`service-mobile-slide absolute inset-0 overflow-hidden bg-white text-[#111111] ${index === 0 ? 'is-revealed' : ''}`}
+            style={`z-index: ${index + 1};`}
+            aria-hidden={index === 0 ? "false" : "true"}
+            inert={index !== 0}
+          >
+            <a
+              href={item.link}
+              class="group flex h-full flex-col no-underline text-inherit cursor-pointer"
+              tabindex={index === 0 ? 0 : -1}
+            >
+              <div class="wrap-feature-image relative w-full h-[210px] overflow-hidden bg-[#111111]">
+                <div class="absolute top-3 left-3 z-30 px-2.5 py-1 bg-[#111111]/85 backdrop-blur-sm text-white text-[10px] font-heading font-semibold tracking-wider uppercase select-none">
+                  {item.badge}
+                </div>
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  class="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none z-[5]"></div>
+                <div class="absolute bottom-3 right-3 z-30 w-9 h-9 bg-white text-[#111111] flex items-center justify-center shadow-md transition-all duration-300 group-hover:bg-[#e41e13] group-hover:text-white">
+                  <svg class="w-4 h-4 stroke-current fill-none stroke-2" viewBox="0 0 24 24">
+                    <path d="M7 17L17 7M7 7h10v10" />
+                  </svg>
+                </div>
+              </div>
+              <div class="pt-4 flex flex-col flex-1">
+                <h3 class="font-heading font-semibold text-[17px] uppercase tracking-wide text-[#111111] transition-colors duration-200 mb-2">
+                  {item.title}
+                </h3>
+                <p class="font-body text-[13px] leading-[1.6] text-[#666666] m-0 line-clamp-3">
+                  {item.description}
+                </p>
+              </div>
+            </a>
+          </article>
+        ))}
+        </div>
+      </div>
+      <div class="service-mobile-steps" aria-hidden="true">
+        {services.slice(1).map((_, index) => (
+          <div class="service-mobile-step" data-service-step={index + 1}></div>
+        ))}
+      </div>
+    </div>
+
+    <!-- 4 Kompakte Leistungs-Karten im Foundix Featured-Projects Stil -->
+    <div class="hidden md:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7" data-service-desktop>
+      {services.map((item) => (
+        <a 
+          href={item.link} 
+          class="group flex flex-col no-underline text-inherit cursor-pointer"
+        >
+          <!-- Kompakte Bild-Box mit Hover-Zoom, Badge & GSAP Curtain Reveal -->
+          <div class="wrap-feature-image relative w-full h-[210px] sm:h-[220px] overflow-hidden bg-[#111111]">
+            <!-- GSAP Double Curtain Reveal Overlays (Rot-Schwarz) -->
+            <div class="service-curtain-dark absolute inset-0 bg-[#111111] z-20 pointer-events-none"></div>
+            <div class="service-curtain-light absolute inset-0 bg-[#e41e13] z-10 pointer-events-none"></div>
+
+            <!-- Category Badge (Foundix style) -->
+            <div class="absolute top-3 left-3 z-30 px-2.5 py-1 bg-[#111111]/85 backdrop-blur-sm text-white text-[10px] font-heading font-semibold tracking-wider uppercase select-none">
+              {item.badge}
+            </div>
+
+            <!-- Image with smooth hover scale -->
+            <img 
+              src={item.image} 
+              alt={item.title} 
+              class="service-img w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+            />
+
+            <!-- Subtle dark vignette over image -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 pointer-events-none z-[5]"></div>
+
+            <!-- Corner Arrow Action Button (Foundix g_button style) -->
+            <div class="absolute bottom-3 right-3 z-30 w-9 h-9 bg-white text-[#111111] flex items-center justify-center shadow-md transition-all duration-300 group-hover:bg-[#e41e13] group-hover:text-white">
+              <svg class="w-4 h-4 stroke-current fill-none stroke-2 transform transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" viewBox="0 0 24 24">
+                <path d="M7 17L17 7M7 7h10v10" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- Content below Image -->
+          <div class="pt-4 flex flex-col flex-1">
+            <h3 class="font-heading font-semibold text-[17px] sm:text-[18px] uppercase tracking-wide text-[#111111] group-hover:text-[#e41e13] transition-colors duration-200 mb-2">
+              {item.title}
+            </h3>
+            <p class="font-body text-[13px] leading-[1.6] text-[#666666] m-0 line-clamp-3">
+              {item.description}
+            </p>
+          </div>
+        </a>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<!-- GSAP ScrollTrigger Entrance & Double Curtain Reveal Animation -->
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  window.addEventListener('DOMContentLoaded', () => {
+    // 1. Heading Entrance
+    ScrollTrigger.create({
+      trigger: '.section-services',
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        gsap.fromTo('.wrap-heading-service', 
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7, ease: 'power3.out' }
+        );
+      }
+    });
+
+    // 2. Double Curtain Reveal (Rot-Schwarz) for Service Cards (Staggered Wave)
+    const serviceCards = document.querySelectorAll('.section-services [data-service-desktop] .wrap-feature-image');
+    
+    if (window.matchMedia('(min-width: 768px)').matches) serviceCards.forEach((card, index) => {
+      const darkCurtain = card.querySelector('.service-curtain-dark');
+      const lightCurtain = card.querySelector('.service-curtain-light');
+      const img = card.querySelector('.service-img');
+
+      if (darkCurtain && lightCurtain) {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            once: true
+          }
+        });
+
+        tl.to(darkCurtain, {
+          xPercent: 101,
+          duration: 0.85,
+          ease: 'power3.inOut',
+          delay: index * 0.14
+        })
+        .to(lightCurtain, {
+          xPercent: 101,
+          duration: 0.85,
+          ease: 'power3.inOut'
+        }, '-=0.65')
+        .fromTo(img, 
+          { scale: 1.15 },
+          { scale: 1.0, duration: 1.2, ease: 'power2.out' },
+          '-=0.85'
+        );
+      }
+    });
+
+    // Mobile-only sticky stage: each service slides over the previous one.
+    const mobileServicesTrack = document.querySelector('[data-mobile-services-track]');
+    const mobileServicesStage = mobileServicesTrack?.querySelector('[data-mobile-services-stage]');
+    const mobileServiceSlides = mobileServicesStage?.querySelectorAll('.service-mobile-slide');
+    const mobileServiceSteps = mobileServicesTrack?.querySelectorAll('[data-service-step]');
+    const mobileServicesBreakpoint = window.matchMedia('(max-width: 767px)');
+
+    if (mobileServicesTrack && mobileServicesStage && mobileServiceSlides?.length && mobileServiceSteps?.length) {
+      const slides = Array.from(mobileServiceSlides);
+      const steps = Array.from(mobileServiceSteps);
+      let frame = 0;
+
+      const updateMobileService = () => {
+        frame = 0;
+        if (!mobileServicesBreakpoint.matches) return;
+
+        const activationLine = window.innerHeight * 0.52;
+        let activeIndex = 0;
+        steps.forEach((step, index) => {
+          if (step.getBoundingClientRect().top <= activationLine) activeIndex = index + 1;
+        });
+
+        slides.forEach((slide, index) => {
+          const revealed = index <= activeIndex;
+          slide.classList.toggle('is-revealed', revealed);
+          slide.setAttribute('aria-hidden', String(index !== activeIndex));
+          slide.inert = index !== activeIndex;
+        });
+      };
+
+      const scheduleMobileServiceUpdate = () => {
+        if (!frame) frame = window.requestAnimationFrame(updateMobileService);
+      };
+
+      window.addEventListener('scroll', scheduleMobileServiceUpdate, { passive: true });
+      window.addEventListener('resize', scheduleMobileServiceUpdate, { passive: true });
+      mobileServicesBreakpoint.addEventListener('change', scheduleMobileServiceUpdate);
+      updateMobileService();
+    }
+  });
+</script>
+
+<style>
+  .service-mobile-sticky {
+    display: flex;
+    height: min(72svh, 620px);
+    min-height: 500px;
+    flex-direction: column;
+    position: sticky;
+    top: max(88px, calc((100svh - min(72svh, 620px)) / 2));
+    background: white;
+  }
+
+  .service-mobile-stage {
+    min-height: 0;
+    flex: 1 1 0%;
+  }
+
+  .service-mobile-step {
+    height: 72svh;
+  }
+
+  .service-mobile-slide {
+    transform: translateY(100%);
+    transition: transform 650ms cubic-bezier(0.2, 0.75, 0.25, 1);
+    will-change: transform;
+  }
+
+  .service-mobile-slide.is-revealed {
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .service-mobile-slide {
+      transition: none;
+    }
+  }
+
+  @media (max-height: 700px) {
+    .service-mobile-sticky {
+      height: min(76svh, 540px);
+      min-height: 440px;
+      top: max(88px, calc((100svh - min(76svh, 540px)) / 2));
+    }
+  }
+</style>
