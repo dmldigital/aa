@@ -3,7 +3,7 @@ name: Website-Vorschau (GitHub Pages)
 on:
   push:
     branches: [claude/poolbau-koch-website-408frj]
-    paths: ['website/**', '.github/workflows/deploy-website.yml']
+    paths: ['website/**', 'seite-a/**', 'seite-b/**', '.github/workflows/deploy-website.yml']
   workflow_dispatch:
 
 permissions:
@@ -18,21 +18,60 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: website
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: website/package-lock.json
+
+      # Poolbau Koch (Hauptseite unter /aa/)
       - run: npm ci
+        working-directory: website
       - run: npm run build
+        working-directory: website
         env:
           SITE_URL: https://dmldigital.github.io
           BASE_PATH: /aa/
+
+      # Manfred Weber, zwei Entwürfe zum Vergleich (unter /aa/seite-a/ und /aa/seite-b/)
+      - run: npm ci && npm run build
+        working-directory: seite-a
+        env:
+          BASE_PATH: /aa/seite-a/
+      - run: npm ci && npm run build
+        working-directory: seite-b
+        env:
+          BASE_PATH: /aa/seite-b/
+
+      - name: Vorschau zusammenstellen
+        run: |
+          set -e
+          # Seite B lädt ihre Videos sonst von der alten Seite: hier die komprimierten Fassungen aus Seite A verwenden
+          mkdir -p seite-b/dist/videos
+          cp seite-a/public/media/video/DJI_*.mp4 seite-a/public/media/video/DJI_*.webp seite-b/dist/videos/ || true
+          # Poster von Seite B (Originaldateien fehlen im Repo) auf die Standbilder aus Seite A umstellen
+          find seite-b/dist -type f \( -name '*.html' -o -name '*.js' \) -print0 | xargs -0 sed -i -E 's#(videos/DJI_[0-9]+)_poster\.jpg#\1.webp#g'
+          # Absolute Pfade auf öffentliche Dateien (z. B. "/media/...") auf den Unterpfad umbiegen
+          fix() {
+            dir="$1"; base="$2"
+            find "$dir" -type f \( -name '*.html' -o -name '*.js' -o -name '*.css' \) -print0 | xargs -0 sed -i -E \
+              -e "s#([\"'(=])/(media/|videos/|team/|footer-grain\.svg|schriftzug\.png|portfolio_|cropped-Button|Button\.png|favicon)#\1${base}\2#g" \
+              -e "s#href=\"/(\\#[^\"]*)?\"#href=\"${base}\1\"#g"
+          }
+          fix seite-a/dist /aa/seite-a/
+          fix seite-b/dist /aa/seite-b/
+          mkdir -p website/dist/seite-a website/dist/seite-b
+          cp -r seite-a/dist/. website/dist/seite-a/
+          cp -r seite-b/dist/. website/dist/seite-b/
+          # kleine Übersichtsseite für den Vergleich
+          cat > website/dist/vergleich.html <<'HTML'
+          <!doctype html><html lang="de"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Manfred Weber, Vergleich</title>
+          <style>body{font:16px/1.6 system-ui,sans-serif;margin:0;padding:48px 24px;background:#f4f2ee;color:#1a1b1e}main{max-width:560px;margin:auto}a{display:block;margin:12px 0;padding:18px 20px;background:#fff;border-radius:8px;color:inherit;text-decoration:none;box-shadow:0 1px 2px rgba(0,0,0,.06)}b{display:block}small{color:#5c6067}</style>
+          <main><h1 style="font-weight:500">Manfred Weber, zwei Entwürfe</h1>
+          <a href="seite-a/"><b>Seite A</b><small>Freie Neugestaltung</small></a>
+          <a href="seite-b/"><b>Seite B</b><small>Bestehende Seite, überarbeitet</small></a></main></html>
+          HTML
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: website/dist
