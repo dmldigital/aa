@@ -98,6 +98,10 @@ const ext = (i: { external?: boolean }) => (i.external ? { target: '_blank', rel
     .nav-cta { margin-left: 0.5rem; }
     .logo-navbar { width: 10.5rem; }
   }
+  /* Konfigurator (Handy/Tablet, Nutzerwunsch): Header steht nur oben und scrollt mit der Seite weg – nicht sticky */
+  @media (max-width: 1024px) {
+    .navbar[data-smart='false'] { position: absolute; }
+  }
   @media (max-width: 991px) {
     .nav-container { max-width: 90vw; }
     .navbar-component { padding: 0.5rem 1rem 0.5rem 2.25rem; position: relative; }

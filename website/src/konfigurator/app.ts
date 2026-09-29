@@ -518,7 +518,8 @@ function scrollToEl(el: HTMLElement, shift = 0) {
 }
 function scrollStepTop() {
   if (!mobile()) { $('[data-scroll]').scrollTop = 0; return; }
-  const top = root.getBoundingClientRect().top + window.scrollY;
+  // Header bleibt oben stehen: zurück bis die Leiste ganz oben klebt
+  const top = root.getBoundingClientRect().top + window.scrollY + parseFloat(getComputedStyle(root).paddingTop);
   if (window.scrollY > top + 4) pageScroll(top);
 }
 const syncScrollMode = () => $('[data-scroll]').toggleAttribute('data-lenis-prevent', !mobile());
@@ -979,7 +980,8 @@ $$('[data-goto]').forEach((b) => b.addEventListener('click', () => go(+b.dataset
 const pop = $('[data-cart-pop]');
 $('[data-cart]').addEventListener('click', (e) => {
   e.stopPropagation(); cartList();
-  const open = pop.hidden; pop.hidden = !open; $('[data-cart]').setAttribute('aria-expanded', String(open));
+  const open = pop.hidden; pop.hidden = !open;
+  pop.style.top = mobile() ? `${$('.kf-bar').getBoundingClientRect().bottom + 8}px` : ''; $('[data-cart]').setAttribute('aria-expanded', String(open));
   if (open && !reduce) animate(pop, { opacity: [0, 1], y: [-10, 0], scale: [0.98, 1] }, { duration: 0.45, ease: premium });
 });
 document.addEventListener('click', (e) => { if (!pop.hidden && !pop.contains(e.target as Node)) { pop.hidden = true; $('[data-cart]').setAttribute('aria-expanded', 'false'); } });
