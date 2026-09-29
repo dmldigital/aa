@@ -211,13 +211,6 @@ function stripReveal() {
 
 // ---------- TEAM (Scroll Portrait Wall) --------------------------------------------------------
 function portraitWall() {
-  all('.member').forEach(member => {
-    const photo = member.querySelector('.member-photo');
-    const meta = member.querySelector('.member-meta');
-    gsap.fromTo(photo, { scale: .84 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: member, start: 'top bottom', end: 'top 45%', scrub: 1 } });
-    gsap.fromTo(photo, { scale: 1 }, { scale: .92, ease: 'none', immediateRender: false, scrollTrigger: { trigger: member, start: 'bottom 45%', end: 'bottom top', scrub: 1 } });
-    gsap.from(meta, { y: 16, opacity: 0, duration: 1, ease: EASE, scrollTrigger: once(member, 'top 70%') });
-  });
 }
 
 // ---------- FOOTER (Motion Footer) -------------------------------------------------------------

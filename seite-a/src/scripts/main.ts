@@ -72,30 +72,6 @@ export function initSite() {
     else passThrough(top, 1.2);
   });
 
-  // Team profiles open in a dialog.
-  const data = JSON.parse(document.getElementById('team-data')?.textContent || '[]');
-  const dialog = document.querySelector<HTMLDialogElement>('.member-dialog');
-  if (dialog) {
-    document.querySelectorAll<HTMLButtonElement>('[data-member]').forEach(btn => btn.addEventListener('click', () => {
-      const m = data[Number(btn.dataset.member)];
-      const photo = dialog.querySelector<HTMLImageElement>('.member-dialog-photo')!;
-      photo.src = `/media/team/${m.image}.webp`;
-      photo.alt = m.name;
-      dialog.querySelectorAll<HTMLElement>('[data-f]').forEach(el => {
-        const key = el.dataset.f!;
-        el.textContent = key === 'experience' ? (m.experience ? `${m.experience} Erfahrung` : '') : m[key];
-      });
-      releaseHold();
-      lenis?.stop();
-      document.body.classList.add('overlay-open');
-      dialog.showModal();
-      if (!reduced) gsap.fromTo(dialog, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: 'soft', clearProps: 'transform,opacity' });
-    }));
-    dialog.querySelector('.dialog-close')!.addEventListener('click', () => dialog.close());
-    dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });
-    dialog.addEventListener('close', () => { lenis?.start(); document.body.classList.remove('overlay-open'); });
-  }
-
   // Videos play only while they are on screen (muted, looping), which also saves data on phones.
   const io = new IntersectionObserver(entries => entries.forEach(entry => {
     const video = entry.target as HTMLVideoElement;
