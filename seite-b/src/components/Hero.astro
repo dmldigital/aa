@@ -1,108 +1,55 @@
 ---
-// Hero.astro - Exact Foundix Hero with Smooth 60fps Video & Exact Hover Button Animation
+// Hero.astro: Hintergrundvideo DJI_0144, Überschrift, Textbox mit Haupt-Button.
+// Ein- und Ausblenden sowie die schwache Parallaxe steuert src/scripts/motion.ts.
 ---
 
-<section class="section-hero relative min-h-[850px] lg:h-screen lg:min-h-0 flex items-end pb-[70px] lg:pb-[clamp(1.5rem,8vh,5.625rem)] overflow-hidden bg-[#111111]">
-  
-  <!-- Wrap Hero Background with Video, Soft Gradients & Vignette -->
-  <div class="wrap-hero-background absolute inset-0 overflow-hidden pointer-events-none">
-    <!-- Soft Dark Gradients & Subtle Cinematic Vignette (Zero GPU lag, 100% smooth) -->
-    <div class="overlay-hero-gradient absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/35 to-[#111111]/50 z-[2]"></div>
-    <div class="overlay-hero-vignette absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_40%,_rgba(0,0,0,0.5)_100%)] z-[3] pointer-events-none"></div>
-    
-    <!-- Client Video: Native 1.0x Fluid Frame Rate (DJI_0144) -->
-    <video 
-      autoplay 
-      muted 
-      loop 
-      playsinline 
+<section class="section-hero theme-dark relative min-h-[850px] h-[100svh] lg:min-h-0 flex items-end pb-[70px] lg:pb-[clamp(1.5rem,8vh,5.625rem)] overflow-hidden bg-ink" data-hero>
+
+  <!-- Hintergrund: Video, ruhige Verläufe -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+    <video
+      autoplay
+      muted
+      loop
+      playsinline
       preload="auto"
-      poster="/videos/DJI_0144_poster.jpg"
-      class="hero_image absolute inset-0 w-full h-full object-cover z-[1]"
+      poster="/videos/DJI_0144_poster.webp"
+      class="absolute inset-0 w-full h-full object-cover z-[1] scale-[1.08]"
       id="hero-bg-video"
+      data-hero-video
     >
       <source src="/videos/DJI_0144.mp4" type="video/mp4" />
       <source src="https://mw-bauen.de/wp-content/uploads/2025/02/DJI_0144.mp4" type="video/mp4" />
     </video>
+    <div class="absolute inset-0 z-[2] bg-gradient-to-t from-ink/95 via-ink/40 to-ink/50"></div>
+    <div class="absolute inset-0 z-[3] bg-[radial-gradient(ellipse_at_center,_transparent_45%,_rgba(21,23,26,0.45)_100%)]"></div>
   </div>
 
-  <!-- Hero Content Container (Foundix original) -->
-  <div class="hero-ct max-w-[1440px] mx-auto px-5 sm:px-8 relative z-10 w-full">
-    <div class="hero-content flex flex-col lg:flex-row lg:items-end justify-between gap-10 lg:gap-[clamp(1rem,2vw,2rem)]">
-      
-      <!-- Left: H1 Hero Title -->
-      <div class="hc_left max-w-[660px] lg:min-w-0 lg:flex-1">
-        <h1 class="hero-title font-heading font-medium text-[40px] sm:text-[52px] lg:text-[clamp(2.25rem,4.3vw,3.875rem)] leading-[1.08] tracking-tight uppercase text-white m-0">
-          Träume verwirklichen,<br />
-          <span class="text-[#e41e13]">Werte schaffen.</span>
+  <div class="max-w-[1440px] mx-auto px-5 sm:px-8 relative z-10 w-full">
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-10 lg:gap-[clamp(1rem,2vw,2rem)]">
+
+      <!-- Überschrift -->
+      <div class="max-w-[820px] lg:min-w-0 lg:flex-1">
+        <h1 class="h-hero text-white m-0" data-lines data-hero-title>
+          Träume verwirklichen,
+          <span class="block text-weber-light">Werte schaffen.</span>
         </h1>
       </div>
 
-      <!-- Right: Split White & Weber Red Box (673px x 118px) -->
-      <div class="hc_right w-full lg:w-[clamp(30rem,48vw,42.0625rem)] lg:flex-none flex flex-col sm:flex-row items-stretch self-start lg:self-end shadow-2xl overflow-hidden">
-        
-        <!-- White Box: Description -->
-        <div class="wrap-description-hero flex-1 bg-white text-[#111111] p-7 sm:p-9 lg:p-[clamp(16px,3.15vh,34px)_clamp(16px,2.8vw,40px)] flex items-center min-h-[118px] lg:min-h-[clamp(5.5rem,15vh,7.375rem)]">
-          <p class="hero-description text-[14px] sm:text-[15px] lg:text-[clamp(12px,1.05vw,15px)] text-[#222222] font-body font-normal leading-[1.6] m-0">
+      <!-- Textbox mit Haupt-Button -->
+      <div class="w-full lg:w-[clamp(30rem,48vw,42rem)] lg:flex-none flex flex-col sm:flex-row items-stretch self-start lg:self-end shadow-[0_30px_60px_-30px_rgba(0,0,0,0.6)]" data-reveal data-hero-box>
+        <div class="flex-1 bg-paper text-text p-6 sm:p-8 lg:p-[clamp(16px,3.15vh,34px)_clamp(16px,2.8vw,40px)] flex items-center min-h-[118px] lg:min-h-[clamp(5.5rem,15vh,7.375rem)]">
+          <p class="m-0 text-base lg:text-[clamp(0.9375rem,1.05vw,1.0625rem)] leading-[1.6]">
             Für Ihr Bauvorhaben sperren wir Brücken und bringen Ihre gewünschte Leistung auf den Punkt genau dorthin wo Sie möchten. Uns ist kein Weg zu weit und kein Platz zu klein.
           </p>
         </div>
-
-        <!-- Weber Red Box: Full 211px x 118px Button -->
-        <div class="wrap-button-hero w-full sm:w-[211px] sm:min-w-[211px] min-h-[70px] sm:min-h-[118px] lg:min-h-[clamp(5.5rem,15vh,7.375rem)] flex items-stretch shrink-0 bg-[#e41e13]">
-          <a 
-            href="#leistungen" 
-            class="button-style-1 w-full h-full min-h-[70px] sm:min-h-[118px] lg:min-h-[clamp(5.5rem,15vh,7.375rem)] !bg-[#e41e13] text-white flex items-center justify-center text-center font-heading font-medium text-[12px] uppercase tracking-[1.5px] p-6 select-none !border-none"
-          >
-            <div class="before_button_hover">
-              <div class="bg_before_button_hover"></div>
-            </div>
-            <span class="wrap_textbutton">
-              Unsere Leistungen
-            </span>
+        <div class="w-full sm:w-[211px] sm:min-w-[211px] flex items-stretch shrink-0">
+          <a href="#leistungen" class="btn w-full min-h-[64px] sm:min-h-[118px] lg:min-h-[clamp(5.5rem,15vh,7.375rem)] px-6">
+            Unsere Leistungen
           </a>
         </div>
-
       </div>
 
     </div>
   </div>
 </section>
-
-<!-- GSAP Animation Script for Hero -->
-<script>
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  window.addEventListener('DOMContentLoaded', () => {
-    // 1. Reveal Hero Title & Split Box
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
-
-    tl.from('.hero-title', {
-      y: 40,
-      opacity: 0,
-      duration: 1.2,
-      delay: 0.2
-    })
-    .from('.hc_right', {
-      y: 30,
-      opacity: 0,
-      duration: 1
-    }, '-=0.8');
-
-    // 2. Smooth Butter Parallax on Scroll (scrub: 1 for fluid tracking)
-    gsap.to('#hero-bg-video', {
-      scale: 1.12,
-      y: 60,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.section-hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1
-      }
-    });
-  });
-</script>

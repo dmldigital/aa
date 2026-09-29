@@ -5,54 +5,56 @@ interface Props {
 }
 
 const {
-  title = "Manfred Weber GmbH & CoKG – Wir bauen für Sie!",
-  description = "Meisterhafter Hochbau, Tiefbau und Sanierungsbau. Für Ihr Bauvorhaben sperren wir Brücken und bringen Ihre Leistung auf den Punkt."
+  title = "Manfred Weber GmbH & Co. KG: Wir bauen für Sie!",
+  description = "Hochbau, Tiefbau und Sanierungsbau in Weisenheim am Berg und der Region Rhein-Neckar & Pfalz. Meisterhandwerk, Termintreue und persönliche Betreuung von der Geschäftsführung."
 } = Astro.props;
 
 import '../styles/global.css';
 ---
 
 <!doctype html>
-<html lang="de" class="lenis">
+<html lang="de">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#15171a" />
     <link rel="icon" type="image/png" href="/cropped-Button-32x32.png" />
-    
-    <!-- Preconnect & Google Fonts: Schibsted Grotesk + Inter -->
+
+    <!-- Eine Schrift für alles: Schibsted Grotesk (variabel, 400 bis 600) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400..600&display=swap" rel="stylesheet" />
+
+    <!-- Bewegung nur aktivieren, wenn sie gewünscht ist. Fällt das Skript aus, werden die Inhalte nach 5 s trotzdem sichtbar. -->
+    <script is:inline>
+      (function () {
+        var root = document.documentElement;
+        root.classList.add('js');
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          root.classList.add('motion');
+          window.setTimeout(function () {
+            if (!window.__mwReady) root.classList.remove('motion');
+          }, 5000);
+        }
+      })();
+    </script>
   </head>
-  <body class="bg-white text-theme-dark overflow-x-hidden selection:bg-theme-dark selection:text-white">
+  <body class="bg-paper text-text">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[2000] focus:bg-white focus:px-4 focus:py-3 focus:text-ink"
+    >
+      Zum Inhalt springen
+    </a>
     <slot />
 
-    <!-- Lenis Smooth Scroll & GSAP Integration -->
+    <!-- Gemeinsames Bewegungsmodul: GSAP, ScrollTrigger, Lenis (nur Desktop mit Maus) -->
     <script>
-      import Lenis from 'lenis';
-      import { gsap } from 'gsap';
-      import { ScrollTrigger } from 'gsap/ScrollTrigger';
+      import { initMotion } from '../scripts/motion';
 
-      gsap.registerPlugin(ScrollTrigger);
-
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 1.5,
-      });
-
-      (window as any).lenis = lenis;
-
-      lenis.on('scroll', ScrollTrigger.update);
-
-      gsap.ticker.add((time) => {
-        lenis.raf(time * 1000);
-      });
-
-      gsap.ticker.lagSmoothing(0);
+      initMotion();
     </script>
   </body>
 </html>

@@ -49,7 +49,7 @@ export const company = {
     { label: 'Completed Projects', value: '500', unit: '+' },
     { label: 'Eigener Fuhrpark', value: '100', unit: '%' },
   ],
-  cta: ['Let\'s Talk', 'Your Plans!'],
+  cta: ['Sprechen wir', 'über Ihr Vorhaben'],
 };
 
 export const team = [
@@ -73,7 +73,7 @@ export const footer = {
   links: [['Startseite', '#start'], ['Unsere Leistungen', '#leistungen'], ['Über uns & Werte', '#ueber-uns'], ['Fuhrpark & Einblicke', '#unternehmen'], ['Unser Team', '#team']],
   address: ['Manfred Weber GmbH & Co. KG', 'Jahnstraße 9', '67273 Weisenheim am Berg', 'Deutschland'],
   region: 'Region Rhein-Neckar & Pfalz',
-  hours: [['Mo – Do:', '07:00 – 17:00 Uhr'], ['Freitag:', '07:00 – 15:30 Uhr'], ['Sa & So:', 'Geschlossen']],
+  hours: [['Mo bis Do:', '07:00–17:00 Uhr'], ['Freitag:', '07:00–15:30 Uhr'], ['Sa & So:', 'Geschlossen']],
   media: [
     { type: 'video', src: '/media/video/DJI_0204', label: 'Drohnen-Überblick' },
     { type: 'img', src: '/media/img/portfolio_4.webp', label: 'Großbaustelle & Krane', alt: 'Manfred Weber Großbaustelle & Krane' },

@@ -1,12 +1,12 @@
 ---
 // Portrait wall (21st.dev "Scroll Portrait Wall"): portraits grow in as their row reaches the middle of the
-// screen and step back as it leaves; the title stays in place and inverts over the photos.
+// screen and step back as it leaves. The heading sits above the wall, so names always stay readable.
 import { team } from '../data/content';
 ---
 <section class="team grain" id="team" aria-labelledby="team-title">
-  <p class="label" data-reveal>Ihr Projekt – Unser Team</p>
-  <div class="team-title-wrap">
-    <h2 id="team-title" class="team-title">Meisterhafte<br />Kompetenz am Bau</h2>
+  <div class="wrap team-head">
+    <p class="label" data-reveal>Ihr Projekt, unser Team</p>
+    <h2 id="team-title" class="team-title" data-lines>Meisterhafte Kompetenz am Bau</h2>
   </div>
   <ul class="wrap team-wall">
     {team.map((m, i) => (

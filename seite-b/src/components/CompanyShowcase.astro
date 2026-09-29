@@ -1,271 +1,156 @@
 ---
-// CompanyShowcase.astro - 100vh Foundix "Why Choose Us" Architecture
-// Exact typography: Inter (clean, non-uppercase, light weights, exactly matching Foundix)
-// All black squares, only the center CTA box in Weber Red #e41e13
-// Video 1 at Pos 1 (DJI_0100.mp4), Video 2 as narrow panoramic strip at Pos 2 (DJI_0145.mp4)
+// CompanyShowcase.astro: dunkles 5-Spalten-Raster mit Text, Video, Kennzahlen und CTA,
+// darunter ein Panorama-Video (DJI_0145).
+const stats = [
+  { label: 'Expert Architects', value: '25', unit: '+' },
+  { label: 'Client Retention', value: '99', unit: '%' },
+  null,
+  { label: 'Completed Projects', value: '500', unit: '+' },
+  { label: 'Eigener Fuhrpark', value: '100', unit: '%' },
+];
 ---
 
-<section class="section-why-us w-full h-auto max-h-none xl:h-screen xl:max-h-screen bg-[#111111] text-white flex flex-col justify-between overflow-x-hidden xl:overflow-hidden border-t border-white/10 select-none" id="unternehmen">
-  
-  <!-- 1. Top Grid: Exact 5-Column Foundix Layout -->
-  <div class="w-full xl:flex-1 flex flex-col border-b border-white/10">
-    
-    <!-- Row 1: 5 Columns -->
-    <div class="grid grid-cols-1 xl:grid-cols-5 xl:flex-1 border-b border-white/10 min-h-0">
-      
-      <!-- Col 1 & 2: Heading & Intro (Spans 2 columns) -->
-      <div class="col-span-1 xl:col-span-2 min-h-[260px] xl:min-h-0 p-6 sm:p-8 xl:p-10 border-b xl:border-b-0 xl:border-r border-white/10 flex flex-col justify-between overflow-hidden bg-[#111111]">
+<section class="section-why-us theme-dark w-full xl:min-h-[100svh] bg-ink bg-grain text-white flex flex-col overflow-x-clip border-t border-hairline-dark" id="unternehmen">
+
+  <div class="w-full xl:flex-1 flex flex-col border-b border-hairline-dark">
+
+    <!-- Reihe 1 -->
+    <div class="grid grid-cols-1 xl:grid-cols-5 xl:flex-1 border-b border-hairline-dark min-h-0">
+
+      <!-- Spalte 1 und 2: Überschrift -->
+      <div class="col-span-1 xl:col-span-2 min-h-[280px] xl:min-h-0 p-6 sm:p-8 xl:p-12 border-b xl:border-b-0 xl:border-r border-hairline-dark flex flex-col justify-between gap-10">
         <div>
-          <div class="text-[12px] font-body uppercase tracking-[2px] text-white/60 mb-3">
-            WHY CHOOSE US?
-          </div>
-          <h2 class="font-body font-normal text-2xl sm:text-3xl lg:text-[34px] leading-[1.25] text-white m-0">
+          <div class="eyebrow text-white/60 mb-4" data-reveal>Warum Weber</div>
+          <h2 class="h-cell text-white m-0 max-w-[16ch] sm:max-w-none" data-lines>
             Wo strukturelle Präzision auf meisterhafte Ausführung trifft
           </h2>
         </div>
-        <p class="font-body text-[13px] sm:text-[14px] text-white/60 leading-relaxed m-0 line-clamp-2">
+        <p class="copy text-white/70 m-0 max-w-[520px]" data-reveal>
           Über 25 Jahre Meistererfahrung im Hoch-, Tief- und Sanierungsbau. Mit eigenem Fuhrpark schaffen wir Werte, die Generationen überdauern.
         </p>
       </div>
 
-      <!-- Col 3: Black Square with Text -->
-      <div class="col-span-1 min-h-[170px] xl:min-h-0 p-6 sm:p-8 border-b xl:border-b-0 xl:border-r border-white/10 flex flex-col justify-between bg-[#111111] overflow-hidden">
-        <div class="text-[11px] font-body uppercase tracking-[1.5px] text-white/50">
-          Unser Leitmotiv
-        </div>
-        <div class="font-body font-normal text-[15px] sm:text-[16px] text-white/90 leading-snug">
+      <!-- Spalte 3: Leitmotiv -->
+      <div class="col-span-1 min-h-[200px] xl:min-h-0 p-6 sm:p-8 border-b xl:border-b-0 xl:border-r border-hairline-dark flex flex-col justify-between gap-6" data-reveal>
+        <div class="eyebrow text-white/60">Unser Leitmotiv</div>
+        <div class="text-[clamp(1.125rem,1rem+0.4vw,1.375rem)] font-normal text-white leading-[1.35] tracking-[-0.01em]">
           „Kein Weg zu weit, kein Platz zu klein.“
         </div>
-        <div class="text-[12px] font-body text-white/50">
+        <div class="text-sm text-white/60">
           Fundierte Baukompetenz &amp; Verlässlichkeit.
         </div>
       </div>
 
-      <!-- Col 4: Position 1 - Video 1 (DJI_0100.mp4) -->
-      <div 
-        class="col-span-1 relative overflow-hidden group cursor-pointer bg-black border-b xl:border-b-0 xl:border-r border-white/10 h-[260px] sm:h-[340px] xl:h-full"
-        id="grid-video-box-1"
+      <!-- Spalte 4: Video (DJI_0100) -->
+      <div
+        class="video-tile col-span-1 relative overflow-hidden group cursor-pointer bg-ink border-b xl:border-b-0 xl:border-r border-hairline-dark h-[260px] sm:h-[340px] xl:h-full"
+        data-video-tile
       >
-        <video 
-          id="grid-video-1"
-          playsinline 
-          muted 
-          loop 
-          preload="metadata"
-          poster="/videos/DJI_0100_poster.jpg"
-          class="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-        >
-          <source src="/videos/DJI_0100.mp4" type="video/mp4" />
-          <source src="https://mw-bauen.de/wp-content/uploads/2025/02/DJI_0100.mp4" type="video/mp4" />
-        </video>
-
-        <!-- Subtle Scrim -->
-        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none group-hover:opacity-60 transition-opacity"></div>
-
-        <!-- Centered Play Button -->
-        <div 
-          id="grid-play-btn-1"
-          class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none transition-all duration-300 ease-out"
-        >
-          <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-white/90 text-[#111111] shadow-xl backdrop-blur-sm flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:bg-[#e41e13] group-hover:text-white">
-            <svg class="w-5 h-5 fill-current translate-x-0.5" viewBox="0 0 24 24">
-              <polygon points="5 3 19 12 5 21 5 3" />
-            </svg>
-          </div>
+        <div class="tile-media absolute inset-0">
+          <video
+            playsinline
+            muted
+            loop
+            preload="metadata"
+            poster="/videos/DJI_0100_poster.webp"
+            class="w-full h-full object-cover object-center"
+            aria-label="Fuhrpark und Krane auf der Baustelle"
+          >
+            <source src="/videos/DJI_0100.mp4" type="video/mp4" />
+            <source src="https://mw-bauen.de/wp-content/uploads/2025/02/DJI_0100.mp4" type="video/mp4" />
+          </video>
         </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-ink/70 via-transparent to-ink/25 pointer-events-none"></div>
 
-        <!-- Badge -->
-        <div class="absolute top-3 left-3 z-10 px-2.5 py-1 bg-black/70 backdrop-blur-sm text-white text-[10px] font-body uppercase tracking-wider rounded-sm pointer-events-none flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-[#e41e13] animate-pulse"></span>
-          <span>Fuhrpark &amp; Krane</span>
+        <button type="button" class="tile-play absolute inset-0 z-10 flex items-center justify-center bg-transparent border-0 cursor-pointer" aria-label="Video abspielen" data-video-toggle>
+          <span class="w-14 h-14 rounded-full bg-white/95 text-ink shadow-[0_18px_36px_-16px_rgba(0,0,0,0.6)] flex items-center justify-center transition-transform duration-500 ease-mw group-hover:scale-105">
+            <svg class="w-5 h-5 fill-current translate-x-0.5" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+          </span>
+        </button>
+
+        <div class="tile-badge absolute top-3 left-3 z-10 px-2.5 py-1.5 bg-ink/80 backdrop-blur-sm text-white eyebrow !text-[11px] pointer-events-none flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-weber-light"></span>
+          Fuhrpark &amp; Krane
         </div>
       </div>
 
-      <!-- Col 5: Black Square with Text -->
-      <div class="col-span-1 min-h-[170px] xl:min-h-0 p-6 sm:p-8 flex flex-col justify-between bg-[#111111] overflow-hidden">
-        <div class="text-[11px] font-body uppercase tracking-[1.5px] text-white/50">
-          Unser Versprechen
-        </div>
-        <p class="font-body text-[13px] sm:text-[14px] text-white/80 leading-relaxed m-0">
+      <!-- Spalte 5: Versprechen -->
+      <div class="col-span-1 min-h-[200px] xl:min-h-0 p-6 sm:p-8 flex flex-col justify-between gap-6" data-reveal>
+        <div class="eyebrow text-white/60">Unser Versprechen</div>
+        <p class="copy text-white/80 m-0">
           Persönliche Betreuung durch die Geschäftsführung und höchste Ausführungsqualität auf jeder Baustelle.
         </p>
-        <div class="text-[12px] font-body text-[#e41e13]">
+        <div class="text-sm font-medium text-weber-light">
           100% Inhabergeführt
         </div>
       </div>
 
     </div>
 
-    <!-- Row 2: 5 Columns with Stats & ONLY THE CENTER BOX IN WEBER RED -->
+    <!-- Reihe 2: Kennzahlen und CTA -->
     <div class="grid grid-cols-2 xl:grid-cols-5 h-auto xl:h-[190px]">
-      
-      <!-- Stat 1: 25+ Jahre Meister-Erfahrung -->
-      <div class="col-span-1 min-h-[128px] p-4 sm:p-6 xl:p-8 border-r border-b xl:border-b-0 border-white/10 flex flex-col justify-center bg-[#111111]">
-        <div class="font-body text-[13px] sm:text-[14px] text-white/70 mb-1">
-          Expert Architects
+      {stats.map((s, i) => s ? (
+        <div class={`col-span-1 min-h-[132px] p-5 sm:p-6 xl:p-8 flex flex-col justify-center border-hairline-dark ${i < 3 ? 'border-b xl:border-b-0' : ''} ${i === 0 || i === 3 ? 'border-r' : ''} ${i < 4 ? 'xl:border-r' : ''}`} data-reveal>
+          <div class="text-[15px] text-white/70 mb-1.5">{s.label}</div>
+          <div class="text-[clamp(2.5rem,3.6vw,3.5rem)] font-normal leading-none tracking-[-0.02em] text-white">
+            {s.value}<span class="text-white/55">{s.unit}</span>
+          </div>
         </div>
-        <div class="font-body font-light text-4xl sm:text-5xl text-white">
-          25<span class="text-white/60">+</span>
-        </div>
-      </div>
-
-      <!-- Stat 2: 100% Client Retention / Termintreue -->
-      <div class="col-span-1 min-h-[128px] p-4 sm:p-6 xl:p-8 border-b xl:border-b-0 border-white/10 flex flex-col justify-center bg-[#111111]">
-        <div class="font-body text-[13px] sm:text-[14px] text-white/70 mb-1">
-          Client Retention
-        </div>
-        <div class="font-body font-light text-4xl sm:text-5xl text-white">
-          99<span class="text-white/60">%</span>
-        </div>
-      </div>
-
-      <!-- Stat 3: THE ONLY RED BOX (Weber Red #e41e13) -->
-      <div class="col-span-2 xl:col-span-1 min-h-[116px] xl:min-h-0 p-4 sm:p-6 xl:p-8 border-b xl:border-b-0 xl:border-r border-white/10 flex flex-col items-center justify-center text-center bg-[#e41e13] text-white group cursor-pointer hover:bg-[#c51910] transition-colors">
-        <a href="#kontakt" class="block w-full h-full flex flex-col items-center justify-center">
-          <span class="font-body font-normal text-base sm:text-lg lg:text-xl text-white leading-tight">
-            Let's Talk<br />Your Plans!
+      ) : (
+        <a
+          href="#kontakt"
+          class="cta-tile group col-span-2 xl:col-span-1 min-h-[132px] xl:min-h-0 p-6 xl:p-8 xl:border-r border-hairline-dark relative flex flex-col items-start justify-between bg-stone text-ink no-underline transition-colors duration-500 ease-mw hover:bg-paper border-b xl:border-b-0"
+          style="--focus: var(--red);"
+        >
+          <span class="red-rule !bg-weber-red"></span>
+          <span class="text-[clamp(1.25rem,1.1rem+0.5vw,1.5rem)] font-normal leading-[1.2] tracking-[-0.015em]">
+            Sprechen wir über Ihr Vorhaben
+          </span>
+          <span class="flex items-center gap-2 text-sm font-medium">
+            Kontakt aufnehmen
+            <svg class="w-4 h-4 stroke-current fill-none stroke-[1.75] transition-transform duration-500 ease-mw group-hover:translate-x-1" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
           </span>
         </a>
-      </div>
-
-      <!-- Stat 4: 500+ Completed Projects -->
-      <div class="col-span-1 min-h-[128px] p-4 sm:p-6 xl:p-8 border-r border-b xl:border-b-0 border-white/10 flex flex-col justify-center bg-[#111111]">
-        <div class="font-body text-[13px] sm:text-[14px] text-white/70 mb-1">
-          Completed Projects
-        </div>
-        <div class="font-body font-light text-4xl sm:text-5xl text-white">
-          500<span class="text-white/60">+</span>
-        </div>
-      </div>
-
-      <!-- Stat 5: 100% Eigener Fuhrpark -->
-      <div class="col-span-1 min-h-[128px] p-4 sm:p-6 xl:p-8 flex flex-col justify-center bg-[#111111]">
-        <div class="font-body text-[13px] sm:text-[14px] text-white/70 mb-1">
-          Eigener Fuhrpark
-        </div>
-        <div class="font-body font-light text-4xl sm:text-5xl text-white">
-          100<span class="text-white/60">%</span>
-        </div>
-      </div>
-
+      ))}
     </div>
 
   </div>
 
-  <!-- 2. Bottom Panoramic Video: Exact Narrow Strip Format (~35vh) -->
-  <div 
-    class="w-full h-[28vh] min-h-[180px] max-h-[260px] xl:h-[35vh] xl:min-h-[220px] xl:max-h-[350px] relative overflow-hidden bg-black cursor-pointer group shrink-0"
-    id="panoramic-video-box"
+  <!-- Panorama-Streifen (DJI_0145) -->
+  <div
+    class="video-tile w-full h-[28vh] min-h-[200px] max-h-[280px] xl:h-[35vh] xl:min-h-[220px] xl:max-h-[350px] relative overflow-hidden bg-ink cursor-pointer group shrink-0"
+    data-video-tile
+    data-media
   >
-    <!-- GSAP Double Curtain Reveal Overlays (Rot-Schwarz) -->
-    <div class="panoramic-curtain-dark absolute inset-0 bg-[#111111] z-20 pointer-events-none" id="pano-curtain-dark"></div>
-    <div class="panoramic-curtain-light absolute inset-0 bg-[#e41e13] z-10 pointer-events-none" id="pano-curtain-light"></div>
-
-    <video 
-      id="panoramic-video"
-      playsinline 
-      muted 
-      loop 
-      preload="metadata"
-      poster="/videos/DJI_0145_poster.jpg"
-      class="w-full h-full object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-    >
-      <source src="/videos/DJI_0145.mp4" type="video/mp4" />
-      <source src="https://mw-bauen.de/wp-content/uploads/2025/02/DJI_0145.mp4" type="video/mp4" />
-    </video>
-
-    <!-- Subtle Gradient Scrim -->
-    <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none group-hover:opacity-75 transition-opacity z-[5]"></div>
-
-    <!-- Centered Play Button -->
-    <div 
-      id="panoramic-play-btn"
-      class="absolute inset-0 z-10 flex items-center justify-center pointer-events-none transition-all duration-300 ease-out"
-    >
-      <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 text-[#111111] shadow-2xl backdrop-blur-sm flex items-center justify-center transform transition-all duration-300 group-hover:scale-110 group-hover:bg-[#e41e13] group-hover:text-white">
-        <svg class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24">
-          <polygon points="5 3 19 12 5 21 5 3" />
-        </svg>
+    <span class="media-curtain" aria-hidden="true"></span>
+    <div class="media-zoom">
+      <div class="tile-media absolute inset-0">
+        <video
+          playsinline
+          muted
+          loop
+          preload="metadata"
+          poster="/videos/DJI_0145_poster.webp"
+          class="w-full h-full object-cover object-center"
+          aria-label="Großbaustellen-Panorama"
+        >
+          <source src="/videos/DJI_0145.mp4" type="video/mp4" />
+          <source src="https://mw-bauen.de/wp-content/uploads/2025/02/DJI_0145.mp4" type="video/mp4" />
+        </video>
       </div>
     </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-ink/55 via-transparent to-ink/20 pointer-events-none z-[5]"></div>
 
-    <!-- Badge -->
-    <div class="absolute top-4 left-4 sm:left-6 z-10 px-3 py-1 bg-black/70 backdrop-blur-sm text-white text-[10px] font-body uppercase tracking-wider rounded-sm pointer-events-none flex items-center gap-2">
-      <span class="w-2 h-2 rounded-full bg-[#e41e13] animate-pulse"></span>
-      <span>Großbaustellen-Panorama</span>
+    <button type="button" class="tile-play absolute inset-0 z-10 flex items-center justify-center bg-transparent border-0 cursor-pointer" aria-label="Video abspielen" data-video-toggle>
+      <span class="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/95 text-ink shadow-[0_20px_40px_-16px_rgba(0,0,0,0.6)] flex items-center justify-center transition-transform duration-500 ease-mw group-hover:scale-105">
+        <svg class="w-6 h-6 fill-current translate-x-0.5" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3" /></svg>
+      </span>
+    </button>
+
+    <div class="tile-badge absolute top-4 left-4 sm:left-6 z-10 px-3 py-1.5 bg-ink/80 backdrop-blur-sm text-white eyebrow !text-[11px] pointer-events-none flex items-center gap-2">
+      <span class="w-1.5 h-1.5 rounded-full bg-weber-light"></span>
+      Großbaustellen-Panorama
     </div>
   </div>
 
 </section>
-
-<!-- GSAP ScrollTrigger & Video Controller Script -->
-<script>
-  import { gsap } from 'gsap';
-  import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  window.addEventListener('DOMContentLoaded', () => {
-    // 1. Double Curtain Reveal for Panoramic Video
-    const panoTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#panoramic-video-box',
-        start: 'top 85%',
-        once: true
-      }
-    });
-
-    panoTl
-      .to('#pano-curtain-dark', {
-        xPercent: 101,
-        duration: 1.0,
-        ease: 'power3.inOut'
-      })
-      .to('#pano-curtain-light', {
-        xPercent: 101,
-        duration: 1.0,
-        ease: 'power3.inOut'
-      }, '-=0.8')
-      .fromTo('#panoramic-video',
-        { scale: 1.1 },
-        { scale: 1.0, duration: 1.3, ease: 'power2.out' },
-        '-=1.0'
-      );
-
-    // 2. Video Player Logic
-    const setupVideo = (boxId: string, videoId: string, playBtnId: string) => {
-      const box = document.getElementById(boxId);
-      const video = document.getElementById(videoId) as HTMLVideoElement | null;
-      const playBtn = document.getElementById(playBtnId);
-
-      if (!box || !video) return;
-
-      const play = () => {
-        video.play().then(() => {
-          if (playBtn) playBtn.classList.add('opacity-0', 'scale-90');
-        }).catch(() => {});
-      };
-
-      const pause = () => {
-        video.pause();
-        if (playBtn) playBtn.classList.remove('opacity-0', 'scale-90');
-      };
-
-      // Hover controls
-      box.addEventListener('mouseenter', play);
-      box.addEventListener('mouseleave', pause);
-
-      // Click toggle
-      box.addEventListener('click', () => {
-        if (video.paused) {
-          play();
-        } else {
-          pause();
-        }
-      });
-    };
-
-    setupVideo('grid-video-box-1', 'grid-video-1', 'grid-play-btn-1');
-    setupVideo('panoramic-video-box', 'panoramic-video', 'panoramic-play-btn');
-  });
-</script>

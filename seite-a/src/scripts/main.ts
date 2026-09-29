@@ -16,7 +16,7 @@ export function initSite() {
   // Lenis smooths the mouse wheel only; touch keeps native scrolling and momentum.
   let lenis: Lenis | undefined;
   if (!reduced && !isTouch) {
-    lenis = new Lenis({ lerp: .1, autoRaf: false });
+    lenis = new Lenis({ lerp: .085, autoRaf: false });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(time => lenis!.raf(time * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -50,8 +50,8 @@ export function initSite() {
       releaseHold();
       lenis?.stop();
       if (!reduced) {
-        gsap.fromTo(drawer.querySelectorAll('.drawer-label'), { yPercent: 110 }, { yPercent: 0, duration: 1, stagger: .06, ease: 'expo.out', delay: .15 });
-        gsap.fromTo(drawer.querySelectorAll('.drawer-foot > *'), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: .9, stagger: .08, ease: 'expo.out', delay: .35 });
+        gsap.fromTo(drawer.querySelectorAll('.drawer-label'), { yPercent: 105 }, { yPercent: 0, duration: 1, stagger: .07, ease: 'soft', delay: .15 });
+        gsap.fromTo(drawer.querySelectorAll('.drawer-foot > *'), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .9, stagger: .08, ease: 'soft', delay: .35 });
       }
     } else lenis?.start();
   };
@@ -89,7 +89,7 @@ export function initSite() {
       lenis?.stop();
       document.body.classList.add('overlay-open');
       dialog.showModal();
-      if (!reduced) gsap.fromTo(dialog, { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: 'expo.out', clearProps: 'transform,opacity' });
+      if (!reduced) gsap.fromTo(dialog, { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: 'soft', clearProps: 'transform,opacity' });
     }));
     dialog.querySelector('.dialog-close')!.addEventListener('click', () => dialog.close());
     dialog.addEventListener('click', e => { if (e.target === dialog) dialog.close(); });

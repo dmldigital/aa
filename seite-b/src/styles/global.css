@@ -2,388 +2,433 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ==========================================================================
+   DESIGN-TOKENS
+   Farben, Kurve und Zeiten an einer Stelle. Tailwind-Pendants: tailwind.config.mjs
+   ========================================================================== */
+:root {
+  --red: #c4271c;
+  --red-dark: #a71f15;
+  --red-on-dark: #e5675c;
+
+  --ink: #15171a;
+  --ink-2: #1d2024;
+  --paper: #f4f2ee;
+  --stone: #e7e3dc;
+  --text: #1a1b1e;
+  --muted: #5c6067;
+  --hairline: rgba(20, 22, 26, 0.10);
+  --hairline-dark: rgba(255, 255, 255, 0.12);
+
+  /* Eine Kurve, feste Zeiten */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-hover: 0.5s;
+  --t-reveal: 1.1s;
+
+  /* Körnung als Variable, siehe .bg-grain */
+  --grain: url('/footer-grain.svg');
+
+  --focus: var(--red);
+}
+
+/* Dunkle Flächen: Fokus und Akzent in hellerem Rot */
+.theme-dark {
+  --focus: var(--red-on-dark);
+}
+
+/* ==========================================================================
+   BASIS
+   ========================================================================== */
 @layer base {
   html {
-    font-family: 'Inter', sans-serif;
-    color: #111111;
-    background-color: #ffffff;
+    font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+    font-size: 16px;
+    color: var(--text);
+    background-color: var(--paper);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    line-height: 1.65;
+    overflow-x: clip;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Schibsted Grotesk', sans-serif;
+    font-family: 'Schibsted Grotesk', system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: #fff;
   }
 }
 
-/* Lenis Smooth Scroll */
-html.lenis {
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Lenis (nur Desktop mit Maus, siehe src/scripts/motion.ts) */
+html.lenis,
+html.lenis body {
   height: auto;
 }
 .lenis.lenis-smooth {
-  scroll-behavior: auto;
+  scroll-behavior: auto !important;
 }
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }
 .lenis.lenis-stopped {
+  overflow: clip;
+}
+html.is-locked {
   overflow: hidden;
 }
 
 /* ==========================================================================
-   FOUNDIX EXACT BUTTON SYSTEM (.button-style-1)
-   Infused with Exact Weber Logo Red (#e41e13 / #c51910)
+   TYPOGRAFIE
    ========================================================================== */
+@layer components {
+  /* H1 im Hero */
+  .h-hero {
+    font-weight: 440;
+    font-size: clamp(2.4rem, 5vw, 5rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
 
-.button-style-1 {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Schibsted Grotesk', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  border: none !important;
-  outline: none;
-  background-color: #e41e13;
-  color: #ffffff;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
+  /* H2 */
+  .h-section {
+    font-weight: 500;
+    font-size: clamp(1.9rem, 3.4vw, 3.3rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
 
-.button-style-1:hover {
-  background-color: #c51910;
-  color: #ffffff;
-}
+  /* H2 in schmalen Rasterzellen */
+  .h-cell {
+    font-weight: 500;
+    font-size: clamp(1.7rem, 2.5vw, 2.5rem);
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
 
-/* Foundix Expanding Background Hover Container */
-.button-style-1 .before_button_hover {
-  position: absolute;
-  inset: -2px;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 1;
-}
+  /* H3 */
+  .h-card {
+    font-weight: 500;
+    font-size: clamp(1.25rem, 1.5vw, 1.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
 
-.button-style-1 .bg_before_button_hover {
-  position: absolute;
-  inset: -2px;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  background-color: #c51910;
-  transform: scale(0);
-  transform-origin: center center;
-  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-  pointer-events: none;
-}
+  /* kleine Versal-Labels */
+  .eyebrow {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
 
-.button-style-1:hover .bg_before_button_hover {
-  transform: scale(1.05);
-}
+  /* Fließtext */
+  .copy {
+    font-size: clamp(1rem, 0.96rem + 0.15vw, 1.0625rem);
+    line-height: 1.65;
+  }
 
-.button-style-1 .wrap_textbutton {
-  position: relative;
-  z-index: 2;
-  pointer-events: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
+  .copy-sm {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
 
-/* White Button Variant (Used inside Weber Red Quote Card) */
-.button-style-1.light-variant {
-  background-color: #ffffff;
-  color: #e41e13;
-  border: 1px solid #ffffff;
-}
+  /* Körnung: Klasse zusätzlich zu bg-ink / bg-ink-2 setzen */
+  .bg-grain {
+    background-image: var(--grain);
+    background-size: 180px 180px;
+    background-repeat: repeat;
+  }
 
-.button-style-1.light-variant .bg_before_button_hover {
-  background-color: #111111;
-}
-
-.button-style-1.light-variant:hover {
-  color: #ffffff;
-}
-
-/* Dark Button Variant */
-.button-style-1.dark-variant {
-  background-color: #111111;
-  color: #ffffff;
-  border: 1px solid #111111;
-}
-
-.button-style-1.dark-variant .bg_before_button_hover {
-  background-color: #c51910;
+  /* Haarlinien-Akzent in Rot */
+  .red-rule {
+    display: block;
+    width: 2.5rem;
+    height: 2px;
+    background: var(--red);
+  }
+  .theme-dark .red-rule {
+    background: var(--red-on-dark);
+  }
 }
 
 /* ==========================================================================
-   FOUNDIX EXACT BUTTON SYSTEM (.button-style-2)
-   Used across Services List and Section Cards
+   BUTTONS
+   Füllung wächst aus der Mitte, 0.5 s, gemeinsame Kurve
    ========================================================================== */
+@layer components {
+  .btn {
+    --btn-bg: var(--red);
+    --btn-fg: #fff;
+    --btn-fill: var(--red-dark);
+    --btn-fg-hover: #fff;
+    --btn-border: transparent;
 
-.button-style-2 {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  font-family: 'Schibsted Grotesk', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  background-color: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  color: #111111;
-  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease;
-}
+    position: relative;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    min-height: 3.25rem;
+    padding: 0 1.75rem;
+    font-family: inherit;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    overflow: hidden;
+    color: var(--btn-fg);
+    background-color: var(--btn-bg);
+    border: 1px solid var(--btn-border);
+    transition:
+      color var(--t-hover) var(--ease),
+      border-color var(--t-hover) var(--ease),
+      background-color var(--t-hover) var(--ease);
+  }
 
-.button-style-2 .bg_before_button_hover {
-  position: absolute;
-  inset: -2px;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  background-color: #111111; /* Anthrazit */
-  transform: scale(0);
-  transform-origin: center center;
-  transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
-  pointer-events: none;
-  z-index: 1;
-}
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    background: var(--btn-fill);
+    transform: scale(0);
+    opacity: 0;
+    transform-origin: 50% 50%;
+    transition:
+      transform var(--t-hover) var(--ease),
+      opacity calc(var(--t-hover) * 0.6) var(--ease);
+  }
 
-.button-style-2:hover .bg_before_button_hover {
-  transform: scale(1.05);
-}
+  .btn:hover,
+  .btn:focus-visible {
+    color: var(--btn-fg-hover);
+  }
 
-.button-style-2 .wrap_textbutton {
-  position: relative;
-  z-index: 2;
-  pointer-events: none;
-  transition: color 0.3s ease;
-}
+  .btn:hover::before,
+  .btn:focus-visible::before {
+    transform: scale(1.02);
+    opacity: 1;
+  }
 
-.button-style-2 .bt2_iconbox {
-  position: relative;
-  z-index: 2;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.3s ease, color 0.3s ease;
-}
+  .btn .btn-icon {
+    transition: transform var(--t-hover) var(--ease);
+  }
+  .btn:hover .btn-icon {
+    transform: translateX(3px);
+  }
 
-.button-style-2:hover {
-  color: #ffffff !important;
-  border-color: #111111 !important;
-  background-color: #111111;
-}
+  /* Weiß auf dunklem Grund, Fläche füllt sich dunkel */
+  .btn-light {
+    --btn-bg: #fff;
+    --btn-fg: var(--ink);
+    --btn-fill: var(--ink);
+    --btn-fg-hover: #fff;
+  }
 
-.button-style-2:hover .bt2_iconbox {
-  transform: translateX(4px);
-  color: #ffffff !important;
+  /* Konturknopf auf dunklem Grund */
+  .btn-ghost-light {
+    --btn-bg: transparent;
+    --btn-fg: #fff;
+    --btn-border: rgba(255, 255, 255, 0.32);
+    --btn-fill: #fff;
+    --btn-fg-hover: var(--ink);
+  }
+
+  /* Konturknopf auf hellem Grund */
+  .btn-outline {
+    --btn-bg: transparent;
+    --btn-fg: var(--ink);
+    --btn-border: rgba(20, 22, 26, 0.22);
+    --btn-fill: var(--ink);
+    --btn-fg-hover: #fff;
+  }
 }
 
 /* ==========================================================================
-   FOUNDIX EXACT HEADER SYSTEM
+   HEADER
    ========================================================================== */
-
-.main-header-smart {
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 .main-header {
-  position: absolute;
-  top: 20px;
+  position: fixed;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 999;
-  min-width: 100%;
-  padding: 0 20px;
+  padding: 1rem 0 1.5rem;
+  transition:
+    transform 0.7s var(--ease),
+    padding 0.7s var(--ease);
 }
 
-.btn-hd-panel {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 24px;
-  height: 24px;
-  background: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-}
-
-/* Site-wide grainy anthracite treatment for formerly solid black surfaces. */
-:where(
-  [class~="bg-[#111111]"],
-  [class~="bg-[#141414]"],
-  [class~="bg-[#1c1c1c]"],
-  [class~="bg-black"],
-  [class~="bg-[#111111]/85"]
-) {
-  background-color: #17191c !important;
-  background-image: url('/footer-grain.svg') !important;
-  background-size: 180px 180px !important;
-  background-repeat: repeat !important;
-}
-
-:where([class*="bg-black/70"], [class*="bg-black/45"]) {
-  background-color: rgba(23, 25, 28, 0.9) !important;
-  background-image: url('/footer-grain.svg') !important;
-  background-size: 140px 140px !important;
-}
-
-:where([class*="bg-black/75"]) {
-  background-color: rgba(23, 25, 28, 0.75) !important;
-  background-image: url('/footer-grain.svg') !important;
-  background-size: 180px 180px !important;
-  background-repeat: repeat !important;
-}
-
-:where([class*="bg-black/40"]) {
-  background-color: rgba(23, 25, 28, 0.4) !important;
-  background-image: url('/footer-grain.svg') !important;
-  background-size: 180px 180px !important;
-  background-repeat: repeat !important;
-}
-
-:where([class*="bg-black/25"]) {
-  background-color: rgba(23, 25, 28, 0.25) !important;
-  background-image: url('/footer-grain.svg') !important;
-  background-size: 180px 180px !important;
-  background-repeat: repeat !important;
-}
-
-:where([class*="bg-black/10"]) {
-  background-color: rgba(23, 25, 28, 0.1) !important;
-  background-image: url('/footer-grain.svg') !important;
-  background-size: 180px 180px !important;
-  background-repeat: repeat !important;
-}
-
-.button-style-1 .bg_before_button_hover,
-.button-style-1.light-variant .bg_before_button_hover,
-.button-style-1.dark-variant,
-.button-style-2 .bg_before_button_hover,
-.button-style-2:hover,
-.team-dialog-panel {
-  background-color: #17191c !important;
-  background-image: url('/footer-grain.svg') !important;
-  background-size: 180px 180px !important;
-  background-repeat: repeat !important;
-}
-
-.button-style-1.dark-variant {
-  border-color: #17191c !important;
-}
-
-/* Use the same deeper red whenever an interactive red element is hovered. */
-:where(a, button, [role="button"], [class~="cursor-pointer"])[class~="bg-[#e41e13]"]:hover,
-.button-style-1:not(.light-variant):not(.dark-variant):hover,
-.button-style-1:not(.light-variant):not(.dark-variant) .bg_before_button_hover {
-  background-color: #c51910 !important;
-  background-image: none !important;
-}
-
-.button-style-1.dark-variant .bg_before_button_hover {
-  background-color: #c51910 !important;
-  background-image: none !important;
-}
-
-[class*="hover:bg-[#e41e13]"]:hover,
-.group:hover [class*="group-hover:bg-[#e41e13]"] {
-  background-color: #c51910 !important;
-  background-image: none !important;
-}
-
-[class*="hover:text-[#e41e13]"]:hover,
-.group:hover [class*="group-hover:text-[#e41e13]"] {
-  color: #c51910 !important;
-}
-
-[class*="hover:border-[#e41e13]"]:hover,
-.group:hover [class*="group-hover:border-[#e41e13]"] {
-  border-color: #c51910 !important;
-}
-
-.group:hover [class*="bg-[#e41e13]"],
-[class*="group/"]:hover [class*="bg-[#e41e13]"] {
-  background-color: #c51910 !important;
-  background-image: none !important;
-}
-
-.group:hover [class*="text-[#e41e13]"],
-[class*="group/"]:hover [class*="text-[#e41e13]"] {
-  color: #c51910 !important;
-}
-
-.group:hover [class*="border-[#e41e13]"],
-[class*="group/"]:hover [class*="border-[#e41e13]"] {
-  border-color: #c51910 !important;
-}
-
-.wrap-dot-hidden-panel {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.dot-hidden-panel {
+.main-header::before {
+  content: '';
   position: absolute;
-  width: 5px;
-  height: 5px;
-  background-color: #ffffff;
-  border-radius: 9999px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-}
-.dot-hidden-panel:nth-child(1) { top: 3px; left: 3px; }
-.dot-hidden-panel.dot-2 { top: 3px; right: 3px; }
-.dot-hidden-panel.dot-3 { bottom: 3px; left: 3px; }
-.dot-hidden-panel.dot-4 { bottom: 3px; right: 3px; }
-
-.btn-hd-panel:hover .dot-hidden-panel {
-  transform: scale(1.3);
-  background-color: #c51910;
+  inset: 0;
+  z-index: -1;
+  background: rgba(21, 23, 26, 0.9);
+  border-bottom: 1px solid var(--hairline-dark);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: 0;
+  transition: opacity 0.7s var(--ease);
+  pointer-events: none;
 }
 
-.line-vertical {
-  width: 1px;
-  height: 55px;
-  background-color: rgba(255, 255, 255, 0.15);
+.main-header.is-scrolled {
+  padding: 0.6rem 0;
+}
+.main-header.is-scrolled::before {
+  opacity: 1;
+}
+.main-header.is-hidden {
+  transform: translate3d(0, -100%, 0);
 }
 
-.line-vertical._02 {
-  height: 35px;
-  background-color: rgba(255, 255, 255, 0.15);
+/* ==========================================================================
+   BEWEGUNG: Ausgangszustände (nur mit JS und ohne reduzierte Bewegung)
+   Klasse "motion" setzt der Inline-Script im <head> von Layout.astro.
+   Nach dem Einblenden trägt ein Element "is-in".
+   ========================================================================== */
+.motion [data-reveal]:not(.is-in) {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
 }
 
-/* Foundix Marquee Slip */
-@keyframes slipContinuous {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+.motion [data-lines]:not(.is-in) {
+  visibility: hidden;
 }
 
-.animate-slip {
+.motion [data-media]:not(.is-in) {
+  clip-path: inset(100% 0 0 0);
+}
+
+.media-curtain {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: var(--ink);
+  pointer-events: none;
+}
+.motion [data-media]:not(.is-in) .media-curtain {
+  display: block;
+}
+
+.motion #main-header:not(.is-in) {
+  opacity: 0;
+}
+
+/* Zoom-Hülle für Bilder und Videos, die aufgedeckt werden */
+.media-zoom {
+  position: absolute;
+  inset: 0;
+}
+.motion [data-media]:not(.is-in) .media-zoom {
+  transform: scale(1.06);
+}
+
+/* ==========================================================================
+   LAUFBAND (langsam, nahtlos)
+   ========================================================================== */
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquee-track {
   display: flex;
   width: max-content;
-  animation: slipContinuous 30s linear infinite;
+  animation: marquee 90s linear infinite;
+  will-change: transform;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+.marquee-group {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 2.75rem;
+  padding-right: 2.75rem;
 }
 
-.animate-slip:hover {
-  animation-play-state: paused;
+/* ==========================================================================
+   VIDEO-KACHELN (Abspielen bei Hover oder Klick)
+   ========================================================================== */
+.video-tile .tile-play {
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.5s var(--ease);
+}
+.video-tile.is-playing .tile-play {
+  opacity: 0;
+  transform: scale(0.9);
+}
+.video-tile .tile-badge {
+  transition: opacity 0.5s var(--ease);
+}
+.video-tile[data-badge-on-play]:not(.is-playing) .tile-badge {
+  opacity: 0;
+}
+.video-tile .tile-media {
+  transition: transform 1.1s var(--ease);
+}
+@media (hover: hover) {
+  .video-tile:hover .tile-media {
+    transform: scale(1.03);
+  }
+}
+
+/* ==========================================================================
+   REDUZIERTE BEWEGUNG
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+  .marquee-track {
+    animation: none;
+  }
 }
