@@ -64,3 +64,8 @@ Kurzfassung für die nächste Sitzung. Arbeitsregeln und festgelegte Entscheidun
 - Ergebnis **online** zeigen (GitHub Pages), keine langen Prüf-Schleifen vor dem Zeigen – lieber schnell deployen und nachbessern.
 - Runde Pill-Buttons in Logofarben; Ecken der Bilder immer wie im Original (8 px).
 - Kein selbstgebautes Ersatz-Tool, wenn es etablierte Lösungen gibt.
+
+## Manfred Weber, zwei Entwürfe (seite-a, seite-b)
+- Bauunternehmen Manfred Weber GmbH & Co. KG (Weisenheim am Berg). Zwei Fassungen zum Vergleich, der Nutzer entscheidet: Seite A = freie Neugestaltung, Seite B = bestehende Seite (Foundix-Theme), beide überarbeitet: Überschriften Gewicht 500 in Satzschreibung, deutlich kleiner; Weber-Rot gedeckt (#c4271c), tieferes Anthrazit, warmes Papier; ruhige Animationen mit einer gemeinsamen Kurve (B: gebündelt in `src/scripts/motion.ts`).
+- Vorschau: https://dmldigital.github.io/aa/vergleich.html (Seite A `/aa/seite-a/`, Seite B `/aa/seite-b/`). Der Workflow baut alle drei Projekte, biegt absolute Pfade per Skript auf den Unterpfad um und ergänzt bei B die Videos/Poster aus A.
+- Offen: Kennzahlen in der Unternehmens-Sektion (25+, 99 %, 500+, 100 %) sind unbelegte Vorlagenwerte und müssen vom Kunden bestätigt oder ersetzt werden. Das Original-Videomaterial (467 MB) liegt nur lokal beim Nutzer. `wrangler.jsonc` beider Seiten zeigt auf den Worker `mw-bauen` der Live-Seite: nicht ohne Absprache deployen.

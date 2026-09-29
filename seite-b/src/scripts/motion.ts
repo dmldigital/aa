@@ -55,6 +55,11 @@ function markIn(...els: Array<Element | null | undefined>) {
   });
 }
 
+/** Animation einmal abspielen, sobald das Element in den Sichtbereich kommt */
+function playOnEnter(trigger: Element, start: string, anim: gsap.core.Animation) {
+  ScrollTrigger.create({ trigger, start, once: true, onEnter: () => anim.play() });
+}
+
 /* ==========================================================================
    Header: Ein- und Ausblenden beim Scrollen
    ========================================================================== */
@@ -335,37 +340,39 @@ function initMobileServices(signal: AbortSignal) {
    Bewegung mit GSAP (nur ohne reduzierte Bewegung)
    ========================================================================== */
 
-/** Überschrift zeilenweise sanft hochblenden */
+/**
+ * Überschrift zeilenweise sanft hochblenden.
+ * Nach dem Einblenden wird die Zeilenaufteilung wieder aufgelöst, damit der Text bei jeder Breite natürlich umbricht.
+ */
 function revealLines(el: HTMLElement, opts: { delay?: number; scroll?: boolean } = {}) {
   const { delay = 0, scroll = true } = opts;
   if (el.classList.contains('is-in')) return;
+  // Nicht dargestellte Überschriften (z. B. die Desktop-Fassung auf dem Handy) brauchen keine Animation
+  if (el.offsetParent === null) {
+    markIn(el);
+    return;
+  }
 
-  SplitText.create(el, {
-    type: 'lines',
-    linesClass: 'split-line',
-    autoSplit: true,
-    onSplit(self) {
-      gsap.set(el, { visibility: 'visible' });
-      // Wurde schon gezeigt (z. B. nach Größenänderung): nur Endzustand
-      if (el.dataset.done) return gsap.set(self.lines, { opacity: 1, y: 0 });
-      return gsap.fromTo(
-        self.lines,
-        { opacity: 0, y: T.dist },
-        {
-          opacity: 1,
-          y: 0,
-          duration: T.reveal,
-          stagger: T.stagger + 0.02,
-          ease: 'mw',
-          delay,
-          scrollTrigger: scroll ? { trigger: el, start: 'top 88%', once: true } : undefined,
-          onComplete: () => {
-            el.dataset.done = '1';
-          },
-        },
-      );
+  const split = SplitText.create(el, { type: 'lines', linesClass: 'split-line' });
+  gsap.set(el, { visibility: 'visible' });
+  const tween = gsap.fromTo(
+    split.lines,
+    { opacity: 0, y: T.dist },
+    {
+      opacity: 1,
+      y: 0,
+      duration: T.reveal,
+      stagger: T.stagger + 0.02,
+      ease: 'mw',
+      delay,
+      paused: scroll,
+      onComplete: () => {
+        split.revert();
+        markIn(el);
+      },
     },
-  });
+  );
+  if (scroll) playOnEnter(el, 'top 88%', tween);
 }
 
 function initHeroIntro() {
@@ -436,21 +443,27 @@ function initReveals() {
   const siblingCount = new Map<Element, number>();
   qa('[data-media]').forEach((el) => {
     if (el.classList.contains('is-in')) return;
+    if (el.offsetParent === null) {
+      markIn(el);
+      return;
+    }
     const zoom = q('.media-zoom', el);
     const curtain = q('.media-curtain', el);
     const index = siblingCount.get(el.parentElement as Element) ?? 0;
     siblingCount.set(el.parentElement as Element, index + 1);
 
-    gsap
+    const tl = gsap
       .timeline({
+        paused: true,
         defaults: { ease: 'mw' },
         delay: index * T.stagger,
-        scrollTrigger: { trigger: el, start: 'top 88%', once: true },
         onComplete: () => markIn(el, zoom, curtain),
       })
       .fromTo(el, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: T.media }, 0)
       .fromTo(zoom, { scale: 1.06 }, { scale: 1, duration: 1.5 }, 0)
       .to(curtain, { opacity: 0, duration: 0.95, ease: 'power1.inOut' }, 0.12);
+
+    playOnEnter(el, 'top 88%', tl);
   });
 }
 
@@ -459,12 +472,8 @@ function initCounter() {
   qa('[data-counter-col]').forEach((col, i) => {
     const to = Number(col.dataset.to || 0);
     gsap.set(col, { y: 0, yPercent: 0 });
-    gsap.to(col, {
-      yPercent: -to * 10,
-      duration: 1.7 + i * 0.5,
-      ease: 'mw',
-      scrollTrigger: { trigger: col.parentElement, start: 'top 90%', once: true },
-    });
+    const tween = gsap.to(col, { yPercent: -to * 10, duration: 1.7 + i * 0.5, ease: 'mw', paused: true });
+    playOnEnter(col.parentElement as Element, 'top 90%', tween);
   });
 }
 

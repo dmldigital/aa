@@ -109,7 +109,7 @@ html.is-locked {
   /* H1 im Hero */
   .h-hero {
     font-weight: 440;
-    font-size: clamp(2.4rem, 5vw, 5rem);
+    font-size: clamp(2.4rem, 4.7vw, 5rem);
     line-height: 1.08;
     letter-spacing: -0.02em;
     text-wrap: balance;

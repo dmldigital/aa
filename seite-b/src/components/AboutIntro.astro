@@ -152,6 +152,7 @@ const marqueeItems = [
   .counter-wrap {
     --dh: clamp(3.75rem, 5vw, 4.75rem);
     height: var(--dh);
+    align-items: flex-start;
     font-size: var(--dh);
     line-height: var(--dh);
     font-weight: 400;
@@ -159,6 +160,7 @@ const marqueeItems = [
     font-variant-numeric: tabular-nums;
   }
   .counter-col {
+    flex: none;
     display: flex;
     flex-direction: column;
   }

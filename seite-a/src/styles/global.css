@@ -79,14 +79,14 @@ ul, ol { list-style: none; }
 .brand-text { display: grid; line-height: 1.15; }
 .brand-text strong { font-size: 13px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
 .brand-text small { font-size: 11px; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--red-light); }
-.main-nav { display: none; gap: 30px; }
+.main-nav { display: none; gap: clamp(18px, 2vw, 30px); }
 .main-nav a { font-size: 14px; font-weight: 500; letter-spacing: .01em; }
 .roll-text { position: relative; display: inline-block; overflow: hidden; vertical-align: top; }
 .roll-text::after { content: attr(data-text); position: absolute; left: 0; top: 100%; color: var(--red-light); }
 .roll-text, .roll-text::after { transition: transform .5s var(--ease); }
 .main-nav a:hover .roll-text, .main-nav a:focus-visible .roll-text { transform: translateY(-100%); }
 .main-nav a:hover .roll-text::after { transform: none; }
-.header-phone { display: none; font-size: 14px; font-weight: 500; transition: color .4s var(--ease); }
+.header-phone { display: none; white-space: nowrap; font-size: 14px; font-weight: 500; transition: color .4s var(--ease); }
 .header-phone:hover { color: var(--red-light); }
 .header-cta { display: none; height: 44px; }
 .menu-toggle { display: grid; place-content: center; gap: 7px; width: 44px; height: 44px; margin-right: -8px; }
@@ -97,7 +97,9 @@ ul, ol { list-style: none; }
   .main-nav, .header-phone, .header-cta { display: flex; }
   .menu-toggle { display: none; }
   .brand img { height: 36px; }
+  .site-header { gap: clamp(18px, 2vw, 30px); }
 }
+@media (min-width: 1024px) and (max-width: 1199px) { .brand-text { display: none; } }
 
 /* DRAWER (phone menu) */
 .drawer { --accent: var(--red-light); position: fixed; z-index: 55; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: calc(var(--header-h) + 20px) var(--gutter) calc(28px + env(safe-area-inset-bottom)); background-color: var(--anth); background-image: url('/footer-grain.svg'); background-size: 180px; color: var(--paper); clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .8s var(--ease), visibility 0s .8s; }
