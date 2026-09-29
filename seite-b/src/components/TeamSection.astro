@@ -1,6 +1,6 @@
 ---
-// TeamSection.astro: Team-Raster. Desktop: Karten mit weichem Überblenden, Handy: 2 Spalten mit Dialog.
-import TeamCard from './TeamCard.astro';
+// TeamSection.astro: Desktop (ab 1280 px): Bild-Akkordeon, ein schmaler Porträtstreifen öffnet sich bei Hover/Fokus und zeigt den Text daneben
+// (Muster nach 21st.dev "image accordion", eigene Umsetzung). Darunter: Raster mit Dialog beim Antippen.
 
 const row1Members = [
   {
@@ -142,12 +142,12 @@ const teamMembers = [...row1Members, ...row2Members, ...dogs];
     </div>
 
     <!-- Handy/Tablet: zwei Spalten, Dialog beim Antippen -->
-    <div class="lg:hidden mb-8" data-team-mobile>
-      <div class="grid grid-cols-2 gap-3 sm:gap-4">
+    <div class="xl:hidden mb-8" data-team-mobile>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         {teamMembers.map((member, index) => (
           <button
             type="button"
-            class="mobile-team-card group relative aspect-[4/5] overflow-hidden bg-ink p-0 text-left border-0 cursor-pointer [&:last-child:nth-child(odd)]:col-span-2 [&:last-child:nth-child(odd)]:aspect-[8/5]"
+            class="mobile-team-card group relative aspect-[4/5] overflow-hidden bg-ink p-0 text-left border-0 cursor-pointer max-md:[&:last-child:nth-child(odd)]:col-span-2 max-md:[&:last-child:nth-child(odd)]:aspect-[8/5]"
             aria-label={`Profil ${member.name} öffnen`}
             data-team-open
             data-team-name={member.name}
@@ -204,22 +204,214 @@ const teamMembers = [...row1Members, ...row2Members, ...dogs];
       </dialog>
     </div>
 
-    <!-- Desktop: 5 Spalten, letzte Zelle mit den beiden Hunden -->
-    <div class="hidden lg:grid grid-cols-5 gap-4">
-      {[...row1Members, ...row2Members].map((member) => (
-        <TeamCard member={member} />
-      ))}
-      <div class="flex flex-col gap-4 h-full">
-        {dogs.map((dog) => (
-          <TeamCard member={dog} compact />
+    <!-- Desktop: Bild-Akkordeon. Ein Streifen ist geöffnet (Porträt links, Text rechts), die übrigen sind schmal. -->
+    <div class="hidden xl:block" data-team-acc data-reveal>
+      <ul class="tm-list" role="list">
+        {[...row1Members, ...row2Members, ...dogs].map((member, i) => (
+          <li
+            class="tm"
+            data-tm
+            data-active={i === 0 ? 'true' : 'false'}
+            tabindex="0"
+            aria-label={`${member.name}, ${member.role}`}
+          >
+            <div class="tm-media">
+              <img src={member.image} alt={member.name} loading="lazy" decoding="async" />
+            </div>
+            <div class="tm-strip" aria-hidden="true">
+              <span class="tm-strip-name">{member.name}</span>
+            </div>
+            <div class="tm-panel theme-dark">
+              <span class="eyebrow tm-code">{member.code}</span>
+              <h3 class="tm-name">{member.name}</h3>
+              <p class="tm-role">{member.role}</p>
+              <span class="tm-rule" aria-hidden="true"></span>
+              <p class="tm-qual">{member.qualification}</p>
+              <p class="tm-quote">„{member.quote}“</p>
+              <span class="tm-foot">
+                <span class="eyebrow tm-dep">{member.department}</span>
+                {member.experience && <span class="tm-exp">{member.experience}</span>}
+              </span>
+            </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
 
   </div>
 </section>
 
 <style>
+  /* Akkordeon: die Breite wandert über flex-grow, ruhig und ohne Überschwingen */
+  .tm-list {
+    display: flex;
+    gap: 8px;
+    height: clamp(470px, 34vw, 480px);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tm {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--ink);
+    cursor: pointer;
+    outline-offset: 3px;
+    transition: flex-grow 1s var(--ease);
+  }
+  .tm[data-active='true'] {
+    flex-grow: 11;
+  }
+  .tm:focus-visible {
+    outline: 2px solid var(--red);
+  }
+
+  .tm-media {
+    position: absolute;
+    inset: 0;
+    transition: right 1s var(--ease);
+  }
+  .tm[data-active='true'] .tm-media {
+    right: min(340px, 54%);
+  }
+  .tm-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 14%;
+    filter: grayscale(1) brightness(0.7);
+    transform: scale(1.2);
+    transition: filter 1s var(--ease), transform 1.4s var(--ease);
+  }
+  .tm[data-active='true'] .tm-media img {
+    filter: none;
+    transform: scale(1.02);
+  }
+  .tm:not([data-active='true']):hover .tm-media img {
+    filter: grayscale(0.4) brightness(0.9);
+  }
+
+  /* Schmaler Zustand: Name senkrecht am unteren Rand */
+  .tm-strip {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 20px;
+    background: linear-gradient(0deg, rgb(21 23 26 / 0.9), rgb(21 23 26 / 0) 60%);
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease);
+  }
+  .tm-strip-name {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgb(255 255 255 / 0.92);
+    white-space: nowrap;
+  }
+  .tm[data-active='true'] .tm-strip {
+    opacity: 0;
+  }
+
+  /* Geöffneter Zustand: Textfläche rechts */
+  .tm-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(340px, 54%);
+    display: flex;
+    flex-direction: column;
+    padding: 26px 26px 22px;
+    background-color: var(--ink-2);
+    background-image: var(--grain);
+    background-size: 180px 180px;
+    color: #fff;
+    opacity: 0;
+    transform: translate3d(28px, 0, 0);
+    pointer-events: none;
+    transition: opacity 0.45s var(--ease), transform 0.5s var(--ease);
+  }
+  .tm[data-active='true'] .tm-panel {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    transition: opacity 0.8s var(--ease) 0.35s, transform 1s var(--ease) 0.3s;
+  }
+  .tm-code {
+    font-size: 11px !important;
+    color: var(--red-on-dark);
+  }
+  .tm-name {
+    margin: 10px 0 0;
+    font-size: clamp(22px, 1.9vw, 26px);
+    font-weight: 500;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    color: #fff;
+  }
+  .tm-role {
+    margin: 6px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--red-on-dark);
+  }
+  .tm-rule {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: 16px 0;
+    background: var(--hairline-dark);
+  }
+  .tm-qual {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgb(255 255 255 / 0.82);
+  }
+  .tm-quote {
+    margin: 14px 0 0;
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgb(255 255 255 / 0.62);
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tm-foot {
+    margin-top: auto;
+    padding-top: 14px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    border-top: 1px solid var(--hairline-dark);
+  }
+  .tm-dep,
+  .tm-exp {
+    font-size: 11px !important;
+    letter-spacing: 0.1em;
+    color: rgb(255 255 255 / 0.6);
+  }
+
+  @media (max-width: 1399px) {
+    .tm-panel { padding: 22px 22px 18px; }
+    .tm-role, .tm-qual, .tm-quote { font-size: 13.5px; }
+    .tm-rule { margin: 12px 0; }
+    .tm-quote { margin-top: 12px; -webkit-line-clamp: 4; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tm, .tm-media, .tm-media img, .tm-strip, .tm-panel { transition: none !important; }
+  }
+
   .mobile-team-card:focus-visible {
     outline: 2px solid var(--red);
     outline-offset: 2px;
@@ -304,3 +496,23 @@ const teamMembers = [...row1Members, ...row2Members, ...dogs];
     to { opacity: 1; }
   }
 </style>
+
+<script>
+  // Akkordeon: Hover (Maus), Fokus (Tastatur) und Klick öffnen einen Streifen; der zuletzt gewählte bleibt offen
+  const acc = document.querySelector<HTMLElement>('[data-team-acc]');
+  if (acc) {
+    const items = [...acc.querySelectorAll<HTMLElement>('[data-tm]')];
+    let timer = 0;
+    const open = (el: HTMLElement) => items.forEach((i) => (i.dataset.active = String(i === el)));
+    items.forEach((el) => {
+      el.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'touch') return;
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => open(el), 70);
+      });
+      el.addEventListener('pointerleave', () => window.clearTimeout(timer));
+      el.addEventListener('focus', () => open(el));
+      el.addEventListener('click', () => open(el));
+    });
+  }
+</script>
