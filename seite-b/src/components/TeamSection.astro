@@ -259,7 +259,7 @@ const teamMembers = [...row1Members, ...row2Members, ...dogs];
     background: var(--ink);
     cursor: pointer;
     outline-offset: 3px;
-    transition: flex-grow 1s var(--ease);
+    transition: flex-grow 1.7s cubic-bezier(0.65, 0.02, 0.2, 1);
   }
   .tm[data-active='true'] {
     flex-grow: 11;
@@ -271,7 +271,7 @@ const teamMembers = [...row1Members, ...row2Members, ...dogs];
   .tm-media {
     position: absolute;
     inset: 0;
-    transition: right 1s var(--ease);
+    transition: right 1.7s cubic-bezier(0.65, 0.02, 0.2, 1);
   }
   .tm[data-active='true'] .tm-media {
     right: min(340px, 54%);
@@ -283,7 +283,7 @@ const teamMembers = [...row1Members, ...row2Members, ...dogs];
     object-position: 50% 14%;
     filter: grayscale(1) brightness(0.7);
     transform: scale(1.2);
-    transition: filter 1s var(--ease), transform 1.4s var(--ease);
+    transition: filter 1.5s var(--ease), transform 2.2s var(--ease);
   }
   .tm[data-active='true'] .tm-media img {
     filter: none;
@@ -341,7 +341,7 @@ const teamMembers = [...row1Members, ...row2Members, ...dogs];
     opacity: 1;
     transform: none;
     pointer-events: auto;
-    transition: opacity 0.8s var(--ease) 0.35s, transform 1s var(--ease) 0.3s;
+    transition: opacity 1.2s var(--ease) 0.6s, transform 1.4s var(--ease) 0.55s;
   }
   .tm-code {
     font-size: 11px !important;
@@ -508,7 +508,7 @@ const teamMembers = [...row1Members, ...row2Members, ...dogs];
       el.addEventListener('pointerenter', (e) => {
         if (e.pointerType === 'touch') return;
         window.clearTimeout(timer);
-        timer = window.setTimeout(() => open(el), 70);
+        timer = window.setTimeout(() => open(el), 140);
       });
       el.addEventListener('pointerleave', () => window.clearTimeout(timer));
       el.addEventListener('focus', () => open(el));

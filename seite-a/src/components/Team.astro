@@ -1,6 +1,6 @@
 ---
-// Portrait wall (21st.dev "Scroll Portrait Wall"): portraits grow in as their row reaches the middle of the
-// screen and step back as it leaves. The heading sits above the wall, so names always stay readable.
+// Ab 1100 px: Bild-Akkordeon in voller Breite (Muster nach 21st.dev "image accordion", eigene Umsetzung): schmale Porträtstreifen,
+// der gewählte öffnet sich langsam und zeigt den Text daneben. Darunter: Porträtwand (21st.dev "Scroll Portrait Wall") mit Dialog.
 import { team } from '../data/content';
 ---
 <section class="team grain" id="team" aria-labelledby="team-title">
@@ -8,6 +8,26 @@ import { team } from '../data/content';
     <p class="label" data-reveal>Ihr Projekt, unser Team</p>
     <h2 id="team-title" class="team-title" data-lines>Meisterhafte Kompetenz am Bau</h2>
   </div>
+  <div class="team-acc" data-team-acc>
+    <ul class="tm-list" role="list">
+      {team.map((m, i) => (
+        <li class="tm" data-tm data-active={i === 0 ? 'true' : 'false'} tabindex="0" aria-label={`${m.name}, ${m.role}`}>
+          <div class="tm-media"><img src={`/media/team/${m.image}.webp`} alt={m.name} width="900" height="900" loading="lazy" decoding="async" /></div>
+          <div class="tm-strip" aria-hidden="true"><span class="tm-strip-name">{m.name}</span></div>
+          <div class="tm-panel">
+            <span class="micro red tm-code" style="--i:0">{m.code}</span>
+            <h3 class="tm-name" style="--i:1">{m.name}</h3>
+            <p class="tm-role" style="--i:2">{m.role}</p>
+            <span class="tm-rule" style="--i:3" aria-hidden="true"></span>
+            <p class="tm-qual" style="--i:4">{m.qualification}</p>
+            <p class="tm-quote" style="--i:5">„{m.quote}“</p>
+            <span class="tm-foot" style="--i:6"><span class="micro">{m.department}</span>{m.experience && <span class="micro">{m.experience}</span>}</span>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+
   <ul class="wrap team-wall">
     {team.map((m, i) => (
       <li class="member" style={`--col:${i % 3}`}>
@@ -35,3 +55,22 @@ import { team } from '../data/content';
   </dialog>
   <script type="application/json" id="team-data" set:html={JSON.stringify(team)}></script>
 </section>
+<script>
+  // Akkordeon: Hover (Maus, mit kurzer Verzögerung), Fokus (Tastatur) und Klick öffnen einen Streifen; der zuletzt gewählte bleibt offen
+  const acc = document.querySelector<HTMLElement>('[data-team-acc]');
+  if (acc) {
+    const items = [...acc.querySelectorAll<HTMLElement>('[data-tm]')];
+    let timer = 0;
+    const open = (el: HTMLElement) => items.forEach((i) => (i.dataset.active = String(i === el)));
+    items.forEach((el) => {
+      el.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'touch') return;
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => open(el), 140);
+      });
+      el.addEventListener('pointerleave', () => window.clearTimeout(timer));
+      el.addEventListener('focus', () => open(el));
+      el.addEventListener('click', () => open(el));
+    });
+  }
+</script>
