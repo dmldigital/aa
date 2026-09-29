@@ -6,6 +6,7 @@
 */
 import ButtonGroup from './ButtonGroup.astro';
 import { url } from '../lib/url';
+import { BERATUNG } from '../lib/links';
 
 /*
   Hintergrund: Bildfolge aus dem Köpfer-Video (2K), läuft beim ersten Scrollen
@@ -51,7 +52,7 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
       </h1>
       <div class="rise" style="--d:.65s" data-m="btns">
         <ButtonGroup label="Nächste Schritte" class="v-mobile">
-          <a href="#beratung" class="btn-pill is-navy">Kostenlose Beratung</a>
+          <a href={BERATUNG} class="btn-pill is-navy">Kostenlose Beratung</a>
           <a href={url('konfigurator/')} class="btn-pill is-teal">Pool konfigurieren</a>
           <a href="#pakete" class="btn-pill is-stone">Komplettpakete</a>
         </ButtonGroup>
@@ -362,6 +363,17 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
       if (down && atTop() && !(e.target as HTMLElement).closest?.('input, textarea, select')) forward();
       if (locked && down) e.preventDefault();
     }, { capture: true });
+    // Anker-Links (Menü, Buttons): Videofahrt überspringen und direkt zum Ziel scrollen,
+    // sonst würde die automatische Fahrt zu Sektion 2 die Anker-Fahrt überlagern
+    const hashTarget = (h: string) => { try { return h && h !== '#inhalt' ? document.querySelector(h) : null; } catch { return null; } };
+    document.addEventListener('click', (e) => {
+      const a = (e.target as Element).closest?.('a[href*="#"]') as HTMLAnchorElement | null;
+      if (!a || a.classList.contains('button-hero') || (pos >= END && !locked)) return;
+      const u = new URL(a.href, location.href);
+      if (u.pathname !== location.pathname || !hashTarget(u.hash)) return;
+      phoneOut(); locked = false; leftTop = true; pos = target = END;
+      loadFrame(END).then(render); render();
+    }, true);
     window.addEventListener('scroll', () => {
       const y = window.scrollY;
       if (y > 40) leftTop = true;
@@ -379,7 +391,7 @@ const ringText = 'OHNE BETON • IN 48 STUNDEN • BIS 40 JAHRE GARANTIE • ';
 
     (async () => {
       // Seite schon weiter unten geladen (Neuladen, Anker): gleich Unterwasserbild zeigen
-      if (window.scrollY > 10) { pos = target = END; leftTop = true; hero.classList.add('m-in', 'm-out'); await loadFrame(END); }
+      if (window.scrollY > 10 || hashTarget(location.hash)) { pos = target = END; leftTop = true; hero.classList.add('m-in', 'm-out'); await loadFrame(END); }
       else phoneIn();
       await loadFrame(0);
       resize();

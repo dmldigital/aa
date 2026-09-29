@@ -1,5 +1,6 @@
 ---
 import { url } from '../lib/url';
+import { BERATUNG } from '../lib/links';
 /*
   Sektion „Warum Poolbau Koch?“ – Scroll-Bento nach 21st.dev bundled/1849 (Nutzerwunsch).
   Gemessen: Strecke 350vh, Bühne sticky 100vh (Innenabstand 16px, Abstand 16px), Raster 8 Spalten,
@@ -46,7 +47,7 @@ const boxes = [
         <h2 id="leistungen-title" class="center-title">Über 30 Jahre Erfahrung im Poolbau</h2>
         <p class="center-copy">Unsere Lösungen machen den Traum vom eigenen Pool einfacher denn je: deutschlandweit, schnell und sauber.</p>
         <div class="center-buttons">
-          <a href="#beratung" class="btn-pill is-navy">Beratung anfragen</a>
+          <a href={BERATUNG} class="btn-pill is-navy">Beratung anfragen</a>
           <a href={url('konfigurator/')} class="btn-pill is-teal">Pool konfigurieren</a>
         </div>
       </div>

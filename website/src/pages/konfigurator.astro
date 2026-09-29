@@ -19,7 +19,7 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
   title="Pool-Konfigurator | Poolbau Koch"
   description="Planen Sie Ihren Wunschpool Schritt für Schritt: Hersteller, Becken, Farbe, Abdeckung, Technik und Licht. Ihre Konfiguration kommt als PDF per E-Mail."
 >
-  <Header />
+  <Header smart={false} />
   <main id="inhalt">
     <section class="kf" id="kf" data-view="start" aria-label="Pool-Konfigurator">
       <div class="kf-bar">
@@ -415,16 +415,15 @@ const startImg = url('konfig/img/' + (katalog.models.find((m) => m.man === 'wate
        das Panel gleitet darüber, Zurück/Weiter klebt unten (Nutzerwunsch) */
     @media (max-width: 1024px) {
       .kf { --kf-top: 5.4rem; height: auto; min-height: 100svh; }
-      .kf-bar { position: sticky; top: 0; background: var(--bg); transition: top 0.4s ease; z-index: 8; }
-      html:has(.navbar:not(.is-hidden)) .kf-bar { top: var(--kf-top); }
+      /* Nutzerwunsch: auf dieser Seite normaler, immer sichtbarer Header (kein Smart Sticky); die Leiste klebt fest darunter */
+      .kf::before { content: ''; position: fixed; z-index: 40; inset: 0 0 auto; height: var(--kf-top); background: var(--bg); pointer-events: none; }
+      .kf-bar { position: sticky; top: var(--kf-top); background: var(--bg); z-index: 8; }
       .kf-studio { display: block; }
-      .kf-stage { position: sticky; top: 2.75rem; height: 40svh; z-index: 0; transition: top 0.4s ease; }
-      html:has(.navbar:not(.is-hidden)) .kf-stage { top: calc(var(--kf-top) + 2.75rem); }
+      .kf-stage { position: sticky; top: calc(var(--kf-top) + 2.75rem); height: 40svh; z-index: 0; }
       .kf-panel { min-height: 60svh; }
       .kf-panel-scroll { flex: none; overflow: visible; }
       .kf-panel-foot { position: sticky; bottom: 0; z-index: 9; }
       .kf-cart-pop { position: fixed; z-index: 60; top: calc(var(--kf-top) + 3.25rem); }
-      html:has(.navbar.is-hidden) .kf-cart-pop { top: 3.25rem; }
       .kf-start { grid-template-rows: 40svh auto; }
       .kf-start-text { overflow: visible; padding-bottom: 1.5rem; }
       .kf-pickcard p:not(.kf-pickcard-hint) { display: none; }

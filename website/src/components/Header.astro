@@ -4,18 +4,24 @@
   Werte aus dem Original (Computed Style + CSS), nur Logo, Texte und Akzentfarbe getauscht.
 */
 import { url } from '../lib/url';
+import { BERATUNG, GALERIE, anchor } from '../lib/links';
+
+/* smart = false: normaler, immer sichtbarer Header (Konfigurator, Nutzerwunsch) */
+const { smart = true } = Astro.props;
+const home = Astro.url.pathname === url();
 
 const nav = [
-  { href: url('pools/'), label: 'Pools' },
-  { href: url('komplettpakete/'), label: 'Komplettpakete' },
-  { href: url('poolbau-ohne-beton/'), label: 'Ohne Beton' },
-  { href: url('projekte/'), label: 'Projekte' },
-  { href: url('ueber-uns/'), label: 'Über uns' },
+  { href: anchor('#pools', home), label: 'Pools' },
+  { href: anchor('#pakete', home), label: 'Komplettpakete' },
+  { href: anchor('#ohne-beton', home), label: 'Ohne Beton' },
+  { href: GALERIE, label: 'Projekte', external: true },
+  { href: anchor('#leistungen', home), label: 'Über uns' },
 ];
-const cta = { href: '#beratung', label: 'Beratung anfragen' };
+const cta = { href: BERATUNG, label: 'Beratung anfragen' };
+const ext = (i: { external?: boolean }) => (i.external ? { target: '_blank', rel: 'noopener' } : {});
 ---
 
-<header class="navbar" data-navbar>
+<header class="navbar" data-navbar data-smart={String(smart)}>
   <div class="nav-pad">
     <div class="nav-container">
       <div class="navbar-component">
@@ -25,7 +31,7 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
 
         <div class="right-navbar-content">
           <nav class="nav-menu" aria-label="Hauptnavigation">
-            {nav.map((item) => <a href={item.href} class="nav-link">{item.label}</a>)}
+            {nav.map((item) => <a href={item.href} class="nav-link" {...ext(item)}>{item.label}</a>)}
             <a href={cta.href} class="btn-pill is-navy nav-cta">{cta.label}</a>
           </nav>
 
@@ -39,7 +45,7 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
 
   <div class="nav-overlay" data-menu-overlay>
     <nav id="mobile-menu" class="mobile-menu" aria-label="Hauptnavigation (mobil)" data-menu>
-      {nav.map((item) => <a href={item.href} class="nav-link">{item.label}</a>)}
+      {nav.map((item) => <a href={item.href} class="nav-link" {...ext(item)}>{item.label}</a>)}
       <div class="mobile-cta">
         <a href={cta.href} class="btn-pill is-navy">{cta.label}</a>
         <a href={url('konfigurator/')} class="btn-pill is-teal">Pool konfigurieren</a>
@@ -159,7 +165,7 @@ const cta = { href: '#beratung', label: 'Beratung anfragen' };
     const y = window.scrollY;
     const dy = y - lastY;
     if (Math.abs(dy) < 4) return;
-    const hide = dy > 0 && y > 120 && !navbar?.classList.contains('is-open');
+    const hide = navbar?.dataset.smart !== 'false' && dy > 0 && y > 120 && !navbar?.classList.contains('is-open');
     navbar?.classList.toggle('is-hidden', hide);
     lastY = y;
   };

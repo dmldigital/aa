@@ -46,7 +46,7 @@ Kurzfassung für die nächste Sitzung. Arbeitsregeln und festgelegte Entscheidun
 1. **Offen auf der Startseite:** Kontakt-Sektion mit Formular (Ziel für `#beratung`, Formular braucht Dienst wie Formspree o. ä., GitHub Pages kann nicht senden). Angebote/Komplettpakete vom Nutzer vorerst weggelassen – `#pakete` hat noch kein Ziel. Impressum/Datenschutz verlinken vorerst auf poolbau-kochgmbh.de. – jeweils Original vermessen, 1:1 nachbauen, nur Texte/Bilder/Farben tauschen.
 2. **Logo-SVG einbauen** (`brand/poolbau-koch-logo-dunkel.svg` in Header; hell-Variante für dunkle Flächen) – Messwerte in `brand/README.md` prüfen.
 3. **Sitemap** noch nicht als Dokument angelegt (Vorschlag aus der Sitzung: Start, Pools (je Marke), Komplettpakete, Poolbau ohne Beton, Technik & Wasserpflege, Wasseraufbereitung, Projekte, Über uns, Ratgeber/FAQ, Kataloge, Kontakt, Impressum, Datenschutz; extern: Konfigurator, Shop).
-4. **Unterseiten-Links** im Menü führen noch ins Leere (`/pools/` usw.), `#beratung`/`#pakete` haben noch keine Ziel-Sektion.
+4. **Links:** Menü und Buttons sind verlinkt (Ziele in `website/src/lib/links.ts` und `CLAUDE.md`). Noch offen: eigene Unterseiten (Pools, Komplettpakete, Projekte, Über uns) und eine Kontakt-Sektion mit Formular; bis dahin öffnet „Beratung anfragen“ eine vorbereitete E-Mail und „Projekte“ die Galerie der alten Seite.
 5. Köpfer-Video: Desktop-Bildsatz 10,9 MB, Handy 5,1 MB – ggf. weiter optimieren (AVIF, weniger Bilder). Tonspur wird nicht genutzt.
 6. Rechtliches vor Livegang: Preisangaben, Garantie-Aussagen („bis zu 40 Jahre“ herstellerabhängig), Bildrechte (Fotos der alten Seite teils Herstellerfotos) mit dem Kunden klären.
 

@@ -1,4 +1,5 @@
 ---
+import { BERATUNG } from '../lib/links';
 /*
   Sektion 2 – 1:1 Space Kit (#bento: .bento-header mit Laufband, .heading-component,
   zwei .bento-row mit .card-small 35 % / .card-big 65 %). Werte aus dem Original-CSS.
@@ -58,12 +59,12 @@ const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-
             <div class="card-big" data-roll>
               <div class="card-image"><Image class="image" src={imgGross2} alt="Pool mit Holzdeck in einem grünen Garten" widths={[900, 1600]} sizes="(max-width: 991px) 90vw, 65vw" /></div>
             </div>
-            <div class="card-small card-text" data-fade>
+            <div class="card-small card-text" id="pakete" data-fade>
               <div class="text-content">
                 <span class="text-tag"><span class="elipse"></span><span class="text-size-small caps">Alles aus einer Hand</span></span>
                 <h3 class="heading-6">Technik, Lieferung und Einbau in nur 48&nbsp;Stunden</h3>
                 <p>Von der kostenlosen Beratung vor Ort über die Technikbox mit Salzwasser- oder Chlorpflege bis zum fertigen Einbau: Sie haben einen Ansprechpartner.</p>
-                <a href="#beratung" class="btn-pill is-navy">Beratung anfragen</a>
+                <a href={BERATUNG} class="btn-pill is-navy">Beratung anfragen</a>
               </div>
             </div>
           </div>
@@ -99,6 +100,7 @@ const arrow = `<svg width="11" height="10" viewBox="0 0 11 10" fill="none" aria-
 
   .bento-component { display: flex; flex-flow: column; gap: 1rem; width: 100%; }
   .bento-row { display: flex; gap: 1rem; width: 100%; }
+  #pakete { scroll-margin-top: 8rem; }
   .card-small, .card-big {
     position: relative; display: flex; height: 50vh; overflow: hidden;
     border: 0.1px solid #9b8f7e66; border-radius: 0.5rem;

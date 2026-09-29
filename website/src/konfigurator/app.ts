@@ -32,7 +32,7 @@ const STEPS = [
 // „Gut zu wissen“ je Schritt (Hinweis oben im Panel)
 const TIPS = [
   'Alle Hersteller liefern fertige Poolschalen, die ohne Beton in rund 48 Stunden eingebaut werden. Unterschiede gibt es bei Material, Formensprache und Treppen.',
-  'Maße laut Herstellerkatalog 2026 (Länge × Breite × Tiefe). Über das Info-Symbol sehen Sie Bilder, Treppenform und Ausstattungsmöglichkeiten.',
+  'Maße laut Herstellerkatalog 2026 (Länge × Breite × Tiefe). Über den Pfeil unten rechts an jeder Karte sehen Sie Bild, Treppenform und Ausstattungsmöglichkeiten.',
   'Die Beckenfarbe bestimmt die Wasserfarbe: helle Oberflächen wirken türkis, dunkle tiefblau.',
   'Eine Abdeckung hält Wärme im Wasser, Schmutz draußen und sichert den Pool. Die Preise sind Richtwerte für den Aufpreis.',
   'Alle Technikvarianten arbeiten mit Salzelektrolyse, automatischer Dosierung und App-Steuerung. iWash übernimmt die Rückspülung automatisch.',
