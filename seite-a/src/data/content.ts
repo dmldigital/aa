@@ -37,17 +37,18 @@ export const impressions = [
 ];
 
 export const company = {
-  label: 'Why choose us?',
+  label: 'Warum Weber',
   title: 'Wo strukturelle Präzision auf meisterhafte Ausführung trifft',
-  text: 'Über 25 Jahre Meistererfahrung im Hoch-, Tief- und Sanierungsbau. Mit eigenem Fuhrpark schaffen wir Werte, die Generationen überdauern.',
+  text: 'Seit über 100 Jahren im Hoch-, Tief- und Sanierungsbau, heute in fünfter Generation geführt. Mit eigenem Fuhrpark schaffen wir Werte, die bleiben.',
   motto: { label: 'Unser Leitmotiv', quote: '„Kein Weg zu weit, kein Platz zu klein.“', note: 'Fundierte Baukompetenz & Verlässlichkeit.' },
   promise: { label: 'Unser Versprechen', text: 'Persönliche Betreuung durch die Geschäftsführung und höchste Ausführungsqualität auf jeder Baustelle.', note: '100% Inhabergeführt' },
-  // Labels and values unchanged from the previous site (see the note to the client about the English labels).
+  // Sources: mw-bauen.de ("seit mehr als 100 Jahren", Hochbau • Tiefbau • Sanierungsbau) and DIE RHEINPFALZ, 12.04.2023
+  // (fifth generation, run by Michelle and Marco Weber since 2021, about 100 employees).
   stats: [
-    { label: 'Expert Architects', value: '25', unit: '+' },
-    { label: 'Client Retention', value: '99', unit: '%' },
-    { label: 'Completed Projects', value: '500', unit: '+' },
-    { label: 'Eigener Fuhrpark', value: '100', unit: '%' },
+    { label: 'Jahre am Bau', value: '100', unit: '+' },
+    { label: 'Generation im Familienbetrieb', value: '5', unit: '.' },
+    { label: 'Mitarbeiter (ca.)', value: '100', unit: '' },
+    { label: 'Sparten: Hoch-, Tief- und Sanierungsbau', value: '3', unit: '' },
   ],
   cta: ['Sprechen wir', 'über Ihr Vorhaben'],
 };

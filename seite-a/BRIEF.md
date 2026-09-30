@@ -58,7 +58,7 @@ Inhalte zentral in `src/data/content.ts`, Sektionen in `src/components/`, Animat
 ## Schwächen / offene Punkte
 - **Überschriften sehr groß und sehr fett:** Hero bis 8,6 rem und Großbuchstaben mit Gewicht 800. Das wirkt laut und nimmt viel Raum ein, gerade auf dem Handy.
 - **Team-Titel am Desktop:** Der invertierte, sticky Titel liegt über Porträts und Namen. Das wirkt teils unruhig, und Namen sind kurz schlecht lesbar.
-- **Englische Vorlagen-Texte:** In der Unternehmens-Sektion stehen noch Vorlagen-Texte mit nicht belegten Angaben: „Expert Architects 25+“, „Client Retention 99 %“, „Completed Projects 500+“, „Let's Talk Your Plans!“. Sie wurden bewusst unverändert aus Seite B übernommen und müssen vom Kunden bestätigt oder ersetzt werden.
+- **Unternehmens-Sektion (erledigt 30.09.2026):** Die englischen Vorlagen-Texte („Why choose us?“, „Expert Architects 25+“, „Client Retention 99 %“, „Completed Projects 500+“) sind ersetzt durch Deutsch und belegte Zahlen: über 100 Jahre (mw-bauen.de), 5. Generation und rund 100 Mitarbeiter (DIE RHEINPFALZ, 12.04.2023), 3 Sparten. Offen: An anderen Stellen steht noch „25+ Jahre“ (Über-uns-Zähler, Footer), das widerspricht den 100 Jahren und muss der Kunde klären.
 - **Portfolio-Bilder:** nur 440 px breit und deshalb bei größerer Darstellung unscharf. Die Leistungen nutzen sie trotzdem.
 - **Datenmenge:** Das Scrub-Video für den Hero ist 13 MB groß und wird am Desktop komplett geladen. Nur am Desktop getestet (Headless-Chrome), nicht auf echten Geräten.
 - **Überladene Animationen:** Pin-Sektionen am Desktop (Hero und Impressionen) plus viele Scroll-Effekte. Auf schwächeren Rechnern möglicherweise hakelig.
