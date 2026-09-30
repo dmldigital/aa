@@ -1,6 +1,6 @@
 ---
-// Fuhrpark & Werte: tall fleet video between motto and promise; statistics roll in digit by digit
-// with a short motion blur (21st.dev "Animated Blur Number").
+// Fuhrpark & Werte: tall fleet video between motto and promise. Below: the one figure from mw-bauen.de (rolls in digit by
+// digit, 21st.dev "Animated Blur Number") and three statements from the same site.
 import { company } from '../data/content';
 ---
 <section class="company" id="unternehmen" aria-labelledby="company-title">
@@ -29,11 +29,11 @@ import { company } from '../data/content';
   </div>
   <div class="wrap stats">
     {company.stats.slice(0, 2).map(s => (
-      <div class="stat" data-rule><span class="stat-label">{s.label}</span><span class="stat-value"><span data-roll={s.value}>{s.value}</span><small>{s.unit}</small></span></div>
+      <div class="stat" data-rule><span class="stat-label">{s.label}</span>{s.word ? <span class="stat-value stat-word">{s.word}</span> : <span class="stat-value"><span data-roll={s.value}>{s.value}</span><small>{s.unit}</small></span>}</div>
     ))}
     <a href="#kontakt" class="stat stat-cta" data-magnetic><span>{company.cta[0]}<br />{company.cta[1]}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg></a>
     {company.stats.slice(2).map(s => (
-      <div class="stat" data-rule><span class="stat-label">{s.label}</span><span class="stat-value"><span data-roll={s.value}>{s.value}</span><small>{s.unit}</small></span></div>
+      <div class="stat" data-rule><span class="stat-label">{s.label}</span>{s.word ? <span class="stat-value stat-word">{s.word}</span> : <span class="stat-value"><span data-roll={s.value}>{s.value}</span><small>{s.unit}</small></span>}</div>
     ))}
   </div>
 </section>

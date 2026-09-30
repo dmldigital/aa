@@ -90,6 +90,7 @@
 .stat-label { font-size: 14px; color: var(--muted); }
 .stat-value { display: flex; align-items: baseline; font-variant-numeric: tabular-nums; font-size: clamp(2.2rem, 3.4vw, 3.3rem); font-weight: 400; line-height: 1; letter-spacing: -.03em; }
 .stat-value small { font-size: .5em; color: var(--red); margin-left: 2px; }
+.stat-word { font-size: clamp(1.45rem, 2.3vw, 2.2rem); letter-spacing: -.02em; }
 .stat-cta { grid-column: span 2; order: 5; margin-top: 16px; padding: 24px; flex-direction: row; align-items: center; background: var(--red); color: var(--paper); font-size: 1.2rem; font-weight: 500; line-height: 1.25; letter-spacing: -.01em; transition: background .5s var(--ease); }
 .stat-cta::before { display: none; }
 .stat-cta:hover { background: var(--red-dk); }

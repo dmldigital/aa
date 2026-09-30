@@ -37,19 +37,19 @@ export const impressions = [
 ];
 
 export const company = {
-  label: 'Warum Weber',
+  label: 'Unser Unternehmen',
   title: 'Wo strukturelle Präzision auf meisterhafte Ausführung trifft',
-  text: 'Seit über 100 Jahren im Hoch-, Tief- und Sanierungsbau, heute in fünfter Generation geführt. Mit eigenem Fuhrpark schaffen wir Werte, die bleiben.',
+  // Wording from mw-bauen.de ("Unser Unternehmen"); only there stated facts, no invented figures.
+  text: 'Unser Bauunternehmen ist ein mittelständisches, inhabergeführtes Unternehmen, welches sich seit mehr als 100 Jahren einen Namen gemacht hat.',
   motto: { label: 'Unser Leitmotiv', quote: '„Kein Weg zu weit, kein Platz zu klein.“', note: 'Fundierte Baukompetenz & Verlässlichkeit.' },
-  promise: { label: 'Unser Versprechen', text: 'Persönliche Betreuung durch die Geschäftsführung und höchste Ausführungsqualität auf jeder Baustelle.', note: '100% Inhabergeführt' },
-  // Sources: mw-bauen.de ("seit mehr als 100 Jahren", Hochbau • Tiefbau • Sanierungsbau) and DIE RHEINPFALZ, 12.04.2023
-  // (fifth generation, run by Michelle and Marco Weber since 2021, about 100 employees).
+  promise: { label: 'Unser Versprechen', text: 'Persönliche Betreuung durch die Geschäftsführung und höchste Ausführungsqualität auf jeder Baustelle.', note: 'Inhabergeführt' },
+  // The only figure on mw-bauen.de is "seit mehr als 100 Jahren"; the other tiles carry statements from the same site.
   stats: [
     { label: 'Jahre am Bau', value: '100', unit: '+' },
-    { label: 'Generation im Familienbetrieb', value: '5', unit: '.' },
-    { label: 'Mitarbeiter (ca.)', value: '100', unit: '' },
-    { label: 'Sparten: Hoch-, Tief- und Sanierungsbau', value: '3', unit: '' },
-  ],
+    { label: 'Pünktlichkeit und Preisstabilität', word: 'Pünktlich' },
+    { label: 'Nachhaltige Baupraktiken und Materialien', word: 'Nachhaltig' },
+    { label: 'Ihre Vorstellungen in handwerklicher Perfektion', word: 'Handwerk' },
+  ] as { label: string; value?: string; unit?: string; word?: string }[],
   cta: ['Sprechen wir', 'über Ihr Vorhaben'],
 };
 
