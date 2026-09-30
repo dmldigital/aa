@@ -1,31 +1,32 @@
-/* SERVICES: phone: cards that stack on top of each other while scrolling (CSS `position: sticky` only, so the page keeps its
-   native scrolling); desktop: quiet index with a cursor preview. */
+/* SERVICES: phone: cards in the look of the desktop row (label, title, text, round arrow); with motion the section holds and
+   the cards slide over each other (see serviceStack() in motion.ts). Desktop: quiet index with a cursor preview. */
 .services { padding: clamp(72px, 9vw, 132px) 0; }
-/* Phone: every service is a card in the look of the desktop row (label, title, text, round arrow). All cards share one height
-   and one sticky position, so each new card lands exactly on top of the one before. */
-.service-list { --card-h: 330px; }
-.service { position: sticky; top: max(calc(var(--header-h) + 12px), calc(50svh - var(--card-h) / 2)); height: var(--card-h); margin-bottom: 24px; background-color: var(--anth-2); background-image: url('/footer-grain.svg'); background-size: 180px; border: 1px solid var(--line-light); box-shadow: 0 -18px 36px -20px rgba(0, 0, 0, .8); }
-.service:last-child { margin-bottom: 0; }
+.service-list { display: grid; gap: 14px; }
+.service { position: relative; overflow: hidden; border-radius: 4px; background-color: var(--anth-2); background-image: url('/footer-grain.svg'); background-size: 180px; box-shadow: inset 0 0 0 1px var(--line-light), 0 -22px 44px -18px rgba(0, 0, 0, .6); }
 .service-row { position: relative; display: flex; flex-direction: column; height: 100%; padding: 26px 22px 24px; }
-.service-media { display: none; }
-.service-badge { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
-.service-badge:not(.service-badge-inline) { display: none; }
-.service-badge-inline { display: block; color: var(--accent); }
-.service-title { margin-top: auto; padding: 0 0 14px; font-size: clamp(1.75rem, 8vw, 2.2rem); font-weight: 500; line-height: 1.08; letter-spacing: -.02em; }
+.service-badge { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); }
+.service-title { margin-top: auto; padding: 44px 0 14px; font-size: clamp(1.75rem, 8vw, 2.2rem); font-weight: 500; line-height: 1.08; letter-spacing: -.02em; }
 .service-text { padding: 0 64px 0 0; font-size: .9375rem; line-height: 1.6; color: rgba(244, 242, 238, .74); }
 .service-go { position: absolute; right: 22px; bottom: 24px; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(244, 242, 238, .28); transition: background .5s var(--ease), box-shadow .5s var(--ease), transform .6s var(--ease); }
 .service-go svg { width: 18px; height: 18px; fill: none; stroke: var(--paper); stroke-width: 1.6; }
 .service-row:active .service-go { background: var(--red); box-shadow: none; transform: rotate(45deg); }
+.service-dim { position: absolute; inset: 0; background: #0b0c0e; opacity: 0; pointer-events: none; }
 .service-follow { display: none; }
+/* Stack: the inner block is pinned at screen height; all cards share one box below the heading. */
+.services.is-stacked .services-inner { display: flex; flex-direction: column; justify-content: center; height: 100svh; padding-top: var(--header-h); overflow: hidden; }
+.services.is-stacked .section-head { margin-bottom: 26px; }
+.services.is-stacked .service-list { position: relative; display: block; flex: none; height: var(--card-h); }
+.services.is-stacked .service { position: absolute; top: 0; bottom: 0; left: var(--gutter); right: var(--gutter); transform-origin: 50% 0; will-change: transform; }
 @media (min-width: 900px) {
-  .service { position: static; height: auto; margin: 0; background: none; border: 0; box-shadow: none; border-top: 1px solid var(--line-light); }
-  .service-go { position: static; background: none; }
+  .service-list { display: block; }
+  .service { overflow: visible; border-radius: 0; background: none; box-shadow: none; border-top: 1px solid var(--line-light); }
   .service:last-child { border-bottom: 1px solid var(--line-light); }
+  .service-dim { display: none; }
   .service-row { display: grid; height: auto; grid-template-columns: 200px minmax(0, 1.3fr) minmax(0, 1fr) 56px; align-items: center; gap: clamp(20px, 3vw, 56px); padding: clamp(24px, 2.4vw, 36px) 0; }
   .service-title { margin: 0; padding: 0; font-size: clamp(1.6rem, 2.9vw, 2.75rem); transition: transform .6s var(--ease), color .5s var(--ease); }
   .service-text { padding: 0; max-width: 40ch; }
-  .service-go { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-light); transition: background .5s var(--ease), box-shadow .5s var(--ease), transform .6s var(--ease); }
-  .service-go svg { width: 20px; height: 20px; fill: none; stroke: var(--paper); stroke-width: 1.5; }
+  .service-go { position: static; width: 56px; height: 56px; box-shadow: inset 0 0 0 1px var(--line-light); }
+  .service-go svg { width: 20px; height: 20px; stroke-width: 1.5; }
   .service-list .service { transition: opacity .5s var(--ease); }
   .service-list:hover .service { opacity: .42; }
   .service-list .service:hover { opacity: 1; }

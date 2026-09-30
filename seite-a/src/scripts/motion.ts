@@ -255,9 +255,41 @@ function serviceFollow() {
   return () => { rows.forEach(([r, h]) => r.removeEventListener('pointerenter', h)); list.removeEventListener('pointermove', move); list.removeEventListener('pointerenter', enter); list.removeEventListener('pointerleave', leave); };
 }
 function serviceRows() {
-  ScrollTrigger.batch('.service', { start: 'top 90%', once: true, onEnter: b => gsap.from(b.map(r => [...r.querySelectorAll('.service-row > *:not(.service-media)')]).flat(), { y: 20, opacity: 0, duration: 1, stagger: .07, ease: EASE }) });
+  ScrollTrigger.batch('.service', { start: 'top 90%', once: true, onEnter: b => gsap.from(b.map(r => [...r.querySelectorAll('.service-row > *')]).flat(), { y: 20, opacity: 0, duration: 1, stagger: .07, ease: EASE }) });
 }
-// Phone: the service cards stack with CSS `position: sticky` only; no script touches them (no transforms on sticky elements).
+// Phone (21st.dev "Services Stack" / "Stacking Cards"): the section holds with its heading, and each card slides up over the one
+// before. The covered card shrinks a little from its top edge and darkens; its shadow fades out, so only the card on the move
+// casts one and shadows never add up under the stack. All cards share one box, so they land exactly on top of each other.
+function serviceStack() {
+  const section = document.querySelector<HTMLElement>('.services')!;
+  const inner = section.querySelector<HTMLElement>('.services-inner')!;
+  const list = section.querySelector<HTMLElement>('.service-list')!;
+  const cards = all('.service', list);
+  const fit = () => {
+    section.classList.remove('is-stacked');
+    list.style.setProperty('--card-h', `${Math.max(...cards.map(c => c.offsetHeight))}px`);
+    section.classList.add('is-stacked');
+  };
+  fit();
+  const SHADOW = 'inset 0 0 0 1px rgba(244, 242, 238, .12), 0 -22px 44px -18px rgba(0, 0, 0, .6)';
+  const NONE = 'inset 0 0 0 1px rgba(244, 242, 238, .12), 0 -22px 44px -18px rgba(0, 0, 0, 0)';
+  const tl = gsap.timeline({
+    defaults: { ease: 'none', duration: 1 },
+    scrollTrigger: {
+      trigger: inner, start: 'top top', end: () => `+=${(cards.length - 1) * innerHeight * .75}`,
+      pin: true, scrub: SCRUB, anticipatePin: 1, invalidateOnRefresh: true, onRefreshInit: fit,
+    },
+  });
+  cards.forEach((card, i) => {
+    if (!i) return;
+    const prev = cards[i - 1];
+    tl.fromTo(card, { y: () => innerHeight - list.getBoundingClientRect().top + inner.getBoundingClientRect().top }, { y: 0, ease: 'power1.out' }, i - 1)
+      .fromTo(prev, { scale: 1, boxShadow: SHADOW }, { scale: .92, boxShadow: NONE }, i - 1)
+      .fromTo(prev.querySelector('.service-dim'), { opacity: 0 }, { opacity: .55 }, i - 1);
+  });
+  tl.to({}, { duration: .25 });
+  return () => { section.classList.remove('is-stacked'); list.style.removeProperty('--card-h'); gsap.set(cards, { clearProps: 'transform,boxShadow' }); };
+}
 
 // ---------- IMPRESSIONS (Zoom Parallax) --------------------------------------------------------
 function zoomParallax() {
@@ -310,6 +342,7 @@ export function initMotion(reduced: boolean) {
   const mm = gsap.matchMedia();
   // Pins first, top to bottom, so later triggers measure positions including the spacers.
   mm.add('all', heroScrub);
+  mm.add('(max-width: 899px)', serviceStack);
   mm.add('(min-width: 1024px)', zoomParallax);
   mm.add('(max-width: 1023px)', stripReveal);
   mm.add('(min-width: 900px)', serviceRows);
