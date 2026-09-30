@@ -45,8 +45,9 @@ function heroIntro() {
 }
 
 // Frame sequence on a canvas: the wanted position is eased towards (so scroll steps never show as jumps) and the two
-// neighbouring frames are cross-blended for every fractional position.
-function frameSequence(canvas: HTMLCanvasElement) {
+// neighbouring frames are cross-blended for every fractional position. `focus` (optional) gives, per frame, the horizontal point
+// (0 to 1 of the image width) the crop centres on when the screen is narrower than the footage.
+function frameSequence(canvas: HTMLCanvasElement, focus?: (frame: number) => number) {
   const N = Number(canvas.dataset.frames);
   const base = canvas.dataset.base!;
   const ctx = canvas.getContext('2d')!;
@@ -60,10 +61,11 @@ function frameSequence(canvas: HTMLCanvasElement) {
     im.src = `${base}f${String(i).padStart(3, '0')}.webp`;
   });
   const near = (i: number) => { for (let d = 0; d < N; d++) { if (imgs[i - d]) return imgs[i - d]; if (imgs[i + d]) return imgs[i + d]; } return undefined; };
-  const cover = (im: HTMLImageElement) => {
+  const cover = (im: HTMLImageElement, fx: number) => {
     const s = Math.max(canvas.width / im.naturalWidth, canvas.height / im.naturalHeight);
     const w = im.naturalWidth * s, h = im.naturalHeight * s;
-    ctx.drawImage(im, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
+    const x = Math.min(0, Math.max(canvas.width - w, canvas.width / 2 - fx * w));
+    ctx.drawImage(im, x, (canvas.height - h) / 2, w, h);
   };
   const draw = () => {
     const dpr = Math.min(devicePixelRatio || 1, 1.5);
@@ -75,8 +77,9 @@ function frameSequence(canvas: HTMLCanvasElement) {
     if (key === lastKey) return;
     lastKey = key;
     const A = near(a), B = near(Math.min(N - 1, a + 1));
-    if (A) cover(A);
-    if (A && B && B !== A && t > .02) { ctx.globalAlpha = t; cover(B); ctx.globalAlpha = 1; }
+    const fx = focus ? focus(f) : .5;
+    if (A) cover(A, fx);
+    if (A && B && B !== A && t > .02) { ctx.globalAlpha = t; cover(B, fx); ctx.globalAlpha = 1; }
   };
   const tick = () => {
     raf = 0;
@@ -101,23 +104,28 @@ function frameSequence(canvas: HTMLCanvasElement) {
   };
 }
 
-// Every screen size: the hero is pinned and its framed video grows to full screen while scrolling. With a mouse the flight
-// is a frame sequence scrubbed by the scroll position; on touch devices the video loops inside the frame instead.
+// Where the orange wheel loader sits in the drone flight (share of the image width, by frame). On narrow portrait screens
+// the crop follows it, so it stays in the frame and in the full-screen picture the whole way.
+const LOADER: [number, number][] = [
+  [0, .667], [10, .693], [20, .68], [30, .648], [40, .63], [50, .636], [60, .64], [70, .565],
+  [80, .575], [90, .572], [100, .582], [110, .566], [120, .585], [129, .583],
+];
+const loaderX = (f: number) => {
+  for (let k = 1; k < LOADER.length; k++) {
+    const [a, x0] = LOADER[k - 1], [b, x1] = LOADER[k];
+    if (f <= b) return x0 + (x1 - x0) * (f - a) / (b - a);
+  }
+  return LOADER[LOADER.length - 1][1];
+};
+
+// Every screen size: the hero is pinned and its framed drone flight grows to full screen while scrolling. The flight is a
+// frame sequence scrubbed by the scroll position; with a mouse centred, on phones and tablets following the wheel loader.
 function heroScrub() {
   const stage = document.querySelector<HTMLElement>('.hero-stage')!;
   const media = stage.querySelector<HTMLElement>('.hero-media')!;
   const frame = stage.querySelector<HTMLElement>('.hero-frame')!;
   const mouse = matchMedia(DESKTOP).matches;
-  const seq = mouse ? frameSequence(stage.querySelector<HTMLCanvasElement>('.hero-canvas')!) : undefined;
-  if (!mouse) {
-    const video = stage.querySelector<HTMLVideoElement>('.hero-video')!;
-    video.loop = true;
-    // The drone flight plays on its own as soon as the page is there, no tap or scroll needed.
-    video.autoplay = true;
-    video.preload = 'auto';
-    video.src = video.dataset.loop!;
-    video.play().catch(() => {});
-  }
+  const seq = frameSequence(stage.querySelector<HTMLCanvasElement>('.hero-canvas')!, mouse ? undefined : loaderX);
   const lines = heroText();
   const inset = () => {
     const s = stage.getBoundingClientRect(), f = frame.getBoundingClientRect();
@@ -139,8 +147,8 @@ function heroScrub() {
     .fromTo('.hero-box p, .hero-box-cta', { y: 30, clipPath: 'inset(0 0 100% 0)' }, { y: 0, clipPath: 'inset(0 0 0% 0)', ease: 'power2.out', duration: .3, stagger: .07 }, .74)
     .to({}, { duration: .3 });
   // The flight ends a little before the pin ends, so the last frames hold while the box is read.
-  if (seq) tl.eventCallback('onUpdate', () => seq.to(tl.progress() / .9));
-  return () => seq?.destroy();
+  tl.eventCallback('onUpdate', () => seq.to(tl.progress() / .9));
+  return () => seq.destroy();
 }
 
 // ---------- SHARED ENTRANCES ------------------------------------------------------------------

@@ -123,13 +123,13 @@ ul, ol { list-style: none; }
 }
 
 /* DRAWER (phone menu) */
-/* A calm full-screen panel in the site's anthracite with grain: it fades in, the entries sit centred and rise a few pixels
-   one after another (main.ts). No wipe, no second colour layer. */
-.drawer { --accent: var(--red-light); position: fixed; z-index: 55; inset: 0; background-color: var(--anth); background-image: url('/footer-grain.svg'); background-size: 180px; color: var(--paper); opacity: 0; visibility: hidden; transition: opacity .4s var(--ease), visibility 0s .4s; }
-.drawer.is-open { opacity: 1; visibility: visible; transition: opacity .5s var(--ease), visibility 0s; }
+/* The panel slides down from the top edge over the page (one long, soft curve, no colour layer); the entries are revealed
+   downwards through a mask, one after another (main.ts). Closing slides the panel back up. */
+.drawer { --accent: var(--red-light); --slide: cubic-bezier(.76, 0, .24, 1); position: fixed; z-index: 55; inset: 0; background-color: var(--anth); background-image: url('/footer-grain.svg'); background-size: 180px; color: var(--paper); box-shadow: 0 24px 60px rgba(0, 0, 0, .35); transform: translateY(-100%); visibility: hidden; transition: transform .8s var(--slide), visibility 0s .8s; }
+.drawer.is-open { transform: none; visibility: visible; transition: transform 1s var(--slide), visibility 0s; }
 .drawer-panel { display: flex; flex-direction: column; min-height: 100%; max-height: 100%; padding: calc(var(--header-h) + 12px) var(--gutter) calc(28px + env(safe-area-inset-bottom)); overflow-y: auto; text-align: center; }
 .drawer-nav { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 4px; padding-block: 24px; }
-.drawer-link { display: block; padding: 10px 24px; }
+.drawer-link { display: block; padding: 10px 24px; overflow: hidden; }
 .drawer-label { display: block; font-size: clamp(1.6rem, 7vw, 2.1rem); font-weight: 500; line-height: 1.15; letter-spacing: -.02em; transition: color .4s var(--ease); }
 .drawer-link:hover .drawer-label, .drawer-link:focus-visible .drawer-label, .drawer-link:active .drawer-label { color: var(--red-light); }
 .drawer-bottom { display: grid; justify-items: center; gap: 24px; padding-top: 26px; border-top: 1px solid var(--line-light); }
@@ -146,7 +146,9 @@ body.menu-open .site-header { background: transparent; border-bottom-color: tran
 .hero-media { position: absolute; inset: 0; overflow: hidden; }
 .hero-video { width: 100%; height: 100%; object-fit: cover; }
 .hero-canvas { display: none; position: absolute; inset: 0; width: 100%; height: 100%; }
-@media (min-width: 1024px) and (pointer: fine) { html.motion .hero-canvas { display: block; } html.motion .hero-video { display: none; } }
+/* With motion every screen scrubs the frame sequence on the canvas; the video is only the reduced-motion fallback. */
+html.motion .hero-canvas { display: block; }
+html.motion .hero-video { display: none; }
 .hero-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(21, 23, 26, .92), rgba(21, 23, 26, .32) 55%, rgba(21, 23, 26, .46)); }
 .hero-frame { display: none; }
 .hero-title { position: relative; z-index: 2; font-size: clamp(2.4rem, 5vw, 5rem); font-weight: 450; line-height: 1.08; letter-spacing: -.02em; text-shadow: 0 2px 28px rgba(21, 23, 26, .35); }

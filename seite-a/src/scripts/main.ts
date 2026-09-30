@@ -49,10 +49,11 @@ export function initSite() {
     if (open) {
       lenis?.stop();
       if (!reduced) {
-        // The panel fades in; the entries, then the button and contact block rise a few pixels, one after another.
-        gsap.timeline({ defaults: { ease: 'soft' }, delay: .12 })
-          .fromTo(drawer.querySelectorAll('.drawer-link'), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: .8, stagger: .05 }, 0)
-          .fromTo(drawer.querySelector('.drawer-bottom'), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: .8 }, .25);
+        // While the panel is still sliding down, the entries are revealed downwards through their mask, one after another;
+        // the button and contact block follow.
+        gsap.timeline({ defaults: { ease: 'soft' }, delay: .38 })
+          .fromTo(drawer.querySelectorAll('.drawer-label'), { yPercent: -110 }, { yPercent: 0, duration: 1.1, stagger: .07 }, 0)
+          .fromTo(drawer.querySelector('.drawer-bottom'), { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: 1 }, .35);
       }
     } else lenis?.start();
   };
