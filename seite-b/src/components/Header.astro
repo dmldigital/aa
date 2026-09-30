@@ -133,15 +133,13 @@ const phoneIcon = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" s
       <ul role="list" class="m-0 p-0 list-none">
         <li class="drawer-item" style="--i:1">
           <a href="/" class="group flex items-baseline justify-between py-3.5 border-b border-hairline-dark no-underline" data-drawer-link>
-            <span class="text-[22px] font-normal tracking-[-0.01em] text-white transition-transform duration-500 ease-mw group-hover:translate-x-1.5">Startseite</span>
-            <span class="text-[13px] tabular-nums text-white/50">01</span>
+            <span class="text-[22px] font-normal tracking-[-0.01em] text-white transition-transform duration-500 ease-mw group-hover:translate-x-1.5">Startseite</span>
           </a>
         </li>
         {navItems.map((n, i) => (
           <li class="drawer-item" style={`--i:${i + 2}`}>
             <a href={n.href} class="group flex items-baseline justify-between py-3.5 border-b border-hairline-dark no-underline" data-drawer-link>
-              <span class="text-[22px] font-normal tracking-[-0.01em] text-white transition-transform duration-500 ease-mw group-hover:translate-x-1.5">{n.label}</span>
-              <span class="text-[13px] tabular-nums text-white/50">{String(i + 2).padStart(2, '0')}</span>
+              <span class="text-[22px] font-normal tracking-[-0.01em] text-white transition-transform duration-500 ease-mw group-hover:translate-x-1.5">{n.label}</span>
             </a>
           </li>
         ))}

@@ -58,6 +58,9 @@ Manfred Weber GmbH & Co. KG, Bauunternehmen aus 67273 Weisenheim am Berg (Region
 
   Komprimierte Web-Fassungen derselben Videos liegen in `seite-a/public/media/video/`. Lokal fehlen die Videos in dieser Kopie. Die Seite fällt dann auf die mw-bauen.de-Quellen zurück, die Poster fehlen.
 
+## Feste Vorgaben des Kunden
+- **Keine Nummerierung in Menüs** (kein „01, 02, 03 …“ neben Navigationspunkten, weder am Desktop noch im Handy-Menü). Gilt als veraltet bzw. KI-Slop.
+
 ## Schwächen / offene Punkte
 - **Kaputter Menüpunkt:** „Impressionen“ verlinkt auf `#impressionen`, diese Sektion gibt es nicht.
 - **Englische Vorlagen-Texte:** In `CompanyShowcase` stehen noch Vorlagen-Texte mit nicht belegten Angaben: „WHY CHOOSE US?“, „Expert Architects 25+“, „Client Retention 99 %“, „Completed Projects 500+“, „Let's Talk Your Plans!“.

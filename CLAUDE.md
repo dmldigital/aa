@@ -7,6 +7,7 @@
   - **Sonnet** für mittlere Aufgaben: Umsetzen klar spezifizierter Änderungen, Zusammenfassungen, Auswertungen.
   - Das Hauptmodell nur für Planung, Architekturentscheidungen und die finale Prüfung.
 - Keine eigenen Tools/Skills bauen, wenn es etablierte, gut bewertete Lösungen gibt (z. B. auf GitHub) – erst danach suchen.
+- **Keine Nummerierung in Menüs** (kein „01, 02, 03 …“ neben Navigationspunkten, Desktop wie Handy-Menü), in allen Projekten dieses Repos. Vom Nutzer mehrfach ausdrücklich abgelehnt: veraltet, wirkt wie KI-Slop.
 
 ## Nachbau nach Vorlage (Design-Referenz, Animations-Beispiele)
 - **1:1 heißt 1:1.** Layout, Abstände, Radien, Schriftgrößen, Buttons, Menüs, Badges und Animationen exakt aus dem Original übernehmen (Werte aus Computed Style/CSS des Originals, Original-Assets wie SVG-Formen nachbauen). Getauscht werden nur Farben, Texte, Bilder, Logo – und nur so, wie der Nutzer es festgelegt hat.

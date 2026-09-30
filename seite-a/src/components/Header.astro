@@ -29,7 +29,6 @@ const phoneIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" s
     <nav class="drawer-nav" aria-label="Mobile Navigation">
       {nav.map(([label, href], i) => (
         <a href={href} class="drawer-link" style={`--i:${i}`}>
-          <span class="drawer-num">{String(i + 1).padStart(2, '0')}</span>
           <span class="drawer-label">{label}</span>
           <svg class="drawer-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
         </a>

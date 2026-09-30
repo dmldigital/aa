@@ -52,6 +52,9 @@ Inhalte zentral in `src/data/content.ts`, Sektionen in `src/components/`, Animat
 - `public/media/img/`: Portfolio-Bilder und Logo.
 - **Nicht im Repo:** `media-src/videos/` (Originale, 467 MB) und `media-src/team/` (Original-PNGs, 27 MB). Die Originale liegen lokal beim Nutzer.
 
+## Feste Vorgaben des Kunden
+- **Keine Nummerierung in Menüs** (kein „01, 02, 03 …“ neben Navigationspunkten, weder am Desktop noch im Handy-Menü). Gilt als veraltet bzw. KI-Slop.
+
 ## Schwächen / offene Punkte
 - **Überschriften sehr groß und sehr fett:** Hero bis 8,6 rem und Großbuchstaben mit Gewicht 800. Das wirkt laut und nimmt viel Raum ein, gerade auf dem Handy.
 - **Team-Titel am Desktop:** Der invertierte, sticky Titel liegt über Porträts und Namen. Das wirkt teils unruhig, und Namen sind kurz schlecht lesbar.
