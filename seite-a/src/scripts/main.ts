@@ -49,8 +49,13 @@ export function initSite() {
     if (open) {
       lenis?.stop();
       if (!reduced) {
-        gsap.fromTo(drawer.querySelectorAll('.drawer-label'), { yPercent: 105 }, { yPercent: 0, duration: 1, stagger: .07, ease: 'soft', delay: .15 });
-        gsap.fromTo(drawer.querySelectorAll('.drawer-foot > *'), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .9, stagger: .08, ease: 'soft', delay: .35 });
+        // The panel is still growing from the button when the entries start: labels drive in from the right through the row,
+        // numbers and arrows follow, then the button and contact block rise.
+        const tl = gsap.timeline({ defaults: { ease: 'soft' }, delay: .5 });
+        tl.fromTo(drawer.querySelectorAll('.drawer-label'), { xPercent: 70, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 1.1, stagger: .08 }, 0)
+          .fromTo(drawer.querySelectorAll('.drawer-num'), { x: 24, opacity: 0 }, { x: 0, opacity: 1, duration: .9, stagger: .08 }, .1)
+          .fromTo(drawer.querySelectorAll('.drawer-arrow'), { x: -18, opacity: 0 }, { x: 0, opacity: .55, duration: .9, stagger: .08 }, .2)
+          .fromTo(drawer.querySelectorAll('.drawer-cta, .drawer-foot > *'), { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: .09 }, .5);
       }
     } else lenis?.start();
   };

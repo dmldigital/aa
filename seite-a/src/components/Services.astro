@@ -14,6 +14,7 @@ import { services } from '../data/content';
         <a href="#kontakt" class="service-row">
           <span class="service-media"><img src={s.image} alt={s.title} width="440" height="425" loading="lazy" /><span class="service-badge">{s.badge}</span></span>
           <span class="service-badge service-badge-inline">{s.badge}</span>
+          <span class="service-index">{String(i + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}</span>
           <span class="service-title">{s.title}</span>
           <span class="service-text">{s.text}</span>
           <span class="service-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span>

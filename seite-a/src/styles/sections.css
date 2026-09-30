@@ -1,17 +1,25 @@
-/* SERVICES: phone: plain cards in native scrolling; desktop: quiet index with a cursor preview. */
+/* SERVICES: phone: full-image cards that stack on top of each other while scrolling (CSS `position: sticky` only, so the page
+   keeps its native scrolling); desktop: quiet index with a cursor preview. */
 .services { padding: clamp(72px, 9vw, 132px) 0; }
-.service { margin-bottom: 16px; background: var(--anth-2); }
-.service-row { display: grid; }
-.service-media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+.service { position: sticky; top: calc(16px + var(--i) * 10px); height: min(72svh, 540px); margin-bottom: 22px; background: var(--anth-2); overflow: hidden; border-radius: 4px; box-shadow: 0 -14px 30px -18px rgba(0, 0, 0, .75); }
+.service-row { position: relative; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding: 0 22px 24px; }
+.service-media { position: absolute; inset: 0; overflow: hidden; }
+.service-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(21, 23, 26, .96) 0%, rgba(21, 23, 26, .82) 36%, rgba(21, 23, 26, .12) 72%, rgba(21, 23, 26, .32) 100%); }
 .service-media img { width: 100%; height: 100%; object-fit: cover; }
-.service-badge { position: absolute; left: 12px; top: 12px; padding: 5px 10px; background: rgba(21, 23, 26, .72); font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+.service-badge { position: absolute; z-index: 1; left: 16px; top: 16px; padding: 6px 11px; background: rgba(21, 23, 26, .62); font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
 .service-badge-inline { display: none; }
-.service-title { padding: 20px 20px 8px; font-size: clamp(1.35rem, 5.6vw, 1.75rem); font-weight: 500; line-height: 1.15; letter-spacing: -.02em; }
-.service-text { padding: 0 20px 24px; font-size: .9375rem; line-height: 1.65; color: var(--muted-light); }
-.service-go { display: none; }
+.service-index { position: relative; margin-bottom: 12px; font-size: 12px; font-weight: 500; letter-spacing: .16em; color: var(--red-light); }
+.service-title { position: relative; padding: 0 0 10px; font-size: clamp(1.6rem, 7vw, 2rem); font-weight: 500; line-height: 1.1; letter-spacing: -.02em; }
+.service-text { position: relative; padding: 0 52px 0 0; font-size: .9375rem; line-height: 1.6; color: rgba(244, 242, 238, .78); }
+.service-go { position: absolute; z-index: 1; right: 16px; top: 16px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(21, 23, 26, .62); box-shadow: inset 0 0 0 1px rgba(244, 242, 238, .3); }
+.service-go svg { width: 18px; height: 18px; fill: none; stroke: var(--paper); stroke-width: 1.6; }
 .service-follow { display: none; }
 @media (min-width: 900px) {
-  .service { position: static; margin: 0; background: none; box-shadow: none; border-top: 1px solid var(--line-light); }
+  .service-index { display: none; }
+  .service { position: static; height: auto; margin: 0; overflow: visible; border-radius: 0; background: none; box-shadow: none; border-top: 1px solid var(--line-light); }
+  .service-row { display: grid; justify-content: normal; height: auto; padding: 0; }
+  .service-media { position: relative; inset: auto; }
+  .service-go { position: static; background: none; }
   .service:last-child { border-bottom: 1px solid var(--line-light); }
   .service-row { grid-template-columns: 200px minmax(0, 1.3fr) minmax(0, 1fr) 56px; align-items: center; gap: clamp(20px, 3vw, 56px); padding: clamp(24px, 2.4vw, 36px) 0; }
   .service-media { display: none; }

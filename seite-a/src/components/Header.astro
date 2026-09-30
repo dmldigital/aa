@@ -1,6 +1,7 @@
 ---
 import { nav, phone, mail, footer } from '../data/content';
-// Header "Zentriert": Logo in der Mitte, Menü links und rechts (Handy: Menü-Knopf links, Telefon rechts)
+// Header "Zentriert" am Desktop: Logo in der Mitte, Menü links und rechts.
+// Handy/Tablet: Logo links, Telefon und Menü-Knopf als runde Knöpfe rechts; das Menü öffnet sich als Kreis vom Knopf aus.
 const navL = nav.slice(0, 3);
 const navR = nav.slice(3);
 const phoneIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>';
@@ -24,11 +25,22 @@ const phoneIcon = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" s
 </header>
 
 <div class="drawer" id="drawer" inert>
-  <nav class="drawer-nav" aria-label="Mobile Navigation">
-    {nav.map(([label, href]) => <a href={href} class="drawer-link"><span class="drawer-label">{label}</span></a>)}
-  </nav>
-  <div class="drawer-foot">
-    <div><small>Direktkontakt</small><a href={phone.href}>{phone.label}</a><a href={`mailto:${mail}`}>{mail}</a></div>
-    <div><small>Standort</small><p>{footer.address.slice(1, 3).join(', ')}</p></div>
+  <div class="drawer-panel">
+    <nav class="drawer-nav" aria-label="Mobile Navigation">
+      {nav.map(([label, href], i) => (
+        <a href={href} class="drawer-link" style={`--i:${i}`}>
+          <span class="drawer-num">{String(i + 1).padStart(2, '0')}</span>
+          <span class="drawer-label">{label}</span>
+          <svg class="drawer-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+        </a>
+      ))}
+    </nav>
+    <div class="drawer-bottom">
+      <a href="#kontakt" class="btn btn-red drawer-cta"><span>Angebot anfragen</span></a>
+      <div class="drawer-foot">
+        <div><small>Direktkontakt</small><a href={phone.href}>{phone.label}</a><a href={`mailto:${mail}`}>{mail}</a></div>
+        <div><small>Standort</small><p>{footer.address.slice(1, 3).join(', ')}</p></div>
+      </div>
+    </div>
   </div>
 </div>

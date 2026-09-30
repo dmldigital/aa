@@ -42,8 +42,6 @@ function heroIntro() {
   lines.forEach((line, i) => tl.to(line, { ...CHAR_IN, duration: 1.7, ease: 'power3.out' }, .4 + i * .22));
   tl.from('.hero-frame b', { opacity: 0, duration: 1, stagger: .06 }, 1)
     .from('.hero-scroll', { opacity: 0, y: 12, duration: 1 }, 1.6);
-  // Phone/tablet: the box follows the headline (on desktop it arrives at the end of the scrub).
-  if (!matchMedia(DESKTOP).matches) gsap.fromTo('.hero-box', { y: 60, clipPath: 'inset(100% -60px -60px -60px)' }, { y: 0, clipPath: 'inset(0% -60px -60px -60px)', duration: 1.3, ease: EASE, delay: 1.2, clearProps: 'clipPath,transform' });
 }
 
 // Frame sequence on a canvas: the wanted position is eased towards (so scroll steps never show as jumps) and the two
@@ -103,12 +101,19 @@ function frameSequence(canvas: HTMLCanvasElement) {
   };
 }
 
-// Desktop: the flight is scrubbed by the scroll position while its frame grows to full screen.
+// Every screen size: the hero is pinned and its framed video grows to full screen while scrolling. With a mouse the flight
+// is a frame sequence scrubbed by the scroll position; on touch devices the video loops inside the frame instead.
 function heroScrub() {
   const stage = document.querySelector<HTMLElement>('.hero-stage')!;
   const media = stage.querySelector<HTMLElement>('.hero-media')!;
   const frame = stage.querySelector<HTMLElement>('.hero-frame')!;
-  const seq = frameSequence(stage.querySelector<HTMLCanvasElement>('.hero-canvas')!);
+  const mouse = matchMedia(DESKTOP).matches;
+  const seq = mouse ? frameSequence(stage.querySelector<HTMLCanvasElement>('.hero-canvas')!) : undefined;
+  if (!mouse) {
+    const video = stage.querySelector<HTMLVideoElement>('.hero-video')!;
+    video.loop = true;
+    afterFirstVisit().then(() => { video.src = video.dataset.loop!; video.play().catch(() => {}); });
+  }
   const lines = heroText();
   const inset = () => {
     const s = stage.getBoundingClientRect(), f = frame.getBoundingClientRect();
@@ -116,7 +121,7 @@ function heroScrub() {
   };
   const OUT = (i: number) => ({ x: EDGE(i, true), ease: 'power2.in', duration: .6, immediateRender: false });
   const tl = gsap.timeline({
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=260%', pin: true, scrub: SCRUB, anticipatePin: 1, invalidateOnRefresh: true },
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: mouse ? '+=260%' : '+=210%', pin: true, scrub: SCRUB, anticipatePin: 1, invalidateOnRefresh: true },
   })
     .fromTo(media, { clipPath: inset }, { clipPath: 'inset(0px 0px 0px 0px)', ease: 'power2.inOut', duration: 1 }, 0)
     .to(['.hero-frame', '.hero-scroll'], { opacity: 0, duration: .2 }, 0)
@@ -130,18 +135,8 @@ function heroScrub() {
     .fromTo('.hero-box p, .hero-box-cta', { y: 30, clipPath: 'inset(0 0 100% 0)' }, { y: 0, clipPath: 'inset(0 0 0% 0)', ease: 'power2.out', duration: .3, stagger: .07 }, .74)
     .to({}, { duration: .3 });
   // The flight ends a little before the pin ends, so the last frames hold while the box is read.
-  tl.eventCallback('onUpdate', () => seq.to(tl.progress() / .9));
-  return () => seq.destroy();
-}
-function heroLoop() {
-  const video = document.querySelector<HTMLVideoElement>('.hero-video')!;
-  video.loop = true;
-  afterFirstVisit().then(() => { video.src = video.dataset.loop!; video.play().catch(() => {}); });
-  // Headline lines keep going the way they came in and leave through the opposite screen edge, the box wipes upwards.
-  heroText().forEach((line, i) => gsap.fromTo(line, CHAR_IN, { x: EDGE(i, true), ease: 'power2.in', immediateRender: false,
-    scrollTrigger: { trigger: '.hero', start: `${4 + i * 4}% top`, end: '50% top', scrub: true } }));
-  gsap.fromTo('.hero-box', { clipPath: 'inset(0% -60px -60px -60px)' }, { clipPath: 'inset(0% -60px 100% -60px)', ease: 'power2.in', immediateRender: false,
-    scrollTrigger: { trigger: '.hero', start: '15% top', end: '70% top', scrub: true } });
+  if (seq) tl.eventCallback('onUpdate', () => seq.to(tl.progress() / .9));
+  return () => seq?.destroy();
 }
 
 // ---------- SHARED ENTRANCES ------------------------------------------------------------------
@@ -250,11 +245,7 @@ function serviceFollow() {
 function serviceRows() {
   ScrollTrigger.batch('.service', { start: 'top 90%', once: true, onEnter: b => gsap.from(b.map(r => [...r.querySelectorAll('.service-row > *:not(.service-media)')]).flat(), { y: 20, opacity: 0, duration: 1, stagger: .07, ease: EASE }) });
 }
-// Phone: the services are plain cards in native scrolling (no sticky stacking, no scroll hijacking, no scroll-linked
-// transforms); each card only rises in once when it arrives.
-function serviceCards() {
-  ScrollTrigger.batch('.service', { start: 'top 92%', once: true, onEnter: b => gsap.from(b, { y: 28, opacity: 0, duration: 1, stagger: .1, ease: EASE, clearProps: 'transform,opacity' }) });
-}
+// Phone: the service cards stack with CSS `position: sticky` only; no script touches them (no transforms on sticky elements).
 
 // ---------- IMPRESSIONS (Zoom Parallax) --------------------------------------------------------
 function zoomParallax() {
@@ -302,11 +293,9 @@ export function initMotion(reduced: boolean) {
   }
   const mm = gsap.matchMedia();
   // Pins first, top to bottom, so later triggers measure positions including the spacers.
-  mm.add(DESKTOP, heroScrub);
-  mm.add(`not all and ${DESKTOP}`, heroLoop);
+  mm.add('all', heroScrub);
   mm.add('(min-width: 1024px)', zoomParallax);
   mm.add('(max-width: 1023px)', stripReveal);
-  mm.add('(max-width: 899px)', serviceCards);
   mm.add('(min-width: 900px)', serviceRows);
   mm.add('all', () => {
     const splits: SplitText[] = [];

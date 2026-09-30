@@ -94,8 +94,23 @@ ul, ol { list-style: none; }
 .menu-toggle { grid-column: 1; grid-row: 1; justify-self: start; display: grid; place-content: center; gap: 7px; width: 44px; height: 44px; margin-left: -10px; }
 .menu-toggle span { width: 26px; height: 1.5px; background: currentColor; transition: transform .5s var(--ease); }
 .menu-toggle[aria-expanded='true'] span:first-child { transform: translateY(4.25px) rotate(45deg); }
-.menu-toggle[aria-expanded='true'] span:last-child { transform: translateY(-4.25px) rotate(-45deg); }
-@media (max-width: 1023px) { .brand-text small { display: none; } }
+.menu-toggle[aria-expanded='true'] span:last-child { transform: translateY(-4.25px) rotate(-45deg); }/* Phone/tablet header: logo left; phone and menu as two round buttons on the right, no hairline. */
+@media (max-width: 1023px) {
+  .site-header { grid-template-columns: 1fr auto auto; column-gap: 10px; border-bottom-color: transparent; }
+  .brand { grid-column: 1; justify-self: start; gap: 11px; }
+  .brand img { height: 28px; }
+  .brand-text small { display: none; }
+  .brand-text strong { font-size: 12.5px; letter-spacing: .12em; }
+  .header-phone, .menu-toggle { width: 42px; height: 42px; margin: 0; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(244, 242, 238, .26); background: rgba(21, 23, 26, .28); transition: background-color .5s var(--ease), box-shadow .5s var(--ease), color .4s var(--ease); }
+  .header-phone { grid-column: 2; justify-self: end; }
+  .header-phone svg { width: 18px; height: 18px; }
+  .menu-toggle { grid-column: 3; justify-self: end; gap: 5px; }
+  .menu-toggle span { width: 17px; height: 1.5px; transition: transform .7s var(--ease), width .5s var(--ease); }
+  .menu-toggle span:last-child { width: 11px; justify-self: end; }
+  .menu-toggle[aria-expanded='true'] span:first-child { transform: translateY(3.25px) rotate(45deg); }
+  .menu-toggle[aria-expanded='true'] span:last-child { width: 17px; transform: translateY(-3.25px) rotate(-45deg); }
+  body.menu-open .header-phone, body.menu-open .menu-toggle { background: transparent; box-shadow: inset 0 0 0 1px rgba(244, 242, 238, .34); }
+}
 @media (min-width: 1024px) {
   .main-nav { display: flex; }
   .header-r { grid-column: 3; grid-row: 1; justify-self: end; display: flex; align-items: center; gap: clamp(18px, 2vw, 30px); }
@@ -105,14 +120,26 @@ ul, ol { list-style: none; }
 }
 
 /* DRAWER (phone menu) */
-.drawer { --accent: var(--red-light); position: fixed; z-index: 55; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: calc(var(--header-h) + 20px) var(--gutter) calc(28px + env(safe-area-inset-bottom)); background-color: var(--anth); background-image: url('/footer-grain.svg'); background-size: 180px; color: var(--paper); clip-path: inset(0 0 100% 0); visibility: hidden; transition: clip-path .8s var(--ease), visibility 0s .8s; }
-.drawer.is-open { clip-path: inset(0); visibility: visible; transition: clip-path .8s var(--ease); }
-.drawer-link { display: block; overflow: hidden; border-bottom: 1px solid var(--line-light); }
-.drawer-label { display: block; padding: 16px 0 14px; font-size: clamp(1.7rem, 7.4vw, 2.4rem); font-weight: 500; line-height: 1.1; letter-spacing: -.02em; transition: color .4s var(--ease); }
-.drawer-link:hover .drawer-label { color: var(--red-light); }
+/* The menu opens as a circle growing from the menu button (top right) to the bottom left corner: a red edge first, the
+   dark panel following a beat later. Closing plays the same in reverse. */
+.drawer { --accent: var(--red-light); --ox: calc(100% - var(--gutter) - 21px); --oy: calc(var(--header-h) / 2); --wipe: cubic-bezier(.7, 0, .2, 1); position: fixed; z-index: 55; inset: 0; background: var(--red); color: var(--paper); clip-path: circle(0px at var(--ox) var(--oy)); visibility: hidden; transition: clip-path .95s var(--wipe) .16s, visibility 0s 1.15s; }
+.drawer.is-open { clip-path: circle(150vmax at var(--ox) var(--oy)); visibility: visible; transition: clip-path 1.25s var(--wipe), visibility 0s; }
+.drawer-panel { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; padding: calc(var(--header-h) + 18px) var(--gutter) calc(26px + env(safe-area-inset-bottom)); overflow-y: auto; background-color: var(--anth); background-image: url('/footer-grain.svg'); background-size: 180px; clip-path: circle(0px at var(--ox) var(--oy)); transition: clip-path .95s var(--wipe); }
+.drawer.is-open .drawer-panel { clip-path: circle(150vmax at var(--ox) var(--oy)); transition: clip-path 1.25s var(--wipe) .16s; }
+.drawer-nav { display: grid; }
+.drawer-link { position: relative; display: grid; grid-template-columns: 34px 1fr 22px; align-items: center; overflow: hidden; }
+.drawer-link::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--line-light); transform: scaleX(0); transform-origin: right; transition: transform .6s var(--ease); }
+.drawer.is-open .drawer-link::after { transform: none; transform-origin: left; transition: transform 1.1s var(--ease) calc(.55s + var(--i) * .07s); }
+.drawer-num { font-size: 11px; font-weight: 500; letter-spacing: .14em; color: var(--red-light); }
+.drawer-label { display: block; padding: 15px 0 13px; font-size: clamp(1.7rem, 7.4vw, 2.3rem); font-weight: 500; line-height: 1.1; letter-spacing: -.02em; transition: color .4s var(--ease), transform .6s var(--ease); }
+.drawer-arrow { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; opacity: .55; }
+.drawer-link:hover .drawer-label, .drawer-link:focus-visible .drawer-label { color: var(--red-light); transform: translateX(6px); }
+.drawer-bottom { display: grid; gap: 22px; }
+.drawer-cta { width: 100%; height: 54px; }
 .drawer-foot { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; font-size: 14px; }
 .drawer-foot small { display: block; margin-bottom: 6px; font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--red-light); }
 .drawer-foot a { display: block; }
+@media (prefers-reduced-motion: reduce) { .drawer, .drawer.is-open, .drawer-panel, .drawer.is-open .drawer-panel { transition-duration: .01s; transition-delay: 0s; } }
 body.menu-open { overflow: hidden; }
 body.menu-open .site-header { background: transparent; border-bottom-color: transparent; box-shadow: none; transform: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
 
@@ -159,8 +186,29 @@ body.menu-open .site-header { background: transparent; border-bottom-color: tran
   .hero-box, .hero-box * { hyphens: auto; }
   .ht-3 { bottom: calc(6vh + 150px); }
 }
-/* Scroll-scrubbed start state: the flight sits in the frame; only with a mouse (touch plays the loop). */
-@media (min-width: 1024px) and (pointer: fine) {
+/* Phone/tablet with motion: the same staging as on the desktop. The looping video sits in a portrait frame between the
+   headline lines and grows to full screen while scrolling (pinned); the box follows at the end. */
+@media (max-width: 1023px) {
+  html.motion .hero-stage { height: 100svh; min-height: 560px; display: block; padding: 0; }
+  html.motion .hero-frame { display: block; position: absolute; z-index: 3; left: 50%; top: 50%; width: 70vw; max-width: 460px; aspect-ratio: 4 / 5; transform: translate(-50%, -48%); pointer-events: none; }
+  html.motion .hero-frame b { position: absolute; width: 16px; height: 16px; border: 0 solid rgba(244, 242, 238, .7); }
+  html.motion .hero-frame b:nth-child(1) { left: -9px; top: -9px; border-left-width: 1px; border-top-width: 1px; }
+  html.motion .hero-frame b:nth-child(2) { right: -9px; top: -9px; border-right-width: 1px; border-top-width: 1px; }
+  html.motion .hero-frame b:nth-child(3) { left: -9px; bottom: -9px; border-left-width: 1px; border-bottom-width: 1px; }
+  html.motion .hero-frame b:nth-child(4) { right: -9px; bottom: -9px; border-right-width: 1px; border-bottom-width: 1px; }
+  html.motion .hero-title { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
+  html.motion .ht { position: absolute; }
+  html.motion .ht-1 { left: var(--gutter); top: calc(var(--header-h) + 3.5svh); }
+  html.motion .ht-2 { right: var(--gutter); top: calc(var(--header-h) + 3.5svh + 1.16em); }
+  html.motion .ht-3 { left: var(--gutter); bottom: 5svh; }
+  html.motion .hero-box { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 3svh; width: auto; max-width: 680px; margin: 0; opacity: 0; visibility: hidden; }
+  html.motion .hero-shade { opacity: 0; }
+}
+@media (max-width: 657px) {
+  html.motion .hero-media { clip-path: inset(calc(50% - 42vw) calc(50% - 35vw) calc(50% - 45.5vw)); }
+}
+/* Scroll-scrubbed start state: the video sits in the frame. */
+@media (min-width: 1024px) {
   html.motion .hero-media { clip-path: inset(calc(50% - 9.35vw) calc(50% - 17vw) calc(50% - 11.9vw) calc(50% - 17vw)); }
   html.motion .hero-shade { opacity: 0; }
   html.motion .hero-box { opacity: 0; visibility: hidden; }
