@@ -49,39 +49,61 @@ function heroIntro() {
 // desktop full HD (`-d` data attributes, 14.5 MB), phones portrait with a pan on the wheel loader (`-m`, 3.5 MB). Browsers
 // without AVIF fall back to the older 1280 px WebP frames. Phones load right away; with a mouse the rest of the sequence
 // waits for the first interaction.
+// Drawing a plain <img> makes the browser decode it on the main thread in the middle of the scroll (30 to 60 ms per full-HD
+// frame, which is what made the hero stutter). So the files are only fetched as data, and a small window of frames around the
+// current position (more ahead in the scroll direction) is decoded in the background with createImageBitmap; the canvas only
+// ever draws frames that are already decoded, and frames far behind are released again.
 const AVIF_TEST = 'data:image/avif;base64,AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAAOptZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAAImlsb2MAAAAAREAAAQABAAAAAAEOAAEAAAAAAAAAFwAAACNpaW5mAAAAAAABAAAAFWluZmUCAAAAAAEAAGF2MDEAAAAAamlwcnAAAABLaXBjbwAAABNjb2xybmNseAABAA0ABoAAAAAMYXYxQ4EgAgAAAAAUaXNwZQAAAAAAAAACAAAAAgAAABBwaXhpAAAAAAMICAgAAAAXaXBtYQAAAAAAAAABAAEEAYIDBAAAAB9tZGF0EgAKBzgANhAQ0GkyChgAAABAALASmpg=';
 const avifOk = () => new Promise<boolean>(res => { const im = new Image(); im.onload = () => res(im.width === 2); im.onerror = () => res(false); im.src = AVIF_TEST; });
+const AHEAD = 10, BEHIND = 4, KEEP = 12, DECODERS = 3;
 function frameSequence(canvas: HTMLCanvasElement, phone: boolean) {
   const d = canvas.dataset;
-  let N = Number(d.frames), base = d.base!, ext = 'webp';
+  let N = 0, base = d.base!, ext = 'webp';
   const ctx = canvas.getContext('2d')!;
-  let imgs: (HTMLImageElement | undefined)[] = [];
-  let target = 0, cur = 0, raf = 0, dead = false, lastKey = '', loaded = 0;
-  const load = (i: number) => new Promise<void>(res => {
-    const im = new Image();
-    im.decoding = 'async';
-    im.onload = () => { imgs[i] = im; loaded++; if (!dead) kick(); res(); };
-    im.onerror = () => res();
-    im.src = `${base}f${String(i).padStart(3, '0')}.${ext}`;
-  });
-  const near = (i: number) => { for (let d = 0; d < N; d++) { if (imgs[i - d]) return imgs[i - d]; if (imgs[i + d]) return imgs[i + d]; } return undefined; };
-  const cover = (im: HTMLImageElement) => {
-    const s = Math.max(canvas.width / im.naturalWidth, canvas.height / im.naturalHeight);
-    const w = im.naturalWidth * s, h = im.naturalHeight * s;
-    ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(im, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
+  let blobs: (Blob | undefined)[] = [];
+  const bitmaps = new Map<number, ImageBitmap>();
+  const decoding = new Set<number>();
+  let target = 0, cur = 0, raf = 0, dead = false, lastKey = '', ready = 0, pos = 0, dir = 1;
+  const fetchFrame = async (i: number) => {
+    try {
+      const r = await fetch(`${base}f${String(i).padStart(3, '0')}.${ext}`);
+      if (r.ok) { blobs[i] = await r.blob(); if (i === 0 || Math.abs(i - pos) <= AHEAD) pump(); }
+    } catch { /* a missing frame is bridged by its neighbours */ }
+  };
+  // Decode the frames nearest to the current position first, ahead in the scroll direction before behind.
+  const pump = () => {
+    if (dead || !N) return;
+    for (let k = 0; k <= AHEAD && decoding.size < DECODERS; k++) {
+      for (const i of k <= BEHIND && k ? [pos + dir * k, pos - dir * k] : [pos + dir * k]) {
+        if (i < 0 || i >= N || bitmaps.has(i) || decoding.has(i) || !blobs[i] || decoding.size >= DECODERS) continue;
+        decoding.add(i);
+        createImageBitmap(blobs[i]!).then(bm => {
+          decoding.delete(i);
+          if (dead || Math.abs(i - pos) > KEEP) { bm.close(); } else { bitmaps.set(i, bm); ready++; kick(); }
+          pump();
+        }, () => { decoding.delete(i); });
+      }
+    }
+  };
+  const release = () => { for (const [i, bm] of bitmaps) if (Math.abs(i - pos) > KEEP) { bm.close(); bitmaps.delete(i); } };
+  const near = (i: number) => { for (let k = 0; k < N; k++) { const bm = bitmaps.get(i - k) ?? bitmaps.get(i + k); if (bm) return bm; } return undefined; };
+  const cover = (bm: ImageBitmap) => {
+    const s = Math.max(canvas.width / bm.width, canvas.height / bm.height);
+    const w = bm.width * s, h = bm.height * s;
+    ctx.drawImage(bm, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
   };
   const draw = () => {
     // Phones draw at up to 2x so the portrait frames stay crisp on high-density screens.
     const dpr = Math.min(devicePixelRatio || 1, phone ? 2 : 1.5);
     const w = Math.round(canvas.clientWidth * dpr), h = Math.round(canvas.clientHeight * dpr);
-    if (!w || !h || !imgs.length) return;
+    if (!w || !h || !N) return;
     if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; lastKey = ''; }
     const f = cur * (N - 1), a = Math.min(N - 1, Math.floor(f)), t = f - a;
-    const key = `${a}|${Math.round(t * 40)}|${w}|${loaded}`;
+    if (a !== pos) { dir = a > pos ? 1 : -1; pos = a; release(); pump(); }
+    const key = `${a}|${Math.round(t * 40)}|${w}|${ready}`;
     if (key === lastKey) return;
     lastKey = key;
-    const A = near(a), B = near(Math.min(N - 1, a + 1));
+    const A = near(a), B = bitmaps.get(Math.min(N - 1, a + 1));
     if (A) cover(A);
     if (A && B && B !== A && t > .02) { ctx.globalAlpha = t; cover(B); ctx.globalAlpha = 1; }
   };
@@ -93,24 +115,24 @@ function frameSequence(canvas: HTMLCanvasElement, phone: boolean) {
     if (cur !== target && !dead) raf = requestAnimationFrame(tick);
   };
   const kick = () => { if (!raf && !dead) raf = requestAnimationFrame(tick); };
-  // Loading order: first frame (immediately), then the last frame, then every 8th, then the rest (six at a time).
-  // Phones load the whole flight straight away (it is the first thing they scroll); with a mouse only the first frame comes
-  // right away and the rest once the visitor interacts (or after a long idle time).
+  // Fetch order: first frame (immediately), then every 8th, then the rest (six requests at a time). Phones fetch the whole
+  // flight straight away (it is the first thing they scroll); with a mouse the rest follows the first interaction.
   avifOk().then(ok => {
     if (ok && phone) { N = Number(d.framesM); base = d.baseM!; ext = 'avif'; }
     else if (ok) { N = Number(d.framesD); base = d.baseD!; ext = 'avif'; }
-    imgs = new Array(N);
+    else N = Number(d.frames);
+    blobs = new Array(N);
     const idx = Array.from({ length: N }, (_, i) => i);
-    const queue = [0, N - 1, ...idx.filter(i => i % 8 === 0 && i !== 0), ...idx.filter(i => i % 8 !== 0 && i !== N - 1)];
-    const worker = async () => { while (queue.length && !dead) await load(queue.shift()!); };
-    load(queue.shift()!);
+    const queue = [...idx.filter(i => i % 8 === 0 && i !== 0), ...idx.filter(i => i % 8 !== 0)];
+    const worker = async () => { while (queue.length && !dead) await fetchFrame(queue.shift()!); };
+    fetchFrame(0);
     (phone ? Promise.resolve() : afterFirstVisit()).then(() => Array.from({ length: 6 }, worker));
   });
   const onResize = () => { lastKey = ''; kick(); };
   addEventListener('resize', onResize);
   return {
     to(p: number) { target = Math.min(1, Math.max(0, p)); kick(); },
-    destroy() { dead = true; if (raf) cancelAnimationFrame(raf); removeEventListener('resize', onResize); },
+    destroy() { dead = true; if (raf) cancelAnimationFrame(raf); removeEventListener('resize', onResize); bitmaps.forEach(bm => bm.close()); bitmaps.clear(); },
   };
 }
 
