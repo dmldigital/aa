@@ -7,7 +7,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { CustomEase } from 'gsap/CustomEase';
-import { holdStack } from './hold';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase);
 CustomEase.create('soft', '.22,1,.36,1');
@@ -15,6 +14,8 @@ const all = <T extends Element = HTMLElement>(s: string, root: ParentNode = docu
 const EASE = 'soft';
 const once = (trigger: Element | string, start = 'top 85%') => ({ trigger, start, once: true });
 const DESKTOP = '(min-width: 1024px) and (pointer: fine)';
+// Touch scrolling is already smoothed by the OS; a scrub delay on top of it only makes the page trail behind the finger.
+const SCRUB = matchMedia('(pointer: coarse)').matches ? true : 1;
 
 // ---------- HERO ----------------------------------------------------------------------------
 // The three headline lines drive in from a screen edge (line 1 from the left, line 2 from the right, line 3 from the left).
@@ -112,7 +113,7 @@ function heroScrub() {
   };
   const OUT = (i: number) => ({ x: EDGE(i, true), ease: 'power2.in', duration: .6, immediateRender: false });
   const tl = gsap.timeline({
-    scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=260%', pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true },
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=260%', pin: true, scrub: SCRUB, anticipatePin: 1, invalidateOnRefresh: true },
   })
     .fromTo(media, { clipPath: inset }, { clipPath: 'inset(0px 0px 0px 0px)', ease: 'power2.inOut', duration: 1 }, 0)
     .to(['.hero-frame', '.hero-scroll'], { opacity: 0, duration: .2 }, 0)
@@ -134,7 +135,6 @@ function heroLoop() {
   video.src = video.dataset.loop!;
   video.loop = true;
   video.play().catch(() => {});
-  gsap.to('.hero-video', { yPercent: 6, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
   // Headline lines keep going the way they came in and leave through the opposite screen edge, the box wipes upwards.
   heroText().forEach((line, i) => gsap.fromTo(line, CHAR_IN, { x: EDGE(i, true), ease: 'power2.in', immediateRender: false,
     scrollTrigger: { trigger: '.hero', start: `${4 + i * 4}% top`, end: '50% top', scrub: true } }));
@@ -160,7 +160,7 @@ function entrances(splits: SplitText[]) {
   if (statement) {
     const split = SplitText.create(statement, { type: 'words', wordsClass: 'w' });
     splits.push(split);
-    gsap.to(split.words, { opacity: 1, stagger: .12, duration: .6, ease: 'sine.inOut', scrollTrigger: { trigger: statement, start: 'top 80%', end: 'bottom 45%', scrub: 1 } });
+    gsap.to(split.words, { opacity: 1, stagger: .12, duration: .6, ease: 'sine.inOut', scrollTrigger: { trigger: statement, start: 'top 80%', end: 'bottom 45%', scrub: SCRUB } });
   }
   gsap.to('.stat', { '--rule': 1, duration: 1.2, stagger: .08, ease: EASE, scrollTrigger: once('.stats', 'top 90%') });
   all('[data-roll]').forEach(rollNumber);
@@ -248,32 +248,17 @@ function serviceFollow() {
 function serviceRows() {
   ScrollTrigger.batch('.service', { start: 'top 90%', once: true, onEnter: b => gsap.from(b.map(r => [...r.querySelectorAll('.service-row > *:not(.service-media)')]).flat(), { y: 20, opacity: 0, duration: 1, stagger: .07, ease: EASE }) });
 }
-// Phone: services are a card stack; the covered card steps back and touch moves one card per swipe.
-function serviceStack() {
-  const list = document.querySelector<HTMLElement>('.service-list')!;
-  const cards = all('.service', list);
-  const tweens = cards.slice(0, -1).map((card, i) => gsap.to(card, {
-    scale: .93, ease: 'none',
-    scrollTrigger: { trigger: cards[i + 1], start: 'top 70%', end: () => `top ${parseFloat(getComputedStyle(cards[i + 1]).top)}px`, scrub: true, invalidateOnRefresh: true },
-  }));
-  const release = holdStack(list, () => {
-    const base = list.getBoundingClientRect().top + scrollY;
-    let offset = 0;
-    return cards.map(card => {
-      const cs = getComputedStyle(card);
-      const stop = base + offset - parseFloat(cs.top);
-      offset += card.offsetHeight + parseFloat(cs.marginBottom);
-      return Math.round(stop);
-    });
-  });
-  return () => { release(); tweens.forEach(t => { t.scrollTrigger?.kill(); t.kill(); }); gsap.set(cards, { clearProps: 'transform' }); };
+// Phone: the services are plain cards in native scrolling (no sticky stacking, no scroll hijacking, no scroll-linked
+// transforms); each card only rises in once when it arrives.
+function serviceCards() {
+  ScrollTrigger.batch('.service', { start: 'top 92%', once: true, onEnter: b => gsap.from(b, { y: 28, opacity: 0, duration: 1, stagger: .1, ease: EASE, clearProps: 'transform,opacity' }) });
 }
 
 // ---------- IMPRESSIONS (Zoom Parallax) --------------------------------------------------------
 function zoomParallax() {
   const scales = [4, 5, 6, 5, 6, 8, 9];
   const layers = all('.zoom-layer');
-  const tl = gsap.timeline({ scrollTrigger: { trigger: '.zoom', start: 'top top', end: '+=200%', pin: true, scrub: 1, anticipatePin: 1 } });
+  const tl = gsap.timeline({ scrollTrigger: { trigger: '.zoom', start: 'top top', end: '+=200%', pin: true, scrub: SCRUB, anticipatePin: 1 } });
   layers.forEach((layer, i) => tl.fromTo(layer, { scale: 1 }, { scale: scales[i] ?? 5, ease: 'power1.in', duration: 1 }, 0));
   tl.to('.zoom-center .media-badge', { opacity: 0, duration: .1 }, 0);
   gsap.from(layers.map(l => l.querySelector('.zoom-item')), { clipPath: 'inset(100% 0% 0% 0%)', duration: 1.2, stagger: .07, ease: EASE, scrollTrigger: once('.zoom', 'top 75%') });
@@ -288,8 +273,8 @@ function portraitWall() {
 
 // ---------- FOOTER (Motion Footer) -------------------------------------------------------------
 function footer() {
-  gsap.fromTo('.footer-inner', { yPercent: -6 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'top 20%', scrub: 1 } });
-  gsap.fromTo('.footer-mark span', { yPercent: 40 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.footer-mark', start: 'top bottom', end: 'bottom bottom', scrub: 1 } });
+  gsap.fromTo('.footer-inner', { yPercent: -6 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.footer', start: 'top bottom', end: 'top 20%', scrub: SCRUB } });
+  gsap.fromTo('.footer-mark span', { yPercent: 40 }, { yPercent: 0, ease: 'none', scrollTrigger: { trigger: '.footer-mark', start: 'top bottom', end: 'bottom bottom', scrub: SCRUB } });
   gsap.from(all('.footer-cols > div, .footer-bottom > *'), { y: 20, opacity: 0, duration: 1, stagger: .07, ease: EASE, scrollTrigger: once('.footer-cols', 'top 90%') });
 }
 
@@ -319,7 +304,7 @@ export function initMotion(reduced: boolean) {
   mm.add(`not all and ${DESKTOP}`, heroLoop);
   mm.add('(min-width: 1024px)', zoomParallax);
   mm.add('(max-width: 1023px)', stripReveal);
-  mm.add('(max-width: 899px)', serviceStack);
+  mm.add('(max-width: 899px)', serviceCards);
   mm.add('(min-width: 900px)', serviceRows);
   mm.add('all', () => {
     const splits: SplitText[] = [];

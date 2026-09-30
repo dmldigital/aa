@@ -1,6 +1,6 @@
-/* SERVICES: phone: cards stack (sticky); desktop: quiet index with a cursor preview. */
+/* SERVICES: phone: plain cards in native scrolling; desktop: quiet index with a cursor preview. */
 .services { padding: clamp(72px, 9vw, 132px) 0; }
-.service { position: sticky; top: calc(var(--header-h) + 14px + var(--i) * 14px); margin-bottom: 18px; background: var(--anth-2); box-shadow: 0 -18px 36px -24px rgba(0, 0, 0, .7); transform-origin: 50% 0; }
+.service { margin-bottom: 16px; background: var(--anth-2); }
 .service-row { display: grid; }
 .service-media { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
 .service-media img { width: 100%; height: 100%; object-fit: cover; }

@@ -66,13 +66,13 @@ ul, ol { list-style: none; }
 .site-header :focus-visible, .footer-cta :focus-visible, .quote-box :focus-visible { outline-color: var(--paper); }
 
 /* Media badge with a softly pulsing dot */
-.media-badge { position: absolute; z-index: 2; left: 14px; top: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 11px; background: rgba(21, 23, 26, .62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: var(--paper); font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
+.media-badge { position: absolute; z-index: 2; left: 14px; top: 14px; display: inline-flex; align-items: center; gap: 8px; padding: 6px 11px; background: rgba(21, 23, 26, .62);  color: var(--paper); font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
 .media-badge i { width: 6px; height: 6px; border-radius: 50%; background: var(--red-light); animation: pulse 3s ease-in-out infinite; }
 @keyframes pulse { 50% { opacity: .4; } }
 
 /* HEADER "Zentriert" (vom Nutzer gewählt): Logo mittig, Menü links und rechts, feine Linie; Handy: Menü links, Telefon rechts */
 .site-header { position: fixed; z-index: 60; inset: 0 0 auto; height: var(--header-h); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; column-gap: 24px; padding-inline: var(--gutter); color: var(--paper); border-bottom: 1px solid rgba(244, 242, 238, .14); transition: transform .6s var(--ease), background-color .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease); }
-.site-header.is-scrolled { background: rgba(21, 23, 26, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-bottom-color: transparent; box-shadow: 0 1px 0 var(--line-light), 0 8px 28px rgba(0, 0, 0, .12); }
+.site-header.is-scrolled { background: rgba(21, 23, 26, .94); border-bottom-color: transparent; box-shadow: 0 1px 0 var(--line-light), 0 8px 28px rgba(0, 0, 0, .12); }
 .site-header.is-hidden { transform: translateY(-100%); }
 .brand { grid-column: 2; grid-row: 1; justify-self: center; display: flex; align-items: center; gap: 12px; }
 .brand img { height: 30px; width: auto; }
@@ -211,4 +211,10 @@ body.menu-open .site-header { background: transparent; border-bottom-color: tran
   .about-side { position: sticky; top: calc(var(--header-h) + 48px); align-self: start; }
   .quote-row { grid-template-columns: 1.55fr 1fr; }
   .quote-video { aspect-ratio: auto; min-height: 480px; }
+}
+
+/* Blur behind the header and badges only where a pointer device (desktop) can afford it; phones repaint it on every scroll frame. */
+@media (hover: hover) and (pointer: fine) {
+  .site-header.is-scrolled { background: rgba(21, 23, 26, .84); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .media-badge { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
 }

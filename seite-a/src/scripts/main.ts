@@ -2,7 +2,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { initMotion } from './motion';
-import { isTouch, passThrough, releaseHold } from './hold';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,7 +14,7 @@ export function initSite() {
 
   // Lenis smooths the mouse wheel only; touch keeps native scrolling and momentum.
   let lenis: Lenis | undefined;
-  if (!reduced && !isTouch) {
+  if (!reduced && !matchMedia('(pointer: coarse)').matches) {
     lenis = new Lenis({ lerp: .085, autoRaf: false });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(time => lenis!.raf(time * 1000));
@@ -47,7 +46,6 @@ export function initSite() {
     drawer.inert = !open;
     document.body.classList.toggle('menu-open', open);
     if (open) {
-      releaseHold();
       lenis?.stop();
       if (!reduced) {
         gsap.fromTo(drawer.querySelectorAll('.drawer-label'), { yPercent: 105 }, { yPercent: 0, duration: 1, stagger: .07, ease: 'soft', delay: .15 });
@@ -69,7 +67,7 @@ export function initSite() {
     const top = target.id === 'start' ? 0 : target.getBoundingClientRect().top + scrollY - header.offsetHeight + 1;
     if (lenis) lenis.scrollTo(top, { duration: 1.4 });
     else if (reduced) window.scrollTo(0, top);
-    else passThrough(top, 1.2);
+    else window.scrollTo({ top, behavior: 'smooth' });
   });
 
   // Videos play only while they are on screen (muted, looping), which also saves data on phones.
