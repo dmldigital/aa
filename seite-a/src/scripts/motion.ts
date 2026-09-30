@@ -17,30 +17,30 @@ const once = (trigger: Element | string, start = 'top 85%') => ({ trigger, start
 const DESKTOP = '(min-width: 1024px) and (pointer: fine)';
 
 // ---------- HERO ----------------------------------------------------------------------------
-// The headline is split into characters. In: every character rises out of its line mask and comes into focus
-// (21st.dev "Vertical Cut Reveal" + "Soft Blur In"). Out: the characters lift off, blur and dissolve one after the other
-// (21st.dev "Blur Out Up" + "Text Disperse"), the same way in reverse when scrolling back.
+// The headline is split into characters that travel through their line mask (21st.dev "Vertical Cut Reveal"):
+// in, they drive up from below the mask one after the other; out, they drive on upwards and leave through the top.
+// No fading, only movement; scrolling back reverses it.
 let heroChars: HTMLElement[][] | null = null;
 function heroText() {
   if (!heroChars) {
     heroChars = all('.ht-in').map(el => SplitText.create(el, { type: 'chars', charsClass: 'hc' }).chars as HTMLElement[]);
-    gsap.set(heroChars.flat(), { yPercent: 118, opacity: 0, filter: 'blur(10px)' });
+    gsap.set(heroChars.flat(), { yPercent: 120 });
     gsap.set('.ht-in', { visibility: 'visible' });
   }
   return heroChars;
 }
-const CHAR_IN = { yPercent: 0, opacity: 1, filter: 'blur(0px)' };
+const CHAR_IN = { yPercent: 0 };
 
 function heroIntro() {
   const lines = heroText();
   const tl = gsap.timeline({ defaults: { ease: EASE } })
     .fromTo('#site-header', { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, clearProps: 'transform,opacity' }, .2)
     .fromTo('.hero-video, .hero-canvas', { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 2 }, 0);
-  lines.forEach((chars, i) => tl.to(chars, { ...CHAR_IN, duration: 1.3, stagger: { each: .026, ease: 'power1.in' } }, .45 + i * .2));
+  lines.forEach((chars, i) => tl.to(chars, { ...CHAR_IN, duration: 1.25, stagger: { each: .03, ease: 'power1.in' } }, .45 + i * .2));
   tl.from('.hero-frame b', { opacity: 0, duration: 1, stagger: .06 }, 1)
     .from('.hero-scroll', { opacity: 0, y: 12, duration: 1 }, 1.6);
   // Phone/tablet: the box follows the headline (on desktop it arrives at the end of the scrub).
-  if (!matchMedia(DESKTOP).matches) gsap.from('.hero-box', { y: 24, opacity: 0, duration: 1.2, ease: EASE, delay: 1.2 });
+  if (!matchMedia(DESKTOP).matches) gsap.fromTo('.hero-box', { y: 60, clipPath: 'inset(100% -60px -60px -60px)' }, { y: 0, clipPath: 'inset(0% -60px -60px -60px)', duration: 1.3, ease: EASE, delay: 1.2, clearProps: 'clipPath,transform' });
 }
 
 // Frame sequence on a canvas: the wanted position is eased towards (so scroll steps never show as jumps) and the two
@@ -109,7 +109,7 @@ function heroScrub() {
     const s = stage.getBoundingClientRect(), f = frame.getBoundingClientRect();
     return `inset(${f.top - s.top}px ${s.right - f.right}px ${s.bottom - f.bottom}px ${f.left - s.left}px)`;
   };
-  const OUT = { yPercent: -125, opacity: 0, filter: 'blur(8px)', ease: 'power2.in', duration: .5, immediateRender: false };
+  const OUT = { yPercent: -125, ease: 'power2.in', duration: .5, immediateRender: false };
   const tl = gsap.timeline({
     scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=260%', pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true },
   })
@@ -124,7 +124,7 @@ function heroScrub() {
     // "Werte schaffen." rises to sit above the box, which is then uncovered from below; its text follows line by line.
     .to('.ht-3', { y: () => -(document.querySelector<HTMLElement>('.hero-box')!.offsetHeight + 34), ease: 'power2.inOut', duration: .4 }, .5)
     .fromTo('.hero-box', { autoAlpha: 0, clipPath: 'inset(100% -60px -60px -60px)' }, { autoAlpha: 1, clipPath: 'inset(0% -60px -60px -60px)', ease: 'power3.inOut', duration: .36 }, .64)
-    .fromTo('.hero-box p, .hero-box-cta', { y: 22, opacity: 0 }, { y: 0, opacity: 1, ease: 'power2.out', duration: .3, stagger: .07 }, .74)
+    .fromTo('.hero-box p, .hero-box-cta', { y: 30, clipPath: 'inset(0 0 100% 0)' }, { y: 0, clipPath: 'inset(0 0 0% 0)', ease: 'power2.out', duration: .3, stagger: .07 }, .74)
     .to({}, { duration: .3 });
   // The flight ends a little before the pin ends, so the last frames hold while the box is read.
   tl.eventCallback('onUpdate', () => seq.to(tl.progress() / .9));
@@ -136,9 +136,11 @@ function heroLoop() {
   video.loop = true;
   video.play().catch(() => {});
   gsap.to('.hero-video', { yPercent: 6, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  // Text and box lift off and fade while the page scrolls away.
-  gsap.to('.hero-title', { y: -50, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: '55% top', scrub: true } });
-  gsap.to('.hero-box', { y: -30, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '15% top', end: '70% top', scrub: true } });
+  // Headline characters drive out through the top of their masks, the box wipes upwards, while the page scrolls away.
+  heroText().forEach((chars, i) => gsap.fromTo(chars, CHAR_IN, { yPercent: -125, ease: 'power2.in', stagger: .04, immediateRender: false,
+    scrollTrigger: { trigger: '.hero', start: `${4 + i * 4}% top`, end: '50% top', scrub: true } }));
+  gsap.fromTo('.hero-box', { clipPath: 'inset(0% -60px -60px -60px)' }, { clipPath: 'inset(0% -60px 100% -60px)', ease: 'power2.in', immediateRender: false,
+    scrollTrigger: { trigger: '.hero', start: '15% top', end: '70% top', scrub: true } });
 }
 
 // ---------- SHARED ENTRANCES ------------------------------------------------------------------
