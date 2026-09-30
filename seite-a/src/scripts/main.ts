@@ -49,12 +49,10 @@ export function initSite() {
     if (open) {
       lenis?.stop();
       if (!reduced) {
-        // The panel is still growing from the button when the entries start: labels drive in from the right through the row,
-        // arrows follow, then the button and contact block rise.
-        const tl = gsap.timeline({ defaults: { ease: 'soft' }, delay: .5 });
-        tl.fromTo(drawer.querySelectorAll('.drawer-label'), { xPercent: 70, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 1.1, stagger: .08 }, 0)
-          .fromTo(drawer.querySelectorAll('.drawer-arrow'), { x: -18, opacity: 0 }, { x: 0, opacity: .55, duration: .9, stagger: .08 }, .2)
-          .fromTo(drawer.querySelectorAll('.drawer-cta, .drawer-foot > *'), { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: .09 }, .5);
+        // The panel fades in; the entries, then the button and contact block rise a few pixels, one after another.
+        gsap.timeline({ defaults: { ease: 'soft' }, delay: .12 })
+          .fromTo(drawer.querySelectorAll('.drawer-link'), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: .8, stagger: .05 }, 0)
+          .fromTo(drawer.querySelector('.drawer-bottom'), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: .8 }, .25);
       }
     } else lenis?.start();
   };
