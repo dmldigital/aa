@@ -2,8 +2,8 @@
 // Desktop: the drone flight starts as a framed card between the headline and plays with the scroll position while the card
 // grows to full screen (21st.dev "Hero Scrub" / "Hero Scroll Video Pin Reveal"). The flight is a frame sequence on a canvas
 // (130 frames, eased and cross-blended between frames), which is much smoother than seeking a video.
-// Phones and tablets: the same scrubbed flight from portrait frames (608 x 1080, cut from the original) whose camera pans
-// with the wheel loader. The video only serves reduced motion.
+// Phones and tablets: the scrubbed flight full screen from the start, from portrait frames (608 x 1080 AVIF, cut from the
+// original) whose camera pans with the wheel loader. The video only serves reduced motion.
 import { hero } from '../data/content';
 ---
 <section class="hero" id="start" aria-label="Einstieg">
@@ -12,7 +12,7 @@ import { hero } from '../data/content';
     <div class="hero-media">
       <video class="hero-video" muted playsinline loop preload="none" poster="/media/video/DJI_0144.webp"
         data-loop="/media/video/DJI_0144.mp4" aria-hidden="true"></video>
-      <canvas class="hero-canvas" data-frames="130" data-base="/media/hero/" data-frames-m="130" data-base-m="/media/hero-m/" aria-hidden="true"></canvas>
+      <canvas class="hero-canvas" data-frames="130" data-base="/media/hero/" data-frames-d="87" data-base-d="/media/hero-d/" data-frames-m="87" data-base-m="/media/hero-m/" aria-hidden="true"></canvas>
       <span class="hero-shade" aria-hidden="true"></span>
     </div>
     <h1 class="hero-title">

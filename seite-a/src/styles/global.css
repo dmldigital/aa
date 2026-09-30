@@ -186,26 +186,16 @@ html.motion .hero-video { display: none; }
   .hero-box, .hero-box * { hyphens: auto; }
   .ht-3 { bottom: calc(6vh + 150px); }
 }
-/* Phone/tablet with motion: the same staging as on the desktop. The looping video sits in a portrait frame between the
-   headline lines and grows to full screen while scrolling (pinned); the box follows at the end. */
+/* Phone/tablet with motion: the drone flight fills the screen from the start (no frame) and is scrubbed while the hero is
+   pinned; the headline sits on it, the box follows at the end. */
 @media (max-width: 1023px) {
   html.motion .hero-stage { height: 100svh; min-height: 560px; display: block; padding: 0; }
-  html.motion .hero-frame { display: block; position: absolute; z-index: 3; left: 50%; top: 50%; width: 70vw; max-width: 460px; aspect-ratio: 4 / 5; transform: translate(-50%, -48%); pointer-events: none; }
-  html.motion .hero-frame b { position: absolute; width: 16px; height: 16px; border: 0 solid rgba(244, 242, 238, .7); }
-  html.motion .hero-frame b:nth-child(1) { left: -9px; top: -9px; border-left-width: 1px; border-top-width: 1px; }
-  html.motion .hero-frame b:nth-child(2) { right: -9px; top: -9px; border-right-width: 1px; border-top-width: 1px; }
-  html.motion .hero-frame b:nth-child(3) { left: -9px; bottom: -9px; border-left-width: 1px; border-bottom-width: 1px; }
-  html.motion .hero-frame b:nth-child(4) { right: -9px; bottom: -9px; border-right-width: 1px; border-bottom-width: 1px; }
   html.motion .hero-title { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
   html.motion .ht { position: absolute; }
   html.motion .ht-1 { left: var(--gutter); top: calc(var(--header-h) + 3.5svh); }
   html.motion .ht-2 { right: var(--gutter); top: calc(var(--header-h) + 3.5svh + 1.16em); }
   html.motion .ht-3 { left: var(--gutter); bottom: 5svh; }
   html.motion .hero-box { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 3svh; width: auto; max-width: 680px; margin: 0; opacity: 0; visibility: hidden; }
-  html.motion .hero-shade { opacity: 0; }
-}
-@media (max-width: 657px) {
-  html.motion .hero-media { clip-path: inset(calc(50% - 42vw) calc(50% - 35vw) calc(50% - 45.5vw)); }
 }
 /* Scroll-scrubbed start state: the video sits in the frame. */
 @media (min-width: 1024px) {

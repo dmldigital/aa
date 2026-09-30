@@ -45,20 +45,24 @@ function heroIntro() {
 }
 
 // Frame sequence on a canvas: the wanted position is eased towards (so scroll steps never show as jumps) and the two
-// neighbouring frames are cross-blended for every fractional position. Phones get their own portrait frames (`-m` data
-// attributes) and load them right away; with a mouse the rest of the sequence waits for the first interaction.
+// neighbouring frames are cross-blended for every fractional position. Both sets are AVIF cut from the original footage:
+// desktop full HD (`-d` data attributes, 14.5 MB), phones portrait with a pan on the wheel loader (`-m`, 3.5 MB). Browsers
+// without AVIF fall back to the older 1280 px WebP frames. Phones load right away; with a mouse the rest of the sequence
+// waits for the first interaction.
+const AVIF_TEST = 'data:image/avif;base64,AAAAHGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZgAAAOptZXRhAAAAAAAAACFoZGxyAAAAAAAAAABwaWN0AAAAAAAAAAAAAAAAAAAAAA5waXRtAAAAAAABAAAAImlsb2MAAAAAREAAAQABAAAAAAEOAAEAAAAAAAAAFwAAACNpaW5mAAAAAAABAAAAFWluZmUCAAAAAAEAAGF2MDEAAAAAamlwcnAAAABLaXBjbwAAABNjb2xybmNseAABAA0ABoAAAAAMYXYxQ4EgAgAAAAAUaXNwZQAAAAAAAAACAAAAAgAAABBwaXhpAAAAAAMICAgAAAAXaXBtYQAAAAAAAAABAAEEAYIDBAAAAB9tZGF0EgAKBzgANhAQ0GkyChgAAABAALASmpg=';
+const avifOk = () => new Promise<boolean>(res => { const im = new Image(); im.onload = () => res(im.width === 2); im.onerror = () => res(false); im.src = AVIF_TEST; });
 function frameSequence(canvas: HTMLCanvasElement, phone: boolean) {
-  const N = Number(phone ? canvas.dataset.framesM : canvas.dataset.frames);
-  const base = (phone ? canvas.dataset.baseM : canvas.dataset.base)!;
+  const d = canvas.dataset;
+  let N = Number(d.frames), base = d.base!, ext = 'webp';
   const ctx = canvas.getContext('2d')!;
-  const imgs: (HTMLImageElement | undefined)[] = new Array(N);
+  let imgs: (HTMLImageElement | undefined)[] = [];
   let target = 0, cur = 0, raf = 0, dead = false, lastKey = '', loaded = 0;
   const load = (i: number) => new Promise<void>(res => {
     const im = new Image();
     im.decoding = 'async';
     im.onload = () => { imgs[i] = im; loaded++; if (!dead) kick(); res(); };
     im.onerror = () => res();
-    im.src = `${base}f${String(i).padStart(3, '0')}.webp`;
+    im.src = `${base}f${String(i).padStart(3, '0')}.${ext}`;
   });
   const near = (i: number) => { for (let d = 0; d < N; d++) { if (imgs[i - d]) return imgs[i - d]; if (imgs[i + d]) return imgs[i + d]; } return undefined; };
   const cover = (im: HTMLImageElement) => {
@@ -71,7 +75,7 @@ function frameSequence(canvas: HTMLCanvasElement, phone: boolean) {
     // Phones draw at up to 2x so the portrait frames stay crisp on high-density screens.
     const dpr = Math.min(devicePixelRatio || 1, phone ? 2 : 1.5);
     const w = Math.round(canvas.clientWidth * dpr), h = Math.round(canvas.clientHeight * dpr);
-    if (!w || !h) return;
+    if (!w || !h || !imgs.length) return;
     if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; lastKey = ''; }
     const f = cur * (N - 1), a = Math.min(N - 1, Math.floor(f)), t = f - a;
     const key = `${a}|${Math.round(t * 40)}|${w}|${loaded}`;
@@ -90,13 +94,18 @@ function frameSequence(canvas: HTMLCanvasElement, phone: boolean) {
   };
   const kick = () => { if (!raf && !dead) raf = requestAnimationFrame(tick); };
   // Loading order: first frame (immediately), then the last frame, then every 8th, then the rest (six at a time).
-  const idx = Array.from({ length: N }, (_, i) => i);
-  const queue = [0, N - 1, ...idx.filter(i => i % 8 === 0 && i !== 0), ...idx.filter(i => i % 8 !== 0 && i !== N - 1)];
-  const worker = async () => { while (queue.length && !dead) await load(queue.shift()!); };
   // Phones load the whole flight straight away (it is the first thing they scroll); with a mouse only the first frame comes
   // right away and the rest once the visitor interacts (or after a long idle time).
-  load(queue.shift()!);
-  (phone ? Promise.resolve() : afterFirstVisit()).then(() => Array.from({ length: 6 }, worker));
+  avifOk().then(ok => {
+    if (ok && phone) { N = Number(d.framesM); base = d.baseM!; ext = 'avif'; }
+    else if (ok) { N = Number(d.framesD); base = d.baseD!; ext = 'avif'; }
+    imgs = new Array(N);
+    const idx = Array.from({ length: N }, (_, i) => i);
+    const queue = [0, N - 1, ...idx.filter(i => i % 8 === 0 && i !== 0), ...idx.filter(i => i % 8 !== 0 && i !== N - 1)];
+    const worker = async () => { while (queue.length && !dead) await load(queue.shift()!); };
+    load(queue.shift()!);
+    (phone ? Promise.resolve() : afterFirstVisit()).then(() => Array.from({ length: 6 }, worker));
+  });
   const onResize = () => { lastKey = ''; kick(); };
   addEventListener('resize', onResize);
   return {
@@ -105,15 +114,16 @@ function frameSequence(canvas: HTMLCanvasElement, phone: boolean) {
   };
 }
 
-// Every screen size: the hero is pinned and its framed drone flight grows to full screen while scrolling. The flight is a
-// frame sequence scrubbed by the scroll position. Phones and tablets use portrait frames cut from the original footage, with
-// a camera pan that follows the orange wheel loader (public/media/hero-m).
+// Desktop: the hero is pinned and its framed drone flight grows to full screen while scrolling. Phones and tablets (up to
+// 1023 px) show the flight full screen from the start, from portrait frames cut from the original footage with a camera pan
+// that follows the orange wheel loader (public/media/hero-m). Everywhere the flight is scrubbed by the scroll position.
 function heroScrub() {
   const stage = document.querySelector<HTMLElement>('.hero-stage')!;
   const media = stage.querySelector<HTMLElement>('.hero-media')!;
   const frame = stage.querySelector<HTMLElement>('.hero-frame')!;
   const mouse = matchMedia(DESKTOP).matches;
-  const seq = frameSequence(stage.querySelector<HTMLCanvasElement>('.hero-canvas')!, !mouse);
+  const phone = matchMedia('(max-width: 1023px)').matches;
+  const seq = frameSequence(stage.querySelector<HTMLCanvasElement>('.hero-canvas')!, phone);
   const lines = heroText();
   const inset = () => {
     const s = stage.getBoundingClientRect(), f = frame.getBoundingClientRect();
@@ -123,7 +133,6 @@ function heroScrub() {
   const tl = gsap.timeline({
     scrollTrigger: { trigger: '.hero', start: 'top top', end: mouse ? '+=260%' : '+=210%', pin: true, scrub: SCRUB, anticipatePin: 1, invalidateOnRefresh: true },
   })
-    .fromTo(media, { clipPath: inset }, { clipPath: 'inset(0px 0px 0px 0px)', ease: 'power2.inOut', duration: 1 }, 0)
     .to(['.hero-frame', '.hero-scroll'], { opacity: 0, duration: .2 }, 0)
     // Lines 1 and 2 keep going the way they came in: line 1 leaves to the right, line 2 to the left.
     .fromTo(lines[0], CHAR_IN, OUT(0), .04)
@@ -134,6 +143,7 @@ function heroScrub() {
     .fromTo('.hero-box', { autoAlpha: 0, clipPath: 'inset(100% -60px -60px -60px)' }, { autoAlpha: 1, clipPath: 'inset(0% -60px -60px -60px)', ease: 'power3.inOut', duration: .36 }, .64)
     .fromTo('.hero-box p, .hero-box-cta', { y: 30, clipPath: 'inset(0 0 100% 0)' }, { y: 0, clipPath: 'inset(0 0 0% 0)', ease: 'power2.out', duration: .3, stagger: .07 }, .74)
     .to({}, { duration: .3 });
+  if (!phone) tl.fromTo(media, { clipPath: inset }, { clipPath: 'inset(0px 0px 0px 0px)', ease: 'power2.inOut', duration: 1 }, 0);
   // The flight ends a little before the pin ends, so the last frames hold while the box is read.
   tl.eventCallback('onUpdate', () => seq.to(tl.progress() / .9));
   return () => seq.destroy();
