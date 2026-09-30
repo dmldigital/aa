@@ -45,11 +45,11 @@ function heroIntro() {
 }
 
 // Frame sequence on a canvas: the wanted position is eased towards (so scroll steps never show as jumps) and the two
-// neighbouring frames are cross-blended for every fractional position. `focus` (optional) gives, per frame, the horizontal point
-// (0 to 1 of the image width) the crop centres on when the screen is narrower than the footage.
-function frameSequence(canvas: HTMLCanvasElement, focus?: (frame: number) => number) {
-  const N = Number(canvas.dataset.frames);
-  const base = canvas.dataset.base!;
+// neighbouring frames are cross-blended for every fractional position. Phones get their own portrait frames (`-m` data
+// attributes) and load them right away; with a mouse the rest of the sequence waits for the first interaction.
+function frameSequence(canvas: HTMLCanvasElement, phone: boolean) {
+  const N = Number(phone ? canvas.dataset.framesM : canvas.dataset.frames);
+  const base = (phone ? canvas.dataset.baseM : canvas.dataset.base)!;
   const ctx = canvas.getContext('2d')!;
   const imgs: (HTMLImageElement | undefined)[] = new Array(N);
   let target = 0, cur = 0, raf = 0, dead = false, lastKey = '', loaded = 0;
@@ -61,14 +61,15 @@ function frameSequence(canvas: HTMLCanvasElement, focus?: (frame: number) => num
     im.src = `${base}f${String(i).padStart(3, '0')}.webp`;
   });
   const near = (i: number) => { for (let d = 0; d < N; d++) { if (imgs[i - d]) return imgs[i - d]; if (imgs[i + d]) return imgs[i + d]; } return undefined; };
-  const cover = (im: HTMLImageElement, fx: number) => {
+  const cover = (im: HTMLImageElement) => {
     const s = Math.max(canvas.width / im.naturalWidth, canvas.height / im.naturalHeight);
     const w = im.naturalWidth * s, h = im.naturalHeight * s;
-    const x = Math.min(0, Math.max(canvas.width - w, canvas.width / 2 - fx * w));
-    ctx.drawImage(im, x, (canvas.height - h) / 2, w, h);
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(im, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
   };
   const draw = () => {
-    const dpr = Math.min(devicePixelRatio || 1, 1.5);
+    // Phones draw at up to 2x so the portrait frames stay crisp on high-density screens.
+    const dpr = Math.min(devicePixelRatio || 1, phone ? 2 : 1.5);
     const w = Math.round(canvas.clientWidth * dpr), h = Math.round(canvas.clientHeight * dpr);
     if (!w || !h) return;
     if (canvas.width !== w || canvas.height !== h) { canvas.width = w; canvas.height = h; lastKey = ''; }
@@ -77,9 +78,8 @@ function frameSequence(canvas: HTMLCanvasElement, focus?: (frame: number) => num
     if (key === lastKey) return;
     lastKey = key;
     const A = near(a), B = near(Math.min(N - 1, a + 1));
-    const fx = focus ? focus(f) : .5;
-    if (A) cover(A, fx);
-    if (A && B && B !== A && t > .02) { ctx.globalAlpha = t; cover(B, fx); ctx.globalAlpha = 1; }
+    if (A) cover(A);
+    if (A && B && B !== A && t > .02) { ctx.globalAlpha = t; cover(B); ctx.globalAlpha = 1; }
   };
   const tick = () => {
     raf = 0;
@@ -93,9 +93,10 @@ function frameSequence(canvas: HTMLCanvasElement, focus?: (frame: number) => num
   const idx = Array.from({ length: N }, (_, i) => i);
   const queue = [0, N - 1, ...idx.filter(i => i % 8 === 0 && i !== 0), ...idx.filter(i => i % 8 !== 0 && i !== N - 1)];
   const worker = async () => { while (queue.length && !dead) await load(queue.shift()!); };
-  // Only the first frame is requested right away; the rest follows once the visitor interacts (or after a long idle time).
+  // Phones load the whole flight straight away (it is the first thing they scroll); with a mouse only the first frame comes
+  // right away and the rest once the visitor interacts (or after a long idle time).
   load(queue.shift()!);
-  afterFirstVisit().then(() => Array.from({ length: 6 }, worker));
+  (phone ? Promise.resolve() : afterFirstVisit()).then(() => Array.from({ length: 6 }, worker));
   const onResize = () => { lastKey = ''; kick(); };
   addEventListener('resize', onResize);
   return {
@@ -104,28 +105,15 @@ function frameSequence(canvas: HTMLCanvasElement, focus?: (frame: number) => num
   };
 }
 
-// Where the orange wheel loader sits in the drone flight (share of the image width, by frame). On narrow portrait screens
-// the crop follows it, so it stays in the frame and in the full-screen picture the whole way.
-const LOADER: [number, number][] = [
-  [0, .667], [10, .693], [20, .68], [30, .648], [40, .63], [50, .636], [60, .64], [70, .565],
-  [80, .575], [90, .572], [100, .582], [110, .566], [120, .585], [129, .583],
-];
-const loaderX = (f: number) => {
-  for (let k = 1; k < LOADER.length; k++) {
-    const [a, x0] = LOADER[k - 1], [b, x1] = LOADER[k];
-    if (f <= b) return x0 + (x1 - x0) * (f - a) / (b - a);
-  }
-  return LOADER[LOADER.length - 1][1];
-};
-
 // Every screen size: the hero is pinned and its framed drone flight grows to full screen while scrolling. The flight is a
-// frame sequence scrubbed by the scroll position; with a mouse centred, on phones and tablets following the wheel loader.
+// frame sequence scrubbed by the scroll position. Phones and tablets use portrait frames cut from the original footage, with
+// a camera pan that follows the orange wheel loader (public/media/hero-m).
 function heroScrub() {
   const stage = document.querySelector<HTMLElement>('.hero-stage')!;
   const media = stage.querySelector<HTMLElement>('.hero-media')!;
   const frame = stage.querySelector<HTMLElement>('.hero-frame')!;
   const mouse = matchMedia(DESKTOP).matches;
-  const seq = frameSequence(stage.querySelector<HTMLCanvasElement>('.hero-canvas')!, mouse ? undefined : loaderX);
+  const seq = frameSequence(stage.querySelector<HTMLCanvasElement>('.hero-canvas')!, !mouse);
   const lines = heroText();
   const inset = () => {
     const s = stage.getBoundingClientRect(), f = frame.getBoundingClientRect();
