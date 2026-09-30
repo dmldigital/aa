@@ -112,7 +112,11 @@ function heroScrub() {
   if (!mouse) {
     const video = stage.querySelector<HTMLVideoElement>('.hero-video')!;
     video.loop = true;
-    afterFirstVisit().then(() => { video.src = video.dataset.loop!; video.play().catch(() => {}); });
+    // The drone flight plays on its own as soon as the page is there, no tap or scroll needed.
+    video.autoplay = true;
+    video.preload = 'auto';
+    video.src = video.dataset.loop!;
+    video.play().catch(() => {});
   }
   const lines = heroText();
   const inset = () => {
@@ -147,11 +151,9 @@ function entrances(splits: SplitText[]) {
     type: 'lines', mask: 'lines', autoSplit: true,
     onSplit: self => { gsap.set(el, { visibility: 'visible' }); return gsap.from(self.lines, { yPercent: 105, duration: 1.1, stagger: .09, ease: EASE, scrollTrigger: once(el, 'top 88%') }); },
   })));
-  all('[data-clip]').forEach(el => {
-    const media = el.querySelector('img, video');
-    const tl = gsap.timeline({ scrollTrigger: once(el, 'top 86%') }).to(el, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.2, ease: EASE });
-    if (media) tl.fromTo(media, { scale: 1.06 }, { scale: 1, duration: 1.4, ease: EASE, clearProps: 'transform' }, 0);
-  });
+  // Images and media blocks: no wipe. They drift in a short way, alternating from the left and from the right, while
+  // fading in; the picture inside settles from a slight zoom a little longer.
+  all('[data-clip]').forEach((el, i) => slideIn(el, i % 2 ? 1 : -1));
   // Statement: every word brightens gently with the scroll position.
   const statement = document.querySelector<HTMLElement>('[data-words]');
   if (statement) {
@@ -161,6 +163,17 @@ function entrances(splits: SplitText[]) {
   }
   gsap.to('.stat', { '--rule': 1, duration: 1.2, stagger: .08, ease: EASE, scrollTrigger: once('.stats', 'top 90%') });
   all('[data-roll]').forEach(rollNumber);
+}
+
+// Calm entrance for images: fade plus a short horizontal drift (half the distance on phones), the media inside eases
+// out of a 6 % zoom. `side` -1 comes from the left, 1 from the right.
+function slideIn(el: HTMLElement, side: number, delay = 0) {
+  const media = el.matches('img, video') ? null : el.querySelector('img, video');
+  const dist = matchMedia('(max-width: 899px)').matches ? 24 : 48;
+  const tl = gsap.timeline({ delay, scrollTrigger: once(el, 'top 88%') })
+    .fromTo(el, { opacity: 0, x: side * dist }, { opacity: 1, x: 0, duration: 1.6, ease: EASE, clearProps: 'transform' });
+  if (media) tl.fromTo(media, { scale: 1.06 }, { scale: 1, duration: 2.2, ease: 'power2.out', clearProps: 'transform' }, 0);
+  return tl;
 }
 
 // Digits roll in one by one with a short motion blur ("Animated Blur Number").
@@ -219,7 +232,7 @@ function ticker() {
 }
 
 // ---------- SERVICES --------------------------------------------------------------------------
-// Desktop: a preview follows the cursor; images wipe in by direction (21st.dev hover image reveal).
+// Desktop: a preview follows the cursor; the images cross-fade out of a slight zoom.
 function serviceFollow() {
   const list = document.querySelector<HTMLElement>('.service-list')!;
   const follow = document.querySelector<HTMLElement>('.service-follow')!;
@@ -230,9 +243,8 @@ function serviceFollow() {
   let current = -1;
   const show = (i: number) => {
     if (i === current) return;
-    const down = i > current;
     images.forEach((img, k) => { img.style.zIndex = k === i ? '2' : '1'; });
-    gsap.fromTo(images[i], { clipPath: down ? 'inset(100% 0% 0% 0%)' : 'inset(0% 0% 100% 0%)', scale: 1.08 }, { clipPath: 'inset(0% 0% 0% 0%)', scale: 1, duration: .9, ease: EASE, overwrite: true });
+    gsap.fromTo(images[i], { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: .9, ease: EASE, overwrite: true });
     current = i;
   };
   const move = (e: PointerEvent) => { xTo(e.clientX); yTo(e.clientY); };
@@ -254,10 +266,14 @@ function zoomParallax() {
   const tl = gsap.timeline({ scrollTrigger: { trigger: '.zoom', start: 'top top', end: '+=200%', pin: true, scrub: SCRUB, anticipatePin: 1 } });
   layers.forEach((layer, i) => tl.fromTo(layer, { scale: 1 }, { scale: scales[i] ?? 5, ease: 'power1.in', duration: 1 }, 0));
   tl.to('.zoom-center .media-badge', { opacity: 0, duration: .1 }, 0);
-  gsap.from(layers.map(l => l.querySelector('.zoom-item')), { clipPath: 'inset(100% 0% 0% 0%)', duration: 1.2, stagger: .07, ease: EASE, scrollTrigger: once('.zoom', 'top 75%') });
+  // Entrance: each picture fades in, drifting in from the side it sits on.
+  const mid = innerWidth / 2;
+  gsap.timeline({ scrollTrigger: once('.zoom', 'top 75%') }).fromTo(layers.map(l => l.querySelector('.zoom-item')), {
+    opacity: 0, x: (_: number, el: HTMLElement) => { const r = el.getBoundingClientRect(); return Math.sign(r.left + r.width / 2 - mid) * 48; },
+  }, { opacity: 1, x: 0, duration: 1.6, stagger: .08, ease: EASE });
 }
 function stripReveal() {
-  gsap.from(all('.zoom-item'), { clipPath: 'inset(100% 0% 0% 0%)', duration: 1.2, stagger: .08, ease: EASE, scrollTrigger: once('.zoom', 'top 85%') });
+  gsap.fromTo(all('.zoom-item'), { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 1.6, stagger: .1, ease: EASE, clearProps: 'transform', scrollTrigger: once('.zoom', 'top 85%') });
 }
 
 // ---------- TEAM (Scroll Portrait Wall) --------------------------------------------------------

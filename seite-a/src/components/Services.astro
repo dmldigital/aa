@@ -1,6 +1,6 @@
 ---
 // Desktop: an oversized index; a preview image follows the cursor (21st.dev "Kinetic Team Hybrid" / hover reveal).
-// Phone: the services stack as cards, one swipe per card.
+// Phone: the same content as cards that stack exactly on top of each other.
 import { services } from '../data/content';
 ---
 <section class="services grain" id="leistungen" aria-labelledby="services-title">
@@ -14,7 +14,6 @@ import { services } from '../data/content';
         <a href="#kontakt" class="service-row">
           <span class="service-media"><img src={s.image} alt={s.title} width="440" height="425" loading="lazy" /><span class="service-badge">{s.badge}</span></span>
           <span class="service-badge service-badge-inline">{s.badge}</span>
-          <span class="service-index">{String(i + 1).padStart(2, '0')} / {String(services.length).padStart(2, '0')}</span>
           <span class="service-title">{s.title}</span>
           <span class="service-text">{s.text}</span>
           <span class="service-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg></span>
@@ -26,3 +25,20 @@ import { services } from '../data/content';
     {services.map(s => <img src={s.image} alt="" width="440" height="425" loading="lazy" />)}
   </div>
 </section>
+
+<script>
+  // Phone: all cards get the height of the fullest one (plus air above the title), so the stack stays exactly aligned.
+  const list = document.querySelector<HTMLElement>('.service-list')!;
+  const fit = () => {
+    if (matchMedia('(min-width: 900px)').matches) return list.style.removeProperty('--card-h');
+    const cards = [...list.querySelectorAll<HTMLElement>('.service')];
+    cards.forEach((c) => (c.style.height = 'auto'));
+    const tallest = Math.max(...cards.map((c) => c.offsetHeight));
+    cards.forEach((c) => c.style.removeProperty('height'));
+    list.style.setProperty('--card-h', `${Math.max(320, tallest + 48)}px`);
+  };
+  fit();
+  document.fonts.ready.then(fit);
+  let w = innerWidth;
+  addEventListener('resize', () => { if (innerWidth !== w) { w = innerWidth; fit(); } });
+</script>

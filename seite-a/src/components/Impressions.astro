@@ -1,7 +1,8 @@
 ---
 // Desktop: zoom parallax (21st.dev "Zoom Parallax"): stills from their drone flights fly past at different
-// speeds while the panorama video in the centre fills the screen. Phone: a swipeable strip, no pin.
+// speeds while the panorama video in the centre fills the screen. Phone: a swipeable strip with back/forward buttons, no pin.
 import { impressions } from '../data/content';
+import StepNav from './StepNav.astro';
 ---
 <section class="impressions" id="impressionen" aria-labelledby="impressions-title">
   <div class="wrap section-head impressions-head">
@@ -26,5 +27,12 @@ import { impressions } from '../data/content';
         </div>
       ))}
     </div>
+    <StepNav label="Bilder" />
   </div>
 </section>
+
+<script>
+  import { stepper } from '../scripts/stepper';
+  const zoom = document.querySelector<HTMLElement>('#impressionen .zoom')!;
+  stepper(zoom.querySelector('.zoom-stage')!, '.zoom-layer', zoom.querySelector('[data-step="prev"]')!, zoom.querySelector('[data-step="next"]')!);
+</script>

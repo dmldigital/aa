@@ -1,30 +1,28 @@
-/* SERVICES: phone: full-image cards that stack on top of each other while scrolling (CSS `position: sticky` only, so the page
-   keeps its native scrolling); desktop: quiet index with a cursor preview. */
+/* SERVICES: phone: cards that stack on top of each other while scrolling (CSS `position: sticky` only, so the page keeps its
+   native scrolling); desktop: quiet index with a cursor preview. */
 .services { padding: clamp(72px, 9vw, 132px) 0; }
-.service { position: sticky; top: calc(16px + var(--i) * 10px); height: min(72svh, 540px); margin-bottom: 22px; background: var(--anth-2); overflow: hidden; border-radius: 4px; box-shadow: 0 -14px 30px -18px rgba(0, 0, 0, .75); }
-.service-row { position: relative; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding: 0 22px 24px; }
-.service-media { position: absolute; inset: 0; overflow: hidden; }
-.service-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(21, 23, 26, .96) 0%, rgba(21, 23, 26, .82) 36%, rgba(21, 23, 26, .12) 72%, rgba(21, 23, 26, .32) 100%); }
-.service-media img { width: 100%; height: 100%; object-fit: cover; }
-.service-badge { position: absolute; z-index: 1; left: 16px; top: 16px; padding: 6px 11px; background: rgba(21, 23, 26, .62); font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; }
-.service-badge-inline { display: none; }
-.service-index { position: relative; margin-bottom: 12px; font-size: 12px; font-weight: 500; letter-spacing: .16em; color: var(--red-light); }
-.service-title { position: relative; padding: 0 0 10px; font-size: clamp(1.6rem, 7vw, 2rem); font-weight: 500; line-height: 1.1; letter-spacing: -.02em; }
-.service-text { position: relative; padding: 0 52px 0 0; font-size: .9375rem; line-height: 1.6; color: rgba(244, 242, 238, .78); }
-.service-go { position: absolute; z-index: 1; right: 16px; top: 16px; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: rgba(21, 23, 26, .62); box-shadow: inset 0 0 0 1px rgba(244, 242, 238, .3); }
+/* Phone: every service is a card in the look of the desktop row (label, title, text, round arrow). All cards share one height
+   and one sticky position, so each new card lands exactly on top of the one before. */
+.service-list { --card-h: 330px; }
+.service { position: sticky; top: max(calc(var(--header-h) + 12px), calc(50svh - var(--card-h) / 2)); height: var(--card-h); margin-bottom: 24px; background-color: var(--anth-2); background-image: url('/footer-grain.svg'); background-size: 180px; border: 1px solid var(--line-light); box-shadow: 0 -18px 36px -20px rgba(0, 0, 0, .8); }
+.service:last-child { margin-bottom: 0; }
+.service-row { position: relative; display: flex; flex-direction: column; height: 100%; padding: 26px 22px 24px; }
+.service-media { display: none; }
+.service-badge { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
+.service-badge:not(.service-badge-inline) { display: none; }
+.service-badge-inline { display: block; color: var(--accent); }
+.service-title { margin-top: auto; padding: 0 0 14px; font-size: clamp(1.75rem, 8vw, 2.2rem); font-weight: 500; line-height: 1.08; letter-spacing: -.02em; }
+.service-text { padding: 0 64px 0 0; font-size: .9375rem; line-height: 1.6; color: rgba(244, 242, 238, .74); }
+.service-go { position: absolute; right: 22px; bottom: 24px; display: grid; place-items: center; width: 48px; height: 48px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(244, 242, 238, .28); transition: background .5s var(--ease), box-shadow .5s var(--ease), transform .6s var(--ease); }
 .service-go svg { width: 18px; height: 18px; fill: none; stroke: var(--paper); stroke-width: 1.6; }
+.service-row:active .service-go { background: var(--red); box-shadow: none; transform: rotate(45deg); }
 .service-follow { display: none; }
 @media (min-width: 900px) {
-  .service-index { display: none; }
-  .service { position: static; height: auto; margin: 0; overflow: visible; border-radius: 0; background: none; box-shadow: none; border-top: 1px solid var(--line-light); }
-  .service-row { display: grid; justify-content: normal; height: auto; padding: 0; }
-  .service-media { position: relative; inset: auto; }
+  .service { position: static; height: auto; margin: 0; background: none; border: 0; box-shadow: none; border-top: 1px solid var(--line-light); }
   .service-go { position: static; background: none; }
   .service:last-child { border-bottom: 1px solid var(--line-light); }
-  .service-row { grid-template-columns: 200px minmax(0, 1.3fr) minmax(0, 1fr) 56px; align-items: center; gap: clamp(20px, 3vw, 56px); padding: clamp(24px, 2.4vw, 36px) 0; }
-  .service-media { display: none; }
-  .service-badge-inline { display: block; position: static; padding: 0; background: none; color: var(--accent); }
-  .service-title { padding: 0; font-size: clamp(1.6rem, 2.9vw, 2.75rem); transition: transform .6s var(--ease), color .5s var(--ease); }
+  .service-row { display: grid; height: auto; grid-template-columns: 200px minmax(0, 1.3fr) minmax(0, 1fr) 56px; align-items: center; gap: clamp(20px, 3vw, 56px); padding: clamp(24px, 2.4vw, 36px) 0; }
+  .service-title { margin: 0; padding: 0; font-size: clamp(1.6rem, 2.9vw, 2.75rem); transition: transform .6s var(--ease), color .5s var(--ease); }
   .service-text { padding: 0; max-width: 40ch; }
   .service-go { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-light); transition: background .5s var(--ease), box-shadow .5s var(--ease), transform .6s var(--ease); }
   .service-go svg { width: 20px; height: 20px; fill: none; stroke: var(--paper); stroke-width: 1.5; }
@@ -36,7 +34,7 @@
 }
 @media (hover: hover) and (pointer: fine) and (min-width: 900px) {
   .service-follow { display: block; position: fixed; z-index: 40; left: 0; top: 0; width: clamp(240px, 21vw, 340px); aspect-ratio: 1; overflow: hidden; pointer-events: none; opacity: 0; box-shadow: 0 8px 24px rgba(0, 0, 0, .28), 0 28px 64px rgba(0, 0, 0, .28); }
-  .service-follow img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; clip-path: inset(100% 0 0 0); }
+  .service-follow img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
 }
 
 /* IMPRESSIONS: phone: swipe strip; desktop with motion: pinned zoom parallax. */
@@ -48,8 +46,11 @@
 .zoom-item { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--anth); }
 .zoom-item img, .zoom-item video { width: 100%; height: 100%; object-fit: cover; }
 @media (min-width: 640px) { .zoom-layer { flex-basis: 46vw; } }
+.zoom { position: relative; }
+.zoom .step-nav { bottom: clamp(56px, 7vw, 100px); }
 @media (min-width: 1024px) {
   html.motion .zoom { padding-bottom: 0; }
+  html.motion .zoom .step-nav { display: none; }
   html.motion .zoom-stage { position: relative; height: 100vh; overflow: hidden; display: block; padding: 0; }
   html.motion .zoom-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; will-change: transform; }
   html.motion .zoom-item { aspect-ratio: auto; width: 25vw; height: 25vh; }
@@ -60,6 +61,14 @@
   html.motion .zoom-5 .zoom-item { top: 27.5vh; left: -22.5vw; width: 30vw; height: 25vh; }
   html.motion .zoom-6 .zoom-item { top: 22.5vh; left: 25vw; width: 15vw; height: 15vh; }
 }
+
+/* Back / forward buttons laid over a swipe row (impressions strip, team row on phones). */
+.step-nav { position: absolute; z-index: 2; inset: 0; display: flex; align-items: center; justify-content: space-between; padding-inline: 10px; pointer-events: none; }
+.step-btn { display: grid; place-items: center; width: 46px; height: 46px; padding: 0; border: 0; border-radius: 50%; background: rgba(21, 23, 26, .55); box-shadow: inset 0 0 0 1px rgba(244, 242, 238, .26), 0 6px 18px rgba(0, 0, 0, .22); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); color: var(--paper); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent; transition: opacity .5s var(--ease), background .4s var(--ease), transform .4s var(--ease); }
+.step-btn svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.step-btn:active { background: var(--red); transform: scale(.94); }
+.step-btn:disabled { opacity: .28; cursor: default; }
+.step-btn:disabled:active { background: rgba(21, 23, 26, .55); transform: none; }
 
 /* COMPANY */
 .company { padding: clamp(72px, 9vw, 132px) 0; background: var(--paper); }
@@ -149,6 +158,7 @@
 }
 
 /* Handy und Tablet: Wischreihe, die Person in der Mitte ist gewählt, der Text steht darunter */
+.sw-stage { position: relative; }
 .sw-row { --w: 58vw; display: flex; align-items: flex-end; height: calc(var(--w) / .87); padding-inline: 21vw; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; background: radial-gradient(60% 55% at 50% 62%, rgba(255, 255, 255, .09), transparent 70%); }
 .sw-row::-webkit-scrollbar { display: none; }
 .sw-item { flex: 0 0 var(--w); width: var(--w); height: 100%; scroll-snap-align: center; outline-offset: -3px; }
@@ -217,7 +227,7 @@
 /* MOTION: start states only while JS runs (html.motion). */
 html.motion [data-reveal] { opacity: 0; transform: translateY(16px); }
 html.motion [data-rise] { opacity: 0; transform: translateY(24px); }
-html.motion [data-clip] { clip-path: inset(100% 0 0 0); }
+html.motion [data-clip] { opacity: 0; }
 html.motion [data-lines] { visibility: hidden; }
 html.motion .ht-in { visibility: hidden; }
 html.motion .stat { --rule: 0; }

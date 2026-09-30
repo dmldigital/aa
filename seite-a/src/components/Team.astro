@@ -1,9 +1,10 @@
 ---
 // Team: ab 1100 px ein Bild-Akkordeon in voller Breite. Die Personen sind freigestellt (public/media/team-cut) und stehen auf dunklem
 // Grund; ein schmaler Streifen zeigt sie wie durch einen Spalt, der gewählte öffnet sich langsam und zeigt Text und Person.
-// (Muster nach 21st.dev "image accordion", eigene Umsetzung.) Darunter: Wischreihe mit Text darunter.
+// (Muster nach 21st.dev "image accordion", eigene Umsetzung.) Darunter: Wischreihe mit Zurück/Weiter-Knöpfen und Text darunter.
 import { team } from '../data/content';
 import TeamInfo from './TeamInfo.astro';
+import StepNav from './StepNav.astro';
 const cut = (m: { image: string }) => `/media/team-cut/${m.image}.webp`;
 ---
 <section class="team grain" id="team" aria-labelledby="team-title">
@@ -29,13 +30,16 @@ const cut = (m: { image: string }) => `/media/team-cut/${m.image}.webp`;
 
   <!-- Handy/Tablet: Wischreihe, Text darunter -->
   <div class="team-swipe">
-    <ul class="sw-row" role="list" data-sw-row>
-      {team.map((m, i) => (
-        <li class={`sw-item${i === 0 ? ' on' : ''}`} data-i={i} tabindex="0" aria-label={`${m.name}, ${m.role}`}>
-          <img src={cut(m)} alt={m.name} width="956" height="1100" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
-        </li>
-      ))}
-    </ul>
+    <div class="sw-stage">
+      <ul class="sw-row" role="list" data-sw-row>
+        {team.map((m, i) => (
+          <li class={`sw-item${i === 0 ? ' on' : ''}`} data-i={i} tabindex="0" aria-label={`${m.name}, ${m.role}`}>
+            <img src={cut(m)} alt={m.name} width="956" height="1100" loading={i < 2 ? 'eager' : 'lazy'} decoding="async" />
+          </li>
+        ))}
+      </ul>
+      <StepNav label="Team" />
+    </div>
     <div class="wrap sw-caption">
       {team.map((m, i) => <div class={`sw-cap${i === 0 ? ' on' : ''}`} data-i={i}><TeamInfo m={m} /></div>)}
     </div>
@@ -43,6 +47,7 @@ const cut = (m: { image: string }) => `/media/team-cut/${m.image}.webp`;
 </section>
 
 <script>
+  import { stepper } from '../scripts/stepper';
   const sec = document.getElementById('team')!;
   const set = (i: number) => sec.querySelectorAll<HTMLElement>('[data-i]').forEach((el) => el.classList.toggle('on', Number(el.dataset.i) === i));
 
@@ -62,6 +67,7 @@ const cut = (m: { image: string }) => `/media/team-cut/${m.image}.webp`;
 
   // Wischreihe: die Person in der Mitte ist die gewählte
   const row = sec.querySelector<HTMLElement>('[data-sw-row]');
+  if (row) stepper(row, '.sw-item', sec.querySelector('.team-swipe [data-step="prev"]')!, sec.querySelector('.team-swipe [data-step="next"]')!);
   let raf = 0;
   row?.addEventListener('scroll', () => {
     if (raf) return;
