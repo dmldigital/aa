@@ -17,26 +17,27 @@ const once = (trigger: Element | string, start = 'top 85%') => ({ trigger, start
 const DESKTOP = '(min-width: 1024px) and (pointer: fine)';
 
 // ---------- HERO ----------------------------------------------------------------------------
-// The headline is split into characters that travel through their line mask (21st.dev "Vertical Cut Reveal"):
-// in, they drive up from below the mask one after the other; out, they drive on upwards and leave through the top.
-// No fading, only movement; scrolling back reverses it.
-let heroChars: HTMLElement[][] | null = null;
+// The three headline lines drive in from a screen edge (line 1 from the left, line 2 from the right, line 3 from the left).
+// On scroll, lines 1 and 2 keep going the same way and leave through the opposite edge. No masks, no fading;
+// scrolling back reverses it.
+const FROM = [-1, 1, -1];
+const EDGE = (i: number, out = false) => `${(out ? -1 : 1) * FROM[i] * 105}vw`;
+let heroLines: HTMLElement[] | null = null;
 function heroText() {
-  if (!heroChars) {
-    heroChars = all('.ht-in').map(el => SplitText.create(el, { type: 'chars', charsClass: 'hc' }).chars as HTMLElement[]);
-    gsap.set(heroChars.flat(), { yPercent: 120 });
-    gsap.set('.ht-in', { visibility: 'visible' });
+  if (!heroLines) {
+    heroLines = all('.ht-in');
+    heroLines.forEach((el, i) => gsap.set(el, { x: EDGE(i), visibility: 'visible' }));
   }
-  return heroChars;
+  return heroLines;
 }
-const CHAR_IN = { yPercent: 0 };
+const CHAR_IN = { x: 0 };
 
 function heroIntro() {
   const lines = heroText();
   const tl = gsap.timeline({ defaults: { ease: EASE } })
     .fromTo('#site-header', { yPercent: -100, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 1.1, clearProps: 'transform,opacity' }, .2)
     .fromTo('.hero-video, .hero-canvas', { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 2 }, 0);
-  lines.forEach((chars, i) => tl.to(chars, { ...CHAR_IN, duration: 1.25, stagger: { each: .03, ease: 'power1.in' } }, .45 + i * .2));
+  lines.forEach((line, i) => tl.to(line, { ...CHAR_IN, duration: 1.7, ease: 'power3.out' }, .4 + i * .22));
   tl.from('.hero-frame b', { opacity: 0, duration: 1, stagger: .06 }, 1)
     .from('.hero-scroll', { opacity: 0, y: 12, duration: 1 }, 1.6);
   // Phone/tablet: the box follows the headline (on desktop it arrives at the end of the scrub).
@@ -109,17 +110,15 @@ function heroScrub() {
     const s = stage.getBoundingClientRect(), f = frame.getBoundingClientRect();
     return `inset(${f.top - s.top}px ${s.right - f.right}px ${s.bottom - f.bottom}px ${f.left - s.left}px)`;
   };
-  const OUT = { yPercent: -125, ease: 'power2.in', duration: .5, immediateRender: false };
+  const OUT = (i: number) => ({ x: EDGE(i, true), ease: 'power2.in', duration: .6, immediateRender: false });
   const tl = gsap.timeline({
     scrollTrigger: { trigger: '.hero', start: 'top top', end: '+=260%', pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true },
   })
     .fromTo(media, { clipPath: inset }, { clipPath: 'inset(0px 0px 0px 0px)', ease: 'power2.inOut', duration: 1 }, 0)
     .to(['.hero-frame', '.hero-scroll'], { opacity: 0, duration: .2 }, 0)
-    // Lines 1 and 2: characters lift out of their masks and blur away, line 1 from the left, line 2 from the right; the lines drift apart.
-    .fromTo(lines[0], CHAR_IN, { ...OUT, stagger: { each: .014, from: 'start' } }, .04)
-    .fromTo(lines[1], CHAR_IN, { ...OUT, stagger: { each: .014, from: 'end' } }, .1)
-    .fromTo('.ht-1 .ht-in', { xPercent: 0 }, { xPercent: -5, ease: 'none', duration: .8, immediateRender: false }, .04)
-    .fromTo('.ht-2 .ht-in', { xPercent: 0 }, { xPercent: 5, ease: 'none', duration: .8, immediateRender: false }, .04)
+    // Lines 1 and 2 keep going the way they came in: line 1 leaves to the right, line 2 to the left.
+    .fromTo(lines[0], CHAR_IN, OUT(0), .04)
+    .fromTo(lines[1], CHAR_IN, OUT(1), .1)
     .to('.hero-shade', { opacity: 1, duration: .5 }, .45)
     // "Werte schaffen." rises to sit above the box, which is then uncovered from below; its text follows line by line.
     .to('.ht-3', { y: () => -(document.querySelector<HTMLElement>('.hero-box')!.offsetHeight + 34), ease: 'power2.inOut', duration: .4 }, .5)
@@ -136,8 +135,8 @@ function heroLoop() {
   video.loop = true;
   video.play().catch(() => {});
   gsap.to('.hero-video', { yPercent: 6, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
-  // Headline characters drive out through the top of their masks, the box wipes upwards, while the page scrolls away.
-  heroText().forEach((chars, i) => gsap.fromTo(chars, CHAR_IN, { yPercent: -125, ease: 'power2.in', stagger: .04, immediateRender: false,
+  // Headline lines keep going the way they came in and leave through the opposite screen edge, the box wipes upwards.
+  heroText().forEach((line, i) => gsap.fromTo(line, CHAR_IN, { x: EDGE(i, true), ease: 'power2.in', immediateRender: false,
     scrollTrigger: { trigger: '.hero', start: `${4 + i * 4}% top`, end: '50% top', scrub: true } }));
   gsap.fromTo('.hero-box', { clipPath: 'inset(0% -60px -60px -60px)' }, { clipPath: 'inset(0% -60px 100% -60px)', ease: 'power2.in', immediateRender: false,
     scrollTrigger: { trigger: '.hero', start: '15% top', end: '70% top', scrub: true } });

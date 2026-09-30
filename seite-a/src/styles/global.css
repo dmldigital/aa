@@ -125,7 +125,7 @@ body.menu-open .site-header { background: transparent; border-bottom-color: tran
 .hero-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(21, 23, 26, .92), rgba(21, 23, 26, .32) 55%, rgba(21, 23, 26, .46)); }
 .hero-frame { display: none; }
 .hero-title { position: relative; z-index: 2; font-size: clamp(2.4rem, 5vw, 5rem); font-weight: 450; line-height: 1.08; letter-spacing: -.02em; text-shadow: 0 2px 28px rgba(21, 23, 26, .35); }
-.ht { display: block; overflow: hidden; padding-bottom: .14em; margin-bottom: -.14em; }
+.ht { display: block; }
 .ht-in { display: block; }
 .ht-3 { color: var(--red-light); }
 .hero-box { position: relative; z-index: 2; display: grid; margin-top: 28px; background: var(--paper); color: var(--ink); box-shadow: 0 2px 4px rgba(0, 0, 0, .10), 0 16px 36px rgba(0, 0, 0, .20), 0 40px 80px rgba(0, 0, 0, .16); }
