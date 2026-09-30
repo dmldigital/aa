@@ -30,7 +30,7 @@ import { footer, phone, mail } from '../data/content';
       {footer.media.map(m => (
         <figure class="footer-media-item" data-clip>
           {m.type === 'video'
-            ? <video muted playsinline loop preload="none" poster={`${m.src}.webp`} data-autoplay aria-label={m.label}><source src={`${m.src}.mp4`} type="video/mp4" /></video>
+            ? <video muted playsinline loop preload="none" data-poster={`${m.src}.webp`} data-autoplay aria-label={m.label}><source src={`${m.src}.mp4`} type="video/mp4" /></video>
             : <img src={m.src} alt={m.alt} width="440" height="425" loading="lazy" />}
           <figcaption class="media-badge"><i></i>{m.label}</figcaption>
         </figure>

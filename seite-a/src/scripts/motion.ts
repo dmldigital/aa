@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import { CustomEase } from 'gsap/CustomEase';
+import { afterFirstVisit } from './defer';
 
 gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase);
 CustomEase.create('soft', '.22,1,.36,1');
@@ -87,11 +88,13 @@ function frameSequence(canvas: HTMLCanvasElement) {
     if (cur !== target && !dead) raf = requestAnimationFrame(tick);
   };
   const kick = () => { if (!raf && !dead) raf = requestAnimationFrame(tick); };
-  // Loading order: first and last frame, then every 8th, then the rest (six at a time).
+  // Loading order: first frame (immediately), then the last frame, then every 8th, then the rest (six at a time).
   const idx = Array.from({ length: N }, (_, i) => i);
   const queue = [0, N - 1, ...idx.filter(i => i % 8 === 0 && i !== 0), ...idx.filter(i => i % 8 !== 0 && i !== N - 1)];
   const worker = async () => { while (queue.length && !dead) await load(queue.shift()!); };
-  Array.from({ length: 6 }, worker);
+  // Only the first frame is requested right away; the rest follows once the visitor interacts (or after a long idle time).
+  load(queue.shift()!);
+  afterFirstVisit().then(() => Array.from({ length: 6 }, worker));
   const onResize = () => { lastKey = ''; kick(); };
   addEventListener('resize', onResize);
   return {
@@ -132,9 +135,8 @@ function heroScrub() {
 }
 function heroLoop() {
   const video = document.querySelector<HTMLVideoElement>('.hero-video')!;
-  video.src = video.dataset.loop!;
   video.loop = true;
-  video.play().catch(() => {});
+  afterFirstVisit().then(() => { video.src = video.dataset.loop!; video.play().catch(() => {}); });
   // Headline lines keep going the way they came in and leave through the opposite screen edge, the box wipes upwards.
   heroText().forEach((line, i) => gsap.fromTo(line, CHAR_IN, { x: EDGE(i, true), ease: 'power2.in', immediateRender: false,
     scrollTrigger: { trigger: '.hero', start: `${4 + i * 4}% top`, end: '50% top', scrub: true } }));
@@ -295,7 +297,7 @@ function magnetic() {
 export function initMotion(reduced: boolean) {
   if (reduced) {
     const v = document.querySelector<HTMLVideoElement>('.hero-video');
-    if (v) v.src = v.dataset.loop!;
+    if (v) afterFirstVisit().then(() => { v.src = v.dataset.loop!; });
     return;
   }
   const mm = gsap.matchMedia();

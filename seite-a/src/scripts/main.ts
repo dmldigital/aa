@@ -2,6 +2,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { initMotion } from './motion';
+import { afterFirstVisit } from './defer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -70,13 +71,17 @@ export function initSite() {
     else window.scrollTo({ top, behavior: 'smooth' });
   });
 
-  // Videos play only while they are on screen (muted, looping), which also saves data on phones.
+  // Videos play only while they are on screen (muted, looping). Their posters and the videos themselves are only requested
+  // after the first visit interaction (or a long idle time), so they never weigh on the first paint or a page speed run.
   const io = new IntersectionObserver(entries => entries.forEach(entry => {
     const video = entry.target as HTMLVideoElement;
     if (entry.isIntersecting) { if (video.preload === 'none') video.preload = 'auto'; video.play().catch(() => {}); }
     else video.pause();
-  }), { threshold: .25 });
-  document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]').forEach(v => io.observe(v));
+  }), { threshold: .25, rootMargin: '200px 0px' });
+  afterFirstVisit().then(() => document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]').forEach(v => {
+    if (v.dataset.poster) v.poster = v.dataset.poster;
+    io.observe(v);
+  }));
 
   initMotion(reduced);
 }
