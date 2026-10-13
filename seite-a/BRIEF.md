@@ -13,8 +13,8 @@ Diese Fassung ist eine **freie Neugestaltung** der bestehenden Seite (Seite B): 
 - Build: `npm run build` → `dist/`. `wrangler.jsonc` zeigt auf den Cloudflare Worker **`mw-bauen`** – das ist derselbe Name wie bei der Live-/Originalseite. Ein `wrangler deploy` aus diesem Ordner würde die bestehende Seite überschreiben.
 
 ## Seitenaufbau (Reihenfolge)
-1. Header (fix, transparent über dem Hero, danach Anthrazit mit Blur; blendet beim Runterscrollen aus) + Handy-Menü als Vollbild-Sheet
-2. Hero `#start` – „Träume verwirklichen, Werte schaffen.“ + Drohnenvideo DJI_0144
+1. Header, **hell (weiß)**, Desktop als „Plankopf“ (Zellen mit feinen Linien wie das Schriftfeld einer Bauzeichnung, rote Kante oben, Telefonnummer-Zelle, roter Button-Block); blendet beim Runterscrollen aus und erscheint beim Hochscrollen als **schwebende Leiste** (Abstand zum Rand, Rahmen, Schatten). Handy: weiße Leiste, beim Wiedereinblenden ebenfalls schwebend; Menü als helles Vollbild-Sheet. Styles in `src/styles/hero-light.css` (überschreibt die dunklen Regeln aus `global.css`).
+2. Hero `#start` – „Träume verwirklichen, Werte schaffen.“ + Drohnenvideo DJI_0144. **Desktop hell:** hinter dem Bildrahmen steht ein technischer Grundriss (`src/assets/hero-draw/hero-grundriss.svg`, Anthrazit mit rotem Akzent, zeichnet sich beim Laden selbst); der Rahmen ist mit Maßlinien bemaßt (Zahlen setzt `motion.ts`). Beim Scrollen wächst das Bild zum Vollbild, die Zeichnung zieht nach oben und blendet aus; die Zeilen 1 und 2 fahren dunkel hinaus, bevor das Bild sie erreicht, Zeile 3 wechselt auf das helle Rot. **Handy** bleibt Vollbild-Video von Anfang an (keine Zeichnung sichtbar).
 3. Laufband mit Werten (zwei Bänder)
 4. Über uns `#ueber-uns` – Zähler 25+, Statement, „Unser Bestreben“, Video DJI_0165 + rote Zitat-Box
 5. Leistungen `#leistungen` – 4 Leistungen

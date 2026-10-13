@@ -151,24 +151,39 @@ function heroScrub() {
     const s = stage.getBoundingClientRect(), f = frame.getBoundingClientRect();
     return `inset(${f.top - s.top}px ${s.right - f.right}px ${s.bottom - f.bottom}px ${f.left - s.left}px)`;
   };
-  const OUT = (i: number) => ({ x: EDGE(i, true), ease: 'power2.in', duration: .6, immediateRender: false });
+  // Desktop: lines 1 and 2 leave while they still stand on the light ground (dark text), before the picture grows under them.
+  const OUT = (i: number) => ({ x: EDGE(i, true), ease: 'power2.in', duration: phone ? .6 : .34, immediateRender: false });
+  const OUT_AT = phone ? [.04, .1] : [.02, .06];
   const tl = gsap.timeline({
     scrollTrigger: { trigger: '.hero', start: 'top top', end: mouse ? '+=260%' : '+=210%', pin: true, scrub: SCRUB, anticipatePin: 1, invalidateOnRefresh: true },
   })
     .to(['.hero-frame', '.hero-scroll'], { opacity: 0, duration: .2 }, 0)
     // Lines 1 and 2 keep going the way they came in: line 1 leaves to the right, line 2 to the left.
-    .fromTo(lines[0], CHAR_IN, OUT(0), .04)
-    .fromTo(lines[1], CHAR_IN, OUT(1), .1)
+    .fromTo(lines[0], CHAR_IN, OUT(0), OUT_AT[0])
+    .fromTo(lines[1], CHAR_IN, OUT(1), OUT_AT[1])
     .to('.hero-shade', { opacity: 1, duration: .5 }, .45)
     // "Werte schaffen." rises to sit above the box, which is then uncovered from below; its text follows line by line.
     .to('.ht-3', { y: () => -(document.querySelector<HTMLElement>('.hero-box')!.offsetHeight + 34), ease: 'power2.inOut', duration: .4 }, .5)
     .fromTo('.hero-box', { autoAlpha: 0, clipPath: 'inset(100% -60px -60px -60px)' }, { autoAlpha: 1, clipPath: 'inset(0% -60px -60px -60px)', ease: 'power3.inOut', duration: .36 }, .64)
     .fromTo('.hero-box p, .hero-box-cta', { y: 30, clipPath: 'inset(0 0 100% 0)' }, { y: 0, clipPath: 'inset(0 0 0% 0)', ease: 'power2.out', duration: .3, stagger: .07 }, .74)
     .to({}, { duration: .3 });
-  if (!phone) tl.fromTo(media, { clipPath: inset }, { clipPath: 'inset(0px 0px 0px 0px)', ease: 'power2.inOut', duration: 1 }, 0);
+  // Light start (desktop): lines 1 and 2 are dark on the paper and leave before the picture reaches them; line 3 turns to the
+  // light red once the picture runs under it. The drawing behind the frame drifts up and fades out. The frame is measured
+  // like a drawing (1 px = 1.25 cm).
+  const dims = () => {
+    const m = (px: number) => (px * 1.25 / 100).toFixed(2).replace('.', ',');
+    stage.querySelector('.fd-w em')!.textContent = m(frame.offsetWidth);
+    stage.querySelector('.fd-h em')!.textContent = m(frame.offsetHeight);
+  };
+  if (!phone) {
+    dims(); addEventListener('resize', dims);
+    tl.fromTo(media, { clipPath: inset }, { clipPath: 'inset(0px 0px 0px 0px)', ease: 'power2.inOut', duration: 1 }, 0)
+      .fromTo('.ht-3', { color: '#c4271c', textShadow: '0 2px 28px rgba(21,23,26,0)' }, { color: '#e5675c', textShadow: '0 2px 28px rgba(21,23,26,.35)', ease: 'none', duration: .14, immediateRender: false }, .5)
+      .to('.hero-draw', { y: -36, opacity: .08, ease: 'none', duration: .8 }, 0);
+  }
   // The flight ends a little before the pin ends, so the last frames hold while the box is read.
   tl.eventCallback('onUpdate', () => seq.to(tl.progress() / .9));
-  return () => seq.destroy();
+  return () => { seq.destroy(); removeEventListener('resize', dims); };
 }
 
 // ---------- SHARED ENTRANCES ------------------------------------------------------------------

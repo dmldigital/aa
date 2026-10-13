@@ -4,11 +4,15 @@
 // (130 frames, eased and cross-blended between frames), which is much smoother than seeking a video.
 // Phones and tablets: the scrubbed flight full screen from the start, from portrait frames (608 x 1080 AVIF, cut from the
 // original) whose camera pans with the wheel loader. The video only serves reduced motion.
+// Desktop, light: around the framed card a floor plan drawn in the house colours (src/assets/hero-draw/hero-grundriss.svg,
+// the strokes draw themselves on load, see styles/hero-light.css).
 import { hero } from '../data/content';
+import grundriss from '../assets/hero-draw/hero-grundriss.svg?raw';
 ---
 <section class="hero" id="start" aria-label="Einstieg">
   <div class="hero-stage">
-    <div class="hero-frame" aria-hidden="true"><b></b><b></b><b></b><b></b></div>
+    <div class="hero-draw" aria-hidden="true"><Fragment set:html={grundriss} /></div>
+    <div class="hero-frame" aria-hidden="true"><b></b><b></b><b></b><b></b><i class="fd fd-w"><em></em></i><i class="fd fd-h"><em></em></i></div>
     <div class="hero-media">
       <video class="hero-video" muted playsinline loop preload="none" poster="/media/video/DJI_0144.webp"
         data-loop="/media/video/DJI_0144.mp4" aria-hidden="true"></video>

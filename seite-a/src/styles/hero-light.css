@@ -1,0 +1,111 @@
+/* Heller Einstieg: weißer "Plankopf"-Header und heller Hero mit Grundriss-Zeichnung hinter dem Bildrahmen.
+   Liegt nach global.css und überschreibt dessen dunkle Header-/Hero-Regeln. */
+:root {
+  --hbg: #fcfbf9;
+  --dl: rgba(26, 27, 30, .62);
+  --dm: rgba(26, 27, 30, .30);
+  --dg: rgba(26, 27, 30, .07);
+  --dgg: rgba(26, 27, 30, .13);
+  --dr: #c4271c;
+  --plan-line: rgba(26, 27, 30, .85);
+}
+
+/* ---------- HEADER: hell ---------- */
+html .site-header, html .site-header.is-scrolled { color: var(--ink); background-color: #fff; background-image: none; border-bottom: 1px solid var(--line); box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+html .site-header :focus-visible { outline-color: var(--ink); }
+html .brand-text small { color: var(--red); }
+html .roll-text::after { color: var(--red); }
+html .header-phone:hover { color: var(--red); }
+.header-tel { display: none; }
+
+/* Handy-Menü hell */
+html .drawer { --accent: var(--red); background-color: var(--surface); background-image: none; color: var(--ink); box-shadow: 0 24px 60px rgba(20, 22, 26, .16); }
+html .drawer-link:hover .drawer-label, html .drawer-link:focus-visible .drawer-label, html .drawer-link:active .drawer-label { color: var(--red); }
+html .drawer-bottom { border-top-color: var(--line); }
+html .drawer-foot { color: var(--muted); }
+html .drawer-foot small { color: var(--red); }
+html .drawer-foot a { color: var(--ink); }
+
+/* ---------- HEADER Desktop: Plankopf (Zellen mit feinen Linien wie das Schriftfeld einer Bauzeichnung) ---------- */
+@media (min-width: 1024px) {
+  html .site-header, html .site-header.is-scrolled { grid-template-columns: auto auto auto 1fr auto auto; column-gap: 0; padding-inline: 0; border-style: solid; border-color: transparent; border-width: 0 0 1px; border-bottom-color: var(--plan-line); box-shadow: inset 0 3px 0 var(--red);
+    transition: transform .6s var(--ease), top .6s var(--ease), left .6s var(--ease), right .6s var(--ease), border-width .6s var(--ease), box-shadow .6s var(--ease); }
+  /* Sobald der Header nach dem Scrollen wieder erscheint, schwebt er: Abstand zum Rand, Rahmen rundum, Schatten. */
+  html .site-header.is-scrolled { top: 14px; left: 14px; right: 14px; border-width: 1px; border-color: var(--plan-line); box-shadow: inset 0 3px 0 var(--red), 0 14px 44px rgba(20, 22, 26, .14), 0 2px 6px rgba(20, 22, 26, .06); }
+  html .site-header.is-hidden, html .site-header.is-scrolled.is-hidden { transform: translateY(calc(-100% - 24px)); }
+  html .header-r { display: contents; }
+  html .brand { grid-column: 1; align-self: stretch; padding: 3px 30px 0 var(--gutter); border-right: 1px solid var(--plan-line); }
+  html .main-nav { align-self: stretch; gap: 0; }
+  html .main-nav-l { grid-column: 2; }
+  html .main-nav-r { grid-column: 3; }
+  html .main-nav a { display: flex; align-items: center; padding: 3px clamp(16px, 1.8vw, 30px) 0; border-right: 1px solid var(--line); transition: background-color .4s var(--ease); }
+  html .main-nav a:hover { background: var(--surface); }
+  html .header-tel { grid-column: 5; display: flex; align-items: center; align-self: stretch; padding: 3px 26px 0; border-left: 1px solid var(--plan-line); font-size: 14px; font-weight: 500; letter-spacing: .02em; font-variant-numeric: tabular-nums; transition: color .4s var(--ease); }
+  html .header-tel:hover { color: var(--red); }
+  html .header-cta { grid-column: 6; align-self: stretch; height: auto; padding: 3px clamp(24px, 2.6vw, 44px) 0; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  html .header-tel { display: none; }
+  html .brand { padding-right: 20px; }
+  html .brand-text small { display: none; }
+  html .main-nav a { padding-inline: 14px; font-size: 13px; }
+  html .header-cta { padding-inline: 22px; }
+}
+
+/* ---------- HEADER Handy/Tablet: weiße Leiste, schwebend sobald sie nach dem Scrollen wieder erscheint ---------- */
+@media (max-width: 1023px) {
+  html .header-phone, html .menu-toggle { background: #fff; box-shadow: inset 0 0 0 1px rgba(26, 27, 30, .2); }
+  html body.menu-open .header-phone, html body.menu-open .menu-toggle { background: transparent; box-shadow: inset 0 0 0 1px rgba(26, 27, 30, .26); }
+  html .site-header, html .site-header.is-scrolled { transition: transform .6s var(--ease), top .5s var(--ease), left .5s var(--ease), right .5s var(--ease), height .5s var(--ease), padding .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease); }
+  html .site-header.is-scrolled { top: 8px; left: 8px; right: 8px; height: 60px; padding-inline: 14px 10px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(20, 22, 26, .12); }
+  html .site-header.is-hidden, html .site-header.is-scrolled.is-hidden { transform: translateY(calc(-100% - 12px)); }
+  /* Offenes Menü: die Leiste löst sich wieder auf, nur Logo und Knöpfe bleiben auf dem hellen Blatt. */
+  html body.menu-open .site-header, html body.menu-open .site-header.is-scrolled { top: 0; left: 0; right: 0; height: var(--header-h); padding-inline: var(--gutter); background: transparent; border-color: transparent; box-shadow: none; transform: none; }
+}
+
+/* ---------- HERO: hell, mit Zeichnung (nur Desktop mit Bewegung; Handy und reduzierte Bewegung bleiben Vollbild-Video) ---------- */
+.hero-draw { display: none; }
+@media (min-width: 1024px) {
+  html.motion .hero-stage { background: var(--hbg); color: var(--ink); }
+  html.motion .hero-draw { display: block; position: absolute; inset: 0; overflow: hidden; will-change: transform, opacity; }
+  html.motion .hero-title { color: var(--ink); text-shadow: none; }
+  html.motion .ht-3 { color: var(--red); }
+  html.motion .hero-scroll { color: var(--muted); }
+  html.motion .hero-scroll i { background: linear-gradient(var(--red), transparent); }
+  .hero-frame b { border-color: rgba(26, 27, 30, .6); }
+  .hero-frame { box-shadow: 0 34px 70px -18px rgba(20, 22, 26, .22); }
+}
+
+/* Bemaßung des Bildrahmens (Zahlen setzt motion.ts: 1 px = 1,25 cm) */
+.fd { position: absolute; display: block; color: var(--dl); font-style: normal; pointer-events: none; }
+.fd em { position: absolute; font: 500 11px/1 var(--font); font-style: normal; letter-spacing: .12em; white-space: nowrap; padding: 3px 5px; background: var(--hbg); }
+.fd::before, .fd::after { content: ''; position: absolute; width: 11px; height: 1px; background: currentColor; transform: rotate(-45deg); }
+.fd-w { left: 0; right: 0; top: -44px; border-top: 1px solid currentColor; }
+.fd-w::before { left: -5px; top: -1px; } .fd-w::after { right: -5px; top: -1px; }
+.fd-w em { left: 50%; bottom: 8px; transform: translateX(-50%); }
+.fd-h { top: 0; bottom: 0; left: -44px; border-left: 1px solid currentColor; }
+.fd-h::before { left: -6px; top: 0; } .fd-h::after { left: -6px; bottom: 0; }
+.fd-h em { top: 50%; right: 8px; transform: translateY(-50%) rotate(-90deg); transform-origin: right center; }
+
+/* ---------- ZEICHNUNG (Grundriss) ---------- */
+.draw { position: absolute; inset: 0; width: 100%; height: 100%; fill: none; stroke: var(--dl); stroke-width: 1.2; stroke-linejoin: round; }
+.draw .g { stroke: var(--dg); stroke-width: 1; }
+.draw .gg { stroke: var(--dgg); stroke-width: 1; }
+.draw .m { stroke: var(--dm); stroke-width: 1.2; }
+.draw .k { stroke: var(--dl); stroke-width: 1.5; }
+.draw .r { stroke: var(--dr); stroke-width: 1.3; }
+.draw .rf { fill: var(--dr); stroke: none; }
+.draw .dash { stroke-dasharray: 16 5 2 5; stroke-width: 1.4; }
+.draw pattern path { stroke: var(--dm); stroke-width: 1; }
+.draw .hbg { fill: var(--hbg); stroke: none; }
+.draw .wall { fill: url(#h1); }
+.draw text { fill: var(--dl); stroke: var(--hbg); stroke-width: 4px; paint-order: stroke; stroke-linejoin: round; font: 500 11px var(--font); letter-spacing: .1em; }
+.draw text.tb { font-weight: 700; font-size: 12px; }
+.draw text.ts { font-size: 10px; letter-spacing: .14em; }
+.draw text.tr { fill: var(--dr); font-weight: 700; font-size: 13px; }
+
+/* zeichnet sich beim Laden selbst */
+html.motion .draw .d { stroke-dasharray: 1 2; stroke-dashoffset: 1; animation: draw-in 1.8s var(--ease) calc(.2s + var(--i, 0) * 75ms) forwards; }
+html.motion .draw .f { opacity: 0; animation: draw-fade 1.3s var(--ease) calc(.5s + var(--i, 0) * 75ms) forwards; }
+@keyframes draw-in { to { stroke-dashoffset: 0; } }
+@keyframes draw-fade { to { opacity: 1; } }
