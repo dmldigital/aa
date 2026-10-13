@@ -1,4 +1,4 @@
-/* Heller Einstieg: weißer Header (oben "Plankopf", beim Scrollen verwandelt er sich in eine schwebende Leiste) und heller Hero
+/* Heller Einstieg: weiße, schwebende Header-Leiste (oben größer, beim Scrollen kleiner) und heller Hero
    mit Grundriss-Zeichnung hinter dem Bildrahmen. Liegt nach global.css und überschreibt dessen dunkle Header-/Hero-Regeln. */
 :root {
   --hbg: #fcfbf9;
@@ -7,16 +7,16 @@
   --dg: rgba(26, 27, 30, .07);
   --dgg: rgba(26, 27, 30, .13);
   --dr: #c4271c;
-  --plan-line: rgba(26, 27, 30, .85);
 }
 
-/* ---------- HEADER: hell ---------- */
-html .site-header, html .site-header.is-scrolled { color: var(--ink); background-color: #fff; background-image: none; border-bottom: 1px solid var(--line); box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
+/* ---------- HEADER: weiße, schwebende Leiste ----------
+   Oben die größere Version, ab 40 px Scroll (.is-scrolled) schrumpft sie: Höhe, Abstand zum Rand, Logo, Button und Schatten laufen
+   über CSS-Übergänge. Desktop: Logo links, Menü mittig, Button rechts. Handy: Logo links, Telefon und Menü als runde Knöpfe. */
+html .site-header, html .site-header.is-scrolled { color: var(--ink); background-color: #fff; background-image: none; border: 1px solid var(--line); -webkit-backdrop-filter: none; backdrop-filter: none; }
 html .site-header :focus-visible { outline-color: var(--ink); }
 html .brand-text small { color: var(--red); }
 html .roll-text::after { color: var(--red); }
 html .header-phone:hover { color: var(--red); }
-.header-tel { display: none; }
 
 /* Handy-Menü hell */
 html .drawer { --accent: var(--red); background-color: var(--surface); background-image: none; color: var(--ink); box-shadow: 0 24px 60px rgba(20, 22, 26, .16); }
@@ -26,56 +26,45 @@ html .drawer-foot { color: var(--muted); }
 html .drawer-foot small { color: var(--red); }
 html .drawer-foot a { color: var(--ink); }
 
-/* ---------- HEADER Desktop ----------
-   Zustand A (oben): "Plankopf", Zellen mit feinen Linien wie das Schriftfeld einer Bauzeichnung, rote Kante, Telefon-Zelle, Button-Block.
-   Zustand B (.is-scrolled): schwebende Leiste, Logo links, Menü mittig, Button rechts. main.ts verwandelt A in B: Rahmen, Schatten und
-   Maße laufen über diese Übergänge, die Positionen von Logo, Menüpunkten und Button werden dort per FLIP geführt. */
 @media (min-width: 1024px) {
-  html .site-header { grid-template-columns: auto auto auto 1fr auto auto; column-gap: 0; padding-inline: 0; border-style: solid; border-color: transparent; border-width: 0 0 1px; border-bottom-color: var(--plan-line);
-    box-shadow: inset 0 3px 0 var(--red), 0 0 0 0 rgba(20, 22, 26, 0), 0 0 0 0 rgba(20, 22, 26, 0);
-    transition: transform .6s var(--ease), top .8s var(--ease), left .8s var(--ease), right .8s var(--ease), height .8s var(--ease), border-width .8s var(--ease), border-color .8s var(--ease), box-shadow .8s var(--ease); }
-  html .site-header.is-scrolled { top: 14px; left: 14px; right: 14px; height: 68px; grid-template-columns: 1fr auto auto 1fr; border-color: var(--line); border-width: 1px;
-    box-shadow: inset 0 0 0 0 rgba(196, 39, 28, 0), 0 14px 44px rgba(20, 22, 26, .10), 0 2px 6px rgba(20, 22, 26, .05); }
-  html .site-header.is-hidden, html .site-header.is-scrolled.is-hidden { transform: translateY(calc(-100% - 24px)); }
-  html .site-header.is-morphing .roll-text, html .site-header.is-morphing .roll-text::after { transition: none; }
+  :root { --header-h: 106px; }
+  html .site-header, html .site-header.is-scrolled { grid-template-columns: 1fr auto auto 1fr; column-gap: 0; padding-inline: 0;
+    transition: transform .7s var(--ease), top .8s var(--ease), left .8s var(--ease), right .8s var(--ease), height .8s var(--ease), box-shadow .8s var(--ease); }
+  html .site-header { top: 18px; left: 18px; right: 18px; height: 88px; box-shadow: 0 10px 36px rgba(20, 22, 26, .07), 0 1px 3px rgba(20, 22, 26, .04); }
+  html .site-header.is-scrolled { top: 14px; left: 14px; right: 14px; height: 68px; box-shadow: 0 14px 44px rgba(20, 22, 26, .12), 0 2px 6px rgba(20, 22, 26, .05); }
+  html .site-header.is-hidden, html .site-header.is-scrolled.is-hidden { transform: translateY(calc(-100% - 90px)); }
   html .header-r { display: contents; }
-
-  html .brand { grid-column: 1; align-self: stretch; padding: 3px 30px 0 var(--gutter); border-right: 1px solid var(--plan-line); transition: border-color .5s var(--ease) .25s; }
-  html .site-header.is-scrolled .brand { align-self: center; justify-self: start; padding: 0; margin-left: 26px; border-right-color: transparent; transition: none; }
-
-  html .main-nav { align-self: stretch; gap: 0; }
+  html .brand { grid-column: 1; justify-self: start; margin-left: 30px; transition: margin-left .8s var(--ease); }
+  html .brand img { height: 42px; transition: height .8s var(--ease); }
+  html .site-header.is-scrolled .brand { margin-left: 26px; }
+  html .site-header.is-scrolled .brand img { height: 34px; }
+  html .main-nav { gap: clamp(20px, 2.2vw, 36px); }
   html .main-nav-l { grid-column: 2; }
-  html .main-nav-r { grid-column: 3; }
-  html .main-nav a { display: flex; align-items: center; padding: 3px clamp(16px, 1.8vw, 30px) 0; border-right: 1px solid var(--line); transition: background-color .4s var(--ease), border-color .5s var(--ease) .25s; }
-  html .main-nav a:hover { background: var(--surface); }
-  html .site-header.is-scrolled .main-nav { align-self: center; gap: clamp(20px, 2.2vw, 36px); }
-  html .site-header.is-scrolled .main-nav-r { margin-left: clamp(20px, 2.2vw, 36px); }
-  html .site-header.is-scrolled .main-nav a { padding: 0; border-right-color: transparent; transition: none; }
-  html .site-header.is-scrolled .main-nav a:hover { background: none; }
-
-  html .header-tel { grid-column: 5; display: flex; align-items: center; align-self: stretch; padding: 3px 26px 0; border-left: 1px solid var(--plan-line); font-size: 14px; font-weight: 500; letter-spacing: .02em; font-variant-numeric: tabular-nums; white-space: nowrap; opacity: 1; transition: color .4s var(--ease), opacity .5s var(--ease) .35s; }
-  html .header-tel:hover { color: var(--red); }
-  html .site-header.is-scrolled .header-tel { position: absolute; top: 0; bottom: 0; right: 200px; opacity: 0; pointer-events: none; transition: opacity .25s var(--ease); }
-
-  html .header-cta { grid-column: 6; align-self: stretch; height: auto; padding: 3px clamp(24px, 2.6vw, 44px) 0; }
-  html .site-header.is-scrolled .header-cta { grid-column: 4; align-self: center; justify-self: end; height: 44px; padding: 0 26px; margin-right: 26px; }
+  html .main-nav-r { grid-column: 3; margin-left: clamp(20px, 2.2vw, 36px); }
+  html .header-cta { grid-column: 4; justify-self: end; height: 52px; padding: 0 30px; margin-right: 30px; transition: color .5s var(--ease), height .8s var(--ease), padding .8s var(--ease), margin .8s var(--ease); }
+  html .site-header.is-scrolled .header-cta { height: 44px; padding: 0 26px; margin-right: 26px; }
 }
 @media (min-width: 1024px) and (max-width: 1279px) {
-  html .header-tel { display: none; }
-  html .brand { padding-right: 20px; }
   html .brand-text small { display: none; }
-  html .main-nav a { padding-inline: 14px; font-size: 13px; }
-  html .header-cta { padding-inline: 22px; }
+  html .brand-text strong { white-space: nowrap; }
+  html .brand { margin-left: 22px; }
+  html .site-header.is-scrolled .brand { margin-left: 20px; }
+  html .brand img { height: 36px; }
+  html .site-header.is-scrolled .brand img { height: 30px; }
+  html .main-nav, html .main-nav-r { gap: 18px; }
+  html .main-nav-r { margin-left: 18px; }
+  html .header-cta { padding: 0 22px; margin-right: 22px; }
+  html .site-header.is-scrolled .header-cta { padding: 0 20px; margin-right: 20px; }
 }
 
-/* ---------- HEADER Handy/Tablet: weiße Leiste, schwebend sobald sie nach dem Scrollen wieder erscheint ---------- */
 @media (max-width: 1023px) {
   html .header-phone, html .menu-toggle { background: #fff; box-shadow: inset 0 0 0 1px rgba(26, 27, 30, .2); }
   html body.menu-open .header-phone, html body.menu-open .menu-toggle { background: transparent; box-shadow: inset 0 0 0 1px rgba(26, 27, 30, .26); }
   html .site-header, html .site-header.is-scrolled { transition: transform .6s var(--ease), top .5s var(--ease), left .5s var(--ease), right .5s var(--ease), height .5s var(--ease), padding .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease); }
-  html .site-header.is-scrolled { top: 8px; left: 8px; right: 8px; height: 60px; padding-inline: 14px 10px; border: 1px solid var(--line); box-shadow: 0 10px 30px rgba(20, 22, 26, .12); }
-  html .site-header.is-hidden, html .site-header.is-scrolled.is-hidden { transform: translateY(calc(-100% - 12px)); }
-  /* Offenes Menü: die Leiste löst sich wieder auf, nur Logo und Knöpfe bleiben auf dem hellen Blatt. */
+  html .site-header { top: 10px; left: 10px; right: 10px; height: 64px; padding-inline: 16px 10px; box-shadow: 0 8px 26px rgba(20, 22, 26, .08); }
+  html .site-header.is-scrolled { top: 8px; left: 8px; right: 8px; height: 58px; padding-inline: 14px 8px; box-shadow: 0 10px 30px rgba(20, 22, 26, .12); }
+  html .site-header.is-hidden, html .site-header.is-scrolled.is-hidden { transform: translateY(calc(-100% - 50px)); }
+  /* Offenes Menü: die Leiste löst sich auf, nur Logo und Knöpfe bleiben auf dem hellen Blatt. */
   html body.menu-open .site-header, html body.menu-open .site-header.is-scrolled { top: 0; left: 0; right: 0; height: var(--header-h); padding-inline: var(--gutter); background: transparent; border-color: transparent; box-shadow: none; transform: none; }
 }
 
