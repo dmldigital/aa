@@ -1,6 +1,8 @@
 ---
-// Desktop: zoom parallax (21st.dev "Zoom Parallax"): stills from their drone flights fly past at different
+// Desktop: zoom parallax (21st.dev "Zoom Parallax"): short video loops from their own footage fly past at different
 // speeds while the panorama video in the centre fills the screen. Phone: a swipeable strip with back/forward buttons, no pin.
+// The loops are tiny (about 200-400 KB), muted, need no play button and are requested only after the first interaction and only
+// while a tile is on (or right next to) the screen (main.ts); until then the first-frame poster stands in.
 import { impressions } from '../data/content';
 import StepNav from './StepNav.astro';
 ---
@@ -22,7 +24,9 @@ import StepNav from './StepNav.astro';
       {impressions.map((p, i) => (
         <div class={`zoom-layer zoom-${i + 1}`}>
           <figure class="zoom-item">
-            <img src={`${p.src}-960.webp`} srcset={`${p.src}-960.webp 960w, ${p.src}.webp 1920w`} sizes="(max-width: 900px) 80vw, 30vw" alt={p.alt} width="1920" height="1080" loading="lazy" />
+            <video muted playsinline loop preload="none" data-poster={`${p.src}.webp`} data-autoplay data-clip aria-label={p.alt}>
+              <source src={`${p.src}.mp4`} type="video/mp4" />
+            </video>
           </figure>
         </div>
       ))}

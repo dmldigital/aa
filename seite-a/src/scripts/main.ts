@@ -77,14 +77,23 @@ export function initSite() {
 
   // Videos play only while they are on screen (muted, looping). Their posters and the videos themselves are only requested
   // after the first visit interaction (or a long idle time), so they never weigh on the first paint or a page speed run.
-  const io = new IntersectionObserver(entries => entries.forEach(entry => {
+  // The small decoration loops (data-clip, Impressionen tiles) are skipped entirely when the visitor has data saver on (poster only).
+  // They start as soon as any part is near the screen (the next tile peeking out of the phone strip already counts); the big
+  // videos only once a quarter of them is visible.
+  const saveData = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+  const onVideoView = (entries: IntersectionObserverEntry[]) => entries.forEach(entry => {
     const video = entry.target as HTMLVideoElement;
-    if (entry.isIntersecting) { if (video.preload === 'none') video.preload = 'auto'; video.play().catch(() => {}); }
-    else video.pause();
-  }), { threshold: .25, rootMargin: '200px 0px' });
+    if (entry.isIntersecting) {
+      if (saveData && video.hasAttribute('data-clip')) return;
+      if (video.preload === 'none') video.preload = 'auto';
+      video.play().catch(() => {});
+    } else video.pause();
+  });
+  const io = new IntersectionObserver(onVideoView, { threshold: .25, rootMargin: '200px 0px' });
+  const ioClip = new IntersectionObserver(onVideoView, { threshold: 0, rootMargin: '200px 25%' });
   afterFirstVisit().then(() => document.querySelectorAll<HTMLVideoElement>('video[data-autoplay]').forEach(v => {
     if (v.dataset.poster) v.poster = v.dataset.poster;
-    io.observe(v);
+    (v.hasAttribute('data-clip') ? ioClip : io).observe(v);
   }));
 
   initMotion(reduced);

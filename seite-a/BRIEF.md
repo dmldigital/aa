@@ -19,7 +19,7 @@ Diese Fassung ist eine **freie Neugestaltung** der bestehenden Seite (Seite B): 
 3. Laufband mit Werten (zwei Bänder)
 4. Über uns `#ueber-uns` – Zähler 25+, Statement, „Unser Bestreben“, Video DJI_0165 + rote Zitat-Box
 5. Leistungen `#leistungen` – 4 Leistungen
-6. Impressionen `#impressionen` – Standbilder aus den Drohnenvideos + Video DJI_0145
+6. Impressionen `#impressionen` – Video DJI_0145 in der Mitte, rundherum sechs kleine Video-Schleifen (6 s, 720 px, je ca. 200–400 KB) aus den übrigen Originalvideos (DJI_0099, 0100, 0144, 0165, 0204 und dem Handyvideo IMG_0572); laufen ohne Play-Knopf
 7. Unternehmen `#unternehmen` – Leitmotiv, Fuhrpark-Video DJI_0100, Versprechen, Kennzahlen, CTA
 8. Team `#team` – 11 Profile (9 Personen, 2 Hunde) mit Dialog
 9. Footer `#kontakt` – CTA mit Telefon, Medien (Video DJI_0204 + 2 Fotos), Navigation, Standort, Bürozeiten, Rechtliches
@@ -39,7 +39,7 @@ Inhalte zentral in `src/data/content.ts`, Sektionen in `src/components/`, Animat
   - Zahlen rollen ziffernweise mit kurzer Unschärfe ein.
   - Leistungen am Desktop: große Liste mit Vorschaubild, das dem Cursor folgt.
   - Leistungen auf dem Handy: gestapelte Karten; auf Touch-Geräten hält die Seite am Stapel, eine Wischbewegung = eine Karte.
-  - Impressionen am Desktop: gepinnte Zoom-Parallax.
+  - Impressionen am Desktop: gepinnte Zoom-Parallax mit sieben laufenden Videos. Die Schleifen werden erst nach der ersten Interaktion und nur in der Nähe des Bildschirms geladen (`data-clip` in `main.ts`), bei aktivem Datensparmodus bleibt es beim Poster; außerhalb des Bildes pausieren sie. Beim Laden der Seite werden keine Schleifen angefragt (PageSpeed).
   - Team: Porträts skalieren beim Scrollen; am Desktop läuft der Titel sticky mit und invertiert über den Fotos.
   - Footer wird per Parallax aufgedeckt.
   - Buttons sind magnetisch.
@@ -48,7 +48,7 @@ Inhalte zentral in `src/data/content.ts`, Sektionen in `src/components/`, Animat
 
 ## Medien
 - `public/media/video/*.mp4`: komprimierte Web-Fassungen (1600 px, ohne Ton, 5–14 MB je Datei, zusammen ca. 64 MB).
-- `public/media/still/`: Standbilder aus den Videos.
+- `public/media/clip/`: die sechs Schleifen mit Poster (erste Bildfolge) für die Impressionen, erzeugt mit `scripts/make-clips.mjs` (`FFMPEG=… SRC=<Ordner mit den Originalvideos> node scripts/make-clips.mjs`).
 - `public/media/team/`: Team-Fotos als WebP (zusammen ca. 0,5 MB).
 - `public/media/img/`: Portfolio-Bilder und Logo.
 - **Nicht im Repo:** `media-src/videos/` (Originale, 467 MB) und `media-src/team/` (Original-PNGs, 27 MB). Die Originale liegen lokal beim Nutzer.

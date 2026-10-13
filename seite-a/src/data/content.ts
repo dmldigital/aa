@@ -26,14 +26,14 @@ export const services = [
   { badge: 'Schlüsselfertig', title: 'Gewerbe & Hallenbau', text: 'Termingerechte Realisierung gewerblicher Objekte, Industriehallen und schlüsselfertiger Wohnbauten aus meisterhafter Hand.', image: '/media/img/portfolio_2.webp' },
 ];
 
-// Frames from their own drone footage (scripts: prepare-mw-media.mjs), video in the centre.
+// Short loops (6 s, small, with a first-frame poster) from their own footage (scripts/make-clips.mjs), one per tile around the video in the centre.
 export const impressions = [
-  { src: '/media/still/DJI_0099-12s', alt: 'Großbaustelle mit Kranen und Tiefladern aus der Luft' },
-  { src: '/media/still/DJI_0165-22s', alt: 'Rohbau einer Wohnanlage mit Turmdrehkranen im Morgendunst' },
-  { src: '/media/still/DJI_0100-8s', alt: 'Erdarbeiten und Baugrube mit Baggern' },
-  { src: '/media/still/DJI_0204-15s', alt: 'Bodenplatte mit Folie und Schalung aus der Vogelperspektive' },
-  { src: '/media/still/DJI_0144-5s', alt: 'Fertigteilwände eines Untergeschosses auf der Baustelle' },
-  { src: '/media/still/DJI_0099-4s', alt: 'Baustelleneinrichtung mit Kranen und Fuhrpark' },
+  { src: '/media/clip/DJI_0099-12s', alt: 'Großbaustelle mit Kranen und Tiefladern aus der Luft' },
+  { src: '/media/clip/IMG_0572-1s', alt: 'Turmdrehkran hebt einen Betonkübel an einem Rohbau mit Gerüst' },
+  { src: '/media/clip/DJI_0165-22s', alt: 'Rohbau einer Wohnanlage mit Turmdrehkranen im Morgendunst' },
+  { src: '/media/clip/DJI_0100-8s', alt: 'Erdarbeiten und Baugrube mit Baggern' },
+  { src: '/media/clip/DJI_0204-15s', alt: 'Bodenplatte mit Folie und Schalung aus der Vogelperspektive' },
+  { src: '/media/clip/DJI_0144-3s', alt: 'Fertigteilwände eines Untergeschosses auf der Baustelle' },
 ];
 
 export const company = {
