@@ -179,6 +179,8 @@ function heroScrub() {
     dims(); addEventListener('resize', dims);
     tl.fromTo(media, { clipPath: inset }, { clipPath: 'inset(0px 0px 0px 0px)', ease: 'power2.inOut', duration: 1 }, 0)
       .fromTo('.ht-3', { color: '#c4271c', textShadow: '0 2px 28px rgba(21,23,26,0)' }, { color: '#e5675c', textShadow: '0 2px 28px rgba(21,23,26,.35)', ease: 'none', duration: .14, immediateRender: false }, .5)
+      // The paper strip behind line 3 (it keeps the plan's lines out of the letters) is gone before the picture runs under the line.
+      .fromTo('.ht-3 .ht-in', { backgroundColor: 'rgba(252,251,249,1)', boxShadow: '0 0 .2em .16em rgba(252,251,249,1)' }, { backgroundColor: 'rgba(252,251,249,0)', boxShadow: '0 0 .2em .16em rgba(252,251,249,0)', ease: 'none', duration: .12, immediateRender: false }, .4)
       .to('.hero-draw', { y: -36, opacity: .08, ease: 'none', duration: .8 }, 0);
   }
   // The flight ends a little before the pin ends, so the last frames hold while the box is read.

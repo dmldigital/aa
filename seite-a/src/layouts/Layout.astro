@@ -14,6 +14,7 @@ import '../styles/hero-light.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {import.meta.env.PUBLIC_NOINDEX && <meta name="robots" content="noindex, nofollow" />}
     <meta name="theme-color" content="#ffffff" />
     <link rel="icon" type="image/png" href="/cropped-Button-32x32.png" />
     <link rel="preload" as="image" href="/media/video/DJI_0144.webp" />

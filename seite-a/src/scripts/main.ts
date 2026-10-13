@@ -22,20 +22,48 @@ export function initSite() {
     gsap.ticker.lagSmoothing(0);
   }
 
-  // Header: transparent over the hero, anthracite once scrolled, hidden while scrolling down.
+  // Header: white "Plankopf" at the top; once scrolled it floats (desktop: it morphs into the floating bar), hidden while scrolling down.
   const header = document.getElementById('site-header')!;
+  // Desktop morph, FLIP style: logo, menu labels and button are measured before and after the class switch and glide from the old
+  // to the new place; frame, shadow and size run through the CSS transitions. The button changes its size, so its box is scaled
+  // while the label is scaled back to keep its natural size.
+  const morphHeader = (on: boolean) => {
+    const parts = [...header.querySelectorAll<HTMLElement>('.brand img, .brand-text, .main-nav .roll-text')];
+    const cta = header.querySelector<HTMLElement>('.header-cta')!;
+    const label = cta.querySelector<HTMLElement>('span')!;
+    gsap.killTweensOf([...parts, cta, label]);
+    gsap.set([...parts, cta, label], { clearProps: 'transform' });
+    const read = (el: Element) => { const r = el.getBoundingClientRect(), b = header.getBoundingClientRect(); return { x: r.left - b.left, y: r.top - b.top, w: r.width, h: r.height }; };
+    const from = parts.map(read), cFrom = read(cta);
+    header.classList.add('is-morphing');
+    header.classList.toggle('is-scrolled', on);
+    const to = parts.map(read), cTo = read(cta);
+    const opts = { x: 0, y: 0, duration: .85, ease: 'soft', clearProps: 'transform' };
+    parts.forEach((el, i) => gsap.fromTo(el, { x: from[i].x - to[i].x, y: from[i].y - to[i].y }, opts));
+    gsap.set(cta, { transformOrigin: '0 0' });
+    gsap.fromTo(cta, { x: cFrom.x - cTo.x, y: cFrom.y - cTo.y, scaleX: cFrom.w / cTo.w, scaleY: cFrom.h / cTo.h }, {
+      ...opts, scaleX: 1, scaleY: 1,
+      onUpdate: () => { gsap.set(label, { scaleX: 1 / (gsap.getProperty(cta, 'scaleX') as number), scaleY: 1 / (gsap.getProperty(cta, 'scaleY') as number) }); },
+      onComplete: () => { gsap.set(label, { clearProps: 'transform' }); header.classList.remove('is-morphing'); },
+    });
+  };
+  const setScrolled = (on: boolean, animate: boolean) => {
+    if (header.classList.contains('is-scrolled') === on) return;
+    if (animate && !reduced && matchMedia('(min-width: 1024px)').matches) morphHeader(on);
+    else header.classList.toggle('is-scrolled', on);
+  };
   let last = scrollY;
-  const onScroll = () => {
+  const onScroll = (animate = true) => {
     const y = scrollY;
-    header.classList.toggle('is-scrolled', y > 40);
+    setScrolled(y > 40, animate);
     if (!document.body.classList.contains('menu-open')) {
       if (y > last + 5 && y > 300) header.classList.add('is-hidden');
       else if (y < last - 5) header.classList.remove('is-hidden');
     }
     last = y;
   };
-  addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  addEventListener('scroll', () => onScroll(), { passive: true });
+  onScroll(false);
 
   // Phone menu
   const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle')!;
