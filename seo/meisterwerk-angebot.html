@@ -547,16 +547,16 @@ html{scroll-behavior:smooth}
       <div class="price-card">
         <div class="eyebrow">Paketpreis, netto</div>
         <div class="toggle" role="group" aria-label="Zahlungsart">
-          <button type="button" id="payPre" aria-pressed="true">Vorauszahlung, 10 % Skonto</button>
+          <button type="button" id="payPre" aria-pressed="true">Vorauszahlung, 15 % Skonto</button>
           <button type="button" id="payInv" aria-pressed="false">Anzahlung und Rest</button>
         </div>
         <div><span class="strike" id="priceOld">999,00 €</span></div>
-        <div class="big" id="priceNet">899,10 €</div>
-        <p id="priceNote" style="opacity:.8">Als bestehender Kunde erhalten Sie bei Vorauszahlung 10 % Skonto.</p>
+        <div class="big" id="priceNet">849,15 €</div>
+        <p id="priceNote" style="opacity:.8">Als bestehender Kunde erhalten Sie bei Vorauszahlung 15 % Skonto.</p>
         <div class="rows">
-          <div><span>Netto</span><span id="rNet">899,10 €</span></div>
-          <div><span>zzgl. 19 % MwSt.</span><span id="rTax">170,83 €</span></div>
-          <div><span>Brutto</span><span id="rGross">1.069,93 €</span></div>
+          <div><span>Netto</span><span id="rNet">849,15 €</span></div>
+          <div><span>zzgl. 19 % MwSt.</span><span id="rTax">161,34 €</span></div>
+          <div><span>Brutto</span><span id="rGross">1.010,49 €</span></div>
         </div>
         <div class="rows" id="splitRows" hidden>
           <div><span>60 % Anzahlung bei Auftrag</span><span id="rDep">599,40 € netto</span></div>
@@ -804,12 +804,12 @@ html{scroll-behavior:smooth}
 
   /* Preis */
   function renderPrice(){
-    var base=999, net=state.pre?base*0.9:base, tax=Math.round(net*0.19*100)/100, gross=Math.round((net+tax)*100)/100;
+    var base=999, net=state.pre?base*0.85:base, tax=Math.round(net*0.19*100)/100, gross=Math.round((net+tax)*100)/100;
     document.getElementById("payPre").setAttribute("aria-pressed",state.pre?"true":"false");
     document.getElementById("payInv").setAttribute("aria-pressed",state.pre?"false":"true");
     document.getElementById("priceOld").hidden=!state.pre;
     document.getElementById("priceNet").textContent=fmt(net);
-    document.getElementById("priceNote").textContent=state.pre?"Als bestehender Kunde erhalten Sie bei Vorauszahlung 10 % Skonto.":"60 % Anzahlung bei Auftrag, 40 % nach Fertigstellung. Bei Vorauszahlung sparen Sie als bestehender Kunde 10 % ("+fmt(base*0.1)+" netto).";
+    document.getElementById("priceNote").textContent=state.pre?"Als bestehender Kunde erhalten Sie bei Vorauszahlung 15 % Skonto.":"60 % Anzahlung bei Auftrag, 40 % nach Fertigstellung. Bei Vorauszahlung sparen Sie als bestehender Kunde 15 % ("+fmt(base*0.15)+" netto).";
     document.getElementById("splitRows").hidden=state.pre;
     document.getElementById("rDep").textContent=fmt(base*0.6)+" netto";
     document.getElementById("rRest").textContent=fmt(base*0.4)+" netto";
@@ -825,7 +825,7 @@ html{scroll-behavior:smooth}
     var extra=state.extra.split(",").map(function(t){return t.trim();}).filter(Boolean);
     var places=state.places.concat(extra);
     var inside=PLACES.filter(function(p){return p.d>=0.5&&p.d<=state.radius;}).map(function(p){return p.n;});
-    var net=state.pre?999*0.9:999;
+    var net=state.pre?999*0.85:999;
     var lines=[
       "Rückmeldung Meisterwerk Malermanufaktur",
       "",
@@ -840,7 +840,7 @@ html{scroll-behavior:smooth}
       "Monatliches Budget: "+(state.budget||"noch offen"),
       "",
       "ZAHLUNG",
-      state.pre?"Vorauszahlung mit 10 % Skonto: "+fmt(net)+" netto":"60 % Anzahlung bei Auftrag ("+fmt(999*0.6)+" netto), 40 % nach Fertigstellung ("+fmt(999*0.4)+" netto). Gesamt: "+fmt(net)+" netto",
+      state.pre?"Vorauszahlung mit 15 % Skonto: "+fmt(net)+" netto":"60 % Anzahlung bei Auftrag ("+fmt(999*0.6)+" netto), 40 % nach Fertigstellung ("+fmt(999*0.4)+" netto). Gesamt: "+fmt(net)+" netto",
       "",
       "ANMERKUNGEN",
       state.notes.trim()||"keine"
@@ -874,7 +874,7 @@ html{scroll-behavior:smooth}
     var extra=state.extra.split(",").map(function(t){return t.trim();}).filter(Boolean);
     var places=state.places.concat(extra), total=places.length*state.svcs.length;
     var inside=PLACES.filter(function(p){return p.d>=0.5&&p.d<=state.radius;}).map(function(p){return p.n;});
-    var net=state.pre?999*0.9:999, tax=Math.round(net*0.19*100)/100;
+    var net=state.pre?999*0.85:999, tax=Math.round(net*0.19*100)/100;
     function need(h){ if(y+h>280){ doc.addPage(); y=24; } }
     function head(t){ need(14); y+=4; doc.setFont("helvetica","bold"); doc.setFontSize(11); doc.setTextColor(30,90,102); doc.text(t.toUpperCase(),M,y); y+=2; doc.setDrawColor(216,220,215); doc.line(M,y,W-M,y); y+=6; }
     function row(k,v){ doc.setFontSize(10.5); doc.setFont("helvetica","bold"); doc.setTextColor(92,101,106); var kl=doc.splitTextToSize(k,42); doc.setFont("helvetica","normal"); doc.setTextColor(28,32,35); var vl=doc.splitTextToSize(v,W-2*M-46); var h=Math.max(kl.length,vl.length)*5.2; need(h+2); doc.setFont("helvetica","bold"); doc.setTextColor(92,101,106); doc.text(kl,M,y); doc.setFont("helvetica","normal"); doc.setTextColor(28,32,35); doc.text(vl,M+46,y); y+=h+2; }
@@ -894,7 +894,7 @@ html{scroll-behavior:smooth}
     row("Leistungen",state.adSvcs.length?state.adSvcs.join(", "):"noch offen");
     row("Budget pro Monat",state.budget||"noch offen");
     head("Paket und Zahlung");
-    row("Zahlungsart",state.pre?"Vorauszahlung mit 10 % Skonto":"60 % Anzahlung bei Auftrag, 40 % nach Fertigstellung");
+    row("Zahlungsart",state.pre?"Vorauszahlung mit 15 % Skonto":"60 % Anzahlung bei Auftrag, 40 % nach Fertigstellung");
     if(!state.pre){ row("Anzahlung 60 %",fmt(999*0.6)+" netto"); row("Rest 40 %",fmt(999*0.4)+" netto"); }
     row("Netto",fmt(net));
     row("zzgl. 19 % MwSt.",fmt(tax));
