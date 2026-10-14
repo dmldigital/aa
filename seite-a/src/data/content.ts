@@ -26,14 +26,15 @@ export const services = [
   { badge: 'Schlüsselfertig', title: 'Gewerbe & Hallenbau', text: 'Termingerechte Realisierung gewerblicher Objekte, Industriehallen und schlüsselfertiger Wohnbauten aus meisterhafter Hand.', image: '/media/img/portfolio_2.webp' },
 ];
 
-// Short loops (6 s, small, with a first-frame poster) from their own footage (scripts/make-clips.mjs), one per tile around the video in the centre.
+// Tiles around the video in the centre: two of them play a video (clip: full length, original frame rate, small; scripts/make-clips.mjs),
+// the others are stills from their own drone footage. Six moving tiles at once made the zoom stutter, so it stays at three videos.
 export const impressions = [
-  { src: '/media/clip/DJI_0099-12s', alt: 'Großbaustelle mit Kranen und Tiefladern aus der Luft' },
-  { src: '/media/clip/IMG_0572-1s', alt: 'Turmdrehkran hebt einen Betonkübel an einem Rohbau mit Gerüst' },
-  { src: '/media/clip/DJI_0165-22s', alt: 'Rohbau einer Wohnanlage mit Turmdrehkranen im Morgendunst' },
-  { src: '/media/clip/DJI_0100-8s', alt: 'Erdarbeiten und Baugrube mit Baggern' },
-  { src: '/media/clip/DJI_0204-15s', alt: 'Bodenplatte mit Folie und Schalung aus der Vogelperspektive' },
-  { src: '/media/clip/DJI_0144-3s', alt: 'Fertigteilwände eines Untergeschosses auf der Baustelle' },
+  { src: '/media/still/DJI_0165-22s', alt: 'Rohbau einer Wohnanlage mit Turmdrehkranen im Morgendunst' },
+  { clip: '/media/clip/IMG_0572', alt: 'Turmdrehkran hebt einen Betonkübel an einem Rohbau mit Gerüst' },
+  { clip: '/media/clip/DJI_0099', alt: 'Großbaustelle mit Kranen und Tiefladern aus der Luft' },
+  { src: '/media/still/DJI_0204-15s', alt: 'Bodenplatte mit Folie und Schalung aus der Vogelperspektive' },
+  { src: '/media/still/DJI_0100-8s', alt: 'Erdarbeiten und Baugrube mit Baggern' },
+  { src: '/media/still/DJI_0144-5s', alt: 'Fertigteilwände eines Untergeschosses auf der Baustelle' },
 ];
 
 export const company = {
