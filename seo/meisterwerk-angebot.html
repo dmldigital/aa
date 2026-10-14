@@ -27,7 +27,8 @@
   --layer1:#3A4246; --layer2:#2A3135; --layer3:#72B5C1; color-scheme:dark}
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f-body);-webkit-font-smoothing:antialiased}
 .wrap{max-width:1040px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 h1,h2,h3{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
 h1{font-size:clamp(2.1rem,5vw,3.4rem);font-weight:600;letter-spacing:-.01em}
@@ -906,22 +907,32 @@ html{scroll-behavior:smooth}
     for(var i=1;i<=n;i++){ doc.setPage(i); doc.setFontSize(8.5); doc.setTextColor(92,101,106); doc.text("Alle Preise netto zzgl. 19 % MwSt.",M,290); doc.text("Seite "+i+" von "+n,W-M,290,{align:"right"}); }
     return doc.output("blob");
   };
+  function setupPdf(save){
+    var btn=document.getElementById("pdfBtn"), st=document.getElementById("copyStatus");
+    btn.hidden=false;
+    btn.addEventListener("click",function(){
+      var blob=window.mwBuildPdf(); if(!blob){ st.textContent="Das PDF konnte nicht erstellt werden. Bitte nutzen Sie „Text kopieren“."; return; }
+      save(blob).then(function(){
+        st.textContent="PDF gespeichert. Jetzt einfach per E-Mail oder WhatsApp an uns senden.";
+      },function(err){
+        var c=err&&err.code;
+        if(c==="declined") st.textContent="Speichern abgebrochen.";
+        else if(c==="rate_limited") st.textContent="Bitte einen Moment warten und erneut versuchen.";
+        else { btn.hidden=true; st.textContent="PDF ist in dieser Ansicht nicht verfügbar. Bitte nutzen Sie „Text kopieren“."; }
+      });
+    });
+  }
   if(window.claude&&window.claude.use){
     window.claude.use("downloads").then(function(dl){
       if(!dl||!window.jspdf) return;
-      var btn=document.getElementById("pdfBtn"), st=document.getElementById("copyStatus");
-      btn.hidden=false;
-      btn.addEventListener("click",function(){
-        var blob=window.mwBuildPdf(); if(!blob){ st.textContent="Das PDF konnte nicht erstellt werden. Bitte nutzen Sie „Text kopieren“."; return; }
-        dl.save({filename:"Rueckmeldung-Meisterwerk.pdf",data:blob}).then(function(){
-          st.textContent="PDF gespeichert. Jetzt einfach per E-Mail oder WhatsApp an uns senden.";
-        },function(err){
-          var c=err&&err.code;
-          if(c==="declined") st.textContent="Speichern abgebrochen.";
-          else if(c==="rate_limited") st.textContent="Bitte einen Moment warten und erneut versuchen.";
-          else { btn.hidden=true; st.textContent="PDF ist in dieser Ansicht nicht verfügbar. Bitte nutzen Sie „Text kopieren“."; }
-        });
-      });
+      setupPdf(function(blob){ return dl.save({filename:"Rueckmeldung-Meisterwerk.pdf",data:blob}); });
+    });
+  } else if(window.jspdf){
+    setupPdf(function(blob){
+      var a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="Rueckmeldung-Meisterwerk.pdf";
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(a.href); },4000);
+      return Promise.resolve();
     });
   }
 
