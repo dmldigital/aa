@@ -265,7 +265,7 @@ Die Ergebnisse werden von **Shops** (LED-Stuckleisten, Profile) und DIY-Ratgeber
 | [Allgöwer Sanitär](https://allgoewer-sanitaer.de/badsanierung/fugenlose-badsanierungen/) | Stuttgart-Nord | 2 von 7 | nicht sichtbar |
 | [Francesco De Masi](https://www.francesco-demasi.de/mikrozementbeschichtung) | Korb (Rems-Murr) | 1 von 7 | Rezensionsblock |
 
-Am sichtbarsten sind **Hersteller-Landingpages**: Topciment (Seiten für Stuttgart **und Ludwigsburg**), Quarzkiesboden Zimmermann („Fugenloser Boden in Ludwigsburg“, „Mikrozement Ludwigsburg“, 2.600–3.300 Wörter), Qubo Stuttgart. **Meisterwerk erschien in keiner dieser Suchen.**
+Am sichtbarsten sind **Hersteller-Landingpages**: Topciment (Seiten für Stuttgart **und Ludwigsburg**), Quarzkiesboden Zimmermann („Fugenloser Boden in Ludwigsburg“, „Mikrozement Ludwigsburg“, 2.600–3.300 Wörter), Qubo Stuttgart. Laut Kunde wird Meisterwerk bei „fugenloses Bad Ludwigsburg“ gefunden (in unserer Näherungs-Suche nicht sichtbar).
 
 **Was die besser machen:** Ort im Title und H1, Meta-Description, FAQ mit Schema (wasserdicht? Muster vorab? Fußbodenheizung?), Kostenabschnitt, Galerie mit Video.
 
