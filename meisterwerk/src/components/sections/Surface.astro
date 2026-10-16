@@ -1,4 +1,5 @@
 ---
+import { href, routes } from '../../data/links';
 import { getImage } from 'astro:assets';
 import concrete from '../../assets/img/249-mw-20241125-scaled.jpg';
 
@@ -29,7 +30,7 @@ const bg = await getImage({ src: concrete, width: 2000, format: 'webp', quality:
           </div>
           <div data-anim="slideInUp" data-anim-delay="100">
             <a
-              href="https://meisterwerk-lb.de/kontakt/"
+              href={href(routes.contact)}
               class="group/ul inline-block border border-white bg-white px-5 py-3.25 text-center font-display text-button font-semibold tracking-button text-black md:px-6.25 lg:px-7.5 lg:py-3.75"
             >
               <span class="flex justify-center gap-1.25">

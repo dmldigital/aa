@@ -1,6 +1,6 @@
 ---
 import { Image } from 'astro:assets';
-import ThemeIcon from '../icons/ThemeIcon.astro';
+import Icon from '../Icon.astro';
 import sketch from '../../assets/img/house-sketch.png';
 import { faqs } from '../../data/faq';
 ---
@@ -48,8 +48,14 @@ import { faqs } from '../../data/faq';
                   {f.q}
                 </span>
                 <span class="flex items-center">
-                  <ThemeIcon name="plus" class="size-3.75 group-aria-expanded/faq:hidden" />
-                  <ThemeIcon name="minus" class="hidden size-3.75 group-aria-expanded/faq:block" />
+                  <Icon
+                    name="plus"
+                    class="block shrink-0 size-3.75 group-aria-expanded/faq:hidden"
+                  />
+                  <Icon
+                    name="minus"
+                    class="block shrink-0 hidden size-3.75 group-aria-expanded/faq:block"
+                  />
                 </span>
               </button>
               <div

@@ -6,35 +6,35 @@ import verputzen from '../assets/img/36-bf-20241206-Bearbeitet-scaled-e175818450
 
 export const cards = [
   {
-    href: 'https://meisterwerk-lb.de/services/glatte-waende/',
+    href: '/services/glatte-waende/',
     title: 'Glatte Wände –',
     subtitle: 'Verabschieden Sie sich von rauen Oberflächen!',
     img: glatteWaende,
     alt: 'Helle Treppe mit Holzstufen und perfekt glatten, weiß gestrichenen Wänden.',
   },
   {
-    href: 'https://meisterwerk-lb.de/services/lackieren/',
+    href: '/services/lackieren/',
     title: 'Lackierarbeiten –',
     subtitle: 'Erwecke Altes zu neuem Leben',
     img: lackieren,
     alt: 'Lackiertes weißes Treppengeländer mit Holzhandlauf vor einem Fenster.',
   },
   {
-    href: 'https://meisterwerk-lb.de/services/streichen/',
+    href: '/services/streichen/',
     title: 'Malerarbeiten –',
     subtitle: 'Farben, die Ihrem Zuhause Persönlichkeit verleihen!',
     img: streichen,
     alt: 'Wohnzimmer mit grauem Sofa, Vorhängen und frisch gestrichenen Wänden.',
   },
   {
-    href: 'https://meisterwerk-lb.de/services/tapezieren/',
+    href: '/services/tapezieren/',
     title: 'Tapezierarbeiten –',
     subtitle: 'Verwandeln Sie Ihre Wände in echte Blickfänge!',
     img: tapezieren,
     alt: 'Tapezierte Wand mit hellem Ornamentmuster und indirekter Beleuchtung.',
   },
   {
-    href: 'https://meisterwerk-lb.de/services/verputzen/',
+    href: '/services/verputzen/',
     title: 'Verputzarbeiten –',
     subtitle: 'Edle Strukturen für Ihre Wände und Decken!',
     img: verputzen,

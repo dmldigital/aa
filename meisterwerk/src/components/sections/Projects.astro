@@ -1,6 +1,7 @@
 ---
+import { href, routes } from '../../data/links';
 import { Image } from 'astro:assets';
-import ThemeIcon from '../icons/ThemeIcon.astro';
+import Icon from '../Icon.astro';
 import { projects } from '../../data/projects';
 
 // Endlosschleife: je fünf Klone davor und dahinter, die echten Karten stehen in der Mitte
@@ -26,11 +27,11 @@ const slides = [
       <div class="hidden justify-end md:flex md:w-1/2">
         <div>
           <a
-            href="https://meisterwerk-lb.de/projekte/"
+            href={href(routes.projects)}
             class="group/ul inline-flex flex-row-reverse gap-2.5 font-display text-button font-semibold tracking-button text-gold"
           >
             <span class="flex w-3.75 items-center">
-              <ThemeIcon name="arrow-right" class="size-3.5" />
+              <Icon name="arrow-right" class="block shrink-0 size-3.5" />
             </span>
             <span class="underline-anim relative [--underline-gap:0px]">Unser Portfolio</span>
           </a>
@@ -53,7 +54,7 @@ const slides = [
         >
           {slides.map((p) => (
             <a
-              href={p.href}
+              href={href(p.href)}
               class="group/card flex w-[calc(var(--step)-var(--gap))] shrink-0 flex-col gap-5 text-ink"
               aria-roledescription="slide"
               aria-hidden={p.clone ? 'true' : undefined}
@@ -99,7 +100,7 @@ const slides = [
                   class="text-[16px] text-black transition-opacity duration-300 ease-in-out [@media(hover:hover)]:opacity-0 group-hover/card:opacity-100"
                   aria-hidden="true"
                 >
-                  <ThemeIcon name="plus" class="size-4" />
+                  <Icon name="plus" class="block shrink-0 size-4" />
                 </span>
               </div>
             </a>
@@ -113,7 +114,7 @@ const slides = [
         data-prev
         class="absolute top-[100.8px] left-[-60px] hidden size-11 cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
       >
-        <ThemeIcon name="arrow-left" class="size-11" />
+        <Icon name="arrow-left" class="block shrink-0 size-11" />
       </button>
       <button
         type="button"
@@ -121,7 +122,7 @@ const slides = [
         data-next
         class="absolute top-[100.8px] right-[-60px] hidden size-11 cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
       >
-        <ThemeIcon name="arrow-right" class="size-11" />
+        <Icon name="arrow-right" class="block shrink-0 size-11" />
       </button>
     </div>
 
@@ -129,11 +130,11 @@ const slides = [
     <div class="relative md:hidden">
       <div class="text-[16px]/[24px]">
         <a
-          href="https://meisterwerk-lb.de/projekte/"
+          href={href(routes.projects)}
           class="group/ul inline-flex flex-row-reverse gap-2.5 font-display text-button font-semibold tracking-button text-black"
         >
           <span class="flex w-3.75 items-center">
-            <ThemeIcon name="arrow-right" class="size-3.5" />
+            <Icon name="arrow-right" class="block shrink-0 size-3.5" />
           </span>
           <span class="underline-anim relative [--underline-gap:0px]">Unser Portfolio</span>
         </a>

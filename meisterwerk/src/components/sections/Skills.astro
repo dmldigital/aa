@@ -1,5 +1,5 @@
 ---
-import GlyphIcon from '../GlyphIcon.astro';
+import Icon from '../Icon.astro';
 import { accordions } from '../../data/skills';
 ---
 
@@ -31,8 +31,8 @@ import { accordions } from '../../data/skills';
                 set:html={acc.title}
               />
               <span class="flex shrink-0 items-center">
-                <GlyphIcon name="plus" class="size-3.75 group-aria-expanded/acc:hidden" />
-                <GlyphIcon name="minus" class="hidden size-3.75 group-aria-expanded/acc:block" />
+                <Icon name="plus" class="size-3.75 group-aria-expanded/acc:hidden" />
+                <Icon name="minus" class="hidden size-3.75 group-aria-expanded/acc:block" />
               </span>
             </button>
 
@@ -60,7 +60,7 @@ import { accordions } from '../../data/skills';
                         {group.items.map((item) => (
                           <li class="mt-0.5 flex items-start pb-0.5 first:mt-0 last:pb-0">
                             <span class="relative top-1 flex w-[18.75px] shrink-0 text-gold">
-                              <GlyphIcon name={item.icon} class="h-3.75 w-auto" />
+                              <Icon name={item.icon} class="h-3.75 w-auto" />
                             </span>
                             <span
                               class="self-center pl-1.25 text-[14px] leading-6 md:leading-[22.5px]"

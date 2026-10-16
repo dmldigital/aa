@@ -1,6 +1,7 @@
 ---
+import { href, routes } from '../../data/links';
 import { Image } from 'astro:assets';
-import GlyphIcon from '../GlyphIcon.astro';
+import Icon from '../Icon.astro';
 import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
 ---
 
@@ -68,12 +69,12 @@ import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
       >
         <div>
           <a
-            href="https://meisterwerk-lb.de/kontakt/"
+            href={href(routes.contact)}
             class="group/ul inline-block font-display text-button font-semibold tracking-button text-gold"
           >
             <span class="flex flex-row-reverse justify-center gap-2.5">
               <span class="flex size-3.75 items-center">
-                <GlyphIcon name="arrow-right" class="size-3.5" />
+                <Icon name="arrow-right" class="size-3.5" />
               </span>
               <span class="underline-anim [--underline-gap:3px]">Projekt starten</span>
             </span>

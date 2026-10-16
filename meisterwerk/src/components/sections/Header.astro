@@ -1,4 +1,5 @@
 ---
+import { href, routes } from '../../data/links';
 /**
  * Kopfzeile (Original: Elementor-Container d29842b für Desktop ab 1025 px, f04d782 für Tablet und Handy).
  * Beide kleben oben (Elementor "sticky top", Versatz 0). Das Aufklappmenü des Handy/Tablet-Headers
@@ -13,9 +14,6 @@ interface Props {
   current?: string;
 }
 const { current = '/' } = Astro.props;
-
-const ORIGIN = 'https://meisterwerk-lb.de';
-const url = (href: string) => `${ORIGIN}${href}`;
 
 // Gemeinsame Schrift der Menüpunkte (Urbanist 14px/15,4px, 500, Laufweite 1px)
 const menuFont = 'font-display text-button font-medium tracking-[1px]';
@@ -38,7 +36,7 @@ const mSubLink =
   <div class="w-47.5 shrink-0 grow">
     <div class="py-2.5">
       <a
-        href={ORIGIN}
+        href={href(routes.home)}
         class="block w-fit max-w-full"
         aria-label="Meisterwerk Malermanufaktur, zur Startseite"
       >
@@ -59,7 +57,7 @@ const mSubLink =
         {items.map((item) => (
           <li class="group/d1 relative flex [&:first-child>a]:ml-0 [&:last-child>a]:mr-0">
             <a
-              href={url(item.href)}
+              href={href(item.href)}
               aria-current={current === item.href ? 'page' : undefined}
               class={topLink}
             >
@@ -73,7 +71,7 @@ const mSubLink =
                   {item.children.map((sub) => (
                     <li class="group/d2 relative">
                       <a
-                        href={url(sub.href)}
+                        href={href(sub.href)}
                         class={`${subLink} group-hover/d2:bg-soft group-hover/d2:text-gold`}
                       >
                         {sub.label}
@@ -83,7 +81,7 @@ const mSubLink =
                           <ul class="min-w-[10em] w-max bg-white text-[13px]">
                             {sub.children.map((leaf) => (
                               <li>
-                                <a href={url(leaf.href)} class={subLink}>
+                                <a href={href(leaf.href)} class={subLink}>
                                   {leaf.label}
                                 </a>
                               </li>
@@ -113,7 +111,7 @@ const mSubLink =
     <div class="h-full w-[65%] overflow-hidden md:h-auto md:w-[20%]">
       <div class="pt-[3%] pb-[2%] pl-[5%] md:p-0">
         <a
-          href={ORIGIN}
+          href={href(routes.home)}
           class="block w-fit max-w-full"
           aria-label="Meisterwerk Malermanufaktur, zur Startseite"
         >
@@ -172,7 +170,7 @@ const mSubLink =
         {items.map((item) => (
           <li class="group/l1">
             <a
-              href={url(item.href)}
+              href={href(item.href)}
               aria-current={current === item.href ? 'page' : undefined}
               class={`${mLink} group-data-[open]/l1:bg-soft group-data-[open]/l1:text-gold`}
             >
@@ -203,7 +201,7 @@ const mSubLink =
                   {item.children.map((sub) => (
                     <li class="group/l2">
                       <a
-                        href={url(sub.href)}
+                        href={href(sub.href)}
                         class={`${mSubLink} group-data-[open]/l2:bg-soft group-data-[open]/l2:text-gold`}
                       >
                         <span>{sub.label}</span>
@@ -232,7 +230,7 @@ const mSubLink =
                           <ul class="overflow-hidden">
                             {sub.children.map((leaf) => (
                               <li>
-                                <a href={url(leaf.href)} class={mSubLink}>
+                                <a href={href(leaf.href)} class={mSubLink}>
                                   {leaf.label}
                                 </a>
                               </li>

@@ -7,31 +7,31 @@ import kernsanierung from '../assets/img/2000-meisterwerk-20230524-Bearbeitet-2-
 export const projects = [
   {
     title: 'Traumhaus',
-    href: 'https://meisterwerk-lb.de/2025/09/18/traumhaus/',
+    href: '/2025/09/18/traumhaus/',
     img: traumhaus,
     alt: 'Helles Wohnzimmer mit Holztreppe, Projekt Traumhaus',
   },
   {
     title: 'Frisch Gestrichen',
-    href: 'https://meisterwerk-lb.de/2025/09/18/frisch-gestrichen/',
+    href: '/2025/09/18/frisch-gestrichen/',
     img: frisch,
     alt: 'Frisch gestrichene Fassade mit Haustür, Projekt Frisch Gestrichen',
   },
   {
     title: 'Altbau WDVS',
-    href: 'https://meisterwerk-lb.de/2025/05/22/altbau-wdvs/',
+    href: '/2025/05/22/altbau-wdvs/',
     img: altbau,
     alt: 'Grau verputztes Einfamilienhaus mit Terrasse, Projekt Altbau WDVS',
   },
   {
     title: 'Unser Schowroom',
-    href: 'https://meisterwerk-lb.de/2025/05/03/unser-showroom/',
+    href: '/2025/05/03/unser-showroom/',
     img: showroom,
     alt: 'Showroom der Meisterwerk Maler Manufaktur',
   },
   {
     title: 'Kernsanierung',
-    href: 'https://meisterwerk-lb.de/2021/05/01/kernsanierung/',
+    href: '/2021/05/01/kernsanierung/',
     img: kernsanierung,
     alt: 'Saniertes Treppenhaus, Projekt Kernsanierung',
   },
