@@ -1,4 +1,5 @@
 ---
+import ArrowLink from '../ui/ArrowLink.astro';
 import { href, routes } from '../../data/links';
 import { Image } from 'astro:assets';
 import Icon from '../Icon.astro';
@@ -26,15 +27,7 @@ const slides = [
       </div>
       <div class="hidden justify-end md:flex md:w-1/2">
         <div>
-          <a
-            href={href(routes.projects)}
-            class="group/ul inline-flex flex-row-reverse gap-2.5 font-display text-button font-semibold tracking-button text-gold"
-          >
-            <span class="flex w-3.75 items-center">
-              <Icon name="arrow-right" class="block shrink-0 size-3.5" />
-            </span>
-            <span class="underline-anim relative [--underline-gap:0px]">Unser Portfolio</span>
-          </a>
+          <ArrowLink href={href(routes.projects)}>Unser Portfolio</ArrowLink>
         </div>
       </div>
     </div>
@@ -129,15 +122,9 @@ const slides = [
     <!-- Nur Handy: Link unter dem Karussell mit Punkten -->
     <div class="relative md:hidden">
       <div class="text-[16px]/[24px]">
-        <a
-          href={href(routes.projects)}
-          class="group/ul inline-flex flex-row-reverse gap-2.5 font-display text-button font-semibold tracking-button text-black"
-        >
-          <span class="flex w-3.75 items-center">
-            <Icon name="arrow-right" class="block shrink-0 size-3.5" />
-          </span>
-          <span class="underline-anim relative [--underline-gap:0px]">Unser Portfolio</span>
-        </a>
+        <ArrowLink href={href(routes.projects)} tone="black">
+          Unser Portfolio
+        </ArrowLink>
       </div>
       <div class="absolute top-1/2 right-0 flex -translate-y-1/2" data-dots>
         {projects.map((p, i) => (

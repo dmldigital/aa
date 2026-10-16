@@ -1,4 +1,5 @@
 ---
+import Button from '../ui/Button.astro';
 import { href, routes } from '../../data/links';
 import { site } from '../../data/site';
 /**
@@ -51,14 +52,7 @@ const social =
           </div>
         </div>
         <div data-anim="slideInUp" data-anim-delay="100">
-          <a
-            href={href(routes.contact)}
-            class="group/ul inline-block border border-black bg-white px-5 py-3.25 text-center font-display text-button font-semibold tracking-button text-black md:px-6.25 lg:px-7.5 lg:py-3.75"
-          >
-            <span class="flex justify-center gap-1.25">
-              <span class="underline-anim [--underline-gap:3px]">SCHREIBEN SIE UNS</span>
-            </span>
-          </a>
+          <Button href={href(routes.contact)}>SCHREIBEN SIE UNS</Button>
         </div>
       </div>
 
