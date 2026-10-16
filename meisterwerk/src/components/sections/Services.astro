@@ -68,54 +68,52 @@ const widths = [252, 350, 477, 700, 954];
     </div>
 
     <div class="grid grid-cols-1 items-stretch gap-[30px] md:grid-cols-2 lg:grid-cols-5">
-      {
-        cards.map((card) => (
-          <a
-            href={card.href}
-            class="group/card flex flex-col gap-5 text-ink hover:text-black"
-            data-anim="fadeIn"
-            data-anim-delay="100"
-          >
-            <div class="group/img relative overflow-hidden">
-              <div data-grow="left" data-anim-delay="450">
-                <Image
-                  src={card.img}
-                  alt={card.alt}
-                  {widths}
-                  {sizes}
-                  class="block h-auto w-full transition-transform duration-[450ms] ease-in-out group-hover/img:scale-110 group-hover/img:opacity-80"
-                />
-              </div>
-              <span
-                aria-hidden="true"
-                class="pointer-events-none absolute top-1/2 left-1/2 z-10 flex size-[70px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-[40px] text-white opacity-0 transition-all duration-300 ease-[ease] group-hover/img:opacity-100"
-              >
-                +
-              </span>
+      {cards.map((card) => (
+        <a
+          href={card.href}
+          class="group/card flex flex-col gap-5 text-ink hover:text-black"
+          data-anim="fadeIn"
+          data-anim-delay="100"
+        >
+          <div class="group/img relative overflow-hidden">
+            <div data-grow="left" data-anim-delay="450">
+              <Image
+                src={card.img}
+                alt={card.alt}
+                {widths}
+                {sizes}
+                class="block h-auto w-full transition-transform duration-[450ms] ease-in-out group-hover/img:scale-110 group-hover/img:opacity-80"
+              />
             </div>
+            <span
+              aria-hidden="true"
+              class="pointer-events-none absolute top-1/2 left-1/2 z-10 flex size-[70px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-[40px] text-white opacity-0 transition-all duration-300 ease-[ease] group-hover/img:opacity-100"
+            >
+              +
+            </span>
+          </div>
 
-            <div class="flex flex-wrap items-start justify-between gap-5 md:flex-nowrap">
-              <div class="w-full min-w-0" data-anim-mobile="fadeInLeft">
-                <h4 class="font-display text-[18px] leading-[1.3em] font-medium lg:text-[24px]">
-                  {card.title}
-                  <br />
-                  <span class="text-[16px]">{card.subtitle}</span>
-                </h4>
-              </div>
-              <div
-                class="min-w-0 transition-opacity duration-300 ease-in-out lg:[@media(hover:hover)]:opacity-0 lg:group-hover/card:opacity-100"
-                data-anim-mobile="fadeInUp"
-              >
-                <div class="text-center">
-                  <span class="inline-block size-4 align-baseline text-black">
-                    <GlyphIcon name="plus" class="block size-4" />
-                  </span>
-                </div>
+          <div class="flex flex-wrap items-start justify-between gap-5 md:flex-nowrap">
+            <div class="w-full min-w-0" data-anim-mobile="fadeInLeft">
+              <h4 class="font-display text-[18px] leading-[1.3em] font-medium lg:text-[24px]">
+                {card.title}
+                <br />
+                <span class="text-[16px]">{card.subtitle}</span>
+              </h4>
+            </div>
+            <div
+              class="min-w-0 transition-opacity duration-300 ease-in-out lg:[@media(hover:hover)]:opacity-0 lg:group-hover/card:opacity-100"
+              data-anim-mobile="fadeInUp"
+            >
+              <div class="text-center">
+                <span class="inline-block size-4 align-baseline text-black">
+                  <GlyphIcon name="plus" class="block size-4" />
+                </span>
               </div>
             </div>
-          </a>
-        ))
-      }
+          </div>
+        </a>
+      ))}
     </div>
   </div>
 </section>

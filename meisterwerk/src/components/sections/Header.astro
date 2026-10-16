@@ -60,7 +60,8 @@ const subLink = `flex items-center px-[30px] py-[15px] text-[14px]/[20px] whites
 const navText = `inline pb-[3px] bg-[linear-gradient(#A59371,#A59371)] bg-no-repeat bg-[length:0%_1px] bg-[position:0_100%] [transition:background-size_.5s,background-position_0s_.5s] any-pointer-fine:group-hover/a:bg-[length:100%_1px] any-pointer-fine:group-hover/a:bg-[position:100%_100%]`;
 // Handy/Tablet-Menü
 const mLink = `flex items-center px-[20px] py-[15px] text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold aria-[current=page]:bg-soft aria-[current=page]:text-gold ${menuFont}`;
-const mSubLink = 'flex items-center px-[20px] py-[15px] text-[14px]/[20px] font-display font-medium tracking-[1px] text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold';
+const mSubLink =
+  'flex items-center px-[20px] py-[15px] text-[14px]/[20px] font-display font-medium tracking-[1px] text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold';
 ---
 
 <!-- Desktop (ab 1025 px) -->
@@ -70,7 +71,11 @@ const mSubLink = 'flex items-center px-[20px] py-[15px] text-[14px]/[20px] font-
 >
   <div class="w-[190px] shrink-0 grow">
     <div class="py-[10px]">
-      <a href={ORIGIN} class="block w-fit max-w-full" aria-label="Meisterwerk Malermanufaktur, zur Startseite">
+      <a
+        href={ORIGIN}
+        class="block w-fit max-w-full"
+        aria-label="Meisterwerk Malermanufaktur, zur Startseite"
+      >
         <Image
           src={logo}
           alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
@@ -85,50 +90,48 @@ const mSubLink = 'flex items-center px-[20px] py-[15px] text-[14px]/[20px] font-
   <div class="flex w-[80%] items-center justify-end">
     <nav aria-label="Hauptmenü" class="mr-[25px]">
       <ul class="flex flex-wrap leading-normal">
-        {
-          items.map((item) => (
-            <li class="group/d1 relative flex [&:first-child>a]:ml-0 [&:last-child>a]:mr-0">
-              <a
-                href={url(item.href)}
-                aria-current={current === item.href ? 'page' : undefined}
-                class={topLink}
-              >
-                <span>
-                  <span class={navText}>{item.label}</span>
-                </span>
-              </a>
-              {item.children && (
-                <div class="invisible absolute top-full left-[15px] z-[2] pt-[5px] opacity-0 transition-[opacity,visibility] duration-200 group-focus-within/d1:visible group-focus-within/d1:opacity-100 group-hover/d1:visible group-hover/d1:opacity-100">
-                  <ul class="min-w-[10em] w-max bg-white text-[13px]">
-                    {item.children.map((sub) => (
-                      <li class="group/d2 relative">
-                        <a
-                          href={url(sub.href)}
-                          class={`${subLink} group-hover/d2:bg-soft group-hover/d2:text-gold`}
-                        >
-                          {sub.label}
-                        </a>
-                        {sub.children && (
-                          <div class="invisible absolute top-0 left-full opacity-0 transition-[opacity,visibility] duration-200 group-focus-within/d2:visible group-focus-within/d2:opacity-100 group-hover/d2:visible group-hover/d2:opacity-100">
-                            <ul class="min-w-[10em] w-max bg-white text-[13px]">
-                              {sub.children.map((leaf) => (
-                                <li>
-                                  <a href={url(leaf.href)} class={subLink}>
-                                    {leaf.label}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </li>
-          ))
-        }
+        {items.map((item) => (
+          <li class="group/d1 relative flex [&:first-child>a]:ml-0 [&:last-child>a]:mr-0">
+            <a
+              href={url(item.href)}
+              aria-current={current === item.href ? 'page' : undefined}
+              class={topLink}
+            >
+              <span>
+                <span class={navText}>{item.label}</span>
+              </span>
+            </a>
+            {item.children && (
+              <div class="invisible absolute top-full left-[15px] z-[2] pt-[5px] opacity-0 transition-[opacity,visibility] duration-200 group-focus-within/d1:visible group-focus-within/d1:opacity-100 group-hover/d1:visible group-hover/d1:opacity-100">
+                <ul class="min-w-[10em] w-max bg-white text-[13px]">
+                  {item.children.map((sub) => (
+                    <li class="group/d2 relative">
+                      <a
+                        href={url(sub.href)}
+                        class={`${subLink} group-hover/d2:bg-soft group-hover/d2:text-gold`}
+                      >
+                        {sub.label}
+                      </a>
+                      {sub.children && (
+                        <div class="invisible absolute top-0 left-full opacity-0 transition-[opacity,visibility] duration-200 group-focus-within/d2:visible group-focus-within/d2:opacity-100 group-hover/d2:visible group-hover/d2:opacity-100">
+                          <ul class="min-w-[10em] w-max bg-white text-[13px]">
+                            {sub.children.map((leaf) => (
+                              <li>
+                                <a href={url(leaf.href)} class={subLink}>
+                                  {leaf.label}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </li>
+        ))}
       </ul>
     </nav>
   </div>
@@ -140,12 +143,14 @@ const mSubLink = 'flex items-center px-[20px] py-[15px] text-[14px]/[20px] font-
   data-mobile-header
   class="group/m sticky top-0 z-[99] bg-white md:px-[20px] lg:hidden"
 >
-  <div
-    class="mx-auto flex h-[65.09px] w-full max-w-[min(100%,1024px)] flex-wrap items-center shadow-[0_0_4px_0_rgb(0_0_0/0.7)] md:h-auto md:min-h-[50px] md:flex-nowrap md:shadow-none"
-  >
+  <div class="mx-auto flex h-[65.09px] w-full max-w-[min(100%,1024px)] flex-wrap items-center shadow-[0_0_4px_0_rgb(0_0_0/0.7)] md:h-auto md:min-h-[50px] md:flex-nowrap md:shadow-none">
     <div class="h-full w-[65%] overflow-hidden md:h-auto md:w-[20%]">
       <div class="pt-[3%] pb-[2%] pl-[5%] md:p-0">
-        <a href={ORIGIN} class="block w-fit max-w-full" aria-label="Meisterwerk Malermanufaktur, zur Startseite">
+        <a
+          href={ORIGIN}
+          class="block w-fit max-w-full"
+          aria-label="Meisterwerk Malermanufaktur, zur Startseite"
+        >
           <Image
             src={logo}
             alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
@@ -167,11 +172,21 @@ const mSubLink = 'flex items-center px-[20px] py-[15px] text-[14px]/[20px] font-
           aria-label="Menü Umschalter"
           class="flex cursor-pointer items-center justify-center bg-white p-[.25em] text-[25px] text-black hover:text-gold focus:text-gold md:text-[30px]"
         >
-          <svg viewBox="0 0 1408 1024" fill="currentColor" aria-hidden="true" class="block h-[1em] w-[1.375em] group-data-[open]/m:hidden">
+          <svg
+            viewBox="0 0 1408 1024"
+            fill="currentColor"
+            aria-hidden="true"
+            class="block h-[1em] w-[1.375em] group-data-[open]/m:hidden"
+          >
             <rect y="357.461" width="1408" height="34.343"></rect>
             <rect y="632.2" width="1408" height="34.343"></rect>
           </svg>
-          <svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true" class="hidden h-[1em] w-[1em] group-data-[open]/m:block">
+          <svg
+            viewBox="0 0 1024 1024"
+            fill="currentColor"
+            aria-hidden="true"
+            class="hidden h-[1em] w-[1em] group-data-[open]/m:block"
+          >
             <path
               transform="matrix(1 0 0 -1 0 960)"
               d="M894.218 864l33.782-33.782-382.228-382.212 382.228-382.221-33.782-33.782-382.221 382.228-382.212-382.228-33.782 33.782 382.218 382.221-382.218 382.212 33.782 33.782 382.212-382.218 382.221 382.218z"
@@ -188,76 +203,84 @@ const mSubLink = 'flex items-center px-[20px] py-[15px] text-[14px]/[20px] font-
       class="invisible absolute inset-x-0 top-[62.3px] z-[9997] max-h-0 origin-top scale-y-0 overflow-hidden bg-white text-[13px] shadow-[0_10px_20px_0_rgb(0_0_0/0.05)] transition-[max-height,transform,visibility] duration-300 ease-css group-data-[open]/m:visible group-data-[open]/m:max-h-[calc(100vh-62.3px)] group-data-[open]/m:scale-y-100 group-data-[open]/m:overflow-y-auto md:top-[53.5px] md:group-data-[open]/m:max-h-[calc(100vh-53.5px)]"
     >
       <ul class="relative z-[2] leading-normal">
-        {
-          items.map((item) => (
-            <li class="group/l1">
-              <a
-                href={url(item.href)}
-                aria-current={current === item.href ? 'page' : undefined}
-                class={`${mLink} group-data-[open]/l1:bg-soft group-data-[open]/l1:text-gold`}
-              >
-                <span>{item.label}</span>
-                {item.children && (
-                  <span
-                    role="button"
-                    tabindex="0"
-                    data-sub-toggle
-                    aria-expanded="false"
-                    aria-label={`Untermenü ${item.label} umschalten`}
-                    class="-my-[10px] flex cursor-pointer items-center py-[10px] pl-[10px] text-[14px] leading-[14px]"
-                  >
-                    <svg viewBox="0 0 320 512" fill="currentColor" aria-hidden="true" class="block h-[14px] w-[8.75px]">
-                      <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
-                    </svg>
-                  </span>
-                )}
-              </a>
+        {items.map((item) => (
+          <li class="group/l1">
+            <a
+              href={url(item.href)}
+              aria-current={current === item.href ? 'page' : undefined}
+              class={`${mLink} group-data-[open]/l1:bg-soft group-data-[open]/l1:text-gold`}
+            >
+              <span>{item.label}</span>
               {item.children && (
-                <div class="invisible grid grid-rows-[0fr] transition-[grid-template-rows,visibility] duration-[250ms] group-data-[open]/l1:visible group-data-[open]/l1:grid-rows-[1fr]">
-                  <ul class="overflow-hidden">
-                    {item.children.map((sub) => (
-                      <li class="group/l2">
-                        <a
-                          href={url(sub.href)}
-                          class={`${mSubLink} group-data-[open]/l2:bg-soft group-data-[open]/l2:text-gold`}
-                        >
-                          <span>{sub.label}</span>
-                          {sub.children && (
-                            <span
-                              role="button"
-                              tabindex="0"
-                              data-sub-toggle
-                              aria-expanded="false"
-                              aria-label={`Untermenü ${sub.label} umschalten`}
-                              class="-my-[10px] flex cursor-pointer items-center py-[10px] pl-[10px] text-[14px] leading-[14px]"
-                            >
-                              <svg viewBox="0 0 320 512" fill="currentColor" aria-hidden="true" class="block h-[14px] w-[8.75px]">
-                                <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
-                              </svg>
-                            </span>
-                          )}
-                        </a>
-                        {sub.children && (
-                          <div class="invisible grid grid-rows-[0fr] transition-[grid-template-rows,visibility] duration-[250ms] group-data-[open]/l2:visible group-data-[open]/l2:grid-rows-[1fr]">
-                            <ul class="overflow-hidden">
-                              {sub.children.map((leaf) => (
-                                <li>
-                                  <a href={url(leaf.href)} class={mSubLink}>
-                                    {leaf.label}
-                                  </a>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                <span
+                  role="button"
+                  tabindex="0"
+                  data-sub-toggle
+                  aria-expanded="false"
+                  aria-label={`Untermenü ${item.label} umschalten`}
+                  class="-my-[10px] flex cursor-pointer items-center py-[10px] pl-[10px] text-[14px] leading-[14px]"
+                >
+                  <svg
+                    viewBox="0 0 320 512"
+                    fill="currentColor"
+                    aria-hidden="true"
+                    class="block h-[14px] w-[8.75px]"
+                  >
+                    <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
+                  </svg>
+                </span>
               )}
-            </li>
-          ))
-        }
+            </a>
+            {item.children && (
+              <div class="invisible grid grid-rows-[0fr] transition-[grid-template-rows,visibility] duration-[250ms] group-data-[open]/l1:visible group-data-[open]/l1:grid-rows-[1fr]">
+                <ul class="overflow-hidden">
+                  {item.children.map((sub) => (
+                    <li class="group/l2">
+                      <a
+                        href={url(sub.href)}
+                        class={`${mSubLink} group-data-[open]/l2:bg-soft group-data-[open]/l2:text-gold`}
+                      >
+                        <span>{sub.label}</span>
+                        {sub.children && (
+                          <span
+                            role="button"
+                            tabindex="0"
+                            data-sub-toggle
+                            aria-expanded="false"
+                            aria-label={`Untermenü ${sub.label} umschalten`}
+                            class="-my-[10px] flex cursor-pointer items-center py-[10px] pl-[10px] text-[14px] leading-[14px]"
+                          >
+                            <svg
+                              viewBox="0 0 320 512"
+                              fill="currentColor"
+                              aria-hidden="true"
+                              class="block h-[14px] w-[8.75px]"
+                            >
+                              <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
+                            </svg>
+                          </span>
+                        )}
+                      </a>
+                      {sub.children && (
+                        <div class="invisible grid grid-rows-[0fr] transition-[grid-template-rows,visibility] duration-[250ms] group-data-[open]/l2:visible group-data-[open]/l2:grid-rows-[1fr]">
+                          <ul class="overflow-hidden">
+                            {sub.children.map((leaf) => (
+                              <li>
+                                <a href={url(leaf.href)} class={mSubLink}>
+                                  {leaf.label}
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </li>
+        ))}
       </ul>
     </nav>
   </div>

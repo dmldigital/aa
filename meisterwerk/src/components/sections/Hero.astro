@@ -11,10 +11,34 @@ import tapezieren from '../../assets/img/194-meisterwerk-20230120-scaled.jpg';
 import glatte from '../../assets/img/2009-meisterwerk-20230524-Bearbeitet-scaled.jpg';
 
 const slides = [
-  { word: 'Streichen', image: streichen, alt: 'Hell gestrichener Wohn- und Essbereich mit Holztreppe', color: 'text-soft', anim: 'fadeInLeft' },
-  { word: 'Lackieren', image: lackieren, alt: 'Weiß lackierte Tür und Treppe mit Holzstufen', color: 'text-ink', anim: 'fadeInDown' },
-  { word: 'Tapezieren', image: tapezieren, alt: 'Wand mit tapeziertem Ornamentmuster und indirektem Licht', color: 'text-ink', anim: 'fadeInUp' },
-  { word: 'Glatte Oberflächen', image: glatte, alt: 'Offene Küche und Essbereich mit glatten weißen Wänden', color: 'text-ink', anim: 'fadeIn' },
+  {
+    word: 'Streichen',
+    image: streichen,
+    alt: 'Hell gestrichener Wohn- und Essbereich mit Holztreppe',
+    color: 'text-soft',
+    anim: 'fadeInLeft',
+  },
+  {
+    word: 'Lackieren',
+    image: lackieren,
+    alt: 'Weiß lackierte Tür und Treppe mit Holzstufen',
+    color: 'text-ink',
+    anim: 'fadeInDown',
+  },
+  {
+    word: 'Tapezieren',
+    image: tapezieren,
+    alt: 'Wand mit tapeziertem Ornamentmuster und indirektem Licht',
+    color: 'text-ink',
+    anim: 'fadeInUp',
+  },
+  {
+    word: 'Glatte Oberflächen',
+    image: glatte,
+    alt: 'Offene Küche und Essbereich mit glatten weißen Wänden',
+    color: 'text-ink',
+    anim: 'fadeIn',
+  },
 ];
 ---
 
@@ -27,48 +51,46 @@ const slides = [
     aria-label="Meisterwerk Leistungen"
     class="relative z-[1] grid overflow-hidden"
   >
-    {
-      slides.map((slide, i) => (
-        <div
-          data-hero-slide
-          role="group"
-          aria-roledescription="slide"
-          aria-label={`${i + 1} / ${slides.length}`}
-          aria-hidden={i === 0 ? undefined : 'true'}
-          class:list={[
-            'relative col-start-1 row-start-1 flex min-h-[80vh] flex-col px-[20px] md:min-h-[500px] lg:min-h-[93vh] lg:px-[30px]',
-            i > 0 && 'opacity-0',
-          ]}
-        >
-          <Image
-            src={slide.image}
-            alt={slide.alt}
-            widths={[640, 1024, 1440, 1920, 2560]}
-            sizes="100vw"
-            loading={i === 0 ? 'eager' : 'lazy'}
-            fetchpriority={i === 0 ? 'high' : undefined}
-            class="absolute inset-0 size-full object-cover object-center"
-          />
-          <div class="relative mx-auto flex w-full max-w-[min(100%,767px)] grow flex-col justify-end gap-[15px] py-[40px] md:max-w-[min(100%,1024px)] md:gap-[20px] lg:max-w-[1700px] lg:justify-between">
-            <div class="hidden h-[50px] md:block" aria-hidden="true" />
-            <div class="flex items-end justify-between">
-              <div class="flex flex-col gap-[10px] md:gap-[20px]">
-                <div data-anim={slide.anim} data-anim-delay="400">
-                  <span
-                    class:list={[
-                      'font-display text-[30px]/[30px] font-medium tracking-[-1px] md:text-[50px]/[50px] lg:text-[100px]/[100px]',
-                      slide.color,
-                    ]}
-                  >
-                    {slide.word}
-                  </span>
-                </div>
+    {slides.map((slide, i) => (
+      <div
+        data-hero-slide
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`${i + 1} / ${slides.length}`}
+        aria-hidden={i === 0 ? undefined : 'true'}
+        class:list={[
+          'relative col-start-1 row-start-1 flex min-h-[80vh] flex-col px-[20px] md:min-h-[500px] lg:min-h-[93vh] lg:px-[30px]',
+          i > 0 && 'opacity-0',
+        ]}
+      >
+        <Image
+          src={slide.image}
+          alt={slide.alt}
+          widths={[640, 1024, 1440, 1920, 2560]}
+          sizes="100vw"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : undefined}
+          class="absolute inset-0 size-full object-cover object-center"
+        />
+        <div class="relative mx-auto flex w-full max-w-[min(100%,767px)] grow flex-col justify-end gap-[15px] py-[40px] md:max-w-[min(100%,1024px)] md:gap-[20px] lg:max-w-[1700px] lg:justify-between">
+          <div class="hidden h-[50px] md:block" aria-hidden="true" />
+          <div class="flex items-end justify-between">
+            <div class="flex flex-col gap-[10px] md:gap-[20px]">
+              <div data-anim={slide.anim} data-anim-delay="400">
+                <span
+                  class:list={[
+                    'font-display text-[30px]/[30px] font-medium tracking-[-1px] md:text-[50px]/[50px] lg:text-[100px]/[100px]',
+                    slide.color,
+                  ]}
+                >
+                  {slide.word}
+                </span>
               </div>
             </div>
           </div>
         </div>
-      ))
-    }
+      </div>
+    ))}
   </div>
 </section>
 

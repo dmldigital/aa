@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Breakpoints wie im Original (Elementor): Tablet ab 768px, Desktop ab 1025px */
 @theme {
@@ -31,7 +31,12 @@
   body {
     @apply bg-white font-body text-base/6 text-muted antialiased md:text-[15px]/[1.5];
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply m-0 font-normal;
   }
   p {
@@ -44,14 +49,14 @@
 
 /* Ausgangszustand für Scroll-Animationen (nur mit JavaScript) */
 @layer components {
-  .js [data-anim]:not([data-anim="none"]) {
+  .js [data-anim]:not([data-anim='none']) {
     visibility: hidden;
   }
   @media (max-width: 47.99rem) {
-    .js [data-anim-mobile]:not([data-anim-mobile="none"]) {
+    .js [data-anim-mobile]:not([data-anim-mobile='none']) {
       visibility: hidden;
     }
-    .js [data-anim][data-anim-mobile="none"] {
+    .js [data-anim][data-anim-mobile='none'] {
       visibility: visible;
     }
   }
@@ -59,16 +64,22 @@
     clip-path: inset(0 0 100% 0);
   }
   @media (prefers-reduced-motion: reduce) {
-    .js [data-anim], .js [data-anim-mobile] { visibility: visible !important; }
-    .js [data-grow] { clip-path: none !important; }
+    .js [data-anim],
+    .js [data-anim-mobile] {
+      visibility: visible !important;
+    }
+    .js [data-grow] {
+      clip-path: none !important;
+    }
   }
 }
 
 /* Unterstrich-Animation der Text-Links und Buttons (Original: vamtam-underline-anim) */
 @utility underline-anim {
   position: relative;
-  &::before, &::after {
-    content: "";
+  &::before,
+  &::after {
+    content: '';
     position: absolute;
     left: 0;
     top: 100%;
@@ -77,17 +88,30 @@
     margin-top: var(--underline-gap, 1px);
     background: currentColor;
   }
-  &::before { transform-origin: left; }
-  &::after { transform: scaleX(0); transform-origin: right; }
+  &::before {
+    transform-origin: left;
+  }
+  &::after {
+    transform: scaleX(0);
+    transform-origin: right;
+  }
 }
 
 @keyframes underline-in {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }
 @keyframes underline-out {
-  from { transform: scaleX(0.8); }
-  to { transform: scaleX(0); }
+  from {
+    transform: scaleX(0.8);
+  }
+  to {
+    transform: scaleX(0);
+  }
 }
 @media (any-pointer: fine) {
   .group\/ul:hover .underline-anim::before,
