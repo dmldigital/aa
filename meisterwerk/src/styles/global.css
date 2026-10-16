@@ -18,6 +18,32 @@
 
   --ease-css: cubic-bezier(0.25, 0.1, 0.25, 1);
   --ease-grow: cubic-bezier(0, 0.55, 0.45, 1);
+
+  /* Typografie-Skala (Werte aus dem Original-Kit, Schrift und Gewicht kommen per font-display/font-medium) */
+  --text-display: 100px;
+  --text-display--line-height: 100px;
+  --text-h1: 60px;
+  --text-h1--line-height: 66px;
+  --text-h2: 40px;
+  --text-h2--line-height: 54px;
+  --text-h3: 40px;
+  --text-h3--line-height: 50px;
+  --text-h4: 24px;
+  --text-h4--line-height: 31.2px;
+  --text-h5: 20px;
+  --text-h5--line-height: 26px;
+  --text-label: 12px;
+  --text-label--line-height: 15.6px;
+  --text-button: 14px;
+  --text-button--line-height: 15.4px;
+  --text-body: 15px;
+  --text-body--line-height: 22.5px;
+
+  --tracking-label: 2px;
+  --tracking-button: 0.5px;
+
+  /* Seitenbreite des Inhalts (Elementor-Container) */
+  --container-page: 1700px;
 }
 
 @theme inline {

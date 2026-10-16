@@ -11,18 +11,18 @@ const bg = await getImage({ src: concrete, width: 2000, format: 'webp', quality:
   style={`background-image:url(${bg.src})`}
 >
   <!-- Oberer Linienstreifen -->
-  <div class="flex min-h-[20px] flex-col border-b border-line pl-[5%] md:min-h-[60px] md:pl-[10%] lg:min-h-[10vh]">
-    <div class="mx-auto flex w-full max-w-[1700px] grow">
-      <div class="w-[65%] border-x border-line md:w-[340px] lg:w-[420px]"></div>
+  <div class="flex min-h-5 flex-col border-b border-line pl-[5%] md:min-h-15 md:pl-[10%] lg:min-h-[10vh]">
+    <div class="mx-auto flex w-full max-w-page grow">
+      <div class="w-[65%] border-x border-line md:w-85 lg:w-105"></div>
     </div>
   </div>
 
   <!-- Mittlerer Bereich mit Text -->
-  <div class="flex min-h-[100vw] flex-col border-b border-line pl-[5%] md:min-h-[400px] md:pl-[10%] lg:min-h-[clamp(500px,80vh,600px)]">
-    <div class="mx-auto flex w-full max-w-[1700px] grow">
-      <div class="flex w-[65%] flex-col justify-between gap-[20px] border-x border-line px-[20px] py-[30px] backdrop-blur-[40px] backdrop-saturate-[1.8] md:w-[340px] lg:w-[420px] lg:px-[30px] lg:py-[40px]">
-        <div class="flex flex-col gap-[15px] lg:gap-[20px]">
-          <div class="mb-[10px] w-full max-w-[280px]" data-anim="slideInUp" data-anim-delay="50">
+  <div class="flex min-h-[100vw] flex-col border-b border-line pl-[5%] md:min-h-100 md:pl-[10%] lg:min-h-[clamp(500px,80vh,600px)]">
+    <div class="mx-auto flex w-full max-w-page grow">
+      <div class="flex w-[65%] flex-col justify-between gap-5 border-x border-line px-5 py-7.5 backdrop-blur-[40px] backdrop-saturate-[1.8] md:w-85 lg:w-105 lg:px-7.5 lg:py-10">
+        <div class="flex flex-col gap-3.75 lg:gap-5">
+          <div class="mb-2.5 w-full max-w-[280px]" data-anim="slideInUp" data-anim-delay="50">
             <span class="text-white leading-[16px] md:leading-[15px]">
               Lassen Sie uns gemeinsam etwas Einzigartiges schaffen.
             </span>
@@ -30,16 +30,16 @@ const bg = await getImage({ src: concrete, width: 2000, format: 'webp', quality:
           <div data-anim="slideInUp" data-anim-delay="100">
             <a
               href="https://meisterwerk-lb.de/kontakt/"
-              class="group/ul inline-block border border-white bg-white px-[20px] py-[13px] text-center font-display text-[14px]/[15.4px] font-semibold tracking-[0.5px] text-black md:px-[25px] lg:px-[30px] lg:py-[15px]"
+              class="group/ul inline-block border border-white bg-white px-5 py-3.25 text-center font-display text-button font-semibold tracking-button text-black md:px-6.25 lg:px-7.5 lg:py-3.75"
             >
-              <span class="flex justify-center gap-[5px]">
+              <span class="flex justify-center gap-1.25">
                 <span class="underline-anim relative [--underline-gap:0px]">Projekt Starten</span>
               </span>
             </a>
           </div>
         </div>
         <div data-anim="slideInUp">
-          <h2 class="font-display text-[23px]/[27.6px] font-medium text-white md:text-[29px]/[39.15px] lg:text-[40px]/[54px]">
+          <h2 class="font-display text-[23px]/[27.6px] font-medium text-white md:text-[29px]/[39.15px] lg:text-h2">
             Jede Oberfläche ist einzigartig.
             <br />
             Genauso wie unser Ansatz.
@@ -50,9 +50,9 @@ const bg = await getImage({ src: concrete, width: 2000, format: 'webp', quality:
   </div>
 
   <!-- Unterer Linienstreifen -->
-  <div class="flex min-h-[20px] flex-col border-b border-line pl-[5%] md:min-h-[60px] md:pl-[10%] lg:min-h-[10vh]">
-    <div class="mx-auto flex w-full max-w-[1700px] grow">
-      <div class="w-[65%] border-x border-line md:w-[340px] lg:w-[420px]"></div>
+  <div class="flex min-h-5 flex-col border-b border-line pl-[5%] md:min-h-15 md:pl-[10%] lg:min-h-[10vh]">
+    <div class="mx-auto flex w-full max-w-page grow">
+      <div class="w-[65%] border-x border-line md:w-85 lg:w-105"></div>
     </div>
   </div>
 </section>

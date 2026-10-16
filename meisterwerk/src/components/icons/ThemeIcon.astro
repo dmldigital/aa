@@ -21,7 +21,7 @@ const PATHS = {
   fill="currentColor"
   aria-hidden="true"
   focusable="false"
-  class:list={['block size-[1em] shrink-0', className]}
+  class:list={['block shrink-0', className ?? 'size-[1em]']}
 >
   <g transform="matrix(1 0 0 -1 0 960)">
     <path d={PATHS[name]}></path>

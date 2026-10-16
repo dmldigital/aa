@@ -52,25 +52,25 @@ const items: Item[] = [
 const url = (href: string) => `${ORIGIN}${href}`;
 
 // Gemeinsame Schrift der Menüpunkte (Urbanist 14px/15,4px, 500, Laufweite 1px)
-const menuFont = 'font-display text-[14px]/[15.4px] font-medium tracking-[1px]';
+const menuFont = 'font-display text-button font-medium tracking-[1px]';
 // Desktop: Hauptebene, Unterpunkte
-const topLink = `group/a relative flex grow items-center px-[20px] py-[13px] mx-[15px] whitespace-nowrap text-ink transition-all duration-[400ms] ease-css hover:text-gold group-hover/d1:text-gold aria-[current=page]:text-gold ${menuFont}`;
-const subLink = `flex items-center px-[30px] py-[15px] text-[14px]/[20px] whitespace-nowrap text-black transition-all duration-[400ms] ease-css hover:bg-soft hover:text-gold font-display font-medium tracking-[1px]`;
+const topLink = `group/a relative flex grow items-center px-5 py-3.25 mx-3.75 whitespace-nowrap text-ink transition-all duration-[400ms] ease-css hover:text-gold group-hover/d1:text-gold aria-[current=page]:text-gold ${menuFont}`;
+const subLink = `flex items-center px-7.5 py-3.75 text-[14px]/[20px] whitespace-nowrap text-black transition-all duration-[400ms] ease-css hover:bg-soft hover:text-gold font-display font-medium tracking-[1px]`;
 // Unterstrich der Hauptebene (Original: Hintergrundverlauf, 0,5 s, zieht sich nach rechts zurück)
-const navText = `inline pb-[3px] bg-[linear-gradient(#A59371,#A59371)] bg-no-repeat bg-[length:0%_1px] bg-[position:0_100%] [transition:background-size_.5s,background-position_0s_.5s] any-pointer-fine:group-hover/a:bg-[length:100%_1px] any-pointer-fine:group-hover/a:bg-[position:100%_100%]`;
+const navText = `inline pb-0.75 bg-[linear-gradient(#A59371,#A59371)] bg-no-repeat bg-[length:0%_1px] bg-[position:0_100%] [transition:background-size_.5s,background-position_0s_.5s] any-pointer-fine:group-hover/a:bg-[length:100%_1px] any-pointer-fine:group-hover/a:bg-[position:100%_100%]`;
 // Handy/Tablet-Menü
-const mLink = `flex items-center px-[20px] py-[15px] text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold aria-[current=page]:bg-soft aria-[current=page]:text-gold ${menuFont}`;
+const mLink = `flex items-center px-5 py-3.75 text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold aria-[current=page]:bg-soft aria-[current=page]:text-gold ${menuFont}`;
 const mSubLink =
-  'flex items-center px-[20px] py-[15px] text-[14px]/[20px] font-display font-medium tracking-[1px] text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold';
+  'flex items-center px-5 py-3.75 text-[14px]/[20px] font-display font-medium tracking-[1px] text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold';
 ---
 
 <!-- Desktop (ab 1025 px) -->
 <header
   data-section="d29842b"
-  class="sticky top-0 z-[9999999] hidden min-h-[50px] items-center bg-white px-[30px] shadow-[0_0_4px_0_rgb(0_0_0/0.5)] lg:flex"
+  class="sticky top-0 z-[9999999] hidden min-h-12.5 items-center bg-white px-7.5 shadow-[0_0_4px_0_rgb(0_0_0/0.5)] lg:flex"
 >
-  <div class="w-[190px] shrink-0 grow">
-    <div class="py-[10px]">
+  <div class="w-47.5 shrink-0 grow">
+    <div class="py-2.5">
       <a
         href={ORIGIN}
         class="block w-fit max-w-full"
@@ -82,13 +82,13 @@ const mSubLink =
           widths={[244, 488]}
           sizes="244px"
           loading="eager"
-          class="h-[75px] w-full"
+          class="h-18.75 w-full"
         />
       </a>
     </div>
   </div>
   <div class="flex w-[80%] items-center justify-end">
-    <nav aria-label="Hauptmenü" class="mr-[25px]">
+    <nav aria-label="Hauptmenü" class="mr-6.25">
       <ul class="flex flex-wrap leading-normal">
         {items.map((item) => (
           <li class="group/d1 relative flex [&:first-child>a]:ml-0 [&:last-child>a]:mr-0">
@@ -102,7 +102,7 @@ const mSubLink =
               </span>
             </a>
             {item.children && (
-              <div class="invisible absolute top-full left-[15px] z-[2] pt-[5px] opacity-0 transition-[opacity,visibility] duration-200 group-focus-within/d1:visible group-focus-within/d1:opacity-100 group-hover/d1:visible group-hover/d1:opacity-100">
+              <div class="invisible absolute top-full left-3.75 z-[2] pt-1.25 opacity-0 transition-[opacity,visibility] duration-200 group-focus-within/d1:visible group-focus-within/d1:opacity-100 group-hover/d1:visible group-hover/d1:opacity-100">
                 <ul class="min-w-[10em] w-max bg-white text-[13px]">
                   {item.children.map((sub) => (
                     <li class="group/d2 relative">
@@ -141,9 +141,9 @@ const mSubLink =
 <header
   data-section="f04d782"
   data-mobile-header
-  class="group/m sticky top-0 z-[99] bg-white md:px-[20px] lg:hidden"
+  class="group/m sticky top-0 z-[99] bg-white md:px-5 lg:hidden"
 >
-  <div class="mx-auto flex h-[65.09px] w-full max-w-[min(100%,1024px)] flex-wrap items-center shadow-[0_0_4px_0_rgb(0_0_0/0.7)] md:h-auto md:min-h-[50px] md:flex-nowrap md:shadow-none">
+  <div class="mx-auto flex h-[65.09px] w-full max-w-[min(100%,1024px)] flex-wrap items-center shadow-[0_0_4px_0_rgb(0_0_0/0.7)] md:h-auto md:min-h-12.5 md:flex-nowrap md:shadow-none">
     <div class="h-full w-[65%] overflow-hidden md:h-auto md:w-[20%]">
       <div class="pt-[3%] pb-[2%] pl-[5%] md:p-0">
         <a
@@ -157,13 +157,13 @@ const mSubLink =
             widths={[104, 182, 208, 364]}
             sizes="(min-width: 768px) 104px, 182px"
             loading="eager"
-            class="h-[56px] w-full max-w-full md:h-[32px] md:max-w-[195px]"
+            class="h-14 w-full max-w-full md:h-8 md:max-w-[195px]"
           />
         </a>
       </div>
     </div>
     <div class="flex w-[35%] items-center justify-end md:w-[80%]">
-      <div class="-mt-[10px] md:mt-0">
+      <div class="-mt-2.5 md:mt-0">
         <button
           type="button"
           data-menu-toggle
@@ -218,13 +218,13 @@ const mSubLink =
                   data-sub-toggle
                   aria-expanded="false"
                   aria-label={`Untermenü ${item.label} umschalten`}
-                  class="-my-[10px] flex cursor-pointer items-center py-[10px] pl-[10px] text-[14px] leading-[14px]"
+                  class="-my-2.5 flex cursor-pointer items-center py-2.5 pl-2.5 text-[14px] leading-[14px]"
                 >
                   <svg
                     viewBox="0 0 320 512"
                     fill="currentColor"
                     aria-hidden="true"
-                    class="block h-[14px] w-[8.75px]"
+                    class="block h-3.5 w-[8.75px]"
                   >
                     <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
                   </svg>
@@ -248,13 +248,13 @@ const mSubLink =
                             data-sub-toggle
                             aria-expanded="false"
                             aria-label={`Untermenü ${sub.label} umschalten`}
-                            class="-my-[10px] flex cursor-pointer items-center py-[10px] pl-[10px] text-[14px] leading-[14px]"
+                            class="-my-2.5 flex cursor-pointer items-center py-2.5 pl-2.5 text-[14px] leading-[14px]"
                           >
                             <svg
                               viewBox="0 0 320 512"
                               fill="currentColor"
                               aria-hidden="true"
-                              class="block h-[14px] w-[8.75px]"
+                              class="block h-3.5 w-[8.75px]"
                             >
                               <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
                             </svg>

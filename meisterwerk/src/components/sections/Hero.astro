@@ -42,7 +42,7 @@ const slides = [
 ];
 ---
 
-<section data-section="ca992c2" class="flex min-h-[60vh] flex-col gap-[20px] md:min-h-[100vh]">
+<section data-section="ca992c2" class="flex min-h-[60vh] flex-col gap-5 md:min-h-[100vh]">
   <div
     data-hero-carousel
     data-anim-manual
@@ -59,7 +59,7 @@ const slides = [
         aria-label={`${i + 1} / ${slides.length}`}
         aria-hidden={i === 0 ? undefined : 'true'}
         class:list={[
-          'relative col-start-1 row-start-1 flex min-h-[80vh] flex-col px-[20px] md:min-h-[500px] lg:min-h-[93vh] lg:px-[30px]',
+          'relative col-start-1 row-start-1 flex min-h-[80vh] flex-col px-5 md:min-h-125 lg:min-h-[93vh] lg:px-7.5',
           i > 0 && 'opacity-0',
         ]}
       >
@@ -72,14 +72,14 @@ const slides = [
           fetchpriority={i === 0 ? 'high' : undefined}
           class="absolute inset-0 size-full object-cover object-center"
         />
-        <div class="relative mx-auto flex w-full max-w-[min(100%,767px)] grow flex-col justify-end gap-[15px] py-[40px] md:max-w-[min(100%,1024px)] md:gap-[20px] lg:max-w-[1700px] lg:justify-between">
-          <div class="hidden h-[50px] md:block" aria-hidden="true" />
+        <div class="relative mx-auto flex w-full max-w-[min(100%,767px)] grow flex-col justify-end gap-3.75 py-10 md:max-w-[min(100%,1024px)] md:gap-5 lg:max-w-page lg:justify-between">
+          <div class="hidden h-12.5 md:block" aria-hidden="true" />
           <div class="flex items-end justify-between">
-            <div class="flex flex-col gap-[10px] md:gap-[20px]">
+            <div class="flex flex-col gap-2.5 md:gap-5">
               <div data-anim={slide.anim} data-anim-delay="400">
                 <span
                   class:list={[
-                    'font-display text-[30px]/[30px] font-medium tracking-[-1px] md:text-[50px]/[50px] lg:text-[100px]/[100px]',
+                    'font-display text-[30px]/[30px] font-medium tracking-[-1px] md:text-[50px]/[50px] lg:text-display',
                     slide.color,
                   ]}
                 >
