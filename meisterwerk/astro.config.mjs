@@ -12,10 +12,14 @@ export default defineConfig({
       provider: fontProviders.google(),
       weights: [400, 500, 600],
       styles: ['normal'],
-      subsets: ['latin', 'latin-ext'],
+      subsets: ['latin'],
       fallbacks: ['sans-serif'],
     },
   ],
+  build: {
+    // Eine einzelne Seite: das kleine CSS direkt ins HTML, damit kein Stylesheet das Rendern blockiert
+    inlineStylesheets: 'always',
+  },
   vite: {
     plugins: [tailwindcss()],
   },

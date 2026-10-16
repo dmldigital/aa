@@ -5,7 +5,7 @@ import { href, routes } from '../../data/links';
  * Beide kleben oben (Elementor "sticky top", Versatz 0). Das Aufklappmenü des Handy/Tablet-Headers
  * schiebt sich wie im Original per max-height und scaleY (0,3 s) auf.
  */
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import { items } from '../../data/nav';
 import logo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
 
@@ -40,7 +40,8 @@ const mSubLink =
         class="block w-fit max-w-full"
         aria-label="Meisterwerk Malermanufaktur, zur Startseite"
       >
-        <Image
+        <Picture
+          formats={['avif', 'webp']}
           src={logo}
           alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
           widths={[244, 488]}
@@ -115,7 +116,8 @@ const mSubLink =
           class="block w-fit max-w-full"
           aria-label="Meisterwerk Malermanufaktur, zur Startseite"
         >
-          <Image
+          <Picture
+            formats={['avif', 'webp']}
             src={logo}
             alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
             widths={[104, 182, 208, 364]}

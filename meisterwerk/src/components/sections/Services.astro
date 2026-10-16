@@ -1,6 +1,6 @@
 ---
 import { href } from '../../data/links';
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Icon from '../Icon.astro';
 import { cards } from '../../data/services';
 
@@ -36,7 +36,8 @@ const widths = [252, 350, 477, 700, 954];
         >
           <div class="group/img relative overflow-hidden">
             <div data-grow="left" data-anim-delay="450">
-              <Image
+              <Picture
+                formats={['avif', 'webp']}
                 src={card.img}
                 alt={card.alt}
                 {widths}

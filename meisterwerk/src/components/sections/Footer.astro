@@ -7,7 +7,7 @@ import { site } from '../../data/site';
  * dem schwebenden Link "Projekt starten". Das Badge ist ein statischer Nachbau des Trustindex-Widgets
  * (ohne Fremd-Skript), Icons sind Inline-SVG aus den Schriften des Originals (theme-icons, Font Awesome 5 Free).
  */
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import logo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
 import exklusive from '../../assets/img/logo_exklusive.png';
 
@@ -150,7 +150,8 @@ const social =
             class="block"
             aria-label="Meisterwerk Malermanufaktur, zur Startseite"
           >
-            <Image
+            <Picture
+              formats={['avif', 'webp']}
               src={logo}
               alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
               widths={[228, 456]}
@@ -282,7 +283,8 @@ const social =
             class="block"
             aria-label="Meisterwerk Exklusive"
           >
-            <Image
+            <Picture
+              formats={['avif', 'webp']}
               src={exklusive}
               alt="Meisterwerke Exklusive by Baldassarre Fortino"
               widths={[228, 456]}

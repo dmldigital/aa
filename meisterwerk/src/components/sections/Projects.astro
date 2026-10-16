@@ -1,7 +1,7 @@
 ---
 import ArrowLink from '../ui/ArrowLink.astro';
 import { href, routes } from '../../data/links';
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Icon from '../Icon.astro';
 import { projects } from '../../data/projects';
 
@@ -56,7 +56,8 @@ const slides = [
             >
               <div class="relative overflow-hidden">
                 {p.clone ? (
-                  <Image
+                  <Picture
+                    formats={['avif', 'webp']}
                     src={p.img}
                     alt={p.alt}
                     widths={[350, 440, 880]}
@@ -67,7 +68,8 @@ const slides = [
                   />
                 ) : (
                   <div class="[clip-path:none]" data-grow="bottom">
-                    <Image
+                    <Picture
+                      formats={['avif', 'webp']}
                       src={p.img}
                       alt={p.alt}
                       widths={[350, 440, 880]}

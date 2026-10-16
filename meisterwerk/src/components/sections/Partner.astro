@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import kueche from '../../assets/img/2014-meisterwerk-20230524-Bearbeitet-1-scaled.jpg';
 import wohnbereich from '../../assets/img/205-meisterwerk-20230120-Bearbeitet-scaled.jpg';
 
@@ -29,7 +29,8 @@ const widths = [308, 447, 553, 700, 894, 1106];
     <div class="flex flex-col justify-end gap-5">
       <div class="overflow-hidden">
         <div data-grow="bottom" data-anim-delay="420">
-          <Image
+          <Picture
+            formats={['avif', 'webp']}
             src={kueche}
             alt="Moderne Design-Küche mit dunkler Kochinsel, fugenlosem mineralischem Boden und perfekt glatten Wänden in Ludwigsburg."
             {widths}
@@ -43,7 +44,8 @@ const widths = [308, 447, 553, 700, 894, 1106];
     <div class="flex flex-col justify-end gap-5">
       <div class="overflow-hidden">
         <div data-grow="right" data-anim-delay="420">
-          <Image
+          <Picture
+            formats={['avif', 'webp']}
             src={wohnbereich}
             alt="Heller Essbereich mit Esstisch, Pendelleuchte, Vorhängen und perfekt glatten Wänden mit indirekter Deckenbeleuchtung."
             {widths}

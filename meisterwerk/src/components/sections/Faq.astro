@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Icon from '../Icon.astro';
 import sketch from '../../assets/img/house-sketch.png';
 import { faqs } from '../../data/faq';
@@ -105,7 +105,8 @@ import { faqs } from '../../data/faq';
       </div>
       <div class="flex w-full flex-col items-end justify-center px-5 md:w-[60%] lg:px-7.5">
         <div class="w-full overflow-hidden lg:w-[45rem]" data-anim="fadeIn" data-anim-delay="100">
-          <Image
+          <Picture
+            formats={['avif', 'webp']}
             src={sketch}
             alt="Handzeichnung eines Einfamilienhauses mit Terrasse und Gartenmöbeln"
             widths={[310, 537, 720, 1024]}

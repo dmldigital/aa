@@ -1,7 +1,7 @@
 ---
 import ArrowLink from '../ui/ArrowLink.astro';
 import { href, routes } from '../../data/links';
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
 ---
 
@@ -14,7 +14,8 @@ import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
     <div class="hidden flex-1 flex-col gap-5 lg:flex">
       <div class="overflow-hidden">
         <div data-grow="bottom" data-anim-delay="420">
-          <Image
+          <Picture
+            formats={['avif', 'webp']}
             src={wohnzimmer}
             alt="Modernes Wohnzimmer mit dunkler mineralischer Akzentwand, perfekt glatten weißen Wänden und indirekter Deckenbeleuchtung in Ludwigsburg."
             widths={[680, 840, 1360, 1680]}

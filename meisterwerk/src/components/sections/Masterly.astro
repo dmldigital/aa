@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import stairs from '../../assets/img/2025-meisterwerk-20230524-HDR-scaled.jpg';
 ---
 
@@ -26,7 +26,8 @@ import stairs from '../../assets/img/2025-meisterwerk-20230524-HDR-scaled.jpg';
     </div>
     <div class="overflow-hidden md:w-1/2">
       <div class="[clip-path:none]" data-grow="bottom" data-anim-delay="340">
-        <Image
+        <Picture
+          formats={['avif', 'webp']}
           src={stairs}
           alt="Helles Treppenhaus mit Holzstufen, frisch gestrichene Wände und Wandleuchte"
           widths={[350, 700, 1360]}
