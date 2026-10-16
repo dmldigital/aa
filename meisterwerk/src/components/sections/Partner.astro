@@ -23,25 +23,29 @@ const widths = [308, 447, 553, 700, 894, 1106];
 
     <div class="flex flex-col justify-end gap-5">
       <div class="overflow-hidden">
-        <Image
-          src={kueche}
-          alt="Moderne Design-Küche mit dunkler Kochinsel, fugenlosem mineralischem Boden und perfekt glatten Wänden in Ludwigsburg."
-          {widths}
-          {sizes}
-          class="inline-block h-auto w-full"
-        />
+        <div data-grow="bottom" data-anim-delay="420">
+          <Image
+            src={kueche}
+            alt="Moderne Design-Küche mit dunkler Kochinsel, fugenlosem mineralischem Boden und perfekt glatten Wänden in Ludwigsburg."
+            {widths}
+            {sizes}
+            class="block h-auto w-full"
+          />
+        </div>
       </div>
     </div>
 
     <div class="flex flex-col justify-end gap-5">
       <div class="overflow-hidden">
-        <Image
-          src={wohnbereich}
-          alt="Heller Essbereich mit Esstisch, Pendelleuchte, Vorhängen und perfekt glatten Wänden mit indirekter Deckenbeleuchtung."
-          {widths}
-          {sizes}
-          class="inline-block h-auto w-full"
-        />
+        <div data-grow="right" data-anim-delay="420">
+          <Image
+            src={wohnbereich}
+            alt="Heller Essbereich mit Esstisch, Pendelleuchte, Vorhängen und perfekt glatten Wänden mit indirekter Deckenbeleuchtung."
+            {widths}
+            {sizes}
+            class="block h-auto w-full"
+          />
+        </div>
       </div>
     </div>
   </div>

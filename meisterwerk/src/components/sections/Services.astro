@@ -77,13 +77,15 @@ const widths = [252, 350, 477, 700, 954];
             data-anim-delay="100"
           >
             <div class="group/img relative overflow-hidden">
-              <Image
-                src={card.img}
-                alt={card.alt}
-                {widths}
-                {sizes}
-                class="inline-block h-auto w-full transition-transform duration-[450ms] ease-in-out group-hover/img:scale-110 group-hover/img:opacity-80"
-              />
+              <div data-grow="left" data-anim-delay="450">
+                <Image
+                  src={card.img}
+                  alt={card.alt}
+                  {widths}
+                  {sizes}
+                  class="block h-auto w-full transition-transform duration-[450ms] ease-in-out group-hover/img:scale-110 group-hover/img:opacity-80"
+                />
+              </div>
               <span
                 aria-hidden="true"
                 class="pointer-events-none absolute top-1/2 left-1/2 z-10 flex size-[70px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-[40px] text-white opacity-0 transition-all duration-300 ease-[ease] group-hover/img:opacity-100"

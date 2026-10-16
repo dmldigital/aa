@@ -12,13 +12,15 @@ import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
     <!-- Bild: nur auf dem Desktop sichtbar (Original: elementor-hidden-tablet/-mobile) -->
     <div class="hidden flex-1 flex-col gap-5 lg:flex">
       <div class="overflow-hidden">
-        <Image
-          src={wohnzimmer}
-          alt="Modernes Wohnzimmer mit dunkler mineralischer Akzentwand, perfekt glatten weißen Wänden und indirekter Deckenbeleuchtung in Ludwigsburg."
-          widths={[680, 840, 1360, 1680]}
-          sizes="(min-width: 1760px) 840px, calc(50vw - 40px)"
-          class="inline-block h-auto w-full"
-        />
+        <div data-grow="bottom" data-anim-delay="420">
+          <Image
+            src={wohnzimmer}
+            alt="Modernes Wohnzimmer mit dunkler mineralischer Akzentwand, perfekt glatten weißen Wänden und indirekter Deckenbeleuchtung in Ludwigsburg."
+            widths={[680, 840, 1360, 1680]}
+            sizes="(min-width: 1760px) 840px, calc(50vw - 40px)"
+            class="block h-auto w-full"
+          />
+        </div>
       </div>
     </div>
 
