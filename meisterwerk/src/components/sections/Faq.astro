@@ -1,4 +1,196 @@
 ---
+import { Image } from 'astro:assets';
+import ThemeIcon from '../icons/ThemeIcon.astro';
+import sketch from '../../assets/img/house-sketch.png';
+
+const link = 'text-ink no-underline';
+const p = 'mb-[15px] text-[15px]/[24px] md:text-[15px]/[22.5px] lg:mb-[22.5px]';
+
+// Fragen und Antworten wie im Original (Texte inklusive Gedankenstriche)
+const faqs = [
+  {
+    q: 'Welche Leistungen bieten Sie an?',
+    a: `<p class="${p}">Wir führen sämtliche Maler- und Lackierarbeiten im Innen- und Außenbereich aus. Dazu gehören: Streichen, Lackieren, Tapezieren, Verputzen, Dämmen, Schimmelsanierung, Trockenbau und Bodenverlegung. Zudem haben wir eine eigene Abteilung, die auf Spachteltechniken und fugenlose Oberflächen spezialisiert ist. Mehr Informationen finden Sie unter <a class="${link}" href="http://www.meisterwerke-exklusive.de" target="_blank" rel="noopener">www.meisterwerke-exklusive.de</a>.<br><br></p><p class="${p}">&nbsp;</p>`,
+  },
+  {
+    q: 'Was kostet es, eine Wohnung oder ein Zimmer zu streichen?',
+    a: `<p class="${p}">Eine pauschale Antwort ist nicht möglich – der Preis hängt immer vom jeweiligen Objekt ab. Wir berücksichtigen unter anderem: Lage, Parkmöglichkeiten, Zugang, Transportwege für Material und Werkzeug, Beschaffenheit des Untergrunds, Anzahl der erforderlichen Anstriche, ob der Raum leer oder möbliert ist, welche Farben verwendet werden dürfen oder müssen und ob Allergien zu beachten sind. Daher erstellen wir für jede Anfrage ein individuelles und faires Angebot.</p>`,
+  },
+  {
+    q: 'Warum sind Sie teurer als andere Malerbetriebe?',
+    a: `<p class="${p}">Wir sind nicht teurer, sondern bieten ein faires Preis-Leistungs-Verhältnis. Als Meisterbetrieb kalkulieren wir transparent: Zeit, Materialkosten, Betriebsmittel und den Einsatz von Fachpersonal mit abgeschlossener Ausbildung. Unser Ziel ist stets ein optimales Ergebnis – deshalb arbeiten wir ausschließlich mit hochwertigen Produkten, z. B. von Brillux und Sto.</p>`,
+  },
+  {
+    q: 'Bis zu welcher Entfernung arbeiten Sie?',
+    a: `<p class="${p}">Unser Haupteinsatzgebiet ist Ludwigsburg, Stuttgart und Umgebung. Auf Anfrage übernehmen wir auch Aufträge in angrenzenden Regionen.</p>`,
+  },
+  {
+    q: 'Mit welchen Farben und Herstellern arbeiten Sie?',
+    a: `<p class="${p}">Unsere Hauptlieferanten sind <a class="${link}" href="https://www.brillux.de/" target="_blank" rel="noopener">Brillux</a> und <a class="${link}" href="https://www.sto.de/s/" target="_blank" rel="noopener">Sto</a> – zwei deutsche Premium-Hersteller aus der Region. Mit dieser Auswahl können wir für jedes Objekt und jede Anforderung das passende Produkt anbieten, inklusive Service und Produktgarantie.</p>`,
+  },
+  {
+    q: 'Bieten Sie auch Schimmel- oder Feuchtigkeitssanierungen an?',
+    a: `<p class="${p}">Ja. Wir entfernen Schimmel fachgerecht, behandeln die Oberflächen nachhaltig und beraten Sie zur langfristigen Vorbeugung.</p>`,
+  },
+  {
+    q: 'Wie viele Jahre Garantie erhalte ich?',
+    a: `<p class="${p}">Als Meisterbetrieb stehen wir für Qualität und Langlebigkeit. Auf unsere Arbeiten geben wir in der Regel 5 Jahre Gewährleistung nach BGB. Zusätzlich profitieren Sie von den Produktgarantien unserer Premium-Partner Brillux und Sto.</p>`,
+  },
+  {
+    q: 'Muss ich während der Arbeiten zuhause sein?',
+    a: `<p class="${p}">Nein. Nach Absprache können wir die Arbeiten auch in Ihrer Abwesenheit durchführen und den Zugang organisieren.</p>`,
+  },
+  {
+    q: 'Wie läuft ein Auftrag ab?',
+    a: `<ul class="m-0 list-none p-0">${[
+      'Besichtigung vor Ort',
+      'Angebotserstellung',
+      'Terminplanung',
+      'Fachgerechte und saubere Ausführung',
+      'Abnahme mit dem Kunden',
+    ]
+      .map(
+        (s, i) =>
+          `<li class="my-[8px] flex items-center"><span class="mr-[10px] inline-flex size-[26px] items-center justify-center rounded-full border border-[#333] text-[14px] font-bold text-[#333]">${i + 1}</span> ${s}</li>`,
+      )
+      .join('')}</ul>`,
+  },
+  {
+    q: 'Wie kann ich einen Termin vereinbaren?',
+    a: `<p class="${p}">Am einfachsten telefonisch, per E-Mail oder über unser Kontaktformular. Wir melden uns innerhalb von 24 Stunden bei Ihnen zurück.</p>`,
+  },
+];
 ---
 
-<section data-todo="Faq"></section>
+<section
+  data-section="b1f5cd6"
+  class="mt-[10vh] flex flex-col bg-soft px-[20px] md:mt-[15vh] lg:mt-[20vh] lg:px-[30px]"
+>
+  <div
+    class="mx-auto flex w-full max-w-[1700px] grow flex-col gap-[30px] py-[40px] md:py-[60px] lg:gap-y-[40px] lg:py-[12vh]"
+  >
+    <!-- Überschrift und Einleitung -->
+    <div class="flex w-full flex-col gap-[15px] lg:w-[70%] lg:gap-[20px]">
+      <div class="w-full">
+        <h2 class="font-display text-[23px]/[27.6px] font-medium text-gold md:text-[29px]/[39.15px] lg:text-[40px]/[54px]">
+          FAQ
+        </h2>
+      </div>
+      <div class="min-h-[215px] w-full max-w-[496px] md:min-h-[195px] lg:min-h-[202.5px]">
+        <p class="mb-[15px] text-[15px]/[24px] md:text-[15px]/[22.5px] lg:mb-[22.5px]">
+          Damit aus Ihren Ideen ein echtes Meisterwerk wird, begleiten wir Sie Schritt für Schritt, klar, individuell
+          und im engen Austausch mit Ihnen.
+        </p>
+      </div>
+    </div>
+
+    <!-- Akkordeon und Haus-Skizze -->
+    <div class="-mt-[16%] flex flex-wrap items-end justify-between gap-[20px] md:flex-nowrap">
+      <div class="z-[3] flex w-full flex-none flex-col justify-between max-md:order-last md:w-[39.369%] lg:gap-[6vh]">
+        <div class="-mt-[1em] p-[10px] md:mt-0 md:p-0 md:pt-[100px]" data-anim="fadeIn" data-faq>
+          {
+            faqs.map((f, i) => (
+              <div>
+                <button
+                  type="button"
+                  id={`faq-q-${i}`}
+                  aria-expanded="false"
+                  aria-controls={`faq-a-${i}`}
+                  class="group/faq flex w-full cursor-pointer items-center justify-between gap-x-[10px] py-[1em] text-left text-black hover:text-gold aria-expanded:text-gold"
+                >
+                  <span class="block font-display text-[19px]/[24.7px] font-medium md:text-[20px]/[26px] lg:text-[18px]/[23.4px]">
+                    {f.q}
+                  </span>
+                  <span class="flex items-center">
+                    <ThemeIcon name="plus" class="size-[15px] group-aria-expanded/faq:hidden" />
+                    <ThemeIcon name="minus" class="hidden size-[15px] group-aria-expanded/faq:block" />
+                  </span>
+                </button>
+                <div
+                  id={`faq-a-${i}`}
+                  role="region"
+                  aria-labelledby={`faq-q-${i}`}
+                  hidden
+                  class="flex flex-col border-b border-black/20 pt-[2em] pb-[1em] lg:pr-[2em]"
+                  set:html={f.a}
+                />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+      <div class="flex w-full flex-col items-end justify-center px-[20px] md:w-[60%] lg:px-[30px]">
+        <div class="w-full overflow-hidden lg:w-[45rem]" data-anim="fadeIn" data-anim-delay="100">
+          <Image
+            src={sketch}
+            alt="Handzeichnung eines Einfamilienhauses mit Terrasse und Gartenmöbeln"
+            widths={[310, 537, 720, 1024]}
+            sizes="(min-width: 1025px) 720px, (min-width: 768px) 537px, 310px"
+            class="block h-auto w-full"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const root = document.querySelector<HTMLElement>('[data-section="b1f5cd6"] [data-faq]');
+  if (root) {
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const buttons = [...root.querySelectorAll<HTMLButtonElement>('button[aria-expanded]')];
+    const panelOf = (b: HTMLButtonElement) => document.getElementById(b.getAttribute('aria-controls') || '') as HTMLElement;
+    const duration = reduced ? 0 : 0.4;
+
+    const close = (b: HTMLButtonElement) => {
+      const panel = panelOf(b);
+      b.setAttribute('aria-expanded', 'false');
+      gsap.killTweensOf(panel);
+      gsap.set(panel, { overflow: 'hidden' });
+      gsap.to(panel, {
+        height: 0,
+        paddingTop: 0,
+        paddingBottom: 0,
+        borderBottomWidth: 0,
+        duration,
+        ease: 'power1.inOut',
+        onComplete: () => {
+          panel.hidden = true;
+          gsap.set(panel, { clearProps: 'all' });
+        },
+      });
+    };
+
+    const open = (b: HTMLButtonElement) => {
+      const panel = panelOf(b);
+      b.setAttribute('aria-expanded', 'true');
+      gsap.killTweensOf(panel);
+      gsap.set(panel, { clearProps: 'all' });
+      panel.hidden = false;
+      const cs = getComputedStyle(panel);
+      const to = {
+        height: panel.getBoundingClientRect().height,
+        paddingTop: cs.paddingTop,
+        paddingBottom: cs.paddingBottom,
+        borderBottomWidth: cs.borderBottomWidth,
+      };
+      gsap.set(panel, { overflow: 'hidden' });
+      gsap.fromTo(
+        panel,
+        { height: 0, paddingTop: 0, paddingBottom: 0, borderBottomWidth: 0 },
+        { ...to, duration, ease: 'power1.inOut', onComplete: () => void gsap.set(panel, { clearProps: 'all' }) },
+      );
+    };
+
+    buttons.forEach((b) =>
+      b.addEventListener('click', () => {
+        const wasOpen = b.getAttribute('aria-expanded') === 'true';
+        buttons.filter((o) => o !== b && o.getAttribute('aria-expanded') === 'true').forEach(close);
+        if (wasOpen) close(b);
+        else open(b);
+      }),
+    );
+  }
+</script>

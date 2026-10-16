@@ -1,4 +1,304 @@
 ---
+/**
+ * Kopfzeile (Original: Elementor-Container d29842b für Desktop ab 1025 px, f04d782 für Tablet und Handy).
+ * Beide kleben oben (Elementor "sticky top", Versatz 0). Das Aufklappmenü des Handy/Tablet-Headers
+ * schiebt sich wie im Original per max-height und scaleY (0,3 s) auf.
+ */
+import { Image } from 'astro:assets';
+import logo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
+
+interface Props {
+  /** Pfad der aktuellen Seite, markiert den aktiven Menüpunkt (Original: Startseite). */
+  current?: string;
+}
+const { current = '/' } = Astro.props;
+
+const ORIGIN = 'https://meisterwerk-lb.de';
+interface Item {
+  label: string;
+  href: string;
+  children?: Item[];
+}
+const items: Item[] = [
+  { label: 'Startseite', href: '/' },
+  { label: 'Über uns', href: '/studio/' },
+  {
+    label: 'Leistungen',
+    href: '/leistungen/',
+    children: [
+      { label: 'Malerarbeiten', href: '/services/malerarbeiten/' },
+      { label: 'Tapezierarbeiten', href: '/services/tapezieren/' },
+      { label: 'Lackierarbeiten', href: '/services/lackierarbeiten/' },
+      { label: 'Verputzarbeiten', href: '/services/verputzen/' },
+      { label: 'Glatte Oberflächen', href: '/services/glatte-waende/' },
+      {
+        label: 'Meisterwerk Exklusive',
+        href: '/meisterwerk-exklusive/',
+        children: [
+          { label: 'Fugenlose Bäder', href: '/meisterwerk-exklusive/fugenlose-baeder/' },
+          { label: 'Fugenlose Böden', href: '/meisterwerk-exklusive/fugenloser-boden/' },
+          { label: 'Spachteltechniken', href: '/meisterwerk-exklusive/spachteltechniken/' },
+          { label: 'Stuckleisten', href: '/meisterwerk-exklusive/stuckleisten/' },
+        ],
+      },
+    ],
+  },
+  { label: 'Qualifikationen', href: '/qualifikationen/' },
+  { label: 'Projekte', href: '/projekte/' },
+  { label: 'Urlaubsservice', href: '/urlaubsservice/' },
+  { label: 'Projektanfrage', href: '/kontakt/' },
+  { label: 'Kontakt', href: '/schnellkontakt/' },
+];
+const url = (href: string) => `${ORIGIN}${href}`;
+
+// Gemeinsame Schrift der Menüpunkte (Urbanist 14px/15,4px, 500, Laufweite 1px)
+const menuFont = 'font-display text-[14px]/[15.4px] font-medium tracking-[1px]';
+// Desktop: Hauptebene, Unterpunkte
+const topLink = `group/a relative flex grow items-center px-[20px] py-[13px] mx-[15px] whitespace-nowrap text-ink transition-all duration-[400ms] ease-css hover:text-gold group-hover/d1:text-gold aria-[current=page]:text-gold ${menuFont}`;
+const subLink = `flex items-center px-[30px] py-[15px] text-[14px]/[20px] whitespace-nowrap text-black transition-all duration-[400ms] ease-css hover:bg-soft hover:text-gold font-display font-medium tracking-[1px]`;
+// Unterstrich der Hauptebene (Original: Hintergrundverlauf, 0,5 s, zieht sich nach rechts zurück)
+const navText = `inline pb-[3px] bg-[linear-gradient(#A59371,#A59371)] bg-no-repeat bg-[length:0%_1px] bg-[position:0_100%] [transition:background-size_.5s,background-position_0s_.5s] any-pointer-fine:group-hover/a:bg-[length:100%_1px] any-pointer-fine:group-hover/a:bg-[position:100%_100%]`;
+// Handy/Tablet-Menü
+const mLink = `flex items-center px-[20px] py-[15px] text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold aria-[current=page]:bg-soft aria-[current=page]:text-gold ${menuFont}`;
+const mSubLink = 'flex items-center px-[20px] py-[15px] text-[14px]/[20px] font-display font-medium tracking-[1px] text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold';
 ---
 
-<section data-todo="Header"></section>
+<!-- Desktop (ab 1025 px) -->
+<header
+  data-section="d29842b"
+  class="sticky top-0 z-[9999999] hidden min-h-[50px] items-center bg-white px-[30px] shadow-[0_0_4px_0_rgb(0_0_0/0.5)] lg:flex"
+>
+  <div class="w-[190px] shrink-0 grow">
+    <div class="py-[10px]">
+      <a href={ORIGIN} class="block w-fit max-w-full" aria-label="Meisterwerk Malermanufaktur, zur Startseite">
+        <Image
+          src={logo}
+          alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
+          widths={[244, 488]}
+          sizes="244px"
+          loading="eager"
+          class="h-[75px] w-full"
+        />
+      </a>
+    </div>
+  </div>
+  <div class="flex w-[80%] items-center justify-end">
+    <nav aria-label="Hauptmenü" class="mr-[25px]">
+      <ul class="flex flex-wrap leading-normal">
+        {
+          items.map((item) => (
+            <li class="group/d1 relative flex [&:first-child>a]:ml-0 [&:last-child>a]:mr-0">
+              <a
+                href={url(item.href)}
+                aria-current={current === item.href ? 'page' : undefined}
+                class={topLink}
+              >
+                <span>
+                  <span class={navText}>{item.label}</span>
+                </span>
+              </a>
+              {item.children && (
+                <div class="invisible absolute top-full left-[15px] z-[2] pt-[5px] opacity-0 transition-[opacity,visibility] duration-200 group-focus-within/d1:visible group-focus-within/d1:opacity-100 group-hover/d1:visible group-hover/d1:opacity-100">
+                  <ul class="min-w-[10em] w-max bg-white text-[13px]">
+                    {item.children.map((sub) => (
+                      <li class="group/d2 relative">
+                        <a
+                          href={url(sub.href)}
+                          class={`${subLink} group-hover/d2:bg-soft group-hover/d2:text-gold`}
+                        >
+                          {sub.label}
+                        </a>
+                        {sub.children && (
+                          <div class="invisible absolute top-0 left-full opacity-0 transition-[opacity,visibility] duration-200 group-focus-within/d2:visible group-focus-within/d2:opacity-100 group-hover/d2:visible group-hover/d2:opacity-100">
+                            <ul class="min-w-[10em] w-max bg-white text-[13px]">
+                              {sub.children.map((leaf) => (
+                                <li>
+                                  <a href={url(leaf.href)} class={subLink}>
+                                    {leaf.label}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<!-- Tablet und Handy (bis 1024 px) -->
+<header
+  data-section="f04d782"
+  data-mobile-header
+  class="group/m sticky top-0 z-[99] bg-white md:px-[20px] lg:hidden"
+>
+  <div
+    class="relative mx-auto flex h-[65.09px] w-full max-w-[min(100%,1024px)] flex-wrap items-center shadow-[0_0_4px_0_rgb(0_0_0/0.7)] md:h-auto md:min-h-[50px] md:flex-nowrap md:shadow-none"
+  >
+    <div class="h-full w-[65%] overflow-hidden md:h-auto md:w-[20%]">
+      <div class="pt-[3%] pb-[2%] pl-[5%] md:p-0">
+        <a href={ORIGIN} class="block w-fit max-w-full" aria-label="Meisterwerk Malermanufaktur, zur Startseite">
+          <Image
+            src={logo}
+            alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
+            widths={[195, 390]}
+            sizes="(min-width: 768px) 104px, 183px"
+            loading="eager"
+            class="h-[56px] w-full max-w-full md:h-[32px] md:max-w-[195px]"
+          />
+        </a>
+      </div>
+    </div>
+    <div class="flex w-[35%] items-center justify-end md:w-[80%]">
+      <div class="-mt-[10px] md:mt-0">
+        <button
+          type="button"
+          data-menu-toggle
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          aria-label="Menü Umschalter"
+          class="flex cursor-pointer items-center justify-center bg-white p-[.25em] text-[25px] text-black hover:text-gold focus-visible:text-gold md:text-[30px]"
+        >
+          <svg viewBox="0 0 1408 1024" fill="currentColor" aria-hidden="true" class="block h-[1em] w-[1.375em] group-data-[open]/m:hidden">
+            <rect y="357.461" width="1408" height="34.343"></rect>
+            <rect y="632.2" width="1408" height="34.343"></rect>
+          </svg>
+          <svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true" class="hidden h-[1em] w-[1em] group-data-[open]/m:block">
+            <path
+              transform="matrix(1 0 0 -1 0 960)"
+              d="M894.218 864l33.782-33.782-382.228-382.212 382.228-382.221-33.782-33.782-382.221 382.228-382.212-382.228-33.782 33.782 382.218 382.221-382.218 382.212 33.782 33.782 382.212-382.218 382.221 382.218z"
+            ></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <nav
+      id="mobile-menu"
+      aria-label="Hauptmenü"
+      data-menu-panel
+      inert
+      class="invisible absolute inset-x-0 top-[62.3px] z-[9997] max-h-0 origin-top scale-y-0 overflow-hidden bg-white text-[13px] shadow-[0_10px_20px_0_rgb(0_0_0/0.05)] transition-[max-height,transform,visibility] duration-300 ease-css group-data-[open]/m:visible group-data-[open]/m:max-h-[calc(100vh-62.3px)] group-data-[open]/m:scale-y-100 group-data-[open]/m:overflow-y-auto md:top-[53.5px] md:group-data-[open]/m:max-h-[calc(100vh-53.5px)]"
+    >
+      <ul class="relative z-[2] leading-normal">
+        {
+          items.map((item) => (
+            <li class="group/l1">
+              <a
+                href={url(item.href)}
+                aria-current={current === item.href ? 'page' : undefined}
+                class={`${mLink} group-data-[open]/l1:bg-soft group-data-[open]/l1:text-gold`}
+              >
+                <span>{item.label}</span>
+                {item.children && (
+                  <span
+                    role="button"
+                    tabindex="0"
+                    data-sub-toggle
+                    aria-expanded="false"
+                    aria-label={`Untermenü ${item.label} umschalten`}
+                    class="-my-[10px] flex cursor-pointer items-center py-[10px] pl-[10px] text-[14px] leading-[14px]"
+                  >
+                    <svg viewBox="0 0 320 512" fill="currentColor" aria-hidden="true" class="block h-[14px] w-[8.75px]">
+                      <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
+                    </svg>
+                  </span>
+                )}
+              </a>
+              {item.children && (
+                <div class="invisible grid grid-rows-[0fr] transition-[grid-template-rows,visibility] duration-[250ms] group-data-[open]/l1:visible group-data-[open]/l1:grid-rows-[1fr]">
+                  <ul class="overflow-hidden">
+                    {item.children.map((sub) => (
+                      <li class="group/l2">
+                        <a
+                          href={url(sub.href)}
+                          class={`${mSubLink} group-data-[open]/l2:bg-soft group-data-[open]/l2:text-gold`}
+                        >
+                          <span>{sub.label}</span>
+                          {sub.children && (
+                            <span
+                              role="button"
+                              tabindex="0"
+                              data-sub-toggle
+                              aria-expanded="false"
+                              aria-label={`Untermenü ${sub.label} umschalten`}
+                              class="-my-[10px] flex cursor-pointer items-center py-[10px] pl-[10px] text-[14px] leading-[14px]"
+                            >
+                              <svg viewBox="0 0 320 512" fill="currentColor" aria-hidden="true" class="block h-[14px] w-[8.75px]">
+                                <path d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z" />
+                              </svg>
+                            </span>
+                          )}
+                        </a>
+                        {sub.children && (
+                          <div class="invisible grid grid-rows-[0fr] transition-[grid-template-rows,visibility] duration-[250ms] group-data-[open]/l2:visible group-data-[open]/l2:grid-rows-[1fr]">
+                            <ul class="overflow-hidden">
+                              {sub.children.map((leaf) => (
+                                <li>
+                                  <a href={url(leaf.href)} class={mSubLink}>
+                                    {leaf.label}
+                                  </a>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-mobile-header]');
+  if (header) {
+    const toggle = header.querySelector<HTMLButtonElement>('[data-menu-toggle]')!;
+    const panel = header.querySelector<HTMLElement>('[data-menu-panel]')!;
+
+    const setOpen = (open: boolean) => {
+      header.toggleAttribute('data-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      panel.inert = !open;
+    };
+    toggle.addEventListener('click', () => setOpen(!header.hasAttribute('data-open')));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && header.hasAttribute('data-open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    window.matchMedia('(min-width: 1025px)').addEventListener('change', (e) => {
+      if (e.matches) setOpen(false);
+    });
+
+    // Untermenüs: Der Pfeil klappt auf, der Rest des Links führt zur Seite
+    header.querySelectorAll<HTMLElement>('[data-sub-toggle]').forEach((btn) => {
+      const li = btn.closest('li')!;
+      const flip = (e: Event) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const open = !li.hasAttribute('data-open');
+        li.toggleAttribute('data-open', open);
+        btn.setAttribute('aria-expanded', String(open));
+      };
+      btn.addEventListener('click', flip);
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') flip(e);
+      });
+    });
+  }
+</script>

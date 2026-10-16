@@ -1,4 +1,70 @@
 ---
+import { Image } from 'astro:assets';
+import GlyphIcon from '../GlyphIcon.astro';
+import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
 ---
 
-<section data-todo="Welcome"></section>
+<section
+  data-section="53bda50"
+  class="mt-[8vh] flex flex-col overflow-hidden px-5 md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0 lg:px-[30px]"
+>
+  <div class="mx-auto flex w-full flex-wrap gap-5 md:flex-nowrap md:gap-x-[30px] lg:max-w-[1700px] lg:gap-x-5">
+    <!-- Bild: nur auf dem Desktop sichtbar (Original: elementor-hidden-tablet/-mobile) -->
+    <div class="hidden flex-1 flex-col gap-5 lg:flex">
+      <div class="overflow-hidden">
+        <Image
+          src={wohnzimmer}
+          alt="Modernes Wohnzimmer mit dunkler mineralischer Akzentwand, perfekt glatten weißen Wänden und indirekter Deckenbeleuchtung in Ludwigsburg."
+          widths={[680, 840, 1360, 1680]}
+          sizes="(min-width: 1760px) 840px, calc(50vw - 40px)"
+          class="inline-block h-auto w-full"
+        />
+      </div>
+    </div>
+
+    <div class="mt-[12vh] flex w-full flex-col gap-[15px] md:mt-0 md:w-1/2 lg:w-auto lg:flex-1 lg:gap-5">
+      <div class="lg:mb-5 lg:max-w-[690px]" data-anim="fadeInUp" data-anim-delay="280" data-anim-dur="slow">
+        <h1 class="font-display text-[23px]/[25.3px] font-medium text-gold md:text-[34px]/[37.4px] lg:text-[60px]/[66px]">
+          Willkommen bei Meisterwerk <br /> der Maler-Manufaktur
+        </h1>
+      </div>
+
+      <div class="[&>p]:mb-[15px] [&>p]:text-[15px] lg:[&>p]:mb-[22.5px]">
+        <p>
+          Ihrem Spezialisten für hochwertige Malerarbeiten und individuelle Oberflächengestaltung.<br />Mit über 22
+          Jahren Erfahrung vereinen wir traditionelles Handwerk mit modernem Design. Ob beim Innen- oder
+          Außenanstrich, bei kreativen Wandtechniken oder der Veredelung von Oberflächen – wir setzen Ihre Wünsche mit
+          höchster Präzision und Leidenschaft um.
+        </p>
+        <p>
+          Unsere Philosophie ist es, Räume zu schaffen, die nicht nur durch Farben und Strukturen überzeugen, sondern
+          auch durch Qualität und Langlebigkeit. Dabei verwenden wir bevorzugt umweltfreundliche, zum Teil
+          allergikerfreundliche Materialien, um für ein gesundes Raumklima zu sorgen.
+        </p>
+        <p>
+          Von der umfassenden Beratung über die Auswahl passender Farben und Materialien bis hin zur fachmännischen
+          Umsetzung begleiten wir unsere Kunden persönlich und zuverlässig. Jedes Projekt ist für uns ein Meisterwerk,
+          bei dem wir Wert auf Detailgenauigkeit, exakte Planung und eine saubere Ausführung legen. Erleben Sie mit uns
+          Malerarbeiten auf höchstem Niveau und entdecken Sie, wie Farbe und Gestaltung Ihre Wohn- und Arbeitsräume in
+          einzigartige Lebenswelten verwandeln können.
+        </p>
+      </div>
+
+      <div data-anim="fadeIn" data-anim-mobile="slideInRight" data-anim-delay="500" data-anim-dur="slow">
+        <div>
+          <a
+            href="https://meisterwerk-lb.de/kontakt/"
+            class="group/ul inline-block font-display text-[14px]/[15.4px] font-semibold tracking-[0.5px] text-gold"
+          >
+            <span class="flex flex-row-reverse justify-center gap-[10px]">
+              <span class="flex size-[15px] items-center">
+                <GlyphIcon name="arrow-right" class="size-[14px]" />
+              </span>
+              <span class="underline-anim [--underline-gap:3px]">Projekt starten</span>
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

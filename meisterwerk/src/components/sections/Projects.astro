@@ -1,4 +1,267 @@
 ---
+import { Image } from 'astro:assets';
+import ThemeIcon from '../icons/ThemeIcon.astro';
+import traumhaus from '../../assets/img/199-meisterwerk-20230120-Bearbeitet-2-scaled.jpg';
+import frisch from '../../assets/img/2124-meisterwerk-20230524-Bearbeitet-1-scaled.jpg';
+import altbau from '../../assets/img/2079-meisterwerk-20230524-Bearbeitet-scaled.jpg';
+import showroom from '../../assets/img/107-meisterwerk-20230120-Bearbeitet-1-scaled.jpg';
+import kernsanierung from '../../assets/img/2000-meisterwerk-20230524-Bearbeitet-2-scaled.jpg';
+
+const projects = [
+  { title: 'Traumhaus', href: 'https://meisterwerk-lb.de/2025/09/18/traumhaus/', img: traumhaus, alt: 'Helles Wohnzimmer mit Holztreppe, Projekt Traumhaus' },
+  { title: 'Frisch Gestrichen', href: 'https://meisterwerk-lb.de/2025/09/18/frisch-gestrichen/', img: frisch, alt: 'Frisch gestrichene Fassade mit Haustür, Projekt Frisch Gestrichen' },
+  { title: 'Altbau WDVS', href: 'https://meisterwerk-lb.de/2025/05/22/altbau-wdvs/', img: altbau, alt: 'Grau verputztes Einfamilienhaus mit Terrasse, Projekt Altbau WDVS' },
+  { title: 'Unser Schowroom', href: 'https://meisterwerk-lb.de/2025/05/03/unser-showroom/', img: showroom, alt: 'Showroom der Meisterwerk Maler Manufaktur' },
+  { title: 'Kernsanierung', href: 'https://meisterwerk-lb.de/2021/05/01/kernsanierung/', img: kernsanierung, alt: 'Saniertes Treppenhaus, Projekt Kernsanierung' },
+];
+
+// Endlosschleife: je fünf Klone davor und dahinter, die echten Karten stehen in der Mitte
+const slides = [
+  ...projects.map((p) => ({ ...p, clone: true })),
+  ...projects.map((p) => ({ ...p, clone: false })),
+  ...projects.map((p) => ({ ...p, clone: true })),
+];
 ---
 
-<section data-todo="Projects"></section>
+<section
+  data-section="3472c30"
+  class="mt-[10vh] flex flex-col overflow-x-clip px-[20px] md:mt-0 md:mb-[95px] lg:mt-[20vh] lg:mb-0 lg:px-[30px]"
+>
+  <div class="mx-auto flex w-full max-w-[1700px] grow flex-col gap-[15px] lg:gap-[20px]">
+    <!-- Kopfzeile -->
+    <div class="mb-[5px] flex items-center md:gap-[20px] lg:mb-[20px]">
+      <div class="w-full md:mb-[5px] md:w-1/2 lg:mb-0">
+        <h3 class="font-display text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-[40px]/[50px]">
+          Unsere Exklusive Projekte
+        </h3>
+      </div>
+      <div class="hidden justify-end md:flex md:w-1/2">
+        <div>
+          <a
+            href="https://meisterwerk-lb.de/projekte/"
+            class="group/ul inline-flex flex-row-reverse gap-[10px] font-display text-[14px]/[15.4px] font-semibold tracking-[0.5px] text-gold"
+          >
+            <span class="flex w-[15px] items-center"><ThemeIcon name="arrow-right" class="size-[14px]" /></span>
+            <span class="underline-anim relative [--underline-gap:0px]">Unser Portfolio</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Karussell -->
+    <div class="relative" data-carousel aria-roledescription="carousel" aria-label="Unsere Projekte">
+      <div class="@container touch-pan-y overflow-hidden pb-[5px] md:pb-0" data-viewport>
+        <div
+          class="flex gap-(--gap) [--gap:20px] [--n:1] [--step:calc((100cqw-(var(--n)-1)*var(--gap))/var(--n)+var(--gap))] md:[--n:3] lg:[--gap:30px]"
+          style="transform:translateX(calc(var(--step) * -5))"
+          data-track
+        >
+          {
+            slides.map((p) => (
+              <a
+                href={p.href}
+                class="group/card flex w-[calc(var(--step)-var(--gap))] shrink-0 flex-col gap-[20px] text-ink"
+                aria-roledescription="slide"
+                aria-hidden={p.clone ? 'true' : undefined}
+                tabindex={p.clone ? -1 : undefined}
+                draggable="false"
+              >
+                <div class="relative overflow-hidden">
+                  {p.clone ? (
+                    <Image
+                      src={p.img}
+                      alt={p.alt}
+                      widths={[350, 440, 880]}
+                      sizes="(min-width: 1025px) 440px, (min-width: 768px) 315px, 350px"
+                      loading="lazy"
+                      draggable="false"
+                      class="block h-auto w-full transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80"
+                    />
+                  ) : (
+                    <div class="[clip-path:none]" data-grow="bottom">
+                      <Image
+                        src={p.img}
+                        alt={p.alt}
+                        widths={[350, 440, 880]}
+                        sizes="(min-width: 1025px) 440px, (min-width: 768px) 315px, 350px"
+                        loading="lazy"
+                        draggable="false"
+                        class="block h-auto w-full transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80"
+                      />
+                    </div>
+                  )}
+                  <span
+                    aria-hidden="true"
+                    class="pointer-events-none absolute top-1/2 left-1/2 z-10 flex size-[70px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-[40px]/[22.5px] text-white opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+                  >
+                    +
+                  </span>
+                </div>
+                <div class="flex flex-wrap items-start justify-between gap-[20px]">
+                  <h4 class="w-[calc(100%-40px)] font-display text-[19px]/[24.7px] font-medium md:text-[20px]/[26px] lg:text-[24px]/[31.2px]">
+                    {p.title}
+                  </h4>
+                  <span class="text-[16px] text-black transition-opacity duration-300 ease-in-out [@media(hover:hover)]:opacity-0 group-hover/card:opacity-100" aria-hidden="true">
+                    <ThemeIcon name="plus" class="size-[16px]" />
+                  </span>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <button
+        type="button"
+        aria-label="Vorheriges Projekt"
+        data-prev
+        class="absolute top-[100.8px] left-[-60px] hidden size-[44px] cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
+      >
+        <ThemeIcon name="arrow-left" class="size-[44px]" />
+      </button>
+      <button
+        type="button"
+        aria-label="Nächstes Projekt"
+        data-next
+        class="absolute top-[100.8px] right-[-60px] hidden size-[44px] cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
+      >
+        <ThemeIcon name="arrow-right" class="size-[44px]" />
+      </button>
+    </div>
+
+    <!-- Nur Handy: Link unter dem Karussell mit Punkten -->
+    <div class="relative md:hidden">
+      <div class="text-[16px]/[24px]">
+        <a
+          href="https://meisterwerk-lb.de/projekte/"
+          class="group/ul inline-flex flex-row-reverse gap-[10px] font-display text-[14px]/[15.4px] font-semibold tracking-[0.5px] text-black"
+        >
+          <span class="flex w-[15px] items-center"><ThemeIcon name="arrow-right" class="size-[14px]" /></span>
+          <span class="underline-anim relative [--underline-gap:0px]">Unser Portfolio</span>
+        </a>
+      </div>
+      <div class="absolute top-1/2 right-0 flex -translate-y-1/2" data-dots>
+        {
+          projects.map((p, i) => (
+            <button
+              type="button"
+              aria-label={`Projekt ${i + 1}: ${p.title}`}
+              class="mx-[5px] size-[5px] cursor-pointer rounded-full bg-black opacity-20 data-[active]:opacity-100"
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from 'gsap';
+
+  const root = document.querySelector<HTMLElement>('[data-section="3472c30"]');
+  const view = root?.querySelector<HTMLElement>('[data-viewport]');
+  const track = root?.querySelector<HTMLElement>('[data-track]');
+
+  if (root && view && track) {
+    const COUNT = 5;
+    const slides = [...track.children] as HTMLElement[];
+    const dots = [...root.querySelectorAll<HTMLElement>('[data-dots] button')];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let pos = COUNT; // Platz im Track; die erste echte Karte steht an Position 5
+    let step = 0;
+    let tween: gsap.core.Tween | undefined;
+
+    const markDots = () => {
+      const active = ((pos % COUNT) + COUNT) % COUNT;
+      dots.forEach((d, i) => (i === active ? d.setAttribute('data-active', '') : d.removeAttribute('data-active')));
+    };
+
+    // Gleiche Anzahl sichtbarer Karten wie die Swiper-Haltepunkte im Original
+    const layout = () => {
+      const w = window.innerWidth;
+      track.style.setProperty('--n', String(w >= 1024 ? 3 : w >= 767 ? 2 : 1));
+      step = slides[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || '0');
+      gsap.set(track, { x: -pos * step });
+    };
+
+    // Springt nach einer Schleife unsichtbar zurück zu den echten Karten
+    const normalize = () => {
+      const shift = pos < COUNT ? COUNT : pos >= 2 * COUNT ? -COUNT : 0;
+      if (!shift) return;
+      pos += shift;
+      gsap.set(track, { x: Number(gsap.getProperty(track, 'x')) - shift * step });
+    };
+
+    const goTo = (target: number) => {
+      tween?.kill();
+      normalize();
+      pos = target;
+      markDots();
+      tween = gsap.to(track, {
+        x: -pos * step,
+        duration: reduced ? 0 : 0.5,
+        ease: 'power2.out',
+        onComplete: normalize,
+      });
+    };
+
+    root.querySelector('[data-prev]')?.addEventListener('click', () => goTo(pos - 1));
+    root.querySelector('[data-next]')?.addEventListener('click', () => goTo(pos + 1));
+    dots.forEach((d, i) =>
+      d.addEventListener('click', () => {
+        const current = ((pos % COUNT) + COUNT) % COUNT;
+        goTo(pos + (i - current));
+      }),
+    );
+
+    // Wischen und Ziehen
+    let startX = 0;
+    let startTrackX = 0;
+    let down = false;
+    let moved = false;
+    view.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      tween?.kill();
+      normalize();
+      down = true;
+      moved = false;
+      startX = e.clientX;
+      startTrackX = Number(gsap.getProperty(track, 'x'));
+    });
+    view.addEventListener('pointermove', (e) => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) > 6) {
+        moved = true;
+        view.setPointerCapture(e.pointerId);
+      }
+      if (moved) gsap.set(track, { x: startTrackX + dx });
+    });
+    const release = (e: PointerEvent) => {
+      if (!down) return;
+      down = false;
+      if (!moved) return;
+      const dx = e.clientX - startX;
+      const threshold = Math.min(60, step * 0.15);
+      goTo(dx < -threshold ? pos + 1 : dx > threshold ? pos - 1 : pos);
+    };
+    view.addEventListener('pointerup', release);
+    view.addEventListener('pointercancel', release);
+    // Nach dem Ziehen darf der Link der Karte nicht auslösen
+    view.addEventListener(
+      'click',
+      (e) => {
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+          moved = false;
+        }
+      },
+      true,
+    );
+
+    new ResizeObserver(layout).observe(view);
+    layout();
+    markDots();
+  }
+</script>

@@ -1,4 +1,48 @@
 ---
+import { Image } from 'astro:assets';
+import kueche from '../../assets/img/2014-meisterwerk-20230524-Bearbeitet-1-scaled.jpg';
+import wohnbereich from '../../assets/img/205-meisterwerk-20230120-Bearbeitet-scaled.jpg';
+
+const sizes =
+  '(min-width: 1760px) 553px, (min-width: 1025px) calc((100vw - 100px) / 3), (min-width: 768px) calc((100vw - 100px) / 3), calc(100vw - 40px)';
+const widths = [308, 447, 553, 700, 894, 1106];
 ---
 
-<section data-todo="Partner"></section>
+<section
+  data-section="3c77667"
+  class="mt-[10vh] flex flex-col overflow-hidden px-5 md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0 lg:px-[30px]"
+>
+  <div class="mx-auto grid w-full grid-cols-1 gap-5 md:grid-cols-3 md:gap-x-[30px] lg:max-w-[1700px] lg:gap-x-5">
+    <div class="flex flex-col justify-center gap-[15px] lg:gap-5">
+      <div class="mb-[5px] max-w-[660px] lg:mb-5" data-anim="slideInLeft" data-anim-delay="360" data-anim-dur="slow">
+        <h2 class="font-display text-[23px]/[27.6px] font-medium text-gold md:text-[29px]/[39.15px] lg:text-[40px]/[54px]">
+          Ihr Partner für exklusive Malerleistungen und individuelle Raumgestaltung
+        </h2>
+      </div>
+    </div>
+
+    <div class="flex flex-col justify-end gap-5">
+      <div class="overflow-hidden">
+        <Image
+          src={kueche}
+          alt="Moderne Design-Küche mit dunkler Kochinsel, fugenlosem mineralischem Boden und perfekt glatten Wänden in Ludwigsburg."
+          {widths}
+          {sizes}
+          class="inline-block h-auto w-full"
+        />
+      </div>
+    </div>
+
+    <div class="flex flex-col justify-end gap-5">
+      <div class="overflow-hidden">
+        <Image
+          src={wohnbereich}
+          alt="Heller Essbereich mit Esstisch, Pendelleuchte, Vorhängen und perfekt glatten Wänden mit indirekter Deckenbeleuchtung."
+          {widths}
+          {sizes}
+          class="inline-block h-auto w-full"
+        />
+      </div>
+    </div>
+  </div>
+</section>

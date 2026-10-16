@@ -70,14 +70,14 @@ function initReveals() {
       el.style.visibility = 'visible';
       return;
     }
-    ScrollTrigger.create({
-      trigger: el,
-      start: 'top bottom',
-      end: 'bottom top',
-      once: true,
-      onEnter: () => playAnim(el, name),
-      onEnterBack: () => playAnim(el, name),
-    });
+    let played = false;
+    const play = () => {
+      if (played) return;
+      played = true;
+      playAnim(el, name);
+    };
+    // Auch beim schnellen Überspringen auslösen, damit nichts unsichtbar bleibt
+    ScrollTrigger.create({ trigger: el, start: 'top bottom', end: 'bottom top', once: true, onEnter: play, onEnterBack: play, onLeave: play, onLeaveBack: play });
   });
 
   /* Bild wächst aus einer Kante und zoomt dabei von 1,4 auf 1 (VamTam imageGrowWithScale) */
@@ -95,12 +95,15 @@ function initReveals() {
       return;
     }
     wrap.style.clipPath = INSET[dir];
+    let played = false;
     const play = () => {
+      if (played) return;
+      played = true;
       const delay = Number(wrap.dataset.animDelay || 0) / 1000;
-      gsap.fromTo(wrap, { clipPath: INSET[dir] }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.25, delay, ease: 'grow', clearProps: 'clipPath' });
+      gsap.fromTo(wrap, { clipPath: INSET[dir] }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.25, delay, ease: 'grow', onComplete: () => { wrap.style.clipPath = 'none'; } });
       if (img) gsap.fromTo(img, { scale: 1.4 }, { scale: 1, duration: 1.25, delay, ease: 'grow', clearProps: 'transform' });
     };
-    ScrollTrigger.create({ trigger: wrap, start: 'top bottom', end: 'bottom top', once: true, onEnter: play, onEnterBack: play });
+    ScrollTrigger.create({ trigger: wrap, start: 'top bottom', end: 'bottom top', once: true, onEnter: play, onEnterBack: play, onLeave: play, onLeaveBack: play });
   });
 }
 

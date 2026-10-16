@@ -1,4 +1,119 @@
 ---
+import { Image } from 'astro:assets';
+import GlyphIcon from '../GlyphIcon.astro';
+import glatteWaende from '../../assets/img/337-meisterwerk-20230120-2-scaled-e1758183920188.jpg';
+import lackieren from '../../assets/img/2058-meisterwerk-20230524-scaled-e1758184639412.jpg';
+import streichen from '../../assets/img/216-meisterwerk-20230120-Bearbeitet-1-scaled-e1758184263171.jpg';
+import tapezieren from '../../assets/img/194-meisterwerk-20230120-1-scaled-e1758184305428.jpg';
+import verputzen from '../../assets/img/36-bf-20241206-Bearbeitet-scaled-e1758184506421.jpg';
+
+const cards = [
+  {
+    href: 'https://meisterwerk-lb.de/services/glatte-waende/',
+    title: 'Glatte Wände –',
+    subtitle: 'Verabschieden Sie sich von rauen Oberflächen!',
+    img: glatteWaende,
+    alt: 'Helle Treppe mit Holzstufen und perfekt glatten, weiß gestrichenen Wänden.',
+  },
+  {
+    href: 'https://meisterwerk-lb.de/services/lackieren/',
+    title: 'Lackierarbeiten –',
+    subtitle: 'Erwecke Altes zu neuem Leben',
+    img: lackieren,
+    alt: 'Lackiertes weißes Treppengeländer mit Holzhandlauf vor einem Fenster.',
+  },
+  {
+    href: 'https://meisterwerk-lb.de/services/streichen/',
+    title: 'Malerarbeiten –',
+    subtitle: 'Farben, die Ihrem Zuhause Persönlichkeit verleihen!',
+    img: streichen,
+    alt: 'Wohnzimmer mit grauem Sofa, Vorhängen und frisch gestrichenen Wänden.',
+  },
+  {
+    href: 'https://meisterwerk-lb.de/services/tapezieren/',
+    title: 'Tapezierarbeiten –',
+    subtitle: 'Verwandeln Sie Ihre Wände in echte Blickfänge!',
+    img: tapezieren,
+    alt: 'Tapezierte Wand mit hellem Ornamentmuster und indirekter Beleuchtung.',
+  },
+  {
+    href: 'https://meisterwerk-lb.de/services/verputzen/',
+    title: 'Verputzarbeiten –',
+    subtitle: 'Edle Strukturen für Ihre Wände und Decken!',
+    img: verputzen,
+    alt: 'Flur mit fein verputzten Wänden und Decke.',
+  },
+];
+
+const sizes =
+  '(min-width: 1760px) 316px, (min-width: 1025px) calc((100vw - 180px) / 5), (min-width: 768px) calc((100vw - 70px) / 2), calc(100vw - 40px)';
+const widths = [252, 350, 477, 700, 954];
 ---
 
-<section data-todo="Services"></section>
+<section
+  data-section="bc3ca42"
+  class="mt-[14vh] flex flex-col bg-soft px-5 md:mt-0 md:mb-[60px] lg:mt-[20vh] lg:mb-0 lg:px-[30px]"
+>
+  <div class="mx-auto flex w-full flex-col gap-[15px] py-10 md:py-[60px] lg:max-w-[1700px] lg:gap-5 lg:py-[12vh]">
+    <div>
+      <p class="mb-3 font-display text-[12px]/[15.6px] font-medium tracking-[2px] uppercase lg:mb-[18px]">
+        Unsere Leistungen
+      </p>
+    </div>
+
+    <div class="mb-[5px] md:max-w-[690px] lg:mb-5">
+      <h3 class="font-display text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-[40px]/[50px]">
+        Planung, Gestaltung, Umsetzung – alles für Ihr Projekt.
+      </h3>
+    </div>
+
+    <div class="grid grid-cols-1 items-stretch gap-[30px] md:grid-cols-2 lg:grid-cols-5">
+      {
+        cards.map((card) => (
+          <a
+            href={card.href}
+            class="group/card flex flex-col gap-5 text-ink hover:text-black"
+            data-anim="fadeIn"
+            data-anim-delay="100"
+          >
+            <div class="group/img relative overflow-hidden">
+              <Image
+                src={card.img}
+                alt={card.alt}
+                {widths}
+                {sizes}
+                class="inline-block h-auto w-full transition-transform duration-[450ms] ease-in-out group-hover/img:scale-110 group-hover/img:opacity-80"
+              />
+              <span
+                aria-hidden="true"
+                class="pointer-events-none absolute top-1/2 left-1/2 z-10 flex size-[70px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-[40px] text-white opacity-0 transition-all duration-300 ease-[ease] group-hover/img:opacity-100"
+              >
+                +
+              </span>
+            </div>
+
+            <div class="flex flex-wrap items-start justify-between gap-5 md:flex-nowrap">
+              <div class="w-full min-w-0" data-anim-mobile="fadeInLeft">
+                <h4 class="font-display text-[18px] leading-[1.3em] font-medium lg:text-[24px]">
+                  {card.title}
+                  <br />
+                  <span class="text-[16px]">{card.subtitle}</span>
+                </h4>
+              </div>
+              <div
+                class="min-w-0 transition-opacity duration-300 ease-in-out lg:[@media(hover:hover)]:opacity-0 lg:group-hover/card:opacity-100"
+                data-anim-mobile="fadeInUp"
+              >
+                <div class="text-center">
+                  <span class="inline-block size-4 align-baseline text-black">
+                    <GlyphIcon name="plus" class="block size-4" />
+                  </span>
+                </div>
+              </div>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

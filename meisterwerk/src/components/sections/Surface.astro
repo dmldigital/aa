@@ -1,4 +1,62 @@
 ---
+import { getImage } from 'astro:assets';
+import concrete from '../../assets/img/249-mw-20241125-scaled.jpg';
+
+const bg = await getImage({ src: concrete, width: 2000, format: 'webp', quality: 80 });
 ---
 
-<section data-todo="Surface"></section>
+<section
+  data-section="882761a"
+  class="mt-[14vh] flex flex-col bg-cover bg-center md:mt-[15vh] lg:mt-[20vh]"
+  style={`background-image:url(${bg.src})`}
+>
+  <!-- Oberer Linienstreifen -->
+  <div class="flex min-h-[20px] flex-col border-b border-line pl-[5%] md:min-h-[60px] md:pl-[10%] lg:min-h-[10vh]">
+    <div class="mx-auto flex w-full max-w-[1700px] grow">
+      <div class="w-[65%] border-x border-line md:w-[340px] lg:w-[420px]"></div>
+    </div>
+  </div>
+
+  <!-- Mittlerer Bereich mit Text -->
+  <div
+    class="flex min-h-[100vw] flex-col border-b border-line pl-[5%] md:min-h-[400px] md:pl-[10%] lg:min-h-[clamp(500px,80vh,600px)]"
+  >
+    <div class="mx-auto flex w-full max-w-[1700px] grow">
+      <div
+        class="flex w-[65%] flex-col justify-between gap-[20px] border-x border-line px-[20px] py-[30px] backdrop-blur-[40px] backdrop-saturate-[1.8] md:w-[340px] lg:w-[420px] lg:px-[30px] lg:py-[40px]"
+      >
+        <div class="flex flex-col gap-[15px] lg:gap-[20px]">
+          <div class="mb-[10px] w-full max-w-[280px]" data-anim="slideInUp" data-anim-delay="50">
+            <span class="text-white leading-[16px] md:leading-[15px]">
+              Lassen Sie uns gemeinsam etwas Einzigartiges schaffen.
+            </span>
+          </div>
+          <div data-anim="slideInUp" data-anim-delay="100">
+            <a
+              href="https://meisterwerk-lb.de/kontakt/"
+              class="group/ul inline-block border border-white bg-white px-[20px] py-[13px] text-center font-display text-[14px]/[15.4px] font-semibold tracking-[0.5px] text-black md:px-[25px] lg:px-[30px] lg:py-[15px]"
+            >
+              <span class="flex justify-center gap-[5px]">
+                <span class="underline-anim relative [--underline-gap:0px]">Projekt Starten</span>
+              </span>
+            </a>
+          </div>
+        </div>
+        <div data-anim="slideInUp">
+          <h2
+            class="font-display text-[23px]/[27.6px] font-medium text-white md:text-[29px]/[39.15px] lg:text-[40px]/[54px]"
+          >
+            Jede Oberfläche ist einzigartig.<br />Genauso wie unser Ansatz.
+          </h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unterer Linienstreifen -->
+  <div class="flex min-h-[20px] flex-col border-b border-line pl-[5%] md:min-h-[60px] md:pl-[10%] lg:min-h-[10vh]">
+    <div class="mx-auto flex w-full max-w-[1700px] grow">
+      <div class="w-[65%] border-x border-line md:w-[340px] lg:w-[420px]"></div>
+    </div>
+  </div>
+</section>
