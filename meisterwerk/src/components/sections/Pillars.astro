@@ -1,0 +1,58 @@
+---
+/**
+ * Spaltenreihe mit Linie oben, Überschrift und Text (Original 8afce89 der Leistungsseiten, ef1acb3 der Exklusiv-Seiten,
+ * 214893f der Qualifikationen). Optional mit Punktliste unter dem Text.
+ */
+import { rich } from '../../lib/rich';
+
+interface Props {
+  id: string;
+  items: { title: string; html: string; bullets?: string[] }[];
+  rootClass?: string;
+  titleClass?: string;
+}
+const {
+  id,
+  items,
+  rootClass = 'mb-10 md:mb-15 lg:mb-49.5',
+  titleClass = 'text-[19px]/[24.7px] md:text-[18px]/[23.4px] lg:text-h4',
+} = Astro.props;
+---
+
+<section data-section={id} class:list={['px-5 lg:px-7.5', rootClass]}>
+  <div
+    class="mx-auto grid w-full max-w-[767px] grid-cols-1 gap-y-8.75 md:max-w-[1024px] md:grid-cols-[repeat(var(--n),minmax(0,1fr))] md:gap-x-7.5 lg:max-w-page lg:gap-x-[10%]"
+    style={`--n:${items.length}`}
+  >
+    {items.map((item) => (
+      <div
+        class="flex flex-col gap-3.75 border-t border-black/20 pt-5 md:gap-5 md:pt-6.25 lg:pt-7.5"
+        data-anim="fadeInUp"
+        data-anim-dur="fast"
+      >
+        <h5 class:list={['font-display font-medium text-ink', titleClass]}>{item.title}</h5>
+        <div
+          class:list={['-mb-4 text-[16px]/[24px] md:mb-0 md:text-[15px]/[22.5px]', rich]}
+          set:html={item.html}
+        />
+        {item.bullets && (
+          <ul class="flex flex-col gap-1.25">
+            {item.bullets.map((b) => (
+              <li class="flex items-start">
+                <span class="flex w-2.5 shrink-0 pt-2 text-ink">
+                  <svg viewBox="0 0 512 512" class="mr-0.5 size-2" aria-hidden="true">
+                    <path
+                      fill="currentColor"
+                      d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"
+                    />
+                  </svg>
+                </span>
+                <span class="pl-1.25">{b}</span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    ))}
+  </div>
+</section>

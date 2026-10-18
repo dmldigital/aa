@@ -1,0 +1,123 @@
+---
+/**
+ * Kontaktbereich (Original d5d3465 auf /kontakt/ und /schnellkontakt/): links Text und Kontaktdaten,
+ * rechts Foto mit Linienraster und Formular.
+ */
+import { getImage } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import ContactForm from '../ContactForm.astro';
+import { site } from '../../data/site';
+import type { ContactPage } from '../../data/pages/contact';
+
+interface Props {
+  id?: string;
+  page: ContactPage;
+}
+const { id = 'd5d3465', page } = Astro.props;
+
+const images = import.meta.glob<{ default: ImageMetadata }>('../../assets/img/*.jpg', { eager: true });
+const source = images[`../../assets/img/${page.background}`].default;
+const bg = await getImage({ src: source, width: 1600, format: 'webp', quality: 75 });
+
+const quick = page.form === 'quick';
+const heading = quick
+  ? 'text-[28px]/[30.8px] md:text-[50px]/[55px]'
+  : 'text-[23px]/[25.3px] md:text-[50px]/[55px] lg:text-[40px]/[44px]';
+const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
+const contactLink = 'group/ul inline-block text-[17px]/[25.5px] tracking-[0.5px] text-black';
+const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
+---
+
+<section data-section={id} class="relative z-1 overflow-hidden px-5 lg:px-7.5">
+  <div class="mx-auto flex max-w-page flex-col gap-[35px] md:flex-row md:gap-x-7.5">
+    <!-- Linke Spalte -->
+    <div class="z-1 mt-17.5 flex flex-col items-start justify-center gap-3.75 pt-5 md:mt-0 md:w-[calc((100%-30px)*0.3)] md:gap-5 md:py-5 lg:py-27">
+      <h1 class:list={['font-display font-medium text-ink lg:mb-5', heading]}>{page.heading}</h1>
+      <div class="w-full text-[17px]/[25.5px] md:w-auto lg:w-[380px]">
+        <div class="-mb-[25.5px]">
+          {
+            page.intro.map((lines) => (
+              <p class="mb-3.75 text-[15px]/[25.5px] lg:mb-[22.5px]">
+                {lines.map((line, i) => (
+                  <>
+                    {i > 0 && <br />}
+                    {line}
+                  </>
+                ))}
+              </p>
+            ))
+          }
+        </div>
+      </div>
+      <div class="h-2.5 md:h-1.25 lg:h-5"></div>
+      <div class="flex w-full flex-col gap-3.75 lg:gap-5">
+        <h6 class={eyebrow}>Kontaktdaten</h6>
+        <div class="flex">
+          <a href={`mailto:${site.email}`} class={contactLink}>
+            <span class="flex justify-center gap-2.5">
+              <span class="flex w-[18px] items-center">
+                <svg class="size-[17px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" /></svg>
+              </span>
+              <span class="underline-anim [--underline-gap:3px]">{site.email}</span>
+            </span>
+          </a>
+        </div>
+        <div class="flex">
+          <a href={`tel:${site.phoneHref}`} class={contactLink}>
+            <span class="flex justify-center gap-2.5">
+              <span class="flex w-[18px] items-center">
+                <svg class="size-[17px]" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true"><path d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z" /></svg>
+              </span>
+              <span class="underline-anim [--underline-gap:3px]">07 141 / 23982 90</span>
+            </span>
+          </a>
+        </div>
+        <div class="h-2.5 md:h-1.25 lg:h-5"></div>
+        <h6 class={eyebrow}>Studio di Stile / Showroom</h6>
+        <div class="w-57.5 max-w-full text-[17px]/[25.5px] text-ink">
+          <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer nofollow">
+            Meisterwerk <br /> Baldassarre Fortino<br /> Inhaber / Malermeister<br /><br /> {site.street}<br />
+            {`${site.postalCode} ${site.city}`}
+          </a>
+        </div>
+        <div class="flex">
+          <Button href="https://maps.app.goo.gl/TKguvHRLF81DRLoH6">Anfahrt</Button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rechte Spalte: Foto mit Linienraster -->
+    <div
+      class="flex flex-col self-stretch bg-cover bg-center md:w-[calc((100%-30px)*0.7)]"
+      style={`background-image:url(${bg.src})`}
+    >
+      <div class="flex min-h-10 border-b border-line md:min-h-15 md:px-[10%] lg:min-h-[90px]">
+        <div class="flex-1 border-x border-line px-5 lg:px-7.5"></div>
+      </div>
+      <div class="flex min-h-[640px] border-b border-line md:px-[10%]">
+        <div class="flex flex-1 flex-col items-center justify-center gap-5 border-x border-line px-1.5 py-7.5 md:px-5 lg:p-10">
+          <div class="flex w-full flex-col gap-3.75 lg:gap-5" class:list={[!quick && 'pb-3.75 lg:pb-[19px]']}>
+            {
+              page.formIntro && (
+                <>
+                  <div class="h-px md:h-1.25 lg:h-[18px]" />
+                  <h2 class:list={['font-display text-[23px]/[27.6px] font-medium text-white md:text-[29px]/[39.15px] lg:text-h2', '[text-shadow:2px_1px_2px_rgb(0_0_0/0.3)]']}>
+                    {page.formIntro.heading}
+                  </h2>
+                  <div class={`text-[15px] text-white ${shadow}`}>
+                    <p class="mb-3.75 lg:mb-[22.5px]">{page.formIntro.text}</p>
+                  </div>
+                </>
+              )
+            }
+            {quick && <div class="h-px md:h-1.25 lg:h-[18px]" />}
+            <ContactForm variant={page.form} />
+          </div>
+        </div>
+      </div>
+      <div class="flex min-h-10 border-b border-line px-[10%] md:min-h-15 lg:min-h-[90px]">
+        <div class="flex-1 border-x border-line px-5 lg:px-7.5"></div>
+      </div>
+    </div>
+  </div>
+</section>

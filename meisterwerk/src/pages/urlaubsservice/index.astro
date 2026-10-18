@@ -1,0 +1,20 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Masterly from '../../components/sections/Masterly.astro';
+import HolidaySteps from '../../components/sections/HolidaySteps.astro';
+import { meta, intro, background, columns } from '../../data/pages/urlaubsservice';
+---
+
+<PageLayout title={meta.title} description={meta.description} current="/urlaubsservice/">
+  <Masterly
+    id="9e8e860"
+    eyebrow={null}
+    heading={intro.heading}
+    headingColor="text-ink"
+    text={intro.text}
+    image={intro.image}
+    imageAlt={intro.alt}
+    rootClass="mt-[78px] md:mt-0 md:mb-10 lg:mt-[12vh] lg:mb-0"
+  />
+  <HolidaySteps {background} {columns} />
+</PageLayout>

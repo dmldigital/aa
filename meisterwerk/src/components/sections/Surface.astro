@@ -4,12 +4,35 @@ import { href, routes } from '../../data/links';
 import { getImage } from 'astro:assets';
 import concrete from '../../assets/img/249-mw-20241125-scaled.jpg';
 
-const bg = await getImage({ src: concrete, width: 2000, format: 'webp', quality: 80 });
+/** Betonwand-Banner (Original 882761a). Ohne Props: Startseite. */
+interface Props {
+  id?: string;
+  image?: ImageMetadata;
+  /** Kurztext über dem Button; `leadTag` + `leadClass` ersetzen die Startseiten-Darstellung (span, weiß, 15 px). */
+  lead?: string;
+  leadTag?: 'span' | 'h5';
+  leadClass?: string;
+  button?: { label: string; href: string };
+  heading?: string;
+  rootClass?: string;
+}
+const {
+  id = '882761a',
+  image = concrete,
+  lead = 'Lassen Sie uns gemeinsam etwas Einzigartiges schaffen.',
+  leadTag: Lead = 'span',
+  leadClass = 'text-white leading-[16px] md:leading-[15px]',
+  button = { label: 'Projekt Starten', href: href(routes.contact) },
+  heading = 'Jede Oberfläche ist einzigartig. <br /> Genauso wie unser Ansatz.',
+  rootClass = 'mt-[14vh] md:mt-[20vh] lg:mt-[20vh]',
+} = Astro.props;
+
+const bg = await getImage({ src: image, width: 2000, format: 'webp', quality: 80 });
 ---
 
 <section
-  data-section="882761a"
-  class="mt-[14vh] flex flex-col bg-cover bg-center md:mt-[20vh] lg:mt-[20vh]"
+  data-section={id}
+  class:list={['flex flex-col bg-cover bg-center', rootClass]}
   style={`background-image:url(${bg.src})`}
 >
   <!-- Oberer Linienstreifen -->
@@ -25,22 +48,19 @@ const bg = await getImage({ src: concrete, width: 2000, format: 'webp', quality:
       <div class="flex w-[65%] flex-col justify-between gap-5 border-x border-line px-5 py-7.5 backdrop-blur-[40px] backdrop-saturate-[1.8] md:w-85 lg:w-105 lg:px-7.5 lg:py-10">
         <div class="flex flex-col gap-3.75 lg:gap-5">
           <div class="mb-2.5 w-full max-w-[280px]" data-anim="slideInUp" data-anim-delay="50">
-            <span class="text-white leading-[16px] md:leading-[15px]">
-              Lassen Sie uns gemeinsam etwas Einzigartiges schaffen.
-            </span>
+            <Lead class={leadClass} set:html={lead} />
           </div>
           <div data-anim="slideInUp" data-anim-delay="100">
-            <Button href={href(routes.contact)} variant="light">
-              Projekt Starten
+            <Button href={button.href} variant="light">
+              {button.label}
             </Button>
           </div>
         </div>
         <div data-anim="slideInUp">
-          <h2 class="font-display text-[23px]/[27.6px] font-medium text-white md:text-[29px]/[39.15px] lg:text-h2">
-            Jede Oberfläche ist einzigartig.
-            <br />
-            Genauso wie unser Ansatz.
-          </h2>
+          <h2
+            class="font-display text-[23px]/[27.6px] font-medium text-white md:text-[29px]/[39.15px] lg:text-h2"
+            set:html={heading}
+          />
         </div>
       </div>
     </div>

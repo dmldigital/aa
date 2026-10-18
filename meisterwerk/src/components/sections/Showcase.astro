@@ -1,0 +1,43 @@
+---
+/**
+ * Bildergruppe der Leistungsseiten (Original e9ec5aa): Spalten mit untereinander stehenden Bildern,
+ * auf dem Handy alles untereinander.
+ */
+import { Picture } from 'astro:assets';
+import { img } from '../../lib/img';
+import type { ShowcaseColumn } from '../../data/pages/services';
+
+interface Props {
+  id?: string;
+  columns: ShowcaseColumn[];
+}
+const { id = 'e9ec5aa', columns } = Astro.props;
+---
+
+<section data-section={id} class="mb-10 px-5 md:mb-15 lg:mb-27 lg:px-7.5">
+  <div class="mx-auto flex w-full max-w-[767px] flex-col justify-between gap-5 md:max-w-[1024px] md:flex-row lg:max-w-page lg:gap-7.5">
+    {columns.map((col) => (
+      <div
+        class:list={[
+          'flex flex-col gap-5 md:w-(--wt) lg:w-(--wd)',
+          col.center && 'md:justify-around',
+        ]}
+        style={`--wd:${col.width[0]}%;--wt:${col.width[1]}%`}
+      >
+        {col.images.map((file) => (
+          <div class="overflow-hidden" data-anim="fadeIn">
+            <Picture
+              formats={['avif', 'webp']}
+              src={img(file)}
+              alt=""
+              widths={[350, 640, 920, 1380]}
+              sizes={`(min-width: 1025px) ${Math.round((1380 * col.width[0]) / 100)}px, (min-width: 768px) ${Math.round((984 * col.width[1]) / 100)}px, calc(100vw - 40px)`}
+              loading="lazy"
+              class="block h-auto w-full"
+            />
+          </div>
+        ))}
+      </div>
+    ))}
+  </div>
+</section>

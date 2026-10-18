@@ -4,20 +4,23 @@
  * `light` = weiß auf Bild (Rand weiß), `outline` = weiß mit schwarzem Rand.
  */
 interface Props {
-  href: string;
+  /** Ohne `href` entsteht ein `<button>` (z. B. Senden-Button im Formular). */
+  href?: string;
   variant?: 'light' | 'outline';
+  type?: 'submit' | 'button';
 }
-const { href, variant = 'outline' } = Astro.props;
+const { href, variant = 'outline', type = 'submit' } = Astro.props;
+const Tag = href ? 'a' : 'button';
 const variants = {
   light: { link: 'border-white', text: 'relative [--underline-gap:0px]' },
   outline: { link: 'border-black', text: '[--underline-gap:3px]' },
 };
 ---
 
-<a
-  {href}
+<Tag
+  {...href ? { href } : { type }}
   class:list={[
-    'group/ul inline-block border bg-white px-5 py-3.25 text-center font-display text-button font-semibold tracking-button text-black md:px-6.25 lg:px-7.5 lg:py-3.75',
+    'group/ul inline-block cursor-pointer border bg-white px-5 py-3.25 text-center font-display text-button font-semibold tracking-button text-black md:px-6.25 lg:px-7.5 lg:py-3.75',
     variants[variant].link,
   ]}
 >
@@ -26,4 +29,4 @@ const variants = {
       <slot />
     </span>
   </span>
-</a>
+</Tag>

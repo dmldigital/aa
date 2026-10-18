@@ -3,9 +3,24 @@ import ArrowLink from '../ui/ArrowLink.astro';
 import { href, routes } from '../../data/links';
 import { Picture } from 'astro:assets';
 import Icon from '../Icon.astro';
-import { projects } from '../../data/projects';
+import { projects as homeProjects } from '../../data/projects';
 
-// Endlosschleife: je fünf Klone davor und dahinter, die echten Karten stehen in der Mitte
+/** Projekte-Karussell (Original 3472c30). Ohne Props: Startseite. */
+interface Props {
+  id?: string;
+  heading?: string;
+  /** Ziel von „Unser Portfolio“ */
+  link?: string;
+  projects?: { title: string; href: string; img: ImageMetadata; alt: string }[];
+}
+const {
+  id = '3472c30',
+  heading = 'Unsere Exklusive Projekte',
+  link = routes.projects,
+  projects = homeProjects,
+} = Astro.props;
+
+// Endlosschleife: je ein Klon-Satz davor und dahinter, die echten Karten stehen in der Mitte
 const slides = [
   ...projects.map((p) => ({ ...p, clone: true })),
   ...projects.map((p) => ({ ...p, clone: false })),
@@ -14,7 +29,7 @@ const slides = [
 ---
 
 <section
-  data-section="3472c30"
+  data-section={id}
   class="mt-[10vh] flex flex-col overflow-x-clip px-5 md:mt-0 md:mb-23.75 lg:mt-[20vh] lg:mb-0 lg:px-7.5"
 >
   <div class="mx-auto flex w-full max-w-page grow flex-col gap-3.75 lg:gap-5">
@@ -22,12 +37,12 @@ const slides = [
     <div class="mb-1.25 flex items-center md:gap-5 lg:mb-5">
       <div class="w-full md:mb-1.25 md:w-1/2 lg:mb-0">
         <h3 class="font-display text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-h3">
-          Unsere Exklusive Projekte
+          {heading}
         </h3>
       </div>
       <div class="hidden justify-end md:flex md:w-1/2">
         <div>
-          <ArrowLink href={href(routes.projects)}>Unser Portfolio</ArrowLink>
+          <ArrowLink href={href(link)}>Unser Portfolio</ArrowLink>
         </div>
       </div>
     </div>
@@ -42,7 +57,7 @@ const slides = [
       <div class="@container touch-pan-y overflow-hidden pb-1.25 md:pb-0" data-viewport>
         <div
           class="flex gap-(--gap) [--gap:20px] [--n:1] [--step:calc((100cqw-(var(--n)-1)*var(--gap))/var(--n)+var(--gap))] md:[--n:3] lg:[--gap:30px]"
-          style="transform:translateX(calc(var(--step) * -5))"
+          style={`transform:translateX(calc(var(--step) * -${projects.length}))`}
           data-track
         >
           {slides.map((p) => (
@@ -124,7 +139,7 @@ const slides = [
     <!-- Nur Handy: Link unter dem Karussell mit Punkten -->
     <div class="relative md:hidden">
       <div class="text-[16px]/[24px]">
-        <ArrowLink href={href(routes.projects)} tone="black">
+        <ArrowLink href={href(link)} tone="black">
           Unser Portfolio
         </ArrowLink>
       </div>
@@ -144,13 +159,13 @@ const slides = [
 <script>
   import { gsap } from 'gsap';
 
-  const root = document.querySelector<HTMLElement>('[data-section="3472c30"]');
+  const root = document.querySelector<HTMLElement>('[data-carousel]')?.closest('section');
   const view = root?.querySelector<HTMLElement>('[data-viewport]');
   const track = root?.querySelector<HTMLElement>('[data-track]');
 
   if (root && view && track) {
-    const COUNT = 5;
     const slides = [...track.children] as HTMLElement[];
+    const COUNT = slides.length / 3;
     const dots = [...root.querySelectorAll<HTMLElement>('[data-dots] button')];
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let pos = COUNT; // Platz im Track; die erste echte Karte steht an Position 5

@@ -1,0 +1,247 @@
+---
+/**
+ * Bildergalerie mit Lightbox (Original: Elementor-Galerie, Masonry oder Justified).
+ * Das Raster berechnet ein kleines Skript wie das Original (Spalten nach Fensterbreite: Handy < 768, Tablet < 1024,
+ * Desktop). Ohne JavaScript bleibt ein einfaches Raster. Klick auf ein Bild öffnet die Lightbox
+ * (Pfeile, Esc, Klick auf den Hintergrund).
+ */
+import { Picture, getImage } from 'astro:assets';
+import { img } from '../../lib/img';
+
+interface Props {
+  id: string;
+  /** Dateinamen aus src/assets/img */
+  items: string[];
+  layout?: 'masonry' | 'justified';
+  /** Spalten (masonry) je Desktop, Tablet, Handy */
+  columns?: [number, number, number];
+  /** Abstand je Desktop, Tablet, Handy */
+  gap?: [number, number, number];
+  /** Zielhöhe der Zeilen (justified) je Desktop, Tablet, Handy */
+  rowHeight?: [number, number, number];
+  rootClass?: string;
+  innerClass?: string;
+  sizes?: string;
+}
+const {
+  id,
+  items,
+  layout = 'masonry',
+  columns = [3, 2, 1],
+  gap = [20, 10, 10],
+  rowHeight = [344, 344, 150],
+  rootClass = 'mb-10 md:mb-15 lg:mb-27',
+  innerClass = '',
+  sizes = '(min-width: 1025px) 450px, (min-width: 768px) 480px, calc(100vw - 40px)',
+} = Astro.props;
+
+const list = await Promise.all(
+  items.map(async (file) => {
+    const meta = img(file);
+    const full = await getImage({ src: meta, width: 1600, format: 'webp' });
+    return { meta, full: full.src };
+  }),
+);
+---
+
+<section data-section={id} class:list={['px-5 lg:px-7.5', rootClass]}>
+  <div class:list={['mx-auto w-full max-w-[767px] md:max-w-[1024px] lg:max-w-page', innerClass]}>
+    <div
+      data-gallery
+      data-layout={layout}
+      data-columns={columns.join(',')}
+      data-gap={gap.join(',')}
+      data-row={rowHeight.join(',')}
+      class="relative grid grid-cols-1 gap-2.5 md:grid-cols-2 lg:grid-cols-3"
+    >
+      {list.map(({ meta, full }, i) => (
+        <a
+          href={full}
+          data-gallery-item
+          aria-label={`Bild ${i + 1} von ${list.length} vergrößern`}
+          style={`aspect-ratio:${meta.width}/${meta.height}`}
+          class="group/item block cursor-pointer overflow-hidden"
+        >
+          <span class="relative block size-full overflow-hidden">
+            <Picture
+              formats={['avif', 'webp']}
+              src={meta}
+              alt=""
+              widths={[240, 480, 960]}
+              {sizes}
+              loading="lazy"
+              class="block size-full scale-[0.972] object-cover transition-transform duration-800 group-hover/item:scale-100"
+            />
+            <span
+              aria-hidden="true"
+              class="absolute inset-0 bg-black/0 transition-colors duration-800 group-hover/item:bg-black/50"
+            ></span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div
+    data-gallery-lightbox
+    hidden
+    role="dialog"
+    aria-modal="true"
+    aria-label="Bildansicht"
+    data-lenis-prevent
+    class="fixed inset-0 z-[10000] bg-black/80"
+  >
+    <button
+      type="button"
+      data-lb-close
+      aria-label="Schließen (Esc)"
+      class="absolute top-2.5 right-2.5 size-6 cursor-pointer text-white/90 hover:text-white"
+    >
+      <svg viewBox="0 0 16 16" class="size-4 m-1" aria-hidden="true">
+        <path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      data-lb-prev
+      aria-label="Vorheriges Bild"
+      class="absolute top-1/2 left-[5%] -translate-y-1/2 cursor-pointer p-2 text-[#ededed]/90 hover:text-white md:left-[6.6%]"
+    >
+      <svg viewBox="0 0 16 16" class="size-6" aria-hidden="true">
+        <path d="M10.5 2.5L5 8l5.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </svg>
+    </button>
+    <button
+      type="button"
+      data-lb-next
+      aria-label="Nächstes Bild"
+      class="absolute top-1/2 right-[5%] -translate-y-1/2 cursor-pointer p-2 text-[#ededed]/90 hover:text-white md:right-[6.6%]"
+    >
+      <svg viewBox="0 0 16 16" class="size-6" aria-hidden="true">
+        <path d="M5.5 2.5L11 8l-5.5 5.5" stroke="currentColor" stroke-width="1.5" fill="none" />
+      </svg>
+    </button>
+    <div
+      data-lb-stage
+      class="absolute inset-x-[10%] top-[70px] bottom-[70px] flex items-center justify-center"
+    >
+      <img data-lb-img alt="" class="max-h-full max-w-full object-contain" />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { lenis } from '../../scripts/motion';
+
+  const MIN_TABLET = 768;
+  const MIN_DESKTOP = 1024;
+  const num = (s: string | undefined) => (s || '').split(',').map(Number);
+
+  function layoutGallery(root: HTMLElement) {
+    const items = [...root.querySelectorAll<HTMLElement>('[data-gallery-item]')];
+    const k = innerWidth < MIN_TABLET ? 2 : innerWidth < MIN_DESKTOP ? 1 : 0;
+    const gap = num(root.dataset.gap)[k];
+    const W = root.getBoundingClientRect().width;
+    const ratio = (el: HTMLElement) => {
+      const [w, h] = el.style.aspectRatio.split('/').map(Number);
+      return w / h;
+    };
+    root.style.height = '';
+    items.forEach((el) => {
+      el.style.position = 'absolute';
+      el.style.aspectRatio = el.style.aspectRatio; // Verhältnis bleibt, Maße setzen wir selbst
+    });
+    const place = (el: HTMLElement, x: number, y: number, w: number, h: number) => {
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+      el.style.width = `${w}px`;
+      el.style.height = `${h}px`;
+    };
+    let total = 0;
+    if (root.dataset.layout === 'justified') {
+      // Zeilen füllen, bis die Breite bei Zielhöhe überschritten ist, dann auf die Breite skalieren (letzte Zeile bleibt)
+      const target = num(root.dataset.row)[k];
+      let row: HTMLElement[] = [];
+      let y = 0;
+      const flush = (last: boolean) => {
+        const sum = row.reduce((a, el) => a + ratio(el), 0);
+        const h = last ? target : (W - gap * (row.length - 1)) / sum;
+        let x = 0;
+        row.forEach((el) => {
+          const w = ratio(el) * h;
+          place(el, x, y, w, h);
+          x += w + gap;
+        });
+        y += h + gap;
+        row = [];
+      };
+      items.forEach((el) => {
+        row.push(el);
+        const sum = row.reduce((a, r) => a + ratio(r), 0);
+        if (sum * target + gap * (row.length - 1) > W) flush(false);
+      });
+      if (row.length) flush(true);
+      total = y - gap;
+    } else {
+      const cols = num(root.dataset.columns)[k];
+      const colW = (W - gap * (cols - 1)) / cols;
+      const heights = new Array(cols).fill(0);
+      items.forEach((el) => {
+        const c = heights.indexOf(Math.min(...heights));
+        const h = colW / ratio(el);
+        place(el, c * (colW + gap), heights[c], colW, h);
+        heights[c] += h + gap;
+      });
+      total = Math.max(...heights) - gap;
+    }
+    root.style.height = `${total}px`;
+    root.classList.remove('grid');
+  }
+
+  function lightbox(section: HTMLElement) {
+    const box = section.querySelector<HTMLElement>('[data-gallery-lightbox]')!;
+    const imgEl = box.querySelector<HTMLImageElement>('[data-lb-img]')!;
+    const links = [...section.querySelectorAll<HTMLAnchorElement>('[data-gallery-item]')];
+    let current = 0;
+    const show = (i: number) => {
+      current = (i + links.length) % links.length;
+      imgEl.src = links[current].href;
+    };
+    const close = () => {
+      box.hidden = true;
+      document.documentElement.style.overflow = '';
+      lenis?.start();
+      document.removeEventListener('keydown', onKey);
+      links[current].focus();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    };
+    links.forEach((a, i) =>
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        show(i);
+        box.hidden = false;
+        document.documentElement.style.overflow = 'hidden';
+        lenis?.stop();
+        document.addEventListener('keydown', onKey);
+        box.querySelector<HTMLElement>('[data-lb-close]')!.focus();
+      }),
+    );
+    box.querySelector('[data-lb-close]')!.addEventListener('click', close);
+    box.querySelector('[data-lb-prev]')!.addEventListener('click', () => show(current - 1));
+    box.querySelector('[data-lb-next]')!.addEventListener('click', () => show(current + 1));
+    box.addEventListener('click', (e) => {
+      if (e.target === box || (e.target as HTMLElement).dataset.lbStage !== undefined) close();
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((root) => {
+    const run = () => layoutGallery(root);
+    run();
+    new ResizeObserver(run).observe(root.parentElement!);
+    lightbox(root.closest('section')!);
+  });
+</script>

@@ -1,35 +1,64 @@
 ---
 import { Picture } from 'astro:assets';
 import stairs from '../../assets/img/2025-meisterwerk-20230524-HDR-scaled.jpg';
+
+/**
+ * Text links, Bild rechts (Original 9e8e860). Ohne Props: Startseite. Für Unterseiten: Überzeile
+ * (`null` = keine), Überschrift, optionaler Fließtext, Bild, Klassen für Wurzel und Überschriftfarbe.
+ */
+interface Props {
+  id?: string;
+  eyebrow?: string | null;
+  heading?: string;
+  headingColor?: string;
+  text?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  rootClass?: string;
+}
+const {
+  id = '9e8e860',
+  eyebrow = 'Meisterwerk Maler Manufaktur',
+  heading = 'Meisterliche Malerarbeiten für Wohnträume und Lebensräume',
+  headingColor = 'text-gold',
+  text,
+  image = stairs,
+  imageAlt = 'Helles Treppenhaus mit Holzstufen, frisch gestrichene Wände und Wandleuchte',
+  rootClass = 'mt-[10vh] md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0',
+} = Astro.props;
 ---
 
-<section
-  data-section="9e8e860"
-  class="mt-[10vh] flex flex-col overflow-hidden px-5 md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0 lg:px-7.5"
->
+<section data-section={id} class:list={['flex flex-col overflow-hidden px-5 lg:px-7.5', rootClass]}>
   <div class="mx-auto flex w-full max-w-page grow flex-col gap-5 md:flex-row md:items-center md:gap-x-7.5 lg:gap-x-5">
     <div class="flex flex-col gap-3.75 md:w-1/2 lg:gap-5">
-      <div>
-        <span class="font-display text-label font-medium tracking-label uppercase">
-          Meisterwerk Maler Manufaktur
-        </span>
-      </div>
+      {eyebrow && (
+        <div>
+          <span class="font-display text-label font-medium tracking-label uppercase">
+            {eyebrow}
+          </span>
+        </div>
+      )}
       <div
         class="w-full max-w-full lg:mb-5 lg:max-w-[500px]"
         data-anim="slideInUp"
         data-anim-delay="360"
       >
-        <h2 class="font-display text-[23px]/[27.6px] font-medium text-gold md:text-[29px]/[39.15px] lg:text-h2">
-          Meisterliche Malerarbeiten für Wohnträume und Lebensräume
-        </h2>
+        <h2
+          class:list={[
+            'font-display text-[23px]/[27.6px] font-medium md:text-[29px]/[39.15px] lg:text-h2',
+            headingColor,
+          ]}
+          set:html={heading}
+        />
       </div>
+      {text && <p set:html={text} />}
     </div>
     <div class="overflow-hidden md:w-1/2">
       <div class="[clip-path:none]" data-grow="bottom" data-anim-delay="340">
         <Picture
           formats={['avif', 'webp']}
-          src={stairs}
-          alt="Helles Treppenhaus mit Holzstufen, frisch gestrichene Wände und Wandleuchte"
+          src={image}
+          alt={imageAlt}
           widths={[350, 700, 1360]}
           sizes="(min-width: 1025px) 680px, (min-width: 768px) 477px, 350px"
           class="block h-auto w-full"

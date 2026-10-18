@@ -1,0 +1,28 @@
+---
+/**
+ * Textseite (Impressum, Datenschutzerklärung): Überschrift und langer Text aus einer HTML-Datei.
+ * Original: Elementor-Container mit H1 und Text-Editor-Widget.
+ */
+interface Props {
+  id?: string;
+  title: string;
+  /** Fertiges HTML des Textes (h2 bis h5, p, ul, a). */
+  html: string;
+}
+const { id = '9e8e860', title, html } = Astro.props;
+---
+
+<section
+  data-section={id}
+  class="mt-19.5 mb-0 overflow-hidden px-5 md:mt-0 md:mb-10 lg:my-45 lg:px-7.5"
+>
+  <div class="mx-auto flex max-w-[767px] flex-col gap-3.75 md:max-w-[1024px] lg:max-w-page lg:gap-5">
+    <h1 class="font-display text-[26px]/[28.6px] font-medium text-ink md:text-[34px]/[37.4px] lg:text-h1">
+      {title}
+    </h1>
+    <div
+      class="[&_a]:cursor-pointer [&_a]:text-ink [&_a]:transition-[color] [&_a]:duration-300 [&_a:hover]:underline [&_div]:contents [&_h2]:mt-[0.6em] [&_h2]:mb-[0.3em] [&_h2]:font-display [&_h2]:text-[23px]/[27.6px] [&_h2]:font-medium [&_h2]:text-ink md:[&_h2]:text-[29px]/[39.15px] lg:[&_h2]:text-h2 [&_h3]:mt-[0.6em] [&_h3]:mb-[0.3em] [&_h3]:font-display [&_h3]:text-[21px]/[26.25px] [&_h3]:text-ink md:[&_h3]:text-[24px]/[30px] lg:[&_h3]:text-[32px]/[40px] [&_h4]:mt-[0.6em] [&_h4]:mb-[0.3em] [&_h4]:font-display [&_h4]:text-[19px]/[24.7px] [&_h4]:font-medium [&_h4]:text-ink md:[&_h4]:text-[20px]/[26px] lg:[&_h4]:text-h4 [&_h5]:mt-[0.6em] [&_h5]:mb-[0.3em] [&_h5]:font-display [&_h5]:text-[18px]/[23.4px] [&_h5]:font-medium [&_h5]:text-ink lg:[&_h5]:text-h5 [&_li]:list-item [&_p]:mb-3.75 [&_p]:text-[15px] lg:[&_p]:mb-[22.5px] [&_strong]:font-bold [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-[27.2px] md:[&_ul]:my-3.75 md:[&_ul]:pl-[25.5px]"
+      set:html={html}
+    />
+  </div>
+</section>

@@ -3,16 +3,51 @@ import { Picture } from 'astro:assets';
 import kueche from '../../assets/img/2014-meisterwerk-20230524-Bearbeitet-1-scaled.jpg';
 import wohnbereich from '../../assets/img/205-meisterwerk-20230120-Bearbeitet-scaled.jpg';
 
-const sizes =
-  '(min-width: 1760px) 553px, (min-width: 1025px) calc((100vw - 100px) / 3), (min-width: 768px) calc((100vw - 100px) / 3), calc(100vw - 40px)';
-const widths = [308, 447, 553, 700, 894, 1106];
+/**
+ * Überschrift links, zwei Bilder rechts (Original 3c77667). Ohne Props: Startseite.
+ * Für Unterseiten: Überschrift als HTML, Überschriften-Tag, Bilder, Klassen für Wurzel und Raster.
+ */
+interface Props {
+  id?: string;
+  heading?: string;
+  headingTag?: 'h1' | 'h2';
+  images?: { src: ImageMetadata; alt: string }[];
+  headingColor?: string;
+  rootClass?: string;
+  gridClass?: string;
+  sizes?: string;
+  widths?: number[];
+}
+const {
+  id = '3c77667',
+  heading = 'Ihr Partner für exklusive Malerleistungen und individuelle Raumgestaltung',
+  headingTag: Heading = 'h2',
+  images = [
+    {
+      src: kueche,
+      alt: 'Moderne Design-Küche mit dunkler Kochinsel, fugenlosem mineralischem Boden und perfekt glatten Wänden in Ludwigsburg.',
+    },
+    {
+      src: wohnbereich,
+      alt: 'Heller Essbereich mit Esstisch, Pendelleuchte, Vorhängen und perfekt glatten Wänden mit indirekter Deckenbeleuchtung.',
+    },
+  ],
+  headingColor = 'text-gold',
+  rootClass = 'mt-[10vh] px-5 md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0 lg:px-7.5',
+  gridClass = 'md:gap-x-7.5 lg:gap-x-5',
+  sizes = '(min-width: 1760px) 553px, (min-width: 1025px) calc((100vw - 100px) / 3), (min-width: 768px) calc((100vw - 100px) / 3), calc(100vw - 40px)',
+  widths = [308, 447, 553, 700, 894, 1106],
+} = Astro.props;
+const grow = ['bottom', 'right'];
 ---
 
-<section
-  data-section="3c77667"
-  class="mt-[10vh] flex flex-col overflow-hidden px-5 md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0 lg:px-7.5"
->
-  <div class="mx-auto grid w-full grid-cols-1 gap-5 md:grid-cols-3 md:gap-x-7.5 lg:max-w-page lg:gap-x-5">
+<section data-section={id} class:list={['flex flex-col overflow-hidden', rootClass]}>
+  <div
+    class:list={[
+      'mx-auto grid w-full grow grid-cols-1 gap-5 md:grid-cols-3 lg:max-w-page',
+      gridClass,
+    ]}
+  >
     <div class="flex flex-col justify-center gap-3.75 lg:gap-5">
       <div
         class="mb-1.25 max-w-[660px] lg:mb-5"
@@ -20,40 +55,31 @@ const widths = [308, 447, 553, 700, 894, 1106];
         data-anim-delay="360"
         data-anim-dur="slow"
       >
-        <h2 class="font-display text-[23px]/[27.6px] font-medium text-gold md:text-[29px]/[39.15px] lg:text-h2">
-          Ihr Partner für exklusive Malerleistungen und individuelle Raumgestaltung
-        </h2>
+        <Heading
+          class:list={[
+            'font-display text-[23px]/[27.6px] font-medium md:text-[29px]/[39.15px] lg:text-h2',
+            headingColor,
+          ]}
+          set:html={heading}
+        />
       </div>
     </div>
 
-    <div class="flex flex-col justify-end gap-5">
-      <div class="overflow-hidden">
-        <div data-grow="bottom" data-anim-delay="420">
-          <Picture
-            formats={['avif', 'webp']}
-            src={kueche}
-            alt="Moderne Design-Küche mit dunkler Kochinsel, fugenlosem mineralischem Boden und perfekt glatten Wänden in Ludwigsburg."
-            {widths}
-            {sizes}
-            class="block h-auto w-full"
-          />
+    {images.map((img, i) => (
+      <div class="flex flex-col justify-end gap-5">
+        <div class="overflow-hidden">
+          <div data-grow={grow[i % 2]} data-anim-delay="420">
+            <Picture
+              formats={['avif', 'webp']}
+              src={img.src}
+              alt={img.alt}
+              {widths}
+              {sizes}
+              class="block h-auto w-full"
+            />
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="flex flex-col justify-end gap-5">
-      <div class="overflow-hidden">
-        <div data-grow="right" data-anim-delay="420">
-          <Picture
-            formats={['avif', 'webp']}
-            src={wohnbereich}
-            alt="Heller Essbereich mit Esstisch, Pendelleuchte, Vorhängen und perfekt glatten Wänden mit indirekter Deckenbeleuchtung."
-            {widths}
-            {sizes}
-            class="block h-auto w-full"
-          />
-        </div>
-      </div>
-    </div>
+    ))}
   </div>
 </section>

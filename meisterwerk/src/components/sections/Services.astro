@@ -2,31 +2,59 @@
 import { href } from '../../data/links';
 import { Picture } from 'astro:assets';
 import Icon from '../Icon.astro';
-import { cards } from '../../data/services';
+import { cards as homeCards } from '../../data/services';
 
-const sizes =
-  '(min-width: 1760px) 316px, (min-width: 1025px) calc((100vw - 180px) / 5), (min-width: 768px) calc((100vw - 70px) / 2), calc(100vw - 40px)';
-const widths = [252, 350, 477, 700, 954];
+/**
+ * Graue Fläche mit Leistungs-Karten (Original bc3ca42). Ohne Props: Startseite.
+ * Unterseiten: eigene Karten (`subtitle` optional), Texte, Klassen für Raster/Titel, Slot für Folgeinhalt (z. B. Skills).
+ */
+interface Props {
+  id?: string;
+  eyebrow?: string;
+  eyebrowTag?: 'p' | 'h2';
+  eyebrowClass?: string;
+  heading?: string;
+  cards?: { href: string; title: string; subtitle?: string; img: ImageMetadata; alt: string }[];
+  rootClass?: string;
+  headingClass?: string;
+  gridClass?: string;
+  titleClass?: string;
+  titleBoxClass?: string;
+  sizes?: string;
+  widths?: number[];
+}
+const {
+  id = 'bc3ca42',
+  eyebrow = 'Unsere Leistungen',
+  eyebrowTag: Eyebrow = 'p',
+  eyebrowClass = 'mb-3 lg:mb-4.5',
+  heading = 'Planung, Gestaltung, Umsetzung – alles für Ihr Projekt.',
+  cards = homeCards,
+  rootClass = 'mt-[14vh] md:mt-0 md:mb-15 lg:mt-[20vh] lg:mb-0',
+  headingClass = 'text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-h3',
+  gridClass = 'lg:grid-cols-5',
+  titleClass = 'text-[18px] leading-[1.3em] lg:text-[24px]',
+  titleBoxClass = 'w-full',
+  sizes = '(min-width: 1760px) 316px, (min-width: 1025px) calc((100vw - 180px) / 5), (min-width: 768px) calc((100vw - 70px) / 2), calc(100vw - 40px)',
+  widths = [252, 350, 477, 700, 954],
+} = Astro.props;
 ---
 
-<section
-  data-section="bc3ca42"
-  class="mt-[14vh] flex flex-col bg-soft px-5 md:mt-0 md:mb-15 lg:mt-[20vh] lg:mb-0 lg:px-7.5"
->
+<section data-section={id} class:list={['flex flex-col bg-soft px-5 lg:px-7.5', rootClass]}>
   <div class="mx-auto flex w-full flex-col gap-3.75 py-10 md:py-15 lg:max-w-page lg:gap-5 lg:py-[12vh]">
     <div>
-      <p class="mb-3 font-display text-label font-medium tracking-label uppercase lg:mb-4.5">
-        Unsere Leistungen
-      </p>
+      <Eyebrow
+        class:list={['font-display text-label font-medium tracking-label uppercase', eyebrowClass]}
+      >
+        {eyebrow}
+      </Eyebrow>
     </div>
 
     <div class="mb-1.25 md:max-w-[690px] lg:mb-5">
-      <h3 class="font-display text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-h3">
-        Planung, Gestaltung, Umsetzung – alles für Ihr Projekt.
-      </h3>
+      <h3 class:list={['font-display', headingClass]} set:html={heading} />
     </div>
 
-    <div class="grid grid-cols-1 items-stretch gap-7.5 md:grid-cols-2 lg:grid-cols-5">
+    <div class:list={['grid grid-cols-1 items-stretch gap-7.5 md:grid-cols-2', gridClass]}>
       {cards.map((card) => (
         <a
           href={href(card.href)}
@@ -54,11 +82,15 @@ const widths = [252, 350, 477, 700, 954];
           </div>
 
           <div class="flex flex-wrap items-start justify-between gap-5 md:flex-nowrap">
-            <div class="w-full min-w-0" data-anim-mobile="fadeInLeft">
-              <h4 class="font-display text-[18px] leading-[1.3em] font-medium lg:text-[24px]">
+            <div class:list={['min-w-0', titleBoxClass]} data-anim-mobile="fadeInLeft">
+              <h4 class:list={['font-display font-medium', titleClass]}>
                 {card.title}
-                <br />
-                <span class="text-[16px]">{card.subtitle}</span>
+                {card.subtitle && (
+                  <>
+                    <br />
+                    <span class="text-[16px]">{card.subtitle}</span>
+                  </>
+                )}
               </h4>
             </div>
             <div
@@ -75,5 +107,6 @@ const widths = [252, 350, 477, 700, 954];
         </a>
       ))}
     </div>
+    <slot />
   </div>
 </section>

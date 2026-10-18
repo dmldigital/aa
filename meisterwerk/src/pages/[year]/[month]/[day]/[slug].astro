@@ -1,0 +1,19 @@
+---
+/** Projektbeiträge: eine Route für alle Beiträge aus `src/data/pages/posts.ts`. */
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import PostArticle from '../../../../components/sections/PostArticle.astro';
+import { posts } from '../../../../data/pages/posts';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { year: post.year, month: post.month, day: post.day, slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<PageLayout title={`${post.title} - Meisterwerk Malermanufaktur`} current={`/${post.year}/${post.month}/${post.day}/${post.slug}/`}>
+  <PostArticle {post} />
+</PageLayout>

@@ -1,0 +1,14 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import TextPage from '../../components/sections/TextPage.astro';
+import html from '../../data/pages/datenschutz.html?raw';
+import { routes } from '../../data/links';
+---
+
+<PageLayout
+  title="Datenschutzerklärung - Meisterwerk Malermanufaktur"
+  description="Datenschutzerklärung der Meisterwerk Malermanufaktur: Verantwortlicher, Zwecke und Rechtsgrundlagen der Datenverarbeitung."
+  current={routes.privacy}
+>
+  <TextPage title="Datenschutzerklärung" {html} />
+</PageLayout>

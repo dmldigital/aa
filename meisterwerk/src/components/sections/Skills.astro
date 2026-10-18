@@ -1,9 +1,24 @@
 ---
 import Icon from '../Icon.astro';
 import { accordions } from '../../data/skills';
+
+/**
+ * Drei Akkordeons (Original 0ee7325). `embedded`: ohne eigene graue Sektion, z. B. im Slot von Services
+ * (dann bestimmt `class` den Außenabstand).
+ */
+interface Props {
+  id?: string;
+  embedded?: boolean;
+  class?: string;
+}
+const { id = '0ee7325', embedded = false, class: className } = Astro.props;
+const Wrapper = embedded ? 'div' : 'section';
 ---
 
-<section data-section="0ee7325" class="bg-soft md:my-15 lg:my-0">
+<Wrapper
+  data-section={embedded ? undefined : id}
+  class:list={[embedded ? 'flex flex-col' : 'bg-soft md:my-15 lg:my-0', className]}
+>
   <div class="mx-auto flex w-full flex-col pb-12.5 lg:max-w-page">
     <div class="grid grid-cols-1 items-stretch gap-5 md:grid-cols-3 lg:gap-7.5">
       {accordions.map((acc, i) => (
@@ -83,4 +98,4 @@ import { accordions } from '../../data/skills';
       ))}
     </div>
   </div>
-</section>
+</Wrapper>
