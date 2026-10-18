@@ -1,0 +1,54 @@
+---
+/**
+ * Beruflicher Werdegang als waagerechte Zeitleiste (Original 31de600, nur Desktop).
+ * Texte wechseln zwischen oberhalb und unterhalb der Linie.
+ */
+import type { TimelineItem } from '../../data/pages/profiles';
+
+interface Props {
+  id?: string;
+  heading: string;
+  items: TimelineItem[];
+}
+const { id = '31de600', heading, items } = Astro.props;
+---
+
+<section data-section={id} class="mb-22.5 hidden px-7.5 lg:flex">
+  <div class="mx-auto flex w-full max-w-page">
+    <div class="flex w-[14%] flex-col justify-center">
+      <h5 class="font-display text-h4 font-medium text-ink" set:html={heading} />
+    </div>
+    <div class="w-[86%]">
+      <div class="py-10 font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',system-ui,sans-serif] text-black">
+        <div class="relative w-full py-15 before:absolute before:inset-x-0 before:top-1/2 before:h-px before:-translate-y-1/2 before:bg-gold before:content-['']">
+          <div class="relative flex items-center justify-between">
+            {
+              items.map((item, i) => (
+                <div class="relative flex-1 px-2.5 text-center before:absolute before:top-1/2 before:left-1/2 before:z-2 before:h-5 before:w-0.5 before:-translate-x-1/2 before:-translate-y-1/2 before:bg-gold before:content-['']">
+                  <div class="relative">
+                    <div
+                      class:list={[
+                        'absolute left-1/2 mb-2 -translate-x-1/2 text-xs/[17.4px] font-bold whitespace-nowrap uppercase',
+                        i % 2 === 0 ? 'top-6.25' : 'bottom-6.25',
+                      ]}
+                    >
+                      {item.date}
+                    </div>
+                    <div
+                      class:list={[
+                        'absolute left-1/2 w-[180px] -translate-x-1/2 text-center text-sm/[20.3px]',
+                        i % 2 === 0 ? 'bottom-6.25' : 'top-6.25',
+                      ]}
+                    >
+                      {item.text}
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

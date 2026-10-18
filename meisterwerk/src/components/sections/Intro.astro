@@ -21,6 +21,8 @@ interface Props {
   innerClass?: string;
   leftClass?: string;
   rightClass?: string;
+  /** Absätze auf dem Handy 15 statt 16 px (Leistungsseiten) */
+  smallText?: boolean;
 }
 const {
   id = '04f30bf',
@@ -31,6 +33,7 @@ const {
   innerClass = 'lg:pb-27',
   leftClass = 'md:flex-1 lg:w-[48.7%] lg:flex-none',
   rightClass = 'md:flex-1 lg:px-[8%]',
+  smallText = true,
 } = Astro.props;
 ---
 
@@ -70,7 +73,16 @@ const {
               </h2>
             );
           case 'html':
-            return <div class:list={['text-[16px]/[24px] md:text-[15px]/[22.5px]', rich]} set:html={p.html} />;
+            return (
+              <div
+                class:list={[
+                  'text-[16px]/[24px] md:text-[15px]/[22.5px]',
+                  smallText && '[&_p]:text-[15px]',
+                  rich,
+                ]}
+                set:html={p.html}
+              />
+            );
           case 'spacer':
             return (
               <div
@@ -92,7 +104,14 @@ const {
                 <div class="mb-1.25 w-full md:mb-0 md:py-1.25 lg:py-2.5">
                   <div class="border-t border-black/20" />
                 </div>
-                <div class:list={['w-full text-[16px]/[24px] md:text-[15px]/[22.5px]', rich]} set:html={p.html} />
+                <div
+                  class:list={[
+                    'w-full text-[16px]/[24px] md:text-[15px]/[22.5px]',
+                    smallText && '[&_p]:text-[15px]',
+                    rich,
+                  ]}
+                  set:html={p.html}
+                />
               </div>
             );
           case 'button':

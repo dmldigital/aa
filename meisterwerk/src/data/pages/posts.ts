@@ -48,7 +48,6 @@ export const posts: Post[] = [
       '2104-meisterwerk-20230524-Bearbeitet-1-scaled.jpg',
       '2089-meisterwerk-20230524-Bearbeitet-1-scaled.jpg',
     ],
-    largeText: true,
   },
   {
     year: '2025',

@@ -1,0 +1,20 @@
+---
+/** Mitarbeiterprofile: eine Route für alle Seiten aus `src/data/pages/profiles.ts`. */
+import PageLayout from '../layouts/PageLayout.astro';
+import ProfileHero from '../components/sections/ProfileHero.astro';
+import ProfileTimeline from '../components/sections/ProfileTimeline.astro';
+import ProfileBio from '../components/sections/ProfileBio.astro';
+import { profiles } from '../data/pages/profiles';
+
+export function getStaticPaths() {
+  return profiles.map((profile) => ({ params: { slug: profile.slug }, props: { profile } }));
+}
+
+const { profile } = Astro.props;
+---
+
+<PageLayout title={profile.title} description={profile.description} current={`/${profile.slug}/`}>
+  <ProfileHero name={profile.name} photo={profile.photo} />
+  {profile.timeline && <ProfileTimeline heading={profile.timeline.heading} items={profile.timeline.items} />}
+  <ProfileBio {profile} />
+</PageLayout>

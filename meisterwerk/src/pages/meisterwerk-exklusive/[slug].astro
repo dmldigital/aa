@@ -15,6 +15,7 @@ export function getStaticPaths() {
 const { page } = Astro.props;
 // Die Seite „Fugenlose Bäder“ hat im Original andere Abstände als die übrigen drei
 const old = page.slug === 'fugenlose-baeder';
+const boden = page.slug === 'fugenloser-boden';
 ---
 
 <PageLayout title={page.title} current={`/meisterwerk-exklusive/${page.slug}/`}>
@@ -23,9 +24,10 @@ const old = page.slug === 'fugenlose-baeder';
     img={img(page.intro.img)}
     parts={page.intro.parts}
     rootClass="bg-white"
-    innerClass="lg:pb-0"
-    leftClass="md:w-[46%] md:flex-none"
-    rightClass="md:w-1/2 md:flex-none lg:px-[8%]"
+    smallText={false}
+    innerClass={old ? 'lg:pb-0' : undefined}
+    leftClass={old ? 'md:w-[46%] md:flex-none' : undefined}
+    rightClass={old ? 'md:w-1/2 md:flex-none lg:px-[8%]' : undefined}
   />
   <SectionHeading
     id="4ef4fcc"
@@ -44,6 +46,10 @@ const old = page.slug === 'fugenlose-baeder';
     button={page.feature.button}
     img={img(page.feature.img)}
     rootClass={old ? 'mt-[12vh]' : undefined}
+    innerClass={old ? undefined : 'lg:py-27'}
+    leftClass={boden ? 'md:w-[45%]' : undefined}
+    rightClass={boden ? 'md:w-[53.55%]' : undefined}
+    imageClass={boden ? 'w-full' : undefined}
   />
   <Gallery
     id={page.gallery.id}
@@ -52,7 +58,7 @@ const old = page.slug === 'fugenlose-baeder';
     gap={[20, 10, 10]}
     rootClass={old ? 'mt-[12vh] mb-0' : 'mb-0'}
     innerClass={
-      old ? 'pt-10 pb-7.5 md:pt-15 lg:pt-0 lg:pb-25' : 'pt-10 pb-7.5 md:pt-15 lg:pt-27 lg:pb-10'
+      old ? 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-0 lg:pb-0' : 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-27 lg:pb-27'
     }
   />
   <Projects
@@ -60,5 +66,11 @@ const old = page.slug === 'fugenlose-baeder';
     heading={projects.heading}
     link={projects.link}
     projects={projects.items}
+    headingTag="h2"
+    headingClass="text-[23px]/[27.6px] font-medium text-ink md:text-[29px]/[39.15px] lg:text-h2"
+    linkTone="black"
+    rootClass={
+      old ? 'mb-21.25 md:mb-23.75 lg:mt-[12vh] lg:mb-0' : 'mb-21.25 md:mb-23.75 lg:mt-22.5 lg:mb-0'
+    }
   />
 </PageLayout>

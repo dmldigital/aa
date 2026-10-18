@@ -12,12 +12,21 @@ interface Props {
   /** Ziel von „Unser Portfolio“ */
   link?: string;
   projects?: { title: string; href: string; img: ImageMetadata; alt: string }[];
+  /** Außenabstände der Sektion */
+  rootClass?: string;
+  headingTag?: 'h2' | 'h3';
+  headingClass?: string;
+  linkTone?: 'gold' | 'black';
 }
 const {
   id = '3472c30',
   heading = 'Unsere Exklusive Projekte',
   link = routes.projects,
   projects = homeProjects,
+  rootClass = 'mt-[10vh] md:mt-0 md:mb-23.75 lg:mt-[20vh] lg:mb-0',
+  headingTag: Heading = 'h3',
+  headingClass = 'text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-h3',
+  linkTone = 'gold',
 } = Astro.props;
 
 // Endlosschleife: je ein Klon-Satz davor und dahinter, die echten Karten stehen in der Mitte
@@ -28,21 +37,18 @@ const slides = [
 ];
 ---
 
-<section
-  data-section={id}
-  class="mt-[10vh] flex flex-col overflow-x-clip px-5 md:mt-0 md:mb-23.75 lg:mt-[20vh] lg:mb-0 lg:px-7.5"
->
+<section data-section={id} class:list={['flex flex-col overflow-x-clip px-5 lg:px-7.5', rootClass]}>
   <div class="mx-auto flex w-full max-w-page grow flex-col gap-3.75 lg:gap-5">
     <!-- Kopfzeile -->
     <div class="mb-1.25 flex items-center md:gap-5 lg:mb-5">
       <div class="w-full md:mb-1.25 md:w-1/2 lg:mb-0">
-        <h3 class="font-display text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-h3">
-          {heading}
-        </h3>
+        <Heading class:list={['font-display', headingClass]}>{heading}</Heading>
       </div>
       <div class="hidden justify-end md:flex md:w-1/2">
         <div>
-          <ArrowLink href={href(link)}>Unser Portfolio</ArrowLink>
+          <ArrowLink href={href(link)} tone={linkTone}>
+            Unser Portfolio
+          </ArrowLink>
         </div>
       </div>
     </div>

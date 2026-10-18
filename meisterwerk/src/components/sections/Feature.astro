@@ -15,14 +15,41 @@ interface Props {
   img: ImageMetadata;
   alt?: string;
   rootClass?: string;
+  /** Innenabstand des Containers */
+  innerClass?: string;
+  leftClass?: string;
+  rightClass?: string;
+  /** Breite des Bildes (Standard: feste Breite wie im Original) */
+  imageClass?: string;
 }
-const { id = 'a59ae57', items, button, img, alt = '', rootClass = '' } = Astro.props;
+const {
+  id = 'a59ae57',
+  items,
+  button,
+  img,
+  alt = '',
+  rootClass = '',
+  innerClass = 'lg:py-0',
+  leftClass = 'md:w-[39.4%]',
+  rightClass = 'md:w-[58.7%] lg:w-[59.2%]',
+  imageClass = 'w-[310px] md:w-[300px] lg:w-[720px]',
+} = Astro.props;
 ---
 
 <section data-section={id} class:list={['px-5 lg:px-7.5', rootClass]}>
-  <div class="mx-auto w-full max-w-[767px] py-10 md:max-w-[1024px] md:py-15 lg:max-w-page lg:py-0">
+  <div
+    class:list={[
+      'mx-auto w-full max-w-[767px] py-10 md:max-w-[1024px] md:py-15 lg:max-w-page',
+      innerClass,
+    ]}
+  >
     <div class="flex flex-wrap items-end justify-between gap-5 md:flex-nowrap">
-      <div class="flex w-full flex-col justify-between gap-5 max-md:order-last md:w-[39.4%] lg:gap-13.5">
+      <div
+        class:list={[
+          'flex w-full flex-col justify-between gap-5 max-md:order-last lg:gap-13.5',
+          leftClass,
+        ]}
+      >
         <div data-accordion data-accordion-ease="power1.inOut" class="-mt-4 md:mt-0">
           {items.map((item, i) => (
             <div>
@@ -57,12 +84,8 @@ const { id = 'a59ae57', items, button, img, alt = '', rootClass = '' } = Astro.p
           </ArrowLink>
         </div>
       </div>
-      <div class="flex w-full justify-end px-5 md:w-[58.7%] lg:w-[59.2%] lg:px-7.5">
-        <div
-          class="w-[310px] overflow-hidden md:w-[300px] lg:w-[720px]"
-          data-anim="fadeIn"
-          data-anim-delay="100"
-        >
+      <div class:list={['flex w-full justify-end px-5 lg:px-7.5', rightClass]}>
+        <div class:list={['overflow-hidden', imageClass]} data-anim="fadeIn" data-anim-delay="100">
           <Picture
             formats={['avif', 'webp']}
             src={img}

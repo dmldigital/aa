@@ -10,11 +10,14 @@ interface Props {
   items: { title: string; html: string; bullets?: string[] }[];
   rootClass?: string;
   titleClass?: string;
+  /** Absätze auf dem Handy 15 statt 16 px */
+  smallText?: boolean;
 }
 const {
   id,
   items,
   rootClass = 'mb-10 md:mb-15 lg:mb-49.5',
+  smallText = false,
   titleClass = 'text-[19px]/[24.7px] md:text-[18px]/[23.4px] lg:text-h4',
 } = Astro.props;
 ---
@@ -30,15 +33,19 @@ const {
         data-anim="fadeInUp"
         data-anim-dur="fast"
       >
-        <h5 class:list={['font-display font-medium text-ink', titleClass]}>{item.title}</h5>
+        <h5 class:list={['font-display font-medium text-ink', titleClass]} set:html={item.title} />
         <div
-          class:list={['-mb-4 text-[16px]/[24px] md:mb-0 md:text-[15px]/[22.5px]', rich]}
+          class:list={[
+            '-mb-4 text-[16px]/[24px] md:mb-0 md:text-[15px]/[22.5px]',
+            smallText && '[&_p]:text-[15px]',
+            rich,
+          ]}
           set:html={item.html}
         />
         {item.bullets && (
-          <ul class="flex flex-col gap-1.25">
+          <ul>
             {item.bullets.map((b) => (
-              <li class="flex items-start">
+              <li class="mt-1.25 flex items-start pb-1.25 first:mt-0 last:pb-0">
                 <span class="flex w-2.5 shrink-0 pt-2 text-ink">
                   <svg viewBox="0 0 512 512" class="mr-0.5 size-2" aria-hidden="true">
                     <path
