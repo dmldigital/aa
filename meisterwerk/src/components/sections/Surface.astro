@@ -51,7 +51,7 @@ const bg = await getImage({ src: image, width: 2000, format: 'webp', quality: 80
             <Lead class={leadClass} set:html={lead} />
           </div>
           <div data-anim="slideInUp" data-anim-delay="100">
-            <Button href={button.href} variant="light">
+            <Button href={href(button.href)} variant="light">
               {button.label}
             </Button>
           </div>

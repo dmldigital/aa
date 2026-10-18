@@ -65,7 +65,7 @@ export const pages: ExklusivPage[] = [
         {
           t: 'button',
           label: 'Lassen Sie sich inspirieren – und Ihren Preis berechnen',
-          href: '#',
+          href: '/kontakt/',
         },
       ],
     },
@@ -111,7 +111,7 @@ export const pages: ExklusivPage[] = [
           open: false,
         },
       ],
-      button: { label: 'Jetzt beraten lassen!', href: '#' },
+      button: { label: 'Jetzt beraten lassen!', href: '/kontakt/' },
       img: 'Fugenloses-Bad-Liscio-scaled.jpg',
     },
     gallery: {
@@ -186,7 +186,7 @@ export const pages: ExklusivPage[] = [
         {
           t: 'button',
           label: 'Lassen Sie sich inspirieren – und Ihren Preis berechnen',
-          href: '#',
+          href: '/kontakt/',
         },
       ],
     },
@@ -232,7 +232,7 @@ export const pages: ExklusivPage[] = [
           open: false,
         },
       ],
-      button: { label: 'Jetzt beraten lassen!', href: '#' },
+      button: { label: 'Jetzt beraten lassen!', href: '/kontakt/' },
       img: 'Fugenloser-Boden-Schlafzimmer-scaled.jpg',
     },
     gallery: {
@@ -293,7 +293,7 @@ export const pages: ExklusivPage[] = [
         {
           t: 'button',
           label: 'Lassen Sie sich inspirieren – und Ihren Preis berechnen',
-          href: '#',
+          href: '/kontakt/',
         },
       ],
     },
@@ -339,7 +339,7 @@ export const pages: ExklusivPage[] = [
           open: false,
         },
       ],
-      button: { label: 'Jetzt beraten lassen!', href: '#' },
+      button: { label: 'Jetzt beraten lassen!', href: '/kontakt/' },
       img: 'Exklusive-Spachteltechnik-Kalkpresstechnik-Badetimmer-Nero-scaled.jpg',
     },
     gallery: {
@@ -422,7 +422,7 @@ export const pages: ExklusivPage[] = [
         {
           t: 'button',
           label: 'Lassen Sie sich inspirieren – und Ihren Preis berechnen',
-          href: '#',
+          href: '/kontakt/',
         },
       ],
     },
@@ -473,7 +473,7 @@ export const pages: ExklusivPage[] = [
           open: false,
         },
       ],
-      button: { label: 'Jetzt beraten lassen!', href: '#' },
+      button: { label: 'Jetzt beraten lassen!', href: '/kontakt/' },
       img: '315-mw-20241125-scaled.jpg',
     },
     gallery: {

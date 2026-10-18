@@ -31,7 +31,7 @@ export interface ServicePage {
 
 export const BUTTON = {
   label: 'Lassen Sie sich inspirieren – und Ihren Preis berechnen',
-  href: '#',
+  href: '/kontakt/',
 };
 export const EXCELLENCE = 'Exzellenz ist unser Maßstab';
 

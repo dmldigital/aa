@@ -43,6 +43,9 @@ const ASTRO_PAGES: string[] = [
 ];
 
 export function href(path: string): string {
+  // Absolute Adressen, Anker und Mail/Telefon bleiben unverändert (macht href() auch mehrfach angewandt unschädlich)
+  const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+  if (/^(https?:|mailto:|tel:|#)/.test(path) || (base && path.startsWith(`${base}/`))) return path;
   if (ASTRO_PAGES.includes(path)) return `${import.meta.env.BASE_URL.replace(/\/$/, '')}${path}`;
   return `${ORIGIN}${path}`;
 }

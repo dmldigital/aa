@@ -1,4 +1,5 @@
 ---
+import { href } from '../../data/links';
 /**
  * Akkordeon mit Text-Link und Bild (Original a59ae57 der Exklusiv-Seiten): links Akkordeon und „Jetzt beraten lassen!“,
  * rechts ein Bild (Handy: Bild oben). Der erste Eintrag ist geöffnet.
@@ -79,7 +80,7 @@ const {
           ))}
         </div>
         <div class="text-[16px]/[24px]">
-          <ArrowLink href={button.href} tone="black">
+          <ArrowLink href={href(button.href)} tone="black">
             {button.label}
           </ArrowLink>
         </div>
