@@ -4,6 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   site: process.env.SITE_URL || 'https://meisterwerk-lb.de',
+  // Gleiche Adressen wie die alte WordPress-Seite (Slash am Ende), damit alle bestehenden Links und Google-Platzierungen gelten
+  trailingSlash: 'always',
   base: process.env.BASE_PATH || '/',
   fonts: [
     {

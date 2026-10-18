@@ -1,0 +1,22 @@
+---
+import Layout from './Layout.astro';
+import Header from '../components/sections/Header.astro';
+import Footer from '../components/sections/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Pfad der Seite (wie auf der alten Seite, z. B. /services/malerarbeiten/), markiert den Menüpunkt. */
+  current?: string;
+}
+
+const { title, description, current = '/' } = Astro.props;
+---
+
+<Layout {title} {description}>
+  <Header {current} />
+  <main>
+    <slot />
+  </main>
+  <Footer />
+</Layout>
