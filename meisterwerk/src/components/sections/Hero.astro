@@ -37,7 +37,8 @@ const { id = 'ca992c2', slides = homeSlides } = Astro.props;
         ]}
       >
         <Picture
-          formats={['avif', 'webp']}
+          formats={['avif']}
+          fallbackFormat="webp"
           src={slide.image}
           alt={slide.alt}
           widths={[640, 1024, 1440, 1920, 2560]}

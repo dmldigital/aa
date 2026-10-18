@@ -42,7 +42,8 @@ const {
       <div class="hidden w-1/2 justify-end lg:flex">
         <div class="w-[80%] overflow-hidden" data-grow="bottom" data-anim-delay="340">
           <Picture
-            formats={['avif', 'webp']}
+            formats={['avif']}
+            fallbackFormat="webp"
             src={image}
             alt={imageAlt}
             widths={[544, 1088]}

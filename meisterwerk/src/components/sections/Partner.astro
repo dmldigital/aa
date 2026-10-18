@@ -70,7 +70,8 @@ const grow = ['bottom', 'right'];
         <div class="overflow-hidden">
           <div data-grow={grow[i % 2]} data-anim-delay="420">
             <Picture
-              formats={['avif', 'webp']}
+              formats={['avif']}
+              fallbackFormat="webp"
               src={img.src}
               alt={img.alt}
               {widths}

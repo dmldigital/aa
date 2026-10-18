@@ -18,7 +18,8 @@ const {
 <a href={href(member.href)} class="group/card flex flex-col gap-2.5 text-ink">
   <div class="overflow-hidden">
     <Picture
-      formats={['avif', 'webp']}
+      formats={['avif']}
+      fallbackFormat="webp"
       src={member.img}
       alt={member.alt}
       {widths}

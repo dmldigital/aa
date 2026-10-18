@@ -23,7 +23,8 @@ const {
         <div class="relative overflow-hidden">
           <div data-grow="bottom">
             <Picture
-              formats={['avif', 'webp']}
+              formats={['avif']}
+              fallbackFormat="webp"
               src={p.img}
               alt={p.alt}
               widths={[350, 440, 880]}

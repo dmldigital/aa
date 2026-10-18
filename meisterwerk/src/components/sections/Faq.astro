@@ -150,7 +150,8 @@ const {
             />
           ) : (
             <Picture
-              formats={['avif', 'webp']}
+              formats={['avif']}
+              fallbackFormat="webp"
               src={image}
               alt={imageAlt}
               widths={[310, 537, 720, 1024]}

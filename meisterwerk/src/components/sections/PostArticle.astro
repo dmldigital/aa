@@ -37,7 +37,8 @@ const info = [
   <div class="px-5 lg:px-7.5">
     <div class="mx-auto max-w-[1120px] overflow-hidden">
       <Picture
-        formats={['avif', 'webp']}
+        formats={['avif']}
+        fallbackFormat="webp"
         src={image}
         alt={post.title}
         widths={[350, 700, 984, 1120, 1600]}

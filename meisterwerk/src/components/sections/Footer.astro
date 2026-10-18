@@ -151,7 +151,8 @@ const social =
             aria-label="Meisterwerk Malermanufaktur, zur Startseite"
           >
             <Picture
-              formats={['avif', 'webp']}
+              formats={['avif']}
+              fallbackFormat="webp"
               src={logo}
               alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
               widths={[228, 456]}
@@ -284,7 +285,8 @@ const social =
             aria-label="Meisterwerk Exklusive"
           >
             <Picture
-              formats={['avif', 'webp']}
+              formats={['avif']}
+              fallbackFormat="webp"
               src={exklusive}
               alt="Meisterwerke Exklusive by Baldassarre Fortino"
               widths={[228, 456]}

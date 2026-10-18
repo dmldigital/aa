@@ -20,6 +20,6 @@ Astro 7, Tailwind 4, GSAP und Lenis. Aktuell nur die Startseite (Design 1:1 nach
 ## Konventionen
 
 - Nur Tailwind-Klassen im Markup. Wiederkehrende Werte gehören als Token in `@theme`, nicht als Pixelwert in Klammern.
-- Bilder liegen in `src/assets/img` und laufen über `<Picture>` (AVIF mit WebP-Fallback).
+- Bilder liegen in `src/assets/img` und laufen über `<Picture>` (AVIF mit WebP-Fallback (formats und fallbackFormat)).
 - Links nur über `href()` aus `src/data/links.ts`. Eine fertige Astro-Seite dort in `ASTRO_PAGES` eintragen.
 - Vorschau-Builds sind `noindex`. Für den Livegang `PUBLIC_INDEXABLE=true` setzen (`.env.example`).

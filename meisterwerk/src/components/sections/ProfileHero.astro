@@ -26,7 +26,8 @@ const { id = '16ee660', name, photo } = Astro.props;
     </div>
     <div class="md:w-[calc((100%-30px)/2)] md:self-start lg:w-auto lg:flex-1">
       <Picture
-        formats={['avif', 'webp']}
+        formats={['avif']}
+        fallbackFormat="webp"
         src={img(photo)}
         alt={name}
         widths={[350, 700, 1348]}

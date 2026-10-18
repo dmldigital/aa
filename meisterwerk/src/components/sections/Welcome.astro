@@ -53,7 +53,8 @@ const {
       <div class="overflow-hidden">
         <div data-grow="bottom" data-anim-delay="420">
           <Picture
-            formats={['avif', 'webp']}
+            formats={['avif']}
+            fallbackFormat="webp"
             src={image}
             alt={imageAlt}
             widths={[680, 840, 1360, 1680]}

@@ -46,7 +46,8 @@ const {
   >
     <div class:list={['flex flex-col', leftClass]}>
       <Picture
-        formats={['avif', 'webp']}
+        formats={['avif']}
+        fallbackFormat="webp"
         src={img}
         {alt}
         widths={[350, 640, 900, 1300]}

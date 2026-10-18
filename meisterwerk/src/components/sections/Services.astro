@@ -69,7 +69,8 @@ const {
           <div class="group/img relative overflow-hidden">
             <div data-grow="left" data-anim-delay="450">
               <Picture
-                formats={['avif', 'webp']}
+                formats={['avif']}
+                fallbackFormat="webp"
                 src={card.img}
                 alt={card.alt}
                 {widths}

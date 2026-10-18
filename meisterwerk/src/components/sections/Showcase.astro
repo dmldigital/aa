@@ -27,7 +27,8 @@ const { id = 'e9ec5aa', columns } = Astro.props;
         {col.images.map((file) => (
           <div class="overflow-hidden" data-anim="fadeIn">
             <Picture
-              formats={['avif', 'webp']}
+              formats={['avif']}
+              fallbackFormat="webp"
               src={img(file)}
               alt=""
               widths={[350, 640, 920, 1380]}

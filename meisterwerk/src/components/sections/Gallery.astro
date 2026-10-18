@@ -64,7 +64,8 @@ const list = await Promise.all(
         >
           <span class="relative block size-full overflow-hidden">
             <Picture
-              formats={['avif', 'webp']}
+              formats={['avif']}
+              fallbackFormat="webp"
               src={meta}
               alt=""
               widths={[240, 480, 960].filter((w) => w <= meta.width)}

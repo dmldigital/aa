@@ -87,7 +87,8 @@ const {
       <div class:list={['flex w-full justify-end px-5 lg:px-7.5', rightClass]}>
         <div class:list={['overflow-hidden', imageClass]} data-anim="fadeIn" data-anim-delay="100">
           <Picture
-            formats={['avif', 'webp']}
+            formats={['avif']}
+            fallbackFormat="webp"
             src={img}
             {alt}
             widths={[310, 620, 720, 1440]}
