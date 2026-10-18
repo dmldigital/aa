@@ -16,10 +16,12 @@ interface Props {
   heading?: string;
   cards?: { href: string; title: string; subtitle?: string; img: ImageMetadata; alt: string }[];
   rootClass?: string;
+  headingTag?: 'h2' | 'h3';
   headingClass?: string;
   gridClass?: string;
   titleClass?: string;
   titleBoxClass?: string;
+  subtitleClass?: string;
   sizes?: string;
   widths?: number[];
 }
@@ -31,9 +33,11 @@ const {
   heading = 'Planung, Gestaltung, Umsetzung – alles für Ihr Projekt.',
   cards = homeCards,
   rootClass = 'mt-[14vh] md:mt-0 md:mb-15 lg:mt-[20vh] lg:mb-0',
+  headingTag: Heading = 'h3',
   headingClass = 'text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-h3',
   gridClass = 'lg:grid-cols-5',
   titleClass = 'text-[18px] leading-[1.3em] lg:text-[24px]',
+  subtitleClass = 'text-[16px]',
   titleBoxClass = 'w-full',
   sizes = '(min-width: 1760px) 316px, (min-width: 1025px) calc((100vw - 180px) / 5), (min-width: 768px) calc((100vw - 70px) / 2), calc(100vw - 40px)',
   widths = [252, 350, 477, 700, 954],
@@ -51,7 +55,7 @@ const {
     </div>
 
     <div class="mb-1.25 md:max-w-[690px] lg:mb-5">
-      <h3 class:list={['font-display', headingClass]} set:html={heading} />
+      <Heading class:list={['font-display', headingClass]} set:html={heading} />
     </div>
 
     <div class:list={['grid grid-cols-1 items-stretch gap-7.5 md:grid-cols-2', gridClass]}>
@@ -88,7 +92,7 @@ const {
                 {card.subtitle && (
                   <>
                     <br />
-                    <span class="text-[16px]">{card.subtitle}</span>
+                    <span class={subtitleClass}>{card.subtitle}</span>
                   </>
                 )}
               </h4>

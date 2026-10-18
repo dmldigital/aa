@@ -18,7 +18,7 @@ const variants = {
 ---
 
 <Tag
-  {...href ? { href } : { type }}
+  {...(href ? { href } : { type })}
   class:list={[
     'group/ul inline-block cursor-pointer border bg-white px-5 py-3.25 text-center font-display text-button font-semibold tracking-button text-black md:px-6.25 lg:px-7.5 lg:py-3.75',
     variants[variant].link,

@@ -5,6 +5,10 @@ import { partnerGroups, partnerPage } from '../../../data/pages/partner';
 import { routes } from '../../../data/links';
 ---
 
-<PageLayout title={partnerPage.title} description={partnerPage.description} current={routes.partners}>
+<PageLayout
+  title={partnerPage.title}
+  description={partnerPage.description}
+  current={routes.partners}
+>
   <PartnerList groups={partnerGroups} />
 </PageLayout>

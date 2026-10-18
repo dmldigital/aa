@@ -13,14 +13,14 @@ export const cards = [
     alt: 'Helle Treppe mit Holzstufen und perfekt glatten, weiß gestrichenen Wänden.',
   },
   {
-    href: '/services/lackieren/',
+    href: '/services/lackierarbeiten/',
     title: 'Lackierarbeiten –',
     subtitle: 'Erwecke Altes zu neuem Leben',
     img: lackieren,
     alt: 'Lackiertes weißes Treppengeländer mit Holzhandlauf vor einem Fenster.',
   },
   {
-    href: '/services/streichen/',
+    href: '/services/malerarbeiten/',
     title: 'Malerarbeiten –',
     subtitle: 'Farben, die Ihrem Zuhause Persönlichkeit verleihen!',
     img: streichen,

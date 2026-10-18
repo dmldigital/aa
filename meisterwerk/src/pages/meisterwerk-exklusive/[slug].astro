@@ -58,7 +58,9 @@ const boden = page.slug === 'fugenloser-boden';
     gap={[20, 10, 10]}
     rootClass={old ? 'mt-[12vh] mb-0' : 'mb-0'}
     innerClass={
-      old ? 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-0 lg:pb-0' : 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-27 lg:pb-27'
+      old
+        ? 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-0 lg:pb-0'
+        : 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-27 lg:pb-27'
     }
   />
   <Projects

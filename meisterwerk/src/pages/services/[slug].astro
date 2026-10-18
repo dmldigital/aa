@@ -19,7 +19,14 @@ const { page } = Astro.props;
   <PageHero {...page.hero} />
   <Intro img={page.intro.img} alt={page.intro.alt} parts={serviceParts(page.intro)} />
   {page.showcase && <Showcase columns={page.showcase} />}
-  {page.gallery && <Gallery id="aa57ee6" items={page.gallery} gap={[30, 10, 10]} innerClass="md:w-[75.7%] lg:w-full" />}
+  {page.gallery && (
+    <Gallery
+      id="aa57ee6"
+      items={page.gallery}
+      gap={[30, 10, 10]}
+      innerClass="md:w-[75.7%] lg:w-full"
+    />
+  )}
   <SectionHeading id="7d071c8" title={EXCELLENCE} />
   <Pillars id="8afce89" items={page.pillars} />
   <div data-section="43d17bb" class="mb-10 h-107.5 md:mb-15 md:h-130 lg:mb-27 lg:h-195"></div>

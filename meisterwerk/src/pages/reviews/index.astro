@@ -10,11 +10,9 @@ const bands = ['34467c0', '3b002a7'];
 ---
 
 <PageLayout title="Reviews - Meisterwerk Malermanufaktur" current="/reviews/">
-  {
-    bands.map((id) => (
-      <section data-section={id} class="mb-11.25 bg-soft px-5 md:mb-15 lg:mb-27 lg:px-7.5">
-        <div class="mx-auto max-w-[767px] pt-10 pb-6.25 md:max-w-[1024px] md:py-15 lg:max-w-[1160px] lg:py-27" />
-      </section>
-    ))
-  }
+  {bands.map((id) => (
+    <section data-section={id} class="mb-11.25 bg-soft px-5 md:mb-15 lg:mb-27 lg:px-7.5">
+      <div class="mx-auto max-w-[767px] pt-10 pb-6.25 md:max-w-[1024px] md:py-15 lg:max-w-[1160px] lg:py-27" />
+    </section>
+  ))}
 </PageLayout>
