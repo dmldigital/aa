@@ -11,7 +11,7 @@ const all = [team[0], founder, ...team.slice(1)];
 ---
 
 <!-- Desktop: Gründer und Zeitleiste -->
-<section data-section="4ea78bd" class="mt-[90px] hidden flex-col px-7.5 lg:flex">
+<section data-section="4ea78bd" class="mt-22.5 hidden flex-col px-7.5 lg:flex">
   <div class="mx-auto flex w-full max-w-page justify-between gap-x-7.5">
     <div class="flex w-44 shrink-0 flex-col">
       <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
@@ -26,21 +26,21 @@ const all = [team[0], founder, ...team.slice(1)];
 </section>
 
 <!-- Desktop: Team und Text -->
-<section data-section="2257150" class="mt-[180px] mb-[90px] hidden flex-col px-7.5 lg:flex">
+<section data-section="2257150" class="mt-45 mb-22.5 hidden flex-col px-7.5 lg:flex">
   <div class="mx-auto flex w-full max-w-page justify-between gap-x-7.5">
-    <div class="grid w-[690px] shrink-0 auto-rows-fr grid-cols-2 content-start gap-7.5">
+    <div class="grid w-172.5 shrink-0 auto-rows-fr grid-cols-2 content-start gap-7.5">
       {team.map((m) => (
         <TeamCard member={m} />
       ))}
     </div>
-    <div class="flex w-[566px] flex-col pr-[8%]">
+    <div class="flex w-141.5 flex-col pr-[8%]">
       <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
         {haltung.eyebrow}
       </h6>
       <h1 class="mt-5 mb-5 font-display text-[38px]/[41.8px] font-medium text-ink">
         {haltung.heading}
       </h1>
-      <div class="mt-4.75 text-[17px]/[25.5px] [&>p]:mb-[22.5px] [&>p]:text-[15px]">
+      <div class="mt-4.75 text-[17px]/[25.5px] [&>p]:mb-para [&>p]:text-15">
         {haltung.html.map((block) =>
           typeof block === 'string' ? (
             <p set:html={block} />
@@ -48,7 +48,7 @@ const all = [team[0], founder, ...team.slice(1)];
             <ul class="my-4.25 list-disc pl-[28.9px]">
               {block.list.map((li) => (
                 <li class="pl-[6.375px]">
-                  <p class="mb-[22.5px] text-[15px]">{li}</p>
+                  <p class="mb-para text-15">{li}</p>
                 </li>
               ))}
             </ul>
@@ -64,16 +64,16 @@ const all = [team[0], founder, ...team.slice(1)];
   data-section="1eb1fb2"
   class="mt-[10vh] mb-[10vh] flex flex-col px-5 md:mt-0 md:mb-15 lg:hidden"
 >
-  <div class="mx-auto flex w-full max-w-[1024px] flex-col justify-between gap-y-6.25 md:flex-row md:gap-x-7.5">
+  <div class="mx-auto flex w-full max-w-tablet flex-col justify-between gap-y-6.25 md:flex-row md:gap-x-7.5">
     <div
-      class="flex flex-col gap-3.75 md:order-2 md:mt-5 md:w-[477px] md:shrink-0"
+      class="flex flex-col gap-3.75 md:order-2 md:mt-5 md:w-119.25 md:shrink-0"
       data-timeline-root
     >
       <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
         {haltung.eyebrow}
       </h6>
       <h1 class="font-display text-[38px]/[41.8px] font-medium text-ink">{haltung.heading}</h1>
-      <div class="text-[17px]/[25.5px] [&>p]:mb-3.75 [&>p]:text-[15px]">
+      <div class="text-[17px]/[25.5px] [&>p]:mb-3.75 [&>p]:text-15">
         {haltung.html.map((block) =>
           typeof block === 'string' ? (
             <p set:html={block} />
@@ -81,7 +81,7 @@ const all = [team[0], founder, ...team.slice(1)];
             <ul class="my-4.25 list-disc pl-[28.9px]">
               {block.list.map((li) => (
                 <li class="pl-[6.375px]">
-                  <p class="mb-3.75 text-[15px]">{li}</p>
+                  <p class="mb-3.75 text-15">{li}</p>
                 </li>
               ))}
             </ul>
@@ -110,7 +110,7 @@ const all = [team[0], founder, ...team.slice(1)];
         </div>
       </div>
     </div>
-    <div class="grid auto-rows-fr grid-cols-2 content-start gap-x-5 gap-y-6.25 md:order-1 md:w-[477px] md:gap-y-7.5">
+    <div class="grid auto-rows-fr grid-cols-2 content-start gap-x-5 gap-y-6.25 md:order-1 md:w-119.25 md:gap-y-7.5">
       {all.map((m) => (
         <TeamCard member={m} />
       ))}

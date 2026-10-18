@@ -42,6 +42,28 @@
   --tracking-label: 2px;
   --tracking-button: 0.5px;
 
+  /* Schriftgrößen der Original-Skala (nur Größe, Zeilenhöhe steht getrennt) */
+  --text-13: 13px;
+  --text-14: 14px;
+  --text-15: 15px;
+  --text-16: 16px;
+  --text-17: 17px;
+  --text-18: 18px;
+  --text-19: 19px;
+  --text-21: 21px;
+  --text-23: 23px;
+  --text-29: 29px;
+  --text-32: 32px;
+  --text-34: 34px;
+
+  /* Breiten für Inhaltsspalten je Breakpoint-Container */
+  --container-tablet: 1024px;
+  --container-mobile: 767px;
+  --container-wide: 1120px;
+
+  /* Absatzabstand (1,5 Zeilen bei 15px) */
+  --spacing-para: 22.5px;
+
   /* Seitenbreite des Inhalts (Elementor-Container) */
   --container-page: 1700px;
 }

@@ -18,7 +18,7 @@ const {
   paragraphs,
   image,
   imageAlt = '',
-  rootClass = 'mt-[78px] md:mt-0 md:mb-10 lg:mt-[12vh] lg:mb-0',
+  rootClass = 'mt-19.5 md:mt-0 md:mb-10 lg:mt-[12vh] lg:mb-0',
 } = Astro.props;
 ---
 
@@ -32,7 +32,7 @@ const {
       >
         {heading}
       </h2>
-      <div class="[&>p]:mb-3.75 [&>p]:text-[15px] lg:[&>p]:mb-[22.5px]">
+      <div class="[&>p]:mb-3.75 [&>p]:text-15 lg:[&>p]:mb-para">
         {paragraphs.map((p) => (
           <p set:html={p} />
         ))}

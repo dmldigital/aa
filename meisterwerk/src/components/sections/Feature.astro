@@ -32,14 +32,14 @@ const {
   innerClass = 'lg:py-0',
   leftClass = 'md:w-[39.4%]',
   rightClass = 'md:w-[58.7%] lg:w-[59.2%]',
-  imageClass = 'w-[310px] md:w-[300px] lg:w-[720px]',
+  imageClass = 'w-77.5 md:w-75 lg:w-180',
 } = Astro.props;
 ---
 
 <section data-section={id} class:list={['px-5 lg:px-7.5', rootClass]}>
   <div
     class:list={[
-      'mx-auto w-full max-w-[767px] py-10 md:max-w-[1024px] md:py-15 lg:max-w-page',
+      'mx-auto w-full max-w-mobile py-10 md:max-w-tablet md:py-15 lg:max-w-page',
       innerClass,
     ]}
   >
@@ -73,7 +73,7 @@ const {
                 hidden={!item.open}
                 class="border-b border-black/20 pt-8 pr-0 pb-4 md:pt-7.5 md:pb-3.75 lg:pr-7.5"
               >
-                <div class:list={['text-[15px]/[22.5px]', rich]} set:html={item.html} />
+                <div class:list={['text-body', rich]} set:html={item.html} />
               </div>
             </div>
           ))}

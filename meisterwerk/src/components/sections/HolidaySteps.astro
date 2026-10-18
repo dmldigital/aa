@@ -35,7 +35,7 @@ const bg = await getImage({ src: background, width: 2000, format: 'webp', qualit
           <ul class="my-3.75 list-disc pl-[25.5px] text-soft">
             {col.items.map((item) => (
               <li>
-                <p class="mb-[22.5px]" set:html={item} />
+                <p class="mb-para" set:html={item} />
               </li>
             ))}
           </ul>
@@ -51,7 +51,7 @@ const bg = await getImage({ src: background, width: 2000, format: 'webp', qualit
 <!-- Tablet und Handy -->
 <section
   data-section="9a4846f"
-  class="mt-[78px] mb-[39px] flex flex-col px-5 md:mt-0 md:mb-11.25 lg:hidden"
+  class="mt-19.5 mb-9.75 flex flex-col px-5 md:mt-0 md:mb-11.25 lg:hidden"
 >
   <div class="mx-auto flex w-full flex-wrap gap-x-2.5 gap-y-3.75 md:flex-nowrap md:gap-x-7.5">
     {columns.map((col, i) => (
@@ -68,7 +68,7 @@ const bg = await getImage({ src: background, width: 2000, format: 'webp', qualit
           <ul class="my-3.75 list-disc pl-[25.5px]">
             {col.items.map((item) => (
               <li>
-                <p class="mb-3.75 text-[15px]" set:html={item} />
+                <p class="mb-3.75 text-15" set:html={item} />
               </li>
             ))}
           </ul>

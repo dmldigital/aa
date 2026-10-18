@@ -50,7 +50,7 @@ const {
         <Heading class:list={['font-display font-medium', headingClass]} set:html={heading} />
       </div>
       <div class:list={['w-full max-w-[496px]', introClass]}>
-        <p class="mb-3.75 text-[15px]/[24px] md:text-body lg:mb-[22.5px]">{intro}</p>
+        <p class="mb-3.75 text-[15px]/[24px] md:text-body lg:mb-para">{intro}</p>
       </div>
     </div>
 
@@ -100,7 +100,7 @@ const {
                     <ul class="m-0 list-none p-0">
                       {block.items.map((step, n) => (
                         <li class="my-2 flex items-center">
-                          <span class="mr-2.5 inline-flex size-6.5 items-center justify-center rounded-full border border-[#333] text-[14px] font-bold text-[#333]">
+                          <span class="mr-2.5 inline-flex size-6.5 items-center justify-center rounded-full border border-[#333] text-14 font-bold text-[#333]">
                             {n + 1}
                           </span>{' '}
                           {step}
@@ -108,7 +108,7 @@ const {
                       ))}
                     </ul>
                   ) : (
-                    <p class="mb-3.75 text-[15px]/[24px] md:text-body lg:mb-[22.5px]">
+                    <p class="mb-3.75 text-[15px]/[24px] md:text-body lg:mb-para">
                       {block.parts.map((part) =>
                         typeof part === 'string' ? (
                           part

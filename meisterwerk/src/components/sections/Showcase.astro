@@ -15,7 +15,7 @@ const { id = 'e9ec5aa', columns } = Astro.props;
 ---
 
 <section data-section={id} class="mb-10 px-5 md:mb-15 lg:mb-27 lg:px-7.5">
-  <div class="mx-auto flex w-full max-w-[767px] flex-col justify-between gap-5 md:max-w-[1024px] md:flex-row lg:max-w-page lg:gap-7.5">
+  <div class="mx-auto flex w-full max-w-mobile flex-col justify-between gap-5 md:max-w-tablet md:flex-row lg:max-w-page lg:gap-7.5">
     {columns.map((col) => (
       <div
         class:list={[

@@ -24,7 +24,7 @@ const {
 
 <section data-section={id} class:list={['px-5 lg:px-7.5', rootClass]}>
   <div
-    class="mx-auto grid w-full max-w-[767px] grid-cols-1 gap-y-8.75 md:max-w-[1024px] md:grid-cols-[repeat(var(--n),minmax(0,1fr))] md:gap-x-7.5 lg:max-w-page lg:gap-x-[10%]"
+    class="mx-auto grid w-full max-w-mobile grid-cols-1 gap-y-8.75 md:max-w-tablet md:grid-cols-[repeat(var(--n),minmax(0,1fr))] md:gap-x-7.5 lg:max-w-page lg:gap-x-[10%]"
     style={`--n:${items.length}`}
   >
     {items.map((item) => (
@@ -36,8 +36,8 @@ const {
         <h5 class:list={['font-display font-medium text-ink', titleClass]} set:html={item.title} />
         <div
           class:list={[
-            '-mb-4 text-[16px]/[24px] md:mb-0 md:text-[15px]/[22.5px]',
-            smallText && '[&_p]:text-[15px]',
+            '-mb-4 text-[16px]/[24px] md:mb-0 md:text-body',
+            smallText && '[&_p]:text-15',
             rich,
           ]}
           set:html={item.html}

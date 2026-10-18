@@ -45,7 +45,7 @@ const list = await Promise.all(
 ---
 
 <section data-section={id} class:list={['px-5 lg:px-7.5', rootClass]}>
-  <div class:list={['mx-auto w-full max-w-[767px] md:max-w-[1024px] lg:max-w-page', innerClass]}>
+  <div class:list={['mx-auto w-full max-w-mobile md:max-w-tablet lg:max-w-page', innerClass]}>
     <div
       data-gallery
       data-layout={layout}
@@ -124,7 +124,7 @@ const list = await Promise.all(
     </button>
     <div
       data-lb-stage
-      class="absolute inset-x-[10%] top-[70px] bottom-[70px] flex items-center justify-center"
+      class="absolute inset-x-[10%] top-17.5 bottom-17.5 flex items-center justify-center"
     >
       <img data-lb-img alt="" class="max-h-full max-w-full object-contain" />
     </div>
