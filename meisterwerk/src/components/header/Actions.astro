@@ -1,57 +1,21 @@
 ---
 import Button from '../ui/Button.astro';
 import { href } from '../../data/links';
-import { site as company } from '../../data/site';
 import type { Site } from '../../data/nav';
 /**
- * Rechte Seite der Kopfzeile. Zwei Varianten zum Vergleich (Umschalter, `html[data-header]`):
- * 1 = Ort, Kontakt-Button (Rahmen) und Menü; 2 = Telefonnummer, gefüllter Button „Projekt anfragen“ und Menü
- * (Handy: Telefon-Knopf statt Nummer, ohne Button). Der Menü-Knopf öffnet das Vollbild-Menü (Menu.astro).
+ * Rechte Seite der Kopfzeile: Menü-Knopf (öffnet das Vollbild-Menü, siehe Menu.astro) und davor der Kontakt-Button.
+ * Auf der Hero-Fläche (`compact`) nur der Menü-Knopf.
  */
 interface Props {
   site?: Site;
-  /** Nur Menü-Knopf (Hero-Fläche) */
   compact?: boolean;
 }
 const { site = 'main', compact = false } = Astro.props;
 const exk = site === 'exklusive';
 const contact = href(exk ? '/meisterwerk-exklusive/kontakt/' : '/schnellkontakt/');
-const request = href(exk ? '/meisterwerk-exklusive/kontakt/' : '/kontakt/');
 ---
 
 <div class="flex items-center gap-4 min-[701px]:gap-8">
-  {!compact && (
-    <>
-      <div class="flex items-center gap-4 min-[701px]:gap-8 hv2:hidden">
-        <span class="hidden font-display text-[11px] tracking-[0.1em] text-muted uppercase min-[1051px]:block">
-          Freiberg a. N. / Ludwigsburg
-        </span>
-        <Button href={contact} size="sm">
-          <span class="max-[700px]:hidden">KONTAKT AUFNEHMEN ↗</span>
-          <span class="min-[701px]:hidden">KONTAKT</span>
-        </Button>
-      </div>
-      <div class="hidden items-center gap-4 min-[701px]:gap-8 hv2:flex">
-        <a
-          href={`tel:${company.phoneHref}`}
-          aria-label={`Anrufen: ${company.phone}`}
-          class="group/ul flex items-center gap-2.5 font-display text-[14px] text-ink"
-        >
-          <svg viewBox="0 0 512 512" fill="currentColor" aria-hidden="true" class="size-4">
-            <path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64c0 247.4 200.6 448 448 448 18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z" />
-          </svg>
-          <span class="underline-anim max-[700px]:sr-only [--underline-gap:3px]">
-            {company.phone}
-          </span>
-        </a>
-        <span class="max-[700px]:hidden">
-          <Button href={request} variant="solid" size="sm">
-            PROJEKT ANFRAGEN
-          </Button>
-        </span>
-      </div>
-    </>
-  )}
   <button
     type="button"
     data-menu-open
@@ -67,4 +31,10 @@ const request = href(exk ? '/meisterwerk-exklusive/kontakt/' : '/kontakt/');
       <i class="block h-px w-full bg-current transition-[width] duration-200 group-hover/menu:w-[65%]"></i>
     </span>
   </button>
+  {!compact && (
+    <Button href={contact} size="sm">
+      <span class="max-[700px]:hidden">KONTAKT AUFNEHMEN ↗</span>
+      <span class="min-[701px]:hidden">KONTAKT</span>
+    </Button>
+  )}
 </div>

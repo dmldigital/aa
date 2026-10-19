@@ -1,0 +1,36 @@
+---
+import { Picture } from 'astro:assets';
+import { href } from '../../data/links';
+import type { MenuPreview } from '../../data/menu-preview';
+/** Rechte Seite des Desktop-Menüs für einen Menüpunkt: Hauptbild, Einleitungstext und Link zur Seite. */
+interface Props {
+  label: string;
+  target: string;
+  preview: MenuPreview;
+}
+const { label, target, preview } = Astro.props;
+---
+
+<div class="flex flex-col gap-5">
+  <div class="aspect-[16/10] overflow-hidden">
+    <Picture
+      formats={['avif']}
+      fallbackFormat="webp"
+      src={preview.image}
+      alt={preview.alt}
+      widths={[480, 800, 1100]}
+      sizes="480px"
+      loading="lazy"
+      class="size-full scale-[1.07] object-cover object-top transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[show]/pan:scale-100"
+    />
+  </div>
+  <div class="flex flex-col items-start gap-3">
+    <p class="font-display text-[11px] tracking-[0.12em] text-gold uppercase">{label}</p>
+    <p class="max-w-[44ch] font-display text-[17px]/[1.5] tracking-[-0.01em] text-ink">
+      {preview.text}
+    </p>
+    <a href={href(target)} class="group/ul mt-1 inline-block font-display text-[14px] text-ink">
+      <span class="underline-anim [--underline-gap:3px]">Zur Seite ↗</span>
+    </a>
+  </div>
+</div>

@@ -72,9 +72,6 @@
 @custom-variant hero-d (@media (min-width: 701px) and (prefers-reduced-motion: no-preference));
 @custom-variant hero-m (@media (max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference));
 
-/* Vergleich der Kopfzeilen-Varianten (Umschalter, später entfernen): html[data-header='2'] */
-@custom-variant hv2 (html[data-header='2'] &);
-
 @theme inline {
   --font-display: var(--font-urbanist), sans-serif;
 }

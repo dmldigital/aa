@@ -1,12 +1,11 @@
 ---
 import type { Site } from '../../data/nav';
-import V1 from '../menu/V1.astro';
 import V2 from '../menu/V2.astro';
 import V3 from '../menu/V3.astro';
 /**
- * Vollbild-Menü. Drei Varianten zum Vergleich (Umschalter, `html[data-menu]`): 1 Liste mit Akkordeon,
- * 2 geteilt (links Hauptpunkte, rechts Untermenü und Kontakt), 3 Seitenfläche von rechts. Nach der Entscheidung
- * bleibt eine Variante. Öffnen, Schließen und Variante 2 steuert das Skript unten.
+ * Menü: Tablet und Desktop (ab 701 px) geteiltes Vollbild-Menü (`menu/V2`, rechts Untermenü oder Kontakt mit
+ * kurzem Formular), Handy (bis 700 px) Seitenfläche von rechts (`menu/V3`). Öffnen und Schließen steuert das
+ * Skript unten, ebenso die rechte Seite des Desktop-Menüs.
  */
 interface Props {
   site?: Site;
@@ -16,7 +15,6 @@ interface Props {
 const { site = 'main', current = '/' } = Astro.props;
 ---
 
-<V1 {site} {current} />
 <V2 {site} {current} />
 <V3 {site} {current} />
 
@@ -120,43 +118,32 @@ const { site = 'main', current = '/' } = Astro.props;
     );
   });
 
-  // Variante 2: Untermenü rechts anzeigen (Desktop: Überfahren oder Anwählen, Handy: Untermenü ersetzt die Liste)
+  // Desktop-Menü: Untermenü rechts anzeigen (Überfahren, Fokus oder Anwählen), sonst Kontakt
   const split = document.querySelector<HTMLDialogElement>('[data-variant="2"]');
   if (split) {
     const panels = [...split.querySelectorAll<HTMLElement>('[data-split-panel]')];
-    const mobile = () => window.matchMedia('(max-width: 700px)').matches;
+    const targets = [...split.querySelectorAll<HTMLElement>('[data-split-target]')];
     const show = (id: string) => {
-      split.toggleAttribute('data-drill', id !== 'contact' && mobile());
-      split
-        .querySelectorAll<HTMLElement>('[data-split-target]')
-        .forEach((t) =>
-          t.toggleAttribute('data-active', t.dataset.splitTarget === id && id !== 'contact'),
-        );
-      panels.forEach((p) => {
-        const on = p.dataset.splitPanel === id;
-        if (on && p.hidden) {
-          p.hidden = false;
-          if (!reduced)
-            gsap.fromTo(
-              p,
-              { opacity: 0, x: 24 },
-              { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' },
-            );
-        } else if (!on) p.hidden = true;
-      });
+      targets.forEach((t) =>
+        t.toggleAttribute('data-active', t.dataset.splitTarget === id && id !== 'contact'),
+      );
+      panels.forEach((p) => p.toggleAttribute('data-show', p.dataset.splitPanel === id));
     };
-    split.querySelectorAll<HTMLElement>('[data-split-target]').forEach((t) => {
+    targets.forEach((t) => {
       const id = t.dataset.splitTarget!;
-      if (id !== 'contact' || t.tagName === 'A') {
-        t.addEventListener('mouseenter', () => !mobile() && show(id));
-        t.addEventListener('focus', () => !mobile() && show(id));
-      }
+      t.addEventListener('mouseenter', () => show(id));
+      t.addEventListener('focus', () => show(id));
       if (t.tagName === 'BUTTON') t.addEventListener('click', () => show(id));
     });
-    split.querySelector('[data-split-back]') &&
-      split
-        .querySelectorAll('[data-split-back]')
-        .forEach((b) => b.addEventListener('click', () => show('contact')));
     split.addEventListener('close', () => show('contact'));
   }
+
+  // Kurzes Formular im Menü: noch nicht angebunden, wie beim Kontaktformular nur eine Meldung
+  document.querySelectorAll<HTMLFormElement>('form[data-menu-form]').forEach((form) =>
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = form.querySelector<HTMLElement>('[data-form-message]');
+      if (message) message.hidden = false;
+    }),
+  );
 </script>
