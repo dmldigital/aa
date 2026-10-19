@@ -63,6 +63,8 @@
 }
 
 /* "Unsere Exklusive Projekte" bleiben stehen, das FAQ schiebt sich von unten darüber */
+.ep{position:relative}
+.ep-lockzone{position:absolute;top:0;left:0;right:0;height:0;pointer-events:none}
 .ep-sheet{display:flow-root}
 .ep--on .ep-sheet{position:sticky;top:0}
 .tb.faq--cover{position:relative;z-index:3}
