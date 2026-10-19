@@ -29,17 +29,16 @@ Werkzeuge und Tests: `tools/meisterwerk-auswahl/` (siehe dort README).
 | `CtaReveal.css/js` | „Jede Oberfläche ist einzigartig“: Parallax, Pin, CTA-Box + Kontaktformular-Box, Projekte schieben sich darüber |
 | `FaqCover.js` | FAQ schiebt sich von unten über „Unsere Exklusive Projekte“ (Sticky + Wrapper-Höhe), FAQ hat Mindesthöhe der Projekte |
 | `WelcomeChain.css/js` | Willkommens-Sektion: H2, Absätze, Link, Schlusssatz kommen verzögert nacheinander hoch („Kette“); Schlusssatz ist ein Zitat in „…“ |
-| `WelcomeZoom.css/js` | Desktop: letztes Bild der Willkommens-Sektion zoomt mit Pin auf Vollbild, 24 px Rand (wie Hero-Ende) |
-| `WelcomeScroll.astro_…n8bjhO38.js` | Original-Skript, angepasst: Handy/Tablet-Bildstapel wächst am Ende auf Vollbild (12 px Rand), Schlusssatz-Animation entfernt |
+| `WelcomeScroll.astro_…n8bjhO38.js` | Original-Skript, angepasst: Die drei Bilder rollen beim Hereinscrollen von oben nach unten auf (Clip-Path, 1,25 s, kein Zoom); Handy/Tablet: Pin mit Bildern von rechts, kein Zoom auf Vollbild; Schlusssatz-Animation entfernt |
 
 Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = Export `r`):
 `import { t as gsap } from "./gsap.CvDoa17S.js"; import { r as ScrollTrigger } from "./motion.B5Hf7-lS.js";`
 
 ## Sektionen und Verhalten
 1. **Willkommen (unter dem Hero)**: Beim Hereinscrollen laufen die „Kette“ (Abstände 0 / 0,3 / 0,2 / 0,2 / 0,22 / 0,42 s, Dauer 1,3 s, `power3.out`, spätere
-   Glieder +16 px mehr Weg). Danach Bildwechsel (Desktop: Bilder laufen unter dem stehenden Text; Handy: Stapel mit Pin). Am Ende zoomt das letzte
-   Bild auf Vollbild (Desktop ab 1025 px mit 24 px Rand und Pin über 0,9 Bildschirmhöhen; Handy 12 px Rand im bestehenden Pin, Pin-Ende `+=260%`).
-   Die Textspalte blendet beim Zoom aus. Reduzierte Bewegung: nichts davon.
+   Glieder +16 px mehr Weg). Die drei Bilder rollen beim Hereinscrollen jeweils von oben nach unten auf (Clip-Path, 1,25 s, `grow`), **kein Zoom** und kein
+   Vollbild-Aufziehen (vom Nutzer ausdrücklich nicht gewünscht). Desktop: Bilder laufen links unter dem stehenden Text. Handy/Tablet: das erste Bild rollt auf,
+   dann Pin (`+=180%`), zweites und drittes Bild schieben sich von rechts über das erste. Reduzierte Bewegung: nichts davon.
 2. **Leistungen** (`.lk`): gestapelte Karten, Texte lokal SEO-optimiert (Freiberg, Ludwigsburg, Marbach, Bietigheim-Bissingen, Stuttgart).
 3. **Meisterliche Malerarbeiten** (`[data-tb]`, ohne `data-faq`): Ab 1200 px Breite und 600 px Höhe gepinnt (`.tb--pin`, Sektionshöhe per JS = 1 Bildschirm + Zeitplan).
    Reihenfolge rechts: Bild; **Bild nach unten raus, Firmenskills von oben rein; Firmenskills nach links raus, Team von rechts rein; Team nach unten raus, Mehrwert
@@ -53,7 +52,7 @@ Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = E
    Plus wird Minus, goldener Strich über der Oberkante, Inhalt gleitet ein. Unter 768 px eine Spalte. Kein Hausbild mehr.
 
 ## Stolpersteine (bitte beachten)
-- **ScrollTrigger-Reihenfolge:** Pins weiter oben auf der Seite verschieben alles darunter. Der Zoom-Pin (`WelcomeZoom.js`) hat deshalb `refreshPriority: 10`.
+- **ScrollTrigger-Reihenfolge:** Pins weiter oben auf der Seite verschieben alles darunter. Der frühere Zoom-Pin der Willkommens-Sektion ist entfernt; für neue Pins weiter oben gilt weiterhin `refreshPriority: 10`.
   Neue Pins weiter oben ebenso auszeichnen und danach `cta2.cjs`, `cover2.cjs`, `slide.cjs` laufen lassen.
 - **Header-Sperre:** Zonen per `data-header-lock`; bei Pin-/Überlagerungs-Sektionen eigene Sperrzone (`.mz-lockzone`, `.ep-lockzone`) mit passender Höhe.
 - **Überlauf vermeiden:** Nach Änderungen `overflow.cjs` und `fit.cjs` laufen lassen (kein horizontales Scrollen, Fachsektion passt in 100vh). Die gemeldeten
@@ -68,5 +67,4 @@ Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = E
 - Ergänzung „Ausbildungsbetrieb“ in den Team-Skills ist Claudes Formulierung (ersetzt die doppelte Firmen-App-Zeile), von der Kundin noch nicht bestätigt.
 - FAQ-Antworten sind inhaltlich Original; lokale SEO-Erweiterung wäre möglich (mit FAQPage-JSON-LD).
 - Aufklappbare Tabs in „Meisterliche Malerarbeiten“ auf Handy: erster Tab offen (FAQ: alle zu). Auf Wunsch angleichen.
-- Der Zoom-Weg des letzten Bildes (0,9 Bildschirmhöhen) ist ein einzelner Wert in `WelcomeZoom.js` (`dist`).
 - Der schwebende „Projekt starten“-Button soll später angepasst werden (Nutzer: „noch nicht“).
