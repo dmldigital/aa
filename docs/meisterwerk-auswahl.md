@@ -43,7 +43,7 @@ Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = E
 2. **Leistungen** (`.lk`): gestapelte Karten, Texte lokal SEO-optimiert (Freiberg, Ludwigsburg, Marbach, Bietigheim-Bissingen, Stuttgart).
 3. **Meisterliche Malerarbeiten** (`[data-tb]`, ohne `data-faq`): Ab 1200 px Breite und 600 px Höhe gepinnt (`.tb--pin`, Sektionshöhe per JS = 1 Bildschirm + Zeitplan).
    Statt des Bildes (`.tb-media` im Pin ausgeblendet) steht am linken Rand der Bühne ein feststehender Trennstrich (`.tb-line`, per JS in `.tb-view` eingefügt,
-   6 % Abstand oben und unten, rechts weicher Schatten als Erhebung). Wechsel (scroll-gesteuert, rückwärts genauso): Der Text gleitet als Ganzes von links unter dem
+   6 % Abstand oben und unten, Enden per Maske weich auslaufend, rechts nur angedeuteter Schatten 6 px / 5 % als Erhebung). Wechsel (scroll-gesteuert, rückwärts genauso): Der Text gleitet als Ganzes von links unter dem
    Strich hindurch nach rechts heraus (`.tb-view` schneidet am Strich ab, `power3.out`); beim Tab-Wechsel gleitet der alte Text zuerst unter den Strich zurück (`power2.in`). Text passt immer in 100vh (`--tb-s`, Mindestmaßstab 0,62, iteratives Messen in `fitPanels`).
    Darunter (Handy, Tablet, reduzierte Bewegung, flache Fenster): aufklappbare Tabs, erster Tab offen.
    Typografie im Seitensystem: Urbanist für Überschriften/Labels, Fließtext in der Seitenschrift (15/22,5, Schwarz 70 %), goldene Chevrons, keine Linien in den Tab-Texten.
