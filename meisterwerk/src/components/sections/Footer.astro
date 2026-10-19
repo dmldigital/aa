@@ -2,14 +2,19 @@
 import { href } from '../../data/links';
 import { footers } from '../../data/footer';
 import type { Site } from '../../data/nav';
-import Variante1 from '../footer/Variante1.astro';
-import Variante2 from '../footer/Variante2.astro';
-import Variante3 from '../footer/Variante3.astro';
+import Badge from '../footer/Badge.astro';
+import Contact from '../footer/Contact.astro';
+import Copyright from '../footer/Copyright.astro';
+import Frage from '../footer/Frage.astro';
+import Legal from '../footer/Legal.astro';
+import Logos from '../footer/Logos.astro';
+import Social from '../footer/Social.astro';
+import ToTop from '../footer/ToTop.astro';
 /**
  * Fußbereich (Original: Elementor-Container 80dbe99), Inhalte wie im Original: Kontaktaufruf, Bewertungs-Badge,
  * Logos, Social Media, Kontaktdaten, rechtliche Links, Pfeil nach oben und der schwebende Link "Projekt starten".
- * Zum Vergleich gibt es drei kompakte Anordnungen (`footer/Variante1…3`), umschaltbar unten rechts
- * (auch per `?footer=1` bis `3`). Nach der Entscheidung bleibt eine Variante, Umschalter und Rest entfallen.
+ * Ab Tablet vier Spalten in einer Zeile (Überschrift, Badge, Logo mit Kontakt, zweites Logo mit Links) und eine
+ * schmale Leiste; auf dem Handy eine Spalte in anderer Reihenfolge (die Spalten lösen sich per `contents` auf).
  */
 interface Props {
   /** Auftritt: Hauptseite oder Teil-Website „Meisterwerke Exklusive“ (eigene Links, Logos, ohne Bewertungs-Badge). */
@@ -17,7 +22,8 @@ interface Props {
 }
 const { site = 'main' } = Astro.props;
 const f = footers[site];
-const variants = [Variante1, Variante2, Variante3];
+const line =
+  'block h-px w-full origin-center bg-black/20 transition-transform duration-[1400ms] ease-css not-motion-reduce:scale-x-0 not-motion-reduce:data-[in]:scale-x-100 md:hidden';
 ---
 
 <footer data-section="80dbe99" class="relative z-10 overflow-x-clip bg-white">
@@ -34,31 +40,57 @@ const variants = [Variante1, Variante2, Variante3];
     </a>
   </div>
 
-  {variants.map((Variante, i) => (
-    <div data-footer-variant={i + 1} hidden={i > 0}>
-      <Variante {site} />
-    </div>
-  ))}
-
-  <div
-    data-footer-switch
-    class="fixed right-5 bottom-5 z-[99999] flex items-center gap-1 rounded-full border border-black/20 bg-white p-1 text-[12px] shadow-[0_2px_8px_rgb(0_0_0/0.1)]"
-  >
-    <span class="px-2 text-black/60">Footer</span>
-    {[1, 2, 3].map((n) => (
-      <button
-        type="button"
-        data-footer-pick={n}
-        class="size-7 cursor-pointer rounded-full text-black aria-pressed:bg-black aria-pressed:text-white"
+  <div class="px-5 pt-8 pb-5 lg:px-7.5">
+    <div class="mx-auto flex w-full max-w-[min(100%,767px)] flex-col gap-6 md:grid md:max-w-[min(100%,1024px)] md:grid-cols-6 md:gap-x-5 md:gap-y-8 lg:max-w-[min(100%,1700px)] lg:grid-cols-12">
+      <div
+        data-anim="fadeInUp"
+        data-anim-mobile="fadeInLeft"
+        class="order-2 md:order-none md:col-span-3 lg:col-span-5"
       >
-        {n}
-      </button>
-    ))}
+        <Frage {site} />
+      </div>
+      <span data-line class={`${line} order-3`}></span>
+      <div
+        data-anim="fadeInUp"
+        data-anim-delay="120"
+        data-anim-mobile="fadeInUp"
+        class="order-6 md:order-none md:col-span-3 lg:col-span-2"
+      >
+        {f.badge && <Badge />}
+      </div>
+      <div
+        class="contents md:col-span-3 md:flex md:flex-col md:gap-3 lg:col-span-3"
+        data-anim="fadeInUp"
+        data-anim-delay="240"
+        data-anim-mobile="none"
+      >
+        <Logos {site} which="main" wrapperClass="order-1 md:order-none" class="w-44.5" />
+        <Contact {site} class="order-4 gap-1.5 md:order-none" />
+        <Social class="order-5 -ml-2.5 md:order-none" />
+      </div>
+      <div
+        class="contents md:col-span-3 md:flex md:flex-col md:gap-3 lg:col-span-2"
+        data-anim="fadeInUp"
+        data-anim-delay="360"
+        data-anim-mobile="none"
+      >
+        <Logos {site} which="other" wrapperClass="order-9 md:order-none" class="w-44.5" />
+        <Legal
+          {site}
+          copyright={false}
+          class="order-7 flex-wrap gap-x-5 gap-y-2 md:order-none md:flex-col md:gap-2.5"
+        />
+      </div>
+      <div class="order-8 flex items-center justify-between gap-4 md:order-none md:col-span-full md:border-t md:border-black/20 md:pt-4">
+        <Copyright />
+        <ToTop />
+      </div>
+    </div>
   </div>
 </footer>
 
 <script>
-  import { lenis, playAnim } from '../../scripts/motion';
+  import { lenis } from '../../scripts/motion';
 
   // Pfeil nach oben
   document.querySelectorAll<HTMLElement>('[data-to-top]').forEach((el) =>
@@ -96,45 +128,5 @@ const variants = [Variante1, Variante2, Variante3];
       }),
     { threshold: 1 },
   );
-  const watchLines = (root: ParentNode) =>
-    root.querySelectorAll('[data-line]').forEach((line) => {
-      line.removeAttribute('data-in');
-      lineObserver.observe(line);
-    });
-
-  // Vergleich der Varianten: Umschalter, Auswahl bleibt im Browser
-  const variants = document.querySelectorAll<HTMLElement>('[data-footer-variant]');
-  const picks = document.querySelectorAll<HTMLButtonElement>('[data-footer-pick]');
-  const show = (n: number, replay: boolean) => {
-    variants.forEach((v) => (v.hidden = Number(v.dataset.footerVariant) !== n));
-    picks.forEach((b) =>
-      b.setAttribute('aria-pressed', String(Number(b.dataset.footerPick) === n)),
-    );
-    const active = document.querySelector<HTMLElement>(`[data-footer-variant="${n}"]`);
-    if (!active) return;
-    if (replay) {
-      active.querySelectorAll<HTMLElement>('[data-anim]').forEach((el) => {
-        el.style.visibility = 'hidden';
-        requestAnimationFrame(() => playAnim(el, el.dataset.anim || 'none'));
-      });
-    }
-    watchLines(active);
-  };
-  let start = 1;
-  try {
-    start =
-      Number(new URLSearchParams(location.search).get('footer')) ||
-      Number(localStorage.getItem('footer-variant')) ||
-      1;
-  } catch {}
-  show(Math.min(3, Math.max(1, start)), false);
-  picks.forEach((b) =>
-    b.addEventListener('click', () => {
-      const n = Number(b.dataset.footerPick);
-      try {
-        localStorage.setItem('footer-variant', String(n));
-      } catch {}
-      show(n, true);
-    }),
-  );
+  document.querySelectorAll('[data-line]').forEach((line) => lineObserver.observe(line));
 </script>

@@ -13,55 +13,61 @@ import malermanufaktur from '../../assets/img/Malermanufaktur_neu.png';
 interface Props {
   site?: Site;
   which: 'main' | 'other';
+  /** Klassen für das Hüllelement (Reihenfolge, Abstände); `class` gilt für das Bild */
+  wrapperClass?: string;
   class?: string;
 }
-const { site: siteKey = 'main', which, class: className = '' } = Astro.props;
+const { site: siteKey = 'main', which, wrapperClass = '', class: className = '' } = Astro.props;
 const exk = siteKey === 'exklusive';
 const f = footers[siteKey];
 ---
 
-{which === 'main' ? (
-  <a
-    href={href(f.logoHref)}
-    class="block"
-    aria-label={
-      exk ? 'Meisterwerke Exklusive, zur Startseite' : 'Meisterwerk Malermanufaktur, zur Startseite'
-    }
-  >
-    <Picture
-      formats={['avif']}
-      fallbackFormat="webp"
-      src={exk ? exklusive : logo}
-      alt={
+<div class={wrapperClass}>
+  {which === 'main' ? (
+    <a
+      href={href(f.logoHref)}
+      class="block"
+      aria-label={
         exk
-          ? 'Meisterwerke Exklusive by Baldassarre Fortino'
-          : 'Meisterwerk Malermanufaktur by Baldasarre Fortino'
+          ? 'Meisterwerke Exklusive, zur Startseite'
+          : 'Meisterwerk Malermanufaktur, zur Startseite'
       }
-      widths={[228, 456]}
-      sizes="178px"
-      class:list={['h-auto', className]}
-    />
-  </a>
-) : exk ? (
-  <Picture
-    formats={['avif']}
-    fallbackFormat="webp"
-    src={malermanufaktur}
-    alt="Meisterwerk Malermanufaktur by Baldassarre Fortino"
-    widths={[189, 378]}
-    sizes="131px"
-    class:list={['h-auto', className]}
-  />
-) : (
-  <a href="https://meisterwerk-exklusive.de/" class="block" aria-label="Meisterwerk Exklusive">
+    >
+      <Picture
+        formats={['avif']}
+        fallbackFormat="webp"
+        src={exk ? exklusive : logo}
+        alt={
+          exk
+            ? 'Meisterwerke Exklusive by Baldassarre Fortino'
+            : 'Meisterwerk Malermanufaktur by Baldasarre Fortino'
+        }
+        widths={[228, 456]}
+        sizes="178px"
+        class:list={['h-auto', className]}
+      />
+    </a>
+  ) : exk ? (
     <Picture
       formats={['avif']}
       fallbackFormat="webp"
-      src={exklusive}
-      alt="Meisterwerke Exklusive by Baldassarre Fortino"
-      widths={[228, 456]}
-      sizes="178px"
+      src={malermanufaktur}
+      alt="Meisterwerk Malermanufaktur by Baldassarre Fortino"
+      widths={[189, 378]}
+      sizes="131px"
       class:list={['h-auto', className]}
     />
-  </a>
-)}
+  ) : (
+    <a href="https://meisterwerk-exklusive.de/" class="block" aria-label="Meisterwerk Exklusive">
+      <Picture
+        formats={['avif']}
+        fallbackFormat="webp"
+        src={exklusive}
+        alt="Meisterwerke Exklusive by Baldassarre Fortino"
+        widths={[228, 456]}
+        sizes="178px"
+        class:list={['h-auto', className]}
+      />
+    </a>
+  )}
+</div>
