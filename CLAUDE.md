@@ -33,3 +33,7 @@
 ## Setup
 - `.mcp.json`: Playwright MCP und Chrome DevTools MCP (Wrapper in `.claude/mcp/`), headless mit vorinstalliertem Chromium.
 - `.mcp.json`: 21st MCP (UI-Komponenten von 21st.dev) – API-Schlüssel kommt aus der Umgebungsvariable `API_KEY_21ST` (nie ins Repo schreiben).
+
+## Projekt Meisterwerk (Astro-Umzug von meisterwerk-lb.de)
+- Ordner `meisterwerk/`, Stand, Werkzeuge und offene Entscheidungen: `meisterwerk/HANDOVER.md`, Konventionen: `meisterwerk/README.md`.
+- SEO nur auf ausdrücklichen Auftrag. Kontrast/Touch-Ziele nicht anfassen. Bei Ergebnissen prüft zuerst der Nutzer.
