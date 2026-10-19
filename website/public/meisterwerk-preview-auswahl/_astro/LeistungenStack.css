@@ -3,7 +3,7 @@
    Karten wie im bisherigen Meisterwerk-Design: Bild oben, Text darunter, alle gleich,
    weiße Karte mit feinem 1-Pixel-Rahmen, Hover mit Zoom und Plus-Kreis. */
 
-.lk{--lk-gutter:clamp(24px,4.4vw,88px);--lk-ink:#090402;--lk-gold:#a59371;--lk-soft:#f7f7f7;--lk-hair:#0904021f;position:relative;padding:60px var(--lk-gutter);background:var(--lk-soft);color:var(--lk-ink)}
+.lk{--lk-gutter:clamp(24px,4.4vw,88px);--lk-ink:#090402;--lk-gold:#a59371;--lk-soft:#f7f7f7;--lk-hair:#0904021f;--lk-strip:58px;position:relative;padding:60px var(--lk-gutter);background:var(--lk-soft);color:var(--lk-ink)}
 .lk-eyebrow,.lk h2,.lk-card h3,.lk-count{font-family:var(--font-urbanist),sans-serif}
 
 .lk-heading{margin-bottom:35px}
@@ -25,6 +25,10 @@
   .lk-img:hover img{transform:scale(1.05);opacity:.8}
   .lk-img:hover .lk-zoom{opacity:1}
 }
+.lk-card--logo .lk-img{display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--lk-hair)}
+.lk-card--logo .lk-img picture{width:min(62%,300px);height:auto}
+.lk-card--logo .lk-img img{height:auto;object-fit:contain}
+.lk-card--logo .lk-zoom{display:none}
 .lk-text{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:22px 24px 26px}
 .lk-card h3{margin:0;font-size:24px;line-height:1.3;font-weight:500}
 .lk-card h3 span{display:block;min-height:2.8em;margin-top:4px;color:#090402b3;font-size:16px;line-height:1.4;font-weight:400}
@@ -39,7 +43,7 @@
 
 /* Desktop und Tablet: Bühne steht, Karten fahren nacheinander von rechts darüber */
 @media (width>=701px) and (prefers-reduced-motion:no-preference){
-  .lk{height:290vh;padding:0}
+  .lk{height:335vh;padding:0}
   .lk-sticky{position:sticky;top:0;display:grid;grid-template-columns:38% 62%;align-items:center;height:100svh;min-height:680px;padding-left:var(--lk-gutter);overflow:clip}
   .lk-heading{margin:0;padding-right:30px}
   .lk-progress{display:block}
@@ -52,15 +56,17 @@
 @media (width>=1800px) and (prefers-reduced-motion:no-preference){
   .lk-card{height:530px}
 }
-@media (701px<=width<=1050px) and (prefers-reduced-motion:no-preference){
+@media (701px<=width<=1100px) and (prefers-reduced-motion:no-preference){
+  .lk{--lk-strip:34px}
   .lk-sticky{grid-template-columns:35% 65%}
-  .lk-card{width:350px}
+  .lk-card{width:min(350px,calc(.65*(100vw - var(--lk-gutter)) - var(--lk-gutter) - 5*var(--lk-strip) - 16px))}
   .lk-text{padding:18px 20px 22px}
+  .lk-card h3 span{min-height:4.2em}
 }
 
 /* Handy: Karten stapeln sich von unten übereinander, Zähler läuft mit */
 @media (width<=700px) and (height>=650px) and (prefers-reduced-motion:no-preference){
-  .lk{height:450svh;padding:0 20px}
+  .lk{height:525svh;padding:0 20px}
   .lk-sticky{position:sticky;top:0;display:block;height:100svh;min-height:0;overflow:clip}
   .lk-heading{margin:0;padding:92px 0 0}
   .lk-eyebrow{font-size:11px}
