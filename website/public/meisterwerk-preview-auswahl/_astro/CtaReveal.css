@@ -1,0 +1,20 @@
+/* Sektion mit Hintergrundbild, Linien und CTA-Box ("Jede Oberfläche ist einzigartig"):
+   Bild kommt per Parallax hoch, Sektion wird gepinnt, senkrechte Linien und CTA-Box gleiten von links
+   herein, kurzer Stopp, gleiten nach links wieder hinaus. Danach schiebt sich "Unsere Exklusive Projekte"
+   von unten über die stehende Sektion. Ohne Skript oder bei reduzierter Bewegung bleibt alles wie vorher. */
+
+.mz{position:relative;margin-top:14vh}
+@media (width>=768px){.mz{margin-top:20vh}}
+
+.mz-stage{position:relative;isolation:isolate;overflow:clip}
+.mz-bg{position:absolute;inset:0;z-index:-1;background-position:center;background-size:cover}
+.mz-row{position:relative}
+.mz-lockzone{position:absolute;top:0;left:0;right:0;height:0;pointer-events:none}
+
+/* aktiv (vom Skript gesetzt) */
+.mz--on .mz-stage{position:sticky;top:0;display:flex;flex-direction:column;height:100svh}
+.mz--on .mz-row{flex:1 1 0}
+.mz--on .mz-row--mid{flex:0 0 auto}
+.mz--on .mz-bg{inset:-16% 0;will-change:transform}
+.mz--on .mz-col{will-change:transform}
+.mz-cover--on{position:relative;z-index:2;display:flow-root;background:#fff}
