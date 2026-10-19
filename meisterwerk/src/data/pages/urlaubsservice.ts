@@ -1,5 +1,6 @@
 // Inhalte der Seite /urlaubsservice/ (Texte wie im Original)
 import image from '../../assets/img/urlaubsservice.jpeg';
+import palm from '../../assets/img/black-white-palm-landscape-scaled.jpg';
 import concrete from '../../assets/img/249-mw-20241125-scaled.jpg';
 
 export const meta = {
@@ -38,3 +39,7 @@ export const columns = [
     ],
   },
 ];
+
+// Teil-Website Exklusive (/meisterwerk-exklusive/urlaub/): Überzeile, anderes Bild, gleicher Text und Ablauf
+export const exklusiveMeta = { title: 'Urlaub - Meisterwerke Exklusive' };
+export const exklusiveIntro = { ...intro, eyebrow: 'Meisterwerk Exklusive', image: palm };

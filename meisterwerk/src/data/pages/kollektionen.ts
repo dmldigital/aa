@@ -42,7 +42,7 @@ export const kollektionenSeiten: KollektionenSeite[] = [
     collections: [
       {
         id: 'f2b8b86',
-        title: 'Colezione Monilito',
+        title: 'Collezione Monilito',
         rows: [
           {
             id: 'ce0397d',

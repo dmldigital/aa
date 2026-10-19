@@ -9,6 +9,8 @@ import stairs from '../../assets/img/2025-meisterwerk-20230524-HDR-scaled.jpg';
 interface Props {
   id?: string;
   eyebrow?: string | null;
+  /** `h6`: Überzeile als Überschrift (Exklusive-Seiten), sonst Fließtext-Zeile. */
+  eyebrowTag?: 'h6';
   heading?: string;
   headingColor?: string;
   text?: string;
@@ -19,6 +21,7 @@ interface Props {
 const {
   id = '9e8e860',
   eyebrow = 'Meisterwerk Maler Manufaktur',
+  eyebrowTag,
   heading = 'Meisterliche Malerarbeiten für Wohnträume und Lebensräume',
   headingColor = 'text-gold',
   text,
@@ -31,7 +34,12 @@ const {
 <section data-section={id} class:list={['flex flex-col overflow-hidden px-5 lg:px-7.5', rootClass]}>
   <div class="mx-auto flex w-full max-w-page grow flex-col gap-5 md:flex-row md:items-center md:gap-x-7.5 lg:gap-x-5">
     <div class="flex flex-col gap-3.75 md:w-1/2 lg:gap-5">
-      {eyebrow && (
+      {eyebrow && eyebrowTag === 'h6' && (
+        <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+          {eyebrow}
+        </h6>
+      )}
+      {eyebrow && !eyebrowTag && (
         <div>
           <span class="font-display text-label font-medium tracking-label uppercase">
             {eyebrow}
