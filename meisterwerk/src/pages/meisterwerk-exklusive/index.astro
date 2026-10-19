@@ -1,0 +1,114 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import Hero from '../../components/sections/HeroSlider.astro';
+import Welcome from '../../components/sections/Welcome.astro';
+import Partner from '../../components/sections/Partner.astro';
+import Services from '../../components/sections/Services.astro';
+import Skills from '../../components/sections/Skills.astro';
+import Masterly from '../../components/sections/Masterly.astro';
+import TextCards from '../../components/sections/TextCards.astro';
+import Surface from '../../components/sections/Surface.astro';
+import Projects from '../../components/sections/Projects.astro';
+import Faq from '../../components/sections/Faq.astro';
+import { href } from '../../data/links';
+import {
+  meta,
+  hero,
+  welcome,
+  intro,
+  leistungen,
+  philosophie,
+  prinzipien,
+  banner,
+  projekte,
+  vorgehen,
+} from '../../data/pages/exklusive-start';
+---
+
+<PageLayout
+  site="exklusive"
+  title={meta.title}
+  description={meta.description}
+  current="/meisterwerk-exklusive/"
+>
+  <Hero id="ca992c2" slides={hero} />
+  <Welcome
+    id="53bda50"
+    rootClass="min-h-[40vh] md:min-h-[60vh]"
+    textColClass="min-h-screen md:min-h-0"
+    image={welcome.image}
+    imageAlt={welcome.imageAlt}
+    heading={welcome.heading}
+    headingTag="h2"
+    headingClass="text-[23px]/[27.6px] text-ink md:text-[29px]/[39.15px] lg:text-h2"
+    paragraphs={welcome.paragraphs}
+    bodyClass="text-[14px]/[21px] md:text-[17px]/[25.5px] [&>p]:mb-3.5 md:[&>p]:mb-4.25 lg:[&>p]:mb-[25.5px]"
+    cta={{ label: welcome.cta.label, href: href(welcome.cta.href), tone: 'black' }}
+  />
+  <Partner
+    id="3c77667"
+    heading={intro.heading}
+    headingTag="h1"
+    headingColor="text-ink"
+    images={intro.images}
+    rootClass="mt-0 md:mb-15 md:min-h-75 md:px-5 lg:mt-[20vh] lg:mb-0 lg:min-h-[60vh] lg:px-7.5"
+    gridClass="content-center md:items-center md:gap-x-5 lg:gap-x-7.5"
+  />
+  <Services
+    id="c86fd36"
+    eyebrow={leistungen.eyebrow}
+    eyebrowTag="h2"
+    eyebrowClass="mb-0"
+    heading={leistungen.heading}
+    cards={leistungen.cards}
+    rootClass="mt-[10vh] md:mt-0 md:mb-15 lg:my-[10vh]"
+    headingClass="text-[21px]/[26.25px] text-ink md:text-[24px]/[30px] lg:text-[32px]/[40px]"
+    gridClass="lg:grid-cols-4"
+    titleClass="text-[19px]/[24.7px] md:text-h5 lg:text-h4"
+    titleBoxClass="w-[calc(100%-40px)]"
+  >
+    <Skills embedded class="md:my-15 lg:mt-33.75 lg:mb-0" />
+  </Services>
+  <Masterly
+    id="9e8e860"
+    eyebrow={philosophie.eyebrow}
+    heading={philosophie.heading}
+    headingColor="text-ink"
+    image={philosophie.image}
+    imageAlt={philosophie.alt}
+    rootClass="mt-[14vh] md:mt-0 md:mb-10 lg:my-[20vh]"
+  />
+  <TextCards id="797793f" cards={prinzipien} />
+  <Surface
+    id="882761a"
+    image={banner.image}
+    lead={banner.lead}
+    leadTag="h5"
+    leadClass="font-display text-h5 font-medium text-white"
+    button={{ label: banner.button.label, href: href(banner.button.href) }}
+    heading={banner.heading}
+    rootClass="my-[14vh] md:my-[20vh]"
+  />
+  <Projects
+    id="3472c30"
+    heading={projekte.heading}
+    link={projekte.link}
+    projects={projekte.items}
+  />
+  <Faq
+    id="b1f5cd6"
+    heading={vorgehen.heading}
+    headingTag="h3"
+    headingClass="text-[21px]/[26.25px] text-ink md:text-[24px]/[30px] lg:text-[32px]/[40px]"
+    intro={vorgehen.intro}
+    faqs={vorgehen.faqs}
+    image={vorgehen.image}
+    imageAlt={vorgehen.alt}
+    imageClass="max-w-[467px] lg:w-[45rem] lg:max-w-none"
+    rootClass="mt-[20vh]"
+    openFirst
+    accordionClass=""
+    buttonClass="border-b border-black/20 py-4 hover:text-gold md:py-3.75 lg:py-[22.5px]"
+    titleClass="text-[19px]/[24.7px] md:text-h5 lg:text-h4"
+  />
+</PageLayout>

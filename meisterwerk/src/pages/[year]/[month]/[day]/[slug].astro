@@ -1,0 +1,24 @@
+---
+/** Projektbeiträge: eine Route für alle Einträge der Collection `beitraege`. */
+import { getCollection } from 'astro:content';
+import PageLayout from '../../../../layouts/PageLayout.astro';
+import PostArticle from '../../../../components/sections/PostArticle.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('beitraege');
+  return posts.map(({ data }) => ({
+    params: { year: data.year, month: data.month, day: data.day, slug: data.slug },
+    props: { post: data },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<PageLayout
+  title={`${post.title} - Meisterwerk Malermanufaktur`}
+  description={post.description}
+  current={`/${post.year}/${post.month}/${post.day}/${post.slug}/`}
+>
+  <PostArticle {post} />
+</PageLayout>

@@ -1,0 +1,43 @@
+---
+/**
+ * Rechteckiger Button mit Unterstrich-Animation (Original: Elementor-Button 14px/15,4px).
+ * `light` = weiß auf Bild (Rand weiß), `outline` = weiß mit schwarzem Rand, `solid` = schwarz mit weißer Schrift.
+ * `size="sm"` = kompakt (Kopfzeile).
+ */
+interface Props {
+  /** Ohne `href` entsteht ein `<button>` (z. B. Senden-Button im Formular). */
+  href?: string;
+  variant?: 'light' | 'outline' | 'solid';
+  size?: 'md' | 'sm';
+  type?: 'submit' | 'button';
+}
+const { href, variant = 'outline', size = 'md', type = 'submit' } = Astro.props;
+const Tag = href ? 'a' : 'button';
+const variants = {
+  light: { link: 'border-white', text: 'relative [--underline-gap:0px]' },
+  outline: { link: 'border-black bg-white text-black', text: '[--underline-gap:3px]' },
+  solid: {
+    link: 'border-black bg-black text-white transition-colors duration-300 hover:border-gold hover:bg-gold',
+    text: '[--underline-gap:3px]',
+  },
+};
+const sizes = {
+  md: 'px-5 py-3.25 md:px-6.25 lg:px-7.5 lg:py-3.75',
+  sm: 'px-4 py-2.25 text-[12px] md:px-5 lg:py-2.75',
+};
+---
+
+<Tag
+  {...(href ? { href } : { type })}
+  class:list={[
+    'group/ul inline-block cursor-pointer border text-center font-display text-button font-semibold tracking-button',
+    sizes[size],
+    variants[variant].link,
+  ]}
+>
+  <span class="flex justify-center gap-1.25">
+    <span class:list={['underline-anim', variants[variant].text]}>
+      <slot />
+    </span>
+  </span>
+</Tag>

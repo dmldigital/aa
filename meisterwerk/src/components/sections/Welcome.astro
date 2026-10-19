@@ -1,0 +1,103 @@
+---
+import ArrowLink from '../ui/ArrowLink.astro';
+import { href, routes } from '../../data/links';
+import { Picture } from 'astro:assets';
+import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
+
+/**
+ * Willkommen-Block (Original 53bda50). Ohne Props: Startseite. Mit Props für die Unterseiten
+ * (Bild, Überschrift als HTML, Absätze als HTML, Link, Klassen für Überschrift und Fließtext).
+ */
+interface Props {
+  id?: string;
+  rootClass?: string;
+  textColClass?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  heading?: string;
+  headingTag?: 'h1' | 'h2';
+  headingClass?: string;
+  paragraphs?: string[];
+  bodyClass?: string;
+  cta?: { label: string; href: string; tone?: 'gold' | 'black' };
+}
+const {
+  id = '53bda50',
+  rootClass,
+  textColClass,
+  image = wohnzimmer,
+  imageAlt = 'Modernes Wohnzimmer mit dunkler mineralischer Akzentwand, perfekt glatten weißen Wänden und indirekter Deckenbeleuchtung in Ludwigsburg.',
+  heading = 'Willkommen bei Meisterwerk <br /> der Maler-Manufaktur',
+  headingTag: Heading = 'h1',
+  headingClass = 'text-[23px]/[25.3px] text-gold md:text-[34px]/[37.4px] lg:text-h1',
+  paragraphs = [
+    'Ihrem Spezialisten für hochwertige Malerarbeiten und individuelle Oberflächengestaltung. <br /> Mit über 22 Jahren Erfahrung vereinen wir traditionelles Handwerk mit modernem Design. Ob beim Innen- oder Außenanstrich, bei kreativen Wandtechniken oder der Veredelung von Oberflächen – wir setzen Ihre Wünsche mit höchster Präzision und Leidenschaft um.',
+    'Unsere Philosophie ist es, Räume zu schaffen, die nicht nur durch Farben und Strukturen überzeugen, sondern auch durch Qualität und Langlebigkeit. Dabei verwenden wir bevorzugt umweltfreundliche, zum Teil allergikerfreundliche Materialien, um für ein gesundes Raumklima zu sorgen.',
+    'Von der umfassenden Beratung über die Auswahl passender Farben und Materialien bis hin zur fachmännischen Umsetzung begleiten wir unsere Kunden persönlich und zuverlässig. Jedes Projekt ist für uns ein Meisterwerk, bei dem wir Wert auf Detailgenauigkeit, exakte Planung und eine saubere Ausführung legen. Erleben Sie mit uns Malerarbeiten auf höchstem Niveau und entdecken Sie, wie Farbe und Gestaltung Ihre Wohn- und Arbeitsräume in einzigartige Lebenswelten verwandeln können.',
+  ],
+  bodyClass = '[&>p]:mb-3.75 [&>p]:text-15 lg:[&>p]:mb-para',
+  cta = { label: 'Projekt starten', href: href(routes.contact), tone: 'gold' },
+} = Astro.props;
+---
+
+<section
+  data-section={id}
+  class:list={[
+    'mt-[8vh] flex flex-col overflow-hidden px-5 md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0 lg:px-7.5',
+    rootClass,
+  ]}
+>
+  <div class="mx-auto flex w-full flex-wrap gap-5 md:flex-nowrap md:gap-x-7.5 lg:max-w-page lg:gap-x-5">
+    <!-- Bild: nur auf dem Desktop sichtbar (Original: elementor-hidden-tablet/-mobile) -->
+    <div class="hidden flex-1 flex-col gap-5 lg:flex">
+      <div class="overflow-hidden">
+        <div data-grow="bottom" data-anim-delay="420">
+          <Picture
+            formats={['avif']}
+            fallbackFormat="webp"
+            src={image}
+            alt={imageAlt}
+            widths={[680, 840, 1360, 1680]}
+            sizes="(min-width: 1760px) 840px, calc(50vw - 40px)"
+            class="block h-auto w-full"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div
+      class:list={[
+        'mt-[12vh] flex w-full flex-col gap-3.75 md:mt-0 md:w-1/2 lg:w-auto lg:flex-1 lg:gap-5',
+        textColClass,
+      ]}
+    >
+      <div
+        class="lg:mb-5 lg:max-w-[690px]"
+        data-anim="fadeInUp"
+        data-anim-delay="280"
+        data-anim-dur="slow"
+      >
+        <Heading class:list={['font-display font-medium', headingClass]} set:html={heading} />
+      </div>
+
+      <div class={bodyClass}>
+        {paragraphs.map((p) => (
+          <p set:html={p} />
+        ))}
+      </div>
+
+      <div
+        data-anim="fadeIn"
+        data-anim-mobile="slideInRight"
+        data-anim-delay="500"
+        data-anim-dur="slow"
+      >
+        <div>
+          <ArrowLink href={cta.href} tone={cta.tone ?? 'gold'} gap="3px">
+            {cta.label}
+          </ArrowLink>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

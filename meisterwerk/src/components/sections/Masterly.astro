@@ -1,0 +1,78 @@
+---
+import { Picture } from 'astro:assets';
+import stairs from '../../assets/img/2025-meisterwerk-20230524-HDR-scaled.jpg';
+
+/**
+ * Text links, Bild rechts (Original 9e8e860). Ohne Props: Startseite. Für Unterseiten: Überzeile
+ * (`null` = keine), Überschrift, optionaler Fließtext, Bild, Klassen für Wurzel und Überschriftfarbe.
+ */
+interface Props {
+  id?: string;
+  eyebrow?: string | null;
+  /** `h6`: Überzeile als Überschrift (Exklusive-Seiten), sonst Fließtext-Zeile. */
+  eyebrowTag?: 'h6';
+  heading?: string;
+  headingColor?: string;
+  text?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  rootClass?: string;
+}
+const {
+  id = '9e8e860',
+  eyebrow = 'Meisterwerk Maler Manufaktur',
+  eyebrowTag,
+  heading = 'Meisterliche Malerarbeiten für Wohnträume und Lebensräume',
+  headingColor = 'text-gold',
+  text,
+  image = stairs,
+  imageAlt = 'Helles Treppenhaus mit Holzstufen, frisch gestrichene Wände und Wandleuchte',
+  rootClass = 'mt-[10vh] md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0',
+} = Astro.props;
+---
+
+<section data-section={id} class:list={['flex flex-col overflow-hidden px-5 lg:px-7.5', rootClass]}>
+  <div class="mx-auto flex w-full max-w-page grow flex-col gap-5 md:flex-row md:items-center md:gap-x-7.5 lg:gap-x-5">
+    <div class="flex flex-col gap-3.75 md:w-1/2 lg:gap-5">
+      {eyebrow && eyebrowTag === 'h6' && (
+        <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+          {eyebrow}
+        </h6>
+      )}
+      {eyebrow && !eyebrowTag && (
+        <div>
+          <span class="font-display text-label font-medium tracking-label uppercase">
+            {eyebrow}
+          </span>
+        </div>
+      )}
+      <div
+        class="w-full max-w-full lg:mb-5 lg:max-w-[500px]"
+        data-anim="slideInUp"
+        data-anim-delay="360"
+      >
+        <h2
+          class:list={[
+            'font-display text-[23px]/[27.6px] font-medium md:text-[29px]/[39.15px] lg:text-h2',
+            headingColor,
+          ]}
+          set:html={heading}
+        />
+      </div>
+      {text && <p set:html={text} />}
+    </div>
+    <div class="overflow-hidden md:w-1/2">
+      <div class="[clip-path:none]" data-grow="bottom" data-anim-delay="340">
+        <Picture
+          formats={['avif']}
+          fallbackFormat="webp"
+          src={image}
+          alt={imageAlt}
+          widths={[350, 700, 1360]}
+          sizes="(min-width: 1025px) 680px, (min-width: 768px) 477px, 350px"
+          class="block h-auto w-full"
+        />
+      </div>
+    </div>
+  </div>
+</section>

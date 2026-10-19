@@ -1,0 +1,157 @@
+---
+import type { Site } from '../../data/nav';
+import V2 from '../menu/V2.astro';
+import V3 from '../menu/V3.astro';
+/**
+ * Menü: Tablet und Desktop (ab 701 px) geteiltes Vollbild-Menü (`menu/V2`, rechts Untermenü oder Kontakt mit
+ * kurzem Formular), Handy (bis 700 px) Seitenfläche von rechts (`menu/V3`). Öffnen und Schließen steuert das
+ * Skript unten, ebenso die rechte Seite des Desktop-Menüs.
+ */
+interface Props {
+  site?: Site;
+  /** Pfad der aktuellen Seite, markiert den aktiven Eintrag */
+  current?: string;
+}
+const { site = 'main', current = '/' } = Astro.props;
+---
+
+<V2 {site} {current} />
+<V3 {site} {current} />
+
+<script>
+  import { gsap } from 'gsap';
+  import { lenis } from '../../scripts/motion';
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const dialogs = [...document.querySelectorAll<HTMLDialogElement>('[data-menu-dialog]')];
+  const active = () =>
+    dialogs.find(
+      (d) => d.dataset.variant === (window.matchMedia('(max-width: 700px)').matches ? '3' : '2'),
+    ) ?? dialogs[0];
+  let busy = false;
+  let opener: HTMLElement | null = null;
+
+  const lock = (on: boolean) => {
+    document.body.style.overflow = on ? 'hidden' : '';
+    if (on) lenis?.stop();
+    else lenis?.start();
+  };
+  const setExpanded = (on: boolean) =>
+    document
+      .querySelectorAll('[data-menu-open]')
+      .forEach((b) => b.setAttribute('aria-expanded', String(on)));
+  const axis = (d: HTMLElement) =>
+    d.dataset.menuFrom === 'right'
+      ? { from: { xPercent: 110 }, to: { xPercent: 0 } }
+      : { from: { yPercent: -110 }, to: { yPercent: 0 } };
+
+  const open = (from: HTMLElement) => {
+    const menu = active();
+    if (!menu || menu.open || busy) return;
+    opener = from;
+    menu.showModal();
+    lock(true);
+    setExpanded(true);
+    if (reduced) return;
+    const a = axis(menu);
+    gsap.fromTo(menu, a.from, { ...a.to, duration: 0.75, ease: 'power3.out' });
+    gsap.fromTo(
+      menu.querySelectorAll('[data-menu-item]'),
+      { opacity: 0, y: 22 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: 0.06,
+        delay: 0.3,
+        clearProps: 'opacity,transform',
+      },
+    );
+  };
+
+  const close = (hash?: string) => {
+    const menu = dialogs.find((d) => d.open);
+    if (!menu || busy) return;
+    busy = true;
+    const done = () => {
+      menu.close();
+      lock(false);
+      setExpanded(false);
+      gsap.set(menu, { clearProps: 'transform,opacity' });
+      busy = false;
+      if (hash) {
+        const target = document.querySelector<HTMLElement>(hash);
+        if (target) {
+          if (lenis) lenis.scrollTo(target, { offset: -25 });
+          else target.scrollIntoView({ behavior: 'smooth' });
+          history.replaceState(null, '', hash);
+        }
+      } else opener?.focus({ preventScroll: true });
+    };
+    if (reduced) done();
+    else {
+      const a = axis(menu);
+      gsap.to(menu, { ...a.from, duration: 0.45, ease: 'power3.in', onComplete: done });
+    }
+  };
+
+  document
+    .querySelectorAll<HTMLElement>('[data-menu-open]')
+    .forEach((b) => b.addEventListener('click', () => open(b)));
+  dialogs.forEach((menu) => {
+    menu.querySelector('[data-menu-close]')?.addEventListener('click', () => close());
+    menu.addEventListener('cancel', (e) => {
+      e.preventDefault();
+      close();
+    });
+    // Klick auf die abgedunkelte Fläche neben der Seitenfläche schließt
+    menu.addEventListener('click', (e) => {
+      if (e.target === menu) close();
+    });
+    // Link auf einen Anker der aktuellen Seite: erst schließen, dann dorthin scrollen
+    menu.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) =>
+      a.addEventListener('click', (e) => {
+        if (a.pathname === location.pathname && a.hash) {
+          e.preventDefault();
+          close(a.hash);
+        }
+      }),
+    );
+  });
+
+  // Desktop-Menü: Untermenü rechts anzeigen (Überfahren, Fokus oder Anwählen), sonst Kontakt
+  const split = document.querySelector<HTMLDialogElement>('[data-variant="2"]');
+  if (split) {
+    const panels = [...split.querySelectorAll<HTMLElement>('[data-split-panel]')];
+    const targets = [...split.querySelectorAll<HTMLElement>('[data-split-target]')];
+    const show = (id: string) => {
+      targets.forEach((t) =>
+        t.toggleAttribute('data-active', t.dataset.splitTarget === id && id !== 'contact'),
+      );
+      panels.forEach((p) => p.toggleAttribute('data-show', p.dataset.splitPanel === id));
+    };
+    // Kurze Verzögerung (Hover-Absicht): Beim schnellen Überfahren mehrerer Punkte flackern keine Zwischenflächen
+    let timer = 0;
+    const later = (id: string) => {
+      clearTimeout(timer);
+      timer = window.setTimeout(() => show(id), 90);
+    };
+    targets.forEach((t) => {
+      const id = t.dataset.splitTarget!;
+      t.addEventListener('mouseenter', () => later(id));
+      t.addEventListener('focus', () => show(id));
+      t.addEventListener('mouseleave', () => clearTimeout(timer));
+      if (t.tagName === 'BUTTON') t.addEventListener('click', () => show(id));
+    });
+    split.addEventListener('close', () => show('contact'));
+  }
+
+  // Kurzes Formular im Menü: noch nicht angebunden, wie beim Kontaktformular nur eine Meldung
+  document.querySelectorAll<HTMLFormElement>('form[data-menu-form]').forEach((form) =>
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = form.querySelector<HTMLElement>('[data-form-message]');
+      if (message) message.hidden = false;
+    }),
+  );
+</script>

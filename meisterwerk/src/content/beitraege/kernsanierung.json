@@ -1,0 +1,49 @@
+{
+  "year": "2021",
+  "month": "05",
+  "day": "01",
+  "slug": "kernsanierung",
+  "title": "Kernsanierung",
+  "image": "../../assets/img/2000-meisterwerk-20230524-Bearbeitet-2-scaled.jpg",
+  "services": ["Malerarbeiten", "Spachteltechnik"],
+  "info": {
+    "year": "2021",
+    "place": "Ludwigsburg",
+    "duration": "4 Monate",
+    "area": "180"
+  },
+  "sections": [
+    {
+      "heading": "Umfassende Kernsanierung",
+      "text": "Unser jüngster Auftrag umfasste die vollständige Kernsanierung eines Altbaus – von der Renovierung der Trockenbau-Decken bis hin zur Errichtung neuer Wände. Um glatte Oberflächen zu erzielen und Haarrisse zuverlässig zu überbrücken, wurden Decken und Wände zweifach gespachtelt und anschließend mit Malervlies tapeziert. Diese Arbeiten führte unser Team vollständig in Eigenleistung aus, sodass höchste Qualität und Kontinuität gewährleistet waren. Zum Abschluss erhielten die Oberflächen einen Anstrich mit langlebiger Silikatfarbe, die für ein attraktives und beständiges Ergebnis sorgt."
+    },
+    {
+      "heading": "Restaurierung und Detailarbeit",
+      "text": "Parallel zur Sanierung widmeten wir uns der Restaurierung der alten Holztreppe. Während Wangen und Geländer deckend lackiert wurden, haben wir den Handlauf auf das ursprüngliche Holzdesign zurückgeführt. Diese sorgfältige Aufarbeitung stellte sicher, dass die historische Ästhetik der Treppe bewahrt bleibt und zugleich Stabilität sowie Langlebigkeit gewährleistet werden."
+    },
+    {
+      "heading": "Individuelle Akzente und Highlights",
+      "text": "In enger Zusammenarbeit mit den Kunden und dem Architekten setzten wir zusätzlich markante gestalterische Akzente. Besonders hervorzuheben ist der sichtbare Stahlträger, der dem Gebäude einen modernen, industriellen Charakter verleiht, ohne an Eleganz zu verlieren. Ein weiteres Highlight ist die außergewöhnlich gestaltete Gästetoilette, die mit ihrem einzigartigen Design beeindruckt. Weitere Informationen und Bilder zu diesem sowie anderen exklusiven Projekten finden Sie in der Rubrik „Exklusiv“ auf unserer Webseite."
+    }
+  ],
+  "gallery": [
+    "../../assets/img/2068-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2064-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2037-meisterwerk-20230524-Bearbeitet-scaled.jpg",
+    "../../assets/img/2033-meisterwerk-20230524-Bearbeitet-scaled.jpg",
+    "../../assets/img/2030-meisterwerk-20230524-Bearbeitet-1-scaled.jpg",
+    "../../assets/img/2045-meisterwerk-20230524-Bearbeitet-scaled.jpg",
+    "../../assets/img/2048-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2049-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2050-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2025-meisterwerk-20230524-HDR-2-scaled.jpg",
+    "../../assets/img/2058-meisterwerk-20230524-1-scaled.jpg",
+    "../../assets/img/2018-meisterwerk-20230524-Bearbeitet-2-scaled.jpg",
+    "../../assets/img/2004-meisterwerk-20230524-Bearbeitet-1-scaled.jpg",
+    "../../assets/img/2000-meisterwerk-20230524-Bearbeitet-2-scaled.jpg",
+    "../../assets/img/2072-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2014-meisterwerk-20230524-Bearbeitet-3-scaled.jpg",
+    "../../assets/img/2009-meisterwerk-20230524-Bearbeitet-2-scaled.jpg"
+  ],
+  "largeText": true
+}

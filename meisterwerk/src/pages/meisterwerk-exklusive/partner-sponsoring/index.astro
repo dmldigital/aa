@@ -1,0 +1,15 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PartnerList from '../../../components/sections/PartnerList.astro';
+import { partnerGroups, partnerPage } from '../../../data/pages/partner';
+import { routes } from '../../../data/links';
+---
+
+<PageLayout
+  site="exklusive"
+  title={partnerPage.title}
+  description={partnerPage.description}
+  current={routes.partners}
+>
+  <PartnerList groups={partnerGroups} />
+</PageLayout>

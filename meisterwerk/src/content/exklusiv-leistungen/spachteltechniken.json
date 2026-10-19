@@ -1,0 +1,146 @@
+{
+  "slug": "spachteltechniken",
+  "title": "Spachteltechniken - Meisterwerke Exklusive",
+  "intro": {
+    "img": "../../assets/img/Exklusive-Spachteltechnik-Kalkpresstechnik-Badedzimmer-Bianco-scaled.jpg",
+    "parts": [
+      {
+        "t": "label",
+        "text": "Die Vorteile auf einen Blick"
+      },
+      {
+        "t": "html",
+        "html": "<h2>Das Besondere an Spachteltechniken</h2><div><div><div><div><div id=\"markdown-content-7\" dir=\"auto\"><div><div><div><p>Spachteltechniken verleihen Wänden und Decken eine einzigartige, individuelle Optik, die mit klassischen Anstrichmethoden nicht erreichbar ist. Durch die spezielle Verarbeitung entstehen faszinierende Strukturen, Licht- und Schattenspiele sowie besondere Oberflächen, die jedem Raum Charakter und Exklusivität verleihen. Jede Fläche wird zum Unikat – von elegant-glatt bis lebendig-strukturiert. Zudem sind Spachteltechniken langlebig, pflegeleicht und bieten vielfältige Gestaltungsmöglichkeiten, die sich flexibel an persönliche Stilwünsche anpassen lassen.</p></div></div></div></div></div></div><div><div><div><div>&nbsp;</div></div><div>&nbsp;</div></div><div><div>&nbsp;</div><div>&nbsp;</div></div></div></div></div><div><div><div><div><div><div><div><div><div>&nbsp;</div></div></div></div></div></div></div></div></div>"
+      },
+      {
+        "t": "spacer",
+        "m": true
+      },
+      {
+        "t": "button",
+        "label": "Schauen Sie sich bereits fertiggestellte Projekte an",
+        "href": "/meisterwerk-exklusive/projekte/"
+      },
+      {
+        "t": "spacer",
+        "m": true
+      },
+      {
+        "t": "block",
+        "no": "01",
+        "title": "Materialien & Techniken",
+        "html": "<ul><li>Kalk-Marmorputz</li><li>Stucco Veneziano</li><li>Betonoptik</li><li>Metallische Effekte</li><li>Strukturierte Spachtelungen</li><li>Glänzende und matte Oberflächen</li></ul><p> Die Auswahl des richtigen Materials und der passenden Technik erfolgt individuell nach Ihren Vorstellungen und den Gegebenheiten des Raumes. </p>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "block",
+        "no": "02",
+        "title": "Anwendungsbereiche",
+        "html": "<ul><li>Wohnräume: Wohnzimmer, Schlafzimmer, Flure</li><li>Bäder und Küchen: Feuchtraumgeeignete Oberflächen</li><li>Gewerbliche Räume: Praxen, Büros, Showrooms</li><li>Decken und Akzentwände: Für besondere Highlights im Raum</li></ul>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "block",
+        "no": "03",
+        "title": "Ihr Weg zur individuellen Wandgestaltung",
+        "html": "<ul><li>Persönliche Beratung und gemeinsame Planung</li><li>Auswahl der passenden Materialien und Techniken</li><li>Fachgerechte Ausführung durch erfahrene Spezialisten</li><li>Betreuung und Service auch nach Projektabschluss</li></ul>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "spacer",
+        "small": true
+      },
+      {
+        "t": "button",
+        "label": "Lassen Sie sich inspirieren – und Ihren Preis berechnen",
+        "href": "/kontakt/"
+      }
+    ]
+  },
+  "pillars": [
+    {
+      "title": "Überlegene Handwerkskunst",
+      "html": "<p>Wir setzen auf echte Handarbeit und arbeiten ausschließlich mit erfahrenen Fachkräften und ausgewählten Partnern aus der Region und ganz Europa zusammen. Jedes Projekt entsteht mit höchster Präzision, Liebe zum Detail und einem ausgeprägten Sinn für Qualität.</p>",
+      "bullets": [
+        "10+ Jahre Erfahrung im Bad- und Oberflächendesign",
+        "Nachhaltige Materialien, verantwortungsvoll",
+        "Individuelle, handgefertigte Lösungen"
+      ]
+    },
+    {
+      "title": "Hochwertige Materialien & Ausstattung",
+      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller – langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
+      "bullets": [
+        "Exklusive Auswahl an Oberflächen, Farben und Strukturen",
+        "Investition in Qualität und Wertbeständigkeit",
+        "Sorgfältige Materialauswahl für Ihr individuelles Projekt"
+      ]
+    },
+    {
+      "title": "Investment Value",
+      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design – für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
+      "bullets": [
+        "Zeitloses Design und dauerhafte Wertschöpfung",
+        "Fokus auf nachhaltige, pflegeleichte Lösungen",
+        "Strategische Planung für maximale Wirkung in Ihrem Zuhause"
+      ]
+    }
+  ],
+  "feature": {
+    "accordion": [
+      {
+        "title": "Innovationen & Trends",
+        "html": "<p>Die Welt der Spachteltechniken entwickelt sich stetig weiter. Neue Materialkombinationen, innovative Techniken und kreative Designs sorgen dafür, dass Sie Ihre Wände ganz nach Ihren Vorstellungen gestalten können. Nachhaltige und umweltfreundliche Lösungen gewinnen dabei zunehmend an Bedeutung.</p>",
+        "open": true
+      },
+      {
+        "title": "Lassen Sie sich inspirieren!",
+        "html": "<p> Entdecken Sie die Möglichkeiten exklusiver Spachteltechniken für Ihr Zuhause oder Ihr Unternehmen. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch – wir freuen uns darauf, gemeinsam mit Ihnen einzigartige Räume zu gestalten! </p>",
+        "open": false
+      }
+    ],
+    "button": {
+      "label": "Jetzt beraten lassen!",
+      "href": "/kontakt/"
+    },
+    "img": "../../assets/img/Exklusive-Spachteltechnik-Kalkpresstechnik-Badetimmer-Nero-scaled.jpg"
+  },
+  "gallery": {
+    "id": "c113608",
+    "columns": [4, 2, 1],
+    "items": [
+      "../../assets/img/001-meisterwerk-20230508-HDR-1-scaled.jpg",
+      "../../assets/img/19-bf-20241206-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/117-meisterwerk-20230120-Bearbeitet-1-2-scaled.jpg",
+      "../../assets/img/14-bf-20241206-Bearbeitet-3-scaled.jpg",
+      "../../assets/img/069-meisterwerk-20230508-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/188-mw-20241125-2-scaled.jpg",
+      "../../assets/img/104-meisterwerk-20230508-1-scaled.jpg",
+      "../../assets/img/2022-meisterwerk-20230524-Bearbeitet-scaled.jpg",
+      "../../assets/img/148-mw-20241125-HDR-scaled.jpg",
+      "../../assets/img/178-mw-20241125-scaled.jpg",
+      "../../assets/img/173-mw-20241125-HDR-scaled.jpg",
+      "../../assets/img/197-mw-20241125-HDR-scaled.jpg",
+      "../../assets/img/097-meisterwerk-20230508-1-scaled.jpg",
+      "../../assets/img/103-bf-20241206-scaled.jpg",
+      "../../assets/img/2064-meisterwerk-20230524-1-scaled.jpg",
+      "../../assets/img/158-mw-20241125-HDR-scaled.jpg",
+      "../../assets/img/031-meisterwerk-20230508-HDR-scaled.jpg",
+      "../../assets/img/114-mw-20241125-scaled.jpg",
+      "../../assets/img/061-meisterwerk-20230508-scaled.jpg",
+      "../../assets/img/128-mw-20241125-scaled.jpg",
+      "../../assets/img/138-mw-20241125-HDR-2-scaled.jpg",
+      "../../assets/img/186-mw-20241125-2-scaled.jpg"
+    ]
+  },
+  "projectsId": "92b5da8"
+}

@@ -1,0 +1,36 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+// Vorschau-Builds sind für Suchmaschinen gesperrt. Für den Livegang: PUBLIC_INDEXABLE=true beim Build setzen.
+const noindex = import.meta.env.PUBLIC_INDEXABLE !== 'true';
+---
+
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.png`} />
+    <Font cssVariable="--font-urbanist" preload />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <slot />
+    <script>
+      import '../scripts/motion';
+      import '../scripts/accordion';
+    </script>
+  </body>
+</html>

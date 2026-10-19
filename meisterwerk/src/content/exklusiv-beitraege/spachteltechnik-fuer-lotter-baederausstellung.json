@@ -1,0 +1,48 @@
+{
+  "year": "2025",
+  "month": "05",
+  "day": "03",
+  "slug": "spachteltechnik-fuer-lotter-baederausstellung",
+  "title": "Spachteltechnik für Lotter Bäderausstellung",
+  "pageTitle": "Spachteltechnik für Lotter Bäderausstellung - Meisterwerke Exklusive",
+  "category": "Spachteltechnik",
+  "categoryHref": "/meisterwerk-exklusive/category/portfolio/spachteltechnik/",
+  "date": "Mai / 2025",
+  "image": "../../assets/img/069-meisterwerk-20230508-Bearbeitet.jpg",
+  "imageAlt": "Exklusive mineralische Wandspachteltechnik in Grau in einem modernen offenen Wohn- und Geschäftsbereich in Ludwigsburg.",
+  "services": ["Spachteltechnik"],
+  "info": {
+    "year": "2022",
+    "place": "Ludwigsburg",
+    "duration": "1 Woche",
+    "area": "12"
+  },
+  "sections": [
+    {
+      "heading": "Kooperation mit Stil und Anspruch",
+      "text": "In unserem jüngsten Projekt hatten wir das Vergnügen, mit der renommierten Bäderausstellung Lotter in Ludwigsburg zusammenzuarbeiten – einem Unternehmen, das für Qualität, Designkompetenz und inspirierende Badwelten steht. Unser Auftrag bestand darin, eine Kojenwand gestalterisch aufzuwerten, sodass sie harmonisch mit den ausgestellten Badmöbeln und Fliesen korrespondiert. Nach intensiver Prüfung verschiedener Optionen fiel die Wahl auf eine hochwertige Kalkpress-Spachteltechnik."
+    },
+    {
+      "heading": "Kalkpress-Technik: Ästhetik und Funktion vereint",
+      "text": "Diese Technik überzeugte nicht nur durch ihre edle Optik und die feine, individuelle Textur, sondern auch durch ihre technische Eignung: Kalkpress-Oberflächen sind besonders langlebig, feuchtigkeitsbeständig und perfekt für den Einsatz in Badezimmern geeignet. Das Ergebnis ist eine Wandgestaltung, die durch ihre elegante Zurückhaltung ebenso besticht wie durch handwerkliche Präzision – ein echter Blickfang in der Ausstellung."
+    },
+    {
+      "heading": "Ornamentik mit venezianischem Flair",
+      "text": "Ein besonderes Highlight entstand in einem der Bäder: Hier haben wir sogenannte Stencils eingesetzt, um feine Ornamente direkt in die Spachteltechnik einzuarbeiten. Diese Dekore wurden thematisch auf „Venedig“ abgestimmt – verspielt, klassisch und dennoch modern interpretiert. So entstand eine individuelle Wandlösung, die das Gesamtbild des Raumes veredelt und dem Bad eine einzigartige, fast künstlerische Note verleiht."
+    }
+  ],
+  "gallery": [
+    "../../assets/img/069-meisterwerk-20230508-Bearbeitet.jpg",
+    "../../assets/img/079-meisterwerk-20230508-Bearbeitet-scaled.jpg",
+    "../../assets/img/090-meisterwerk-20230508-Bearbeitet-scaled.jpg",
+    "../../assets/img/073-meisterwerk-20230508-Bearbeitet-1-scaled.jpg",
+    "../../assets/img/095-meisterwerk-20230508-scaled.jpg",
+    "../../assets/img/098-meisterwerk-20230508-scaled.jpg",
+    "../../assets/img/097-meisterwerk-20230508-scaled.jpg",
+    "../../assets/img/096-meisterwerk-20230508-scaled.jpg",
+    "../../assets/img/104-meisterwerk-20230508-scaled.jpg",
+    "../../assets/img/103-meisterwerk-20230508-scaled.jpg"
+  ],
+  "largeText": true,
+  "galleryColumns": [2, 2, 1]
+}

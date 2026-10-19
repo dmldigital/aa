@@ -1,0 +1,97 @@
+---
+/**
+ * Kollektion der Exklusiv-Site (Originale b2a8513 ff. auf /fugenlos/ und /spachteltechnik-oberflaechen/):
+ * Titelzeile („Collezione …“) und darunter eine oder mehrere Zeilen mit 2 bis 4 benannten Bildern.
+ * Jede Karte hat einen Kopf (Name, „Mehr erfahren +“), der eine Beschreibung aufklappt, und das Bild darunter.
+ */
+import { Picture } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  collection: CollectionEntry<'kollektionen'>['data']['collections'][number];
+  /** Spalten je Zeile ab Tablet (Karten stehen links, auch bei weniger Karten) */
+  columns?: 3 | 4;
+  /** Außenabstand unter der letzten Zeile */
+  bottomClass?: string;
+}
+const { collection, columns = 3, bottomClass = '' } = Astro.props;
+const colWidth = columns === 3 ? 'md:w-[33%]' : 'md:w-[25%]';
+const last = collection.rows.length - 1;
+---
+
+<section data-section={collection.id} class="mt-13.5 pl-12.5">
+  <h2 class="font-display text-[23px]/[27.6px] font-medium text-ink md:text-[29px]/[39.15px] lg:text-h2">
+    {collection.title}
+  </h2>
+</section>
+
+{collection.rows.map((row, i) => (
+  <section
+    data-section={row.id}
+    class:list={['px-5 lg:px-7.5', i === 0 ? 'mt-13.5' : 'mt-2.25', i === last && bottomClass]}
+  >
+    <div class="mx-auto flex max-w-mobile flex-col md:max-w-tablet md:flex-row lg:max-w-page">
+      {row.cards.map((card) => (
+        <div class:list={['w-full px-5 lg:px-7.5', colWidth]}>
+          <div data-acc class="group/acc mb-5">
+            <div class="relative z-2 flex items-center justify-between border border-[#e5e5e5] bg-white px-6.25 py-5">
+              <h3 class="font-display text-[17.6px]/[22px] tracking-[1px] text-black uppercase">
+                {card.title}
+              </h3>
+              <button
+                type="button"
+                aria-expanded="false"
+                class="flex cursor-pointer items-center gap-3 text-[12px] leading-6 text-[#888] md:leading-[22.5px] uppercase after:absolute after:inset-0 after:content-['']"
+              >
+                <span data-acc-label>Mehr erfahren</span>
+                <span
+                  aria-hidden="true"
+                  class="text-[20px] leading-6 transition md:leading-[22.5px]-transform duration-800 ease-[cubic-bezier(0.65,0,0.35,1)] group-data-[open]/acc:rotate-45"
+                >
+                  +
+                </span>
+              </button>
+            </div>
+            <div
+              class="max-h-0 overflow-hidden border border-t-0 border-[#e5e5e5] bg-white opacity-0 transition-[max-height,opacity] duration-[0s] group-data-[open]/acc:max-h-[2000px] group-data-[open]/acc:opacity-100 [transition-duration:800ms,600ms] [transition-timing-function:cubic-bezier(0.65,0,0.35,1),ease]"
+              data-acc-panel
+            >
+              <div class="-translate-y-5 p-7.5 transition-transform duration-800 ease-[cubic-bezier(0.65,0,0.35,1)] group-data-[open]/acc:translate-y-0">
+                <p class="mb-4 md:mb-3.75 lg:mb-para" set:html={card.text} />
+                <div
+                  class="[&_strong]:font-bold [&_ul]:my-3.75 [&_ul]:list-disc [&_ul]:pl-[25.5px]"
+                  set:html={card.details}
+                />
+              </div>
+            </div>
+          </div>
+          <div class="-mt-3.75 overflow-hidden text-center">
+            <Picture
+              formats={['avif']}
+              fallbackFormat="webp"
+              src={card.image}
+              alt={`Oberflächenmuster ${card.title}`}
+              widths={[310, 395, 790]}
+              sizes="(min-width: 1025px) 395px, (min-width: 768px) 285px, 310px"
+              loading="lazy"
+              class="mx-auto block h-auto max-w-full"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+))}
+
+<script>
+  document.addEventListener('click', (event) => {
+    const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-acc] button');
+    const box = button?.closest<HTMLElement>('[data-acc]');
+    if (!button || !box) return;
+    const open = !box.hasAttribute('data-open');
+    box.toggleAttribute('data-open', open);
+    button.setAttribute('aria-expanded', String(open));
+    const label = button.querySelector('[data-acc-label]');
+    if (label) label.textContent = open ? 'Schließen' : 'Mehr erfahren';
+  });
+</script>

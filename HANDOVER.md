@@ -2,6 +2,8 @@
 
 Kurzfassung für die nächste Sitzung. Arbeitsregeln und festgelegte Entscheidungen stehen in `CLAUDE.md` – **zuerst lesen**.
 
+> Zweites Projekt in diesem Repo: **Meisterwerk Malermanufaktur** (Astro-Umzug, Ordner `meisterwerk/`). Übergabe dazu: `meisterwerk/HANDOVER.md`.
+
 ## Wo alles liegt
 
 | Was | Wo |

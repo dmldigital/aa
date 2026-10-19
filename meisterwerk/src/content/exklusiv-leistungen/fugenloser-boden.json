@@ -1,0 +1,130 @@
+{
+  "slug": "fugenloser-boden",
+  "title": "Fugenlose Böden - Meisterwerke Exklusive",
+  "intro": {
+    "img": "../../assets/img/324-mw-20241125-Bearbeitet-scaled.jpg",
+    "parts": [
+      {
+        "t": "label",
+        "text": "Die Vorteile auf einen Blick"
+      },
+      {
+        "t": "html",
+        "html": "<h2>Was macht fugenlose Böden besonders?</h2><p>Im Gegensatz zu traditionellen Bodenbelägen zeichnen sich fugenlose Böden durch ihre durchgehende, glatte Oberfläche aus. Es entstehen keine Fugen, in denen sich Schmutz oder Feuchtigkeit absetzen könnten. Das Ergebnis ist ein harmonisches Gesamtbild, das Räume optisch vergrößert und für ein modernes, minimalistisches Raumgefühl sorgt.</p>"
+      },
+      {
+        "t": "spacer",
+        "m": true
+      },
+      {
+        "t": "button",
+        "label": "Schauen Sie sich bereits fertiggestellte Projekte an",
+        "href": "/meisterwerk-exklusive/projekte/"
+      },
+      {
+        "t": "spacer",
+        "m": true
+      },
+      {
+        "t": "block",
+        "no": "01",
+        "title": "Vorteile fugenloser Böden",
+        "html": "<p>Fugenlose Böden sind in verschiedenen Ausführungen erhältlich, die sich in Optik, Haptik und technischen Eigenschaften unterscheiden:</p><ul><li><p><strong>Epoxidharz:</strong>&nbsp;Besonders widerstandsfähig, ideal für stark frequentierte Bereiche.</p></li><li><p><strong>Polyurethan:</strong>&nbsp;Elastisch, angenehm begehbar und vielseitig einsetzbar.</p></li><li><p><strong>Beton:</strong>&nbsp;Puristisch, modern und äußerst robust.</p></li><li><p><strong>Mikrozement:</strong>&nbsp;Feine, mineralische Oberfläche mit natürlichem Look.</p></li></ul><p>Jede Variante bietet eigene Vorteile und kann gezielt auf Ihre Anforderungen abgestimmt werden.</p>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "block",
+        "no": "02",
+        "title": "Anwendungsbereiche",
+        "html": "<p>Die Einsatzmöglichkeiten fugenloser Böden sind nahezu unbegrenzt:</p><ul><li><p><strong>Wohnräume:</strong>&nbsp;Wohnzimmer, Küche, Bad, Flur – für ein einheitliches, stilvolles Wohngefühl.</p></li><li><p><strong>Gewerbliche Flächen:</strong>&nbsp;Büros, Praxen, Showrooms oder Verkaufsräume profitieren von der modernen Optik und der einfachen Pflege.</p></li><li><p><strong>Industrie:</strong>&nbsp;Produktionshallen, Lager oder Werkstätten – fugenlose Böden halten höchsten Belastungen stand und sind besonders hygienisch.</p></li></ul>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "block",
+        "no": "03",
+        "title": "Gestaltungsmöglichkeiten",
+        "html": "<p>Fugenlose Böden eröffnen vielfältige kreative Optionen:</p><ul><li><p>Große Auswahl an Farben, von dezenten Naturtönen bis zu kräftigen Akzentfarben.</p></li><li><p>Unterschiedliche Oberflächenstrukturen, von matt bis glänzend.</p></li><li><p>Individuelle Anpassung an Raumgröße, Lichtverhältnisse und Nutzungskonzept.</p></li><li><p>Kombination mit Fußbodenheizung problemlos möglich.</p></li></ul>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "spacer",
+        "small": true
+      },
+      {
+        "t": "button",
+        "label": "Lassen Sie sich inspirieren – und Ihren Preis berechnen",
+        "href": "/kontakt/"
+      }
+    ]
+  },
+  "pillars": [
+    {
+      "title": "Überlegene Handwerkskunst",
+      "html": "<p>Wir setzen auf echte Handarbeit und arbeiten ausschließlich mit erfahrenen Fachkräften und ausgewählten Partnern aus der Region und ganz Europa zusammen. Jedes Projekt entsteht mit höchster Präzision, Liebe zum Detail und einem ausgeprägten Sinn für Qualität.</p>",
+      "bullets": [
+        "10+ Jahre Erfahrung im Bad- und Oberflächendesign",
+        "Nachhaltige Materialien, verantwortungsvoll",
+        "Individuelle, handgefertigte Lösungen"
+      ]
+    },
+    {
+      "title": "Hochwertige Materialien & Ausstattung",
+      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller – langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
+      "bullets": [
+        "Exklusive Auswahl an Oberflächen, Farben und Strukturen",
+        "Investition in Qualität und Wertbeständigkeit",
+        "Sorgfältige Materialauswahl für Ihr individuelles Projekt"
+      ]
+    },
+    {
+      "title": "Investment Value",
+      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design – für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
+      "bullets": [
+        "Zeitloses Design und dauerhafte Wertschöpfung",
+        "Fokus auf nachhaltige, pflegeleichte Lösungen",
+        "Strategische Planung für maximale Wirkung in Ihrem Zuhause"
+      ]
+    }
+  ],
+  "feature": {
+    "accordion": [
+      {
+        "title": "Innovationen & Trends",
+        "html": "Die Welt der fugenlosen Böden entwickelt sich stetig weiter. Neue Materialkombinationen, innovative Verlegetechniken und kreative Designs sorgen dafür, dass Sie Ihren Boden ganz nach Ihren Vorstellungen gestalten können. Nachhaltige und umweltfreundliche Lösungen gewinnen dabei zunehmend an Bedeutung.",
+        "open": true
+      },
+      {
+        "title": "Ihr Weg zum fugenlosen Traumboden",
+        "html": "<p>Wir begleiten Sie von der ersten Idee bis zur finalen Umsetzung:</p><ul><li><p>Individuelle Beratung und Planung</p></li><li><p>Auswahl der passenden Materialien und Farben</p></li><li><p>Fachgerechte Ausführung durch erfahrene Spezialisten</p></li><li><p>Persönliche Betreuung und Service auch nach Abschluss des Projekts</p></li></ul>",
+        "open": false
+      }
+    ],
+    "button": {
+      "label": "Jetzt beraten lassen!",
+      "href": "/kontakt/"
+    },
+    "img": "../../assets/img/Fugenloser-Boden-Schlafzimmer-scaled.jpg"
+  },
+  "gallery": {
+    "id": "1aefe16",
+    "columns": [3, 2, 1],
+    "items": [
+      "../../assets/img/302-mw-20241125-scaled.jpg",
+      "../../assets/img/14-bf-20241206-Bearbeitet-2-scaled.jpg",
+      "../../assets/img/41-bf-20241206-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/285-mw-20241125-HDR-1-scaled.jpg",
+      "../../assets/img/345-mw-20241125-scaled.jpg",
+      "../../assets/img/36-bf-20241206-Bearbeitet-1-scaled.jpg"
+    ]
+  },
+  "projectsId": "0a31b86"
+}

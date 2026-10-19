@@ -1,0 +1,42 @@
+{
+  "year": "2025",
+  "month": "05",
+  "day": "03",
+  "slug": "unser-showroom",
+  "title": "Unser Showroom",
+  "description": "Der Showroom von Meisterwerk Malermanufaktur in Freiberg am Neckar: Muster, Farben und Oberflächen zum Anfassen. Lassen Sie sich vor Ort beraten.",
+  "image": "../../assets/img/107-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
+  "services": ["Malerarbeiten", "Spachteltechniken", "Fugenlose Böden", "Stuckarbeiten"],
+  "info": {
+    "year": "2018",
+    "place": "Freiberg a. Neckar",
+    "duration": "3 Monate",
+    "area": "60"
+  },
+  "sections": [
+    {
+      "heading": "Vielfalt im Showroom",
+      "text": "In unserem Showroom präsentieren wir Ihnen eine breit gefächerte Auswahl an Farben, Strukturen und Oberflächen. Von glatten Wänden über dekorative Stuckleisten bis hin zu fugenlosen, spachteltechnisch bearbeiteten Oberflächen und hochwertigen Tapeten – hier finden Sie alles, was zur Gestaltung einzigartiger Räume beiträgt. Unser erfahrenes Team unterstützt Sie kompetent bei der Planung und Umsetzung Ihrer individuellen Ideen. Gemeinsam entwickeln wir ein maßgeschneidertes Farb- und Materialkonzept, das perfekt auf Ihre Wünsche und Bedürfnisse abgestimmt ist. Auch die Bauplanung gehört zu unserem Service, um ein Ergebnis zu sichern, das Ihre Erwartungen vollständig erfüllt."
+    },
+    {
+      "heading": "Inspiration und Qualität erleben",
+      "text": "Unser Ziel ist es, Ihre Vorstellungen in die Realität umzusetzen und Ihnen das bestmögliche Ergebnis zu liefern. Der Showroom bietet Ihnen die ideale Gelegenheit, sich von der Vielfalt unserer Produkte und Dienstleistungen zu überzeugen. Sie können sich in Ruhe umsehen, Inspirationen sammeln und die Materialien sowie Verarbeitungstechniken direkt erleben. So erhalten Sie ein klares Bild von der hohen Qualität unserer Arbeit und den Möglichkeiten, die wir Ihnen bieten."
+    },
+    {
+      "heading": "Persönliche Beratung und Service",
+      "text": "Für Fragen oder individuelle Wünsche stehen wir Ihnen jederzeit gerne zur Verfügung. Vereinbaren Sie einfach einen Termin, damit wir uns ausreichend Zeit für Ihr Projekt nehmen können. Wir freuen uns darauf, Sie in unserem Showroom persönlich zu begrüßen und Ihnen bei der Verwirklichung Ihrer Wohnträume zur Seite zu stehen."
+    }
+  ],
+  "gallery": [
+    "../../assets/img/152-meisterwerk-20230120-scaled-1.jpg",
+    "../../assets/img/131-meisterwerk-20230120-scaled-1.jpg",
+    "../../assets/img/124-meisterwerk-20230120-scaled-1.jpg",
+    "../../assets/img/113-meisterwerk-20230120-Bearbeitet-scaled-1.jpg",
+    "../../assets/img/109-meisterwerk-20230120-Bearbeitet-scaled-1.jpg",
+    "../../assets/img/107-meisterwerk-20230120-Bearbeitet-scaled-1.jpg",
+    "../../assets/img/104-meisterwerk-20230120-Bearbeitet-scaled-1.jpg",
+    "../../assets/img/116-mw-20241125-1-scaled.jpg",
+    "../../assets/img/107-meisterwerk-20230120-Bearbeitet-1-scaled.jpg"
+  ],
+  "largeText": true
+}

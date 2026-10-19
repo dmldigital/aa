@@ -1,0 +1,124 @@
+---
+/**
+ * Einleitung der Unterseiten (Original 04f30bf der Leistungsseiten, aeb8cf0 der Exklusiv-Seiten):
+ * links ein hochkantes Bild, rechts Label, Überschrift, Text, nummerierte Blöcke und Button.
+ * Die rechte Spalte besteht aus Bausteinen (`parts`), damit beide Seitenarten dieselbe Komponente nutzen.
+ */
+import { Picture } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+import { rich } from '../../lib/rich';
+import type { IntroPart } from '../../data/pages/intro';
+
+interface Props {
+  id?: string;
+  img: ImageMetadata;
+  alt?: string;
+  parts: IntroPart[];
+  /** Hintergrund und Abstände der Sektion */
+  rootClass?: string;
+  /** Innenabstand unten (Leistungsseiten 108 px, Exklusiv-Seiten 0) */
+  innerClass?: string;
+  leftClass?: string;
+  rightClass?: string;
+  /** Absätze auf dem Handy 15 statt 16 px (Leistungsseiten) */
+  smallText?: boolean;
+}
+const {
+  id = '04f30bf',
+  img,
+  alt = '',
+  parts,
+  rootClass = 'bg-soft',
+  innerClass = 'lg:pb-27',
+  leftClass = 'md:flex-1 lg:w-[48.7%] lg:flex-none',
+  rightClass = 'md:flex-1 lg:px-[8%]',
+  smallText = true,
+} = Astro.props;
+---
+
+<section data-section={id} class:list={['mb-10 px-5 md:mb-15 lg:mb-27 lg:px-7.5', rootClass]}>
+  <div
+    class:list={[
+      'mx-auto flex w-full max-w-mobile flex-col gap-y-6.25 py-10 md:max-w-tablet md:flex-row md:gap-x-7.5 md:py-15 lg:max-w-page lg:pt-27',
+      innerClass,
+    ]}
+  >
+    <div class:list={['flex flex-col', leftClass]}>
+      <Picture
+        formats={['avif']}
+        fallbackFormat="webp"
+        src={img}
+        {alt}
+        widths={[350, 640, 900, 1300]}
+        sizes="(min-width: 1025px) 672px, (min-width: 768px) 477px, calc(100vw - 40px)"
+        loading="lazy"
+        class="block h-auto w-full object-cover md:h-172 lg:h-205"
+      />
+      <div class="h-0 md:h-15 lg:h-27"></div>
+    </div>
+
+    <div class:list={['flex flex-col gap-3.75 md:gap-5', rightClass]}>
+      {parts.map((p) => {
+        switch (p.t) {
+          case 'label':
+            return (
+              <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+                {p.text}
+              </h6>
+            );
+          case 'title':
+            return (
+              <h2 class="font-display text-[23px]/[27.6px] font-medium text-ink md:text-[29px]/[39.15px] lg:mb-5 lg:text-h2">
+                {p.text}
+              </h2>
+            );
+          case 'html':
+            return (
+              <div
+                class:list={['text-[16px]/[24px] md:text-body', smallText && '[&_p]:text-15', rich]}
+                set:html={p.html}
+              />
+            );
+          case 'spacer':
+            return (
+              <div
+                class:list={[
+                  p.m ? 'h-0 md:h-11.5 lg:h-13.5' : 'hidden md:block md:h-11.5 lg:h-13.5',
+                  p.small && 'md:h-3.75! lg:h-4.5!',
+                ]}
+              />
+            );
+          case 'block':
+            return (
+              <div class="flex flex-wrap gap-3.75">
+                <div class="mt-0.75 font-display text-button font-medium tracking-[1px] text-black">
+                  {p.no}
+                </div>
+                <h4 class="min-w-0 flex-1 font-display text-[19px]/[24.7px] font-medium text-ink md:text-h5 lg:text-h4">
+                  {p.title}
+                </h4>
+                <div class="mb-1.25 w-full md:mb-0 md:py-1.25 lg:py-2.5">
+                  <div class="border-t border-black/20" />
+                </div>
+                <div
+                  class:list={[
+                    'w-full text-[16px]/[24px] md:text-body',
+                    smallText && '[&_p]:text-15',
+                    rich,
+                  ]}
+                  set:html={p.html}
+                />
+              </div>
+            );
+          case 'button':
+            return (
+              <div>
+                <Button href={p.href.startsWith('#') ? p.href : href(p.href)}>{p.label}</Button>
+              </div>
+            );
+        }
+      })}
+    </div>
+  </div>
+</section>

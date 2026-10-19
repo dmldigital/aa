@@ -1,0 +1,59 @@
+{
+  "slug": "tapezieren",
+  "title": "Exklusive Tapezierarbeiten | Ludwigsburg & Stuttgart – Meisterwerk",
+  "description": "Verwandeln Sie Ihre Wände in echte Blickfänge. Professionelle Tapezierarbeiten mit Fachberatung in Ludwigsburg , Stuttgart & Region",
+  "hero": {
+    "title": "Tapezierarbeiten – Verwandeln Sie Ihre Wände in echte Blickfänge!",
+    "text": "Tapezieren ist eine elementare Tätigkeit in unserem Malerbetrieb und dient der Neugestaltung oder Umgestaltung einer Wohnung oder eines Hauses. Zu diesem Zweck befestigen wir Tapeten an Decken und Wänden, sodass schöne und ansprechende Stimmungen entstehen. Für ein langfristig stabiles und hochwertiges Ergebnis sorgen wir mittels präziser Arbeit und dem Einsatz erstklassiger Materialien. Darüber hinaus steht Ihnen unser Malermeister Baldassarre Fortino persönlich für die Beratung über die richtige Tapete und deren optimale Umsetzung zur Seite. Unser Ziel ist es, Ihre Wände in echte Meisterwerke zu verwandeln – ästhetisch, präzise und langlebig.",
+    "img": "../../assets/img/194-meisterwerk-20230120-1-scaled-e1758184305428.jpg",
+    "alt": "Präzise Tapezierarbeiten mit Mustertapete in Ludwigsburg – Meisterwerk Malermanufaktur."
+  },
+  "intro": {
+    "img": "../../assets/img/165-bf-20241206-Bearbeitet-scaled.jpg",
+    "alt": "",
+    "label": "Die Vorteile auf einen Blick",
+    "title": "Vorteile professioneller Tapezierarbeiten",
+    "list": "<ul><li><p><strong>Perfekte Oberflächen</strong>: Saubere Kanten, glatte Flächen, exakte Musteranpassung.</p></li><li><p><strong>Individuelle Gestaltung</strong>: Von klassischen Tapeten über moderne Vliestapeten bis hin zu besonderen Designs – wir setzen Ihre Wünsche um.</p></li><li><p><strong>Langlebigkeit</strong>: Hochwertige Tapeten und fachgerechte Verarbeitung sorgen für dauerhafte Schönheit.</p></li><li><p><strong>Sauberes Arbeiten</strong>: Wir arbeiten präzise, termingerecht und hinterlassen ein gepflegtes Zuhause.</p></li><li><p><strong>Fachberatung inklusive</strong>: Wir helfen Ihnen bei der Auswahl von Tapeten, Farben und Mustern, die perfekt zu Ihren Räumen passen.</p></li></ul>",
+    "blocks": [
+      {
+        "no": "01",
+        "title": "Materialien & Techniken",
+        "html": "<p>Unser Team bietet zudem weitere <strong>Serviceleistungen im Bereich Interior Design</strong> an, um Räume völlig neu zu gestalten. Sei es die Auswahl und Installation der Tapeten oder die <strong>Vorbereitung des Untergrundes</strong> – unsere erfahrenen Maler kennen sich mit allen Aspekten des Tapezierens bestens aus. Wir arbeiten ausschließlich mit <strong>hochwertigen Tapeten und Klebstoffen</strong> führender Hersteller, um perfekte Ergebnisse zu erzielen.</p><h3 aria-hidden=\"true\">&nbsp;</h3><h3 aria-hidden=\"true\">&nbsp;</h3>"
+      },
+      {
+        "no": "02",
+        "title": "Technische Vorteile & Innovationen",
+        "html": "<ul><li><p><strong>Exakte Verarbeitung</strong>: Keine Blasen, keine Falten – Ihre Tapeten sitzen perfekt.</p></li><li><p><strong>Muster- und Motivanpassung</strong>: Präzise Ausrichtung von Mustern für ein harmonisches Gesamtbild.</p></li><li><p><strong>Nachhaltigkeit &amp; Umweltfreundlichkeit</strong>: Einsatz umweltverträglicher Materialien und Klebstoffe.</p></li></ul>"
+      }
+    ]
+  },
+  "showcase": [
+    {
+      "width": [24.333, 23.88],
+      "images": [
+        "../../assets/img/188-meisterwerk-20230120-1-scaled.jpg",
+        "../../assets/img/4-bf-20241206-Bearbeitet-1-scaled.jpg",
+        "../../assets/img/159-bf-20241206-Bearbeitet-1-scaled.jpg"
+      ]
+    },
+    {
+      "width": [66.667, 74.09],
+      "images": ["../../assets/img/168-bf-20241206-scaled.jpg"],
+      "center": true
+    }
+  ],
+  "pillars": [
+    {
+      "title": "Überlegene Handwerkskunst",
+      "html": "<p>Unser Team besteht aus <strong>erfahrenen Tapezierprofis</strong>, die ihr Handwerk lieben und jedes Projekt mit höchster Sorgfalt ausführen. Präzision, Geduld und Liebe zum Detail sind die Basis jeder Tapezierarbeit.</p><ul><li><p>Langjährige Erfahrung im Tapezierhandwerk</p></li><li><p>Hochwertige Materialien für perfekte Ergebnisse</p></li><li><p>Individuelle Beratung und Umsetzung nach Ihren Vorstellungen</p></li></ul>"
+    },
+    {
+      "title": "Hochwertige Materialien & Ausstattung",
+      "html": "<p>Wir verwenden nur Tapeten von führenden Herstellern, die ästhetisch überzeugen und langlebig sind. Jedes Projekt wird sorgfältig geplant und professionell umgesetzt – für Wände, die wirken und bleiben.</p><h4 aria-hidden=\"true\">&nbsp;</h4>"
+    },
+    {
+      "title": "Ihr Weg zu neuen Wänden",
+      "html": "<p>Von der <strong>Beratung über die Materialauswahl bis zur fachgerechten Umsetzung</strong> begleiten wir Sie Schritt für Schritt. Mit der <strong>Meisterwerk Maler Manufaktur</strong> erhalten Ihre Wände ein neues Gesicht – präzise, sauber und professionell.</p>"
+    }
+  ]
+}

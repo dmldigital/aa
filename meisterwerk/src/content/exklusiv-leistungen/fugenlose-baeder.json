@@ -1,0 +1,144 @@
+{
+  "slug": "fugenlose-baeder",
+  "title": "Fugenlose Bäder - Meisterwerke Exklusive",
+  "intro": {
+    "img": "../../assets/img/Fugenlose-Dusche-Nero-Fine-scaled.jpg",
+    "parts": [
+      {
+        "t": "label",
+        "text": "Die Vorteile auf einen Blick"
+      },
+      {
+        "t": "html",
+        "html": "<h2>Was macht fugenlose Bäder besonders?</h2><p>Fugenlose Bäder zeichnen sich durch ihre nahtlose, glatte Oberfläche aus, die nicht nur modern und elegant wirkt, sondern auch besonders pflegeleicht und hygienisch ist. Ohne störende Fugen entsteht ein harmonisches Gesamtbild, das den Raum großzügiger erscheinen lässt und gleichzeitig verhindert, dass sich Schmutz oder Feuchtigkeit absetzen können. So vereinen fugenlose Bäder zeitgemäßes Design mit praktischem Alltagsnutzen und bieten eine langlebige, individuelle Lösung für höchste Ansprüche.</p>"
+      },
+      {
+        "t": "spacer",
+        "m": true
+      },
+      {
+        "t": "button",
+        "label": "Schauen Sie sich bereits fertiggestellte Projekte an",
+        "href": "/meisterwerk-exklusive/projekte/"
+      },
+      {
+        "t": "spacer",
+        "m": true
+      },
+      {
+        "t": "block",
+        "no": "01",
+        "title": "Vorteile fugenloser Bäder",
+        "html": "<ul><li><p><strong>Robust wie Fliesen:</strong>&nbsp;Fugenlose Oberflächen sind widerstandsfähig und langlebig.</p></li><li><p><strong>Wasserabweisend:</strong>&nbsp;Kein Eindringen von Feuchtigkeit, keine Schimmelbildung.</p></li><li><p><strong>Hygienisch und pflegeleicht:</strong>&nbsp;Die glatte Oberfläche lässt sich einfach reinigen, Schmutz und Bakterien haben keine Chance.</p></li><li><p><strong>Individuelle Gestaltung:</strong>&nbsp;Ob minimalistisch oder verspielt – die Optik kann flexibel an Ihre Wünsche angepasst werden.</p></li><li><p><strong>Alltagstauglich:</strong>&nbsp;Fugenlose Bäder sind strapazierfähig und behalten auch bei intensiver Nutzung ihre Schönheit.</p></li></ul>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "block",
+        "no": "02",
+        "title": "Materialien & Oberflächen",
+        "html": "In unserem Showroom präsentieren wir Ihnen eine große Auswahl an Oberflächen, Strukturen, Spachteltechniken und Dekorelementen. Wir verwenden ausschließlich italienische Qualitätsprodukte, die seit über 30 Jahren am Markt etabliert sind. So entstehen besonders schöne und widerstandsfähige Oberflächen, die höchsten Ansprüchen genügen."
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "block",
+        "no": "03",
+        "title": "Technische Vorteile & Innovationen",
+        "html": "<ul><li><p><strong>Gleichmäßiges Erscheinungsbild:</strong>&nbsp;Ein fugenloses Bad wirkt großzügig und modern.</p></li><li><p><strong>Unkomplizierte Pflege:</strong>&nbsp;Die Reinigung ist schnell und einfach erledigt.</p></li><li><p><strong>Minimaler Aufbau:</strong>&nbsp;Mit nur 5 mm Aufbauhöhe können wir direkt über bestehende Fliesen arbeiten – ohne Lärm, Schmutz oder aufwendige Demontage.</p></li><li><p><strong>Nachhaltigkeit:</strong>&nbsp;Langlebige Materialien und einfache Pflege sorgen für dauerhafte Freude an Ihrem Bad.</p></li></ul>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "spacer",
+        "small": true
+      },
+      {
+        "t": "button",
+        "label": "Lassen Sie sich inspirieren – und Ihren Preis berechnen",
+        "href": "/kontakt/"
+      }
+    ]
+  },
+  "pillars": [
+    {
+      "title": "Überlegene Handwerkskunst",
+      "html": "<p>Wir setzen auf echte Handarbeit und arbeiten ausschließlich mit erfahrenen Fachkräften und ausgewählten Partnern aus der Region und ganz Europa zusammen. Jedes Projekt entsteht mit höchster Präzision, Liebe zum Detail und einem ausgeprägten Sinn für Qualität.</p>",
+      "bullets": [
+        "10+ Jahre Erfahrung im Bad- und Oberflächendesign",
+        "Nachhaltige Materialien, verantwortungsvoll",
+        "Individuelle, handgefertigte Lösungen"
+      ]
+    },
+    {
+      "title": "Hochwertige Materialien & Ausstattung",
+      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller – langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
+      "bullets": [
+        "Exklusive Auswahl an Oberflächen, Farben und Strukturen",
+        "Investition in Qualität und Wertbeständigkeit",
+        "Sorgfältige Materialauswahl für Ihr individuelles Projekt"
+      ]
+    },
+    {
+      "title": "Investment Value",
+      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design – für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
+      "bullets": [
+        "Zeitloses Design und dauerhafte Wertschöpfung",
+        "Fokus auf nachhaltige, pflegeleichte Lösungen",
+        "Strategische Planung für maximale Wirkung in Ihrem Zuhause"
+      ]
+    }
+  ],
+  "feature": {
+    "accordion": [
+      {
+        "title": "Gestaltungsmöglichkeiten",
+        "html": "<ul><li><p>Verschiedene Farben, Strukturen und Dekorelemente</p></li><li><p>Individuelle Anpassung an Ihre Raumkonzepte und Stilwünsche</p></li><li><p>Präsentation und Beratung direkt im Showroom</p></li></ul>",
+        "open": true
+      },
+      {
+        "title": "Ihr Weg zum Traumbad",
+        "html": "<p>Wir begleiten Sie von der ersten Idee bis zur finalen Umsetzung:</p><ul><li><p>Persönliche Beratung und individuelle Planung</p></li><li><p>Auswahl der passenden Materialien und Oberflächen</p></li><li><p>Fachgerechte Ausführung durch erfahrene Spezialisten</p></li><li><p>Betreuung und Service auch nach Projektabschluss</p></li></ul><p>Entdecken Sie die Möglichkeiten eines fugenlosen Badezimmers – exklusiv, modern und ganz nach Ihren Vorstellungen. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch. Wir freuen uns auf Ihre Anfrage!</p>",
+        "open": false
+      }
+    ],
+    "button": {
+      "label": "Jetzt beraten lassen!",
+      "href": "/kontakt/"
+    },
+    "img": "../../assets/img/Fugenloses-Bad-Liscio-scaled.jpg"
+  },
+  "gallery": {
+    "id": "7d0a19c",
+    "columns": [4, 2, 1],
+    "items": [
+      "../../assets/img/275-mw-20241125-Bearbeitet-scaled.jpg",
+      "../../assets/img/215-mw-20241125-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/223-mw-20241125-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/248-meisterwerk-20230120-Bearbeitet-2-scaled.jpg",
+      "../../assets/img/258-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/237-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/117-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/14-bf-20241206-Bearbeitet-scaled.jpg",
+      "../../assets/img/32-bf-20241206-Bearbeitet-scaled.jpg",
+      "../../assets/img/26-mw-20241125-HDR-1-scaled.jpg",
+      "../../assets/img/60-mw-20241125-scaled.jpg",
+      "../../assets/img/61-mw-20241125-scaled.jpg",
+      "../../assets/img/85-mw-20241125-Bearbeitet-scaled.jpg",
+      "../../assets/img/89-mw-20241125-HDR-scaled.jpg",
+      "../../assets/img/138-mw-20241125-HDR-scaled.jpg",
+      "../../assets/img/188-mw-20241125-scaled.jpg",
+      "../../assets/img/186-mw-20241125-scaled.jpg",
+      "../../assets/img/2179-meisterwerk-20230524-scaled.jpg",
+      "../../assets/img/2164-meisterwerk-20230524-Bearbeitet-scaled.jpg",
+      "../../assets/img/2170-meisterwerk-20230524-Bearbeitet-scaled.jpg"
+    ]
+  },
+  "projectsId": "23a986f"
+}

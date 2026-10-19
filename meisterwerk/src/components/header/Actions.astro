@@ -1,0 +1,40 @@
+---
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+import type { Site } from '../../data/nav';
+/**
+ * Rechte Seite der Kopfzeile: Menü-Knopf (öffnet das Vollbild-Menü, siehe Menu.astro) und davor der Kontakt-Button.
+ * Auf der Hero-Fläche (`compact`) nur der Menü-Knopf.
+ */
+interface Props {
+  site?: Site;
+  compact?: boolean;
+}
+const { site = 'main', compact = false } = Astro.props;
+const exk = site === 'exklusive';
+const contact = href(exk ? '/meisterwerk-exklusive/kontakt/' : '/schnellkontakt/');
+---
+
+<div class="flex items-center gap-4 min-[701px]:gap-8">
+  <button
+    type="button"
+    data-menu-open
+    aria-label="Menü öffnen"
+    aria-expanded="false"
+    class="group/menu flex cursor-pointer items-center gap-4 py-3.75 pl-2.5 text-ink"
+  >
+    <span class="hidden font-display text-[11px] tracking-[0.07em] uppercase min-[701px]:block">
+      Menü
+    </span>
+    <span class="flex w-7.5 flex-col gap-1.75" aria-hidden="true">
+      <i class="block h-px w-full bg-current"></i>
+      <i class="block h-px w-full bg-current transition-[width] duration-200 group-hover/menu:w-[65%]"></i>
+    </span>
+  </button>
+  {!compact && (
+    <Button href={contact} size="sm">
+      <span class="max-[700px]:hidden">KONTAKT AUFNEHMEN ↗</span>
+      <span class="min-[701px]:hidden">KONTAKT</span>
+    </Button>
+  )}
+</div>

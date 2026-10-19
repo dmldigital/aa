@@ -34,6 +34,11 @@
 - `.mcp.json`: Playwright MCP und Chrome DevTools MCP (Wrapper in `.claude/mcp/`), headless mit vorinstalliertem Chromium.
 - `.mcp.json`: 21st MCP (UI-Komponenten von 21st.dev) – API-Schlüssel kommt aus der Umgebungsvariable `API_KEY_21ST` (nie ins Repo schreiben).
 
+## Projekt Meisterwerk (Astro-Umzug von meisterwerk-lb.de)
+- Ordner `meisterwerk/`, Stand, Werkzeuge und offene Entscheidungen: `meisterwerk/HANDOVER.md`, Konventionen: `meisterwerk/README.md`.
+- SEO nur auf ausdrücklichen Auftrag. Kontrast/Touch-Ziele nicht anfassen. Bei Ergebnissen prüft zuerst der Nutzer.
+- **Zwei Stände, ein Projekt:** Der Quellcode (Astro) liegt in `meisterwerk/` und enthält Header, Menü, Hero, Willkommen-Szene, Footer. Die Auswahl-Vorschau (unten) ist ein gebauter Stand, in dem zusätzlich Leistungen, Fachsektion, Bild/CTA und FAQ von einer zweiten Sitzung direkt in den gebauten Dateien entstanden sind. Diese Sektionen gibt es noch nicht im Quellcode: Rückübertragung Sektion für Sektion, erst nach Abnahme durch den Nutzer. Das Deploy-Skript `meisterwerk/tools/deploy-preview.sh` überschreibt `meisterwerk-preview-auswahl`, also nicht ohne Absprache ausführen.
+
 ## Vorschau Meisterwerk (Auswahl)
 - Eigenes Projekt in `website/public/meisterwerk-preview-auswahl/` (gebauter Stand ohne Astro-Quelle, `index.html` und eigene `_astro/*`-Dateien werden direkt bearbeitet). Übergabe, Dateiübersicht, Stolpersteine: `docs/meisterwerk-auswahl.md`. Werkzeuge und Tests: `tools/meisterwerk-auswahl/`.
 - Nach jeder Änderung an CSS/JS dort `python3 tools/meisterwerk-auswahl/bust.py` ausführen. Pushes auf `claude/admiring-gates-cn5mu9` und zusätzlich auf `claude/poolbau-koch-website-408frj` (nur das löst den Deploy aus).

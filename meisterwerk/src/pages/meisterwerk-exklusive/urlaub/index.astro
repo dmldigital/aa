@@ -1,0 +1,26 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import Masterly from '../../../components/sections/Masterly.astro';
+import HolidaySteps from '../../../components/sections/HolidaySteps.astro';
+import {
+  exklusiveMeta,
+  exklusiveIntro,
+  background,
+  columns,
+} from '../../../data/pages/urlaubsservice';
+---
+
+<PageLayout site="exklusive" title={exklusiveMeta.title} current="/meisterwerk-exklusive/urlaub/">
+  <Masterly
+    id="9e8e860"
+    eyebrow={exklusiveIntro.eyebrow}
+    eyebrowTag="h6"
+    heading={exklusiveIntro.heading}
+    headingColor="text-ink"
+    text={exklusiveIntro.text}
+    image={exklusiveIntro.image}
+    imageAlt={exklusiveIntro.alt}
+    rootClass="mt-19.5 md:mt-0 md:mb-10 lg:mt-[12vh] lg:mb-0"
+  />
+  <HolidaySteps {background} {columns} boxed />
+</PageLayout>

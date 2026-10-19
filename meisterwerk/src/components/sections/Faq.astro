@@ -1,0 +1,166 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from '../Icon.astro';
+import sketch from '../../assets/img/house-sketch.png';
+import { faqs as homeFaqs } from '../../data/faq';
+
+/** FAQ-Akkordeon mit Skizze (Original b1f5cd6). Ohne Props: Startseite. */
+interface Props {
+  id?: string;
+  heading?: string;
+  headingTag?: 'h2' | 'h3';
+  headingClass?: string;
+  intro?: string;
+  introClass?: string;
+  faqs?: typeof homeFaqs;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  imageClass?: string;
+  rootClass?: string;
+  buttonClass?: string;
+  titleClass?: string;
+  /** erster Eintrag beim Laden geöffnet */
+  openFirst?: boolean;
+  accordionClass?: string;
+}
+const {
+  id = 'b1f5cd6',
+  heading = 'FAQ',
+  headingTag: Heading = 'h2',
+  headingClass = 'text-[23px]/[27.6px] text-gold md:text-[29px]/[39.15px] lg:text-h2',
+  intro = 'Damit aus Ihren Ideen ein echtes Meisterwerk wird, begleiten wir Sie Schritt für Schritt, klar, individuell und im engen Austausch mit Ihnen.',
+  introClass = 'min-h-53.75 md:min-h-48.75 lg:min-h-[202.5px]',
+  faqs = homeFaqs,
+  image = sketch,
+  imageAlt = 'Handzeichnung eines Einfamilienhauses mit Terrasse und Gartenmöbeln',
+  imageClass = 'lg:w-[45rem]',
+  rootClass = 'mt-[10vh] md:mt-[20vh] lg:mt-[20vh]',
+  buttonClass = 'py-[1em] hover:text-gold',
+  titleClass = 'text-[19px]/[24.7px] md:text-h5 lg:text-[18px]/[23.4px]',
+  openFirst = false,
+  accordionClass = 'p-2.5 md:p-0 md:pt-25',
+} = Astro.props;
+---
+
+<section data-section={id} class:list={['flex flex-col bg-soft px-5 lg:px-7.5', rootClass]}>
+  <div class="mx-auto flex w-full max-w-page grow flex-col gap-7.5 py-10 md:py-15 lg:gap-y-10 lg:py-[12vh]">
+    <!-- Überschrift und Einleitung -->
+    <div class="flex w-full flex-col gap-3.75 lg:w-[70%] lg:gap-5">
+      <div class="w-full">
+        <Heading class:list={['font-display font-medium', headingClass]} set:html={heading} />
+      </div>
+      <div class:list={['w-full max-w-[496px]', introClass]}>
+        <p class="mb-3.75 text-[15px]/[24px] md:text-body lg:mb-para">{intro}</p>
+      </div>
+    </div>
+
+    <!-- Akkordeon und Haus-Skizze -->
+    <div class="-mt-[16%] flex flex-wrap items-end justify-between gap-5 md:flex-nowrap">
+      <div class="z-[3] flex w-full flex-none flex-col justify-between max-md:order-last md:w-[39.369%] lg:gap-[6vh]">
+        <div
+          class:list={['-mt-[1em] md:mt-0', accordionClass]}
+          data-anim="fadeIn"
+          data-accordion
+          data-accordion-exclusive
+          data-accordion-ease="power1.inOut"
+        >
+          {faqs.map((f, i) => (
+            <div>
+              <button
+                type="button"
+                id={`faq-q-${i}`}
+                aria-expanded={openFirst && i === 0 ? 'true' : 'false'}
+                aria-controls={`faq-a-${i}`}
+                class:list={[
+                  'group/faq flex w-full cursor-pointer items-center justify-between gap-x-2.5 text-left text-black aria-expanded:text-gold',
+                  buttonClass,
+                ]}
+              >
+                <span class:list={['block font-display font-medium', titleClass]}>{f.q}</span>
+                <span class="flex items-center">
+                  <Icon
+                    name="plus"
+                    class="block shrink-0 size-3.75 group-aria-expanded/faq:hidden"
+                  />
+                  <Icon
+                    name="minus"
+                    class="block shrink-0 hidden size-3.75 group-aria-expanded/faq:block"
+                  />
+                </span>
+              </button>
+              <div
+                id={`faq-a-${i}`}
+                role="region"
+                aria-labelledby={`faq-q-${i}`}
+                hidden={!(openFirst && i === 0)}
+                class="flex flex-col border-b border-black/20 pt-[2em] pb-[1em] lg:pr-[2em]"
+              >
+                {f.a.map((block) =>
+                  block.type === 'steps' ? (
+                    <ul class="m-0 list-none p-0">
+                      {block.items.map((step, n) => (
+                        <li class="my-2 flex items-center">
+                          <span class="mr-2.5 inline-flex size-6.5 items-center justify-center rounded-full border border-[#333] text-14 font-bold text-[#333]">
+                            {n + 1}
+                          </span>{' '}
+                          {step}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p class="mb-3.75 text-[15px]/[24px] md:text-body lg:mb-para">
+                      {block.parts.map((part) =>
+                        typeof part === 'string' ? (
+                          part
+                        ) : 'br' in part ? (
+                          <br />
+                        ) : (
+                          <a
+                            class="text-ink no-underline"
+                            href={part.href}
+                            target="_blank"
+                            rel="noopener"
+                          >
+                            {part.text}
+                          </a>
+                        ),
+                      )}
+                    </p>
+                  ),
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div class="flex w-full flex-col items-end justify-center px-5 md:w-[60%] lg:px-7.5">
+        <div
+          class:list={['w-full overflow-hidden', imageClass]}
+          data-anim="fadeIn"
+          data-anim-delay="100"
+        >
+          {image.format === 'svg' ? (
+            <img
+              src={image.src}
+              alt={imageAlt}
+              width="467"
+              height="467"
+              loading="lazy"
+              class="block h-auto w-full"
+            />
+          ) : (
+            <Picture
+              formats={['avif']}
+              fallbackFormat="webp"
+              src={image}
+              alt={imageAlt}
+              widths={[310, 537, 720, 1024]}
+              sizes="(min-width: 1025px) 720px, (min-width: 768px) 537px, 310px"
+              class="block h-auto w-full"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

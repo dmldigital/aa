@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import Intro from '../../components/sections/Intro.astro';
+import Showcase from '../../components/sections/Showcase.astro';
+import Gallery from '../../components/sections/Gallery.astro';
+import SectionHeading from '../../components/sections/SectionHeading.astro';
+import Pillars from '../../components/sections/Pillars.astro';
+import { EXCELLENCE } from '../../data/pages/services';
+import { serviceParts } from '../../data/pages/intro';
+
+export async function getStaticPaths() {
+  const services = await getCollection('leistungen');
+  return services.map(({ data }) => ({ params: { slug: data.slug }, props: { page: data } }));
+}
+const { page } = Astro.props;
+---
+
+<PageLayout title={page.title} description={page.description} current={`/services/${page.slug}/`}>
+  <PageHero {...page.hero} />
+  <Intro img={page.intro.img} alt={page.intro.alt} parts={serviceParts(page.intro)} />
+  {page.showcase && <Showcase columns={page.showcase} />}
+  {page.gallery && (
+    <Gallery
+      id="aa57ee6"
+      items={page.gallery}
+      gap={[30, 10, 10]}
+      innerClass="md:w-[75.7%] lg:w-full"
+    />
+  )}
+  <SectionHeading id="7d071c8" title={EXCELLENCE} />
+  <Pillars id="8afce89" items={page.pillars} smallText />
+  <div data-section="43d17bb" class="mb-10 h-107.5 md:mb-15 md:h-130 lg:mb-27 lg:h-195"></div>
+  <div data-section="8d59bd8" class="h-5 lg:h-10"></div>
+</PageLayout>

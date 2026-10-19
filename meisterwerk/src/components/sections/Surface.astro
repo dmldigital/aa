@@ -1,0 +1,75 @@
+---
+import Button from '../ui/Button.astro';
+import { href, routes } from '../../data/links';
+import { getImage } from 'astro:assets';
+import concrete from '../../assets/img/249-mw-20241125-scaled.jpg';
+
+/** Betonwand-Banner (Original 882761a). Ohne Props: Startseite. */
+interface Props {
+  id?: string;
+  image?: ImageMetadata;
+  /** Kurztext über dem Button; `leadTag` + `leadClass` ersetzen die Startseiten-Darstellung (span, weiß, 15 px). */
+  lead?: string;
+  leadTag?: 'span' | 'h5';
+  leadClass?: string;
+  button?: { label: string; href: string };
+  heading?: string;
+  rootClass?: string;
+}
+const {
+  id = '882761a',
+  image = concrete,
+  lead = 'Lassen Sie uns gemeinsam etwas Einzigartiges schaffen.',
+  leadTag: Lead = 'span',
+  leadClass = 'text-white leading-[16px] md:leading-[15px]',
+  button = { label: 'Projekt Starten', href: href(routes.contact) },
+  heading = 'Jede Oberfläche ist einzigartig. <br /> Genauso wie unser Ansatz.',
+  rootClass = 'mt-[14vh] md:mt-[20vh] lg:mt-[20vh]',
+} = Astro.props;
+
+const bg = await getImage({ src: image, width: 2000, format: 'webp', quality: 80 });
+---
+
+<section
+  data-section={id}
+  class:list={['flex flex-col bg-cover bg-center', rootClass]}
+  style={`background-image:url(${bg.src})`}
+>
+  <!-- Oberer Linienstreifen -->
+  <div class="flex min-h-5 flex-col border-b border-line pl-[5%] md:min-h-15 md:pl-[10%] lg:min-h-[10vh]">
+    <div class="mx-auto flex w-full max-w-page grow">
+      <div class="w-[65%] border-x border-line md:w-85 lg:w-105"></div>
+    </div>
+  </div>
+
+  <!-- Mittlerer Bereich mit Text -->
+  <div class="flex min-h-[100vw] flex-col border-b border-line pl-[5%] md:min-h-100 md:pl-[10%] lg:min-h-[clamp(500px,80vh,600px)]">
+    <div class="mx-auto flex w-full max-w-page grow">
+      <div class="flex w-[65%] flex-col justify-between gap-5 border-x border-line px-5 py-7.5 backdrop-blur-[40px] backdrop-saturate-[1.8] md:w-85 lg:w-105 lg:px-7.5 lg:py-10">
+        <div class="flex flex-col gap-3.75 lg:gap-5">
+          <div class="mb-2.5 w-full max-w-[280px]" data-anim="slideInUp" data-anim-delay="50">
+            <Lead class={leadClass} set:html={lead} />
+          </div>
+          <div data-anim="slideInUp" data-anim-delay="100">
+            <Button href={href(button.href)} variant="light">
+              {button.label}
+            </Button>
+          </div>
+        </div>
+        <div data-anim="slideInUp">
+          <h2
+            class="font-display text-[23px]/[27.6px] font-medium text-white md:text-[29px]/[39.15px] lg:text-h2"
+            set:html={heading}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Unterer Linienstreifen -->
+  <div class="flex min-h-5 flex-col border-b border-line pl-[5%] md:min-h-15 md:pl-[10%] lg:min-h-[10vh]">
+    <div class="mx-auto flex w-full max-w-page grow">
+      <div class="w-[65%] border-x border-line md:w-85 lg:w-105"></div>
+    </div>
+  </div>
+</section>

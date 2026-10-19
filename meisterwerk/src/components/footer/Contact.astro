@@ -1,0 +1,32 @@
+---
+import { href } from '../../data/links';
+import { site } from '../../data/site';
+import { footers } from '../../data/footer';
+import type { Site } from '../../data/nav';
+/** E-Mail, Telefon und Adresse (Original: Button-Widgets mit Unterstrich-Animation). */
+interface Props {
+  site?: Site;
+  class?: string;
+}
+const { site: siteKey = 'main', class: className = '' } = Astro.props;
+const f = footers[siteKey];
+const link =
+  'group/ul inline-block font-display text-label font-medium tracking-label text-black uppercase';
+---
+
+<div class:list={['flex flex-col', className]}>
+  <a href={`mailto:${site.email}`} class={link}>
+    <span class="underline-anim [--underline-gap:3px]">{site.email}</span>
+  </a>
+  <a href={`tel:${site.phoneHref}`} class={link}>
+    <span class="underline-anim [--underline-gap:3px]">{f.phone}</span>
+  </a>
+  <a
+    href={site.mapsUrl}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="font-display text-label font-medium tracking-label text-ink uppercase hover:text-black"
+  >
+    {site.street}, {site.postalCode} {site.city}
+  </a>
+</div>

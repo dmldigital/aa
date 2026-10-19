@@ -1,0 +1,141 @@
+---
+/**
+ * Profil-Steckbrief (Original 3a18279d): Text links, Foto in der Mitte, Lebensmotto rechts, grauer Grund.
+ * Wie im Original ohne Seitenrand. Am Handy folgt unter dem Motto der aufklappbare Werdegang (nur Baldassarre Fortino).
+ */
+import { Picture } from 'astro:assets';
+import type { Profile } from '../../data/pages/profiles';
+
+interface Props {
+  id?: string;
+  profile: Profile;
+  /** Exklusiv-Site: am Handy 16/24 statt 15/24 und größerer Name (so im Original). */
+  exklusive?: boolean;
+}
+const { id = '3a18279d', profile, exklusive = false } = Astro.props;
+
+const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
+const richText = [
+  exklusive ? '[&_p]:mb-4 md:[&_p]:mb-3.75' : '[&_p]:mb-3.75',
+  'lg:[&_p]:mb-para [&_p:last-child]:mb-0 [&_strong]:font-bold [&_em]:italic',
+].join(' ');
+const bodySize = exklusive ? 'text-[16px]/6' : 'text-[15px]/6';
+---
+
+<section data-section={id} class="overflow-hidden bg-soft">
+  <div class="flex flex-col gap-y-7.5 md:flex-row md:flex-wrap md:gap-y-10 md:gap-x-7.5 lg:flex-nowrap lg:gap-x-[8%]">
+    <!-- Links: Kurzzeile, Name, Text -->
+    <div class="flex flex-col justify-between gap-5 md:w-full lg:w-[25.35%]">
+      <div class="flex flex-col gap-3.75 lg:gap-5">
+        <h6 class={eyebrow}>{profile.tagline}</h6>
+        <h2
+          class:list={[
+            exklusive ? 'text-[26px]/[28.6px]' : 'text-[23px]/[25.3px]',
+            'font-display font-medium text-ink md:text-[34px]/[37.4px] lg:text-h1',
+            profile.subtitle ? 'lg:-mb-6.25' : 'lg:mb-5',
+          ]}
+        >
+          {profile.name}
+        </h2>
+        {profile.subtitle && (
+          <h6 class="pb-5 font-display text-[10px]/[13px] font-medium tracking-label text-ink uppercase">
+            {profile.subtitle}
+          </h6>
+        )}
+        <div class:list={[richText, bodySize, 'md:text-body']} set:html={profile.intro} />
+      </div>
+    </div>
+
+    <!-- Mitte: Foto -->
+    <div class="flex flex-col items-start md:w-[calc((100%-30px)/2)] md:grow lg:w-1/3 lg:grow-0">
+      <div class="aspect-[3/4] w-[82.6%] overflow-hidden md:w-[92.8%] lg:aspect-auto lg:h-171 lg:w-full">
+        <Picture
+          formats={['avif']}
+          fallbackFormat="webp"
+          src={profile.photo}
+          alt={profile.name}
+          widths={[322, 461, 960]}
+          sizes="(min-width: 1025px) 480px, (min-width: 768px) 461px, 322px"
+          loading="lazy"
+          class:list={['block object-cover', exklusive ? 'h-full w-auto' : 'size-full']}
+        />
+      </div>
+    </div>
+
+    <!-- Rechts: Motto, am Handy Werdegang -->
+    <div class="flex flex-col gap-5 md:w-[calc((100%-30px)/2)] md:grow lg:w-[25.35%] lg:grow-0 lg:pt-29.25">
+      <div class:list={[richText, bodySize, 'md:text-body']} set:html={profile.motto} />
+      {profile.timeline && !profile.werdegangList && (
+        <div class="flex flex-col gap-3.75 md:hidden">
+          <h5
+            class="font-display text-[19px]/[24.7px] font-medium text-ink"
+            set:html={profile.timeline.heading}
+          />
+          <div class="font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',system-ui,sans-serif]">
+            <button
+              type="button"
+              data-timeline-toggle
+              aria-expanded="false"
+              aria-controls="werdegang"
+              class="group/t inline-block cursor-pointer border-b border-gold py-3 font-display text-sm/[21px] font-semibold tracking-button text-ink uppercase"
+            >
+              Mein Werdegang{' '}
+              <span class="ml-2 inline-block transition-transform duration-300 group-aria-expanded/t:rotate-90">
+                ▶
+              </span>
+            </button>
+            <div id="werdegang" data-timeline-content hidden class="mt-5">
+              <div class="px-3.75 py-5 text-black">
+                <div class="relative py-10 before:absolute before:top-0 before:bottom-0 before:left-5 before:w-px before:bg-gold before:content-['']">
+                  {profile.timeline.items.map((item) => (
+                    <div class="relative mb-7.5 w-full text-left before:absolute before:top-2 before:left-5 before:z-2 before:h-3.75 before:w-0.5 before:-translate-x-1/2 before:bg-gold before:content-[''] last:mb-0">
+                      <div class="ml-10">
+                        <div class="mb-1 text-[11px] leading-[1.45] font-bold uppercase">
+                          {item.date}
+                        </div>
+                        <div class="text-13 leading-[1.45]">{item.text}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {profile.werdegangList && (
+        <div class="flex flex-col gap-3.75 md:mt-[15px] md:gap-5 lg:mt-[22.5px] mb-[16px] md:mb-[15px] lg:mb-[49.5px]">
+          <h5 class="font-display text-[18px]/[23.4px] font-medium text-ink lg:text-h5">
+            {profile.werdegangList.heading}
+          </h5>
+          <ul>
+            {profile.werdegangList.items.map((item) => (
+              <li class="flex items-start pb-[2.5px] not-first:mt-[2.5px] last:pb-0">
+                <span
+                  class="relative top-1 flex h-3.5 w-4.5 shrink-0 items-center"
+                  aria-hidden="true"
+                >
+                  <span class="h-px w-2.5 bg-ink"></span>
+                </span>
+                <span class="self-center pl-1.25">
+                  <b>{item.date}</b> {item.text}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-timeline-toggle]').forEach((button) => {
+    const content = document.getElementById(button.getAttribute('aria-controls') ?? '');
+    button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(open));
+      if (content) content.hidden = !open;
+    });
+  });
+</script>

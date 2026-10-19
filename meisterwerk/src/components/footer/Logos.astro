@@ -1,0 +1,73 @@
+---
+import { Picture } from 'astro:assets';
+import { href } from '../../data/links';
+import { footers } from '../../data/footer';
+import type { Site } from '../../data/nav';
+import logo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
+import exklusive from '../../assets/img/logo_exklusive.png';
+import malermanufaktur from '../../assets/img/Malermanufaktur_neu.png';
+/**
+ * Die beiden Logos des Fußes. `main`: Logo der aktuellen Seite (Link zur Startseite),
+ * `other`: das jeweils andere Logo (Hauptseite: Meisterwerke Exklusive, Exklusiv-Seite: Malermanufaktur).
+ */
+interface Props {
+  site?: Site;
+  which: 'main' | 'other';
+  /** Klassen für das Hüllelement (Reihenfolge, Abstände); `class` gilt für das Bild */
+  wrapperClass?: string;
+  class?: string;
+}
+const { site: siteKey = 'main', which, wrapperClass = '', class: className = '' } = Astro.props;
+const exk = siteKey === 'exklusive';
+const f = footers[siteKey];
+---
+
+<div class={wrapperClass}>
+  {which === 'main' ? (
+    <a
+      href={href(f.logoHref)}
+      class="block"
+      aria-label={
+        exk
+          ? 'Meisterwerke Exklusive, zur Startseite'
+          : 'Meisterwerk Malermanufaktur, zur Startseite'
+      }
+    >
+      <Picture
+        formats={['avif']}
+        fallbackFormat="webp"
+        src={exk ? exklusive : logo}
+        alt={
+          exk
+            ? 'Meisterwerke Exklusive by Baldassarre Fortino'
+            : 'Meisterwerk Malermanufaktur by Baldasarre Fortino'
+        }
+        widths={[228, 456]}
+        sizes="178px"
+        class:list={['h-auto', className]}
+      />
+    </a>
+  ) : exk ? (
+    <Picture
+      formats={['avif']}
+      fallbackFormat="webp"
+      src={malermanufaktur}
+      alt="Meisterwerk Malermanufaktur by Baldassarre Fortino"
+      widths={[189, 378]}
+      sizes="131px"
+      class:list={['h-auto', className]}
+    />
+  ) : (
+    <a href="https://meisterwerk-exklusive.de/" class="block" aria-label="Meisterwerk Exklusive">
+      <Picture
+        formats={['avif']}
+        fallbackFormat="webp"
+        src={exklusive}
+        alt="Meisterwerke Exklusive by Baldassarre Fortino"
+        widths={[228, 456]}
+        sizes="178px"
+        class:list={['h-auto', className]}
+      />
+    </a>
+  )}
+</div>

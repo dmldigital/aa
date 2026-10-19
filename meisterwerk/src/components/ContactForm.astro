@@ -1,0 +1,267 @@
+---
+/**
+ * Kontaktformular (Original: Elementor-Formular auf /kontakt/ und /schnellkontakt/).
+ * `project` = Projektanfrage mit Leistungsfeldern, `quick` = Schnellkontakt (Name, Rufnummer, E-Mail, Nachricht).
+ * Das Absenden ist noch nicht angebunden: `ContactForm.astro` fängt es ab und zeigt eine Meldung.
+ */
+import Button from './ui/Button.astro';
+
+interface Props {
+  variant: 'project' | 'quick' | 'exklusive';
+}
+const { variant } = Astro.props;
+
+const group = 'mb-7.5 flex w-full flex-wrap items-center px-2.5';
+const label = 'cursor-pointer pb-2.5 font-display text-[13px]/[22.1px] text-white';
+const box = 'flex max-w-full basis-full';
+const field =
+  'min-h-10 max-w-full flex-1 basis-full border border-black/20 bg-white p-3.75 text-[15px]/[21px] text-[inherit]';
+const textField = `${field} font-[Arial]`;
+const selectField = `${field} appearance-none py-3.75 pr-10 pl-3.75 text-15 leading-[inherit] font-[inherit]`;
+
+const exklusive = variant === 'exklusive';
+// Exklusive: andere Leistungen und „Haus oder Wohnung?“ statt „Art der Arbeiten“
+const arbeiten = exklusive
+  ? ['Fugenloses Bad', 'Fugenloser Boden', 'Spachteltechnik']
+  : ['Spachteltechnik', 'Streichen', 'Lackieren', 'Tapezieren', 'Verputzen'];
+const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12 Monaten', '-'];
+---
+
+<form method="post" data-form="kontakt" name="Kontaktformular" aria-label="Kontaktformular">
+  <div class="-mx-2.5 -mb-7.5 flex flex-wrap">
+    {variant !== 'quick' && (
+      <>
+        <div class={`${group} md:w-1/3`}>
+          <label class={label} for="kf-art">
+            Privat oder Gewerbetreibend?
+          </label>
+          <div class={`${box} relative`}>
+            <span
+              class="pointer-events-none absolute top-0 right-5 flex h-full items-center"
+              aria-hidden="true"
+            >
+              <span class="border-x-[5.5px] border-t-[6px] border-x-transparent border-t-black/70" />
+            </span>
+            <select class={selectField} id="kf-art" name="privat_gewerbe" required>
+              <option value="">--</option>
+              <option>Privat</option>
+              <option>Gewerbe</option>
+            </select>
+          </div>
+        </div>
+        <div class={`${group} md:w-1/3`}>
+          <label class={label} for="kf-bereich">
+            {exklusive ? 'Haus oder Wohnung?' : 'Art der Arbeiten'}
+          </label>
+          <div class={`${box} relative`}>
+            <span
+              class="pointer-events-none absolute top-0 right-5 flex h-full items-center"
+              aria-hidden="true"
+            >
+              <span class="border-x-[5.5px] border-t-[6px] border-x-transparent border-t-black/70" />
+            </span>
+            <select
+              class={selectField}
+              id="kf-bereich"
+              name={exklusive ? 'haus_wohnung' : 'art_der_arbeiten'}
+              required
+            >
+              <option value="">--</option>
+              {(exklusive ? ['Wohnung', 'Haus'] : ['Außenarbeiten', 'Innenarbeiten']).map((o) => (
+                <option>{o}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div class={`${group} md:w-1/3`} role="group" aria-labelledby="kf-leistung-label">
+          <span class={label} id="kf-leistung-label">
+            Welche Leistung interessiert Sie?
+          </span>
+          <div class={box}>
+            <div class="leading-[22.5px]">
+              {arbeiten.map((a, i) => (
+                <span class="inline-block pr-2.5">
+                  <input
+                    class="relative top-0.5 m-0 mr-1"
+                    type="checkbox"
+                    id={`kf-leistung-${i}`}
+                    name="leistungen[]"
+                    value={a}
+                  />
+                  <label
+                    class="inline cursor-pointer font-display text-xs/[20.4px] text-white"
+                    for={`kf-leistung-${i}`}
+                  >
+                    {a}
+                  </label>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div class={`${group} md:w-1/3`}>
+          <label class={label} for="kf-flaeche">
+            ca. Fläche in m2
+          </label>
+          <div class={box}>
+            <input
+              class={textField}
+              type="text"
+              inputmode="decimal"
+              id="kf-flaeche"
+              name="flaeche_qm"
+              required
+            />
+          </div>
+        </div>
+        <div class={`${group} md:w-1/3`}>
+          <label class={label} for="kf-zeitpunkt">
+            Zeitpunkt der Ausführung
+          </label>
+          <div class={`${box} relative`}>
+            <span
+              class="pointer-events-none absolute top-0 right-5 flex h-full items-center"
+              aria-hidden="true"
+            >
+              <span class="border-x-[5.5px] border-t-[6px] border-x-transparent border-t-black/70" />
+            </span>
+            <select class={selectField} id="kf-zeitpunkt" name="zeitpunkt" required>
+              {zeitpunkte.map((z) => (
+                <option>{z}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div class={`${group} md:w-1/3`}>
+          <label class={label} for="kf-bilder">
+            Bilder hochladen (max. 12 Bilder, max 60MB)
+          </label>
+          <div class={box}>
+            <input
+              class={`${field} text-[13.3333px] font-[Arial]`}
+              type="file"
+              id="kf-bilder"
+              name="bilder[]"
+              accept="image/*"
+              multiple
+            />
+          </div>
+        </div>
+        <input type="hidden" name="berechneter_preis" />
+        <input type="hidden" name="ausgewaehlte_leistungen" />
+        <input type="hidden" name="preis_pro_qm" />
+        <input type="hidden" name="berechnungsdetails" />
+      </>
+    )}
+    {exklusive && <div class="h-8 w-full" />}
+    <div class={`${group} md:w-1/2`}>
+      <label class={label} for="kf-name">
+        Name
+      </label>
+      <div class={box}>
+        <input
+          class={textField}
+          type="text"
+          id="kf-name"
+          name="name"
+          autocomplete="name"
+          required
+        />
+      </div>
+    </div>
+    <div class={`${group} md:w-1/2`}>
+      <label class={label} for="kf-tel">
+        Rufnummer
+      </label>
+      <div class={box}>
+        <input class={textField} type="tel" id="kf-tel" name="telefon" autocomplete="tel" />
+      </div>
+    </div>
+    {variant !== 'quick' && (
+      <>
+        <div class={`${group} md:w-1/2`}>
+          <label class={label} for="kf-adresse">
+            Adresse
+          </label>
+          <div class={box}>
+            <input
+              class={textField}
+              type="text"
+              id="kf-adresse"
+              name="adresse"
+              autocomplete="street-address"
+              required
+            />
+          </div>
+        </div>
+        <div class={`${group} md:w-1/2`}>
+          <label class={label} for="kf-bauvorhaben">
+            Adresse Bauvorhaben
+          </label>
+          <div class={box}>
+            <input
+              class={textField}
+              type="text"
+              id="kf-bauvorhaben"
+              name="adresse_bauvorhaben"
+              required
+            />
+          </div>
+        </div>
+      </>
+    )}
+    <div class={`${group}`}>
+      <label class={label} for="kf-email">
+        E-Mail
+      </label>
+      <div class={box}>
+        <input
+          class={textField}
+          type="email"
+          id="kf-email"
+          name="email"
+          autocomplete="email"
+          required
+        />
+      </div>
+    </div>
+    <div class={`${group}`}>
+      <label class={label} for="kf-nachricht">
+        Nachricht
+      </label>
+      <div class={box}>
+        <textarea
+          class={`${field} font-[monospace]`}
+          id="kf-nachricht"
+          name="nachricht"
+          rows="4"
+          required
+        ></textarea>
+      </div>
+    </div>
+    <div class={`${group}`}>
+      <Button>Senden</Button>
+    </div>
+  </div>
+  <p
+    class="mt-5 text-white [text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]"
+    role="status"
+    aria-live="polite"
+    data-form-message
+    hidden
+  >
+    Das Formular wird in Kürze freigeschaltet. Bis dahin erreichen Sie uns gern telefonisch oder per
+    E-Mail.
+  </p>
+</form>
+
+<script>
+  // Solange das Formular nicht angebunden ist: Absenden abfangen und freundliche Meldung zeigen.
+  document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const message = form.querySelector<HTMLElement>('[data-form-message]');
+      if (message) message.hidden = false;
+    });
+  });
+</script>

@@ -1,0 +1,79 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import Intro from '../../components/sections/Intro.astro';
+import SectionHeading from '../../components/sections/SectionHeading.astro';
+import Pillars from '../../components/sections/Pillars.astro';
+import Feature from '../../components/sections/Feature.astro';
+import Gallery from '../../components/sections/Gallery.astro';
+import Projects from '../../components/sections/Projects.astro';
+import { EXCELLENCE, projects } from '../../data/pages/exklusive';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('exklusiv-leistungen');
+  return pages.map(({ data }) => ({ params: { slug: data.slug }, props: { page: data } }));
+}
+const { page } = Astro.props;
+// Die Seite „Fugenlose Bäder“ hat im Original andere Abstände als die übrigen drei
+const old = page.slug === 'fugenlose-baeder';
+const boden = page.slug === 'fugenloser-boden';
+---
+
+<PageLayout site="exklusive" title={page.title} current={`/meisterwerk-exklusive/${page.slug}/`}>
+  <Intro
+    id="aeb8cf0"
+    img={page.intro.img}
+    parts={page.intro.parts}
+    rootClass="bg-white"
+    smallText={false}
+    innerClass={old ? 'lg:pb-0' : undefined}
+    leftClass={old ? 'md:w-[46%] md:flex-none' : undefined}
+    rightClass={old ? 'md:w-1/2 md:flex-none lg:px-[8%]' : undefined}
+  />
+  <SectionHeading
+    id="4ef4fcc"
+    title={EXCELLENCE}
+    widthClass="lg:max-w-[534px]"
+    rootClass={old ? 'mb-5 md:mb-6.25 lg:mb-0' : undefined}
+  />
+  <Pillars
+    id="ef1acb3"
+    items={page.pillars}
+    titleClass="text-[19px]/[24.7px] md:text-[18px]/[23.4px] lg:text-h5"
+    rootClass={old ? 'mb-0' : undefined}
+  />
+  <Feature
+    items={page.feature.accordion}
+    button={page.feature.button}
+    img={page.feature.img}
+    rootClass={old ? 'mt-[12vh]' : undefined}
+    innerClass={old ? undefined : 'lg:py-27'}
+    leftClass={boden ? 'md:w-[45%]' : undefined}
+    rightClass={boden ? 'md:w-[53.55%]' : undefined}
+    imageClass={boden ? 'w-full' : undefined}
+  />
+  <Gallery
+    id={page.gallery.id}
+    items={page.gallery.items}
+    columns={page.gallery.columns}
+    gap={[20, 10, 10]}
+    rootClass={old ? 'mt-[12vh] mb-0' : 'mb-0'}
+    innerClass={
+      old
+        ? 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-0 lg:pb-0'
+        : 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-27 lg:pb-27'
+    }
+  />
+  <Projects
+    id={page.projectsId}
+    heading={projects.heading}
+    link={projects.link}
+    projects={projects.items}
+    headingTag="h2"
+    headingClass="text-[23px]/[27.6px] font-medium text-ink md:text-[29px]/[39.15px] lg:text-h2"
+    linkTone="black"
+    rootClass={
+      old ? 'mb-21.25 md:mb-23.75 lg:mt-[12vh] lg:mb-0' : 'mb-21.25 md:mb-23.75 lg:mt-22.5 lg:mb-0'
+    }
+  />
+</PageLayout>

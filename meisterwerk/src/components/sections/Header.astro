@@ -1,0 +1,30 @@
+---
+import type { Site } from '../../data/nav';
+import Actions from '../header/Actions.astro';
+import Brand from '../header/Brand.astro';
+/**
+ * Kopfzeile (Vorlage: Header der Referenzseite, Referenz „Kaisergärten“): Logo links, Ort, Kontakt-Link und
+ * Menü-Knopf rechts. `bar` steht oben auf jeder Unterseite im Fluss, `hero` liegt auf der Fläche des Startseiten-
+ * Heros (durchsichtig, nur Logo und Menü-Knopf) und fährt mit der Hero-Animation weg. Der Header, der beim
+ * Hochscrollen wieder erscheint, steht in SmartHeader.astro.
+ */
+interface Props {
+  site?: Site;
+  variant?: 'bar' | 'hero';
+}
+const { site = 'main', variant = 'bar' } = Astro.props;
+const hero = variant === 'hero';
+---
+
+<header
+  data-site-header
+  class:list={[
+    'z-10 flex items-center justify-between gap-6',
+    hero
+      ? 'absolute top-0 left-0 h-23.75 w-full items-start px-6 py-5.5 min-[701px]:h-32.5 min-[701px]:p-7.5 hero-m:h-19 hero-m:px-5.5 hero-m:py-5'
+      : 'relative h-20.5 border-b border-black/10 bg-white px-5 min-[701px]:h-26 min-[701px]:px-7.5',
+  ]}
+>
+  <Brand {site} class={hero ? 'w-40 min-[701px]:w-44.5' : 'w-36 min-[701px]:w-44.5'} />
+  <Actions {site} compact={hero} />
+</header>

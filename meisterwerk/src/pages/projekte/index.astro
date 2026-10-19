@@ -1,0 +1,18 @@
+---
+import PageLayout from '../../layouts/PageLayout.astro';
+import PageIntro from '../../components/sections/PageIntro.astro';
+import ProjectGrid from '../../components/sections/ProjectGrid.astro';
+import { projects } from '../../data/projects';
+import { meta, intro } from '../../data/pages/projekte';
+---
+
+<PageLayout title={meta.title} description={meta.description} current="/projekte/">
+  <PageIntro
+    id="b9d36c5"
+    heading={intro.heading}
+    paragraphs={intro.paragraphs}
+    image={intro.image}
+    imageAlt={intro.alt}
+  />
+  <ProjectGrid id="6dc4e82" {projects} />
+</PageLayout>

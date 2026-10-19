@@ -1,0 +1,20 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PageIntro from '../../../components/sections/PageIntro.astro';
+import ProjectGrid from '../../../components/sections/ProjectGrid.astro';
+import { projekte } from '../../../data/pages/exklusive-start';
+import { exklusiveMeta, exklusiveIntro } from '../../../data/pages/projekte';
+---
+
+<PageLayout site="exklusive" title={exklusiveMeta.title} current="/meisterwerk-exklusive/projekte/">
+  <PageIntro
+    id="b9d36c5"
+    heading={exklusiveIntro.heading}
+    paragraphs={exklusiveIntro.paragraphs}
+    image={exklusiveIntro.image}
+    imageAlt={exklusiveIntro.alt}
+    textClass="lg:pr-2.5"
+    bodyClass="[&>p]:mb-4 md:[&>p]:mb-3.75 lg:[&>p]:mb-para"
+  />
+  <ProjectGrid id="6dc4e82" projects={projekte.items} iconClass="size-2.5 mt-1.5" />
+</PageLayout>

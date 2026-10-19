@@ -1,0 +1,21 @@
+---
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+import { footers } from '../../data/footer';
+import type { Site } from '../../data/nav';
+/** Überschrift „Sie haben Fragen? Lassen Sie uns reden.“ und Button „Schreiben Sie uns“. */
+interface Props {
+  site?: Site;
+  class?: string;
+}
+const { site: siteKey = 'main', class: className = '' } = Astro.props;
+const f = footers[siteKey];
+---
+
+<div class:list={['flex flex-col items-start gap-5', className]}>
+  <h3 class="font-display text-[26px]/[28.6px] font-medium text-ink md:text-[30px]/[33px] lg:text-[34px]/[37.4px]">
+    <span class="block">Sie haben Fragen?</span>
+    <span class="block">Lassen Sie uns reden.</span>
+  </h3>
+  <Button href={href(f.contactHref)}>SCHREIBEN SIE UNS</Button>
+</div>

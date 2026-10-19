@@ -1,0 +1,37 @@
+---
+/**
+ * Zeitleiste (Original: HTML-Widget auf /studio/). Ab lg waagerecht mit abwechselnd oben/unten stehendem Text,
+ * darunter senkrecht mit Linie links. Der Texte enthalten weiche Trennstriche.
+ */
+interface Props {
+  items: { date: string; text: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="relative w-full py-10 text-black before:absolute before:top-0 before:bottom-0 before:left-5 before:w-px before:bg-gold before:content-[''] lg:py-15 lg:before:top-1/2 lg:before:right-0 lg:before:bottom-auto lg:before:left-0 lg:before:h-px lg:before:w-auto lg:before:-translate-y-1/2">
+  <div class="relative flex flex-col items-start lg:flex-row lg:items-center lg:justify-between">
+    {items.map((item, i) => (
+      <div class="relative mb-7.5 w-full last:mb-0 before:absolute before:top-2 before:left-5 before:z-[2] before:h-3.75 before:w-0.5 before:-translate-x-1/2 before:bg-gold before:content-[''] lg:mb-0 lg:w-auto lg:flex-1 lg:px-2.5 lg:text-center lg:before:top-1/2 lg:before:left-1/2 lg:before:h-5 lg:before:-translate-y-1/2">
+        <div class="relative ml-10 lg:ml-0">
+          <div
+            class:list={[
+              'mb-1 text-[12px] font-bold uppercase lg:absolute lg:left-1/2 lg:mb-2 lg:-translate-x-1/2 lg:whitespace-nowrap',
+              i % 2 === 0 ? 'lg:top-6.25' : 'lg:bottom-6.25',
+            ]}
+          >
+            {item.date}
+          </div>
+          <div
+            class:list={[
+              'text-14 leading-[1.45] lg:absolute lg:left-1/2 lg:w-45 lg:-translate-x-1/2 lg:text-center',
+              i % 2 === 0 ? 'lg:bottom-6.25' : 'lg:top-6.25',
+            ]}
+          >
+            {item.text}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
