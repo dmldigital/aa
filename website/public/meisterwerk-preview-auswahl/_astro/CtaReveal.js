@@ -3,7 +3,8 @@
 // 2. Dann steht die Sektion (Pin). Die senkrechten Linien und die CTA-Box gleiten von links herein und bleiben stehen.
 // 3. Sofort danach läuft die Kontaktformular-Box von links unter der CTA-Box durch, kommt rechts davon heraus
 //    und bleibt stehen (rechts derselbe Randabstand wie links bei der CTA-Box). Kurzer Stopp.
-// 4. Beim Weiterscrollen schiebt sich zuerst die Kontaktbox nach rechts hinaus, danach die CTA-Box nach links.
+// 4. Beim Weiterscrollen schiebt sich die Kontaktbox nach rechts hinaus, zeitversetzt und schneller folgt die CTA-Box
+//    nach links, beide verschwinden kurz hintereinander.
 // 5. Die Sektion bleibt stehen, "Unsere Exklusive Projekte" schiebt sich von unten darüber.
 //    Die Bühne wird nur dort sichtbar gehalten, wo die Projekte noch nicht darüberliegen.
 // Unter 1025 px ist die Kontaktbox so breit wie die Zeile und fährt von rechts über die CTA-Box.
@@ -54,11 +55,12 @@ if (wrap && cover) {
     const FORM_IN = 1.2 * vh; // Kontaktbox läuft durch (startet, sobald die CTA-Box steht)
     const HOLD = 0.4 * vh; // kurzer Stopp
     const FORM_OUT = 0.9 * vh; // Kontaktbox nach rechts hinaus
-    const CTA_OUT = 0.8 * vh; // dann CTA-Box nach links hinaus
+    const CTA_DELAY = 0.28 * vh; // die CTA-Box startet kurz nach der Kontaktbox
+    const CTA_OUT = 0.62 * vh; // und ist schneller, beide verschwinden kurz hintereinander
     const tFormIn = CTA_IN;
     const tFormOut = CTA_IN + FORM_IN + HOLD;
-    const tCtaOut = tFormOut + FORM_OUT;
-    const D = tCtaOut + CTA_OUT;
+    const tCtaOut = tFormOut + CTA_DELAY;
+    const D = tFormOut + Math.max(FORM_OUT, CTA_DELAY + CTA_OUT);
 
     // Wrapper: Bühne + Animation + Strecke, auf der die nächste Sektion darüberfährt.
     wrap.style.height = 2 * H + D + "px";
