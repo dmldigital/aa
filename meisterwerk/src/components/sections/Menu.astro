@@ -1,10 +1,12 @@
 ---
-import { href } from '../../data/links';
-import { items, exklusiveItems, type Item, type Site } from '../../data/nav';
+import type { Site } from '../../data/nav';
+import V1 from '../menu/V1.astro';
+import V2 from '../menu/V2.astro';
+import V3 from '../menu/V3.astro';
 /**
- * Vollbild-Menü (Vorlage: Menü der Referenzseite „Kaisergärten“): fährt von oben herein, die Einträge blenden
- * gestaffelt ein. Schrift deutlich kleiner als in der Vorlage, keine Nummerierung. Einträge mit Untermenü klappen
- * als Akkordeon auf (Unterpunkte einzeilig, Unterebene mit Zwischenüberschrift). Skript unten.
+ * Vollbild-Menü. Drei Varianten zum Vergleich (Umschalter, `html[data-menu]`): 1 Liste mit Akkordeon,
+ * 2 geteilt (links Hauptpunkte, rechts Untermenü und Kontakt), 3 Seitenfläche von rechts. Nach der Entscheidung
+ * bleibt eine Variante. Öffnen, Schließen und Variante 2 steuert das Skript unten.
  */
 interface Props {
   site?: Site;
@@ -12,212 +14,100 @@ interface Props {
   current?: string;
 }
 const { site = 'main', current = '/' } = Astro.props;
-const exk = site === 'exklusive';
-const menu: Item[] = exk ? exklusiveItems : items;
-
-const row =
-  'flex w-full cursor-pointer items-center justify-center gap-3 border-b border-black/10 px-10 py-3.5 font-display text-[26px]/[1.15] font-normal tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold min-[701px]:py-4 min-[701px]:text-[clamp(28px,2.6vw,38px)]';
-const sub =
-  'font-display text-[16px]/[1.3] tracking-[-0.01em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold min-[701px]:text-[18px]';
 ---
 
-<dialog
-  id="main-menu"
-  aria-label="Hauptmenü"
-  class="m-0 hidden h-[calc(100dvh-20px)] max-h-none w-[calc(100%-20px)] max-w-none overflow-y-auto border-0 bg-soft p-4.5 text-ink open:block min-[701px]:h-[calc(100dvh-48px)] min-[701px]:w-[calc(100%-48px)] min-[701px]:px-10 min-[701px]:py-7 fixed inset-2.5 min-[701px]:inset-6 backdrop:bg-ink/50 backdrop:backdrop-blur-xs"
->
-  <div class="flex items-center justify-between gap-6 font-display text-[10px] tracking-[0.09em] uppercase">
-    <span>
-      {exk ? 'Meisterwerke Exklusive' : 'Meisterwerk Malermanufaktur'}
-      <span class="hidden min-[701px]:inline"> / Menü</span>
-    </span>
-    <button
-      type="button"
-      data-menu-close
-      class="group/close flex cursor-pointer items-center gap-4 uppercase"
-    >
-      Schließen
-      <span
-        aria-hidden="true"
-        class="text-[30px] leading-none font-light transition-transform duration-300 group-hover/close:rotate-90"
-      >
-        ×
-      </span>
-    </button>
-  </div>
-
-  <nav aria-label="Hauptmenü" class="mx-auto my-8 max-w-[960px] min-[701px]:my-10">
-    <ul
-      data-accordion
-      data-accordion-exclusive
-      data-accordion-ease="power1.inOut"
-      class="border-t border-black/10"
-    >
-      {menu.map((item, i) => {
-        const flat = (item.children ?? []).filter((c) => !c.children);
-        const groups = (item.children ?? []).filter((c) => c.children);
-        return (
-          <li data-menu-item>
-            {item.children ? (
-              <>
-                <button
-                  type="button"
-                  aria-expanded="false"
-                  aria-controls={`menu-sub-${i}`}
-                  aria-current={
-                    current.startsWith(item.href) && item.href !== '/' ? 'page' : undefined
-                  }
-                  class={`group/acc ${row}`}
-                >
-                  {item.label}
-                  <svg
-                    viewBox="0 0 12 8"
-                    aria-hidden="true"
-                    class="size-3 shrink-0 transition-transform duration-300 group-aria-expanded/acc:rotate-180"
-                  >
-                    <path
-                      d="M1 1.5 6 6.5l5-5"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="1.2"
-                    />
-                  </svg>
-                </button>
-                <div id={`menu-sub-${i}`} hidden class="border-b border-black/10 px-10 py-5">
-                  <ul class="flex flex-wrap justify-center gap-x-8 gap-y-3">
-                    <li>
-                      <a href={href(item.href)} class={sub}>
-                        Übersicht
-                      </a>
-                    </li>
-                    {flat.map((child) => (
-                      <li>
-                        <a
-                          href={href(child.href)}
-                          aria-current={current === child.href ? 'page' : undefined}
-                          class={sub}
-                        >
-                          {child.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                  {groups.map((group) => (
-                    <div class="mt-5 border-t border-black/10 pt-4 text-center">
-                      <a
-                        href={href(group.href)}
-                        class="font-display text-[11px] tracking-[0.12em] text-gold uppercase transition-colors duration-300 hover:text-ink"
-                      >
-                        {group.label}
-                      </a>
-                      <ul class="mt-3 flex flex-wrap justify-center gap-x-8 gap-y-3">
-                        {group.children!.map((child) => (
-                          <li>
-                            <a
-                              href={href(child.href)}
-                              aria-current={current === child.href ? 'page' : undefined}
-                              class={sub}
-                            >
-                              {child.label}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <a
-                href={href(item.href)}
-                aria-current={current === item.href ? 'page' : undefined}
-                class={row}
-              >
-                {item.label}
-              </a>
-            )}
-          </li>
-        );
-      })}
-    </ul>
-  </nav>
-
-  <div class="flex flex-col justify-between gap-3 font-display text-[10px] tracking-[0.06em] uppercase min-[701px]:flex-row">
-    <span>Freiberg a. N. / Ludwigsburg</span>
-    <span>Maler seit über 22 Jahren.</span>
-  </div>
-</dialog>
+<V1 {site} {current} />
+<V2 {site} {current} />
+<V3 {site} {current} />
 
 <script>
   import { gsap } from 'gsap';
   import { lenis } from '../../scripts/motion';
 
-  const menu = document.querySelector<HTMLDialogElement>('#main-menu');
-  if (menu) {
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const openers = document.querySelectorAll<HTMLElement>('[data-menu-open]');
-    let busy = false;
-    let opener: HTMLElement | null = null;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const dialogs = [...document.querySelectorAll<HTMLDialogElement>('[data-menu-dialog]')];
+  const active = () =>
+    dialogs.find((d) => d.dataset.variant === (document.documentElement.dataset.menu || '1')) ??
+    dialogs[0];
+  let busy = false;
+  let opener: HTMLElement | null = null;
 
-    const lock = (on: boolean) => {
-      document.body.style.overflow = on ? 'hidden' : '';
-      if (on) lenis?.stop();
-      else lenis?.start();
+  const lock = (on: boolean) => {
+    document.body.style.overflow = on ? 'hidden' : '';
+    if (on) lenis?.stop();
+    else lenis?.start();
+  };
+  const setExpanded = (on: boolean) =>
+    document
+      .querySelectorAll('[data-menu-open]')
+      .forEach((b) => b.setAttribute('aria-expanded', String(on)));
+  const axis = (d: HTMLElement) =>
+    d.dataset.menuFrom === 'right'
+      ? { from: { xPercent: 110 }, to: { xPercent: 0 } }
+      : { from: { yPercent: -110 }, to: { yPercent: 0 } };
+
+  const open = (from: HTMLElement) => {
+    const menu = active();
+    if (!menu || menu.open || busy) return;
+    opener = from;
+    menu.showModal();
+    lock(true);
+    setExpanded(true);
+    if (reduced) return;
+    const a = axis(menu);
+    gsap.fromTo(menu, a.from, { ...a.to, duration: 0.75, ease: 'power3.out' });
+    gsap.fromTo(
+      menu.querySelectorAll('[data-menu-item]'),
+      { opacity: 0, y: 22 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        stagger: 0.06,
+        delay: 0.3,
+        clearProps: 'opacity,transform',
+      },
+    );
+  };
+
+  const close = (hash?: string) => {
+    const menu = dialogs.find((d) => d.open);
+    if (!menu || busy) return;
+    busy = true;
+    const done = () => {
+      menu.close();
+      lock(false);
+      setExpanded(false);
+      gsap.set(menu, { clearProps: 'transform,opacity' });
+      busy = false;
+      if (hash) {
+        const target = document.querySelector<HTMLElement>(hash);
+        if (target) {
+          if (lenis) lenis.scrollTo(target, { offset: -25 });
+          else target.scrollIntoView({ behavior: 'smooth' });
+          history.replaceState(null, '', hash);
+        }
+      } else opener?.focus({ preventScroll: true });
     };
-    const setExpanded = (on: boolean) =>
-      document
-        .querySelectorAll('[data-menu-open]')
-        .forEach((b) => b.setAttribute('aria-expanded', String(on)));
+    if (reduced) done();
+    else {
+      const a = axis(menu);
+      gsap.to(menu, { ...a.from, duration: 0.45, ease: 'power3.in', onComplete: done });
+    }
+  };
 
-    const open = (from: HTMLElement) => {
-      if (menu.open || busy) return;
-      opener = from;
-      menu.showModal();
-      lock(true);
-      setExpanded(true);
-      if (reduced) return;
-      gsap.fromTo(menu, { yPercent: -110 }, { yPercent: 0, duration: 0.75, ease: 'power3.out' });
-      gsap.fromTo(
-        menu.querySelectorAll('[data-menu-item]'),
-        { opacity: 0, y: 22 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          stagger: 0.06,
-          delay: 0.3,
-          clearProps: 'opacity,transform',
-        },
-      );
-    };
-
-    const close = (hash?: string) => {
-      if (busy) return;
-      busy = true;
-      const done = () => {
-        menu.close();
-        lock(false);
-        setExpanded(false);
-        gsap.set(menu, { clearProps: 'transform,opacity' });
-        busy = false;
-        if (hash) {
-          const target = document.querySelector<HTMLElement>(hash);
-          if (target) {
-            if (lenis) lenis.scrollTo(target, { offset: -25 });
-            else target.scrollIntoView({ behavior: 'smooth' });
-            history.replaceState(null, '', hash);
-          }
-        } else opener?.focus({ preventScroll: true });
-      };
-      if (reduced) done();
-      else gsap.to(menu, { yPercent: -110, duration: 0.45, ease: 'power3.in', onComplete: done });
-    };
-
-    openers.forEach((b) => b.addEventListener('click', () => open(b)));
+  document
+    .querySelectorAll<HTMLElement>('[data-menu-open]')
+    .forEach((b) => b.addEventListener('click', () => open(b)));
+  dialogs.forEach((menu) => {
     menu.querySelector('[data-menu-close]')?.addEventListener('click', () => close());
     menu.addEventListener('cancel', (e) => {
       e.preventDefault();
       close();
+    });
+    // Klick auf die abgedunkelte Fläche neben der Seitenfläche schließt
+    menu.addEventListener('click', (e) => {
+      if (e.target === menu) close();
     });
     // Link auf einen Anker der aktuellen Seite: erst schließen, dann dorthin scrollen
     menu.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) =>
@@ -228,5 +118,45 @@ const sub =
         }
       }),
     );
+  });
+
+  // Variante 2: Untermenü rechts anzeigen (Desktop: Überfahren oder Anwählen, Handy: Untermenü ersetzt die Liste)
+  const split = document.querySelector<HTMLDialogElement>('[data-variant="2"]');
+  if (split) {
+    const panels = [...split.querySelectorAll<HTMLElement>('[data-split-panel]')];
+    const mobile = () => window.matchMedia('(max-width: 700px)').matches;
+    const show = (id: string) => {
+      split.toggleAttribute('data-drill', id !== 'contact' && mobile());
+      split
+        .querySelectorAll<HTMLElement>('[data-split-target]')
+        .forEach((t) =>
+          t.toggleAttribute('data-active', t.dataset.splitTarget === id && id !== 'contact'),
+        );
+      panels.forEach((p) => {
+        const on = p.dataset.splitPanel === id;
+        if (on && p.hidden) {
+          p.hidden = false;
+          if (!reduced)
+            gsap.fromTo(
+              p,
+              { opacity: 0, x: 24 },
+              { opacity: 1, x: 0, duration: 0.45, ease: 'power2.out' },
+            );
+        } else if (!on) p.hidden = true;
+      });
+    };
+    split.querySelectorAll<HTMLElement>('[data-split-target]').forEach((t) => {
+      const id = t.dataset.splitTarget!;
+      if (id !== 'contact' || t.tagName === 'A') {
+        t.addEventListener('mouseenter', () => !mobile() && show(id));
+        t.addEventListener('focus', () => !mobile() && show(id));
+      }
+      if (t.tagName === 'BUTTON') t.addEventListener('click', () => show(id));
+    });
+    split.querySelector('[data-split-back]') &&
+      split
+        .querySelectorAll('[data-split-back]')
+        .forEach((b) => b.addEventListener('click', () => show('contact')));
+    split.addEventListener('close', () => show('contact'));
   }
 </script>

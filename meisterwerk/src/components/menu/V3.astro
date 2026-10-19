@@ -1,0 +1,140 @@
+---
+import { href } from '../../data/links';
+import { items, exklusiveItems, type Item, type Site } from '../../data/nav';
+import Kontakt from './Kontakt.astro';
+/**
+ * Menü-Variante 3 „Seitenfläche“: schmale Fläche, die von rechts hereinfährt (die Seite dahinter bleibt sichtbar,
+ * abgedunkelt). Linksbündige Liste, Untermenüs als Akkordeon mit goldener Linie, unten der Kontaktblock.
+ */
+interface Props {
+  site?: Site;
+  current?: string;
+}
+const { site = 'main', current = '/' } = Astro.props;
+const exk = site === 'exklusive';
+const menu: Item[] = exk ? exklusiveItems : items;
+
+const row =
+  'group/acc flex w-full cursor-pointer items-center justify-between gap-4 border-b border-black/10 py-3 text-left font-display text-[24px]/[1.2] font-normal tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
+const sub =
+  'block font-display text-[16px]/[1.3] tracking-[-0.01em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
+---
+
+<dialog
+  data-menu-dialog
+  data-variant="3"
+  data-menu-from="right"
+  id="main-menu-3"
+  aria-label="Hauptmenü"
+  class="fixed inset-y-0 right-0 left-auto m-0 hidden h-dvh max-h-none w-[min(460px,100%)] max-w-none overflow-y-auto border-0 bg-soft px-6 py-5 text-ink shadow-[-12px_0_40px_rgb(0_0_0/0.12)] backdrop:bg-ink/50 backdrop:backdrop-blur-xs open:flex open:flex-col min-[701px]:px-9 min-[701px]:py-7"
+>
+  <div class="flex items-center justify-between gap-6 font-display text-[10px] tracking-[0.09em] uppercase">
+    <span>Menü</span>
+    <button
+      type="button"
+      data-menu-close
+      class="group/close flex cursor-pointer items-center gap-4 uppercase"
+    >
+      Schließen
+      <span
+        aria-hidden="true"
+        class="text-[30px] leading-none font-light transition-transform duration-300 group-hover/close:rotate-90"
+      >
+        ×
+      </span>
+    </button>
+  </div>
+
+  <nav aria-label="Hauptmenü" class="my-8 grow">
+    <ul
+      data-accordion
+      data-accordion-exclusive
+      data-accordion-ease="power1.inOut"
+      class="border-t border-black/10"
+    >
+      {menu.map((item, i) => (
+        <li data-menu-item>
+          {item.children ? (
+            <>
+              <button
+                type="button"
+                aria-expanded="false"
+                aria-controls={`menu3-sub-${i}`}
+                aria-current={
+                  current.startsWith(item.href) && item.href !== '/' ? 'page' : undefined
+                }
+                class={row}
+              >
+                {item.label}
+                <svg
+                  viewBox="0 0 12 8"
+                  aria-hidden="true"
+                  class="size-3 shrink-0 transition-transform duration-300 group-aria-expanded/acc:rotate-180"
+                >
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+              </button>
+              <div id={`menu3-sub-${i}`} hidden class="border-b border-black/10 py-4">
+                <ul class="ml-1 flex flex-col gap-3 border-l border-gold pl-5">
+                  <li>
+                    <a href={href(item.href)} class={sub}>
+                      Übersicht
+                    </a>
+                  </li>
+                  {item.children
+                    .filter((c) => !c.children)
+                    .map((child) => (
+                      <li>
+                        <a
+                          href={href(child.href)}
+                          aria-current={current === child.href ? 'page' : undefined}
+                          class={sub}
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    ))}
+                  {item.children
+                    .filter((c) => c.children)
+                    .map((group) => (
+                      <li class="mt-2">
+                        <a
+                          href={href(group.href)}
+                          class="font-display text-[11px] tracking-[0.12em] text-gold uppercase transition-colors duration-300 hover:text-ink"
+                        >
+                          {group.label}
+                        </a>
+                        <ul class="mt-3 flex flex-col gap-3 pl-3">
+                          {group.children!.map((child) => (
+                            <li>
+                              <a
+                                href={href(child.href)}
+                                aria-current={current === child.href ? 'page' : undefined}
+                                class={sub}
+                              >
+                                {child.label}
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                </ul>
+              </div>
+            </>
+          ) : (
+            <a
+              href={href(item.href)}
+              aria-current={current === item.href ? 'page' : undefined}
+              class={row}
+            >
+              {item.label}
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <Kontakt {site} class="border-t border-black/10 pt-6" />
+</dialog>

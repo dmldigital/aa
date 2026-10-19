@@ -16,9 +16,9 @@ const { site = 'main' } = Astro.props;
   data-smart-header
   aria-hidden="true"
   inert
-  class="invisible fixed inset-x-0 top-0 z-40 flex h-19 -translate-y-[110%] items-center justify-between gap-6 border-b border-black/10 bg-white px-5 shadow-[0_8px_24px_rgb(21_24_27/0.03)] transition-[transform,visibility] duration-[320ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[visible]:visible data-[visible]:translate-y-0 min-[701px]:h-22 min-[701px]:px-7.5"
+  class="invisible fixed inset-x-0 top-0 z-40 flex h-19 -translate-y-[110%] items-center justify-between gap-6 border-b border-black/10 bg-white px-5 shadow-[0_8px_24px_rgb(21_24_27/0.03)] transition-[transform,visibility] duration-[320ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[force]:visible data-[force]:translate-y-0 data-[visible]:visible data-[visible]:translate-y-0 hv2:h-16 min-[701px]:hv2:h-16 min-[701px]:h-22 min-[701px]:px-7.5"
 >
-  <Brand {site} class="w-36 min-[701px]:w-40" />
+  <Brand {site} class="w-36 min-[701px]:w-40 hv2:w-32" />
   <Actions {site} />
 </header>
 

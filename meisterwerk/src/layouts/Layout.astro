@@ -24,6 +24,14 @@ const noindex = import.meta.env.PUBLIC_INDEXABLE !== 'true';
     <Font cssVariable="--font-urbanist" preload />
     <script is:inline>
       document.documentElement.classList.add('js');
+      // Vergleich der Varianten (Menü, Kopfzeile): per ?menu=2&header=2 oder zuletzt gewählt, vorübergehend
+      try {
+        const q = new URLSearchParams(location.search);
+        for (const key of ['menu', 'header']) {
+          const v = q.get(key) || localStorage.getItem('compare-' + key);
+          if (v) document.documentElement.dataset[key] = v;
+        }
+      } catch {}
     </script>
   </head>
   <body>

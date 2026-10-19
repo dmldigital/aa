@@ -1,0 +1,66 @@
+---
+/**
+ * Vorübergehender Umschalter zum Vergleichen der Menü- und Kopfzeilen-Varianten (unten rechts, auch per
+ * `?menu=1…3` und `?header=1…2`). „Sticky“ zeigt die Sticky-Kopfzeile dauerhaft an. Nach der Entscheidung entfernen
+ * (samt Skript in Layout.astro, `hv2` in global.css und den nicht gewählten Varianten).
+ */
+const groups = [
+  { key: 'menu', label: 'Menü', values: [1, 2, 3] },
+  { key: 'header', label: 'Header', values: [1, 2] },
+];
+---
+
+<div
+  data-compare
+  class="fixed right-5 bottom-5 z-[99999] flex flex-col gap-1 rounded-2xl border border-black/20 bg-white p-1.5 text-[12px] shadow-[0_2px_8px_rgb(0_0_0/0.1)]"
+>
+  {groups.map((g) => (
+    <div class="flex items-center gap-1">
+      <span class="w-14 px-2 text-black/60">{g.label}</span>
+      {g.values.map((n) => (
+        <button
+          type="button"
+          data-compare-pick={`${g.key}:${n}`}
+          class="size-7 cursor-pointer rounded-full text-black aria-pressed:bg-black aria-pressed:text-white"
+        >
+          {n}
+        </button>
+      ))}
+    </div>
+  ))}
+  <button
+    type="button"
+    data-compare-sticky
+    aria-pressed="false"
+    class="cursor-pointer rounded-full px-3 py-1 text-black aria-pressed:bg-black aria-pressed:text-white"
+  >
+    Sticky-Header zeigen
+  </button>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const picks = document.querySelectorAll<HTMLButtonElement>('[data-compare-pick]');
+  const sync = () =>
+    picks.forEach((b) => {
+      const [key, n] = b.dataset.comparePick!.split(':');
+      b.setAttribute('aria-pressed', String((root.dataset[key] || '1') === n));
+    });
+  picks.forEach((b) =>
+    b.addEventListener('click', () => {
+      const [key, n] = b.dataset.comparePick!.split(':');
+      root.dataset[key] = n;
+      try {
+        localStorage.setItem(`compare-${key}`, n);
+      } catch {}
+      sync();
+    }),
+  );
+  sync();
+  const sticky = document.querySelector<HTMLButtonElement>('[data-compare-sticky]');
+  sticky?.addEventListener('click', () => {
+    const on = sticky.getAttribute('aria-pressed') !== 'true';
+    sticky.setAttribute('aria-pressed', String(on));
+    document.querySelector('[data-smart-header]')?.toggleAttribute('data-force', on);
+  });
+</script>
