@@ -1,6 +1,6 @@
 # Übergabe: Meisterwerk Malermanufaktur (Astro-Umzug)
 
-Stand: 19.10.2026. Für eine neue Sitzung oder ein anderes Konto. Zuerst `../CLAUDE.md` lesen (Arbeitsregeln: Deutsch, tokensparsam, keine Nummerierung in Menüs; der Poolbau-Teil dort betrifft dieses Projekt nicht).
+Stand: 19.10.2026 (nach dem Umbau von Header, Menü, Hero und Willkommen-Szene). Für eine neue Sitzung oder ein anderes Konto. Zuerst `../CLAUDE.md` lesen (Arbeitsregeln: Deutsch, tokensparsam, keine Nummerierung in Menüs; der Poolbau-Teil dort betrifft dieses Projekt nicht).
 
 ## Auftrag und Kunde
 
@@ -14,14 +14,22 @@ Stand: 19.10.2026. Für eine neue Sitzung oder ein anderes Konto. Zuerst `../CLA
 - 51 Seiten mit denselben Adressen wie im Original, inklusive Teil-Website `/meisterwerk-exklusive/` mit eigenem Kopf und Fuß.
 - Alles Mehrfache ist nur einmal gebaut (`src/components/sections`, per Props und Daten).
 - Inhalte: Content Collections `src/content/*` (Beiträge, Profile, Leistungen, Kollektionen, je Exklusiv-Variante), übrige Inhalte in `src/data`. Details im `README.md`.
-- Pixelgleich geprüft: 153 Vollseiten-Screenshots (51 Seiten × 390/1024/1440) gegen die Version vor der Content-Collections-Umstellung, nur das bekannte Hero-Wort rauscht.
 - Alle Seiten sind `noindex` (`PUBLIC_INDEXABLE` nicht `true`). Auf `meisterwerk-lb.de` läuft weiter WordPress. Die Astro-Seite ist nicht live.
+
+### Neu gestaltet (auf Wunsch des Nutzers, Vorlage: Referenzseite „Kaisergärten“ auf kaiser.d-lesmeister.workers.dev, im Meisterwerk-Design)
+
+- **Header** (`Header.astro`, `SmartHeader.astro`, `header/*`): Logo links, rechts MENÜ vor dem Button „KONTAKT AUFNEHMEN“. Smart Sticky: erscheint beim Hochscrollen, verschwindet beim Runterscrollen. Auf der Startseite liegt er auf der Hero-Fläche (Variante `hero`).
+- **Menü** (`sections/Menu.astro`, `menu/V2`, `menu/V3`, `menu/KontaktPanel`): Tablet/Desktop (ab 701 px) geteiltes Vollbild mit feiner Mittellinie, links die Punkte, rechts Kontakt mit Kurzformular (Absenden noch nicht angebunden) und nur bei Punkten mit Untermenü (Leistungen) eine Überblendung zur Unterliste, nur Deckkraft, keine Bewegung. Handy (bis 700 px): Seitenfläche von rechts. Keine Pfeile, keine Nummerierung.
+- **Hero** (`Hero.astro`): Desktop: helle Fläche links, Bilderstreifen oben links läuft durch (mit Wörtern Streichen, Lackieren, Tapezieren, Glatte Oberflächen darunter, das große Bild rechts wechselt mit), danach schiebt sich der Text weg, Bild wächst auf Vollbild mit Rand. Handy: am Anfang nur die Fläche mit Streifen, nach dem Durchlauf fährt das Bild von unten herein. Zustände über Tailwind-Varianten `hero-d`/`hero-m` (`global.css`). Offen: weißer 20-%-Streifen am Ende auf dem Handy (aus der Vorlage).
+- **Willkommen-Szene** (`WelcomeScroll.astro`, nur Startseite): Desktop: Text steht (sticky), drei Bilder laufen links hoch, danach die Überschrift „Ihr Partner für exklusive Malerleistungen …“. Handy/Tablet: Pin, oben bleibt das Textende, unten schieben sich die Bilder von rechts herein. H2 und Text lokal SEO-optimiert (Freiberg a. N., Ludwigsburg, Marbach, Bietigheim-Bissingen) mit internen Textlinks (in `pages/index.astro`).
+- **Footer** (`Footer.astro`, `footer/*`): kompakt, Desktop vier Spalten (Exklusive-Logo in der letzten Spalte), Handy eine Spalte; die untere Leiste blendet nach den Spalten ein. Der schwebende Link „Projekt starten“ erscheint auf der Startseite erst nach dem Hero.
+- Pixelvergleiche gegen die Version vor diesen Umbauten gelten nicht mehr (`tools/checkall.sh`, Baseline neu anlegen).
 
 ## Branches und Vorschau
 
-- Arbeitsbranch dieser Sitzung: `ccr-f2051171-tlg9yu` (enthält alles, inklusive Content Collections). Standard-Branch und Pages-Quelle: `claude/poolbau-koch-website-408frj`.
-- Die Vorschau https://dmldigital.github.io/aa/meisterwerk-preview/ ist eine statische Kopie des Builds unter `website/public/meisterwerk-preview/` auf dem Standard-Branch. Der Stand dort ist älter (vor Exklusiv-Seiten und Content Collections), optisch aber derselbe Ansatz.
-- Vorschau aktualisieren: `SITE_URL=https://dmldigital.github.io BASE_PATH=/aa/meisterwerk-preview/ npm run build`, `dist/` nach `website/public/meisterwerk-preview/` kopieren, nur unbenutzte `.webp` entfernen (Größe ca. 18 MB statt 134 MB), diesen Ordner per Commit auf den Standard-Branch legen (Push auf `website/**` deployt über `.github/workflows/deploy-website.yml`). Der Meisterwerk-Quellcode selbst liegt nur auf dem Arbeitsbranch.
+- Arbeitsbranch dieser Sitzung: `ccr-f2051171-tlg9yu` (enthält alles, alles gepusht). Standard-Branch und Pages-Quelle: `claude/poolbau-koch-website-408frj`.
+- **Vorschau-Regel des Nutzers:** Die Hauptvorschau `meisterwerk-preview` nicht überschreiben und nicht die ganze Seite bauen. Vorschauen kommen in `https://dmldigital.github.io/aa/meisterwerk-preview-auswahl/` mit nur den betroffenen Seiten: `meisterwerk/tools/deploy-preview.sh "Commit-Text" / /leistungen/` (Seitenpfade anhängen). Das Skript baut mit passender Basis, kopiert nur diese Seiten samt Bildern und legt den Ordner per temporärem Worktree auf den Pages-Branch. Die ganze Seite in die Hauptvorschau nur auf ausdrücklichen Wunsch (`--voll`). Die Vorschau wird später gelöscht.
+- Der Meisterwerk-Quellcode liegt nur auf dem Arbeitsbranch, die Vorschau-Ordner nur auf dem Pages-Branch.
 - Ein anderes Konto braucht: GitHub-Zugriff auf `dmldigital/aa`, die verbundene Claude-GitHub-App, eigene Geheimnisse (z. B. `API_KEY_21ST`, nicht im Repo).
 
 ## Befehle
