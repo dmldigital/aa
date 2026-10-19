@@ -4,7 +4,7 @@
 // 3. Sofort danach läuft die Kontaktformular-Box von links unter der CTA-Box durch, kommt rechts davon heraus
 //    und bleibt stehen (rechts derselbe Randabstand wie links bei der CTA-Box). Kurzer Stopp.
 // 4. Beim Weiterscrollen schiebt sich die Kontaktbox nach rechts hinaus, zeitversetzt und schneller folgt die CTA-Box
-//    nach links, beide verschwinden kurz hintereinander.
+//    ebenfalls nach rechts, beide verschwinden kurz hintereinander.
 // 5. Die Sektion bleibt stehen, "Unsere Exklusive Projekte" schiebt sich von unten darüber.
 //    Die Bühne wird nur dort sichtbar gehalten, wo die Projekte noch nicht darüberliegen.
 // Unter 1025 px ist die Kontaktbox so breit wie die Zeile und fährt von rechts über die CTA-Box.
@@ -55,7 +55,7 @@ if (wrap && cover) {
     const FORM_IN = 1.2 * vh; // Kontaktbox läuft durch (startet, sobald die CTA-Box steht)
     const HOLD = 0.4 * vh; // kurzer Stopp
     const FORM_OUT = 0.9 * vh; // Kontaktbox nach rechts hinaus
-    const CTA_DELAY = 0.28 * vh; // die CTA-Box startet kurz nach der Kontaktbox
+    const CTA_DELAY = 0.28 * vh; // die CTA-Box startet kurz nach der Kontaktbox (ebenfalls nach rechts)
     const CTA_OUT = 0.62 * vh; // und ist schneller, beide verschwinden kurz hintereinander
     const tFormIn = CTA_IN;
     const tFormOut = CTA_IN + FORM_IN + HOLD;
@@ -72,7 +72,8 @@ if (wrap && cover) {
       gsap.set([...cols, contact], { x: 0 });
       contact.inert = true; // vor dem Auftritt nicht bedienbar
       const stageW = stage.clientWidth;
-      const colOffsets = cols.map((c) => c.getBoundingClientRect().right + 4);
+      const colOffsets = cols.map((c) => c.getBoundingClientRect().right + 4); // links außerhalb
+      const colExit = cols.map((c) => stageW - c.getBoundingClientRect().left + 4); // rechts außerhalb
       const box = contact.getBoundingClientRect();
       const fromLeft = -(box.right + 4); // links außerhalb
       const toRight = stageW - box.left + 4; // rechts außerhalb
@@ -117,7 +118,7 @@ if (wrap && cover) {
 
       cols.forEach((col, i) => {
         tl.fromTo(col, { x: -colOffsets[i] }, { x: 0, duration: CTA_IN, ease: "power2.out" }, 0);
-        tl.to(col, { x: -colOffsets[i], duration: CTA_OUT, ease: "power2.in" }, tCtaOut);
+        tl.to(col, { x: colExit[i], duration: CTA_OUT, ease: "power2.in" }, tCtaOut);
       });
 
       // Breit: von links unter der CTA-Box durch. Schmal: von rechts über die CTA-Box.
