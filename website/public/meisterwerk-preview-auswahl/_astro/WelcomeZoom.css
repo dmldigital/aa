@@ -1,0 +1,6 @@
+/* Willkommens-Sektion, Desktop: Das letzte Bild wächst nach den Bildwechseln auf Vollbild mit 24 px Rand
+   (wie das Hero-Bild) und bleibt dabei stehen. Der Rahmen (Pin) wird von WelcomeZoom.js angelegt. */
+.wz-pin{position:relative;z-index:6;width:100%}
+.wz-pin>[data-ws-img]{position:absolute;left:0;top:0}
+.wz-pin>[data-ws-img] div,.wz-pin>[data-ws-img] picture{display:block;width:100%;height:100%}
+.wz-pin>[data-ws-img] img{width:100%;height:100%;object-fit:cover}
