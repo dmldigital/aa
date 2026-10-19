@@ -19,33 +19,37 @@ interface Props {
   id?: string;
 }
 const { id = 'ca992c2' } = Astro.props;
-// Streifen: die vier Hero-Bilder, für die Länge des Streifens zwei davon noch einmal
-const strip = [...slides, ...slides.slice(0, 2)];
-const main = slides[0];
 ---
 
 <section
   data-hero
   data-section={id}
   aria-label="Willkommen bei Meisterwerk Malermanufaktur"
-  class="relative bg-soft hero-d:h-[300svh] hero-m:h-[245svh]"
+  class="relative bg-soft hero-d:h-[420svh] hero-m:h-[245svh]"
 >
   <div class="relative flex flex-col overflow-hidden bg-soft min-[701px]:block min-[701px]:h-svh min-[701px]:min-h-150 hero-d:sticky hero-d:top-0 hero-d:overflow-clip hero-m:sticky hero-m:top-0 hero-m:block hero-m:h-svh hero-m:min-h-0 hero-m:overflow-clip">
     <div
       data-hero-picture
       class="relative order-1 h-120 overflow-hidden min-[701px]:absolute min-[701px]:inset-[0_0_0_50%] min-[701px]:h-auto hero-m:absolute hero-m:inset-[60%_0_0] hero-m:h-auto"
     >
-      <Picture
-        formats={['avif']}
-        fallbackFormat="webp"
-        src={main.image}
-        alt={main.alt}
-        widths={[640, 1024, 1440, 1920, 2560]}
-        sizes="(max-width: 700px) 100vw, 100vw"
-        loading="eager"
-        fetchpriority="high"
-        class="size-full max-w-none object-cover object-[30%_50%] min-[701px]:object-center"
-      />
+      {slides.map((slide, i) => (
+        <div
+          data-hero-slide
+          class:list={['absolute inset-0', i > 0 && 'hidden opacity-0 hero-d:block']}
+        >
+          <Picture
+            formats={['avif']}
+            fallbackFormat="webp"
+            src={slide.image}
+            alt={i === 0 ? slide.alt : ''}
+            widths={[640, 1024, 1440, 1920, 2560]}
+            sizes="100vw"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : undefined}
+            class="size-full max-w-none object-cover object-[30%_50%] min-[701px]:object-center"
+          />
+        </div>
+      ))}
       <div class="absolute inset-0 bg-[linear-gradient(transparent_55%,rgb(0_0_0/0.35))] hero-m:bg-[linear-gradient(transparent_45%,rgb(0_0_0/0.4))]"></div>
       <p class="absolute right-6 bottom-6 font-display text-[9px] tracking-[0.17em] text-white uppercase min-[701px]:right-[clamp(24px,4.4vw,88px)] min-[701px]:bottom-8 min-[701px]:text-[10px] hero-m:hidden">
         Streichen. Lackieren. Tapezieren.
@@ -72,19 +76,30 @@ const main = slides[0];
         class="invisible absolute inset-x-0 top-9.5 hidden overflow-hidden opacity-0 hero-d:block"
       >
         <div data-hero-track class="flex w-max gap-4 pl-6 will-change-transform">
-          {strip.map((slide) => (
-            <div class="h-[clamp(120px,12vw,240px)] w-[clamp(160px,15vw,300px)] shrink-0 overflow-hidden">
-              <Picture
-                formats={['avif']}
-                fallbackFormat="webp"
-                src={slide.image}
-                alt=""
-                widths={[320, 640]}
-                sizes="300px"
-                loading="lazy"
-                class="size-full object-cover"
-              />
-            </div>
+          {slides.map((slide, i) => (
+            <figure class="flex w-[clamp(160px,15vw,300px)] shrink-0 flex-col gap-3">
+              <div class="h-[clamp(120px,12vw,240px)] overflow-hidden">
+                <Picture
+                  formats={['avif']}
+                  fallbackFormat="webp"
+                  src={slide.image}
+                  alt=""
+                  widths={[320, 640]}
+                  sizes="300px"
+                  loading="lazy"
+                  class="size-full object-cover"
+                />
+              </div>
+              <figcaption
+                data-hero-caption
+                class:list={[
+                  'font-display text-[clamp(14px,1.2vw,19px)]/[1.2] tracking-[-0.01em] text-ink',
+                  i > 0 && 'opacity-35',
+                ]}
+              >
+                {slide.word}
+              </figcaption>
+            </figure>
           ))}
         </div>
       </div>
@@ -124,48 +139,95 @@ const main = slides[0];
     const q = <T extends Element = HTMLElement>(s: string) => hero.querySelector<T>(s)!;
     const mm = gsap.matchMedia();
 
-    // Desktop (ab 701 px)
+    // Desktop (ab 701 px): erst läuft der Streifen mit Bildern und Wörtern durch (das große Bild wechselt mit),
+    // danach schiebt sich der Text weg, die Fläche folgt, das Bild wächst auf die volle Breite und bekommt einen Rand
     mm.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => {
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: hero,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-        })
-        .to(
-          q('[data-site-header]'),
-          { yPercent: -110, autoAlpha: 0, duration: 0.16, ease: 'none' },
-          0,
-        )
+      const slidesEl = [...hero.querySelectorAll<HTMLElement>('[data-hero-slide]')];
+      const captions = [...hero.querySelectorAll<HTMLElement>('[data-hero-caption]')];
+      const track = q('[data-hero-track]');
+      const panel = q('[data-hero-panel]');
+      const n = slidesEl.length;
+      const START = 0.06;
+      const SLIDE = 0.1; // Anteil des Scrollwegs je Wort
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: hero,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub: 1,
+          invalidateOnRefresh: true,
+        },
+      });
+      tl.to(
+        q('[data-site-header]'),
+        { yPercent: -110, autoAlpha: 0, duration: 0.08, ease: 'none' },
+        0,
+      )
         .fromTo(
           q('[data-hero-gallery]'),
           { autoAlpha: 0, y: 24 },
-          { autoAlpha: 1, y: 0, duration: 0.18, ease: 'none' },
-          0.08,
+          { autoAlpha: 1, y: 0, duration: 0.1, ease: 'none' },
+          0.03,
         )
-        .to(q('[data-hero-track]'), { xPercent: -42, duration: 0.82, ease: 'none' }, 0.08)
         .to(
-          q('[data-hero-content]'),
-          { xPercent: -110, duration: 0.42, ease: 'power1.inOut' },
-          0.34,
+          track,
+          {
+            x: () => -(track.scrollWidth - panel.offsetWidth + 24),
+            duration: n * SLIDE,
+            ease: 'none',
+          },
+          START,
+        );
+      tl.fromTo(
+        slidesEl[0].querySelector('img'),
+        { scale: 1.04 },
+        { scale: 1, duration: START + SLIDE, ease: 'none' },
+        0,
+      );
+      // Wort und großes Bild je Station
+      for (let k = 1; k < n; k++) {
+        const at = START + k * SLIDE;
+        tl.fromTo(
+          slidesEl[k],
+          { opacity: 0 },
+          { opacity: 1, duration: 0.05, ease: 'power1.inOut' },
+          at - 0.025,
         )
-        .to(q('[data-hero-panel]'), { xPercent: -100, duration: 0.52, ease: 'power1.inOut' }, 0.4)
-        .to(q('[data-hero-picture]'), { left: '0%', duration: 0.52, ease: 'power1.inOut' }, 0.4)
+          .fromTo(
+            slidesEl[k].querySelector('img'),
+            { scale: 1.08 },
+            { scale: 1, duration: SLIDE, ease: 'none' },
+            at - 0.025,
+          )
+          .fromTo(
+            captions[k],
+            { opacity: 0.35 },
+            { opacity: 1, duration: 0.04, ease: 'none' },
+            at - 0.02,
+          )
+          .fromTo(
+            captions[k - 1],
+            { opacity: 1 },
+            { opacity: 0.35, duration: 0.04, ease: 'none' },
+            at - 0.02,
+          );
+      }
+      // Danach: Text weg, Fläche weg, Bild groß, Rand
+      const END = START + n * SLIDE + 0.06;
+      tl.to(q('[data-hero-content]'), { xPercent: -110, duration: 0.28, ease: 'power1.inOut' }, END)
+        .to(panel, { xPercent: -100, duration: 0.32, ease: 'power1.inOut' }, END + 0.04)
+        .to(
+          q('[data-hero-picture]'),
+          { left: '0%', duration: 0.32, ease: 'power1.inOut' },
+          END + 0.04,
+        )
         .to(
           q('[data-hero-picture]'),
           { top: 24, right: 24, bottom: 24, left: 24, duration: 0.08, ease: 'none' },
-          0.92,
-        )
-        .fromTo(
-          '[data-hero-picture] img',
-          { scale: 1.04 },
-          { scale: 1, duration: 1, ease: 'none' },
-          0,
+          END + 0.36,
         );
+      // Gesamtlänge der Zeitleiste auf 1 normieren
+      tl.duration(1);
     });
 
     // Handy (bis 700 px, Höhe ab 650 px)

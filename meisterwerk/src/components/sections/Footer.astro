@@ -106,16 +106,19 @@ const line =
     }),
   );
 
-  // Schwebender Link "Projekt starten": erscheint nach 100vh Scrollen und verschwindet wieder
+  // Schwebender Link "Projekt starten": erscheint nach 100vh Scrollen (auf der Startseite nach dem Hero) und verschwindet wieder
   // 100vh (Handy bis 768 px: 150vh) vor dem Seitenende, wie im Original
   const cta = document.querySelector<HTMLElement>('[data-floating-cta]');
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (cta) {
     const update = () => {
       const h = window.innerHeight;
       const y = window.scrollY;
       const hideDistance = window.innerWidth <= 768 ? h * 1.5 : h;
       const nearEnd = y + h > document.documentElement.scrollHeight - hideDistance;
-      cta.toggleAttribute('data-show', y > h && !nearEnd);
+      // Auf der Startseite erst nach dem Hero (er ist mehrere Bildschirme hoch)
+      const start = Math.max(h, hero ? hero.offsetTop + hero.offsetHeight : 0);
+      cta.toggleAttribute('data-show', y > start && !nearEnd);
     };
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
