@@ -25,12 +25,12 @@ const { id = 'ca992c2' } = Astro.props;
   data-hero
   data-section={id}
   aria-label="Willkommen bei Meisterwerk Malermanufaktur"
-  class="relative bg-soft hero-d:h-[420svh] hero-m:h-[245svh]"
+  class="relative bg-soft hero-d:h-[420svh] hero-m:h-[380svh]"
 >
   <div class="relative flex flex-col overflow-hidden bg-soft min-[701px]:block min-[701px]:h-svh min-[701px]:min-h-150 hero-d:sticky hero-d:top-0 hero-d:overflow-clip hero-m:sticky hero-m:top-0 hero-m:block hero-m:h-svh hero-m:min-h-0 hero-m:overflow-clip">
     <div
       data-hero-picture
-      class="relative order-1 h-120 overflow-hidden min-[701px]:absolute min-[701px]:inset-[0_0_0_50%] min-[701px]:h-auto hero-m:absolute hero-m:inset-[60%_0_0] hero-m:h-auto"
+      class="relative order-1 h-120 overflow-hidden min-[701px]:absolute min-[701px]:inset-[0_0_0_50%] min-[701px]:h-auto hero-m:absolute hero-m:inset-x-0 hero-m:top-full hero-m:-bottom-full hero-m:h-auto"
     >
       {slides.map((slide, i) => (
         <div
@@ -66,19 +66,22 @@ const { id = 'ca992c2' } = Astro.props;
 
     <div
       data-hero-panel
-      class="relative z-[2] flex min-h-165 w-full flex-col overflow-hidden bg-soft text-ink min-[701px]:h-full min-[701px]:min-h-0 min-[701px]:w-1/2 hero-m:absolute hero-m:inset-x-0 hero-m:top-0 hero-m:h-[60%]"
+      class="relative z-[2] flex min-h-165 w-full flex-col overflow-hidden bg-soft text-ink min-[701px]:h-full min-[701px]:min-h-0 min-[701px]:w-1/2 hero-m:absolute hero-m:inset-x-0 hero-m:top-0 hero-m:h-full"
     >
       <Header variant="hero" />
 
       <div
         data-hero-gallery
         aria-hidden="true"
-        class="invisible absolute inset-x-0 top-9.5 hidden overflow-hidden opacity-0 hero-d:block"
+        class="invisible absolute inset-x-0 top-9.5 hidden overflow-hidden opacity-0 hero-d:block hero-m:visible hero-m:top-23 hero-m:block hero-m:opacity-100"
       >
-        <div data-hero-track class="flex w-max gap-4 pl-6 will-change-transform">
+        <div
+          data-hero-track
+          class="flex w-max gap-4 pl-6 will-change-transform hero-m:gap-3.5 hero-m:pl-5.5"
+        >
           {slides.map((slide, i) => (
-            <figure class="flex w-[clamp(160px,15vw,300px)] shrink-0 flex-col gap-3">
-              <div class="h-[clamp(120px,12vw,240px)] overflow-hidden">
+            <figure class="flex w-[clamp(160px,15vw,300px)] shrink-0 flex-col gap-3 hero-m:w-[clamp(140px,46vw,220px)] hero-m:gap-2.5">
+              <div class="h-[clamp(120px,12vw,240px)] overflow-hidden hero-m:h-[clamp(100px,16svh,150px)]">
                 <Picture
                   formats={['avif']}
                   fallbackFormat="webp"
@@ -106,7 +109,7 @@ const { id = 'ca992c2' } = Astro.props;
 
       <div
         data-hero-content
-        class="relative px-6 pt-52.5 pb-6 min-[701px]:absolute min-[701px]:inset-x-6 min-[701px]:bottom-6 min-[701px]:p-0 hero-m:absolute hero-m:inset-[92px_22px_20px] hero-m:flex hero-m:flex-col hero-m:justify-between hero-m:gap-4 hero-m:p-0"
+        class="relative px-6 pt-52.5 pb-6 min-[701px]:absolute min-[701px]:inset-x-6 min-[701px]:bottom-6 min-[701px]:p-0 hero-m:absolute hero-m:inset-[92px_22px_20px] hero-m:flex hero-m:flex-col hero-m:justify-between hero-m:gap-4 hero-m:p-0 hero-m:pt-[clamp(150px,24svh,200px)]"
       >
         <h1 class="mb-5.5 font-display text-[11.5vw]/[0.92] font-semibold tracking-[-0.045em] text-ink min-[701px]:mb-5.5 min-[701px]:text-[clamp(38px,4.4vw,80px)]/[0.94] hero-m:order-0 hero-m:m-0 hero-m:text-[11.5vw]/[0.94]">
           <span class="mb-3.5 block font-display text-[12px]/[1] font-normal tracking-[0.2em] text-ink uppercase hero-m:mb-2.5 hero-m:text-[9px]">
@@ -230,34 +233,70 @@ const { id = 'ca992c2' } = Astro.props;
       tl.duration(1);
     });
 
-    // Handy (bis 700 px, Höhe ab 650 px)
+    // Handy (bis 700 px, Höhe ab 650 px): Am Anfang steht nur die Fläche mit Kopfzeile, Streifen und Text im Bild.
+    // Der Streifen läuft erst durch, dann fährt die Fläche nach oben weg, das Bild schiebt sich von unten herein
+    // und zoomt auf, danach bekommt es einen Rand.
     mm.add(
       '(max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)',
       () => {
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: hero,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: 0.45,
-              invalidateOnRefresh: true,
-            },
-          })
+        const captions = [...hero.querySelectorAll<HTMLElement>('[data-hero-caption]')];
+        const track = q('[data-hero-track]');
+        const panel = q('[data-hero-panel]');
+        const n = captions.length;
+        const START = 0.04;
+        const SLIDE = 0.11;
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: hero,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 0.45,
+            invalidateOnRefresh: true,
+          },
+        });
+        tl.to(
+          track,
+          {
+            x: () => -(track.scrollWidth - panel.offsetWidth + 22),
+            duration: n * SLIDE,
+            ease: 'none',
+          },
+          START,
+        );
+        for (let k = 1; k < n; k++) {
+          const at = START + k * SLIDE;
+          tl.fromTo(
+            captions[k],
+            { opacity: 0.35 },
+            { opacity: 1, duration: 0.04, ease: 'none' },
+            at - 0.02,
+          ).fromTo(
+            captions[k - 1],
+            { opacity: 1 },
+            { opacity: 0.35, duration: 0.04, ease: 'none' },
+            at - 0.02,
+          );
+        }
+        const END = START + n * SLIDE + 0.08;
+        tl.to(q('[data-hero-content]'), { y: -20, opacity: 0, duration: 0.14, ease: 'none' }, END)
+          .to(panel, { yPercent: -100, duration: 0.3, ease: 'power1.inOut' }, END + 0.02)
+          .to(
+            q('[data-hero-picture]'),
+            { top: '0%', bottom: '0%', duration: 0.3, ease: 'power1.inOut' },
+            END + 0.02,
+          )
           .fromTo(
             '[data-hero-picture] img',
             { scale: 1.18 },
-            { scale: 1, duration: 1, ease: 'none' },
-            0,
+            { scale: 1, duration: 0.4, ease: 'none' },
+            END + 0.02,
           )
-          .to(q('[data-hero-content]'), { y: -20, opacity: 0, duration: 0.27, ease: 'none' }, 0.1)
-          .to(q('[data-hero-panel]'), { yPercent: -100, duration: 0.6, ease: 'power1.inOut' }, 0.2)
-          .to(q('[data-hero-picture]'), { top: '0%', duration: 0.6, ease: 'power1.inOut' }, 0.2)
           .to(
             q('[data-hero-picture]'),
-            { left: 12, right: 12, bottom: '20%', top: 12, duration: 0.2, ease: 'none' },
-            0.8,
+            { left: 12, right: 12, bottom: '20%', top: 12, duration: 0.1, ease: 'none' },
+            END + 0.34,
           );
+        tl.duration(1);
       },
     );
 
