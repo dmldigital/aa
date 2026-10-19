@@ -1,7 +1,7 @@
 // Tab-Sektionen ("Meisterliche Malerarbeiten" und FAQ).
 // Meisterliche Malerarbeiten, Desktop (ab 1200 px Breite und 600 px Höhe, volle Bewegung): Die Sektion wird gepinnt.
 // Rechts steht statt des Bildes ein feststehender Trennstrich. Die Tab-Texte gleiten von links unter ihm hindurch nach
-// rechts heraus und beim nächsten Tab wieder zurück. Danach löst sich der Pin.
+// rechts heraus und beim nächsten Tab rechts aus dem Bildschirm. Danach löst sich der Pin.
 // Die Texte passen immer in 100vh: Schrift und Abstände werden bei Bedarf verkleinert.
 // FAQ (data-tb-accordion), Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt
 // direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere), auch über beide FAQ-Spalten.
@@ -184,15 +184,16 @@ function initTabs(sec) {
       });
 
       // Wechsel (Scroll-gesteuert, rückwärts genauso): Zu Beginn steht nur der Strich. Der Text gleitet von links unter
-      // dem Strich hindurch nach rechts heraus (die Bühne schneidet am Strich ab). Beim Tab-Wechsel gleitet der alte Text
-      // unter den Strich zurück, danach kommt der neue heraus.
+      // dem Strich hindurch nach rechts heraus (die Bühne schneidet nur am Strich ab). Beim Tab-Wechsel gleitet der alte
+      // Text weiter nach rechts aus dem Bildschirm, danach kommt der neue unter dem Strich heraus.
       const hidden = (inner) => () => -(inner.offsetLeft + inner.offsetWidth + 24);
+      const gone = () => document.documentElement.clientWidth - view.getBoundingClientRect().left + 24;
       gsap.set(panels, { autoAlpha: 1 });
       inners.forEach((inner) => gsap.set(inner, { x: hidden(inner)() }));
 
       plan.forEach((p, i) => {
         if (i > 0) {
-          tl.to(inners[i - 1], { x: hidden(inners[i - 1]), duration: FADE * 0.44, ease: "power2.inOut" }, p.start);
+          tl.to(inners[i - 1], { x: gone, duration: FADE * 0.44, ease: "power2.inOut" }, p.start);
         }
         tl.fromTo(
           inners[i],
