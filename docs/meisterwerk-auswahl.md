@@ -23,7 +23,7 @@ Werkzeuge und Tests: `tools/meisterwerk-auswahl/` (siehe dort README).
 ## Eigene Dateien (`_astro/`)
 | Datei | Zweck |
 |---|---|
-| `LeistungenStack.css/js` | Leistungen als gestapelte weiße Karten (1 px Rahmen, kein Schatten), Hover-Zoom 1,05, Link-Icon-Kreis. Letzte Karte = Logo-Box „Meisterwerk Exklusive“ |
+| `LeistungenStack.css/js` | **Streifenabstand wird in `u()` berechnet**, damit die letzte Karte rechts denselben Randabstand hat wie die Überschrift links (Desktop/Tablet). Leistungen als gestapelte weiße Karten (1 px Rahmen, kein Schatten), Hover-Zoom 1,05, Link-Icon-Kreis. Letzte Karte = Logo-Box „Meisterwerk Exklusive“ |
 | `TabsFade.css/js` | **Zwei Sektionen mit `[data-tb]`:** (1) „Meisterliche Malerarbeiten“ (Pin, Slides), (2) FAQ (`data-tb-accordion`, aufklappbare Tabs) |
 | `HeaderLock.css/js` | Sperrt den Sticky-Header in Zonen mit `data-header-lock` (Hero, Willkommen, Leistungen, Fachsektion, Bild/CTA, Projekte-Überlagerung) |
 | `CtaReveal.css/js` | „Jede Oberfläche ist einzigartig“: Parallax, Pin, CTA-Box + Kontaktformular-Box, Projekte schieben sich darüber |
