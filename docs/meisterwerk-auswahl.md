@@ -47,7 +47,7 @@ Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = E
    Darunter (Handy, Tablet, reduzierte Bewegung, flache Fenster): aufklappbare Tabs, erster Tab offen.
    Typografie im Seitensystem: Urbanist für Überschriften/Labels, Fließtext in der Seitenschrift (15/22,5, Schwarz 70 %), goldene Chevrons, keine Linien in den Tab-Texten.
 4. **Bild + Linien + CTA-Box + Kontaktformular** (`.mz`): Parallax, Pin, CTA von links, Kontaktbox (weiß, ohne senkrechte Linien) läuft unter der CTA-Box durch,
-   Stopp, Kontaktbox nach rechts raus, zeitversetzt und schneller folgt die CTA ebenfalls nach rechts (beide verschwinden kurz hintereinander), dann schiebt sich „Unsere Exklusive Projekte“ darüber.
+   Stopp, Kontaktbox nach rechts raus, zeitversetzt und schneller folgt die CTA nach links (beide verschwinden kurz hintereinander), dann schiebt sich „Unsere Exklusive Projekte“ darüber.
 5. **Unsere Exklusive Projekte** (`[data-ep]`): bleibt stehen (Sticky), das FAQ schiebt sich darüber.
 6. **FAQ**: kein Scroll-Effekt. Zweispaltig 50/50 (je 5 Fragen), aufklappbare Tabs, **immer nur ein Tab offen (spaltenübergreifend), zu Beginn alle geschlossen**.
    Plus wird Minus, goldener Strich über der Oberkante, Inhalt gleitet ein. Unter 768 px eine Spalte. Kein Hausbild mehr.
