@@ -10,9 +10,7 @@
   "date": "Mai / 2021",
   "image": "../../assets/img/fugenlos-1.jpg",
   "imageAlt": "Luxuriöses fugenloses Badezimmer mit mineralischer Wand- und Bodenbeschichtung sowie beleuchteten Wandnischen in Ludwigsburg.",
-  "services": [
-    "Fugenloses Bad"
-  ],
+  "services": ["Fugenloses Bad"],
   "info": {
     "year": "2021",
     "place": "Ludwigsburg",
@@ -48,9 +46,5 @@
     "../../assets/img/322-meisterwerk-20230120-scaled-1.jpg"
   ],
   "largeText": true,
-  "galleryColumns": [
-    2,
-    2,
-    1
-  ]
+  "galleryColumns": [2, 2, 1]
 }

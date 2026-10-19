@@ -29,23 +29,15 @@
   },
   "showcase": [
     {
-      "width": [
-        24.333,
-        23.88
-      ],
+      "width": [24.333, 23.88],
       "images": [
         "../../assets/img/2014-meisterwerk-20230524-Bearbeitet-4-scaled.jpg",
         "../../assets/img/2009-meisterwerk-20230524-Bearbeitet-3-scaled.jpg"
       ]
     },
     {
-      "width": [
-        66.667,
-        74.09
-      ],
-      "images": [
-        "../../assets/img/2018-meisterwerk-20230524-Bearbeitet-3-scaled.jpg"
-      ]
+      "width": [66.667, 74.09],
+      "images": ["../../assets/img/2018-meisterwerk-20230524-Bearbeitet-3-scaled.jpg"]
     }
   ],
   "pillars": [

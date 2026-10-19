@@ -29,10 +29,7 @@
   },
   "showcase": [
     {
-      "width": [
-        24.333,
-        23.88
-      ],
+      "width": [24.333, 23.88],
       "images": [
         "../../assets/img/41-bf-20241206-Bearbeitet-scaled.jpg",
         "../../assets/img/902-bf-20241206-Bearbeitet-scaled.jpg",
@@ -40,13 +37,8 @@
       ]
     },
     {
-      "width": [
-        66.667,
-        74.09
-      ],
-      "images": [
-        "../../assets/img/2104-meisterwerk-20230524-Bearbeitet-2-scaled.jpg"
-      ]
+      "width": [66.667, 74.09],
+      "images": ["../../assets/img/2104-meisterwerk-20230524-Bearbeitet-2-scaled.jpg"]
     }
   ],
   "pillars": [

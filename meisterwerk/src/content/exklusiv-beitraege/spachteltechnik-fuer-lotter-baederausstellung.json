@@ -10,9 +10,7 @@
   "date": "Mai / 2025",
   "image": "../../assets/img/069-meisterwerk-20230508-Bearbeitet.jpg",
   "imageAlt": "Exklusive mineralische Wandspachteltechnik in Grau in einem modernen offenen Wohn- und Geschäftsbereich in Ludwigsburg.",
-  "services": [
-    "Spachteltechnik"
-  ],
+  "services": ["Spachteltechnik"],
   "info": {
     "year": "2022",
     "place": "Ludwigsburg",
@@ -46,9 +44,5 @@
     "../../assets/img/103-meisterwerk-20230508-scaled.jpg"
   ],
   "largeText": true,
-  "galleryColumns": [
-    2,
-    2,
-    1
-  ]
+  "galleryColumns": [2, 2, 1]
 }

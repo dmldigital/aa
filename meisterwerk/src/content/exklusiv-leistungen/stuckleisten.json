@@ -127,11 +127,7 @@
   },
   "gallery": {
     "id": "737e3c5",
-    "columns": [
-      3,
-      2,
-      1
-    ],
+    "columns": [3, 2, 1],
     "items": [
       "../../assets/img/336-mw-20241125-scaled.jpg",
       "../../assets/img/113-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",

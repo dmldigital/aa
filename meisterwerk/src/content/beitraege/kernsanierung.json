@@ -5,10 +5,7 @@
   "slug": "kernsanierung",
   "title": "Kernsanierung",
   "image": "../../assets/img/2000-meisterwerk-20230524-Bearbeitet-2-scaled.jpg",
-  "services": [
-    "Malerarbeiten",
-    "Spachteltechnik"
-  ],
+  "services": ["Malerarbeiten", "Spachteltechnik"],
   "info": {
     "year": "2021",
     "place": "Ludwigsburg",

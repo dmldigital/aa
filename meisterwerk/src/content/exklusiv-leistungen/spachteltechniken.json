@@ -116,11 +116,7 @@
   },
   "gallery": {
     "id": "c113608",
-    "columns": [
-      4,
-      2,
-      1
-    ],
+    "columns": [4, 2, 1],
     "items": [
       "../../assets/img/001-meisterwerk-20230508-HDR-1-scaled.jpg",
       "../../assets/img/19-bf-20241206-Bearbeitet-1-scaled.jpg",

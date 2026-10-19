@@ -5,10 +5,7 @@
   "slug": "frisch-gestrichen",
   "title": "Frisch Gestrichen",
   "image": "../../assets/img/2124-meisterwerk-20230524-Bearbeitet-1-scaled.jpg",
-  "services": [
-    "Malerarbeiten",
-    "Fugenloses Bad"
-  ],
+  "services": ["Malerarbeiten", "Fugenloses Bad"],
   "info": {
     "year": "2021",
     "place": "Ludwigsburg",

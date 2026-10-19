@@ -116,11 +116,7 @@
   },
   "gallery": {
     "id": "7d0a19c",
-    "columns": [
-      4,
-      2,
-      1
-    ],
+    "columns": [4, 2, 1],
     "items": [
       "../../assets/img/275-mw-20241125-Bearbeitet-scaled.jpg",
       "../../assets/img/215-mw-20241125-Bearbeitet-1-scaled.jpg",

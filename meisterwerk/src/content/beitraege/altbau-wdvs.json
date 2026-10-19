@@ -5,11 +5,7 @@
   "slug": "altbau-wdvs",
   "title": "Altbau WDVS",
   "image": "../../assets/img/2079-meisterwerk-20230524-Bearbeitet-scaled.jpg",
-  "services": [
-    "Malerarbeiten",
-    "Verputz",
-    "WDVS"
-  ],
+  "services": ["Malerarbeiten", "Verputz", "WDVS"],
   "info": {
     "year": "2022",
     "place": "Ludwigsburg",

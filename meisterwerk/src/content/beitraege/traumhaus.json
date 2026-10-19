@@ -5,11 +5,7 @@
   "slug": "traumhaus",
   "title": "Traumhaus",
   "image": "../../assets/img/199-meisterwerk-20230120-Bearbeitet-2-scaled.jpg",
-  "services": [
-    "Malerarbeiten",
-    "Spachteltechnik",
-    "Stuckarbeiten"
-  ],
+  "services": ["Malerarbeiten", "Spachteltechnik", "Stuckarbeiten"],
   "info": {
     "year": "2019",
     "place": "Ludwigsburg",

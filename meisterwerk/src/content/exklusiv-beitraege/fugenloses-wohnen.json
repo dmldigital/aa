@@ -10,10 +10,7 @@
   "date": "Mai / 2025",
   "image": "../../assets/img/Image-21.jpg",
   "imageAlt": "Modernes Wohnkonzept mit fugenlosem mineralischem Boden, Sichtbeton-Säule und glatten weißen Wänden in Stuttgart.",
-  "services": [
-    "Fugenlose Böden",
-    "Malerarbeiten"
-  ],
+  "services": ["Fugenlose Böden", "Malerarbeiten"],
   "info": {
     "year": "2018",
     "place": "Karlsruhe",
@@ -41,9 +38,5 @@
     "../../assets/img/Image-21.jpg"
   ],
   "largeText": true,
-  "galleryColumns": [
-    3,
-    3,
-    1
-  ]
+  "galleryColumns": [3, 3, 1]
 }

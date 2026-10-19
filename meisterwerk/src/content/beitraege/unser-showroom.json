@@ -5,12 +5,7 @@
   "slug": "unser-showroom",
   "title": "Unser Schowroom",
   "image": "../../assets/img/107-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
-  "services": [
-    "Malerarbeiten",
-    "Spachteltechniken",
-    "Fugenlose Böden",
-    "Stuckarbeiten"
-  ],
+  "services": ["Malerarbeiten", "Spachteltechniken", "Fugenlose Böden", "Stuckarbeiten"],
   "info": {
     "year": "2018",
     "place": "Freiberg a. Neckar",

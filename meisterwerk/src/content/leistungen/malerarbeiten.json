@@ -29,10 +29,7 @@
   },
   "showcase": [
     {
-      "width": [
-        14.762,
-        13.31
-      ],
+      "width": [14.762, 13.31],
       "images": [
         "../../assets/img/142-bf-20241206-Bearbeitet-1-scaled.jpg",
         "../../assets/img/296-meisterwerk-20230120-scaled.jpg",
@@ -40,22 +37,12 @@
       ]
     },
     {
-      "width": [
-        40.446,
-        41.36
-      ],
-      "images": [
-        "../../assets/img/2000-meisterwerk-20230524-Bearbeitet-3-scaled.jpg"
-      ]
+      "width": [40.446, 41.36],
+      "images": ["../../assets/img/2000-meisterwerk-20230524-Bearbeitet-3-scaled.jpg"]
     },
     {
-      "width": [
-        40.446,
-        41.36
-      ],
-      "images": [
-        "../../assets/img/2109-meisterwerk-20230524-Bearbeitet-2-scaled.jpg"
-      ]
+      "width": [40.446, 41.36],
+      "images": ["../../assets/img/2109-meisterwerk-20230524-Bearbeitet-2-scaled.jpg"]
     }
   ],
   "pillars": [
