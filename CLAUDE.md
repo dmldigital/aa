@@ -33,3 +33,7 @@
 ## Setup
 - `.mcp.json`: Playwright MCP und Chrome DevTools MCP (Wrapper in `.claude/mcp/`), headless mit vorinstalliertem Chromium.
 - `.mcp.json`: 21st MCP (UI-Komponenten von 21st.dev) – API-Schlüssel kommt aus der Umgebungsvariable `API_KEY_21ST` (nie ins Repo schreiben).
+
+## Vorschau Meisterwerk (Auswahl)
+- Eigenes Projekt in `website/public/meisterwerk-preview-auswahl/` (gebauter Stand ohne Astro-Quelle, `index.html` und eigene `_astro/*`-Dateien werden direkt bearbeitet). Übergabe, Dateiübersicht, Stolpersteine: `docs/meisterwerk-auswahl.md`. Werkzeuge und Tests: `tools/meisterwerk-auswahl/`.
+- Nach jeder Änderung an CSS/JS dort `python3 tools/meisterwerk-auswahl/bust.py` ausführen. Pushes auf `claude/admiring-gates-cn5mu9` und zusätzlich auf `claude/poolbau-koch-website-408frj` (nur das löst den Deploy aus).
