@@ -3,7 +3,9 @@
    Karten wie im bisherigen Meisterwerk-Design: Bild oben, Text darunter, alle gleich,
    weiße Karte mit feinem 1-Pixel-Rahmen, Hover mit Zoom und Plus-Kreis. */
 
-.lk{--lk-gutter:clamp(24px,4.4vw,88px);--lk-ink:#090402;--lk-gold:#a59371;--lk-soft:#f7f7f7;--lk-hair:#0904021f;--lk-strip:58px;position:relative;padding:60px var(--lk-gutter);background:var(--lk-soft);color:var(--lk-ink)}
+.lk{--lk-gutter:clamp(24px,4.4vw,88px);--lk-ink:#090402;--lk-gold:#a59371;--lk-soft:#f7f7f7;--lk-hair:#0904021f;--lk-strip:58px;position:relative;margin-top:14vh;padding:60px var(--lk-gutter);background:var(--lk-soft);color:var(--lk-ink)}
+@media (width>=768px){.lk{margin-top:0;margin-bottom:60px}}
+@media (width>=1025px){.lk{margin-top:20vh;margin-bottom:0}}
 .lk-eyebrow,.lk h2,.lk-card h3,.lk-count{font-family:var(--font-urbanist),sans-serif}
 
 .lk-heading{margin-bottom:35px}
