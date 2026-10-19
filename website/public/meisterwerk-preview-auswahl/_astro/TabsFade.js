@@ -1,7 +1,7 @@
 // Tab-Sektionen ("Meisterliche Malerarbeiten" und FAQ).
 // Meisterliche Malerarbeiten, Desktop (ab 1200 px Breite und 600 px Höhe, volle Bewegung): Die Sektion wird gepinnt.
 // Rechts steht statt des Bildes ein feststehender Trennstrich. Die Tab-Texte gleiten von links unter ihm hindurch nach
-// rechts heraus und beim nächsten Tab rechts aus dem Bildschirm. Danach löst sich der Pin.
+// rechts heraus und beim nächsten Tab nach rechts wieder weg. Danach löst sich der Pin.
 // Die Texte passen immer in 100vh: Schrift und Abstände werden bei Bedarf verkleinert.
 // FAQ (data-tb-accordion), Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt
 // direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere), auch über beide FAQ-Spalten.
@@ -21,7 +21,6 @@ function initTabs(sec) {
   const tabList = tabLists[0];
   const buttons = tabs.map((t) => t.querySelector(".tb-tab"));
   const inners = panels.map((p) => p.querySelector(".tb-inner"));
-  const fadeShare = parseFloat(sec.dataset.tbFade) || 0.9;
   const accordionOnly = sec.hasAttribute("data-tb-accordion");
   const mq = window.matchMedia(
     "(min-width: 1200px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)"
@@ -133,7 +132,11 @@ function initTabs(sec) {
     fitLeft();
 
     const vh = window.innerHeight;
-    const FADE = fadeShare * vh; // Ausblenden + Einblenden zusammen
+    // Tempo wie der Bilderstreifen im Hero (dort 0,2 px Bewegung je Scroll-Pixel), hier etwas schneller: 0,3.
+    // Der Text legt nur eine kurze Strecke zurück und blendet dabei ein bzw. aus.
+    const SPEED = 0.3;
+    const TRAVEL = Math.min(300, window.innerWidth * 0.21);
+    const HALF = TRAVEL / SPEED; // Scroll-Pixel für Einblenden oder Ausblenden
     const LEAD = 0.25 * vh; // zu Beginn steht nur der Strich
     const TAIL = 0.2 * vh; // letzter Tab bleibt kurz stehen, dann Pin lösen
     const holdOf = (i) => (parseFloat(panels[i].dataset.hold) || 0.5) * vh; // jeder Tab bleibt eine Weile stehen
@@ -142,9 +145,10 @@ function initTabs(sec) {
     let pos = LEAD;
     const plan = panels.map((_, i) => {
       const start = pos;
-      const end = start + FADE + holdOf(i);
+      const inAt = start + (i > 0 ? HALF * 0.5 : 0); // der neue Text beginnt, wenn der alte halb draußen ist
+      const end = inAt + HALF + holdOf(i);
       pos = end;
-      return { start, end };
+      return { start, inAt, end };
     });
     const total = pos + TAIL;
 
@@ -153,7 +157,7 @@ function initTabs(sec) {
     const update = (t) => {
       let active = -1;
       plan.forEach((p, i) => {
-        if (t >= p.start + FADE / 2) active = i;
+        if (t >= p.inAt) active = i;
       });
       tabList.classList.toggle("has-active", active >= 0);
       tabs.forEach((tab, i) => tab.classList.toggle("is-on", i === active));
@@ -177,29 +181,27 @@ function initTabs(sec) {
           trigger: sec,
           start: "top top",
           end: "bottom bottom",
-          scrub: 1.6,
+          scrub: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => update(self.progress * total),
         },
       });
 
       // Wechsel (Scroll-gesteuert, rückwärts genauso): Zu Beginn steht nur der Strich. Der Text gleitet von links unter
-      // dem Strich hindurch nach rechts heraus (die Bühne schneidet nur am Strich ab). Beim Tab-Wechsel gleitet der alte
-      // Text weiter nach rechts aus dem Bildschirm, danach kommt der neue unter dem Strich heraus.
-      const hidden = (inner) => () => -(inner.offsetLeft + inner.offsetWidth + 24);
-      const gone = () => document.documentElement.clientWidth - view.getBoundingClientRect().left + 24;
+      // dem Strich hindurch nach rechts heraus (die Bühne schneidet nur am Strich ab) und blendet dabei ein. Beim Tab-Wechsel
+      // gleitet der alte Text nach rechts und blendet aus, der neue kommt überlappend unter dem Strich heraus.
       gsap.set(panels, { autoAlpha: 1 });
-      inners.forEach((inner) => gsap.set(inner, { x: hidden(inner)() }));
+      gsap.set(inners, { x: -TRAVEL, autoAlpha: 0 });
 
       plan.forEach((p, i) => {
         if (i > 0) {
-          tl.to(inners[i - 1], { x: gone, duration: FADE * 0.44, ease: "power2.inOut" }, p.start);
+          tl.to(inners[i - 1], { x: TRAVEL, autoAlpha: 0, duration: HALF, ease: "power2.inOut" }, p.start);
         }
         tl.fromTo(
           inners[i],
-          { x: hidden(inners[i]) },
-          { x: 0, duration: FADE * (i > 0 ? 0.52 : 0.8), ease: "power3.inOut", immediateRender: false },
-          p.start + (i > 0 ? FADE * 0.48 : 0)
+          { x: -TRAVEL, autoAlpha: 0 },
+          { x: 0, autoAlpha: 1, duration: HALF, ease: "power2.inOut", immediateRender: false },
+          p.inAt
         );
       });
 

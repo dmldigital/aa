@@ -50,11 +50,11 @@ if (wrap && cover) {
     const H = stage.offsetHeight; // Bühne = 100svh
 
     // Zeitplan in Scroll-Pixeln
-    const CTA_IN = 0.4 * vh; // CTA-Box und Linien gleiten herein
-    const FORM_IN = 0.6 * vh; // Kontaktbox läuft durch (startet, sobald die CTA-Box steht)
-    const HOLD = 0.3 * vh; // kurzer Stopp
-    const FORM_OUT = 0.45 * vh; // Kontaktbox nach rechts hinaus
-    const CTA_OUT = 0.4 * vh; // dann CTA-Box nach links hinaus
+    const CTA_IN = 0.8 * vh; // CTA-Box und Linien gleiten herein
+    const FORM_IN = 1.2 * vh; // Kontaktbox läuft durch (startet, sobald die CTA-Box steht)
+    const HOLD = 0.4 * vh; // kurzer Stopp
+    const FORM_OUT = 0.9 * vh; // Kontaktbox nach rechts hinaus
+    const CTA_OUT = 0.8 * vh; // dann CTA-Box nach links hinaus
     const tFormIn = CTA_IN;
     const tFormOut = CTA_IN + FORM_IN + HOLD;
     const tCtaOut = tFormOut + FORM_OUT;
@@ -103,7 +103,7 @@ if (wrap && cover) {
           trigger: wrap,
           start: "top top",
           end: "+=" + D,
-          scrub: 0.8,
+          scrub: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
             // Formular nur bedienbar, solange die Kontaktbox im Bild steht

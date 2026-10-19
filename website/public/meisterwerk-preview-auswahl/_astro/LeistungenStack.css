@@ -55,7 +55,7 @@
 
 /* Desktop und Tablet: Bühne steht, Karten fahren nacheinander von rechts darüber */
 @media (width>=701px) and (prefers-reduced-motion:no-preference){
-  .lk{height:335vh;padding:0}
+  .lk{height:520vh;padding:0}
   .lk-sticky{position:sticky;top:0;display:grid;grid-template-columns:38% 62%;align-items:center;height:100svh;min-height:680px;padding-left:var(--lk-gutter);overflow:clip}
   .lk-heading{margin:0;padding-right:30px}
   .lk-progress{display:block}

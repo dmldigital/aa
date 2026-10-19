@@ -41,7 +41,7 @@ if (last) {
     const left0 = rect.left;
     const startTop = (vh - h0) / 2; // Bild steht beim Pin mittig im Fenster
     const over = Math.max(0, vh - M - (startTop + h0)); // so weit ragt das Vollbild unter den Rahmen hinaus
-    const dist = vh * 0.9;
+    const dist = vh * 1.6;
 
     wrap = document.createElement("div");
     wrap.className = "wz-pin";
@@ -61,7 +61,7 @@ if (last) {
             end: "+=" + dist,
             pin: true,
             pinSpacing: true,
-            scrub: 0.6,
+            scrub: 1,
             anticipatePin: 1,
             refreshPriority: 10, // Pin-Abstand vor allen weiter unten liegenden Triggern berechnen
           },
