@@ -2,7 +2,8 @@
 import { href, routes } from '../../data/links';
 /**
  * Kopfzeile (Original: Elementor-Container d29842b für Desktop ab 1025 px, f04d782 für Tablet und Handy).
- * Beide kleben oben (Elementor "sticky top", Versatz 0). Das Aufklappmenü des Handy/Tablet-Headers
+ * Beide kleben oben (Elementor "sticky top", Versatz 0) und sind "smart sticky": beim Runterscrollen fahren sie
+ * nach oben weg, beim Hochscrollen wieder herein (`data-smart-header`, Skript unten). Das Aufklappmenü des Handy/Tablet-Headers
  * schiebt sich wie im Original per max-height und scaleY (0,3 s) auf.
  */
 import { Picture } from 'astro:assets';
@@ -54,7 +55,8 @@ const panelPos = exk
 <!-- Desktop (ab 1025 px) -->
 <header
   data-section="d29842b"
-  class="sticky top-0 z-[9999999] hidden min-h-12.5 items-center bg-white px-7.5 shadow-[0_0_4px_0_rgb(0_0_0/0.5)] lg:flex"
+  data-smart-header
+  class="sticky top-0 z-[9999999] hidden min-h-12.5 items-center bg-white px-7.5 shadow-[0_0_4px_0_rgb(0_0_0/0.5)] transition-transform duration-300 ease-css motion-reduce:transition-none data-[hidden]:-translate-y-[calc(100%+8px)] lg:flex"
 >
   <div class="w-47.5 shrink-0 grow">
     <div class="py-2.5">
@@ -126,7 +128,8 @@ const panelPos = exk
 <header
   data-section="f04d782"
   data-mobile-header
-  class="group/m sticky top-0 z-[99] bg-white md:px-5 lg:hidden"
+  data-smart-header
+  class="group/m sticky top-0 z-[99] bg-white transition-transform duration-300 ease-css motion-reduce:transition-none data-[hidden]:-translate-y-[calc(100%+8px)] md:px-5 lg:hidden"
 >
   <div
     class={`mx-auto flex ${exk ? 'h-auto' : 'h-[65.09px]'} w-full max-w-[min(100%,1024px)] flex-wrap items-center shadow-[0_0_4px_0_rgb(0_0_0/0.7)] md:h-auto md:min-h-12.5 md:flex-nowrap md:shadow-none`}
@@ -308,5 +311,41 @@ const panelPos = exk
         if (e.key === 'Enter' || e.key === ' ') flip(e);
       });
     });
+  }
+</script>
+
+<script>
+  // Smart Sticky: runterscrollen blendet die Kopfzeile aus, hochscrollen (oder ganz oben) blendet sie ein.
+  // Sichtbar bleibt sie bei offenem Menü, bei Tastaturfokus in der Kopfzeile.
+  const headers = document.querySelectorAll<HTMLElement>('[data-smart-header]');
+  if (headers.length) {
+    const THRESHOLD = 6;
+    let last = window.scrollY;
+    let ticking = false;
+    const setHidden = (hidden: boolean) =>
+      headers.forEach((h) => {
+        if (hidden && (h.hasAttribute('data-open') || h.matches(':focus-within'))) return;
+        h.toggleAttribute('data-hidden', hidden);
+      });
+    const update = () => {
+      ticking = false;
+      const y = Math.max(0, window.scrollY);
+      const delta = y - last;
+      if (y <= 80) setHidden(false);
+      else if (delta > THRESHOLD) setHidden(true);
+      else if (delta < -THRESHOLD) setHidden(false);
+      if (Math.abs(delta) > THRESHOLD || y <= 80) last = y;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true },
+    );
+    headers.forEach((h) => h.addEventListener('focusin', () => h.removeAttribute('data-hidden')));
   }
 </script>
