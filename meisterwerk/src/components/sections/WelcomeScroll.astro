@@ -9,7 +9,7 @@ import wohnbereich from '../../assets/img/205-meisterwerk-20230120-Bearbeitet-sc
 /**
  * Willkommen-Szene der Startseite (Original 53bda50 und 3c77667): Text und drei Bilder. Desktop: Der Text bleibt
  * stehen (sticky), während die Bilder links nacheinander hochscrollen (die beiden unteren öffnen sich von unten).
- * Danach folgt die Überschrift „Ihr Partner für exklusive Malerleistungen …“. Bis 1024 px steht der Text oben, die
+ * Zuletzt gleitet die Überschrift „Ihr Partner für exklusive Malerleistungen …“ unter dem Text herein. Bis 1024 px steht der Text oben, die
  * Bilder liegen darunter übereinander und schieben sich bei angehaltener Seite (Pin) von rechts herein.
  * Ohne reduzierte Bewegung nur als Stapel untereinander. Skript unten.
  */
@@ -79,6 +79,12 @@ const images = [
               </ArrowLink>
             </div>
           </div>
+          <!-- Kommt nach den Bildern an der Textstelle hereingeglitten (Skript unten) -->
+          <div data-ws-closing data-section="3c77667" class="mt-5 max-w-[660px] lg:mt-12">
+            <h2 class="font-display text-[23px]/[27.6px] font-medium text-gold md:text-[29px]/[39.15px] lg:text-h2">
+              {closing}
+            </h2>
+          </div>
         </div>
       </div>
 
@@ -112,19 +118,6 @@ const images = [
   </div>
 </section>
 
-<section
-  data-section="3c77667"
-  class="mt-[10vh] px-5 md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0 lg:px-7.5"
->
-  <div class="mx-auto w-full max-w-page">
-    <div class="max-w-[660px]" data-anim="slideInLeft" data-anim-delay="360" data-anim-dur="slow">
-      <h2 class="font-display text-[23px]/[27.6px] font-medium text-gold md:text-[29px]/[39.15px] lg:text-h2">
-        {closing}
-      </h2>
-    </div>
-  </div>
-</section>
-
 <script>
   import { gsap, ScrollTrigger } from '../../scripts/motion';
 
@@ -132,11 +125,21 @@ const images = [
   if (scene) {
     const stack = scene.querySelector<HTMLElement>('[data-ws-stack]')!;
     const wrap = scene.querySelector<HTMLElement>('[data-ws-pin]')!;
+    const closing = scene.querySelector<HTMLElement>('[data-ws-closing]')!;
     const imgs = [...stack.querySelectorAll<HTMLElement>('[data-ws-img]')];
     const mm = gsap.matchMedia();
 
     // Desktop: die beiden unteren Bilder öffnen sich von unten, während der Text steht
     mm.add('(min-width: 1025px) and (prefers-reduced-motion: no-preference)', () => {
+      // Schlussüberschrift gleitet unter dem Text herein, sobald das letzte Bild ankommt
+      gsap.set(closing, { opacity: 0, x: -60 });
+      gsap.to(closing, {
+        opacity: 1,
+        x: 0,
+        duration: 1.25,
+        ease: 'css',
+        scrollTrigger: { trigger: imgs[2], start: 'top 55%', once: true },
+      });
       imgs.slice(1).forEach((el) => {
         const img = el.querySelector('img');
         gsap.fromTo(
@@ -168,6 +171,7 @@ const images = [
     // Textende stehen, unten schieben sich das zweite und dritte Bild von rechts über das erste
     mm.add('(max-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
       gsap.set(imgs.slice(1), { xPercent: 100 });
+      gsap.set(closing, { opacity: 0, x: -40 });
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: wrap,
@@ -179,11 +183,9 @@ const images = [
           invalidateOnRefresh: true,
         },
       });
-      tl.to(imgs[1], { xPercent: 0, duration: 1, ease: 'power2.inOut' }).to(
-        imgs[2],
-        { xPercent: 0, duration: 1, ease: 'power2.inOut' },
-        '+=0.15',
-      );
+      tl.to(imgs[1], { xPercent: 0, duration: 1, ease: 'power2.inOut' })
+        .to(imgs[2], { xPercent: 0, duration: 1, ease: 'power2.inOut' }, '+=0.15')
+        .to(closing, { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out' }, '>-0.1');
     });
   }
 </script>
