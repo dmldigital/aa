@@ -1,0 +1,2 @@
+/* Sticky-Header gesperrt, solange die Oberkante des Fensters in einer gepinnten Scroll-Sektion liegt */
+html[data-header-locked] [data-smart-header]{visibility:hidden!important;transform:translateY(-110%)!important}
