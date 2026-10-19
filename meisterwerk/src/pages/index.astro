@@ -1,8 +1,7 @@
 ---
 import PageLayout from '../layouts/PageLayout.astro';
 import Hero from '../components/sections/Hero.astro';
-import Welcome from '../components/sections/Welcome.astro';
-import Partner from '../components/sections/Partner.astro';
+import WelcomeScroll from '../components/sections/WelcomeScroll.astro';
 import Services from '../components/sections/Services.astro';
 import Skills from '../components/sections/Skills.astro';
 import Masterly from '../components/sections/Masterly.astro';
@@ -31,13 +30,7 @@ const welcome = {
   description="Exklusive Malerarbeiten & fugenlose Oberflächen in Ludwigsburg & Stuttgart. Ihr meistergeführter Fachbetrieb für puristische Ästhetik und höchste Qualität."
 >
   <Hero />
-  <Welcome
-    headingTag="h2"
-    heading={welcome.heading}
-    headingClass="text-[23px]/[25.3px] text-gold md:text-[30px]/[33px] lg:text-h2"
-    paragraphs={welcome.paragraphs}
-  />
-  <Partner />
+  <WelcomeScroll heading={welcome.heading} paragraphs={welcome.paragraphs} />
   <Services />
   <Skills />
   <Masterly />

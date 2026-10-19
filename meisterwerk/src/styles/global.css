@@ -72,6 +72,9 @@
 @custom-variant hero-d (@media (min-width: 701px) and (prefers-reduced-motion: no-preference));
 @custom-variant hero-m (@media (max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference));
 
+/* Willkommen-Szene: bis 1024 px stapeln sich die Bilder und schieben sich beim Scrollen von rechts herein */
+@custom-variant ws-m (@media (max-width: 1024px) and (prefers-reduced-motion: no-preference));
+
 @theme inline {
   --font-display: var(--font-urbanist), sans-serif;
 }
