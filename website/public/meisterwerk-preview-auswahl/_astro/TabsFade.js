@@ -1,7 +1,7 @@
 // Tab-Sektionen ("Meisterliche Malerarbeiten" und FAQ).
 // Meisterliche Malerarbeiten, Desktop (ab 1200 px Breite und 600 px Höhe, volle Bewegung): Die Sektion wird gepinnt.
-// Rechts schließt sich zuerst das Bild wie ein Vorhang, dann steigen die Textbausteine der Tabs nacheinander aus der
-// Unschärfe auf und lösen sich beim nächsten Tab nach oben wieder auf. Danach löst sich der Pin.
+// Rechts zieht bei jedem Wechsel (Bild -> Tab, Tab -> Tab) ein goldener Farbstrich über die Bühne, deckt das Alte zu
+// und gibt das Neue frei, dessen Bausteine von rechts nachgleiten. Danach löst sich der Pin.
 // Die Texte passen immer in 100vh: Schrift und Abstände werden bei Bedarf verkleinert.
 // FAQ (data-tb-accordion), Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt
 // direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere), auch über beide FAQ-Spalten.
@@ -41,7 +41,8 @@ function initTabs(sec) {
       controller.abort();
       controller = null;
     }
-    // Tab-Inhalte zurück in die Bühne, Aufklapp-Hüllen entfernen
+    // Tab-Inhalte zurück in die Bühne, Aufklapp-Hüllen und Farbstrich entfernen
+    view.querySelector(".tb-wipe")?.remove();
     panels.forEach((p) => view.appendChild(p));
     tabs.forEach((li) => li.querySelector(".tb-collapse")?.remove());
     sec.classList.remove("tb--pin", "tb--ui");
@@ -159,8 +160,11 @@ function initTabs(sec) {
     };
 
     ctx = gsap.context(() => {
-      // Die Inhalte stehen außerhalb der Bühne (diese schneidet ab) und gleiten beim Scrollen hinein
-      gsap.set(panels, { autoAlpha: 1 });
+      // Farbstrich: eine goldene Fläche, die wie ein Rollerstrich über die Bühne zieht
+      const wipe = document.createElement("div");
+      wipe.className = "tb-wipe";
+      wipe.setAttribute("aria-hidden", "true");
+      view.appendChild(wipe);
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -174,62 +178,41 @@ function initTabs(sec) {
         },
       });
 
-      // Wechsel (Scroll-gesteuert, rückwärts genauso):
-      // 1. Bild -> erster Tab: Das Bild schließt sich wie ein Vorhang nach oben und zoomt dabei leicht auf,
-      //    gleichzeitig steigen die Textbausteine des ersten Tabs nacheinander aus der Unschärfe auf.
-      // 2. Tab -> Tab: Die Bausteine des alten Tabs lösen sich nacheinander nach oben in die Unschärfe auf,
-      //    kurz danach steigen die des neuen Tabs von unten scharf werdend herein. Die Flächen selbst bewegen sich nicht.
-      const blocksOf = (panel) =>
-        [...panel.querySelectorAll("p, h4, li, tr, figure, .tb-note")].filter(
-          (el) => !el.parentElement.closest("p, li, tr, figure")
-        );
-      const blocks = panels.map(blocksOf);
+      // Wechsel (Scroll-gesteuert, rückwärts genauso), Bild -> Tab und Tab -> Tab gleich:
+      // 1. Der Farbstrich zieht von links über die Bühne und deckt das Alte zu, das dabei leicht nach links weicht.
+      // 2. In der Mitte wird getauscht, der Strich zieht nach rechts ab und gibt das Neue frei,
+      //    dessen Bausteine leicht versetzt von rechts nachgleiten.
+      const W = FADE / 2;
+      const COVER = { clipPath: "inset(0% 100% 0% 0%)" };
+      const FULL = { clipPath: "inset(0% 0% 0% 0%)" };
+      const GONE = { clipPath: "inset(0% 0% 0% 100%)" };
+      const partsOf = (inner) => [...inner.children].filter((el) => !el.classList.contains("tb-h3"));
       const mediaImg = media.querySelector("img");
-      const IN = { y: 0, autoAlpha: 1, filter: "blur(0px)" };
-      const FROM = { y: 46, autoAlpha: 0, filter: "blur(10px)" };
+      const slides = [media, ...panels];
+      const moving = [mediaImg || media, ...inners];
 
-      // Alle Bausteine starten unsichtbar (bei gestaffelten fromTo-Tweens rendert GSAP nur den ersten sofort)
-      gsap.set(blocks.flat(), FROM);
+      gsap.set(wipe, COVER);
+      gsap.set(panels, { autoAlpha: 0 });
 
       plan.forEach((p, i) => {
-        if (i === 0) {
-          tl.fromTo(
-            media,
-            { clipPath: "inset(0% 0% 0% 0%)" },
-            { clipPath: "inset(0% 0% 100% 0%)", duration: FADE * 0.75, ease: "power3.inOut" },
-            p.start
-          );
-          if (mediaImg) {
-            tl.fromTo(
-              mediaImg,
-              { scale: 1, yPercent: 0 },
-              { scale: 1.14, yPercent: -8, duration: FADE * 0.75, ease: "power2.in" },
-              p.start
-            );
-          }
-        } else {
-          tl.to(
-            blocks[i - 1],
-            {
-              y: -28,
-              autoAlpha: 0,
-              filter: "blur(8px)",
-              duration: FADE * 0.42,
-              ease: "power2.in",
-              stagger: { amount: FADE * 0.18 },
-            },
-            p.start
-          );
-        }
-        tl.to(
-          blocks[i],
-          {
-            ...IN,
-            duration: FADE * 0.5,
-            ease: "power3.out",
-            stagger: { amount: FADE * 0.32 },
-          },
-          p.start + FADE * (i === 0 ? 0.28 : 0.36)
+        const prev = slides[i];
+        const next = slides[i + 1];
+        const parts = partsOf(inners[i]);
+        tl.fromTo(wipe, COVER, { ...FULL, duration: W, ease: "power3.in" }, p.start);
+        tl.fromTo(
+          moving[i],
+          { xPercent: 0, scale: 1 },
+          { xPercent: -6, scale: i === 0 ? 1.06 : 1, duration: W, ease: "power2.in" },
+          p.start
+        );
+        tl.set(prev, { autoAlpha: 0 }, p.start + W);
+        tl.set(next, { autoAlpha: 1 }, p.start + W);
+        tl.fromTo(wipe, FULL, { ...GONE, immediateRender: false, duration: W, ease: "power3.out" }, p.start + W);
+        tl.fromTo(
+          parts,
+          { x: 90 },
+          { x: 0, duration: W * 1.15, ease: "power3.out", stagger: { amount: W * 0.35 } },
+          p.start + W
         );
       });
 

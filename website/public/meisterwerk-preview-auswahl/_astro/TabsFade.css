@@ -173,3 +173,5 @@
 @media (prefers-reduced-motion: reduce){
   .tb--ui *,.tb--ui *::before,.tb--ui *::after{transition-duration:.01s!important;transition-delay:0s!important}
 }
+
+.tb--pin .tb-wipe{position:absolute;inset:0;z-index:3;background:var(--tb-gold);pointer-events:none;clip-path:inset(0 100% 0 0)}

@@ -42,9 +42,9 @@ Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = E
    Die Textspalte blendet beim Zoom aus. **Die drei Bilder haben keine Eingangsanimation** (weder Aufrollen noch Zoom beim Hereinkommen ins Bild, vom Nutzer nicht gewünscht); der Zoom des letzten Bildes auf Vollbild bleibt dagegen ausdrücklich erhalten. Reduzierte Bewegung: nichts davon.
 2. **Leistungen** (`.lk`): gestapelte Karten, Texte lokal SEO-optimiert (Freiberg, Ludwigsburg, Marbach, Bietigheim-Bissingen, Stuttgart).
 3. **Meisterliche Malerarbeiten** (`[data-tb]`, ohne `data-faq`): Ab 1200 px Breite und 600 px Höhe gepinnt (`.tb--pin`, Sektionshöhe per JS = 1 Bildschirm + Zeitplan).
-   Wechsel rechts (scroll-gesteuert, rückwärts genauso): Bild schließt sich wie ein Vorhang nach oben (Clip-Path) und zoomt leicht auf; die Textbausteine
-   (`p`, `h4`, `li`, Tabellenzeilen) des ersten Tabs steigen nacheinander aus der Unschärfe auf (y 46 px, Blur 10 px, `power3.out`). Beim Tab-Wechsel lösen sich die
-   Bausteine des alten Tabs gestaffelt nach oben in die Unschärfe auf, kurz danach steigen die neuen auf. Die Flächen selbst bewegen sich nicht (`.tb-view` schneidet ab). Text passt immer in 100vh (`--tb-s`, Mindestmaßstab 0,62, iteratives Messen in `fitPanels`).
+   Wechsel rechts (scroll-gesteuert, rückwärts genauso), Bild -> Tab und Tab -> Tab gleich: Ein goldener Farbstrich (`.tb-wipe`, per JS in `.tb-view` eingefügt,
+   Clip-Path) zieht von links über die Bühne und deckt das Alte zu, das leicht nach links weicht (Bild zoomt dabei leicht auf). In der Mitte wird getauscht, der Strich
+   zieht nach rechts ab, die Bausteine des neuen Tabs gleiten gestaffelt von rechts nach (90 px, `power3.out`). Text passt immer in 100vh (`--tb-s`, Mindestmaßstab 0,62, iteratives Messen in `fitPanels`).
    Darunter (Handy, Tablet, reduzierte Bewegung, flache Fenster): aufklappbare Tabs, erster Tab offen.
    Typografie im Seitensystem: Urbanist für Überschriften/Labels, Fließtext in der Seitenschrift (15/22,5, Schwarz 70 %), goldene Chevrons, keine Linien in den Tab-Texten.
 4. **Bild + Linien + CTA-Box + Kontaktformular** (`.mz`): Parallax, Pin, CTA von links, Kontaktbox (weiß, ohne senkrechte Linien) läuft unter der CTA-Box durch,
