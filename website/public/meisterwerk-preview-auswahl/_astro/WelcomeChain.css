@@ -1,0 +1,6 @@
+/* Willkommens-Sektion direkt unter dem Hero: Der Schlusssatz ist keine Überschrift mehr, sondern eine Aussage in
+   Anführungszeichen, kleiner als die H2. Das Hochkommen übernimmt WelcomeChain.js. */
+.wc-quote-wrap{max-width:660px;margin-top:20px}
+.wc-quote{margin:0;color:var(--color-gold,#a59371);font-family:var(--font-urbanist),sans-serif;font-size:19px;line-height:1.4;font-weight:500;text-indent:-.45em;text-wrap:balance}
+@media (width>=768px){.wc-quote-wrap{margin-top:24px}.wc-quote{font-size:22px}}
+@media (width>=1025px){.wc-quote-wrap{margin-top:40px}.wc-quote{font-size:28px;line-height:1.35}}
