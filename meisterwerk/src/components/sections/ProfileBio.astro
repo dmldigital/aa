@@ -60,7 +60,7 @@ const richText =
     <!-- Rechts: Motto, am Handy Werdegang -->
     <div class="flex flex-col gap-5 md:w-[calc((100%-30px)/2)] md:grow lg:w-[25.35%] lg:grow-0 lg:pt-29.25">
       <div class:list={[richText, 'text-[15px]/6 md:text-body']} set:html={profile.motto} />
-      {profile.timeline && (
+      {profile.timeline && !profile.werdegangList && (
         <div class="flex flex-col gap-3.75 md:hidden">
           <h5
             class="font-display text-[19px]/[24.7px] font-medium text-ink"
@@ -96,6 +96,25 @@ const richText =
               </div>
             </div>
           </div>
+        </div>
+      )}
+      {profile.werdegangList && (
+        <div class="flex flex-col gap-3.75 lg:mb-12.5 lg:gap-5">
+          <h5 class="font-display text-[18px]/[23.4px] font-medium text-ink lg:text-h5">
+            {profile.werdegangList.heading}
+          </h5>
+          <ul>
+            {profile.werdegangList.items.map((item) => (
+              <li class="flex items-start pb-0.75 not-first:mt-0.75">
+                <span class="relative top-1 flex h-3.5 w-4.5 shrink-0 items-center" aria-hidden="true">
+                  <span class="h-px w-2.5 bg-ink"></span>
+                </span>
+                <span class="self-center pl-1.25">
+                  <b>{item.date}</b> {item.text}
+                </span>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>

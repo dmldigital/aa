@@ -23,6 +23,8 @@ export interface Profile {
   motto: string;
   /** Beruflicher Werdegang (nur Baldassarre Fortino). */
   timeline?: { heading: string; items: TimelineItem[] };
+  /** Ausführlicher Werdegang als Liste unter dem Motto (nur Exklusiv-Seite von Baldassarre Fortino, auf allen Breiten). */
+  werdegangList?: { heading: string; items: TimelineItem[] };
 }
 
 export const profiles: Profile[] = [
@@ -135,3 +137,32 @@ export const profiles: Profile[] = [
       '<p><strong>Sein Motto:</strong> „Basta poco e che ce vo“ – <em>„Im Leben braucht es nicht viel, um etwas zu verändern.“</em></p><p>Wir vermissen unseren Vater, Kollegen und Freund – <strong>täglich</strong>. Doch was bleibt, ist sein Geist, seine Haltung und sein Vermächtnis – <strong>in uns Kindern, im gesamten Team und in jeder Fläche, die er hinterlassen hat</strong>.</p>',
   },
 ];
+
+/**
+ * Profile der Teil-Website /meisterwerk-exklusive/: gleiche Texte und Fotos wie die Hauptprofile,
+ * nur Seitentitel (ohne Meta-Beschreibung, so im Original) und bei Baldassarre Foto und Werdegang-Liste anders.
+ */
+const exklusiveOverrides: Record<string, Partial<Profile>> = {
+  'baldassarre-fortino': {
+    photo: 'Maler-u.-Lackierer-Meister-Baldassarre-Fortino-scaled.jpg',
+    werdegangList: {
+      heading: 'Der Weg zum Meister – Stationen von Baldassarre Fortino',
+      items: [
+        { date: '2003 – 2006', text: 'Ausbildung zum Maler und Lackierer bei der Maler Krehl Kalesse GmbH in Ludwigsburg. Solide handwerkliche Basis und erste Einblicke in hochwertige Oberflächengestaltung.' },
+        { date: '2006 – 2009', text: 'Gesellenjahre bei der Maler Loths GmbH in Ludwigsburg. Vertiefung der praktischen Fertigkeiten im klassischen Malerhandwerk.' },
+        { date: '2009 – 2012', text: 'Tätigkeit als Maler- und Stuckateurgeselle bei Loths und Bauer in Ludwigsburg – erste Erfahrungen mit Stuckarbeiten und erweiterten Techniken.' },
+        { date: '2012', text: 'Teilnahme an der Vorarbeiterschulung an der Schule für Farbe und Gestaltung in Stuttgart – gezielte Weiterentwicklung in Teamführung und Baustellenkoordination.' },
+        { date: '2012 – 2013', text: 'Vorarbeiter bei Maler Kraft GmbH in Ludwigsburg. Verantwortung für Projekte, Qualitätssicherung und Teamleitung im Tagesgeschäft.' },
+        { date: '2013 – 2014', text: 'Besuch der Meisterschule in Stuttgart für Farbe und Gestaltung. Fachliche und kreative Weiterentwicklung auf höchstem Niveau.' },
+        { date: 'Januar 2014', text: 'Erfolgreicher Abschluss der Meisterprüfung mit Belobigung. Offizieller Titel: Maler- und Lackierermeister – Start in eine neue Phase handwerklicher Selbstverwirklichung durch die Gründung von Meisterwerk.' },
+      ],
+    },
+  },
+};
+
+export const exklusiveProfiles: Profile[] = profiles.map((profile) => ({
+  ...profile,
+  ...exklusiveOverrides[profile.slug],
+  title: `${profile.name} - Meisterwerke Exklusive`,
+  description: '',
+}));
