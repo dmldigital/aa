@@ -18,6 +18,7 @@ if (ep && sheet && faq && zone) {
     faq.classList.remove("faq--cover");
     ep.style.height = "";
     faq.style.marginTop = "";
+    faq.style.minHeight = "";
     zone.style.height = "0";
   };
 
@@ -33,6 +34,7 @@ if (ep && sheet && faq && zone) {
     ep.style.height = sheetH + H + "px";
     zone.style.height = H + "px";
     faq.style.marginTop = -sheetH + "px";
+    faq.style.minHeight = sheetH + "px"; // das FAQ muss die Projekte vollständig überdecken
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 

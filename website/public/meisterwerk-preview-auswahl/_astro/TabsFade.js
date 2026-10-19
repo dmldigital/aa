@@ -95,7 +95,7 @@ function initTabs(sec) {
       buttons[i].removeAttribute("tabindex");
       buttons[i].addEventListener("click", () => toggle(i), { signal: controller.signal });
     });
-    toggle(0);
+    toggle(accordionOnly ? -1 : 0); // FAQ: zu Beginn alle Tabs geschlossen
   };
 
   // ---------- Pin mit Ein- und Ausblenden ----------
