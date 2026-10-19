@@ -1,0 +1,14 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import TextPage from '../../../components/sections/TextPage.astro';
+// Text wie auf der Hauptseite (im Original identisch)
+import html from '../../../data/pages/impressum.html?raw';
+---
+
+<PageLayout
+  site="exklusive"
+  title="Impressum - Meisterwerke Exklusive"
+  current="/meisterwerk-exklusive/impressum/"
+>
+  <TextPage exklusive title="Impressum" {html} />
+</PageLayout>

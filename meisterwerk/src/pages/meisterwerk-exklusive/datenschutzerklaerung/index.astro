@@ -1,0 +1,14 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import TextPage from '../../../components/sections/TextPage.astro';
+// Text wie auf der Hauptseite (im Original identisch)
+import html from '../../../data/pages/datenschutz.html?raw';
+---
+
+<PageLayout
+  site="exklusive"
+  title="Datenschutzerklärung - Meisterwerke Exklusive"
+  current="/meisterwerk-exklusive/datenschutzerklaerung/"
+>
+  <TextPage exklusive title="Datenschutzerklärung" {html} />
+</PageLayout>
