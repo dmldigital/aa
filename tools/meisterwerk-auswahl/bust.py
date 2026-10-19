@@ -14,6 +14,7 @@ FILES = [
     "TabsFade.css", "TabsFade.js",
     "HeaderLock.css", "HeaderLock.js",
     "CtaReveal.css", "CtaReveal.js",
+    "ContactVariants.css", "ContactVariants.js",
     "FaqCover.js",
     "WelcomeChain.css", "WelcomeChain.js",
     "WelcomeZoom.css", "WelcomeZoom.js",

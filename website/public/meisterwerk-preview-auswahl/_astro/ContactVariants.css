@@ -1,0 +1,162 @@
+/* Kontaktbox: drei Varianten (A, B, C) und eigenes Auswahlfeld. Nur der Inhalt der weißen Box. */
+.cv-form{--cv-ink:#090402;--cv-gold:#a59371;--cv-soft:#f7f7f7;--cv-hair:#0904022e;--cv-muted:#090402b3;
+  --cv-ease:cubic-bezier(.22,1,.36,1);display:flex;flex-direction:column;gap:20px;width:100%;
+  font-family:var(--font-urbanist),sans-serif;color:var(--cv-ink)}
+.cv-form *{box-sizing:border-box}
+.cv-eyebrow{display:block;color:var(--cv-gold);font:500 11px/1 var(--font-urbanist),sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.cv-title{margin:8px 0 0;color:var(--cv-ink);font:400 clamp(22px,2vw,28px)/1.2 var(--font-urbanist),sans-serif;letter-spacing:-.005em}
+.cv-lead{margin:8px 0 0;max-width:34em;color:var(--cv-muted);font:400 14px/1.5 var(--font-urbanist),sans-serif}
+.cv-sr{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Raster */
+.cv-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px 32px}
+.cv-wide{grid-column:1/-1}
+.cv-f{position:relative;min-width:0}
+
+/* Buttons und Meldungen */
+.cv-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.cv-btn{display:inline-flex;align-items:center;gap:10px;padding:15px 28px;border:1px solid var(--cv-ink);background:var(--cv-ink);color:#fff;
+  font:600 14px/15.4px var(--font-urbanist),sans-serif;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;
+  transition:background-color .4s ease,border-color .4s ease}
+.cv-btn svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:1.5;transition:transform .45s var(--cv-ease)}
+.cv-btn:hover,.cv-btn:focus-visible{border-color:var(--cv-gold);background:var(--cv-gold)}
+.cv-btn:hover svg,.cv-btn:focus-visible svg{transform:translate(2px,-2px)}
+.cv-msg{flex:1 1 220px;margin:0;color:var(--cv-muted);font:400 13px/1.4 var(--font-urbanist),sans-serif}
+.cv-direct{margin:0;color:var(--cv-muted);font:400 14px/1.5 var(--font-urbanist),sans-serif}
+.cv-direct a{color:var(--cv-ink);text-decoration:underline;text-decoration-color:#09040255;text-underline-offset:3px;transition:text-decoration-color .3s ease}
+.cv-direct a:hover{text-decoration-color:var(--cv-gold)}
+.cv-direct--mobile{display:none}
+
+/* ---------- Auswahlfeld ---------- */
+.cv-sel{position:relative}
+.cv-sel-btn{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;margin:0;padding:0;border:0;border-radius:0;background:none;
+  color:var(--cv-ink);font:400 15px/1.4 var(--font-urbanist),sans-serif;text-align:left;cursor:pointer;outline:none}
+.cv-sel-val{display:block;min-height:1.4em}
+.cv-chev{flex:none;width:11px;height:7px;fill:none;stroke:var(--cv-ink);stroke-width:1.3;transition:transform .45s var(--cv-ease)}
+.cv-sel.is-open .cv-chev{transform:rotate(180deg)}
+.cv-sel-list{position:absolute;left:-1px;right:-1px;top:calc(100% + 6px);z-index:6;margin:0;padding:6px 0;list-style:none;overflow:auto;overscroll-behavior:contain;
+  max-height:var(--cv-mh,260px);border:1px solid var(--cv-hair);background:#fff;box-shadow:0 20px 44px -22px rgba(9,4,2,.35);
+  opacity:0;visibility:hidden;transform:translateY(-6px);
+  transition:opacity .28s var(--cv-ease),transform .35s var(--cv-ease),visibility 0s .35s}
+.cv-grid>.cv-f:nth-child(4) .cv-sel-list{left:auto;right:-1px;min-width:max(calc(100% + 2px),min(240px,calc(100vw - 60px)))}
+.cv-sel.is-up .cv-sel-list{top:auto;bottom:calc(100% + 6px);transform:translateY(6px)}
+.cv-sel.is-open .cv-sel-list{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.cv-sel-list li{white-space:nowrap;position:relative;padding:11px 44px 11px 22px;color:var(--cv-ink);font:400 15px/1.3 var(--font-urbanist),sans-serif;cursor:pointer;
+  transition:background-color .25s ease,padding-left .35s var(--cv-ease),color .25s ease}
+.cv-sel-list li::before{content:"";position:absolute;left:0;top:50%;width:2px;height:0;background:var(--cv-gold);transform:translateY(-50%);transition:height .35s var(--cv-ease)}
+.cv-sel-list li.is-active{background:var(--cv-soft);padding-left:28px}
+.cv-sel-list li.is-active::before{height:56%}
+.cv-sel-list li[aria-selected=true]{color:var(--cv-gold)}
+.cv-sel-list li[aria-selected=true]::after{content:"";position:absolute;right:20px;top:50%;width:11px;height:8px;margin-top:-4px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 9' fill='none' stroke='%23a59371' stroke-width='1.5'%3E%3Cpath d='M1 4.5l3.5 3.5L11 1'/%3E%3C/svg%3E") no-repeat center/contain}
+
+/* ---------- Variante A: schwebende Beschriftung ---------- */
+.cv-a{gap:22px}
+.cv-a .cv-f::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--cv-gold);transform:scaleX(0);transform-origin:0 50%;
+  transition:transform .6s var(--cv-ease);pointer-events:none}
+.cv-a .cv-f:focus-within::after,.cv-a .cv-f.is-float.is-open::after,.cv-a .cv-f:has(.is-open)::after{transform:scaleX(1)}
+.cv-a .cv-f input,.cv-a .cv-f textarea,.cv-a .cv-sel-btn{width:100%;padding:22px 0 9px;border:0;border-bottom:1px solid var(--cv-hair);border-radius:0;background:transparent;
+  color:var(--cv-ink);font:400 15px/1.4 var(--font-urbanist),sans-serif;outline:none}
+.cv-a .cv-f textarea{min-height:64px;resize:none;display:block}
+.cv-a .cv-lab{position:absolute;left:0;top:21px;color:var(--cv-muted);font:400 15px/1.4 var(--font-urbanist),sans-serif;transform-origin:0 0;pointer-events:none;
+  transition:transform .45s var(--cv-ease),color .3s ease}
+.cv-a .cv-f input:focus+.cv-lab,.cv-a .cv-f input:not(:placeholder-shown)+.cv-lab,
+.cv-a .cv-f textarea:focus+.cv-lab,.cv-a .cv-f textarea:not(:placeholder-shown)+.cv-lab,
+.cv-a .cv-f.is-float .cv-lab{transform:translateY(-19px) scale(.76);color:var(--cv-gold)}
+.cv-a .cv-sel-list{top:100%;margin-top:0}
+.cv-a .cv-sel.is-up .cv-sel-list{top:auto;bottom:100%}
+
+/* ---------- Variante B: Kontaktspalte plus Formular ---------- */
+.mz-contact[data-cv=b]{padding:0}
+.cv-b{display:grid;grid-template-columns:minmax(200px,36%) 1fr;gap:0;height:100%;min-height:0}
+.cv-b .cv-aside{display:flex;flex-direction:column;justify-content:space-between;gap:28px;padding:36px 28px;background:var(--cv-soft)}
+.cv-b .cv-main{display:flex;flex-direction:column;justify-content:center;gap:18px;min-width:0;padding:36px 34px 32px}
+.cv-b .cv-wide,.cv-b .cv-wide .cv-f{display:flex;flex-direction:column;min-height:0}
+.cv-b .cv-wide .cv-f{flex:1 1 auto}
+.cv-b .cv-title--mobile{display:none}
+.cv-b .cv-aside .cv-title{font-size:clamp(21px,1.8vw,26px)}
+.cv-facts{display:flex;flex-direction:column;margin:0;padding:0;list-style:none}
+.cv-facts li{display:flex;flex-direction:column;gap:4px;padding:14px 0;border-top:1px solid var(--cv-hair);font:400 14px/1.4 var(--font-urbanist),sans-serif}
+.cv-facts span{color:var(--cv-gold);font:500 11px/1 var(--font-urbanist),sans-serif;letter-spacing:.14em;text-transform:uppercase}
+.cv-facts a,.cv-facts em{color:var(--cv-ink);font-style:normal;text-decoration:none;overflow-wrap:anywhere}
+.cv-facts a{transition:color .3s ease}
+.cv-facts a:hover{color:var(--cv-gold)}
+.cv-b .cv-grid{gap:14px 18px}
+.cv-b .cv-lab{display:block;margin:0 0 6px;color:var(--cv-muted);font:500 11px/1.2 var(--font-urbanist),sans-serif;letter-spacing:.12em;text-transform:uppercase}
+.cv-b .cv-f input,.cv-b .cv-f textarea,.cv-b .cv-sel-btn{display:flex;width:100%;min-height:44px;padding:11px 14px;border:1px solid var(--cv-hair);border-radius:0;background:#fff;
+  color:var(--cv-ink);font:400 15px/1.4 var(--font-urbanist),sans-serif;outline:none;transition:border-color .3s ease,box-shadow .3s ease}
+.cv-b .cv-f textarea{display:block;flex:1 1 auto;min-height:84px;max-height:140px;resize:none}
+.cv-b .cv-f input:focus,.cv-b .cv-f textarea:focus,.cv-b .cv-sel-btn:focus-visible,.cv-b .cv-sel.is-open .cv-sel-btn{border-color:var(--cv-ink);box-shadow:0 0 0 3px #a5937133}
+.cv-b .cv-sel-val[data-ph]:empty,.cv-b .cv-sel:not(.has-value) .cv-sel-val{color:#09040299}
+
+/* ---------- Variante C: Formular als Satz ---------- */
+.cv-c{gap:18px}
+.cv-sentence{margin:0;color:var(--cv-ink);font:300 clamp(18px,1.55vw,22px)/1.8 var(--font-urbanist),sans-serif;letter-spacing:-.003em}
+.cv-hi{display:block;margin-bottom:6px;color:var(--cv-gold);font:400 clamp(18px,1.55vw,22px)/1.3 var(--font-urbanist),sans-serif}
+.cv-nb{white-space:nowrap}
+.cv-blank{display:inline-block;position:relative;vertical-align:baseline;border-bottom:1px solid var(--cv-hair);transition:border-color .4s ease}
+.cv-blank:hover,.cv-blank:focus-within{border-bottom-color:var(--cv-gold)}
+.cv-grow{display:inline-grid;min-width:2.2em}
+.cv-grow::after{content:attr(data-v) " ";grid-area:1/1;visibility:hidden;white-space:pre;font:inherit;padding:0 2px}
+.cv-grow input{grid-area:1/1;width:100%;min-width:0;padding:0 2px;border:0;border-radius:0;background:transparent;color:var(--cv-ink);font:inherit;outline:none}
+.cv-grow input::placeholder{color:#09040255}
+.cv-blank--sel{padding:0}
+.cv-c .cv-sel{display:inline-block}
+.cv-c .cv-sel-btn{display:inline-flex;gap:10px;width:auto;padding:0 2px;font:inherit;color:var(--cv-ink)}
+.cv-c .cv-sel:not(.has-value) .cv-sel-val{color:#09040255}
+.cv-c .cv-sel-val{font:inherit}
+.cv-c .cv-chev{width:13px;height:8px;margin-top:2px;stroke:var(--cv-gold)}
+.cv-c .cv-sel-list{left:0;right:auto;min-width:260px;max-width:calc(100vw - 80px)}
+.cv-c .cv-f{margin-top:4px}
+.cv-c .cv-f textarea{display:block;width:100%;min-height:56px;padding:22px 0 9px;border:0;border-bottom:1px solid var(--cv-hair);border-radius:0;background:transparent;
+  color:var(--cv-ink);font:400 15px/1.4 var(--font-urbanist),sans-serif;outline:none;resize:none}
+.cv-c .cv-f::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--cv-gold);transform:scaleX(0);transform-origin:0 50%;transition:transform .6s var(--cv-ease);pointer-events:none}
+.cv-c .cv-f:focus-within::after{transform:scaleX(1)}
+.cv-c .cv-lab{position:absolute;left:0;top:21px;color:var(--cv-muted);font:400 15px/1.4 var(--font-urbanist),sans-serif;transform-origin:0 0;pointer-events:none;
+  transition:transform .45s var(--cv-ease),color .3s ease}
+.cv-c .cv-f textarea:focus+.cv-lab,.cv-c .cv-f textarea:not(:placeholder-shown)+.cv-lab{transform:translateY(-19px) scale(.76);color:var(--cv-gold)}
+
+/* ---------- Umschalter (nur Vorschau) ---------- */
+.cv-switch{position:fixed;right:20px;bottom:20px;z-index:80;display:flex;align-items:center;gap:2px;padding:5px 6px 5px 14px;background:#090402f2;color:#fff;
+  font:500 11px/1 var(--font-urbanist),sans-serif;letter-spacing:.12em;text-transform:uppercase;opacity:0;visibility:hidden;transform:translateY(8px);
+  transition:opacity .4s ease,transform .4s ease,visibility 0s .4s}
+.cv-switch.is-shown{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.cv-switch span{margin-right:8px;color:#ffffffa6}
+.cv-switch button{width:30px;height:30px;border:0;background:transparent;color:#ffffffb3;font:inherit;cursor:pointer;transition:background-color .3s ease,color .3s ease}
+.cv-switch button:hover{color:#fff}
+.cv-switch button.is-on{background:var(--cv-gold,#a59371);color:#fff}
+
+/* ---------- Tablet und Handy ---------- */
+@media (width<1025px){
+  .cv-form{gap:16px}
+  .cv-lead{display:none}
+}
+@media (width<768px){
+  [data-mz][data-cv=a].mz--on .mz-row--mid{min-height:520px}
+  [data-mz][data-cv=b].mz--on .mz-row--mid{min-height:580px}
+  [data-mz][data-cv=c].mz--on .mz-row--mid{min-height:480px}
+  .cv-grid{grid-template-columns:1fr 1fr;gap:16px 18px}
+  .cv-grid>.cv-f:nth-child(-n+2){grid-column:1/-1}
+  .cv-direct{display:none}
+  .cv-direct--mobile{display:block;font-size:13px}
+  .cv-title{font-size:21px}
+  /* B: Kontaktspalte entfällt, Überschrift und Kontaktzeile wandern ins Formular */
+  .cv-b{grid-template-columns:1fr}
+  .cv-b .cv-aside{display:none}
+  .cv-b .cv-main{justify-content:flex-start;padding:22px 20px}
+  .cv-b .cv-title--mobile{display:block;margin:0}
+  .cv-b .cv-grid{gap:12px 14px}
+  .cv-b .cv-f textarea{min-height:64px}
+  .cv-c .cv-sentence{font-size:18px;line-height:1.75}
+  .cv-switch{right:12px;bottom:12px}
+}
+@media (width>=768px) and (width<1025px){
+  .cv-b .cv-aside{padding:28px 22px}
+  .cv-b .cv-main{padding:24px 26px}
+  .cv-b .cv-grid{gap:12px 14px}
+  .cv-b .cv-f textarea{min-height:56px}
+  .cv-b .cv-aside .cv-lead{display:block}
+}
+@media (prefers-reduced-motion:reduce){
+  .cv-form *,.cv-switch{transition-duration:.01ms!important}
+}
