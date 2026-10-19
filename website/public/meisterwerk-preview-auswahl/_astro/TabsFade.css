@@ -174,4 +174,7 @@
   .tb--ui *,.tb--ui *::before,.tb--ui *::after{transition-duration:.01s!important;transition-delay:0s!important}
 }
 
-.tb--pin .tb-wipe{position:absolute;inset:0;z-index:3;background:var(--tb-gold);pointer-events:none;clip-path:inset(0 100% 0 0)}
+.tb--pin .tb-media{display:none}
+.tb--pin .tb-line{position:absolute;left:0;top:6%;bottom:6%;z-index:3;width:1px;background:rgba(165,147,113,.6);pointer-events:none}
+.tb--pin .tb-line{-webkit-mask-image:linear-gradient(to bottom,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 3%,#000 97%,transparent)}
+.tb--pin .tb-line::after{content:"";position:absolute;top:0;bottom:0;left:1px;width:6px;background:linear-gradient(to right,rgba(60,45,25,.05),rgba(60,45,25,0));-webkit-mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent)}

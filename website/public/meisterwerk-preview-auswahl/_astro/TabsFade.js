@@ -1,7 +1,7 @@
 // Tab-Sektionen ("Meisterliche Malerarbeiten" und FAQ).
 // Meisterliche Malerarbeiten, Desktop (ab 1200 px Breite und 600 px Höhe, volle Bewegung): Die Sektion wird gepinnt.
-// Rechts zieht bei jedem Wechsel (Bild -> Tab, Tab -> Tab) ein goldener Farbstrich über die Bühne, deckt das Alte zu
-// und gibt das Neue frei, dessen Bausteine von rechts nachgleiten. Danach löst sich der Pin.
+// Rechts steht statt des Bildes ein feststehender Trennstrich. Die Tab-Texte gleiten von links unter ihm hindurch nach
+// rechts heraus und beim nächsten Tab wieder zurück. Danach löst sich der Pin.
 // Die Texte passen immer in 100vh: Schrift und Abstände werden bei Bedarf verkleinert.
 // FAQ (data-tb-accordion), Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt
 // direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere), auch über beide FAQ-Spalten.
@@ -11,7 +11,6 @@ import { r as ScrollTrigger } from "./motion.B5Hf7-lS.js";
 document.querySelectorAll("[data-tb]").forEach(initTabs);
 
 function initTabs(sec) {
-  const media = sec.querySelector("[data-tb-media]");
   const view = sec.querySelector(".tb-view");
   const stage = sec.querySelector(".tb-sticky");
   const left = sec.querySelector(".tb-left");
@@ -41,8 +40,8 @@ function initTabs(sec) {
       controller.abort();
       controller = null;
     }
-    // Tab-Inhalte zurück in die Bühne, Aufklapp-Hüllen und Farbstrich entfernen
-    view.querySelector(".tb-wipe")?.remove();
+    // Tab-Inhalte zurück in die Bühne, Aufklapp-Hüllen und Trennstrich entfernen
+    view.querySelector(".tb-line")?.remove();
     panels.forEach((p) => view.appendChild(p));
     tabs.forEach((li) => li.querySelector(".tb-collapse")?.remove());
     sec.classList.remove("tb--pin", "tb--ui");
@@ -160,11 +159,11 @@ function initTabs(sec) {
     };
 
     ctx = gsap.context(() => {
-      // Farbstrich: eine goldene Fläche, die wie ein Rollerstrich über die Bühne zieht
-      const wipe = document.createElement("div");
-      wipe.className = "tb-wipe";
-      wipe.setAttribute("aria-hidden", "true");
-      view.appendChild(wipe);
+      // Feststehender Trennstrich am linken Rand der Bühne, rechts mit leichtem Schatten (wirkt wie eine Erhebung)
+      const line = document.createElement("div");
+      line.className = "tb-line";
+      line.setAttribute("aria-hidden", "true");
+      view.appendChild(line);
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -178,41 +177,22 @@ function initTabs(sec) {
         },
       });
 
-      // Wechsel (Scroll-gesteuert, rückwärts genauso), Bild -> Tab und Tab -> Tab gleich:
-      // 1. Der Farbstrich zieht von links über die Bühne und deckt das Alte zu, das dabei leicht nach links weicht.
-      // 2. In der Mitte wird getauscht, der Strich zieht nach rechts ab und gibt das Neue frei,
-      //    dessen Bausteine leicht versetzt von rechts nachgleiten.
-      const W = FADE / 2;
-      const COVER = { clipPath: "inset(0% 100% 0% 0%)" };
-      const FULL = { clipPath: "inset(0% 0% 0% 0%)" };
-      const GONE = { clipPath: "inset(0% 0% 0% 100%)" };
-      const partsOf = (inner) => [...inner.children].filter((el) => !el.classList.contains("tb-h3"));
-      const mediaImg = media.querySelector("img");
-      const slides = [media, ...panels];
-      const moving = [mediaImg || media, ...inners];
-
-      gsap.set(wipe, COVER);
-      gsap.set(panels, { autoAlpha: 0 });
+      // Wechsel (Scroll-gesteuert, rückwärts genauso): Zu Beginn steht nur der Strich. Der Text gleitet von links unter
+      // dem Strich hindurch nach rechts heraus (die Bühne schneidet am Strich ab). Beim Tab-Wechsel gleitet der alte Text
+      // unter den Strich zurück, danach kommt der neue heraus.
+      const hidden = (inner) => () => -(inner.offsetLeft + inner.offsetWidth + 24);
+      gsap.set(panels, { autoAlpha: 1 });
+      inners.forEach((inner) => gsap.set(inner, { x: hidden(inner)() }));
 
       plan.forEach((p, i) => {
-        const prev = slides[i];
-        const next = slides[i + 1];
-        const parts = partsOf(inners[i]);
-        tl.fromTo(wipe, COVER, { ...FULL, duration: W, ease: "power3.in" }, p.start);
+        if (i > 0) {
+          tl.to(inners[i - 1], { x: hidden(inners[i - 1]), duration: FADE * 0.45, ease: "power2.in" }, p.start);
+        }
         tl.fromTo(
-          moving[i],
-          { xPercent: 0, scale: 1 },
-          { xPercent: -6, scale: i === 0 ? 1.06 : 1, duration: W, ease: "power2.in" },
-          p.start
-        );
-        tl.set(prev, { autoAlpha: 0 }, p.start + W);
-        tl.set(next, { autoAlpha: 1 }, p.start + W);
-        tl.fromTo(wipe, FULL, { ...GONE, immediateRender: false, duration: W, ease: "power3.out" }, p.start + W);
-        tl.fromTo(
-          parts,
-          { x: 90 },
-          { x: 0, duration: W * 1.15, ease: "power3.out", stagger: { amount: W * 0.35 } },
-          p.start + W
+          inners[i],
+          { x: hidden(inners[i]) },
+          { x: 0, duration: FADE * 0.55, ease: "power3.out", immediateRender: false },
+          p.start + (i > 0 ? FADE * 0.45 : 0)
         );
       });
 
