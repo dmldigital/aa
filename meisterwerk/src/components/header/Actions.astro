@@ -1,0 +1,50 @@
+---
+import { href } from '../../data/links';
+import type { Site } from '../../data/nav';
+/** Rechte Seite der Kopfzeile: Ort, Kontakt-Link und Menü-Knopf (öffnet das Vollbild-Menü, siehe Menu.astro). */
+interface Props {
+  site?: Site;
+  /** Nur Menü-Knopf (Hero-Fläche): Ort und Kontakt-Link entfallen */
+  compact?: boolean;
+}
+const { site = 'main', compact = false } = Astro.props;
+const exk = site === 'exklusive';
+---
+
+<div class="flex items-center gap-4 min-[701px]:gap-11">
+  {!compact && (
+    <span class="hidden font-display text-[11px] tracking-[0.1em] text-muted uppercase min-[1051px]:block">
+      Freiberg a. N. / Ludwigsburg
+    </span>
+  )}
+  {!compact && (
+    <a
+      href={href(exk ? '/meisterwerk-exklusive/kontakt/' : '/schnellkontakt/')}
+      class="group/ul hidden items-center gap-5 font-display text-[14px] text-ink min-[701px]:flex"
+    >
+      <span class="underline-anim [--underline-gap:3px]">Kontakt aufnehmen</span>
+      <span
+        aria-hidden="true"
+        class="text-[20px] transition-transform duration-300 group-hover/ul:translate-x-0.5 group-hover/ul:-translate-y-0.5"
+      >
+        ↗
+      </span>
+    </a>
+  )}
+  <button
+    type="button"
+    data-menu-open
+    aria-label="Menü öffnen"
+    aria-expanded="false"
+    aria-controls="main-menu"
+    class="group/menu flex cursor-pointer items-center gap-4 py-3.75 pl-2.5 text-ink"
+  >
+    <span class="hidden font-display text-[11px] tracking-[0.07em] uppercase min-[701px]:block">
+      Menü
+    </span>
+    <span class="flex w-7.5 flex-col gap-1.75" aria-hidden="true">
+      <i class="block h-px w-full bg-current"></i>
+      <i class="block h-px w-full bg-current transition-[width] duration-200 group-hover/menu:w-[65%]"></i>
+    </span>
+  </button>
+</div>

@@ -1,6 +1,8 @@
 ---
 import Layout from './Layout.astro';
 import Header from '../components/sections/Header.astro';
+import Menu from '../components/sections/Menu.astro';
+import SmartHeader from '../components/sections/SmartHeader.astro';
 import Footer from '../components/sections/Footer.astro';
 import type { Site } from '../data/nav';
 
@@ -11,13 +13,17 @@ interface Props {
   current?: string;
   /** Auftritt: Hauptseite (Standard) oder Teil-Website „Meisterwerke Exklusive“ mit eigenem Kopf und Fuß. */
   site?: Site;
+  /** Seite mit eigenem Hero (Startseite): Der Hero bringt die Kopfzeile selbst mit. */
+  hero?: boolean;
 }
 
-const { title, description, current = '/', site = 'main' } = Astro.props;
+const { title, description, current = '/', site = 'main', hero = false } = Astro.props;
 ---
 
 <Layout {title} {description}>
-  <Header {current} {site} />
+  {!hero && <Header {site} />}
+  <SmartHeader {site} />
+  <Menu {site} {current} />
   <main>
     <slot />
   </main>

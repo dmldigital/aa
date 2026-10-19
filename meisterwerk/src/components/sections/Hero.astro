@@ -1,114 +1,204 @@
 ---
 /**
- * Hero (Original: Elementor-Container ca992c2 mit verschachteltem Karussell a7fbee8).
- * Vier Vollbild-Slides mit großem Wort unten links. Die Reihenfolge entspricht dem Original (Streichen, Lackieren,
- * Tapezieren, Glatte Oberflächen). Der Wechsel ist ein einfacher horizontaler Schub mit GSAP.
+ * Hero der Startseite (Vorlage: Hero der Referenzseite „Kaisergärten“, im Meisterwerk-Design).
+ * Links eine helle Fläche mit Kopfzeile, Beschreibung, großer H1 und Anfrage-Box, rechts ein großes Bild.
+ * Beim Scrollen (Desktop): Kopfzeile fährt weg, oben links läuft ein Streifen mit den Bildern des bisherigen
+ * Heros seitlich durch, danach schiebt sich der Text nach links hinaus, die Fläche folgt, das Bild wächst auf
+ * die volle Breite und bekommt einen schmalen Rand, dann scrollt die Seite normal weiter. Handy: Fläche fährt
+ * nach oben weg, das Bild füllt den Bildschirm. Ohne reduzierte Bewegung nur als ruhige Zweiteilung bzw. Stapel.
+ * Die Zustände steuern die Varianten `hero-d` und `hero-m` (global.css), die Animation das Skript unten.
  */
 import { Picture } from 'astro:assets';
-import { slides as homeSlides } from '../../data/hero';
+import Button from '../ui/Button.astro';
+import Header from './Header.astro';
+import { href, routes } from '../../data/links';
+import { slides } from '../../data/hero';
 
 interface Props {
   /** Original-ID (data-section), Standard: Startseite */
   id?: string;
-  slides?: typeof homeSlides;
 }
-const { id = 'ca992c2', slides = homeSlides } = Astro.props;
+const { id = 'ca992c2' } = Astro.props;
+// Streifen: die vier Hero-Bilder, für die Länge des Streifens zwei davon noch einmal
+const strip = [...slides, ...slides.slice(0, 2)];
+const main = slides[0];
 ---
 
-<section data-section={id} class="flex min-h-[60vh] flex-col gap-5 md:min-h-[100vh]">
-  <div
-    data-hero-carousel
-    data-anim-manual
-    role="region"
-    aria-roledescription="carousel"
-    aria-label="Meisterwerk Leistungen"
-    class="relative z-[1] grid overflow-hidden"
-  >
-    {slides.map((slide, i) => (
-      <div
-        data-hero-slide
-        role="group"
-        aria-roledescription="slide"
-        aria-label={`${i + 1} / ${slides.length}`}
-        aria-hidden={i === 0 ? undefined : 'true'}
-        class:list={[
-          'relative col-start-1 row-start-1 flex min-h-[80vh] flex-col px-5 md:min-h-125 lg:min-h-[93vh] lg:px-7.5',
-          i > 0 && 'opacity-0',
-        ]}
+<section
+  data-hero
+  data-section={id}
+  aria-label="Willkommen bei Meisterwerk Malermanufaktur"
+  class="relative bg-soft hero-d:h-[300svh] hero-m:h-[245svh]"
+>
+  <div class="relative flex flex-col overflow-hidden bg-soft min-[701px]:block min-[701px]:h-svh min-[701px]:min-h-150 hero-d:sticky hero-d:top-0 hero-d:overflow-clip hero-m:sticky hero-m:top-0 hero-m:block hero-m:h-svh hero-m:min-h-0 hero-m:overflow-clip">
+    <div
+      data-hero-picture
+      class="relative order-1 h-120 overflow-hidden min-[701px]:absolute min-[701px]:inset-[0_0_0_50%] min-[701px]:h-auto hero-m:absolute hero-m:inset-[60%_0_0] hero-m:h-auto"
+    >
+      <Picture
+        formats={['avif']}
+        fallbackFormat="webp"
+        src={main.image}
+        alt={main.alt}
+        widths={[640, 1024, 1440, 1920, 2560]}
+        sizes="(max-width: 700px) 100vw, 100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="size-full max-w-none object-cover object-[30%_50%] min-[701px]:object-center"
+      />
+      <div class="absolute inset-0 bg-[linear-gradient(transparent_55%,rgb(0_0_0/0.35))] hero-m:bg-[linear-gradient(transparent_45%,rgb(0_0_0/0.4))]"></div>
+      <p class="absolute right-6 bottom-6 font-display text-[9px] tracking-[0.17em] text-white uppercase min-[701px]:right-[clamp(24px,4.4vw,88px)] min-[701px]:bottom-8 min-[701px]:text-[10px] hero-m:hidden">
+        Streichen. Lackieren. Tapezieren.
+      </p>
+      <p
+        aria-hidden="true"
+        class="absolute inset-x-5.5 bottom-6.5 hidden items-center gap-4 font-display text-[8px] tracking-[0.12em] text-white uppercase hero-m:flex"
       >
-        <Picture
-          formats={['avif']}
-          fallbackFormat="webp"
-          src={slide.image}
-          alt={slide.alt}
-          widths={[640, 1024, 1440, 1920, 2560]}
-          sizes="100vw"
-          loading={i === 0 ? 'eager' : 'lazy'}
-          fetchpriority={i === 0 ? 'high' : undefined}
-          class="absolute inset-0 size-full object-cover object-center"
-        />
-        <div class="relative mx-auto flex w-full max-w-[min(100%,767px)] grow flex-col justify-end gap-3.75 py-10 md:max-w-[min(100%,1024px)] md:gap-5 lg:max-w-page lg:justify-between">
-          <div class="hidden h-12.5 md:block" aria-hidden="true" />
-          <div class="flex items-end justify-between">
-            <div class="flex flex-col gap-2.5 md:gap-5">
-              <div data-anim={slide.anim} data-anim-delay="400">
-                <span
-                  class:list={[
-                    'font-display text-[30px]/[30px] font-medium tracking-[-1px] md:text-[50px]/[50px] lg:text-display',
-                    slide.color,
-                  ]}
-                >
-                  {slide.word}
-                </span>
-              </div>
+        <span>Weiter scrollen</span>
+        <i class="block h-px flex-1 bg-white/45"></i>
+        <span>↓</span>
+      </p>
+    </div>
+
+    <div
+      data-hero-panel
+      class="relative z-[2] flex min-h-165 w-full flex-col overflow-hidden bg-soft text-ink min-[701px]:h-full min-[701px]:min-h-0 min-[701px]:w-1/2 hero-m:absolute hero-m:inset-x-0 hero-m:top-0 hero-m:h-[60%]"
+    >
+      <Header variant="hero" />
+
+      <div
+        data-hero-gallery
+        aria-hidden="true"
+        class="invisible absolute inset-x-0 top-9.5 hidden overflow-hidden opacity-0 hero-d:block"
+      >
+        <div data-hero-track class="flex w-max gap-4 pl-6 will-change-transform">
+          {strip.map((slide) => (
+            <div class="h-[clamp(120px,12vw,240px)] w-[clamp(160px,15vw,300px)] shrink-0 overflow-hidden">
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={slide.image}
+                alt=""
+                widths={[320, 640]}
+                sizes="300px"
+                loading="lazy"
+                class="size-full object-cover"
+              />
             </div>
-          </div>
+          ))}
         </div>
       </div>
-    ))}
+
+      <div
+        data-hero-content
+        class="relative px-6 pt-52.5 pb-6 min-[701px]:absolute min-[701px]:inset-x-6 min-[701px]:bottom-6 min-[701px]:p-0 hero-m:absolute hero-m:inset-[92px_22px_20px] hero-m:flex hero-m:flex-col hero-m:justify-between hero-m:gap-4 hero-m:p-0"
+      >
+        <h1 class="mb-5.5 font-display text-[11.5vw]/[0.92] font-semibold tracking-[-0.045em] text-ink min-[701px]:mb-5.5 min-[701px]:text-[clamp(38px,4.4vw,80px)]/[0.94] hero-m:order-0 hero-m:m-0 hero-m:text-[11.5vw]/[0.94]">
+          <span class="mb-3.5 block font-display text-[12px]/[1] font-normal tracking-[0.2em] text-ink uppercase hero-m:mb-2.5 hero-m:text-[9px]">
+            Meisterwerk Malermanufaktur
+          </span>
+          Malerarbeiten in Ludwigsburg, Freiberg und Umgebung
+        </h1>
+        <p class="mb-7.5 max-w-full font-display text-[18px]/[1.35] tracking-[-0.02em] text-ink min-[701px]:max-w-[88%] min-[701px]:text-[clamp(16px,1.4vw,26px)]/[1.35] hero-m:order-1 hero-m:m-0 hero-m:max-w-80 hero-m:text-[14px]/[1.4]">
+          Ihr Meisterbetrieb für Streichen, Lackieren, Tapezieren und glatte Oberflächen.{' '}
+          <span class="text-muted hero-m:hidden">
+            Persönlich beraten, sauber ausgeführt, mit über 22 Jahren Erfahrung.
+          </span>
+        </p>
+        <div class="flex flex-wrap items-center gap-2.5 rounded-[3px] border border-black/15 bg-white/60 p-2 backdrop-blur-[10px] min-[701px]:flex-nowrap min-[701px]:p-2.5 hero-m:order-2 hero-m:flex-nowrap hero-m:border-0 hero-m:bg-transparent hero-m:p-0 hero-m:backdrop-blur-none">
+          <span class="flex-1 p-2 font-display text-[12px] text-muted min-[701px]:pl-2 min-[701px]:text-[clamp(10px,1vw,17px)] hero-m:hidden">
+            Ihr Malerbetrieb in Freiberg a. N.
+          </span>
+          <Button href={href(routes.contact)}>PROJEKT ANFRAGEN ↗</Button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <script>
-  import { gsap, playAnim } from '../../scripts/motion';
+  import { gsap, ScrollTrigger } from '../../scripts/motion';
 
-  const root = document.querySelector<HTMLElement>('[data-hero-carousel]');
-  if (root) {
-    const slides = [...root.querySelectorAll<HTMLElement>('[data-hero-slide]')];
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const played = new Set<number>();
-    let current = 0;
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero) {
+    const q = <T extends Element = HTMLElement>(s: string) => hero.querySelector<T>(s)!;
+    const mm = gsap.matchMedia();
 
-    // Das Wort einer Slide spielt seine Animation beim ersten Erscheinen
-    const playWord = (i: number) => {
-      if (played.has(i)) return;
-      played.add(i);
-      const word = slides[i].querySelector<HTMLElement>('[data-anim]');
-      if (word) playAnim(word, word.dataset.anim || 'fadeIn');
-    };
-    playWord(0);
-
-    if (!reduced && slides.length > 1) {
-      const next = () => {
-        const to = (current + 1) % slides.length;
-        const from = slides[current];
-        const target = slides[to];
-        gsap.set(target, { xPercent: 100, opacity: 1 });
-        target.removeAttribute('aria-hidden');
-        playWord(to);
-        gsap.to([from, target], {
-          xPercent: '-=100',
-          duration: 1.8,
-          ease: 'css',
-          onComplete: () => {
-            gsap.set(from, { xPercent: 0, opacity: 0 });
-            from.setAttribute('aria-hidden', 'true');
-            current = to;
-            gsap.delayedCall(7, next);
+    // Desktop (ab 701 px)
+    mm.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => {
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: hero,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: 1,
+            invalidateOnRefresh: true,
           },
-        });
-      };
-      gsap.delayedCall(7, next);
-    }
+        })
+        .to(
+          q('[data-site-header]'),
+          { yPercent: -110, autoAlpha: 0, duration: 0.16, ease: 'none' },
+          0,
+        )
+        .fromTo(
+          q('[data-hero-gallery]'),
+          { autoAlpha: 0, y: 24 },
+          { autoAlpha: 1, y: 0, duration: 0.18, ease: 'none' },
+          0.08,
+        )
+        .to(q('[data-hero-track]'), { xPercent: -42, duration: 0.82, ease: 'none' }, 0.08)
+        .to(
+          q('[data-hero-content]'),
+          { xPercent: -110, duration: 0.42, ease: 'power1.inOut' },
+          0.34,
+        )
+        .to(q('[data-hero-panel]'), { xPercent: -100, duration: 0.52, ease: 'power1.inOut' }, 0.4)
+        .to(q('[data-hero-picture]'), { left: '0%', duration: 0.52, ease: 'power1.inOut' }, 0.4)
+        .to(
+          q('[data-hero-picture]'),
+          { top: 24, right: 24, bottom: 24, left: 24, duration: 0.08, ease: 'none' },
+          0.92,
+        )
+        .fromTo(
+          '[data-hero-picture] img',
+          { scale: 1.04 },
+          { scale: 1, duration: 1, ease: 'none' },
+          0,
+        );
+    });
+
+    // Handy (bis 700 px, Höhe ab 650 px)
+    mm.add(
+      '(max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)',
+      () => {
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: hero,
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: 0.45,
+              invalidateOnRefresh: true,
+            },
+          })
+          .fromTo(
+            '[data-hero-picture] img',
+            { scale: 1.18 },
+            { scale: 1, duration: 1, ease: 'none' },
+            0,
+          )
+          .to(q('[data-hero-content]'), { y: -20, opacity: 0, duration: 0.27, ease: 'none' }, 0.1)
+          .to(q('[data-hero-panel]'), { yPercent: -100, duration: 0.6, ease: 'power1.inOut' }, 0.2)
+          .to(q('[data-hero-picture]'), { top: '0%', duration: 0.6, ease: 'power1.inOut' }, 0.2)
+          .to(
+            q('[data-hero-picture]'),
+            { left: 12, right: 12, bottom: '20%', top: 12, duration: 0.2, ease: 'none' },
+            0.8,
+          );
+      },
+    );
+
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
   }
 </script>

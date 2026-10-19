@@ -1,0 +1,37 @@
+---
+import { Picture } from 'astro:assets';
+import { href, routes } from '../../data/links';
+import type { Site } from '../../data/nav';
+import mainLogo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
+import exklusiveLogo from '../../assets/img/logo_exklusive.png';
+/** Logo der Kopfzeile (Hauptseite: Meisterwerk Malermanufaktur, Teil-Website: Meisterwerke Exklusive). */
+interface Props {
+  site?: Site;
+  class?: string;
+}
+const { site = 'main', class: className = '' } = Astro.props;
+const exk = site === 'exklusive';
+---
+
+<a
+  href={href(exk ? '/meisterwerk-exklusive/' : routes.home)}
+  class="block shrink-0"
+  aria-label={
+    exk ? 'Meisterwerke Exklusive, zur Startseite' : 'Meisterwerk Malermanufaktur, zur Startseite'
+  }
+>
+  <Picture
+    formats={['avif']}
+    fallbackFormat="webp"
+    src={exk ? exklusiveLogo : mainLogo}
+    alt={
+      exk
+        ? 'Meisterwerke Exklusive by Baldassarre Fortino'
+        : 'Meisterwerk Malermanufaktur by Baldasarre Fortino'
+    }
+    widths={[180, 360]}
+    sizes="180px"
+    loading="eager"
+    class:list={['h-auto', className]}
+  />
+</a>

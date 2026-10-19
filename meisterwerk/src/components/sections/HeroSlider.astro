@@ -1,0 +1,115 @@
+---
+/**
+ * Karussell-Hero (Original: Elementor-Container ca992c2 mit verschachteltem Karussell a7fbee8), jetzt nur noch auf der
+ * Startseite der Teil-Website /meisterwerk-exklusive/. Die Hauptseite hat den Scroll-Hero in Hero.astro.
+ * Vier Vollbild-Slides mit großem Wort unten links. Die Reihenfolge entspricht dem Original (Streichen, Lackieren,
+ * Tapezieren, Glatte Oberflächen). Der Wechsel ist ein einfacher horizontaler Schub mit GSAP.
+ */
+import { Picture } from 'astro:assets';
+import { slides as homeSlides } from '../../data/hero';
+
+interface Props {
+  /** Original-ID (data-section), Standard: Startseite */
+  id?: string;
+  slides?: typeof homeSlides;
+}
+const { id = 'ca992c2', slides = homeSlides } = Astro.props;
+---
+
+<section data-section={id} class="flex min-h-[60vh] flex-col gap-5 md:min-h-[100vh]">
+  <div
+    data-hero-carousel
+    data-anim-manual
+    role="region"
+    aria-roledescription="carousel"
+    aria-label="Meisterwerk Leistungen"
+    class="relative z-[1] grid overflow-hidden"
+  >
+    {slides.map((slide, i) => (
+      <div
+        data-hero-slide
+        role="group"
+        aria-roledescription="slide"
+        aria-label={`${i + 1} / ${slides.length}`}
+        aria-hidden={i === 0 ? undefined : 'true'}
+        class:list={[
+          'relative col-start-1 row-start-1 flex min-h-[80vh] flex-col px-5 md:min-h-125 lg:min-h-[93vh] lg:px-7.5',
+          i > 0 && 'opacity-0',
+        ]}
+      >
+        <Picture
+          formats={['avif']}
+          fallbackFormat="webp"
+          src={slide.image}
+          alt={slide.alt}
+          widths={[640, 1024, 1440, 1920, 2560]}
+          sizes="100vw"
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : undefined}
+          class="absolute inset-0 size-full object-cover object-center"
+        />
+        <div class="relative mx-auto flex w-full max-w-[min(100%,767px)] grow flex-col justify-end gap-3.75 py-10 md:max-w-[min(100%,1024px)] md:gap-5 lg:max-w-page lg:justify-between">
+          <div class="hidden h-12.5 md:block" aria-hidden="true" />
+          <div class="flex items-end justify-between">
+            <div class="flex flex-col gap-2.5 md:gap-5">
+              <div data-anim={slide.anim} data-anim-delay="400">
+                <span
+                  class:list={[
+                    'font-display text-[30px]/[30px] font-medium tracking-[-1px] md:text-[50px]/[50px] lg:text-display',
+                    slide.color,
+                  ]}
+                >
+                  {slide.word}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  import { gsap, playAnim } from '../../scripts/motion';
+
+  const root = document.querySelector<HTMLElement>('[data-hero-carousel]');
+  if (root) {
+    const slides = [...root.querySelectorAll<HTMLElement>('[data-hero-slide]')];
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const played = new Set<number>();
+    let current = 0;
+
+    // Das Wort einer Slide spielt seine Animation beim ersten Erscheinen
+    const playWord = (i: number) => {
+      if (played.has(i)) return;
+      played.add(i);
+      const word = slides[i].querySelector<HTMLElement>('[data-anim]');
+      if (word) playAnim(word, word.dataset.anim || 'fadeIn');
+    };
+    playWord(0);
+
+    if (!reduced && slides.length > 1) {
+      const next = () => {
+        const to = (current + 1) % slides.length;
+        const from = slides[current];
+        const target = slides[to];
+        gsap.set(target, { xPercent: 100, opacity: 1 });
+        target.removeAttribute('aria-hidden');
+        playWord(to);
+        gsap.to([from, target], {
+          xPercent: '-=100',
+          duration: 1.8,
+          ease: 'css',
+          onComplete: () => {
+            gsap.set(from, { xPercent: 0, opacity: 0 });
+            from.setAttribute('aria-hidden', 'true');
+            current = to;
+            gsap.delayedCall(7, next);
+          },
+        });
+      };
+      gsap.delayedCall(7, next);
+    }
+  }
+</script>

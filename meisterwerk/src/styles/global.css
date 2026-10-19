@@ -68,6 +68,10 @@
   --container-page: 1700px;
 }
 
+/* Hero mit Scroll-Animation: Desktop (ab 701 px) und Handy (bis 700 px, Höhe ab 650 px), jeweils nur ohne reduzierte Bewegung */
+@custom-variant hero-d (@media (min-width: 701px) and (prefers-reduced-motion: no-preference));
+@custom-variant hero-m (@media (max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference));
+
 @theme inline {
   --font-display: var(--font-urbanist), sans-serif;
 }
