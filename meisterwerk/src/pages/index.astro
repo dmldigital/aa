@@ -9,6 +9,20 @@ import Masterly from '../components/sections/Masterly.astro';
 import Surface from '../components/sections/Surface.astro';
 import Projects from '../components/sections/Projects.astro';
 import Faq from '../components/sections/Faq.astro';
+import { href } from '../data/links';
+
+// Willkommen-Text: Originaltext mit lokaler Optimierung (Freiberg a. N., Ludwigsburg, Marbach, Bietigheim-Bissingen)
+// und internen Textlinks auf Leistung, Showroom und Anfrage
+const link = (label: string, path: string) =>
+  `<a href="${href(path)}" class="text-ink underline decoration-gold underline-offset-[3px] transition-colors duration-300 hover:text-gold">${label}</a>`;
+const welcome = {
+  heading: 'Meisterwerk Malermanufaktur: Ihr Malerbetrieb in Freiberg am Neckar',
+  paragraphs: [
+    `Willkommen bei Meisterwerk, Ihrem Spezialisten für hochwertige ${link('Malerarbeiten', '/services/malerarbeiten/')} und individuelle Oberflächengestaltung aus Freiberg am Neckar. <br /> Mit über 22 Jahren Erfahrung vereinen wir traditionelles Handwerk mit modernem Design. Ob beim Innen- oder Außenanstrich, bei kreativen Wandtechniken oder der Veredelung von Oberflächen: Wir setzen Ihre Wünsche mit höchster Präzision und Leidenschaft um.`,
+    `Unsere Philosophie ist es, Räume zu schaffen, die nicht nur durch Farben und Strukturen überzeugen, sondern auch durch Qualität und Langlebigkeit. Dabei verwenden wir bevorzugt umweltfreundliche, zum Teil allergikerfreundliche Materialien, um für ein gesundes Raumklima zu sorgen. In unserem ${link('Showroom', '/2025/05/03/unser-showroom/')} können Sie sich Oberflächen und Strukturen persönlich ansehen.`,
+    `Von der umfassenden Beratung über die Auswahl passender Farben und Materialien bis hin zur fachmännischen Umsetzung begleiten wir unsere Kunden in Freiberg, Ludwigsburg, Marbach und Bietigheim-Bissingen persönlich und zuverlässig. Jedes Projekt ist für uns ein Meisterwerk, bei dem wir Wert auf Detailgenauigkeit, exakte Planung und eine saubere Ausführung legen. Erleben Sie mit uns Malerarbeiten auf höchstem Niveau und entdecken Sie, wie Farbe und Gestaltung Ihre Wohn- und Arbeitsräume in einzigartige Lebenswelten verwandeln können. Vereinbaren Sie Ihre ${link('Beratung', '/kontakt/')} bei uns.`,
+  ],
+};
 ---
 
 <PageLayout
@@ -17,7 +31,12 @@ import Faq from '../components/sections/Faq.astro';
   description="Exklusive Malerarbeiten & fugenlose Oberflächen in Ludwigsburg & Stuttgart. Ihr meistergeführter Fachbetrieb für puristische Ästhetik und höchste Qualität."
 >
   <Hero />
-  <Welcome headingTag="h2" />
+  <Welcome
+    headingTag="h2"
+    heading={welcome.heading}
+    headingClass="text-[23px]/[25.3px] text-gold md:text-[30px]/[33px] lg:text-h2"
+    paragraphs={welcome.paragraphs}
+  />
   <Partner />
   <Services />
   <Skills />
