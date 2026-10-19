@@ -1,13 +1,11 @@
 ---
 import { href } from '../../data/links';
 import { items, exklusiveItems, type Item, type Site } from '../../data/nav';
-import { menuPreview } from '../../data/menu-preview';
 import KontaktPanel from './KontaktPanel.astro';
-import Vorschau from './Vorschau.astro';
 /**
  * Menü für Tablet und Desktop (ab 701 px) „Geteilt“: Vollbild, links die Hauptpunkte linksbündig ohne Trennlinien,
- * rechts erscheint beim Überfahren oder Anwählen eines Punkts sein Untermenü, sonst die Kontaktmöglichkeiten mit
- * kurzem Formular. Skript in Menu.astro.
+ * rechts stehen Kontaktmöglichkeiten mit kurzem Formular; nur bei Punkten mit Untermenü (Leistungen) blendet dessen
+ * Liste dort ein und beim Verlassen wieder aus. Skript in Menu.astro.
  */
 interface Props {
   site?: Site;
@@ -16,14 +14,11 @@ interface Props {
 const { site = 'main', current = '/' } = Astro.props;
 const exk = site === 'exklusive';
 const menu: Item[] = exk ? exklusiveItems : items;
-// Panel-Kennung je Menüpunkt: Untermenü, Vorschau oder (Startseite) Kontakt
-const panelOf = (item: Item, i: number) =>
-  item.children ? `sub-${i}` : menuPreview[item.href] ? `pv-${i}` : 'contact';
+// Panel-Kennung je Menüpunkt: Untermenü bei Leistungen und Oberflächen, sonst der Kontaktbereich
+const panelOf = (item: Item, i: number) => (item.children ? `sub-${i}` : 'contact');
 
 const row =
-  'group/row flex w-full cursor-pointer items-center justify-between gap-4 py-2 text-left font-display text-[clamp(22px,2vw,30px)]/[1.2] font-normal tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold data-[active]:text-gold';
-const arrow =
-  'text-[18px] opacity-0 transition-[opacity,transform] duration-300 group-hover/row:translate-x-1 group-hover/row:opacity-100 group-data-[active]/row:opacity-100 max-[700px]:opacity-100';
+  'flex w-full cursor-pointer items-center justify-between gap-4 py-2 text-left font-display text-[clamp(22px,2vw,30px)]/[1.2] font-normal tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold data-[active]:text-gold';
 // Rechte Seite: alle Flächen liegen übereinander (die Höhe bleibt gleich), die gewählte blendet ein, die vorige gleichzeitig aus. Nur Deckkraft, keine Bewegung
 const panel =
   'pointer-events-none invisible col-start-1 row-start-1 opacity-0 transition-[opacity,visibility] duration-500 ease-in-out data-[show]:pointer-events-auto data-[show]:visible data-[show]:opacity-100';
@@ -74,9 +69,6 @@ const sub =
                 class={row}
               >
                 {item.label}
-                <span aria-hidden="true" class={arrow}>
-                  →
-                </span>
               </button>
             ) : (
               <a
@@ -86,9 +78,6 @@ const sub =
                 class={row}
               >
                 {item.label}
-                <span aria-hidden="true" class={arrow}>
-                  ↗
-                </span>
               </a>
             )}
           </li>
@@ -154,13 +143,7 @@ const sub =
                 </div>
               ))}
           </div>
-        ) : (
-          menuPreview[item.href] && (
-            <div data-split-panel={`pv-${i}`} class={panel}>
-              <Vorschau label={item.label} target={item.href} preview={menuPreview[item.href]} />
-            </div>
-          )
-        ),
+        ) : null,
       )}
     </div>
   </div>

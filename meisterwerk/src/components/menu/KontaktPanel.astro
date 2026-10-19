@@ -3,80 +3,116 @@ import Button from '../ui/Button.astro';
 import { site as company } from '../../data/site';
 import type { Site } from '../../data/nav';
 /**
- * Rechte Seite des Desktop-Menüs, solange kein Untermenü gewählt ist: Kontaktmöglichkeiten (Telefon, E-Mail,
- * Showroom, Social Media) und ein kurzes Formular. Das Absenden ist wie beim Kontaktformular noch nicht
- * angebunden (Meldung, Skript in Menu.astro).
+ * Rechte Seite des Desktop-Menüs (Standard): Überschrift, Kontaktdaten und ein kurzes Formular auf weißer Fläche.
+ * Das Absenden ist wie beim Kontaktformular noch nicht angebunden (Meldung, Skript in Menu.astro).
  */
 interface Props {
   site?: Site;
 }
 const { site = 'main' } = Astro.props;
 const exk = site === 'exklusive';
-const link = 'group/ul inline-block font-display text-[15px]/[1.4] tracking-[0.01em] text-ink';
 const label = 'font-display text-[11px] tracking-[0.12em] text-gold uppercase';
+const value = 'group/ul inline-block font-display text-[16px]/[1.4] tracking-[0.01em] text-ink';
 const field =
-  'w-full border-0 border-b border-black/20 bg-transparent py-2.5 font-display text-[15px] text-ink outline-none transition-colors duration-300 placeholder:text-black/45 focus:border-ink';
+  'w-full border-0 border-b border-black/15 bg-transparent py-2 font-display text-[15px] text-ink outline-none transition-colors duration-300 placeholder:text-black/40 focus:border-ink';
 ---
 
 <div class="flex flex-col gap-9">
-  <div class="flex flex-col gap-3.5">
-    <p class={label}>Direkt erreichen</p>
-    <a href={`tel:${company.phoneHref}`} class={link}>
-      <span class="underline-anim [--underline-gap:3px]">{company.phone}</span>
-    </a>
-    <a href={`mailto:${company.email}`} class={link}>
-      <span class="underline-anim [--underline-gap:3px]">{company.email}</span>
-    </a>
-    <a
-      href={company.mapsUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="font-display text-[14px]/[1.4] tracking-[0.02em] text-muted transition-colors duration-300 hover:text-ink"
-    >
-      Showroom: {company.street}, {company.postalCode} {company.city} ↗
-    </a>
-    {!exk && (
-      <p class="flex gap-5 font-display text-[14px] text-muted">
-        <a
-          href="https://www.instagram.com/maler.meisterwerk/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors duration-300 hover:text-ink"
-        >
-          Instagram
-        </a>
-        <a
-          href="https://www.facebook.com/Meisterwerk2014/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="transition-colors duration-300 hover:text-ink"
-        >
-          Facebook
-        </a>
-      </p>
-    )}
+  <div class="flex flex-col gap-3">
+    <p class={label}>Kontakt</p>
+    <p class="font-display text-[28px]/[1.15] font-normal tracking-[-0.02em] text-ink">
+      Wie können wir Ihnen helfen?
+    </p>
   </div>
 
-  <form data-menu-form class="flex flex-col gap-4" aria-label="Kurze Nachricht">
-    <p class={label}>Oder schreiben Sie uns kurz</p>
-    <input class={field} type="text" name="name" placeholder="Name" autocomplete="name" required />
-    <input
-      class={field}
-      type="text"
-      name="kontakt"
-      placeholder="Telefon oder E-Mail"
-      autocomplete="email"
-      required
-    />
+  <dl class="grid grid-cols-2 gap-x-8 gap-y-5">
+    <div class="flex flex-col gap-1.5">
+      <dt class="font-display text-[12px] text-muted">Telefon</dt>
+      <dd>
+        <a href={`tel:${company.phoneHref}`} class={value}>
+          <span class="underline-anim [--underline-gap:3px]">{company.phone}</span>
+        </a>
+      </dd>
+    </div>
+    <div class="flex flex-col gap-1.5">
+      <dt class="font-display text-[12px] text-muted">E-Mail</dt>
+      <dd>
+        <a href={`mailto:${company.email}`} class={value}>
+          <span class="underline-anim [--underline-gap:3px]">{company.email}</span>
+        </a>
+      </dd>
+    </div>
+    <div class="flex flex-col gap-1.5">
+      <dt class="font-display text-[12px] text-muted">Showroom</dt>
+      <dd>
+        <a
+          href={company.mapsUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="font-display text-[16px]/[1.4] text-ink transition-colors duration-300 hover:text-gold"
+        >
+          {company.street}, {company.postalCode} {company.city}
+        </a>
+      </dd>
+    </div>
+    {!exk && (
+      <div class="flex flex-col gap-1.5">
+        <dt class="font-display text-[12px] text-muted">Folgen Sie uns</dt>
+        <dd class="flex gap-5 font-display text-[16px]/[1.4] text-ink">
+          <a
+            href="https://www.instagram.com/maler.meisterwerk/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition-colors duration-300 hover:text-gold"
+          >
+            Instagram
+          </a>
+          <a
+            href="https://www.facebook.com/Meisterwerk2014/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="transition-colors duration-300 hover:text-gold"
+          >
+            Facebook
+          </a>
+        </dd>
+      </div>
+    )}
+  </dl>
+
+  <form data-menu-form class="flex flex-col gap-5 bg-white p-7" aria-label="Kurze Nachricht">
+    <p class="font-display text-[18px]/[1.3] tracking-[-0.01em] text-ink">
+      Oder schreiben Sie uns kurz
+    </p>
+    <div class="grid grid-cols-2 gap-x-6">
+      <input
+        class={field}
+        type="text"
+        name="name"
+        placeholder="Name"
+        autocomplete="name"
+        required
+      />
+      <input
+        class={field}
+        type="text"
+        name="kontakt"
+        placeholder="Telefon oder E-Mail"
+        autocomplete="email"
+        required
+      />
+    </div>
     <textarea
-      class={`${field} min-h-20 resize-none`}
+      class={`${field} min-h-16 resize-none`}
       name="nachricht"
-      rows="3"
+      rows="2"
       placeholder="Ihre Nachricht"
       required
     ></textarea>
     <div class="flex items-center gap-5">
-      <Button size="sm">NACHRICHT SENDEN</Button>
+      <Button variant="solid" size="sm">
+        NACHRICHT SENDEN
+      </Button>
       <p
         class="font-display text-[13px]/[1.4] text-muted"
         role="status"
