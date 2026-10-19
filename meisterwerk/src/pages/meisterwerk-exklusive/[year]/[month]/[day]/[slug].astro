@@ -1,0 +1,40 @@
+---
+/** Projektbeiträge der Teil-Website /meisterwerk-exklusive/: eine Route für alle aus `exklusive-posts.ts`. */
+import PageLayout from '../../../../../layouts/PageLayout.astro';
+import PostHead from '../../../../../components/sections/PostHead.astro';
+import PostArticle from '../../../../../components/sections/PostArticle.astro';
+import PostRelated from '../../../../../components/sections/PostRelated.astro';
+import { exklusivPosts, related } from '../../../../../data/pages/exklusive-posts';
+
+export function getStaticPaths() {
+  return exklusivPosts.map((post) => ({
+    params: { year: post.year, month: post.month, day: post.day, slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<PageLayout
+  title={post.pageTitle}
+  site="exklusive"
+  current={`/meisterwerk-exklusive/${post.year}/${post.month}/${post.day}/${post.slug}/`}
+>
+  <PostHead
+    title={post.title}
+    category={post.category}
+    categoryHref={post.categoryHref}
+    date={post.date}
+  />
+  <PostArticle
+    {post}
+    imageAlt={post.imageAlt}
+    columns={post.galleryColumns}
+    galleryLayout="grid"
+    labelClass="text-label"
+    servicesClass="md:ml-0"
+    rootClass="mb-0"
+  />
+  <PostRelated items={related} rootClass="mt-20 mb-10 md:mt-[119px] md:mb-15 lg:mt-40.5 lg:mb-27" />
+</PageLayout>

@@ -12,7 +12,8 @@ interface Props {
   id: string;
   /** Dateinamen aus src/assets/img */
   items: string[];
-  layout?: 'masonry' | 'justified';
+  /** `grid`: wie masonry, aber alle Bilder im festen Format 3:2 (Elementor-Raster). */
+  layout?: 'masonry' | 'justified' | 'grid';
   /** Spalten (masonry) je Desktop, Tablet, Handy */
   columns?: [number, number, number];
   /** Abstand je Desktop, Tablet, Handy */
@@ -48,7 +49,7 @@ const list = await Promise.all(
   <div class:list={['mx-auto w-full max-w-mobile md:max-w-tablet lg:max-w-page', innerClass]}>
     <div
       data-gallery
-      data-layout={layout}
+      data-layout={layout === 'grid' ? 'masonry' : layout}
       data-columns={columns.join(',')}
       data-gap={gap.join(',')}
       data-row={rowHeight.join(',')}
@@ -59,7 +60,7 @@ const list = await Promise.all(
           href={full}
           data-gallery-item
           aria-label={`Bild ${i + 1} von ${list.length} vergrößern`}
-          style={`aspect-ratio:${meta.width}/${meta.height}`}
+          style={`aspect-ratio:${layout === 'grid' ? '3/2' : `${meta.width}/${meta.height}`}`}
           class="group/item block cursor-pointer overflow-hidden"
         >
           <span class="relative block size-full overflow-hidden">

@@ -1,7 +1,9 @@
 ---
 import Button from '../ui/Button.astro';
-import { href, routes } from '../../data/links';
+import { href } from '../../data/links';
 import { site } from '../../data/site';
+import { footers } from '../../data/footer';
+import type { Site } from '../../data/nav';
 /**
  * Fußbereich (Original: Elementor-Container 80dbe99) mit Kontaktaufruf, Bewertungs-Badge, Kontaktdaten und
  * dem schwebenden Link "Projekt starten". Das Badge ist ein statischer Nachbau des Trustindex-Widgets
@@ -10,9 +12,17 @@ import { site } from '../../data/site';
 import { Picture } from 'astro:assets';
 import logo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
 import exklusive from '../../assets/img/logo_exklusive.png';
+import malermanufaktur from '../../assets/img/Malermanufaktur_neu.png';
 
-const heading =
-  'font-display text-[26px]/[28.6px] font-medium text-ink md:text-[34px]/[37.4px] lg:text-[40px]/[44px]';
+interface Props {
+  /** Auftritt: Hauptseite oder Teil-Website „Meisterwerke Exklusive“ (eigene Links, Logos, Überschriftengröße, ohne Bewertungs-Badge). */
+  site?: Site;
+}
+const { site: siteKey = 'main' } = Astro.props;
+const exk = siteKey === 'exklusive';
+const f = footers[siteKey];
+
+const heading = `font-display font-medium text-ink ${f.headingClass}`;
 // Kontakt-Links (Original: Button-Widget mit Unterstrich-Animation, 12px/15,6px, Laufweite 2px)
 const contactLink =
   'group/ul inline-block text-center font-display text-label font-medium tracking-label text-black uppercase';
@@ -25,10 +35,12 @@ const social =
 
 <footer data-section="80dbe99" class="relative z-10 flex flex-col gap-5 overflow-x-clip bg-white">
   <!-- Trennlinie, enthält den schwebenden Link "Projekt starten" -->
-  <div class="border-b border-black/20 md:mb-7.5 md:px-5 lg:mb-0 lg:px-0">
-    <div class="mx-auto md:max-w-[min(100%,1024px)] md:pt-15 md:pb-7.5 lg:max-w-[min(100%,1700px)] lg:p-0">
+  <div class={`border-b border-black/20 md:mb-7.5 md:px-5 lg:mb-0 lg:px-0 ${f.topClass}`}>
+    <div
+      class={`mx-auto md:max-w-[min(100%,1024px)] md:pt-15 md:pb-7.5 lg:max-w-[min(100%,1700px)] lg:p-0 ${f.topInnerClass}`}
+    >
       <a
-        href={href(routes.contact)}
+        href={href(f.contactHref)}
         data-floating-cta
         class="group/cta invisible fixed bottom-7.5 left-7.5 z-[9999] inline-block -translate-x-[50px] border border-black bg-white px-6 py-2 text-center text-14 text-black md:leading-[22.5px] opacity-0 shadow-[0_2px_8px_rgb(0_0_0/0.1)] transition-all duration-300 ease-[ease] hover:-translate-y-px hover:bg-black hover:shadow-[0_4px_12px_rgb(0_0_0/0.15)] data-[show]:visible data-[show]:translate-x-0 data-[show]:opacity-100 max-[768px]:bottom-5 max-[768px]:left-5 max-[768px]:px-5 max-[768px]:py-1.5 max-[768px]:text-13 max-[480px]:px-4.5 max-[480px]:py-1.25 max-[480px]:text-[12px]"
       >
@@ -52,109 +64,119 @@ const social =
           </div>
         </div>
         <div data-anim="slideInUp" data-anim-delay="100">
-          <Button href={href(routes.contact)}>SCHREIBEN SIE UNS</Button>
+          <Button href={href(f.contactHref)}>SCHREIBEN SIE UNS</Button>
         </div>
       </div>
 
       <!-- Spalte 2: Bewertungs-Badge (statischer Nachbau des Trustindex-Widgets) -->
       <div class="flex w-full flex-row flex-wrap gap-5 md:w-[20%] md:shrink-0 md:flex-col">
-        <div class="relative inline-block self-start">
-          <div class="mb-3.75 text-center text-[14px]/[19.6px] text-black">
-            <div class="inline-block border border-[#cecece] grayscale-[.84]">
-              <div class="p-2.5 text-[16.5px]/[23.1px] font-semibold">
-                Bestbewerteter
-                <br />
-                Anbieter 2026
-              </div>
-              <div class="flex grow basis-0 flex-col items-center justify-center border-y border-[#cecece] p-2.5 text-left whitespace-nowrap">
-                <div class="flex flex-wrap">
-                  <div class="max-w-full grow basis-0 self-center text-center">
-                    <svg
-                      viewBox="0 0 255.2 80.3"
-                      role="img"
-                      aria-label="Google"
-                      class="block h-auto w-21.5"
-                    >
-                      <path
-                        fill="#4285F4"
-                        d="M31.9,28.6v8.6h20.5c-0.6,4.8-2.2,8.3-4.7,10.8c-3,3-7.7,6.3-15.8,6.3c-12.6,0-22.5-10.2-22.5-22.8S19.2,8.6,31.9,8.6c6.8,0,11.8,2.7,15.5,6.1l6-6C48.3,3.8,41.4,0,31.9,0C14.6,0,0,14.1,0,31.4s14.6,31.4,31.9,31.4c9.4,0,16.4-3.1,21.9-8.8c5.7-5.7,7.4-13.6,7.4-20.1c0-2-0.1-3.8-0.5-5.4H31.9z"
-                      />
-                      <path
-                        fill="#EA4335"
-                        d="M86.9,21.6c-11.2,0-20.4,8.5-20.4,20.3c0,11.7,9.1,20.3,20.4,20.3s20.4-8.6,20.4-20.3C107.2,30.1,98.1,21.6,86.9,21.6z M86.9,54.2c-6.1,0-11.4-5.1-11.4-12.3c0-7.3,5.3-12.3,11.4-12.3c6.1,0,11.4,5,11.4,12.3C98.3,49.1,93,54.2,86.9,54.2z"
-                      />
-                      <path
-                        fill="#4285F4"
-                        d="M186.6,26.1h-0.3c-2-2.4-5.8-4.5-10.7-4.5c-10.1,0-19,8.8-19,20.3c0,11.4,8.8,20.3,19,20.3c4.9,0,8.7-2.2,10.7-4.6h0.3v2.8c0,7.7-4.2,11.9-10.8,11.9c-5.4,0-8.8-3.9-10.2-7.2l-7.7,3.2c2.2,5.4,8.1,12,18,12c10.4,0,19.3-6.1,19.3-21.1V22.7h-8.4V26.1z M176.4,54.2c-6.1,0-10.8-5.2-10.8-12.3c0-7.2,4.7-12.3,10.8-12.3c6.1,0,10.8,5.2,10.8,12.4C187.3,49,182.5,54.2,176.4,54.2z"
-                      />
-                      <path
-                        fill="#FBBC05"
-                        d="M132.3,21.6c-11.2,0-20.4,8.5-20.4,20.3c0,11.7,9.1,20.3,20.4,20.3s20.4-8.6,20.4-20.3C152.6,30.1,143.5,21.6,132.3,21.6z M132.3,54.2c-6.1,0-11.4-5.1-11.4-12.3c0-7.3,5.3-12.3,11.4-12.3c6.1,0,11.4,5,11.4,12.3C143.7,49.1,138.4,54.2,132.3,54.2z"
-                      />
-                      <path fill="#34A853" d="M202.1,0.8h8.8v61.3h-8.8V0.8z" />
-                      <path
-                        fill="#EA4335"
-                        d="M237.9,54.2c-4.5,0-7.7-2.1-9.8-6.1l27.1-11.2l-0.9-2.3c-1.7-4.5-6.8-12.9-17.3-12.9c-10.4,0-19.1,8.2-19.1,20.3c0,11.4,8.6,20.3,20.1,20.3c9.3,0,14.7-5.7,16.9-9l-6.9-4.6C245.6,51.9,242.4,54.2,237.9,54.2L237.9,54.2z M237.3,29.2c3.6,0,6.7,1.9,7.7,4.5l-18.3,7.6C226.6,32.7,232.7,29.2,237.3,29.2z"
-                      />
-                    </svg>
+        {f.badge && (
+          <div class="relative inline-block self-start">
+            <div class="mb-3.75 text-center text-[14px]/[19.6px] text-black">
+              <div class="inline-block border border-[#cecece] grayscale-[.84]">
+                <div class="p-2.5 text-[16.5px]/[23.1px] font-semibold">
+                  Bestbewerteter
+                  <br />
+                  Anbieter 2026
+                </div>
+                <div class="flex grow basis-0 flex-col items-center justify-center border-y border-[#cecece] p-2.5 text-left whitespace-nowrap">
+                  <div class="flex flex-wrap">
+                    <div class="max-w-full grow basis-0 self-center text-center">
+                      <svg
+                        viewBox="0 0 255.2 80.3"
+                        role="img"
+                        aria-label="Google"
+                        class="block h-auto w-21.5"
+                      >
+                        <path
+                          fill="#4285F4"
+                          d="M31.9,28.6v8.6h20.5c-0.6,4.8-2.2,8.3-4.7,10.8c-3,3-7.7,6.3-15.8,6.3c-12.6,0-22.5-10.2-22.5-22.8S19.2,8.6,31.9,8.6c6.8,0,11.8,2.7,15.5,6.1l6-6C48.3,3.8,41.4,0,31.9,0C14.6,0,0,14.1,0,31.4s14.6,31.4,31.9,31.4c9.4,0,16.4-3.1,21.9-8.8c5.7-5.7,7.4-13.6,7.4-20.1c0-2-0.1-3.8-0.5-5.4H31.9z"
+                        />
+                        <path
+                          fill="#EA4335"
+                          d="M86.9,21.6c-11.2,0-20.4,8.5-20.4,20.3c0,11.7,9.1,20.3,20.4,20.3s20.4-8.6,20.4-20.3C107.2,30.1,98.1,21.6,86.9,21.6z M86.9,54.2c-6.1,0-11.4-5.1-11.4-12.3c0-7.3,5.3-12.3,11.4-12.3c6.1,0,11.4,5,11.4,12.3C98.3,49.1,93,54.2,86.9,54.2z"
+                        />
+                        <path
+                          fill="#4285F4"
+                          d="M186.6,26.1h-0.3c-2-2.4-5.8-4.5-10.7-4.5c-10.1,0-19,8.8-19,20.3c0,11.4,8.8,20.3,19,20.3c4.9,0,8.7-2.2,10.7-4.6h0.3v2.8c0,7.7-4.2,11.9-10.8,11.9c-5.4,0-8.8-3.9-10.2-7.2l-7.7,3.2c2.2,5.4,8.1,12,18,12c10.4,0,19.3-6.1,19.3-21.1V22.7h-8.4V26.1z M176.4,54.2c-6.1,0-10.8-5.2-10.8-12.3c0-7.2,4.7-12.3,10.8-12.3c6.1,0,10.8,5.2,10.8,12.4C187.3,49,182.5,54.2,176.4,54.2z"
+                        />
+                        <path
+                          fill="#FBBC05"
+                          d="M132.3,21.6c-11.2,0-20.4,8.5-20.4,20.3c0,11.7,9.1,20.3,20.4,20.3s20.4-8.6,20.4-20.3C152.6,30.1,143.5,21.6,132.3,21.6z M132.3,54.2c-6.1,0-11.4-5.1-11.4-12.3c0-7.3,5.3-12.3,11.4-12.3c6.1,0,11.4,5,11.4,12.3C143.7,49.1,138.4,54.2,132.3,54.2z"
+                        />
+                        <path fill="#34A853" d="M202.1,0.8h8.8v61.3h-8.8V0.8z" />
+                        <path
+                          fill="#EA4335"
+                          d="M237.9,54.2c-4.5,0-7.7-2.1-9.8-6.1l27.1-11.2l-0.9-2.3c-1.7-4.5-6.8-12.9-17.3-12.9c-10.4,0-19.1,8.2-19.1,20.3c0,11.4,8.6,20.3,20.1,20.3c9.3,0,14.7-5.7,16.9-9l-6.9-4.6C245.6,51.9,242.4,54.2,237.9,54.2L237.9,54.2z M237.3,29.2c3.6,0,6.7,1.9,7.7,4.5l-18.3,7.6C226.6,32.7,232.7,29.2,237.3,29.2z"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <span class="my-0.75 text-[20px]/[28px] font-semibold">5.0</span>
+                  <div class="leading-[0]" aria-label="5 von 5 Sternen" role="img">
+                    {[0, 1, 2, 3, 4].map((i) => (
+                      <svg
+                        viewBox="0 0 16 15"
+                        aria-hidden="true"
+                        class:list={['inline-block size-4.5', i < 4 && 'mr-px']}
+                      >
+                        <g transform="matrix(1,0,0,1,-427.432,-259.996)">
+                          <g transform="matrix(1.01647,0,0,1.01647,-14.9846,-123.719)">
+                            <path
+                              fill="#F6BB06"
+                              fill-rule="evenodd"
+                              d="M442.181,378.04C442.286,377.716 442.588,377.497 442.928,377.497C443.268,377.497 443.569,377.716 443.674,378.04L444.991,382.098C445.03,382.217 445.106,382.321 445.207,382.395C445.309,382.469 445.432,382.509 445.557,382.509L449.824,382.507C450.164,382.507 450.465,382.726 450.57,383.05C450.675,383.373 450.56,383.727 450.285,383.927L446.833,386.434C446.731,386.508 446.655,386.612 446.616,386.731C446.577,386.851 446.578,386.98 446.616,387.099L447.936,391.156C448.041,391.48 447.926,391.834 447.651,392.034C447.376,392.234 447.003,392.234 446.728,392.034L443.278,389.525C443.176,389.451 443.054,389.411 442.928,389.411C442.802,389.411 442.68,389.451 442.578,389.525L439.127,392.034C438.852,392.234 438.48,392.234 438.205,392.034C437.929,391.834 437.814,391.48 437.92,391.156L439.239,387.099C439.278,386.98 439.278,386.851 439.239,386.731C439.201,386.612 439.125,386.508 439.023,386.434L435.571,383.927C435.296,383.727 435.18,383.373 435.285,383.05C435.391,382.726 435.692,382.507 436.032,382.507L440.298,382.509C440.424,382.509 440.547,382.469 440.648,382.395C440.75,382.321 440.826,382.217 440.864,382.098L442.181,378.04Z"
+                            />
+                          </g>
+                        </g>
+                      </svg>
+                    ))}
                   </div>
                 </div>
-                <span class="my-0.75 text-[20px]/[28px] font-semibold">5.0</span>
-                <div class="leading-[0]" aria-label="5 von 5 Sternen" role="img">
-                  {[0, 1, 2, 3, 4].map((i) => (
-                    <svg
-                      viewBox="0 0 16 15"
-                      aria-hidden="true"
-                      class:list={['inline-block size-4.5', i < 4 && 'mr-px']}
-                    >
-                      <g transform="matrix(1,0,0,1,-427.432,-259.996)">
-                        <g transform="matrix(1.01647,0,0,1.01647,-14.9846,-123.719)">
-                          <path
-                            fill="#F6BB06"
-                            fill-rule="evenodd"
-                            d="M442.181,378.04C442.286,377.716 442.588,377.497 442.928,377.497C443.268,377.497 443.569,377.716 443.674,378.04L444.991,382.098C445.03,382.217 445.106,382.321 445.207,382.395C445.309,382.469 445.432,382.509 445.557,382.509L449.824,382.507C450.164,382.507 450.465,382.726 450.57,383.05C450.675,383.373 450.56,383.727 450.285,383.927L446.833,386.434C446.731,386.508 446.655,386.612 446.616,386.731C446.577,386.851 446.578,386.98 446.616,387.099L447.936,391.156C448.041,391.48 447.926,391.834 447.651,392.034C447.376,392.234 447.003,392.234 446.728,392.034L443.278,389.525C443.176,389.451 443.054,389.411 442.928,389.411C442.802,389.411 442.68,389.451 442.578,389.525L439.127,392.034C438.852,392.234 438.48,392.234 438.205,392.034C437.929,391.834 437.814,391.48 437.92,391.156L439.239,387.099C439.278,386.98 439.278,386.851 439.239,386.731C439.201,386.612 439.125,386.508 439.023,386.434L435.571,383.927C435.296,383.727 435.18,383.373 435.285,383.05C435.391,382.726 435.692,382.507 436.032,382.507L440.298,382.509C440.424,382.509 440.547,382.469 440.648,382.395C440.75,382.321 440.826,382.217 440.864,382.098L442.181,378.04Z"
-                          />
-                        </g>
-                      </g>
-                    </svg>
-                  ))}
+                <div class="inline-block px-2.5 pt-2.75 pb-2.25 text-[9px]/[12.6px]">
+                  verifiziert von: Trustindex{' '}
+                  <svg
+                    viewBox="0 0 512 512"
+                    aria-hidden="true"
+                    class="relative -top-[1.5px] inline-block size-2.25 fill-black"
+                  >
+                    <path d="M256 32a224 224 0 1 1 0 448 224 224 0 1 1 0-448zm0 480A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM208 352c-8.8 0-16 7.2-16 16s7.2 16 16 16h96c8.8 0 16-7.2 16-16s-7.2-16-16-16H272V240c0-8.8-7.2-16-16-16H216c-8.8 0-16 7.2-16 16s7.2 16 16 16h24v96H208zm48-168a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+                  </svg>
                 </div>
               </div>
-              <div class="inline-block px-2.5 pt-2.75 pb-2.25 text-[9px]/[12.6px]">
-                verifiziert von: Trustindex{' '}
-                <svg
-                  viewBox="0 0 512 512"
-                  aria-hidden="true"
-                  class="relative -top-[1.5px] inline-block size-2.25 fill-black"
-                >
-                  <path d="M256 32a224 224 0 1 1 0 448 224 224 0 1 1 0-448zm0 480A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM208 352c-8.8 0-16 7.2-16 16s7.2 16 16 16h96c8.8 0 16-7.2 16-16s-7.2-16-16-16H272V240c0-8.8-7.2-16-16-16H216c-8.8 0-16 7.2-16 16s7.2 16 16 16h24v96H208zm48-168a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
-                </svg>
-              </div>
             </div>
+            <a
+              href="https://share.google/DnitNH9jIeNPjNxgP"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Google-Bewertungen ansehen"
+              class="absolute inset-0 z-[5]"
+            ></a>
           </div>
-          <a
-            href="https://share.google/DnitNH9jIeNPjNxgP"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Google-Bewertungen ansehen"
-            class="absolute inset-0 z-[5]"
-          ></a>
-        </div>
+        )}
       </div>
 
       <!-- Spalte 3: Logo, Social Media, Kontakt, rechtliche Links -->
       <div class="flex w-full min-w-0 flex-col gap-5 md:w-[40%]">
         <div data-anim="slideInDown" class="overflow-hidden">
           <a
-            href={href(routes.home)}
+            href={href(f.logoHref)}
             class="block"
-            aria-label="Meisterwerk Malermanufaktur, zur Startseite"
+            aria-label={
+              exk
+                ? 'Meisterwerke Exklusive, zur Startseite'
+                : 'Meisterwerk Malermanufaktur, zur Startseite'
+            }
           >
             <Picture
               formats={['avif']}
               fallbackFormat="webp"
-              src={logo}
-              alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
+              src={exk ? exklusive : logo}
+              alt={
+                exk
+                  ? 'Meisterwerke Exklusive by Baldassarre Fortino'
+                  : 'Meisterwerk Malermanufaktur by Baldasarre Fortino'
+              }
               widths={[228, 456]}
               sizes="(min-width: 1025px) 178px, 228px"
               class="h-auto w-[65%] md:w-[80%]"
@@ -211,7 +233,7 @@ const social =
         <div>
           <a href={`tel:${site.phoneHref}`} class={contactLink}>
             <span class="flex justify-center gap-1.25">
-              <span class="underline-anim [--underline-gap:3px]">{site.phone}</span>
+              <span class="underline-anim [--underline-gap:3px]">{f.phone}</span>
             </span>
           </a>
         </div>
@@ -226,7 +248,7 @@ const social =
         <div class="w-57.5 max-w-full">
           <div class={smallText}>
             <a
-              href={href(routes.partners)}
+              href={href(f.partnersHref)}
               target="_blank"
               rel="noopener noreferrer"
               class={smallLink}
@@ -238,7 +260,7 @@ const social =
         <div class="w-57.5 max-w-full">
           <div class={smallText}>
             <a
-              href={href(routes.imprint)}
+              href={href(f.imprintHref)}
               target="_blank"
               rel="noopener noreferrer"
               class={smallLink}
@@ -250,7 +272,7 @@ const social =
         <div class="w-57.5 max-w-full">
           <div class={smallText}>
             <a
-              href={href(routes.privacy)}
+              href={href(f.privacyHref)}
               target="_blank"
               rel="noopener noreferrer"
               class={smallLink}
@@ -259,18 +281,20 @@ const social =
             </a>
           </div>
         </div>
-        <div class="w-57.5 max-w-full">
-          <div class={smallText}>
-            <a
-              href={href(routes.privacy)}
-              target="_blank"
-              rel="noopener noreferrer"
-              class={smallLink}
-            >
-              Cookie-Einstellungen
-            </a>
+        {!exk && (
+          <div class="w-57.5 max-w-full">
+            <div class={smallText}>
+              <a
+                href={href(f.cookieHref ?? f.privacyHref)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class={smallLink}
+              >
+                Cookie-Einstellungen
+              </a>
+            </div>
           </div>
-        </div>
+        )}
         <div class="w-57.5 max-w-full">
           <div class="font-display text-label font-medium tracking-label text-ink uppercase">
             <a href="#" class={smallLink}>
@@ -279,21 +303,33 @@ const social =
           </div>
         </div>
         <div data-anim="fadeInUp" data-anim-delay="380" class="overflow-hidden">
-          <a
-            href="https://meisterwerk-exklusive.de/"
-            class="block"
-            aria-label="Meisterwerk Exklusive"
-          >
+          {exk ? (
             <Picture
               formats={['avif']}
               fallbackFormat="webp"
-              src={exklusive}
-              alt="Meisterwerke Exklusive by Baldassarre Fortino"
-              widths={[228, 456]}
-              sizes="(min-width: 1025px) 178px, 228px"
-              class="h-auto w-[65%] md:w-[80%]"
+              src={malermanufaktur}
+              alt="Meisterwerk Malermanufaktur by Baldassarre Fortino"
+              widths={[189, 378]}
+              sizes="(min-width: 1025px) 131px, 189px"
+              class="h-auto w-[54%] md:w-[59%]"
             />
-          </a>
+          ) : (
+            <a
+              href="https://meisterwerk-exklusive.de/"
+              class="block"
+              aria-label="Meisterwerk Exklusive"
+            >
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={exklusive}
+                alt="Meisterwerke Exklusive by Baldassarre Fortino"
+                widths={[228, 456]}
+                sizes="(min-width: 1025px) 178px, 228px"
+                class="h-auto w-[65%] md:w-[80%]"
+              />
+            </a>
+          )}
         </div>
       </div>
     </div>

@@ -1,7 +1,25 @@
 ---
 import TeamCard from '../TeamCard.astro';
 import Timeline from '../Timeline.astro';
-import { team, founder, memorial, timeline, haltung } from '../../data/pages/studio';
+import {
+  team,
+  founder,
+  memorial,
+  timeline,
+  haltung,
+  exklusiveTeam,
+  exklusiveFounder,
+  exklusiveHaltung,
+} from '../../data/pages/studio';
+
+interface Props {
+  /** Teil-Website Exklusive: andere Texte, Profil-Links und Aufbau von Team und Text (Zeitleiste nur Desktop). */
+  exklusive?: boolean;
+}
+const { exklusive = false } = Astro.props;
+const people = exklusive ? exklusiveTeam : team;
+const head = exklusive ? exklusiveFounder : founder;
+const ex = exklusiveHaltung;
 
 /**
  * Team und Haltung der Seite /studio/. Das Original hat dafür zwei Desktop-Container (4ea78bd Gründer und Zeitleiste,
@@ -11,13 +29,16 @@ const all = [team[0], founder, ...team.slice(1)];
 ---
 
 <!-- Desktop: Gründer und Zeitleiste -->
-<section data-section="4ea78bd" class="mt-22.5 hidden flex-col px-7.5 lg:flex">
+<section
+  data-section="4ea78bd"
+  class:list={[exklusive ? 'mt-6.75' : 'mt-22.5', 'hidden flex-col px-7.5 lg:flex']}
+>
   <div class="mx-auto flex w-full max-w-page justify-between gap-x-7.5">
     <div class="flex w-44 shrink-0 flex-col">
       <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
         {memorial}
       </h6>
-      <TeamCard member={founder} widths={[176, 352, 438]} sizes="176px" />
+      <TeamCard member={head} widths={[176, 352, 438]} sizes="176px" />
     </div>
     <div class="flex flex-1 flex-col justify-center">
       <Timeline items={timeline} />
@@ -25,98 +46,147 @@ const all = [team[0], founder, ...team.slice(1)];
   </div>
 </section>
 
-<!-- Desktop: Team und Text -->
-<section data-section="2257150" class="mt-45 mb-22.5 hidden flex-col px-7.5 lg:flex">
-  <div class="mx-auto flex w-full max-w-page justify-between gap-x-7.5">
-    <div class="grid w-172.5 shrink-0 auto-rows-fr grid-cols-2 content-start gap-7.5">
-      {team.map((m) => (
-        <TeamCard member={m} />
-      ))}
-    </div>
-    <div class="flex w-141.5 flex-col pr-[8%]">
-      <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
-        {haltung.eyebrow}
-      </h6>
-      <h1 class="mt-5 mb-5 font-display text-[38px]/[41.8px] font-medium text-ink">
-        {haltung.heading}
-      </h1>
-      <div class="mt-4.75 text-[17px]/[25.5px] [&>p]:mb-para [&>p]:text-15">
-        {haltung.html.map((block) =>
-          typeof block === 'string' ? (
-            <p set:html={block} />
-          ) : (
-            <ul class="my-4.25 list-disc pl-[28.9px]">
-              {block.list.map((li) => (
-                <li class="pl-[6.375px]">
-                  <p class="mb-para text-15">{li}</p>
-                </li>
-              ))}
-            </ul>
-          ),
-        )}
+{exklusive ? (
+  <section
+    data-section="2257150"
+    class="mt-19.5 mb-0 flex flex-col px-5 md:mt-0 md:mb-15 md:px-5 lg:mt-27 lg:mb-18 lg:px-7.5"
+  >
+    <div class="mx-auto flex w-full max-w-tablet flex-col gap-5 md:max-w-tablet md:flex-row md:justify-between md:gap-x-7.5 lg:max-w-page">
+      <div class="order-2 grid grid-cols-1 items-start gap-y-6.25 md:order-1 md:w-119.25 md:shrink-0 md:grid-cols-2 md:gap-x-5 md:gap-y-7.5 lg:w-172.5 lg:gap-x-7.5">
+        {people.map((m) => (
+          <TeamCard
+            member={m}
+            textClass="text-[16px]/[24px] md:text-body"
+            sizes="(min-width: 1025px) 330px, (min-width: 768px) 229px, 350px"
+            widths={[229, 350, 458, 660, 700]}
+          />
+        ))}
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- Tablet und Handy -->
-<section
-  data-section="1eb1fb2"
-  class="mt-[10vh] mb-[10vh] flex flex-col px-5 md:mt-0 md:mb-15 lg:hidden"
->
-  <div class="mx-auto flex w-full max-w-tablet flex-col justify-between gap-y-6.25 md:flex-row md:gap-x-7.5">
-    <div
-      class="flex flex-col gap-3.75 md:order-2 md:mt-5 md:w-119.25 md:shrink-0"
-      data-timeline-root
-    >
-      <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
-        {haltung.eyebrow}
-      </h6>
-      <h1 class="font-display text-[38px]/[41.8px] font-medium text-ink">{haltung.heading}</h1>
-      <div class="text-[17px]/[25.5px] [&>p]:mb-3.75 [&>p]:text-15">
-        {haltung.html.map((block) =>
-          typeof block === 'string' ? (
-            <p set:html={block} />
-          ) : (
-            <ul class="my-4.25 list-disc pl-[28.9px]">
-              {block.list.map((li) => (
-                <li class="pl-[6.375px]">
-                  <p class="mb-3.75 text-15">{li}</p>
-                </li>
-              ))}
-            </ul>
-          ),
-        )}
-      </div>
-      <div>
-        <a
-          href="#geschichte"
-          data-timeline-toggle
-          aria-expanded="false"
-          aria-controls="geschichte"
-          class="group/tg inline-block border-b border-gold py-3 font-display text-[14px]/[21px] font-semibold tracking-button text-ink uppercase transition-colors duration-300"
-        >
-          {haltung.toggle}
-          <span class="ml-2 inline-block transition-transform duration-300 group-aria-expanded/tg:rotate-90">
-            ▶
-          </span>
-        </a>
-        <div
-          id="geschichte"
-          data-timeline-panel
-          class="max-h-0 overflow-hidden transition-[max-height,margin] duration-500 ease-in-out"
-        >
-          <Timeline items={timeline} />
+      <div class="order-1 mb-1.25 flex flex-col gap-3.75 md:order-2 md:mb-0 md:w-119.25 md:shrink-0 lg:w-141.5 lg:gap-5 lg:pr-[8%]">
+        <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+          {ex.eyebrow}
+        </h6>
+        <h2 class="font-display text-[23px]/[27.6px] font-medium text-ink md:text-[29px]/[39.15px] lg:mb-5 lg:text-h2">
+          {ex.heading}
+        </h2>
+        <div class="-mb-4.25 text-[17px]/[25.5px] lg:-mb-[25.5px] [&>p]:mb-4.25 lg:[&>p]:mb-[25.5px]">
+          {ex.html.map((html) => (
+            <p set:html={html} />
+          ))}
+        </div>
+        <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+          {ex.teamEyebrow}
+        </h6>
+        <h5 class="font-display text-[18px]/[23.4px] font-medium text-ink lg:text-[20px]/[26px]">
+          {ex.milestones}
+        </h5>
+        <h2 class="font-display text-[23px]/[27.6px] font-medium text-ink md:text-[29px]/[39.15px] lg:mb-5 lg:text-h2">
+          {ex.teamHeading}
+        </h2>
+        <div class="-mb-4.25 text-[17px]/[25.5px] lg:-mb-[25.5px] [&>p]:mb-4.25 lg:[&>p]:mb-[25.5px]">
+          {ex.teamHtml.map((html) => (
+            <p set:html={html} />
+          ))}
         </div>
       </div>
     </div>
-    <div class="grid auto-rows-fr grid-cols-2 content-start gap-x-5 gap-y-6.25 md:order-1 md:w-119.25 md:gap-y-7.5">
-      {all.map((m) => (
-        <TeamCard member={m} />
-      ))}
-    </div>
-  </div>
-</section>
+  </section>
+) : (
+  <>
+    <!-- Desktop: Team und Text -->
+    <section data-section="2257150" class="mt-45 mb-22.5 hidden flex-col px-7.5 lg:flex">
+      <div class="mx-auto flex w-full max-w-page justify-between gap-x-7.5">
+        <div class="grid w-172.5 shrink-0 auto-rows-fr grid-cols-2 content-start gap-7.5">
+          {team.map((m) => (
+            <TeamCard member={m} />
+          ))}
+        </div>
+        <div class="flex w-141.5 flex-col pr-[8%]">
+          <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+            {haltung.eyebrow}
+          </h6>
+          <h1 class="mt-5 mb-5 font-display text-[38px]/[41.8px] font-medium text-ink">
+            {haltung.heading}
+          </h1>
+          <div class="mt-4.75 text-[17px]/[25.5px] [&>p]:mb-para [&>p]:text-15">
+            {haltung.html.map((block) =>
+              typeof block === 'string' ? (
+                <p set:html={block} />
+              ) : (
+                <ul class="my-4.25 list-disc pl-[28.9px]">
+                  {block.list.map((li) => (
+                    <li class="pl-[6.375px]">
+                      <p class="mb-para text-15">{li}</p>
+                    </li>
+                  ))}
+                </ul>
+              ),
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tablet und Handy -->
+    <section
+      data-section="1eb1fb2"
+      class="mt-[10vh] mb-[10vh] flex flex-col px-5 md:mt-0 md:mb-15 lg:hidden"
+    >
+      <div class="mx-auto flex w-full max-w-tablet flex-col justify-between gap-y-6.25 md:flex-row md:gap-x-7.5">
+        <div
+          class="flex flex-col gap-3.75 md:order-2 md:mt-5 md:w-119.25 md:shrink-0"
+          data-timeline-root
+        >
+          <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+            {haltung.eyebrow}
+          </h6>
+          <h1 class="font-display text-[38px]/[41.8px] font-medium text-ink">{haltung.heading}</h1>
+          <div class="text-[17px]/[25.5px] [&>p]:mb-3.75 [&>p]:text-15">
+            {haltung.html.map((block) =>
+              typeof block === 'string' ? (
+                <p set:html={block} />
+              ) : (
+                <ul class="my-4.25 list-disc pl-[28.9px]">
+                  {block.list.map((li) => (
+                    <li class="pl-[6.375px]">
+                      <p class="mb-3.75 text-15">{li}</p>
+                    </li>
+                  ))}
+                </ul>
+              ),
+            )}
+          </div>
+          <div>
+            <a
+              href="#geschichte"
+              data-timeline-toggle
+              aria-expanded="false"
+              aria-controls="geschichte"
+              class="group/tg inline-block border-b border-gold py-3 font-display text-[14px]/[21px] font-semibold tracking-button text-ink uppercase transition-colors duration-300"
+            >
+              {haltung.toggle}
+              <span class="ml-2 inline-block transition-transform duration-300 group-aria-expanded/tg:rotate-90">
+                ▶
+              </span>
+            </a>
+            <div
+              id="geschichte"
+              data-timeline-panel
+              class="max-h-0 overflow-hidden transition-[max-height,margin] duration-500 ease-in-out"
+            >
+              <Timeline items={timeline} />
+            </div>
+          </div>
+        </div>
+        <div class="grid auto-rows-fr grid-cols-2 content-start gap-x-5 gap-y-6.25 md:order-1 md:w-119.25 md:gap-y-7.5">
+          {all.map((m) => (
+            <TeamCard member={m} />
+          ))}
+        </div>
+      </div>
+    </section>
+  </>
+)}
 
 <script>
   document.querySelectorAll<HTMLElement>('[data-timeline-toggle]').forEach((link) => {

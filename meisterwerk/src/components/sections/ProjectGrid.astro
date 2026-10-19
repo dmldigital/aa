@@ -6,18 +6,21 @@ interface Props {
   id?: string;
   projects: { title: string; href: string; img: ImageMetadata; alt: string }[];
   rootClass?: string;
+  /** Größe des Plus-Symbols der Karten (Exklusive: kleiner). */
+  iconClass?: string;
 }
 const {
   id = '6dc4e82',
   projects,
   rootClass = 'mt-19.5 md:mt-[12vh] md:mb-[8vh] lg:mb-18',
+  iconClass,
 } = Astro.props;
 ---
 
 <section data-section={id} class:list={['flex flex-col px-5 lg:px-7.5', rootClass]}>
   <div class="mx-auto grid w-full max-w-page grid-cols-1 gap-x-5 gap-y-7.5 md:grid-cols-3 md:gap-y-15 lg:gap-x-7.5 lg:gap-y-27">
     {projects.map((p) => (
-      <ProjectCard project={p} reveal data-anim="fadeIn" />
+      <ProjectCard project={p} reveal {iconClass} data-anim="fadeIn" />
     ))}
   </div>
 </section>

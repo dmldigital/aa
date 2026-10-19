@@ -6,26 +6,49 @@ import { href, routes } from '../../data/links';
  * schiebt sich wie im Original per max-height und scaleY (0,3 s) auf.
  */
 import { Picture } from 'astro:assets';
-import { items } from '../../data/nav';
-import logo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
+import { items, exklusiveItems, type Site } from '../../data/nav';
+import mainLogo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
+import exklusiveLogo from '../../assets/img/logo_exklusive.png';
 
 interface Props {
   /** Pfad der aktuellen Seite, markiert den aktiven Menüpunkt (Original: Startseite). */
   current?: string;
+  /** Auftritt: Hauptseite oder Teil-Website „Meisterwerke Exklusive“ (eigenes Logo, Menü und Hover ohne Gold, auf Handy/Tablet ohne Untermenüs). */
+  site?: Site;
 }
-const { current = '/' } = Astro.props;
+const { current = '/', site = 'main' } = Astro.props;
+const exk = site === 'exklusive';
+const menu = exk ? exklusiveItems : items;
+const logo = exk ? exklusiveLogo : mainLogo;
+const logoAlt = exk
+  ? 'Meisterwerke Exklusive by Baldassarre Fortino'
+  : 'Meisterwerk Malermanufaktur by Baldasarre Fortino';
+const logoLabel = exk
+  ? 'Meisterwerke Exklusive, zur Startseite'
+  : 'Meisterwerk Malermanufaktur, zur Startseite';
+const logoHref = href(exk ? '/meisterwerk-exklusive/' : routes.home);
+// Hover-Farbe: Hauptseite Gold, Exklusiv Schwarz
+const hoverText = exk ? 'hover:text-black' : 'hover:text-gold';
 
 // Gemeinsame Schrift der Menüpunkte (Urbanist 14px/15,4px, 500, Laufweite 1px)
 const menuFont = 'font-display text-button font-medium tracking-[1px]';
 // Desktop: Hauptebene, Unterpunkte
-const topLink = `group/a relative flex grow items-center px-5 py-3.25 mx-3.75 whitespace-nowrap text-ink transition-all duration-[400ms] ease-css hover:text-gold group-hover/d1:text-gold aria-[current=page]:text-gold ${menuFont}`;
-const subLink = `flex items-center px-7.5 py-3.75 text-[14px]/[20px] whitespace-nowrap text-black transition-all duration-[400ms] ease-css hover:bg-soft hover:text-gold font-display font-medium tracking-[1px]`;
+const topLink = `group/a relative flex grow items-center px-5 py-3.25 mx-3.75 whitespace-nowrap text-ink transition-all duration-[400ms] ease-css ${exk ? 'hover:text-black group-hover/d1:text-black' : 'hover:text-gold group-hover/d1:text-gold aria-[current=page]:text-gold'} ${menuFont}`;
+const subLink = `flex items-center px-7.5 py-3.75 text-[14px]/[20px] whitespace-nowrap text-black transition-all duration-[400ms] ease-css hover:bg-soft ${hoverText} font-display font-medium tracking-[1px]`;
 // Unterstrich der Hauptebene (Original: Hintergrundverlauf, 0,5 s, zieht sich nach rechts zurück)
-const navText = `inline pb-0.75 bg-[linear-gradient(#A59371,#A59371)] bg-no-repeat bg-[length:0%_1px] bg-[position:0_100%] [transition:background-size_.5s,background-position_0s_.5s] any-pointer-fine:group-hover/a:bg-[length:100%_1px] any-pointer-fine:group-hover/a:bg-[position:100%_100%]`;
+const navText = exk
+  ? 'inline'
+  : `inline pb-0.75 bg-[linear-gradient(#A59371,#A59371)] bg-no-repeat bg-[length:0%_1px] bg-[position:0_100%] [transition:background-size_.5s,background-position_0s_.5s] any-pointer-fine:group-hover/a:bg-[length:100%_1px] any-pointer-fine:group-hover/a:bg-[position:100%_100%]`;
 // Handy/Tablet-Menü
-const mLink = `flex items-center px-5 py-3.75 text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold aria-[current=page]:bg-soft aria-[current=page]:text-gold ${menuFont}`;
+const mLink = exk
+  ? 'flex items-center px-5 py-3.75 text-black transition-all duration-300 ease-css hover:bg-soft aria-[current=page]:bg-soft font-display text-[14px]/[20px] font-medium tracking-[1px]'
+  : `flex items-center px-5 py-3.75 text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold aria-[current=page]:bg-soft aria-[current=page]:text-gold ${menuFont}`;
 const mSubLink =
   'flex items-center px-5 py-3.75 text-[14px]/[20px] font-display font-medium tracking-[1px] text-black transition-all duration-300 ease-css hover:bg-soft hover:text-gold';
+// Handy/Tablet: Aufklappmenü (Exklusiv: höher angesetzt, mit Trennlinie oben)
+const panelPos = exk
+  ? 'top-[54px] border-t border-black/20 group-data-[open]/m:max-h-[calc(100vh-54px)] md:group-data-[open]/m:max-h-[calc(100vh-54px)]'
+  : 'top-[62.3px] group-data-[open]/m:max-h-[calc(100vh-62.3px)] md:top-[53.5px] md:group-data-[open]/m:max-h-[calc(100vh-53.5px)]';
 ---
 
 <!-- Desktop (ab 1025 px) -->
@@ -35,20 +58,16 @@ const mSubLink =
 >
   <div class="w-47.5 shrink-0 grow">
     <div class="py-2.5">
-      <a
-        href={href(routes.home)}
-        class="block w-fit max-w-full"
-        aria-label="Meisterwerk Malermanufaktur, zur Startseite"
-      >
+      <a href={logoHref} class="block w-fit max-w-full" aria-label={logoLabel}>
         <Picture
           formats={['avif']}
           fallbackFormat="webp"
           src={logo}
-          alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
-          widths={[244, 488]}
-          sizes="244px"
+          alt={logoAlt}
+          widths={exk ? [192, 384] : [244, 488]}
+          sizes={exk ? '192px' : '244px'}
           loading="eager"
-          class="h-18.75 w-full"
+          class={exk ? 'h-18.75 w-auto' : 'h-18.75 w-full'}
         />
       </a>
     </div>
@@ -56,7 +75,7 @@ const mSubLink =
   <div class="flex w-[80%] items-center justify-end">
     <nav aria-label="Hauptmenü" class="mr-6.25">
       <ul class="flex flex-wrap leading-normal">
-        {items.map((item) => (
+        {menu.map((item) => (
           <li class="group/d1 relative flex [&:first-child>a]:ml-0 [&:last-child>a]:mr-0">
             <a
               href={href(item.href)}
@@ -74,7 +93,7 @@ const mSubLink =
                     <li class="group/d2 relative">
                       <a
                         href={href(sub.href)}
-                        class={`${subLink} group-hover/d2:bg-soft group-hover/d2:text-gold`}
+                        class={`${subLink} group-hover/d2:bg-soft ${exk ? 'group-hover/d2:text-black' : 'group-hover/d2:text-gold'}`}
                       >
                         {sub.label}
                       </a>
@@ -109,23 +128,21 @@ const mSubLink =
   data-mobile-header
   class="group/m sticky top-0 z-[99] bg-white md:px-5 lg:hidden"
 >
-  <div class="mx-auto flex h-[65.09px] w-full max-w-[min(100%,1024px)] flex-wrap items-center shadow-[0_0_4px_0_rgb(0_0_0/0.7)] md:h-auto md:min-h-12.5 md:flex-nowrap md:shadow-none">
+  <div
+    class={`mx-auto flex ${exk ? 'h-auto' : 'h-[65.09px]'} w-full max-w-[min(100%,1024px)] flex-wrap items-center shadow-[0_0_4px_0_rgb(0_0_0/0.7)] md:h-auto md:min-h-12.5 md:flex-nowrap md:shadow-none`}
+  >
     <div class="h-full w-[65%] overflow-hidden md:h-auto md:w-[20%]">
-      <div class="pt-[3%] pb-[2%] pl-[5%] md:p-0">
-        <a
-          href={href(routes.home)}
-          class="block w-fit max-w-full"
-          aria-label="Meisterwerk Malermanufaktur, zur Startseite"
-        >
+      <div class={`pt-[3%] pb-[2%] ${exk ? '' : 'pl-[5%]'} md:p-0`}>
+        <a href={logoHref} class="block w-fit max-w-full" aria-label={logoLabel}>
           <Picture
             formats={['avif']}
             fallbackFormat="webp"
             src={logo}
-            alt="Meisterwerk Malermanufaktur by Baldasarre Fortino"
-            widths={[104, 182, 208, 364]}
-            sizes="(min-width: 768px) 104px, 182px"
+            alt={logoAlt}
+            widths={exk ? [82, 143, 164, 286] : [104, 182, 208, 364]}
+            sizes={exk ? '(min-width: 768px) 82px, 143px' : '(min-width: 768px) 104px, 182px'}
             loading="eager"
-            class="h-14 w-full max-w-full md:h-8 md:max-w-[195px]"
+            class={`h-14 max-w-full md:h-8 md:max-w-[195px] ${exk ? 'w-auto' : 'w-full'}`}
           />
         </a>
       </div>
@@ -168,18 +185,18 @@ const mSubLink =
       aria-label="Hauptmenü"
       data-menu-panel
       inert
-      class="invisible absolute inset-x-0 top-[62.3px] z-[9997] max-h-0 origin-top scale-y-0 overflow-hidden bg-white text-13 shadow-[0_10px_20px_0_rgb(0_0_0/0.05)] transition-[max-height,transform,visibility] duration-300 ease-css group-data-[open]/m:visible group-data-[open]/m:max-h-[calc(100vh-62.3px)] group-data-[open]/m:scale-y-100 group-data-[open]/m:overflow-y-auto md:top-[53.5px] md:group-data-[open]/m:max-h-[calc(100vh-53.5px)]"
+      class={`invisible absolute inset-x-0 z-[9997] max-h-0 origin-top scale-y-0 overflow-hidden bg-white text-13 shadow-[0_10px_20px_0_rgb(0_0_0/0.05)] transition-[max-height,transform,visibility] duration-300 ease-css group-data-[open]/m:visible group-data-[open]/m:scale-y-100 group-data-[open]/m:overflow-y-auto ${panelPos}`}
     >
       <ul class="relative z-[2] leading-normal">
-        {items.map((item) => (
+        {menu.map((item) => (
           <li class="group/l1">
             <a
               href={href(item.href)}
               aria-current={current === item.href ? 'page' : undefined}
-              class={`${mLink} group-data-[open]/l1:bg-soft group-data-[open]/l1:text-gold`}
+              class={`${mLink} ${exk ? '' : 'group-data-[open]/l1:bg-soft group-data-[open]/l1:text-gold'}`}
             >
               <span>{item.label}</span>
-              {item.children && (
+              {item.children && !exk && (
                 <span
                   role="button"
                   tabindex="0"
@@ -199,7 +216,7 @@ const mSubLink =
                 </span>
               )}
             </a>
-            {item.children && (
+            {item.children && !exk && (
               <div class="invisible grid grid-rows-[0fr] transition-[grid-template-rows,visibility] duration-[250ms] group-data-[open]/l1:visible group-data-[open]/l1:grid-rows-[1fr]">
                 <ul class="overflow-hidden">
                   {item.children.map((sub) => (

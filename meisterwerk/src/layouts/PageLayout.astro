@@ -2,21 +2,24 @@
 import Layout from './Layout.astro';
 import Header from '../components/sections/Header.astro';
 import Footer from '../components/sections/Footer.astro';
+import type { Site } from '../data/nav';
 
 interface Props {
   title: string;
   description?: string;
   /** Pfad der Seite (wie auf der alten Seite, z. B. /services/malerarbeiten/), markiert den Menüpunkt. */
   current?: string;
+  /** Auftritt: Hauptseite (Standard) oder Teil-Website „Meisterwerke Exklusive“ mit eigenem Kopf und Fuß. */
+  site?: Site;
 }
 
-const { title, description, current = '/' } = Astro.props;
+const { title, description, current = '/', site = 'main' } = Astro.props;
 ---
 
 <Layout {title} {description}>
-  <Header {current} />
+  <Header {current} {site} />
   <main>
     <slot />
   </main>
-  <Footer />
+  <Footer {site} />
 </Layout>

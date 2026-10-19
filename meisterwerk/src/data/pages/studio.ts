@@ -4,6 +4,7 @@ import lorenzo from '../../assets/img/Fliesenleger-Vorarbeiter-Lorenzo-Fortino--
 import fabio from '../../assets/img/Maler-u.-Lackierer-Gesele-Fabio-Fortino-scaled-e1753863865243.jpg';
 import stefano from '../../assets/img/Maler-u.-Lackierer-Azubi-Stefano-Pulia-scaled.jpg';
 import samet from '../../assets/img/platzhalter.jpg';
+import baldassarreExklusive from '../../assets/img/Maler-u.-Lackierer-Meister-Baldassarre-Fortino-scaled.jpg';
 import vincenzo from '../../assets/img/Papa-Vincenzo-Fortino-e1753863670297.png';
 
 export const meta = {
@@ -111,4 +112,34 @@ export const haltung = {
     'Wir arbeiten leise, sauber und zuverlässig. Jedes Projekt ist ein Unikat mit Charakter.',
   ] as (string | { list: string[] })[],
   toggle: 'Unsere Geschichte',
+};
+
+// Teil-Website Exklusive (/meisterwerk-exklusive/studio/): gleiche Personen, Profile unter /meisterwerk-exklusive/<name>/,
+// Baldassarre mit anderem Foto, eigene Texte
+export const exklusiveMeta = { title: 'Studio - Meisterwerke Exklusive' };
+
+const exklusiveHref = (href: string) => `/meisterwerk-exklusive${href}`;
+export const exklusiveTeam: Member[] = team.map((m, i) => ({
+  ...m,
+  href: exklusiveHref(m.href),
+  img: i === 0 ? baldassarreExklusive : m.img,
+}));
+export const exklusiveFounder: Member = { ...founder, href: exklusiveHref(founder.href) };
+
+export const exklusiveHaltung = {
+  eyebrow: 'MEISTERWERK EXKLUSIVE – Oberflächen mit Seele.',
+  heading: 'Unsere Haltung: Reduktion ist Luxus.',
+  html: [
+    'Willkommen bei <strong>MEISTERWERK EXKLUSIVE</strong> – der Manufaktur für außergewöhnliche Raumgestaltung.<br />Wir gestalten Oberflächen nicht nur für Räume, sondern für Menschen mit Stil, Anspruch und einem Gefühl für das Besondere.',
+    '<strong>Bei Meisterwerk Exklusive setzen wir auf echte Handwerkskunst – deshalb arbeiten bei uns ausschließlich erfahrene Fachkräfte mit Top-Ausbildung. Keine Hilfskräfte, keine Kompromisse – nur Experten, die ihr Handwerk verstehen.</strong>',
+    '<strong>MEISTERWERK EXKLUSIVE steht für puristische Raumästhetik.</strong><br />Material, Oberfläche und Struktur sprechen für sich – reduziert auf das Wesentliche.',
+    'Wir arbeiten mit edlen Spachtelmassen, fugenlosen Systemen und ehrlichen Materialien – für Räume mit Charakter.',
+  ],
+  teamEyebrow: 'Unser Team',
+  milestones: 'Unsere Meilensteine – Der Weg von MEISTERWERK EXKLUSIVE',
+  teamHeading: 'Das Team hinter MEISTERWERKE EXKLUSIVE',
+  teamHtml: [
+    'Hinter jedem Projekt steht nicht nur Technik, sondern echte Leidenschaft: Unser Team besteht aus erfahrenen Handwerkern,<br />Oberflächenspezialisten und Gestaltern mit Gespür für Material, Raumwirkung und Ästhetik.',
+    'Wir arbeiten präzise, leise, sauber – und mit dem Anspruch, jede Fläche zum Unikat zu machen. Jeder im Team bringt seine<br />eigene Expertise ein, doch uns verbindet ein gemeinsames Ziel: Räume zu schaffen, die wirken.',
+  ],
 };

@@ -10,12 +10,17 @@ import type { Profile } from '../../data/pages/profiles';
 interface Props {
   id?: string;
   profile: Profile;
+  /** Exklusiv-Site: am Handy 16/24 statt 15/24 und größerer Name (so im Original). */
+  exklusive?: boolean;
 }
-const { id = '3a18279d', profile } = Astro.props;
+const { id = '3a18279d', profile, exklusive = false } = Astro.props;
 
 const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
-const richText =
-  '[&_p]:mb-3.75 lg:[&_p]:mb-para [&_p:last-child]:mb-0 [&_strong]:font-bold [&_em]:italic';
+const richText = [
+  exklusive ? '[&_p]:mb-4 md:[&_p]:mb-3.75' : '[&_p]:mb-3.75',
+  'lg:[&_p]:mb-para [&_p:last-child]:mb-0 [&_strong]:font-bold [&_em]:italic',
+].join(' ');
+const bodySize = exklusive ? 'text-[16px]/6' : 'text-[15px]/6';
 ---
 
 <section data-section={id} class="overflow-hidden bg-soft">
@@ -26,7 +31,8 @@ const richText =
         <h6 class={eyebrow}>{profile.tagline}</h6>
         <h2
           class:list={[
-            'font-display text-[23px]/[25.3px] font-medium text-ink md:text-[34px]/[37.4px] lg:text-h1',
+            exklusive ? 'text-[26px]/[28.6px]' : 'text-[23px]/[25.3px]',
+            'font-display font-medium text-ink md:text-[34px]/[37.4px] lg:text-h1',
             profile.subtitle ? 'lg:-mb-6.25' : 'lg:mb-5',
           ]}
         >
@@ -37,7 +43,7 @@ const richText =
             {profile.subtitle}
           </h6>
         )}
-        <div class:list={[richText, 'text-[15px]/6 md:text-body']} set:html={profile.intro} />
+        <div class:list={[richText, bodySize, 'md:text-body']} set:html={profile.intro} />
       </div>
     </div>
 
@@ -52,14 +58,14 @@ const richText =
           widths={[322, 461, 960]}
           sizes="(min-width: 1025px) 480px, (min-width: 768px) 461px, 322px"
           loading="lazy"
-          class="block size-full object-cover"
+          class:list={['block object-cover', exklusive ? 'h-full w-auto' : 'size-full']}
         />
       </div>
     </div>
 
     <!-- Rechts: Motto, am Handy Werdegang -->
     <div class="flex flex-col gap-5 md:w-[calc((100%-30px)/2)] md:grow lg:w-[25.35%] lg:grow-0 lg:pt-29.25">
-      <div class:list={[richText, 'text-[15px]/6 md:text-body']} set:html={profile.motto} />
+      <div class:list={[richText, bodySize, 'md:text-body']} set:html={profile.motto} />
       {profile.timeline && !profile.werdegangList && (
         <div class="flex flex-col gap-3.75 md:hidden">
           <h5
@@ -99,14 +105,17 @@ const richText =
         </div>
       )}
       {profile.werdegangList && (
-        <div class="flex flex-col gap-3.75 lg:mb-12.5 lg:gap-5">
+        <div class="flex flex-col gap-3.75 md:mt-[15px] md:gap-5 lg:mt-[22.5px] mb-[16px] md:mb-[15px] lg:mb-[49.5px]">
           <h5 class="font-display text-[18px]/[23.4px] font-medium text-ink lg:text-h5">
             {profile.werdegangList.heading}
           </h5>
           <ul>
             {profile.werdegangList.items.map((item) => (
-              <li class="flex items-start pb-0.75 not-first:mt-0.75">
-                <span class="relative top-1 flex h-3.5 w-4.5 shrink-0 items-center" aria-hidden="true">
+              <li class="flex items-start pb-[2.5px] not-first:mt-[2.5px] last:pb-0">
+                <span
+                  class="relative top-1 flex h-3.5 w-4.5 shrink-0 items-center"
+                  aria-hidden="true"
+                >
                   <span class="h-px w-2.5 bg-ink"></span>
                 </span>
                 <span class="self-center pl-1.25">

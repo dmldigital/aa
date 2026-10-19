@@ -1,0 +1,9 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import StudioTeam from '../../../components/sections/StudioTeam.astro';
+import { exklusiveMeta } from '../../../data/pages/studio';
+---
+
+<PageLayout site="exklusive" title={exklusiveMeta.title} current="/meisterwerk-exklusive/studio/">
+  <StudioTeam exklusive />
+</PageLayout>

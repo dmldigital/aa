@@ -1,0 +1,81 @@
+---
+/**
+ * Seiten der Teil-Website /meisterwerk-exklusive/, die nicht zu `[slug].astro` (Leistungsseiten) gehören:
+ * die sechs Mitarbeiterprofile (Daten wie die Hauptprofile, `exklusiveProfiles`) und die zwei Kollektionsseiten
+ * (`kollektionen.ts`). Die Catch-all-Route gilt nur, wo `[slug].astro` keinen Treffer hat, die Adressen
+ * überschneiden sich nicht.
+ */
+import PageLayout from '../../layouts/PageLayout.astro';
+import ProfileHero from '../../components/sections/ProfileHero.astro';
+import ProfileTimeline from '../../components/sections/ProfileTimeline.astro';
+import ProfileBio from '../../components/sections/ProfileBio.astro';
+import Collection from '../../components/sections/Collection.astro';
+import { exklusiveProfiles } from '../../data/pages/profiles';
+import { kollektionenSeiten } from '../../data/pages/kollektionen';
+
+export function getStaticPaths() {
+  return [
+    ...exklusiveProfiles.map((profile) => ({
+      params: { seite: profile.slug },
+      props: { profile },
+    })),
+    ...kollektionenSeiten.map((kollektionen) => ({
+      params: { seite: kollektionen.slug },
+      props: { kollektionen },
+    })),
+  ];
+}
+
+const { profile, kollektionen } = Astro.props;
+// Elementor-Kennungen der Steckbrief-Sektionen im Original
+const bioIds: Record<string, string> = {
+  'baldassarre-fortino': '3a18279d',
+  'fabio-fortino': '76976f7a',
+  'lorenzo-fortino': '14d6e0c0',
+  'samet-erenuglu': 'e579377',
+  'stefano-pulia': '644bd090',
+  'vincenzo-fortino': '4cc74a75',
+};
+const path = `/meisterwerk-exklusive/${(profile ?? kollektionen).slug}/`;
+---
+
+<PageLayout title={(profile ?? kollektionen).title} current={path} site="exklusive">
+  {profile && (
+    <>
+      <ProfileHero name={profile.name} photo={profile.photo} />
+      {profile.timeline && (
+        <ProfileTimeline
+          id="0411fde"
+          heading={profile.timeline.heading}
+          items={profile.timeline.items}
+        />
+      )}
+      <ProfileBio id={bioIds[profile.slug]} {profile} exklusive />
+    </>
+  )}
+  {kollektionen && (
+    <>
+      <section
+        data-section={kollektionen.headlineId}
+        class="pl-11.25 md:mb-6.25 lg:mt-27 mb-5 lg:mb-0"
+      >
+        <h1 class="font-display text-[26px]/[28.6px] font-medium text-ink md:w-1/2 md:text-[34px]/[37.4px] lg:w-[534px] lg:text-h1">
+          {kollektionen.headline}
+        </h1>
+      </section>
+      {kollektionen.collections.map((collection, i) => (
+        <Collection
+          {collection}
+          columns={kollektionen.columns}
+          bottomClass={
+            i === kollektionen.collections.length - 1
+              ? kollektionen.columns === 3
+                ? 'mb-9'
+                : 'mb-13.5'
+              : ''
+          }
+        />
+      ))}
+    </>
+  )}
+</PageLayout>

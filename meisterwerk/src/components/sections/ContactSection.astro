@@ -22,7 +22,10 @@ const source = images[`../../assets/img/${page.background}`].default;
 const bg = await getImage({ src: source, width: 1600, format: 'webp', quality: 75 });
 
 const quick = page.form === 'quick';
-const heading = quick
+// Exklusive: Überschrift wie beim Schnellkontakt, Formularkopf wie bei der Projektanfrage
+const exk = page.form === 'exklusive';
+const quickHeading = quick || page.form === 'exklusive';
+const heading = quickHeading
   ? 'text-[28px]/[30.8px] md:text-[50px]/[55px]'
   : 'text-[23px]/[25.3px] md:text-[50px]/[55px] lg:text-[40px]/[44px]';
 const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
@@ -38,7 +41,12 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
       <div class="w-full text-[17px]/[25.5px] md:w-auto lg:w-95">
         <div class="-mb-[25.5px]">
           {page.intro.map((lines) => (
-            <p class="mb-3.75 text-[15px]/[25.5px] lg:mb-para">
+            <p
+              class:list={[
+                exk ? 'mb-4.25 lg:mb-[25.5px]' : 'mb-3.75 lg:mb-para',
+                exk ? 'text-[17px]/[25.5px]' : 'text-[15px]/[25.5px]',
+              ]}
+            >
               {lines.map((line, i) => (
                 <>
                   {i > 0 && <br />}
@@ -56,7 +64,12 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
           <a href={`mailto:${site.email}`} class={contactLink}>
             <span class="flex justify-center gap-2.5">
               <span class="flex w-4.5 items-center">
-                <svg class="size-4.25" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true">
+                <svg
+                  class:list={['size-4.25', exk && 'text-white']}
+                  viewBox="0 0 512 512"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
                   <path d="M176 216h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16c0 8.84 7.16 16 16 16zm-16 80c0 8.84 7.16 16 16 16h160c8.84 0 16-7.16 16-16v-16c0-8.84-7.16-16-16-16H176c-8.84 0-16 7.16-16 16v16zm96 121.13c-16.42 0-32.84-5.06-46.86-15.19L0 250.86V464c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V250.86L302.86 401.94c-14.02 10.12-30.44 15.19-46.86 15.19zm237.61-254.18c-8.85-6.94-17.24-13.47-29.61-22.81V96c0-26.51-21.49-48-48-48h-77.55c-3.04-2.2-5.87-4.26-9.04-6.56C312.6 29.17 279.2-.35 256 0c-23.2-.35-56.59 29.17-73.41 41.44-3.17 2.3-6 4.36-9.04 6.56H96c-26.51 0-48 21.49-48 48v44.14c-12.37 9.33-20.76 15.87-29.61 22.81A47.995 47.995 0 0 0 0 200.72v10.65l96 69.35V96h320v184.72l96-69.35v-10.65c0-14.74-6.78-28.67-18.39-37.77z" />
                 </svg>
               </span>
@@ -68,7 +81,12 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
           <a href={`tel:${site.phoneHref}`} class={contactLink}>
             <span class="flex justify-center gap-2.5">
               <span class="flex w-4.5 items-center">
-                <svg class="size-4.25" viewBox="0 0 512 512" fill="currentColor" aria-hidden="true">
+                <svg
+                  class:list={['size-4.25', exk && 'text-white']}
+                  viewBox="0 0 512 512"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
                   <path d="M493.4 24.6l-104-24c-11.3-2.6-22.9 3.3-27.5 13.9l-48 112c-4.2 9.8-1.4 21.3 6.9 28l60.6 49.6c-36 76.7-98.9 140.5-177.2 177.2l-49.6-60.6c-6.8-8.3-18.2-11.1-28-6.9l-112 48C3.9 366.5-2 378.1.6 389.4l24 104C27.1 504.2 36.7 512 48 512c256.1 0 464-207.5 464-464 0-11.2-7.7-20.9-18.6-23.4z" />
                 </svg>
               </span>
@@ -80,12 +98,28 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
         <h6 class={eyebrow}>Studio di Stile / Showroom</h6>
         <div class="w-57.5 max-w-full text-[17px]/[25.5px] text-ink">
           <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer nofollow">
-            Meisterwerk <br /> Baldassarre Fortino
-            <br /> Inhaber / Malermeister
-            <br />
-            <br /> {site.street}
-            <br />
-            {`${site.postalCode} ${site.city}`}
+            {(exk
+              ? [
+                  'Meisterwerk',
+                  'Inh. Baldassarre Fortino',
+                  '',
+                  site.street,
+                  `${site.postalCode} ${site.city}`,
+                ]
+              : [
+                  'Meisterwerk',
+                  'Baldassarre Fortino',
+                  'Inhaber / Malermeister',
+                  '',
+                  site.street,
+                  `${site.postalCode} ${site.city}`,
+                ]
+            ).map((line, i) => (
+              <>
+                {i > 0 && <br />}
+                {line}
+              </>
+            ))}
           </a>
         </div>
         <div class="flex">
@@ -99,11 +133,21 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
       class="flex flex-col self-stretch bg-cover bg-center md:w-[calc((100%-30px)*0.7)]"
       style={`background-image:url(${bg.src})`}
     >
-      <div class="flex min-h-10 border-b border-line md:min-h-15 md:px-[10%] lg:min-h-22.5">
+      <div
+        class:list={[
+          'flex min-h-10 border-b border-line md:min-h-15 md:px-[10%] lg:min-h-22.5',
+          exk && 'px-[10%]',
+        ]}
+      >
         <div class="flex-1 border-x border-line px-5 lg:px-7.5"></div>
       </div>
-      <div class="flex min-h-160 border-b border-line md:px-[10%]">
-        <div class="flex flex-1 flex-col items-center justify-center gap-5 border-x border-line px-1.5 py-7.5 md:px-5 lg:p-10">
+      <div class:list={['flex min-h-160 border-b border-line md:px-[10%]', exk && 'px-[10%]']}>
+        <div
+          class:list={[
+            'flex min-w-0 flex-1 flex-col items-center justify-center gap-5 border-x border-line py-7.5 md:px-5 lg:p-10',
+            exk ? 'px-5' : 'px-1.5',
+          ]}
+        >
           <div
             class="flex w-full flex-col gap-3.75 lg:gap-5"
             class:list={[!quick && 'pb-3.75 lg:pb-4.75']}
@@ -119,8 +163,8 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
                 >
                   {page.formIntro.heading}
                 </h2>
-                <div class={`text-15 text-white ${shadow}`}>
-                  <p class="mb-3.75 lg:mb-para">{page.formIntro.text}</p>
+                <div class={`${exk ? '' : 'text-15'} text-white ${shadow}`}>
+                  <p class:list={[!exk && 'mb-3.75 lg:mb-para']}>{page.formIntro.text}</p>
                 </div>
               </>
             )}

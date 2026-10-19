@@ -15,12 +15,15 @@ interface Props extends astroHTML.JSX.AnchorHTMLAttributes {
   /** Reveal-Wrapper ohne Ausgangs-Clip (Karussell: Karten stehen sofort sichtbar). */
   instant?: boolean;
   lazy?: boolean;
+  /** Größe des Plus-Symbols neben dem Titel (Standard 16 px). */
+  iconClass?: string;
 }
 const {
   project: p,
   reveal = false,
   instant = false,
   lazy = false,
+  iconClass = 'size-4',
   class: className,
   ...rest
 } = Astro.props;
@@ -64,7 +67,7 @@ const picture = {
       class="text-16 text-black transition-opacity duration-300 ease-in-out group-hover/card:opacity-100 [@media(hover:hover)]:opacity-0"
       aria-hidden="true"
     >
-      <Icon name="plus" class="block size-4 shrink-0" />
+      <Icon name="plus" class:list={['block shrink-0', iconClass]} />
     </span>
   </div>
 </a>

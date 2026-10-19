@@ -1,0 +1,13 @@
+---
+import PageLayout from '../../../layouts/PageLayout.astro';
+import ContactSection from '../../../components/sections/ContactSection.astro';
+import MapPlaceholder from '../../../components/sections/MapPlaceholder.astro';
+import { contactPages } from '../../../data/pages/contact';
+
+const page = contactPages.exklusive;
+---
+
+<PageLayout site="exklusive" title={page.title} current="/meisterwerk-exklusive/kontakt/">
+  <ContactSection {page} />
+  <MapPlaceholder />
+</PageLayout>
