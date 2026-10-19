@@ -1,6 +1,7 @@
 // Tab-Sektionen ("Meisterliche Malerarbeiten" und FAQ).
 // Meisterliche Malerarbeiten, Desktop (ab 1200 px Breite und 600 px Höhe, volle Bewegung): Die Sektion wird gepinnt.
-// Rechts blendet zuerst das Bild aus, dann blenden die Tabs nacheinander sanft ein und aus. Danach löst sich der Pin.
+// Rechts schließt sich zuerst das Bild wie ein Vorhang, dann steigen die Textbausteine der Tabs nacheinander aus der
+// Unschärfe auf und lösen sich beim nächsten Tab nach oben wieder auf. Danach löst sich der Pin.
 // Die Texte passen immer in 100vh: Schrift und Abstände werden bei Bedarf verkleinert.
 // FAQ (data-tb-accordion), Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt
 // direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere), auch über beide FAQ-Spalten.
@@ -173,22 +174,62 @@ function initTabs(sec) {
         },
       });
 
-      // Wechsel: Bild nach unten raus, Firmenskills von oben rein; Firmenskills nach links raus, Team von rechts rein;
-      // Team nach unten raus, Mehrwert von oben rein. Raus und rein laufen gleichzeitig.
-      const slides = [
-        { out: { yPercent: 100 }, from: { yPercent: -100 } },
-        { out: { xPercent: -100 }, from: { xPercent: 100 } },
-        { out: { yPercent: 100 }, from: { yPercent: -100 } },
-      ];
+      // Wechsel (Scroll-gesteuert, rückwärts genauso):
+      // 1. Bild -> erster Tab: Das Bild schließt sich wie ein Vorhang nach oben und zoomt dabei leicht auf,
+      //    gleichzeitig steigen die Textbausteine des ersten Tabs nacheinander aus der Unschärfe auf.
+      // 2. Tab -> Tab: Die Bausteine des alten Tabs lösen sich nacheinander nach oben in die Unschärfe auf,
+      //    kurz danach steigen die des neuen Tabs von unten scharf werdend herein. Die Flächen selbst bewegen sich nicht.
+      const blocksOf = (panel) =>
+        [...panel.querySelectorAll("p, h4, li, tr, figure, .tb-note")].filter(
+          (el) => !el.parentElement.closest("p, li, tr, figure")
+        );
+      const blocks = panels.map(blocksOf);
+      const mediaImg = media.querySelector("img");
+      const IN = { y: 0, autoAlpha: 1, filter: "blur(0px)" };
+      const FROM = { y: 46, autoAlpha: 0, filter: "blur(10px)" };
+
+      // Alle Bausteine starten unsichtbar (bei gestaffelten fromTo-Tweens rendert GSAP nur den ersten sofort)
+      gsap.set(blocks.flat(), FROM);
+
       plan.forEach((p, i) => {
-        const out = i === 0 ? media : panels[i - 1];
-        const move = slides[i] || slides[slides.length - 1];
-        tl.to(out, { ...move.out, duration: FADE, ease: "power2.inOut" }, p.start);
-        tl.fromTo(
-          panels[i],
-          { ...move.from },
-          { xPercent: 0, yPercent: 0, duration: FADE, ease: "power2.inOut" },
-          p.start
+        if (i === 0) {
+          tl.fromTo(
+            media,
+            { clipPath: "inset(0% 0% 0% 0%)" },
+            { clipPath: "inset(0% 0% 100% 0%)", duration: FADE * 0.75, ease: "power3.inOut" },
+            p.start
+          );
+          if (mediaImg) {
+            tl.fromTo(
+              mediaImg,
+              { scale: 1, yPercent: 0 },
+              { scale: 1.14, yPercent: -8, duration: FADE * 0.75, ease: "power2.in" },
+              p.start
+            );
+          }
+        } else {
+          tl.to(
+            blocks[i - 1],
+            {
+              y: -28,
+              autoAlpha: 0,
+              filter: "blur(8px)",
+              duration: FADE * 0.42,
+              ease: "power2.in",
+              stagger: { amount: FADE * 0.18 },
+            },
+            p.start
+          );
+        }
+        tl.to(
+          blocks[i],
+          {
+            ...IN,
+            duration: FADE * 0.5,
+            ease: "power3.out",
+            stagger: { amount: FADE * 0.32 },
+          },
+          p.start + FADE * (i === 0 ? 0.28 : 0.36)
         );
       });
 
