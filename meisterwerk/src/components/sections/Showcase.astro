@@ -4,12 +4,11 @@
  * auf dem Handy alles untereinander.
  */
 import { Picture } from 'astro:assets';
-import { img } from '../../lib/img';
-import type { ShowcaseColumn } from '../../data/pages/services';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   id?: string;
-  columns: ShowcaseColumn[];
+  columns: NonNullable<CollectionEntry<'leistungen'>['data']['showcase']>;
 }
 const { id = 'e9ec5aa', columns } = Astro.props;
 ---
@@ -24,12 +23,12 @@ const { id = 'e9ec5aa', columns } = Astro.props;
         ]}
         style={`--wd:${col.width[0]}%;--wt:${col.width[1]}%`}
       >
-        {col.images.map((file) => (
+        {col.images.map((image) => (
           <div class="overflow-hidden" data-anim="fadeIn">
             <Picture
               formats={['avif']}
               fallbackFormat="webp"
-              src={img(file)}
+              src={image}
               alt=""
               widths={[350, 640, 920, 1380]}
               sizes={`(min-width: 1025px) ${Math.round((1380 * col.width[0]) / 100)}px, (min-width: 768px) ${Math.round((984 * col.width[1]) / 100)}px, calc(100vw - 40px)`}

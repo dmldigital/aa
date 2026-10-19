@@ -4,12 +4,11 @@
  * Am Handy steht das Foto über dem Namen.
  */
 import { Picture } from 'astro:assets';
-import { img } from '../../lib/img';
 
 interface Props {
   id?: string;
   name: string;
-  photo: string;
+  photo: ImageMetadata;
 }
 const { id = '16ee660', name, photo } = Astro.props;
 ---
@@ -28,7 +27,7 @@ const { id = '16ee660', name, photo } = Astro.props;
       <Picture
         formats={['avif']}
         fallbackFormat="webp"
-        src={img(photo)}
+        src={photo}
         alt={name}
         widths={[350, 700, 1348]}
         sizes="(min-width: 1025px) 674px, (min-width: 768px) 477px, 350px"

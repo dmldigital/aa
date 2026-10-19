@@ -1,0 +1,75 @@
+{
+  "slug": "malerarbeiten",
+  "title": "Professionelle Malerarbeiten | Ludwigsburg & Stuttgart – Meisterwerk",
+  "description": "Exklusive Malerarbeiten für Ihr Zuhause. Wir bieten präzise Anstriche, Farbberatung & höchste Sauberkeit in Ludwigsburg & Stuttgart. Jetzt loslegen!",
+  "hero": {
+    "title": "Malerarbeiten – Farben, die Ihrem Zuhause Persönlichkeit verleihen!",
+    "text": "Ihre Vision, unser Handwerk - Professionelle Malerarbeiten sind mehr als ein neuer Anstrich – sie verwandeln Räume in lebendige und stilvolle Lebenswelten. Bei der Meisterwerk Maler Manufaktur setzen wir auf höchste Präzision, Qualität und Liebe zum Detail. Unser Ziel ist es, Ihre Räume durch frische Farben und perfekte Oberflächen zu einem echten Meisterwerk zu machen.",
+    "img": "../../assets/img/216-meisterwerk-20230120-Bearbeitet-1-scaled-e1758184263171.jpg",
+    "alt": "Professionelle Malerarbeiten in einem Wohnzimmer in Ludwigsburg – Meisterwerk."
+  },
+  "intro": {
+    "img": "../../assets/img/2025-meisterwerk-20230524-HDR-3-scaled.jpg",
+    "alt": "",
+    "label": "Die Vorteile auf einen Blick",
+    "title": "Vorteile professioneller Malerarbeiten",
+    "list": "<ul><li><p><strong>Perfekte Oberflächen</strong>: Glatte Wände, exakte Kanten, hochwertige Farben.</p></li><li><p><strong>Individuelle Gestaltung</strong>: Von klassisch bis modern – wir passen Farben und Techniken Ihren Wünschen an.</p></li><li><p><strong>Langlebigkeit</strong>: Unsere hochwertigen Materialien sorgen für dauerhafte Ergebnisse.</p></li><li><p><strong>Sauberes Arbeiten</strong>: Wir arbeiten professionell, termingerecht und achten auf Sauberkeit in Ihrem Zuhause.</p></li><li><p><strong>Farbberatung inklusive</strong>: Wir helfen Ihnen, die passenden Farben und Stimmungen für Ihre Räume zu finden.</p></li></ul>",
+    "blocks": [
+      {
+        "no": "01",
+        "title": "Materialien & Techniken",
+        "html": "<p>Wir verwenden ausschließlich <strong>hochwertige Farben, Lacke und Materialien</strong> renommierter Hersteller. Egal ob Innen- oder Außenanstrich, Spezialtechniken wie Lasuren, Wischtechniken oder Tapezierarbeiten – wir kombinieren <strong>Tradition und moderne Techniken</strong> für perfekte Ergebnisse.</p><h3 aria-hidden=\"true\">&nbsp;</h3>"
+      },
+      {
+        "no": "02",
+        "title": "Technische Vorteile & Innovationen",
+        "html": "<ul><li><p><strong>Präzises Arbeiten</strong>: Exakte Kanten, saubere Übergänge, professionelle Vorbereitung der Untergründe.</p></li><li><p><strong>Modernste Techniken</strong>: Spritz- und Rollverfahren, kreative Oberflächengestaltungen, langlebige Farben.</p></li><li><p><strong>Umweltfreundlich</strong>: Einsatz von schadstoffarmen und nachhaltigen Materialien.</p></li></ul>"
+      }
+    ]
+  },
+  "showcase": [
+    {
+      "width": [
+        14.762,
+        13.31
+      ],
+      "images": [
+        "../../assets/img/142-bf-20241206-Bearbeitet-1-scaled.jpg",
+        "../../assets/img/296-meisterwerk-20230120-scaled.jpg",
+        "../../assets/img/209-meisterwerk-20230120-1-scaled.jpg"
+      ]
+    },
+    {
+      "width": [
+        40.446,
+        41.36
+      ],
+      "images": [
+        "../../assets/img/2000-meisterwerk-20230524-Bearbeitet-3-scaled.jpg"
+      ]
+    },
+    {
+      "width": [
+        40.446,
+        41.36
+      ],
+      "images": [
+        "../../assets/img/2109-meisterwerk-20230524-Bearbeitet-2-scaled.jpg"
+      ]
+    }
+  ],
+  "pillars": [
+    {
+      "title": "Überlegene Handwerkskunst",
+      "html": "<p>Unser Team besteht ausschließlich aus <strong>erfahrenen Fachkräften</strong>, die ihr Handwerk verstehen und mit Leidenschaft arbeiten. Jeder Anstrich, jede Wand wird präzise und sorgfältig ausgeführt.</p><ul><li><p>Langjährige Erfahrung im Malerhandwerk</p></li><li><p>Hochwertige Materialien für beste Ergebnisse</p></li><li><p>Individuelle Beratung und Umsetzung nach Ihren Wünschen</p></li></ul>"
+    },
+    {
+      "title": "Hochwertige Materialien & Ausstattung",
+      "html": "<p>Wir setzen auf Farben und Materialien, die sowohl ästhetisch überzeugen als auch funktional langlebig sind. Ob Renovierung, Neuanstrich oder Gestaltung von Akzentwänden – wir liefern <strong>Meisterwerke für Ihr Zuhause</strong>.</p>"
+    },
+    {
+      "title": "Ihr Weg zu neuen Räumen",
+      "html": "<p>Von der <strong>Beratung über die Farbauswahl bis zur Umsetzung</strong> begleiten wir Sie Schritt für Schritt. Mit der <strong>Meisterwerk Maler Manufaktur</strong> erhalten Ihre Räume einen neuen Glanz – präzise, sauber und professionell ausgeführt.</p>"
+    }
+  ]
+}

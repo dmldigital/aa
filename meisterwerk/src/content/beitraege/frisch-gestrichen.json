@@ -1,0 +1,42 @@
+{
+  "year": "2025",
+  "month": "09",
+  "day": "18",
+  "slug": "frisch-gestrichen",
+  "title": "Frisch Gestrichen",
+  "image": "../../assets/img/2124-meisterwerk-20230524-Bearbeitet-1-scaled.jpg",
+  "services": [
+    "Malerarbeiten",
+    "Fugenloses Bad"
+  ],
+  "info": {
+    "year": "2021",
+    "place": "Ludwigsburg",
+    "duration": "7 Wochen",
+    "area": "320"
+  },
+  "sections": [
+    {
+      "heading": "Farbberatung und Auswahl",
+      "text": "Der Auftrag bestand darin, die Fassade eines Hauses neu zu streichen – modern im Erscheinungsbild, aber harmonisch zur Architektur passend. Nach einer eingehenden Beratung und dem Vergleich verschiedener Farbmuster haben wir gemeinsam mit den Kunden den idealen Farbton ausgewählt. Um die endgültige Entscheidung abzusichern, wurden mehrere Echtmuster direkt an die Fassade gestrichen. So konnten die Kunden den Farbton im realen Umfeld betrachten und sich einige Tage Zeit nehmen, bevor die gesamte Fassade in der gewählten Farbe ausgeführt wurde."
+    },
+    {
+      "heading": "Vorbereitung und Ausführung",
+      "text": "Im nächsten Schritt errichteten wir das Gerüst und reinigten die gesamte Fassade gründlich mit einem Dampfstrahlgerät. Fenster, Türen, Böden und Laufwege wurden sorgfältig abgeklebt und geschützt, um saubere Arbeitsbedingungen zu schaffen. Nach der Grundierung erhielt die Fassade zwei gleichmäßige Anstriche mit einer hochwertigen Silikatfarbe, die sich durch besondere Langlebigkeit und Farbstabilität auszeichnet."
+    },
+    {
+      "heading": "Langlebigkeit und Vorteile",
+      "text": "Das Besondere an dieser Silikatfarbe ist die Farbtongarantie von 20 Jahren – ein intensives Schwarz bleibt auch nach zwei Jahrzehnten tiefschwarz. Bei den meisten vergleichbaren Produkten liegt die Garantiezeit lediglich bei fünf Jahren. Zusätzlich verlängert die Farbe die Renovierungsintervalle: Anstatt die Fassade alle zehn Jahre neu zu streichen, kann ein Anstrichzyklus übersprungen werden. Das spart nicht nur Kosten und Zeit, sondern sorgt auch für ein dauerhaft ansprechendes Ergebnis."
+    }
+  ],
+  "gallery": [
+    "../../assets/img/2153-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2144-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2159-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2129-meisterwerk-20230524-scaled.jpg",
+    "../../assets/img/2124-meisterwerk-20230524-Bearbeitet-1-scaled.jpg",
+    "../../assets/img/2137-meisterwerk-20230524-Bearbeitet-scaled.jpg",
+    "../../assets/img/2109-meisterwerk-20230524-Bearbeitet-1-scaled.jpg"
+  ],
+  "largeText": true
+}

@@ -1,0 +1,66 @@
+{
+  "slug": "verputzen",
+  "title": "Professionelle Verputzarbeiten | Ludwigsburg & Stuttgart – Meisterwerk",
+  "description": "Perfekte Wände von Grund auf. Wir bieten hochwertige Innen- & Außenputze sowie dekorative Oberflächen in Ludwigsburg & Stuttgart. Fachgerecht & langlebig.",
+  "hero": {
+    "title": "Verputzarbeiten – Edle Strukturen für Ihre Wände und Decken!",
+    "text": "Maler und Stuckateure führen anspruchsvolle Arbeiten am und im Haus durch – dazu gehört vor allem das Verputzen. Dabei entstehen glatte und hochwertige Oberflächen an Wänden und Decken. Diese Arbeit erfordert viel Geschick, Erfahrung und ein tiefes Verständnis der Materialien. Bei der Meisterwerk Maler Manufaktur arbeiten wir immer sorgfältig, um ein perfektes Ergebnis zu erzielen. Es gibt viele Arten des Verputzens, zum Beispiel aus Kalk oder Gips. Wir kennen uns bestens mit den unterschiedlichen Techniken aus und beraten Sie gerne, welche Materialien und Verfahren sich für Ihre Räume besonders eignen. So gestalten wir Ihre Räume stilvoll, modern und langlebig. Darüber hinaus steht Ihnen unser Malermeister Baldassarre Fortino persönlich für die Beratung über die richtige Tapete und deren optimale Umsetzung zur Seite. Unser Ziel ist es, Ihre Wände in echte Meisterwerke zu verwandeln – ästhetisch, präzise und langlebig.",
+    "img": "../../assets/img/2097-meisterwerk-20230524-scaled.jpg",
+    "alt": "Glattputz-Arbeiten für moderne Innenräume in Ludwigsburg – Meisterwerk Malermanufaktur."
+  },
+  "intro": {
+    "img": "../../assets/img/2084-meisterwerk-20230524-Bearbeitet-1-scaled.jpg",
+    "alt": "",
+    "label": "Die Vorteile auf einen Blick",
+    "title": "Vorteile professioneller Verputzarbeiten",
+    "list": "<ul><li><p><strong>Glatte und hochwertige Oberflächen</strong>: Perfekt vorbereitet für Malerarbeiten oder dekorative Gestaltung.</p></li><li><p><strong>Individuelle Gestaltung</strong>: Unterschiedliche Strukturen und Techniken möglich, angepasst an Ihren Stil.</p></li><li><p><strong>Langlebigkeit</strong>: Hochwertige Materialien sorgen für ein stabiles, dauerhaft schönes Ergebnis.</p></li><li><p><strong>Präzise Ausführung</strong>: Unser Team arbeitet sorgfältig, schnell und zuverlässig.</p></li><li><p><strong>Fachberatung inklusive</strong>: Unser Malermeister <strong>Baldassarre Fortino</strong> unterstützt Sie bei der Wahl der richtigen Technik und Materialien.</p></li></ul>",
+    "blocks": [
+      {
+        "no": "01",
+        "title": "Materialien & Techniken",
+        "html": "<p>Wir setzen ausschließlich <strong>hochwertige Materialien</strong> führender Hersteller ein. Ob Gips, Kalk oder spezielle Putze für besondere Anforderungen – unser Team kennt sich mit allen Varianten aus und setzt Ihr Projekt fachgerecht um. Wir bereiten die Untergründe optimal vor und sorgen dafür, dass jede Oberfläche <strong>glatt, eben und perfekt verputzt</strong> ist.</p><h3 aria-hidden=\"true\">&nbsp;</h3>"
+      },
+      {
+        "no": "02",
+        "title": "Technische Vorteile & Innovationen",
+        "html": "<ul><li><p><strong>Präzise Handwerkskunst</strong>: Saubere Flächen, exakte Kanten und gleichmäßige Strukturen.</p></li><li><p><strong>Vielfältige Techniken</strong>: Glattputz, Strukturputz oder dekorative Oberflächen – individuell nach Wunsch.</p></li><li><p><strong>Schnell und effizient</strong>: Wir arbeiten zügig, ohne die Qualität zu beeinträchtigen.</p></li><li><p><strong>Nachhaltigkeit &amp; Langlebigkeit</strong>: Hochwertige Materialien sorgen für dauerhafte Freude an Ihren Wänden.</p></li></ul>"
+      }
+    ]
+  },
+  "showcase": [
+    {
+      "width": [
+        24.333,
+        23.88
+      ],
+      "images": [
+        "../../assets/img/41-bf-20241206-Bearbeitet-scaled.jpg",
+        "../../assets/img/902-bf-20241206-Bearbeitet-scaled.jpg",
+        "../../assets/img/2161-meisterwerk-20230524-scaled.jpg"
+      ]
+    },
+    {
+      "width": [
+        66.667,
+        74.09
+      ],
+      "images": [
+        "../../assets/img/2104-meisterwerk-20230524-Bearbeitet-2-scaled.jpg"
+      ]
+    }
+  ],
+  "pillars": [
+    {
+      "title": "Überlegene Handwerkskunst",
+      "html": "<p>Unser Team besteht aus <strong>erfahrenen Experten</strong>, die alle Verputztechniken beherrschen. Jede Wand und Decke wird präzise und sorgfältig bearbeitet – für ein Ergebnis, das höchste Ansprüche erfüllt.</p><ul><li><p>Langjährige Erfahrung im Verputz- und Stuckhandwerk</p></li><li><p>Hochwertige Materialien für perfekte Ergebnisse</p></li><li><p>Individuelle Beratung und Umsetzung nach Ihren Vorstellungen</p></li></ul>"
+    },
+    {
+      "title": "Hochwertige Materialien & Ausstattung",
+      "html": "<p>Wir verwenden ausschließlich Materialien, die <strong>ästhetisch überzeugen und langlebig</strong> sind. Ob klassische Kalk- und Gipsputze oder moderne Spezialputze – wir garantieren höchste Qualität und perfekte Verarbeitung.</p><h4 aria-hidden=\"true\">&nbsp;</h4><h4 aria-hidden=\"true\">&nbsp;</h4>"
+    },
+    {
+      "title": "Ihr Weg zu neuen Wänden",
+      "html": "<p>Von der <strong>Beratung über die Materialauswahl bis zur fachgerechten Umsetzung</strong> begleiten wir Sie Schritt für Schritt. Mit der <strong>Meisterwerk Maler Manufaktur</strong> erhalten Ihre Räume glatte, elegante Oberflächen – präzise, sauber und professionell umgesetzt.</p><p>&nbsp;</p>"
+    }
+  ]
+}

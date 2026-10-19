@@ -6,12 +6,10 @@
  * (Pfeile, Esc, Klick auf den Hintergrund).
  */
 import { Picture, getImage } from 'astro:assets';
-import { img } from '../../lib/img';
 
 interface Props {
   id: string;
-  /** Dateinamen aus src/assets/img */
-  items: string[];
+  items: ImageMetadata[];
   /** `grid`: wie masonry, aber alle Bilder im festen Format 3:2 (Elementor-Raster). */
   layout?: 'masonry' | 'justified' | 'grid';
   /** Spalten (masonry) je Desktop, Tablet, Handy */
@@ -37,8 +35,7 @@ const {
 } = Astro.props;
 
 const list = await Promise.all(
-  items.map(async (file) => {
-    const meta = img(file);
+  items.map(async (meta) => {
     const full = await getImage({ src: meta, width: Math.min(1600, meta.width), format: 'webp' });
     return { meta, full: full.src };
   }),

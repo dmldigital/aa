@@ -1,0 +1,38 @@
+{
+  "slug": "fugenlos",
+  "title": "Fugenlos - Meisterwerke Exklusive",
+  "headline": "Fugenlose Oberflächen",
+  "headlineId": "b2a8513",
+  "columns": 3,
+  "collections": [
+    {
+      "id": "f2b8b86",
+      "title": "Collezione Monilito",
+      "rows": [
+        {
+          "id": "ce0397d",
+          "cards": [
+            {
+              "title": "Essenza 20",
+              "text": "Die puristischste und feinste Ausführung des 3-komponentigen Polymer-Betons. In drei Lagen gespachtelt entsteht eine nahezu samtig-glatte, homogene Oberfläche mit minimaler Struktur. Essenza wirkt ruhig, klar und reduziert – modern in seiner reinsten Form.",
+              "details": "<strong>Eigenschaften:</strong> <ul class=\"spachtel-list\"> <li>3-komponentiges Polymer-Beton-System</li> <li>3-lagiger Spachtelaufbau</li> <li>Sehr feine, nahezu glatte Oberfläche</li> <li>Wasserdicht &amp; fleckenabweisend</li> <li>Hoch widerstandsfähig</li> <li>Für stark beanspruchte Bereiche geeignet</li> <li>Fugenlos &amp; pflegeleicht</li> <li>Auf bestehenden Untergründen realisierbar</li> </ul> <strong>Einsatzbereich:</strong> <ul class=\"spachtel-list\"> <li>Bäder &amp; Duschen</li> <li>Wohn- &amp; Küchenbereiche</li> <li>Treppen &amp; Böden</li> <li>Minimalistische Architektur</li> <li>Gewerbe- &amp; Objektflächen</li> </ul> <strong>Charakter:</strong> <ul class=\"spachtel-list\"> <li>Sehr fein &amp; reduziert</li> <li>Puristisch &amp; klar</li> <li>Ruhig &amp; elegant</li> <li>Zeitlos modern</li> <li>Sanft in der Haptik</li> </ul>",
+              "image": "../../assets/img/ESSENZA-20-1024x1024.jpg"
+            },
+            {
+              "title": "Equilibrio 21",
+              "text": "Fugenlose, fein strukturierte Oberfläche mit ruhigem, modernem Ausdruck. Equilibrio basiert auf einem hochwertigen 3-komponentigen Polymer-Beton-System und verbindet eine lebendige, leicht bewegte Optik mit einer angenehm glatten Haptik. Die Oberfläche wirkt strukturiert im Licht und dennoch harmonisch und ausgewogen im Gesamtbild.",
+              "details": "<strong>Eigenschaften:</strong> <ul class=\"spachtel-list\"> <li>3-komponentiges Hochleistungssystem</li> <li>Widerstandsfähig bei täglicher und intensiver Nutzung</li> <li>Wasserdicht &amp; fleckenabweisend</li> <li>Für Feuchtbereiche geeignet</li> <li>Für stark beanspruchte Flächen geeignet</li> <li>Auf bestehenden Untergründen applizierbar</li> <li>Farbtöne mischbar (Evidence-Effekt)</li> <li>Fugenlos &amp; pflegeleicht</li> </ul> <strong>Einsatzbereich:</strong> <ul class=\"spachtel-list\"> <li>Bäder &amp; Duschen</li> <li>Wohn- &amp; Küchenbereiche</li> <li>Treppen &amp; Böden</li> <li>Gewerbe- &amp; Objektbereiche</li> <li>Stark frequentierte Zonen</li> </ul> <strong>Charakter:</strong> <ul class=\"spachtel-list\"> <li>Ruhig &amp; ausgewogen</li> <li>Modern &amp; kraftvoll</li> <li>Dezent strukturiert</li> <li>Dynamisch im Licht</li> <li>Elegant in seiner Natürlichkeit</li> </ul>",
+              "image": "../../assets/img/EQUILIBRIO-21-1024x1024.jpg"
+            },
+            {
+              "title": "Intenso 22",
+              "text": "Die kraftvollste Ausführung des 3-komponentigen Polymer-Beton-Systems. Mehrlagig gespachtelt entsteht eine markante, lebendige Oberfläche mit spürbarer Struktur. Durch die gröbere Körnung bietet Intenso im Vergleich zu Essenza und Equilibrio eine höhere Rutschhemmung.",
+              "details": "<strong>Eigenschaften:</strong> <ul class=\"spachtel-list\"> <li>3-komponentiges Polymer-Beton-System</li> <li>Mehrlagiger Spachtelaufbau</li> <li>Deutlich strukturierte Oberfläche</li> <li>Höhere Rutschhemmung im Vergleich zu Essenza &amp; Equilibrio</li> <li>Wasserdicht &amp; fleckenabweisend</li> <li>Hoch widerstandsfähig</li> <li>Fugenlos &amp; pflegeleicht</li> <li>Für stark beanspruchte Bereiche geeignet</li> </ul> <strong>Einsatzbereich:</strong> <ul class=\"spachtel-list\"> <li>Bäder &amp; Duschen</li> <li>Spa- &amp; Wellnessbereiche</li> <li>Treppen &amp; Böden</li> <li>Gewerbe- &amp; Objektflächen</li> <li>Innen- und geschützte Außenbereiche</li> </ul> <strong>Charakter:</strong> <ul class=\"spachtel-list\"> <li>Kraftvoll</li> <li>Markant</li> <li>Urban</li> <li>Dynamisch</li> <li>Sicher &amp; funktional</li> </ul>",
+              "image": "../../assets/img/INTENSO-22-1024x1024.jpg"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

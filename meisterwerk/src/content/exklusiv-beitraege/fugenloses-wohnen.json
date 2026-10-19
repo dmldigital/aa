@@ -1,0 +1,49 @@
+{
+  "year": "2025",
+  "month": "05",
+  "day": "22",
+  "slug": "fugenloses-wohnen",
+  "title": "Fugenlos Wohnen",
+  "pageTitle": "Fugenlos Wohnen - Meisterwerke Exklusive",
+  "category": "Fugenloser Boden",
+  "categoryHref": "/meisterwerk-exklusive/category/portfolio/fugenloser-boden/",
+  "date": "Mai / 2025",
+  "image": "../../assets/img/Image-21.jpg",
+  "imageAlt": "Modernes Wohnkonzept mit fugenlosem mineralischem Boden, Sichtbeton-Säule und glatten weißen Wänden in Stuttgart.",
+  "services": [
+    "Fugenlose Böden",
+    "Malerarbeiten"
+  ],
+  "info": {
+    "year": "2018",
+    "place": "Karlsruhe",
+    "duration": "3 Wochen",
+    "area": "95"
+  },
+  "sections": [
+    {
+      "heading": "Wunsch nach moderner Ästhetik: Fugenlos und klar",
+      "text": "Die Intention unserer Kundinnen und Kunden beim Planen und Errichten ihres modernen Neubaus war klar definiert: Sie wünschten sich glatte, fugenlose Oberflächen für ein ruhiges, harmonisches Gesamtbild. Diese klare architektonische Linie sollte sowohl im Innen- als auch im Außenbereich konsequent umgesetzt werden – reduziert, elegant und zeitlos."
+    },
+    {
+      "heading": "Planung mit Blick fürs Detail",
+      "text": "Um diesem Anspruch gerecht zu werden, mussten zahlreiche bauliche Feinheiten von Anfang an berücksichtigt werden. Dazu zählten unter anderem Setzungsspuren durch das Bauwerk, die Integration einer Fußbodenheizung sowie die großflächigen Fensterfronten, die besondere Anforderungen an den Wand- und Bodenanschluss stellten. Nur durch die ganzheitliche Betrachtung aller technischen und gestalterischen Aspekte konnte das gewünschte, nahezu makellose Ergebnis erzielt werden."
+    },
+    {
+      "heading": "Funktion trifft auf individuelle Gestaltung",
+      "text": "Neben der ästhetischen Wirkung stand auch die Alltagstauglichkeit im Fokus: Die fugenlosen Oberflächen sollten nicht nur visuell überzeugen, sondern auch pflegeleicht, widerstandsfähig und langlebig sein. Farbton, Textur und Glanzgrad wurden daher in enger Abstimmung mit der Bauherrschaft individuell ausgewählt – für ein Ergebnis, das sowohl funktional als auch persönlich ist."
+    }
+  ],
+  "gallery": [
+    "../../assets/img/Image-9-e1672933086352.jpg",
+    "../../assets/img/Image-20.jpg",
+    "../../assets/img/Image-14-e1672912602625.jpg",
+    "../../assets/img/Image-21.jpg"
+  ],
+  "largeText": true,
+  "galleryColumns": [
+    3,
+    3,
+    1
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "year": "2025",
+  "month": "05",
+  "day": "22",
+  "slug": "altbau-wdvs",
+  "title": "Altbau WDVS",
+  "image": "../../assets/img/2079-meisterwerk-20230524-Bearbeitet-scaled.jpg",
+  "services": [
+    "Malerarbeiten",
+    "Verputz",
+    "WDVS"
+  ],
+  "info": {
+    "year": "2022",
+    "place": "Ludwigsburg",
+    "duration": "2 Monate",
+    "area": "250"
+  },
+  "sections": [
+    {
+      "heading": "Auftrag und Planung",
+      "text": "Nach der erfolgreichen Durchführung der Kernsanierung im Inneren des Hauses erhielten wir von unseren Kunden einen weiteren Auftrag: die Neudämmung der Fassade des Altbaus. Für dieses Projekt entschieden wir uns für die Verwendung von Mineralwolle. Bevor die Dämmung angebracht werden konnte, waren jedoch verschiedene Detailarbeiten an der Fassade erforderlich, die wir in enger Abstimmung mit anderen Gewerken sorgfältig umsetzten. Diese präzise Planung und Koordination war unerlässlich, um ein optimales Endergebnis sicherzustellen."
+    },
+    {
+      "heading": "Durchführung der Dämmarbeiten",
+      "text": "Nachdem die vorbereitenden Arbeiten abgeschlossen waren, begannen wir mit der Anbringung der Mineralwolle. Anschließend wurde die gesamte Fassade mit einem Gewebe armiert und mit einem 3 mm Kratzputz verputzt. Diese Schritte gewährleisteten nicht nur eine effektive Wärmedämmung, sondern auch eine langlebige und stabile Ausführung des Fassadensystems."
+    },
+    {
+      "heading": "Abschluss und Schutz der Fassade",
+      "text": "Zum Schluss erhielt die Fassade eine hochwertige Beschichtung mit Silikatfarbe. Diese besondere Farbe bietet eine 20-jährige Farbtongarantie und schützt die Oberfläche zuverlässig vor Witterungseinflüssen. Damit wird nicht nur die Optik des Gebäudes langfristig erhalten, sondern auch die Beständigkeit der Fassade gesteigert. Für Fragen oder weitere Informationen zur Dämmung von Altbauten stehen wir Ihnen selbstverständlich gerne zur Verfügung."
+    }
+  ],
+  "gallery": [
+    "../../assets/img/2084-meisterwerk-20230524-Bearbeitet-scaled.jpg",
+    "../../assets/img/2104-meisterwerk-20230524-Bearbeitet-1-scaled.jpg",
+    "../../assets/img/2089-meisterwerk-20230524-Bearbeitet-1-scaled.jpg"
+  ]
+}

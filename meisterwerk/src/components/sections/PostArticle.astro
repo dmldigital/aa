@@ -5,11 +5,11 @@
  */
 import { Picture } from 'astro:assets';
 import Gallery from './Gallery.astro';
-import type { Post } from '../../data/pages/posts';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   id?: string;
-  post: Post;
+  post: CollectionEntry<'beitraege'>['data'];
   /** Außenabstände der Sektion (Standard: Hauptseite) */
   rootClass?: string;
   /** Alt-Text des Titelbilds (Standard: Titel) */
@@ -34,11 +34,6 @@ const {
   labelClass = 'text-[19px]/[24.7px] md:text-xs/[15.6px] lg:text-[18px]/[23.4px]',
 } = Astro.props;
 
-const images = import.meta.glob<{ default: ImageMetadata }>('../../assets/img/*.jpg', {
-  eager: true,
-});
-const image = images[`../../assets/img/${post.image}`].default;
-
 const label = ['font-display font-medium tracking-label text-ink uppercase', labelClass].join(' ');
 const value = 'leading-4 md:leading-[15px]';
 const info = [
@@ -56,7 +51,7 @@ const info = [
       <Picture
         formats={['avif']}
         fallbackFormat="webp"
-        src={image}
+        src={post.image}
         alt={imageAlt}
         widths={[350, 700, 984, 1120, 1600]}
         sizes="(min-width: 1025px) 1120px, (min-width: 768px) 984px, 350px"

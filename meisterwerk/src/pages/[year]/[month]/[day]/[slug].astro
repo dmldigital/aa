@@ -1,13 +1,14 @@
 ---
-/** Projektbeiträge: eine Route für alle Beiträge aus `src/data/pages/posts.ts`. */
+/** Projektbeiträge: eine Route für alle Einträge der Collection `beitraege`. */
+import { getCollection } from 'astro:content';
 import PageLayout from '../../../../layouts/PageLayout.astro';
 import PostArticle from '../../../../components/sections/PostArticle.astro';
-import { posts } from '../../../../data/pages/posts';
 
-export function getStaticPaths() {
-  return posts.map((post) => ({
-    params: { year: post.year, month: post.month, day: post.day, slug: post.slug },
-    props: { post },
+export async function getStaticPaths() {
+  const posts = await getCollection('beitraege');
+  return posts.map(({ data }) => ({
+    params: { year: data.year, month: data.month, day: data.day, slug: data.slug },
+    props: { post: data },
   }));
 }
 

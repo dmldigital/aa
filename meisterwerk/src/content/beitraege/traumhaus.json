@@ -1,0 +1,56 @@
+{
+  "year": "2025",
+  "month": "09",
+  "day": "18",
+  "slug": "traumhaus",
+  "title": "Traumhaus",
+  "image": "../../assets/img/199-meisterwerk-20230120-Bearbeitet-2-scaled.jpg",
+  "services": [
+    "Malerarbeiten",
+    "Spachteltechnik",
+    "Stuckarbeiten"
+  ],
+  "info": {
+    "year": "2019",
+    "place": "Ludwigsburg",
+    "duration": "6 Monate",
+    "area": "150"
+  },
+  "sections": [
+    {
+      "heading": "Sorgfältige Sanierungsarbeiten",
+      "text": "Die Kernsanierung eines Zweifamilienhauses aus dem Jahr 1923 stellte uns vor vielfältige Aufgaben, die wir mit höchster Präzision und Fachkenntnis ausführten. Den Beginn bildeten umfangreiche Trockenbauarbeiten, bei denen wir die Flächen verputzten und Gewebe einarbeiteten, um Rissbildungen vorzubeugen. Anschließend wurden Decken und Wände dreimal gespachtelt und zusätzlich mit Malervlies versehen. Für die Wandflächen setzten wir eine spezielle Spachteltechnik ein: einen edlen Marmorkalkputz in matter Ausführung."
+    },
+    {
+      "heading": "Einheitliche Oberflächengestaltung",
+      "text": "Das Ergebnis war eine sehr glatte, feinporige Oberfläche, die optisch an Muschelkalk erinnert. Zum Schutz vor Verschmutzung und zur Erhöhung der Strapazierfähigkeit versiegelten wir sie mit einer leicht seidenglänzenden Schutzbeschichtung. Auch die Decken erhielten einen Anstrich mit Silikatfarbe, um das natürliche Raumkonzept konsequent zu unterstreichen. Alle Oberflächen – Decken, Wände, Türen, Spachteltechniken und Lackflächen – wurden in RAL 9010 ausgeführt. Diese durchgehende Farbgebung sorgt für ein harmonisches Gesamtbild und eine ruhige, elegante Raumwirkung."
+    },
+    {
+      "heading": "Details und besondere Akzente",
+      "text": "Besonders ins Auge fallen die sorgfältigen Detailarbeiten rund um die Treppe sowie die zahlreichen indirekten Beleuchtungselemente. Um das Raumgefühl zu vergrößern und zugleich elegante Lösungen für Beleuchtung und Vorhangschienen zu schaffen, haben wir eine Stuckleiste an der Decke integriert. Dieses Gestaltungselement verleiht den Räumen zusätzliche Tiefe und unterstreicht die handwerkliche Qualität. Insgesamt entstand durch die Sanierung ein Raumkonzept, das Funktionalität und Ästhetik perfekt miteinander verbindet."
+    }
+  ],
+  "gallery": [
+    "../../assets/img/266-meisterwerk-20230120-1-scaled.jpg",
+    "../../assets/img/239-meisterwerk-20230120-1-scaled.jpg",
+    "../../assets/img/274-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/271-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/329-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/312-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/337-meisterwerk-20230120-3-scaled.jpg",
+    "../../assets/img/291-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/297-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/220-meisterwerk-20230120-Bearbeitet-1-1-scaled.jpg",
+    "../../assets/img/227-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
+    "../../assets/img/292-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/205-meisterwerk-20230120-Bearbeitet-2-scaled.jpg",
+    "../../assets/img/284-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/276-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/277-meisterwerk-20230120-scaled.jpg",
+    "../../assets/img/212-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
+    "../../assets/img/209-meisterwerk-20230120-2-scaled.jpg",
+    "../../assets/img/216-meisterwerk-20230120-Bearbeitet-1-1-scaled.jpg",
+    "../../assets/img/199-meisterwerk-20230120-Bearbeitet-2-scaled.jpg"
+  ],
+  "largeText": true
+}

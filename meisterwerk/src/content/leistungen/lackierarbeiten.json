@@ -1,0 +1,65 @@
+{
+  "slug": "lackierarbeiten",
+  "title": "Profi-Lackierarbeiten | Ludwigsburg & Stuttgart – Meisterwerk",
+  "description": "Türen, Fenster & Treppen in neuem Glanz. Hochwertige Lackierarbeiten für Innen & Außen in Ludwigsburg & Stuttgart. Schutz & Design vom Meisterbetrieb.",
+  "hero": {
+    "title": "Lackierarbeiten – Erwecke Altes zu neuem Leben",
+    "text": "Lackarbeiten bilden einen grundlegenden Aspekt unserer Tätigkeit als Meisterbetrieb. Sie verleihen Oberflächen nicht nur ein schönes Aussehen, sondern schützen sie gleichzeitig vor Witterung, UV-Strahlen oder Korrosion. Diese Arbeiten können sowohl drinnen als auch draußen angewendet werden – sei es beim Verschönern von Wohnungen, Büros oder Geschäften oder bei der Umsetzung kreativer Farbkonzepte. Zu unseren Leistungen gehört das Lackieren von Türen, Toren, Fenstern, Treppen, Geländern und weiteren Elementen aus Holz, Metall oder Kunststoff. Des Weiteren übernehmen wir selbstverständlich auch die Reparatur bereits beschädigter Oberflächen und die individuelle Gestaltung neuer Räume. Es gibt viele Arten des Verputzens, zum Beispiel aus Kalk oder Gips. Wir kennen uns bestens mit den unterschiedlichen Techniken aus und beraten Sie gerne, welche Materialien und Verfahren sich für Ihre Räume besonders eignen. So gestalten wir Ihre Räume stilvoll, modern und langlebig. Darüber hinaus steht Ihnen unser Malermeister Baldassarre Fortino persönlich für die Beratung über die richtige Tapete und deren optimale Umsetzung zur Seite. Unser Ziel ist es, Ihre Wände in echte Meisterwerke zu verwandeln – ästhetisch, präzise und langlebig.",
+    "img": "../../assets/img/337-meisterwerk-20230120-4-scaled.jpg",
+    "alt": "Professionelle Lackierarbeiten an Holzfenstern in Ludwigsburg – Meisterwerk Malermanufaktur."
+  },
+  "intro": {
+    "img": "../../assets/img/331-meisterwerk-20230120-scaled.jpg",
+    "alt": "",
+    "label": "Die Vorteile auf einen Blick",
+    "title": "Vorteile professioneller Lackierarbeiten",
+    "list": "<ul><li><p><strong>Schutz &amp; Langlebigkeit</strong>: Lackierte Oberflächen bleiben geschützt und behalten ihre Schönheit.</p></li><li><p><strong>Individuelle Gestaltung</strong>: Farben und Oberflächen können exakt an Ihre Vorstellungen angepasst werden.</p></li><li><p><strong>Innen &amp; Außen</strong>: Flexible Anwendung für alle Oberflächen im Haus, Büro oder Gewerbe.</p></li><li><p><strong>Präzision &amp; Qualität</strong>: Sorgfältige Ausführung garantiert hochwertige Ergebnisse.</p></li><li><p><strong>Beratung inklusive</strong>: Malermeister <strong>Baldassarre Fortino</strong> steht Ihnen für alle Fragen zur Auswahl von Farben und Techniken zur Verfügung.</p></li></ul>",
+    "blocks": [
+      {
+        "no": "01",
+        "title": "Materialien & Techniken",
+        "html": "<p>Unsere Lackierarbeiten werden ausschließlich von <strong>qualifiziertem Personal</strong> durchgeführt, das über technisches Know-how und ästhetisches Gespür verfügt. Wir verwenden <strong>hochwertige Lacke und Materialien</strong> führender Hersteller, um perfekte Oberflächen zu erzielen. Präzises Vorbereiten, Schleifen, Grundieren und Lackieren gehören selbstverständlich zu unserem Service.</p><h3 aria-hidden=\"true\">&nbsp;</h3><h3 aria-hidden=\"true\">&nbsp;</h3>"
+      },
+      {
+        "no": "02",
+        "title": "Technische Vorteile & Innovationen",
+        "html": "<ul><li><p><strong>Exakte Verarbeitung</strong>: Glatte Oberflächen, gleichmäßige Farbschichten und saubere Kanten.</p></li><li><p><strong>Vielfältige Techniken</strong>: Lackieren, Lasieren oder kreatives Farbdesign nach Wunsch.</p></li><li><p><strong>Nachhaltigkeit &amp; Schutz</strong>: Langlebige Materialien sorgen für dauerhafte Freude an Ihren Oberflächen.</p></li></ul>"
+      }
+    ]
+  },
+  "showcase": [
+    {
+      "width": [
+        24.333,
+        23.88
+      ],
+      "images": [
+        "../../assets/img/2014-meisterwerk-20230524-Bearbeitet-4-scaled.jpg",
+        "../../assets/img/2009-meisterwerk-20230524-Bearbeitet-3-scaled.jpg"
+      ]
+    },
+    {
+      "width": [
+        66.667,
+        74.09
+      ],
+      "images": [
+        "../../assets/img/2018-meisterwerk-20230524-Bearbeitet-3-scaled.jpg"
+      ]
+    }
+  ],
+  "pillars": [
+    {
+      "title": "Überlegene Handwerkskunst",
+      "html": "<p>Unser Team aus <strong>erfahrenen Lackierprofis</strong> arbeitet präzise und sorgfältig. Jede Fläche wird professionell behandelt, um <strong>ästhetisch perfekte und langlebige Ergebnisse</strong> zu erzielen.</p><ul><li><p>Langjährige Erfahrung im Lackierhandwerk</p></li><li><p>Hochwertige Materialien für perfekte Oberflächen</p></li><li><p>Individuelle Beratung und Umsetzung nach Ihren Wünschen</p></li></ul>"
+    },
+    {
+      "title": "Hochwertige Materialien & Ausstattung",
+      "html": "<p>Wir setzen ausschließlich auf <strong>erstklassige Lacke und Werkzeuge</strong> führender Hersteller. So gewährleisten wir ein Ergebnis, das <strong>optisch überzeugt und dauerhaft schützt</strong>.</p><h4 aria-hidden=\"true\">&nbsp;</h4><h4 aria-hidden=\"true\">&nbsp;</h4><h4 aria-hidden=\"true\">&nbsp;</h4>"
+    },
+    {
+      "title": "Ihr Weg zu neuen Wänden",
+      "html": "<p>Von der <strong>Beratung über die Materialauswahl bis zur Umsetzung</strong> begleiten wir Sie Schritt für Schritt. Mit der <strong>Meisterwerk Maler Manufaktur</strong> erwecken Ihre Türen, Fenster, Treppen und Geländer zu neuem Leben – präzise, sauber und professionell.</p><p>&nbsp;</p><p>&nbsp;</p>"
+    }
+  ]
+}

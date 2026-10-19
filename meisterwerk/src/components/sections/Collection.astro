@@ -5,11 +5,10 @@
  * Jede Karte hat einen Kopf (Name, „Mehr erfahren +“), der eine Beschreibung aufklappt, und das Bild darunter.
  */
 import { Picture } from 'astro:assets';
-import { img } from '../../lib/img';
-import type { Kollektion } from '../../data/pages/kollektionen';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
-  collection: Kollektion;
+  collection: CollectionEntry<'kollektionen'>['data']['collections'][number];
   /** Spalten je Zeile ab Tablet (Karten stehen links, auch bei weniger Karten) */
   columns?: 3 | 4;
   /** Außenabstand unter der letzten Zeile */
@@ -70,7 +69,7 @@ const last = collection.rows.length - 1;
             <Picture
               formats={['avif']}
               fallbackFormat="webp"
-              src={img(card.image)}
+              src={card.image}
               alt={`Oberflächenmuster ${card.title}`}
               widths={[310, 395, 790]}
               sizes="(min-width: 1025px) 395px, (min-width: 768px) 285px, 310px"

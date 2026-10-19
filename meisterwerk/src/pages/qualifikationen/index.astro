@@ -3,6 +3,7 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import SectionHeading from '../../components/sections/SectionHeading.astro';
 import Pillars from '../../components/sections/Pillars.astro';
 import Gallery from '../../components/sections/Gallery.astro';
+import { img } from '../../lib/img';
 import { meta, heading, pillars, gallery } from '../../data/pages/qualifikationen';
 ---
 
@@ -11,7 +12,7 @@ import { meta, heading, pillars, gallery } from '../../data/pages/qualifikatione
   <Pillars id="214893f" items={pillars} smallText rootClass="mb-10 md:mb-15 lg:mb-0" />
   <Gallery
     id="a1e26a2"
-    items={gallery}
+    items={gallery.map(img)}
     layout="justified"
     gap={[10, 10, 10]}
     rowHeight={[344, 344, 150]}

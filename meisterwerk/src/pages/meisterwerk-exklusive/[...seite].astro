@@ -1,27 +1,29 @@
 ---
 /**
  * Seiten der Teil-Website /meisterwerk-exklusive/, die nicht zu `[slug].astro` (Leistungsseiten) gehören:
- * die sechs Mitarbeiterprofile (Daten wie die Hauptprofile, `exklusiveProfiles`) und die zwei Kollektionsseiten
- * (`kollektionen.ts`). Die Catch-all-Route gilt nur, wo `[slug].astro` keinen Treffer hat, die Adressen
+ * die sechs Mitarbeiterprofile (Collection `profile`, wie die Hauptprofile) und die zwei Kollektionsseiten
+ * (Collection `kollektionen`). Die Catch-all-Route gilt nur, wo `[slug].astro` keinen Treffer hat, die Adressen
  * überschneiden sich nicht.
  */
+import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
 import ProfileHero from '../../components/sections/ProfileHero.astro';
 import ProfileTimeline from '../../components/sections/ProfileTimeline.astro';
 import ProfileBio from '../../components/sections/ProfileBio.astro';
 import Collection from '../../components/sections/Collection.astro';
-import { exklusiveProfiles } from '../../data/pages/profiles';
-import { kollektionenSeiten } from '../../data/pages/kollektionen';
+import { exklusivProfile } from '../../data/pages/profiles';
 
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  const profiles = await getCollection('profile');
+  const kollektionenSeiten = await getCollection('kollektionen');
   return [
-    ...exklusiveProfiles.map((profile) => ({
-      params: { seite: profile.slug },
-      props: { profile },
+    ...profiles.map(({ data }) => ({
+      params: { seite: data.slug },
+      props: { profile: exklusivProfile(data) },
     })),
-    ...kollektionenSeiten.map((kollektionen) => ({
-      params: { seite: kollektionen.slug },
-      props: { kollektionen },
+    ...kollektionenSeiten.map(({ data }) => ({
+      params: { seite: data.slug },
+      props: { kollektionen: data },
     })),
   ];
 }

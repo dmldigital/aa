@@ -14,7 +14,8 @@ Astro 7, Tailwind 4, GSAP und Lenis. Aktuell nur die Startseite (Design 1:1 nach
 - `src/pages`: Seiten. `src/layouts/Layout.astro`: Grundgerüst, Schrift (Astro Fonts API), Skripte.
 - `src/pages`: alle Seiten mit denselben Adressen wie auf der alten WordPress-Seite. Ähnliche Seiten laufen über dynamische Routen (`services/[slug]`, `meisterwerk-exklusive/[slug]`, `[year]/[month]/[day]/[slug]`, `[slug]` für Profile).
 - `src/components/sections`: Sektionen (jede nur einmal, per Props und Daten für mehrere Seiten genutzt), `src/components/ui`: Button, Pfeil-Link, Projektkarte, `Icon.astro`: Inline-SVG-Icons.
-- `src/data` und `src/data/pages`: alle Inhalte, Firmendaten (`site.ts`) und Links (`links.ts`, Liste `ASTRO_PAGES`). `src/lib`: kleine Helfer (`img.ts` holt Bilder per Dateiname).
+- `src/content` und `src/content.config.ts`: Content Collections für Einträge mit eigener Adresse (`beitraege`, `exklusiv-beitraege`, `profile`, `leistungen`, `exklusiv-leistungen`, `kollektionen`): eine JSON-Datei pro Eintrag, Zod-Schema in `content.config.ts`, Bilder als relativer Pfad nach `src/assets/img` (`image()`). Neue Seite dieser Art = neue JSON-Datei, die Route (`getCollection` + `getStaticPaths`) bleibt unverändert; Adresse bei Bedarf in `ASTRO_PAGES` eintragen.
+- `src/data` und `src/data/pages`: übrige Inhalte, Firmendaten (`site.ts`) und Links (`links.ts`, Liste `ASTRO_PAGES`). `src/lib`: kleine Helfer (`img.ts` holt Bilder per Dateiname).
 - `src/scripts`: `motion.ts` (Lenis, GSAP, Einblenden per `data-anim`) und `accordion.ts` (alle Akkordeons per `data-accordion`).
 - `src/styles/global.css`: Tailwind-Theme mit Farben, Typografie-Skala (`text-h2`, `text-button`, `text-15` …), Container (`max-w-page`, `max-w-tablet`), Absatzabstand (`mb-para`) und Breakpoints (`md` ab 768 px, `lg` ab 1025 px, wie im Original).
 

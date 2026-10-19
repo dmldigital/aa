@@ -1,0 +1,153 @@
+{
+  "slug": "stuckleisten",
+  "title": "Stuckleisten - Meisterwerke Exklusive",
+  "intro": {
+    "img": "../../assets/img/285-mw-20241125-HDR-1-scaled.jpg",
+    "parts": [
+      {
+        "t": "label",
+        "text": "Die Vorteile auf einen Blick"
+      },
+      {
+        "t": "html",
+        "html": "<h2>Das Besondere an Stuckleisten</h2><div><div><div><div><div id=\"markdown-content-7\" dir=\"auto\"><div><div><div><p>Stuckleisten sind weit mehr als nur dekorative Zierleisten. Sie setzen architektonische Akzente, kaschieren Vorhangschienen, verbessern die Raumakustik und bieten raffinierte Lösungen für indirekte oder direkte Beleuchtung. Durch die große Auswahl an Designs und Materialien lassen sich Stuckleisten perfekt an jeden Einrichtungsstil anpassen – von klassisch bis modern.</p></div></div></div></div></div></div></div></div>"
+      },
+      {
+        "t": "spacer",
+        "m": true
+      },
+      {
+        "t": "button",
+        "label": "Schauen Sie sich bereits fertiggestellte Projekte an",
+        "href": "/meisterwerk-exklusive/projekte/"
+      },
+      {
+        "t": "spacer",
+        "m": true
+      },
+      {
+        "t": "block",
+        "no": "01",
+        "title": "Vorteile von Stuckleisten",
+        "html": "<ul><li><strong>Vielfältige Designs:</strong> Von dezent bis opulent, passend für jeden Geschmack und Raumstil.</li><li><strong>Funktionalität:</strong> Verbergen von Vorhangschienen, Integration von Lichtsystemen, Verbesserung der Akustik.</li><li><strong>Exklusive Raumwirkung:</strong> Verleihen jedem Raum ein hochwertiges, individuelles Ambiente.</li><li><strong>Einsatzbereiche:</strong> Geeignet für Wohnräume, Büros, Hotels, Theater, Museen und viele weitere Objekte.</li><li><strong>Langlebigkeit:</strong> Hochwertige Materialien sorgen für ein dauerhaft schönes Ergebnis.</li></ul>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "block",
+        "no": "02",
+        "title": "Materialien & Varianten",
+        "html": "<ul><li><strong>Kunststoff (z. B. PU, PS):</strong> Leicht, formstabil, einfach zu montieren.</li><li><strong>Gips:</strong> Klassisch, detailreich, ideal für historische Gebäude.</li><li><strong>Holz:</strong> Natürlich, warm, vielseitig gestaltbar.</li><li><strong>Speziallösungen:</strong> Für Feuchträume oder besondere Anforderungen.</li></ul><p> Jede Variante bietet eigene Vorteile hinsichtlich Optik, Montage und Einsatzgebiet. </p>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "block",
+        "no": "03",
+        "title": "Anwendungsbereiche",
+        "html": "<ul><li>Wohnräume: Wohnzimmer, Schlafzimmer, Flure, Essbereiche</li><li>Öffentliche Gebäude: Theater, Museen, Hotels, Restaurants</li><li>Büros und Geschäftsräume: Für ein repräsentatives Erscheinungsbild</li><li>Sonderlösungen: Integration von Licht, Akustik-Elementen oder verdeckten Schienen</li></ul>"
+      },
+      {
+        "t": "block",
+        "no": "04",
+        "title": "Gestaltungsmöglichkeiten",
+        "html": "<ul><li>Große Auswahl an Profilen, Größen und Stilen</li><li>Individuelle Anpassung an Raumhöhe und Architektur</li><li>Kombination mit direkter oder indirekter Beleuchtung</li><li>Farblich anpassbar, z. B. passend zur Wand- oder Deckenfarbe</li></ul>"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "spacer"
+      },
+      {
+        "t": "spacer",
+        "small": true
+      },
+      {
+        "t": "button",
+        "label": "Lassen Sie sich inspirieren – und Ihren Preis berechnen",
+        "href": "/kontakt/"
+      }
+    ]
+  },
+  "pillars": [
+    {
+      "title": "Überlegene Handwerkskunst",
+      "html": "<p>Wir setzen auf echte Handarbeit und arbeiten ausschließlich mit erfahrenen Fachkräften und ausgewählten Partnern aus der Region und ganz Europa zusammen. Jedes Projekt entsteht mit höchster Präzision, Liebe zum Detail und einem ausgeprägten Sinn für Qualität.</p>",
+      "bullets": [
+        "10+ Jahre Erfahrung im Bad- und Oberflächendesign",
+        "Nachhaltige Materialien, verantwortungsvoll",
+        "Individuelle, handgefertigte Lösungen"
+      ]
+    },
+    {
+      "title": "Hochwertige Materialien & Ausstattung",
+      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller – langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
+      "bullets": [
+        "Exklusive Auswahl an Oberflächen, Farben und Strukturen",
+        "Investition in Qualität und Wertbeständigkeit",
+        "Sorgfältige Materialauswahl für Ihr individuelles Projekt"
+      ]
+    },
+    {
+      "title": "Investment Value",
+      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design – für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
+      "bullets": [
+        "Zeitloses Design und dauerhafte Wertschöpfung",
+        "Fokus auf nachhaltige, pflegeleichte Lösungen",
+        "Strategische Planung für maximale Wirkung in Ihrem Zuhause"
+      ]
+    }
+  ],
+  "feature": {
+    "accordion": [
+      {
+        "title": "Unser Service – Ihr Vorteil",
+        "html": "<p> Unser erfahrenes Team berät Sie umfassend zu aktuellen Trends und technischen Möglichkeiten. Wir arbeiten eng mit Ihnen zusammen, um Ihre Wünsche und Vorstellungen optimal umzusetzen – von der Auswahl des passenden Designs bis zur fachgerechten Montage. So entsteht ein Ergebnis, das nicht nur optisch überzeugt, sondern auch funktional und langlebig ist. </p>",
+        "open": true
+      },
+      {
+        "title": "Ihr Weg zu exklusiven Stuckleisten",
+        "html": "<ul><li>Persönliche Beratung und individuelle Planung</li><li>Auswahl der passenden Materialien und Designs</li><li>Fachgerechte Ausführung durch erfahrene Spezialisten</li><li>Betreuung und Service auch nach Projektabschluss</li></ul>",
+        "open": false
+      },
+      {
+        "title": "Lassen Sie sich inspirieren!",
+        "html": "<p> Entdecken Sie die vielfältigen Möglichkeiten moderner Stuckleisten für Ihr Zuhause oder Ihr Objekt. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch – wir freuen uns darauf, gemeinsam mit Ihnen Ihr Meisterwerk zu realisieren! </p>",
+        "open": false
+      }
+    ],
+    "button": {
+      "label": "Jetzt beraten lassen!",
+      "href": "/kontakt/"
+    },
+    "img": "../../assets/img/315-mw-20241125-scaled.jpg"
+  },
+  "gallery": {
+    "id": "737e3c5",
+    "columns": [
+      3,
+      2,
+      1
+    ],
+    "items": [
+      "../../assets/img/336-mw-20241125-scaled.jpg",
+      "../../assets/img/113-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/243-meisterwerk-20230120-1-scaled.jpg",
+      "../../assets/img/212-meisterwerk-20230120-Bearbeitet-2-scaled.jpg",
+      "../../assets/img/283-meisterwerk-20230120-scaled.jpg",
+      "../../assets/img/158-meisterwerk-20230120-scaled.jpg",
+      "../../assets/img/209-meisterwerk-20230120-3-scaled.jpg",
+      "../../assets/img/285-meisterwerk-20230120-1-scaled.jpg",
+      "../../assets/img/107-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
+      "../../assets/img/194-meisterwerk-20230120-2-scaled.jpg",
+      "../../assets/img/284-meisterwerk-20230120-1-scaled.jpg",
+      "../../assets/img/104-meisterwerk-20230120-Bearbeitet-scaled.jpg",
+      "../../assets/img/292-meisterwerk-20230120-1-scaled.jpg",
+      "../../assets/img/315-mw-20241125-scaled.jpg"
+    ]
+  },
+  "projectsId": "a528138"
+}
