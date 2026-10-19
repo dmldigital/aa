@@ -32,7 +32,7 @@ const sub =
   data-menu-from="top"
   id="main-menu-2"
   aria-label="Hauptmenü"
-  class="fixed inset-2.5 m-0 hidden h-[calc(100dvh-20px)] max-h-none w-[calc(100%-20px)] max-w-none overflow-y-auto border-0 bg-soft p-4.5 text-ink backdrop:bg-ink/50 backdrop:backdrop-blur-xs open:block min-[701px]:inset-6 min-[701px]:h-[calc(100dvh-48px)] min-[701px]:w-[calc(100%-48px)] min-[701px]:px-10 min-[701px]:py-7"
+  class="fixed inset-2.5 m-0 hidden h-[calc(100dvh-20px)] max-h-none w-[calc(100%-20px)] max-w-none overflow-y-auto border-0 bg-soft p-4.5 text-ink backdrop:bg-ink/50 backdrop:backdrop-blur-xs open:flex open:flex-col min-[701px]:inset-6 min-[701px]:h-[calc(100dvh-48px)] min-[701px]:w-[calc(100%-48px)] min-[701px]:px-10 min-[701px]:py-7"
 >
   <div class="flex items-center justify-between gap-6 font-display text-[10px] tracking-[0.09em] uppercase">
     <span>{exk ? 'Meisterwerke Exklusive' : 'Meisterwerk Malermanufaktur'}</span>
@@ -51,11 +51,12 @@ const sub =
     </button>
   </div>
 
-  <div
-    data-split
-    class="mx-auto mt-8 grid max-w-[1100px] gap-10 min-[701px]:mt-16 min-[701px]:grid-cols-[1fr_1fr] min-[701px]:gap-24"
-  >
-    <nav aria-label="Hauptmenü" data-split-list>
+  <div data-split class="mt-8 grid grow items-stretch min-[701px]:mt-12 min-[701px]:grid-cols-2">
+    <nav
+      aria-label="Hauptmenü"
+      data-split-list
+      class="min-[701px]:pr-[clamp(32px,5vw,96px)] min-[701px]:pb-6"
+    >
       <ul class="flex flex-col gap-1">
         {menu.map((item, i) => (
           <li data-menu-item>
@@ -85,7 +86,7 @@ const sub =
       </ul>
     </nav>
 
-    <div class="grid items-start">
+    <div class="grid content-start items-start min-[701px]:border-l min-[701px]:border-black/10 min-[701px]:pb-6 min-[701px]:pl-[clamp(32px,5vw,96px)]">
       <div data-split-panel="contact" data-show class={panel}>
         <KontaktPanel {site} />
       </div>
