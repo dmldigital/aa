@@ -17,6 +17,7 @@ const { post } = Astro.props;
 
 <PageLayout
   title={`${post.title} - Meisterwerk Malermanufaktur`}
+  description={post.description}
   current={`/${post.year}/${post.month}/${post.day}/${post.slug}/`}
 >
   <PostArticle {post} />

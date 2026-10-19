@@ -18,6 +18,8 @@ const beitragFelder = (image: ImageFunction) => ({
   day: z.string(),
   slug: z.string(),
   title: z.string(),
+  /** Meta-Beschreibung (optional) */
+  description: z.string().optional(),
   /** Titelbild über dem Text */
   image: image(),
   /** Erbrachte Leistungen (Kacheln links in der Infoleiste) */

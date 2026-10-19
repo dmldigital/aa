@@ -3,7 +3,8 @@
   "month": "05",
   "day": "03",
   "slug": "unser-showroom",
-  "title": "Unser Schowroom",
+  "title": "Unser Showroom",
+  "description": "Der Showroom von Meisterwerk Malermanufaktur in Freiberg am Neckar: Muster, Farben und Oberflächen zum Anfassen. Lassen Sie sich vor Ort beraten.",
   "image": "../../assets/img/107-meisterwerk-20230120-Bearbeitet-1-scaled.jpg",
   "services": ["Malerarbeiten", "Spachteltechniken", "Fugenlose Böden", "Stuckarbeiten"],
   "info": {

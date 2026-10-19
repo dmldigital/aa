@@ -24,7 +24,7 @@ export const projects = [
     alt: 'Grau verputztes Einfamilienhaus mit Terrasse, Projekt Altbau WDVS',
   },
   {
-    title: 'Unser Schowroom',
+    title: 'Unser Showroom',
     href: '/2025/05/03/unser-showroom/',
     img: showroom,
     alt: 'Showroom der Meisterwerk Maler Manufaktur',
