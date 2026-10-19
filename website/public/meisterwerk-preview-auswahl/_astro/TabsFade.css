@@ -2,7 +2,8 @@
    Überschriften und Labels in Urbanist, Fließtext in der Seitenschrift (15/22,5, schwarz 70 %), goldene Chevrons,
    Links wie auf der Willkommens-Sektion. Keine Linien in den Tab-Texten.
    "Meisterliche Malerarbeiten" (Pin, ab 1200 px): Rechts blenden Bild und drei Tabs beim Scrollen nacheinander ein und aus,
-   alles passt in 100vh. FAQ (ab 1025 px): Fragen links anwählen, Antwort rechts, sonst Tab-Liste zum Antippen. */
+   alles passt in 100vh. FAQ und Handy/Tablet: aufklappbare Tabs, immer nur einer offen. Das FAQ steht ab 768 px
+   zweispaltig (50/50), je fünf Fragen pro Spalte. */
 
 .tb{--tb-ink:#090402;--tb-gold:#a59371;--tb-hair:#0904021f;margin:0;padding:0 20px;color:var(--tb-ink)}
 .tb-eyebrow,.tb h2,.tb-tabs li,.tb-h3,.tb-grp h4,.tb-note,.tb-cmp th{font-family:var(--font-urbanist),sans-serif}
@@ -101,26 +102,30 @@
 .tb--pin .tb-tabs.has-active li.is-on{padding-left:36px;color:var(--tb-gold);opacity:1}
 .tb--pin .tb-tabs.has-active li.is-on::before{width:22px}
 
-/* ---------- Tab-Liste zum Antippen (Handy, Tablet, reduzierte Bewegung) ----------
-   Die Titel sind Tabs, der Inhalt klappt direkt darunter auf, immer nur ein Tab offen. */
+/* ---------- Aufklappbare Tabs (FAQ, Handy, Tablet, reduzierte Bewegung) ----------
+   Die Titel sind Tabs, der Inhalt klappt direkt darunter auf, immer nur ein Tab offen: Öffnet sich einer, schließt der andere.
+   Plus wird zu Minus, ein goldener Strich läuft über die Oberkante, der Inhalt gleitet weich ein. */
 .tb--ui .tb-left,.tb--ui .tb-right,.tb--ui .tb-view{display:contents}
 .tb--ui .tb-eyebrow{order:1}
 .tb--ui h2{order:2}
 .tb--ui .tb-lead{order:3}
 .tb--ui .tb-media{order:4}
 .tb--ui .tb-tabs{order:5;display:block;margin:12px 0 0;padding:0;list-style:none}
-.tb--ui .tb-tabs>li{border-top:1px solid var(--tb-hair)}
+.tb--ui .tb-tabs>li{position:relative;border-top:1px solid var(--tb-hair)}
 .tb--ui .tb-tabs>li:last-child{border-bottom:1px solid var(--tb-hair)}
+.tb--ui .tb-tabs>li::before{content:"";position:absolute;left:0;right:0;top:-1px;z-index:1;height:1px;background:var(--tb-gold);transform:scaleX(0);transform-origin:0 50%;transition:transform .7s cubic-bezier(.65,0,.2,1)}
+.tb--ui .tb-tabs>li.is-on::before{transform:scaleX(1)}
 .tb--ui .tb-tab{display:flex;align-items:center;justify-content:space-between;gap:18px;width:100%;padding:18px 0;border:0;background:none;color:var(--tb-ink);font:500 20px/1.3 var(--font-urbanist),sans-serif;text-align:left;cursor:pointer;transition:color .4s ease}
 .tb--faq.tb--ui .tb-tab{font-size:18px}
-.tb--ui .tb-tab::after{content:"";flex:none;width:8px;height:8px;margin-right:4px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);transition:transform .45s cubic-bezier(.4,0,.2,1)}
+.tb--ui .tb-tab::after{content:"";flex:none;width:14px;height:14px;margin-right:2px;background:linear-gradient(currentColor,currentColor) center/100% 1.5px no-repeat,linear-gradient(currentColor,currentColor) center/1.5px 100% no-repeat;transition:background-size .5s cubic-bezier(.65,0,.2,1)}
 .tb--ui .tb-tab[aria-expanded="true"]{color:var(--tb-gold)}
-.tb--ui .tb-tab[aria-expanded="true"]::after{transform:rotate(-135deg) translate(-2px,-2px)}
+.tb--ui .tb-tab[aria-expanded="true"]::after{background-size:100% 1.5px,1.5px 0}
+@media (hover:hover){.tb--ui .tb-tab:hover{color:var(--tb-gold)}}
 .tb--ui .tb-tab:focus-visible{outline:2px solid var(--tb-ink);outline-offset:2px}
-.tb--ui .tb-collapse{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.4,0,.2,1)}
+.tb--ui .tb-collapse{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s cubic-bezier(.65,0,.2,1)}
 .tb--ui .tb-collapse.is-open{grid-template-rows:1fr}
-.tb--ui .tb-collapse-inner{min-height:0;overflow:hidden;opacity:0;transition:opacity .4s ease}
-.tb--ui .tb-collapse.is-open .tb-collapse-inner{opacity:1}
+.tb--ui .tb-collapse-inner{min-height:0;overflow:hidden;opacity:0;transform:translateY(-8px);transition:opacity .3s ease,transform .5s cubic-bezier(.2,.7,.2,1)}
+.tb--ui .tb-collapse.is-open .tb-collapse-inner{opacity:1;transform:none;transition:opacity .55s ease .15s,transform .7s cubic-bezier(.2,.7,.2,1) .15s}
 .tb--ui .tb-panel{margin:0;padding:2px 0 24px;border-top:0}
 .tb--ui .tb-h3{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (width>=768px){
@@ -130,56 +135,41 @@
   .tb--ui .tb-lead{grid-column:1;grid-row:3}
   .tb--ui .tb-media{grid-column:2;grid-row:1/4}
   .tb--ui .tb-tabs{grid-column:1/-1;grid-row:4}
-  .tb--faq.tb--ui .tb-grid{grid-template-columns:1fr}
-  .tb--faq.tb--ui h2,.tb--faq.tb--ui .tb-lead,.tb--faq.tb--ui .tb-tabs{grid-column:1;grid-row:auto}
 }
 
 /* ---------- FAQ ---------- */
 .tb.tb--faq{margin:10vh 0 0;background:#f7f7f7}
 @media (width>=768px){.tb.tb--faq{margin:20vh 0 0}}
-.tb--faq .tb-grid{padding:40px 0}
-@media (width>=768px){.tb--faq .tb-grid{padding:60px 0}}
-.tb-answer p{margin:0 0 1em;max-width:36em;color:#000000b3;font-size:16px;line-height:26px}
-.tb--ui .tb-answer p{font-size:15px;line-height:22.5px}
+.tb--faq .tb-grid{grid-template-columns:minmax(0,1fr);padding:40px 0 48px}
+.tb--faq .tb-left{gap:20px}
+.tb--faq .tb-lead{max-width:640px}
+.tb--faq .tb-faqcols{display:none}
+.tb--faq.tb--ui .tb-faqcols{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;order:5}
+.tb--faq.tb--ui .tb-faqcols>.tb-tabs{grid-column:auto;grid-row:auto}
+.tb--faq .tb-faqcols>.tb-tabs+.tb-tabs{margin-top:0}
+.tb--faq .tb-faqcols>.tb-tabs+.tb-tabs>li:first-child{border-top-color:transparent}
+.tb--faq .tb-faqcols>.tb-tabs+.tb-tabs>li:first-child::before{display:none}
+@media (width>=768px){
+  .tb--faq .tb-grid{gap:0;padding:60px 0 72px}
+  .tb--faq.tb--ui h2{grid-column:1;grid-row:1}
+  .tb--faq.tb--ui .tb-lead{grid-column:1;grid-row:2;margin-top:18px}
+  .tb--faq.tb--ui .tb-faqcols{grid-column:1;grid-row:3;margin-top:40px}
+  .tb--faq.tb--ui .tb-faqcols{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(32px,5vw,90px)}
+  .tb--faq .tb-faqcols>.tb-tabs{margin-top:0}
+  .tb--faq .tb-faqcols>.tb-tabs+.tb-tabs>li:first-child{border-top-color:var(--tb-hair)}
+  .tb--faq .tb-faqcols>.tb-tabs+.tb-tabs>li:first-child::before{display:block}
+  .tb--faq.tb--ui .tb-tab{font-size:20px}
+  .tb--faq.tb--ui .tb-panel{padding-right:34px}
+}
+.tb-answer{min-width:0}
+.tb-answer p{margin:0 0 1em;max-width:36em;color:#000000b3;font-size:15px;line-height:22.5px}
+.tb-answer p:last-child{margin-bottom:0}
 .tb-answer a{color:var(--tb-ink);text-decoration:underline;text-decoration-color:var(--tb-gold);text-underline-offset:3px;overflow-wrap:anywhere;transition:color .3s ease}
 .tb-answer a:hover,.tb-answer a:focus-visible{color:var(--tb-gold)}
 .tb-steps{margin:0;padding:0;list-style:none;counter-reset:s;max-width:28em}
-.tb-steps li{counter-increment:s;display:flex;align-items:center;gap:14px;padding:.45em 0;color:var(--tb-ink);font-size:16px;line-height:1.4}
+.tb-steps li{counter-increment:s;display:flex;align-items:center;gap:14px;padding:.45em 0;color:var(--tb-ink);font-size:15px;line-height:1.4}
 .tb-steps li::before{content:counter(s);flex:none;display:grid;place-items:center;width:1.9em;height:1.9em;border:1px solid var(--tb-gold);border-radius:50%;color:var(--tb-gold);font-size:.7em;font-weight:500}
-.tb--ui .tb-steps li{font-size:15px}
-
-/* Fragen links anwählen, Antwort rechts (ab 1025 px). Die Antworten liegen übereinander in derselben Zelle,
-   die Zelle ist so hoch wie die längste Antwort: Es springt nichts und nichts läuft über. */
-.tb--sel .tb-left,.tb--sel .tb-right{display:contents}
-.tb--sel .tb-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 clamp(48px,7vw,120px);align-items:start;padding:56px 0 72px}
-.tb--sel h2{grid-column:1;grid-row:1}
-.tb--sel .tb-lead{grid-column:1;grid-row:2;margin-top:20px}
-.tb--sel .tb-tabs{grid-column:1;grid-row:3;display:block;position:relative;margin:34px 0 0;padding:0;list-style:none}
-.tb--sel .tb-view{grid-column:2;grid-row:3;display:grid;margin-top:34px;min-width:0}
-.tb--sel .tb-tabs>li{border-top:1px solid var(--tb-hair)}
-.tb--sel .tb-tabs>li:last-child{border-bottom:1px solid var(--tb-hair)}
-.tb--sel .tb-tab{display:flex;align-items:center;justify-content:space-between;gap:20px;width:100%;padding:14px 0;border:0;background:none;color:var(--tb-ink);font:500 19px/1.3 var(--font-urbanist),sans-serif;text-align:left;cursor:pointer;transition:color .4s ease,padding-left .55s cubic-bezier(.65,0,.2,1)}
-.tb--sel .tb-tab::after{content:"";flex:none;width:7px;height:7px;margin-right:6px;border-top:1.5px solid var(--tb-gold);border-right:1.5px solid var(--tb-gold);opacity:0;transform:translateX(-10px) rotate(45deg);transition:opacity .4s ease,transform .55s cubic-bezier(.65,0,.2,1)}
-.tb--sel .tb-tab:hover{color:var(--tb-gold)}
-.tb--sel .tb-tab:focus-visible{outline:2px solid var(--tb-ink);outline-offset:-2px}
-.tb--sel .tb-tabs>li.is-on .tb-tab{padding-left:20px;color:var(--tb-gold)}
-.tb--sel .tb-tabs>li.is-on .tb-tab::after{opacity:1;transform:translateX(0) rotate(45deg)}
-.tb-ind{position:absolute;left:0;top:0;width:2px;height:0;background:var(--tb-gold);transform:translateY(var(--y,0px));transition:transform .6s cubic-bezier(.65,0,.2,1),height .6s cubic-bezier(.65,0,.2,1);pointer-events:none}
-
-.tb--sel .tb-panel{grid-area:1/1;position:relative;align-self:start;min-width:0;margin:0;padding:0;opacity:0;visibility:hidden;transition:opacity .25s ease,visibility 0s linear .25s}
-.tb--sel .tb-panel.is-on{opacity:1;visibility:visible;transition:opacity .3s ease .2s,visibility 0s}
-.tb--sel .tb-h3{margin:0 0 .6em;font-size:24px;line-height:1.3}
-.tb--sel .tb-h3,.tb--sel .tb-answer>*,.tb--sel .tb-steps li{opacity:0;transform:translateY(14px);transition:opacity .25s ease,transform .25s ease}
-.tb--sel .tb-panel.is-on .tb-h3,.tb--sel .tb-panel.is-on .tb-answer>*,.tb--sel .tb-panel.is-on .tb-steps li{opacity:1;transform:none;transition:opacity .6s ease var(--d,.3s),transform .75s cubic-bezier(.2,.7,.2,1) var(--d,.3s)}
-.tb--sel .tb-panel.is-on .tb-answer>*{--d:.4s}
-.tb--sel .tb-panel.is-on .tb-answer>:nth-child(2){--d:.5s}
-.tb--sel .tb-panel.is-on .tb-steps li:nth-child(1){--d:.4s}
-.tb--sel .tb-panel.is-on .tb-steps li:nth-child(2){--d:.48s}
-.tb--sel .tb-panel.is-on .tb-steps li:nth-child(3){--d:.56s}
-.tb--sel .tb-panel.is-on .tb-steps li:nth-child(4){--d:.64s}
-.tb--sel .tb-panel.is-on .tb-steps li:nth-child(5){--d:.72s}
-.tb--sel .tb-answer{min-width:0}
 
 @media (prefers-reduced-motion: reduce){
-  .tb--sel *,.tb--sel *::after{transition-duration:.01s!important;transition-delay:0s!important}
+  .tb--ui *,.tb--ui *::before,.tb--ui *::after{transition-duration:.01s!important;transition-delay:0s!important}
 }

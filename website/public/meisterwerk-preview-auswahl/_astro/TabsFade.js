@@ -2,10 +2,8 @@
 // Meisterliche Malerarbeiten, Desktop (ab 1200 px Breite und 600 px Höhe, volle Bewegung): Die Sektion wird gepinnt.
 // Rechts blendet zuerst das Bild aus, dann blenden die Tabs nacheinander sanft ein und aus. Danach löst sich der Pin.
 // Die Texte passen immer in 100vh: Schrift und Abstände werden bei Bedarf verkleinert.
-// FAQ (data-tb-select), ab 1025 px: kein Scroll-Effekt. Die Fragen links sind anwählbar, die Antwort steht rechts;
-// die alte Antwort schließt sich, dann öffnet sich die neue. Ein goldener Balken gleitet zur gewählten Frage.
-// Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt direkt darunter auf,
-// immer nur ein Tab ist offen.
+// FAQ (data-tb-accordion), Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt
+// direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere), auch über beide FAQ-Spalten.
 import { t as gsap } from "./gsap.CvDoa17S.js";
 import { r as ScrollTrigger } from "./motion.B5Hf7-lS.js";
 
@@ -18,15 +16,15 @@ function initTabs(sec) {
   const left = sec.querySelector(".tb-left");
   const panels = [...sec.querySelectorAll("[data-tb-panel]")];
   const tabs = [...sec.querySelectorAll("[data-tb-tab]")];
-  const tabList = sec.querySelector("[data-tb-tabs]");
+  const tabLists = [...sec.querySelectorAll("[data-tb-tabs]")];
+  const tabList = tabLists[0];
   const buttons = tabs.map((t) => t.querySelector(".tb-tab"));
   const inners = panels.map((p) => p.querySelector(".tb-inner"));
   const fadeShare = parseFloat(sec.dataset.tbFade) || 0.36;
-  const selectMode = sec.hasAttribute("data-tb-select");
+  const accordionOnly = sec.hasAttribute("data-tb-accordion");
   const mq = window.matchMedia(
     "(min-width: 1200px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)"
   );
-  const mqSel = window.matchMedia("(min-width: 1025px)");
 
   const MIN_SCALE = 0.62;
   let ctx = null;
@@ -45,22 +43,18 @@ function initTabs(sec) {
     // Tab-Inhalte zurück in die Bühne, Aufklapp-Hüllen entfernen
     panels.forEach((p) => view.appendChild(p));
     tabs.forEach((li) => li.querySelector(".tb-collapse")?.remove());
-    sec.classList.remove("tb--pin", "tb--ui", "tb--sel");
-    tabList.querySelector(".tb-ind")?.remove();
-    tabList.removeAttribute("role");
-    tabList.removeAttribute("aria-orientation");
+    sec.classList.remove("tb--pin", "tb--ui");
     sec.style.height = "";
     sec.style.removeProperty("--tb-s");
     left.style.transform = "";
-    tabList.setAttribute("aria-hidden", "true");
-    tabList.classList.remove("has-active");
+    tabLists.forEach((l) => {
+      l.setAttribute("aria-hidden", "true");
+      l.classList.remove("has-active");
+    });
     tabs.forEach((li, i) => {
       li.classList.remove("is-on");
-      li.removeAttribute("role");
       buttons[i].setAttribute("tabindex", "-1");
       buttons[i].removeAttribute("aria-expanded");
-      buttons[i].removeAttribute("aria-selected");
-      buttons[i].removeAttribute("role");
     });
     panels.forEach((p) => {
       p.removeAttribute("role");
@@ -73,7 +67,7 @@ function initTabs(sec) {
   // ---------- Tab-Liste zum Antippen ----------
   const buildTabs = () => {
     sec.classList.add("tb--ui");
-    tabList.removeAttribute("aria-hidden");
+    tabLists.forEach((l) => l.removeAttribute("aria-hidden"));
     controller = new AbortController();
 
     let current = -1;
@@ -102,73 +96,6 @@ function initTabs(sec) {
       buttons[i].addEventListener("click", () => toggle(i), { signal: controller.signal });
     });
     toggle(0);
-  };
-
-  // ---------- FAQ: Fragen anwählen, Antwort rechts ----------
-  const buildSelect = () => {
-    sec.classList.add("tb--sel");
-    tabList.removeAttribute("aria-hidden");
-    tabList.setAttribute("role", "tablist");
-    tabList.setAttribute("aria-orientation", "vertical");
-    controller = new AbortController();
-    const { signal } = controller;
-
-    const ind = document.createElement("span");
-    ind.className = "tb-ind";
-    ind.setAttribute("aria-hidden", "true");
-    tabList.appendChild(ind);
-
-    let current = -1;
-    const place = () => {
-      const li = tabs[current];
-      if (!li) return;
-      ind.style.setProperty("--y", li.offsetTop + "px");
-      ind.style.height = li.offsetHeight + "px";
-    };
-    const select = (index, focus) => {
-      if (index === current) return;
-      current = index;
-      tabs.forEach((li, k) => {
-        const on = k === index;
-        li.classList.toggle("is-on", on);
-        buttons[k].setAttribute("aria-selected", String(on));
-        buttons[k].tabIndex = on ? 0 : -1;
-        panels[k].classList.toggle("is-on", on);
-        panels[k].inert = !on;
-      });
-      place();
-      if (focus) buttons[index].focus();
-    };
-
-    tabs.forEach((li, i) => {
-      li.setAttribute("role", "presentation");
-      buttons[i].setAttribute("role", "tab");
-      panels[i].setAttribute("role", "tabpanel");
-      buttons[i].addEventListener("click", () => select(i), { signal });
-      buttons[i].addEventListener(
-        "keydown",
-        (e) => {
-          const n = tabs.length;
-          let to = null;
-          if (e.key === "ArrowDown" || e.key === "ArrowRight") to = (i + 1) % n;
-          else if (e.key === "ArrowUp" || e.key === "ArrowLeft") to = (i - 1 + n) % n;
-          else if (e.key === "Home") to = 0;
-          else if (e.key === "End") to = n - 1;
-          if (to !== null) {
-            e.preventDefault();
-            select(to, true);
-          }
-        },
-        { signal }
-      );
-    });
-
-    // erste Frage steht sofort, der Balken springt ohne Animation an seinen Platz
-    ind.style.transition = "none";
-    select(0);
-    ind.getBoundingClientRect();
-    ind.style.transition = "";
-    window.addEventListener("load", place, { signal });
   };
 
   // ---------- Pin mit Ein- und Ausblenden ----------
@@ -258,10 +185,7 @@ function initTabs(sec) {
 
   const build = () => {
     reset();
-    if (selectMode) {
-      if (mqSel.matches) buildSelect();
-      else buildTabs();
-    } else if (mq.matches) buildPin();
+    if (!accordionOnly && mq.matches) buildPin();
     else buildTabs();
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };
@@ -272,6 +196,5 @@ function initTabs(sec) {
     timer = setTimeout(build, 250);
   });
   mq.addEventListener("change", build);
-  mqSel.addEventListener("change", build);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
 }
