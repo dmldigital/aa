@@ -21,12 +21,12 @@ const panelOf = (item: Item, i: number) =>
   item.children ? `sub-${i}` : menuPreview[item.href] ? `pv-${i}` : 'contact';
 
 const row =
-  'group/row flex w-full cursor-pointer items-center justify-between gap-4 py-2 text-left font-display text-[clamp(22px,2vw,30px)]/[1.2] font-normal tracking-[-0.02em] text-ink transition-[color,padding] duration-300 hover:pl-2 hover:text-gold aria-[current=page]:text-gold data-[active]:pl-2 data-[active]:text-gold';
+  'group/row flex w-full cursor-pointer items-center justify-between gap-4 py-2 text-left font-display text-[clamp(22px,2vw,30px)]/[1.2] font-normal tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold data-[active]:text-gold';
 const arrow =
   'text-[18px] opacity-0 transition-[opacity,transform] duration-300 group-hover/row:translate-x-1 group-hover/row:opacity-100 group-data-[active]/row:opacity-100 max-[700px]:opacity-100';
-// Rechte Seite: alle Flächen liegen übereinander, die gewählte blendet weich ein (kurz verzögert, mit leichtem Aufsteigen), die vorige blendet schneller aus
+// Rechte Seite: alle Flächen liegen übereinander (die Höhe bleibt gleich), die gewählte blendet ein, die vorige gleichzeitig aus. Nur Deckkraft, keine Bewegung
 const panel =
-  'group/pan pointer-events-none invisible col-start-1 row-start-1 translate-y-3 opacity-0 transition-[opacity,transform,visibility] duration-300 ease-out data-[show]:pointer-events-auto data-[show]:visible data-[show]:translate-y-0 data-[show]:opacity-100 data-[show]:delay-150 data-[show]:duration-[800ms] data-[show]:ease-[cubic-bezier(0.22,1,0.36,1)]';
+  'pointer-events-none invisible col-start-1 row-start-1 opacity-0 transition-[opacity,visibility] duration-500 ease-in-out data-[show]:pointer-events-auto data-[show]:visible data-[show]:opacity-100';
 const sub =
   'font-display text-[17px]/[1.3] tracking-[-0.01em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
 ---
@@ -96,7 +96,7 @@ const sub =
       </ul>
     </nav>
 
-    <div class="grid">
+    <div class="grid items-start">
       <div data-split-panel="contact" data-show class={panel}>
         <KontaktPanel {site} />
       </div>

@@ -130,10 +130,17 @@ const { site = 'main', current = '/' } = Astro.props;
       );
       panels.forEach((p) => p.toggleAttribute('data-show', p.dataset.splitPanel === id));
     };
+    // Kurze Verzögerung (Hover-Absicht): Beim schnellen Überfahren mehrerer Punkte flackern keine Zwischenflächen
+    let timer = 0;
+    const later = (id: string) => {
+      clearTimeout(timer);
+      timer = window.setTimeout(() => show(id), 90);
+    };
     targets.forEach((t) => {
       const id = t.dataset.splitTarget!;
-      t.addEventListener('mouseenter', () => show(id));
+      t.addEventListener('mouseenter', () => later(id));
       t.addEventListener('focus', () => show(id));
+      t.addEventListener('mouseleave', () => clearTimeout(timer));
       if (t.tagName === 'BUTTON') t.addEventListener('click', () => show(id));
     });
     split.addEventListener('close', () => show('contact'));
