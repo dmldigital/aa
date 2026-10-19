@@ -61,3 +61,8 @@
   .mz-form{gap:16px}
   .mz-direct{display:none}
 }
+
+/* "Unsere Exklusive Projekte" bleiben stehen, das FAQ schiebt sich von unten darüber */
+.ep-sheet{display:flow-root}
+.ep--on .ep-sheet{position:sticky;top:0}
+.tb.faq--cover{position:relative;z-index:3}
