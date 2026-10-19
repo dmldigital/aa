@@ -87,7 +87,7 @@
 .tb--pin{height:420vh}
 .tb--pin .tb-sticky{position:sticky;top:0;display:flex;align-items:center;height:100svh;min-height:600px;overflow:clip}
 .tb--pin .tb-grid{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:0 20px}
-.tb--pin .tb-right{display:block}
+.tb--pin .tb-right{display:block;position:relative}
 .tb--pin .tb-view{display:block;position:relative;height:calc(100svh - 120px);min-height:400px;overflow:hidden}
 .tb--pin .tb-media,.tb--pin .tb-panel{position:absolute;inset:0;margin:0}
 .tb--pin .tb-media>div,.tb--pin .tb-media picture,.tb--pin .tb-media img{height:100%}
@@ -175,6 +175,6 @@
 }
 
 .tb--pin .tb-media{display:none}
-.tb--pin .tb-line{position:absolute;left:0;top:6%;bottom:6%;z-index:3;width:1px;background:rgba(165,147,113,.6);pointer-events:none}
+.tb--pin .tb-line{position:absolute;left:0;top:6%;height:88%;z-index:3;width:1px;background:rgba(165,147,113,.6);pointer-events:none}
 .tb--pin .tb-line{-webkit-mask-image:linear-gradient(to bottom,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 3%,#000 97%,transparent)}
 .tb--pin .tb-line::after{content:"";position:absolute;top:0;bottom:0;left:1px;width:6px;background:linear-gradient(to right,rgba(60,45,25,.05),rgba(60,45,25,0));-webkit-mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 14%,#000 86%,transparent)}

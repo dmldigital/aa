@@ -13,7 +13,7 @@ const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isMobile = () => window.matchMedia('(max-width: 767.98px)').matches;
 
 /* Weiches Scrollen */
-export const lenis = reduced ? null : new Lenis({ lerp: 0.1, anchors: true });
+export const lenis = reduced ? null : new Lenis({ lerp: 0.07, anchors: true });
 if (lenis) {
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((time) => lenis.raf(time * 1000));

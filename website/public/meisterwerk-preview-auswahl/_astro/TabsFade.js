@@ -12,6 +12,7 @@ document.querySelectorAll("[data-tb]").forEach(initTabs);
 
 function initTabs(sec) {
   const view = sec.querySelector(".tb-view");
+  const right = sec.querySelector(".tb-right");
   const stage = sec.querySelector(".tb-sticky");
   const left = sec.querySelector(".tb-left");
   const panels = [...sec.querySelectorAll("[data-tb-panel]")];
@@ -20,7 +21,7 @@ function initTabs(sec) {
   const tabList = tabLists[0];
   const buttons = tabs.map((t) => t.querySelector(".tb-tab"));
   const inners = panels.map((p) => p.querySelector(".tb-inner"));
-  const fadeShare = parseFloat(sec.dataset.tbFade) || 0.36;
+  const fadeShare = parseFloat(sec.dataset.tbFade) || 0.9;
   const accordionOnly = sec.hasAttribute("data-tb-accordion");
   const mq = window.matchMedia(
     "(min-width: 1200px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)"
@@ -41,7 +42,7 @@ function initTabs(sec) {
       controller = null;
     }
     // Tab-Inhalte zurück in die Bühne, Aufklapp-Hüllen und Trennstrich entfernen
-    view.querySelector(".tb-line")?.remove();
+    right.querySelector(".tb-line")?.remove();
     panels.forEach((p) => view.appendChild(p));
     tabs.forEach((li) => li.querySelector(".tb-collapse")?.remove());
     sec.classList.remove("tb--pin", "tb--ui");
@@ -133,9 +134,9 @@ function initTabs(sec) {
 
     const vh = window.innerHeight;
     const FADE = fadeShare * vh; // Ausblenden + Einblenden zusammen
-    const LEAD = 0.4 * vh; // Bild bleibt zu Beginn stehen
+    const LEAD = 0.25 * vh; // zu Beginn steht nur der Strich
     const TAIL = 0.2 * vh; // letzter Tab bleibt kurz stehen, dann Pin lösen
-    const holdOf = (i) => (parseFloat(panels[i].dataset.hold) || 0.6) * vh; // jeder Tab bleibt eine Weile stehen
+    const holdOf = (i) => (parseFloat(panels[i].dataset.hold) || 0.5) * vh; // jeder Tab bleibt eine Weile stehen
 
     // Zeitplan in Scroll-Pixeln
     let pos = LEAD;
@@ -163,7 +164,12 @@ function initTabs(sec) {
       const line = document.createElement("div");
       line.className = "tb-line";
       line.setAttribute("aria-hidden", "true");
-      view.appendChild(line);
+      right.appendChild(line);
+      // Der Strich reicht über den höchsten Text hinaus (mittig zur Bühne, höchstens bis kurz vor den Bildschirmrand)
+      const tallest = Math.max(...inners.map((inner) => inner.offsetHeight));
+      const lineH = Math.min(tallest + 0.16 * vh, stage.clientHeight - 48);
+      line.style.height = lineH + "px";
+      line.style.top = view.offsetTop + (view.clientHeight - lineH) / 2 + "px";
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -171,7 +177,7 @@ function initTabs(sec) {
           trigger: sec,
           start: "top top",
           end: "bottom bottom",
-          scrub: 0.8,
+          scrub: 1.6,
           invalidateOnRefresh: true,
           onUpdate: (self) => update(self.progress * total),
         },
@@ -186,13 +192,13 @@ function initTabs(sec) {
 
       plan.forEach((p, i) => {
         if (i > 0) {
-          tl.to(inners[i - 1], { x: hidden(inners[i - 1]), duration: FADE * 0.45, ease: "power2.in" }, p.start);
+          tl.to(inners[i - 1], { x: hidden(inners[i - 1]), duration: FADE * 0.44, ease: "power2.inOut" }, p.start);
         }
         tl.fromTo(
           inners[i],
           { x: hidden(inners[i]) },
-          { x: 0, duration: FADE * 0.55, ease: "power3.out", immediateRender: false },
-          p.start + (i > 0 ? FADE * 0.45 : 0)
+          { x: 0, duration: FADE * (i > 0 ? 0.52 : 0.8), ease: "power3.inOut", immediateRender: false },
+          p.start + (i > 0 ? FADE * 0.48 : 0)
         );
       });
 
