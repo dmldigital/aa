@@ -16,6 +16,7 @@ FILES = [
     "CtaReveal.css", "CtaReveal.js",
     "FaqCover.js",
     "WelcomeChain.css", "WelcomeChain.js",
+    "WelcomeZoom.css", "WelcomeZoom.js",
     "WelcomeScroll.astro_astro_type_script_index_0_lang.n8bjhO38.js",  # Original-Skript, von uns verändert
 ]
 

@@ -8,7 +8,7 @@ import wohnbereich from '../../assets/img/205-meisterwerk-20230120-Bearbeitet-sc
 
 /**
  * Willkommen-Szene der Startseite (Original 53bda50 und 3c77667): Text und drei Bilder. Desktop: Der Text bleibt
- * stehen (sticky), während die Bilder links nacheinander hochscrollen (jedes Bild rollt von oben nach unten auf).
+ * stehen (sticky), während die Bilder links nacheinander hochscrollen (ohne Eingangsanimation).
  * Zuletzt gleitet die Überschrift „Ihr Partner für exklusive Malerleistungen …“ unter dem Text herein. Bis 1024 px steht der Text oben, die
  * Bilder liegen darunter übereinander und schieben sich bei angehaltener Seite (Pin) von rechts herein.
  * Ohne reduzierte Bewegung nur als Stapel untereinander. Skript unten.
@@ -125,20 +125,8 @@ const images = [
     const imgs = [...stack.querySelectorAll<HTMLElement>('[data-ws-img]')];
     const mm = gsap.matchMedia();
 
-    // Desktop: Jedes Bild rollt beim Hereinscrollen von oben nach unten auf (kein Zoom)
+    // Desktop: Die Bilder haben keine Eingangsanimation, sie laufen nur beim Scrollen mit
     mm.add('(min-width: 1025px) and (prefers-reduced-motion: no-preference)', () => {
-      imgs.forEach((el) => {
-        gsap.fromTo(
-          el,
-          { clipPath: 'inset(0% 0% 100% 0%)' },
-          {
-            clipPath: 'inset(0% 0% 0% 0%)',
-            duration: 1.25,
-            ease: 'grow',
-            scrollTrigger: { trigger: el, start: 'top 88%', once: true },
-          },
-        );
-      });
       // Schlussüberschrift gleitet unter dem Text herein, sobald das letzte Bild ankommt
       gsap.set(closing, { opacity: 0, x: -60 });
       gsap.to(closing, {
@@ -153,16 +141,6 @@ const images = [
     // Tablet und Handy: Sobald das Ende des Blocks den unteren Bildschirmrand erreicht, hält die Seite an: oben bleibt das
     // Textende stehen, unten schieben sich das zweite und dritte Bild von rechts über das erste
     mm.add('(max-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-      gsap.fromTo(
-        imgs[0],
-        { clipPath: 'inset(0% 0% 100% 0%)' },
-        {
-          clipPath: 'inset(0% 0% 0% 0%)',
-          duration: 1.25,
-          ease: 'grow',
-          scrollTrigger: { trigger: imgs[0], start: 'top 88%', once: true },
-        },
-      );
       gsap.set(imgs.slice(1), { xPercent: 100 });
       gsap.set(closing, { opacity: 0, x: -40 });
       const tl = gsap.timeline({
