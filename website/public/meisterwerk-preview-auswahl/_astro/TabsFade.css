@@ -1,7 +1,7 @@
 /* Meisterwerk Maler Manufaktur: Tab-Sektionen im Schriftsystem der Seite.
    Überschriften und Labels in Urbanist, Fließtext in der Seitenschrift (15/22,5, schwarz 70 %), goldene Chevrons,
    Links wie auf der Willkommens-Sektion. Keine Linien in den Tab-Texten.
-   "Meisterliche Malerarbeiten" (Pin, ab 1200 px): Rechts blenden Bild und drei Tabs beim Scrollen nacheinander ein und aus,
+   "Meisterliche Malerarbeiten" (Pin, ab 1200 px): Rechts gleiten Bild und drei Tabs beim Scrollen nacheinander ein und aus,
    alles passt in 100vh. FAQ und Handy/Tablet: aufklappbare Tabs, immer nur einer offen. Das FAQ steht ab 768 px
    zweispaltig (50/50), je fünf Fragen pro Spalte. */
 
@@ -88,7 +88,7 @@
 .tb--pin .tb-sticky{position:sticky;top:0;display:flex;align-items:center;height:100svh;min-height:600px;overflow:clip}
 .tb--pin .tb-grid{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:0 20px}
 .tb--pin .tb-right{display:block}
-.tb--pin .tb-view{display:block;position:relative;height:calc(100svh - 120px);min-height:400px}
+.tb--pin .tb-view{display:block;position:relative;height:calc(100svh - 120px);min-height:400px;overflow:hidden}
 .tb--pin .tb-media,.tb--pin .tb-panel{position:absolute;inset:0;margin:0}
 .tb--pin .tb-media>div,.tb--pin .tb-media picture,.tb--pin .tb-media img{height:100%}
 .tb--pin .tb-media img{object-fit:cover}

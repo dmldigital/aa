@@ -63,6 +63,7 @@ if (last) {
             pinSpacing: true,
             scrub: 0.6,
             anticipatePin: 1,
+            refreshPriority: 10, // Pin-Abstand vor allen weiter unten liegenden Triggern berechnen
           },
         })
         .to(last, { x: M - left0, y: M - startTop, width: vw - 2 * M, height: vh - 2 * M, ease: "power2.inOut" })

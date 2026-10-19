@@ -158,7 +158,8 @@ function initTabs(sec) {
     };
 
     ctx = gsap.context(() => {
-      gsap.set(panels, { autoAlpha: 0 });
+      // Die Inhalte stehen außerhalb der Bühne (diese schneidet ab) und gleiten beim Scrollen hinein
+      gsap.set(panels, { autoAlpha: 1 });
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -172,11 +173,23 @@ function initTabs(sec) {
         },
       });
 
+      // Wechsel: Bild nach unten raus, Firmenskills von oben rein; Firmenskills nach links raus, Team von rechts rein;
+      // Team nach unten raus, Mehrwert von oben rein. Raus und rein laufen gleichzeitig.
+      const slides = [
+        { out: { yPercent: 100 }, from: { yPercent: -100 } },
+        { out: { xPercent: -100 }, from: { xPercent: 100 } },
+        { out: { yPercent: 100 }, from: { yPercent: -100 } },
+      ];
       plan.forEach((p, i) => {
         const out = i === 0 ? media : panels[i - 1];
-        tl.to(out, { autoAlpha: 0, duration: FADE / 2, ease: "sine.inOut" }, p.start);
-        tl.to(panels[i], { autoAlpha: 1, duration: FADE / 2, ease: "sine.inOut" }, p.start + FADE / 2);
-
+        const move = slides[i] || slides[slides.length - 1];
+        tl.to(out, { ...move.out, duration: FADE, ease: "power2.inOut" }, p.start);
+        tl.fromTo(
+          panels[i],
+          { ...move.from },
+          { xPercent: 0, yPercent: 0, duration: FADE, ease: "power2.inOut" },
+          p.start
+        );
       });
 
       tl.to({}, { duration: TAIL }, plan[plan.length - 1].end);
