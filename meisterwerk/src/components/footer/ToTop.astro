@@ -1,0 +1,24 @@
+---
+/** Pfeil nach oben (das Skript dazu steht in Footer.astro, Auswahl über `data-to-top`). */
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<a
+  href="#"
+  data-to-top
+  aria-label="Nach oben"
+  class:list={[
+    'inline-flex size-9 items-center justify-center text-black transition-transform duration-300 hover:-translate-y-1',
+    className,
+  ]}
+>
+  <svg viewBox="0 0 1024 1024" fill="currentColor" aria-hidden="true" class="block size-3.75">
+    <path
+      transform="matrix(1 0 0 -1 0 960)"
+      d="M533.614 951.047c-11.936 11.936-31.289 11.936-43.227 0l-427.942-427.942c-11.936-11.936-11.936-31.289 0-43.227s31.289-11.936 43.227 0l387.698 387.611-0.048-900.925c0-16.88 13.685-30.565 30.565-30.565s30.565 13.685 30.565 30.565l0.039 877.237 363.837-363.923c10.61-10.61 27.080-11.789 38.993-3.536l4.233 3.536c11.936 11.936 11.936 31.289 0 43.227l-427.942 427.942z"
+    ></path>
+  </svg>
+</a>

@@ -1,0 +1,53 @@
+---
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+import { footers } from '../../data/footer';
+import type { Site } from '../../data/nav';
+/** Überschrift „Sie haben Fragen? Lassen Sie uns reden.“ und Button „Schreiben Sie uns“. */
+interface Props {
+  site?: Site;
+  /** Zeilen: zwei Zeilen untereinander oder eine fortlaufende Zeile */
+  inline?: boolean;
+  /** Button mitliefern (sonst nur Überschrift) */
+  button?: boolean;
+  /** Wörter einzeln einblenden */
+  words?: boolean;
+  class?: string;
+}
+const {
+  site: siteKey = 'main',
+  inline = false,
+  button = true,
+  words = false,
+  class: className = '',
+} = Astro.props;
+const f = footers[siteKey];
+const heading =
+  'font-display text-[26px]/[28.6px] font-medium text-ink md:text-[30px]/[33px] lg:text-[34px]/[37.4px]';
+const lines = ['Sie haben Fragen?', 'Lassen Sie uns reden.'];
+---
+
+<div class:list={['flex flex-col items-start gap-5', className]}>
+  <h3 class={heading}>
+    {lines.map((line, i) => (
+      <span class:list={['block', inline && 'lg:inline']}>
+        {words
+          ? line.split(' ').map((word, w) => (
+              <span class="inline-block overflow-hidden align-bottom">
+                <span
+                  data-anim="slideInUp"
+                  data-anim-delay={String(i * 240 + w * 90)}
+                  class="inline-block"
+                >
+                  {word}
+                  {' '}
+                </span>
+              </span>
+            ))
+          : line}
+        {inline && i === 0 && <span class="hidden lg:inline"> </span>}
+      </span>
+    ))}
+  </h3>
+  {button && <Button href={href(f.contactHref)}>SCHREIBEN SIE UNS</Button>}
+</div>

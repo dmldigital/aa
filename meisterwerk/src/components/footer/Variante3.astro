@@ -1,0 +1,62 @@
+---
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+import { footers } from '../../data/footer';
+import type { Site } from '../../data/nav';
+import Badge from './Badge.astro';
+import Contact from './Contact.astro';
+import Copyright from './Copyright.astro';
+import Frage from './Frage.astro';
+import Legal from './Legal.astro';
+import Logos from './Logos.astro';
+import Social from './Social.astro';
+import ToTop from './ToTop.astro';
+/** Variante 3 „Mitte“: Kopfzeile mit Logo, Überschrift und Button, darunter drei Spalten um das Badge. Die Außenspalten gleiten von den Seiten herein, die Mitte steigt auf, die Linie zeichnet sich. */
+interface Props {
+  site?: Site;
+}
+const { site = 'main' } = Astro.props;
+const f = footers[site];
+const line =
+  'block h-px w-full origin-center bg-black/20 transition-transform duration-[1400ms] ease-css not-motion-reduce:scale-x-0 not-motion-reduce:data-[in]:scale-x-100';
+---
+
+<div class="px-5 pt-8 pb-5 lg:px-7.5">
+  <div class="mx-auto w-full max-w-[min(100%,767px)] md:max-w-[min(100%,1024px)] lg:max-w-[min(100%,1700px)]">
+    <div class="flex flex-col items-start gap-6 md:grid md:grid-cols-[auto_1fr_auto] md:items-center md:gap-8">
+      <div data-anim="fadeInLeft">
+        <Logos {site} which="main" class="w-44.5" />
+      </div>
+      <Frage {site} inline button={false} words class="md:items-center md:text-center" />
+      <div data-anim="fadeInRight" data-anim-delay="400">
+        <Button href={href(f.contactHref)}>SCHREIBEN SIE UNS</Button>
+      </div>
+    </div>
+    <span data-line class:list={[line, 'my-6']}></span>
+    <div class="grid gap-x-5 gap-y-8 md:grid-cols-3 md:items-center">
+      <div data-anim="fadeInLeft" data-anim-delay="150" class="flex flex-col gap-3">
+        <Contact {site} class="gap-1.5" />
+        <Social class="-ml-2.5" />
+      </div>
+      <div data-anim="fadeInUp" data-anim-delay="300" class="md:justify-self-center">
+        {f.badge ? <Badge /> : <Logos {site} which="other" class="w-30" />}
+      </div>
+      <div
+        data-anim="fadeInRight"
+        data-anim-delay="150"
+        class="flex flex-col gap-3 md:items-end md:justify-self-end md:text-right"
+      >
+        <Legal
+          {site}
+          copyright={false}
+          class="flex-wrap gap-x-5 gap-y-2 md:flex-col md:items-end"
+        />
+        <Copyright />
+        <div class="flex items-center gap-5">
+          {f.badge && <Logos {site} which="other" class="w-24" />}
+          <ToTop />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

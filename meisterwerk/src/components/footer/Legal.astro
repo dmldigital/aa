@@ -1,0 +1,44 @@
+---
+import { href } from '../../data/links';
+import { footers } from '../../data/footer';
+import type { Site } from '../../data/nav';
+/** Partnernetzwerk, Impressum, Datenschutz, Cookie-Einstellungen (nur Hauptseite) und Copyright. */
+interface Props {
+  site?: Site;
+  /** Copyright-Zeile am Ende der Liste (Standard: ja) */
+  copyright?: boolean;
+  class?: string;
+}
+const { site: siteKey = 'main', copyright = true, class: className = '' } = Astro.props;
+const f = footers[siteKey];
+const small =
+  'font-display text-[8px]/[10.4px] font-medium tracking-label text-ink uppercase hover:text-black';
+const links = [
+  { label: 'Partnernetzwerk', href: href(f.partnersHref) },
+  { label: 'Impressum', href: href(f.imprintHref) },
+  { label: 'Datenschutzerklärung', href: href(f.privacyHref) },
+  ...(siteKey === 'main'
+    ? [{ label: 'Cookie-Einstellungen', href: href(f.cookieHref ?? f.privacyHref) }]
+    : []),
+];
+---
+
+<ul class:list={['flex', className]}>
+  {links.map((link) => (
+    <li>
+      <a href={link.href} target="_blank" rel="noopener noreferrer" class={small}>
+        {link.label}
+      </a>
+    </li>
+  ))}
+  {copyright && (
+    <li>
+      <a
+        href="#"
+        class="font-display text-label font-medium tracking-label text-ink uppercase hover:text-black"
+      >
+        © 2026 Meisterwerke
+      </a>
+    </li>
+  )}
+</ul>

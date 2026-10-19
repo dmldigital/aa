@@ -8,9 +8,6 @@ export interface FooterData {
   headingClass: string;
   /** Bewertungs-Badge (Trustindex) zeigen */
   badge: boolean;
-  /** Obere Trennlinie: Abstände auf dem Handy (Exklusiv: 40 px oben und unten) */
-  topClass: string;
-  topInnerClass: string;
   contactHref: string;
   phone: string;
   partnersHref: string;
@@ -28,8 +25,6 @@ export const footers: Record<Site, FooterData> = {
   main: {
     headingClass: `${heading} lg:text-[40px]/[44px]`,
     badge: true,
-    topClass: '',
-    topInnerClass: '',
     contactHref: routes.contact,
     phone: company.phone,
     partnersHref: routes.partners,
@@ -41,8 +36,6 @@ export const footers: Record<Site, FooterData> = {
   exklusive: {
     headingClass: `${heading} lg:text-[60px]/[66px]`,
     badge: false,
-    topClass: 'mb-2.5 px-5',
-    topInnerClass: 'py-10',
     contactHref: '/meisterwerk-exklusive/kontakt/',
     phone: '07 141 / 23982 90',
     partnersHref: '/meisterwerk-exklusive/partner-sponsoring/',

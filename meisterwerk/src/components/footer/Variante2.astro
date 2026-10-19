@@ -1,0 +1,54 @@
+---
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+import { footers } from '../../data/footer';
+import type { Site } from '../../data/nav';
+import Badge from './Badge.astro';
+import Contact from './Contact.astro';
+import Copyright from './Copyright.astro';
+import Frage from './Frage.astro';
+import Legal from './Legal.astro';
+import Logos from './Logos.astro';
+import Social from './Social.astro';
+import ToTop from './ToTop.astro';
+/** Variante 2 „Band“: Überschrift (Wörter steigen auf) mit Button, darunter Logo und Kontakt, rechts das Badge, unten die rechtlichen Links. Die Trennlinie zeichnet sich beim Hereinscrollen. */
+interface Props {
+  site?: Site;
+}
+const { site = 'main' } = Astro.props;
+const f = footers[site];
+const line =
+  'block h-px w-full origin-left bg-black/20 transition-transform duration-[1400ms] ease-css not-motion-reduce:scale-x-0 not-motion-reduce:data-[in]:scale-x-100';
+---
+
+<div class="px-5 pt-8 pb-5 lg:px-7.5">
+  <div class="mx-auto w-full max-w-[min(100%,767px)] md:max-w-[min(100%,1024px)] lg:max-w-[min(100%,1700px)]">
+    <div class="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
+      <div class="flex flex-col gap-6">
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-10">
+          <Frage {site} inline button={false} words />
+          <div data-anim="fadeInRight" data-anim-delay="500">
+            <Button href={href(f.contactHref)}>SCHREIBEN SIE UNS</Button>
+          </div>
+        </div>
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:gap-10">
+          <Logos {site} which="main" class="w-40" />
+          <Contact {site} class="gap-1.5" />
+          <Social class="-ml-2.5" />
+        </div>
+      </div>
+      <div data-anim="fadeIn" data-anim-delay="500">
+        {f.badge && <Badge />}
+      </div>
+    </div>
+    <span data-line class:list={[line, 'mt-6']}></span>
+    <div class="flex flex-col gap-4 pt-4 md:flex-row md:items-center md:justify-between">
+      <Legal {site} copyright={false} class="flex-wrap gap-x-6 gap-y-2" />
+      <div class="flex items-center justify-between gap-6 md:justify-end">
+        <Copyright />
+        <Logos {site} which="other" class="w-24" />
+        <ToTop />
+      </div>
+    </div>
+  </div>
+</div>
