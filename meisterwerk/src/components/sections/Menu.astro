@@ -25,8 +25,9 @@ const { site = 'main', current = '/' } = Astro.props;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const dialogs = [...document.querySelectorAll<HTMLDialogElement>('[data-menu-dialog]')];
   const active = () =>
-    dialogs.find((d) => d.dataset.variant === (document.documentElement.dataset.menu || '1')) ??
-    dialogs[0];
+    dialogs.find(
+      (d) => d.dataset.variant === (window.matchMedia('(max-width: 700px)').matches ? '3' : '2'),
+    ) ?? dialogs[0];
   let busy = false;
   let opener: HTMLElement | null = null;
 
