@@ -16,7 +16,7 @@ const { page } = Astro.props;
 
 /**
  * Schema aller Leistungsseiten: Willkommen-Szene wie auf der Startseite (Text steht rechts, die Bilder der Seite laufen
- * links vorbei, das erste Bild beginnt direkt unter der Kopfzeile, danach Luft wie auf der Startseite), Vorteile als
+ * links vorbei, kleiner Abstand zur Kopfzeile, am Ende Luft wie auf der Startseite), Vorteile als
  * Karten, die beiden Textblöcke, alle Bilder als Karussell wie „Unsere Exklusive Projekte“ mit Großansicht und
  * „Exzellenz ist unser Maßstab“ als Karten.
  */
@@ -43,7 +43,7 @@ const intro2 =
     images={images}
     closing={null}
     headingTag="h1"
-    rootClass="mt-6 mb-[10vh] md:mt-8 md:mb-15 lg:mt-0 lg:mb-[20vh]"
+    rootClass="mt-6 mb-[10vh] md:mt-8 md:mb-15 lg:mt-10 lg:mb-[20vh]"
   />
   <ServiceBenefits label={page.intro.label} title={page.intro.title} list={page.intro.list} />
   <ServiceBlocks blocks={page.intro.blocks} />
