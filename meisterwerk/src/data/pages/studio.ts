@@ -19,6 +19,8 @@ export interface Member {
   href: string;
   img: ImageMetadata;
   alt: string;
+  /** Noch kein Foto vorhanden: Das Team-Akkordeon zeigt dann ein Monogramm statt des Platzhalterbilds. */
+  noPhoto?: boolean;
 }
 
 export const team: Member[] = [
@@ -56,6 +58,7 @@ export const team: Member[] = [
     href: '/samet-erenuglu/',
     img: samet,
     alt: 'Auszubildender Maler Samet Erenuglu vom Malerbetrieb Meisterwerk Ludwigsburg & Stuttgart.',
+    noPhoto: true,
   },
 ];
 
