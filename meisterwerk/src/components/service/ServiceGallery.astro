@@ -1,128 +1,51 @@
 ---
 /**
- * Bilder einer Leistung als Karussell wie „Unsere Exklusive Projekte“ auf der Startseite: goldene Überschrift mit
- * „Unser Portfolio“, drei Bilder nebeneinander (Handy eins), goldene Pfeile außen, Punkte auf dem Handy, Endlosschleife,
- * Ziehen und Wischen. Bild beim Darüberfahren wie die Projektkarten (größer, heller, runder Kreis mit Plus). Ein Klick
- * öffnet das Bild groß, mit Pfeilen, Tastatur (Pfeiltasten, Esc) und Wischen als Galerie. Das Karussell steigt beim
- * Hereinscrollen als ganze Box auf.
+ * Bilder einer Leistung in der Aufteilung der Vorteile und der Exzellenz-Karten (neues Design): links bleiben das kleine
+ * Label und die goldene Überschrift stehen, rechts liegen die Bilder in gleich großen Boxen (zwei Spalten). Die Boxen
+ * steigen beim Hereinscrollen als ganze Box auf, das Bild darin bleibt ruhig. Hover wie bei den Projektkarten der
+ * Startseite (Bild größer und heller, runder Kreis mit Plus). Ein Klick öffnet das Bild groß, mit Pfeilen, Tastatur
+ * (Pfeiltasten, Esc) und Wischen als Galerie. Es werden immer eine gerade Zahl Bilder gezeigt (keine halbleere Reihe).
  */
 import { Picture, getImage } from 'astro:assets';
-import ArrowLink from '../ui/ArrowLink.astro';
 import Icon from '../Icon.astro';
-import { href, routes } from '../../data/links';
 
 interface Props {
   images: ImageMetadata[];
   alt: string;
+  label?: string;
   heading?: string;
 }
-const { images, alt, heading = 'Einblicke in unsere Arbeit' } = Astro.props;
-
+const { alt, label = 'Galerie', heading = 'Einblicke in unsere Arbeit' } = Astro.props;
+const images = Astro.props.images.slice(0, Astro.props.images.length - (Astro.props.images.length % 2));
 const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, format: 'webp' })));
-// Endlosschleife: je ein Klon-Satz davor und dahinter, die echten Bilder stehen in der Mitte
-const slides = [0, 1, 2].flatMap((set) =>
-  images.map((src, i) => ({ src, i, full: full[i].src, clone: set !== 1 })),
-);
 ---
 
 {images.length > 0 && (
-  <section
-    data-sg
-    class="flex flex-col overflow-x-clip px-5 mt-[10vh] mb-[12vh] md:mt-[8vh] md:mb-[10vh] lg:mt-[14vh] lg:mb-[20vh] lg:px-7.5"
-  >
-    <div class="mx-auto flex w-full max-w-page grow flex-col gap-3.75 lg:gap-5">
-      <!-- Kopfzeile -->
-      <div class="mb-1.25 flex items-center md:gap-5 lg:mb-5" data-anim="fadeIn">
-        <div class="w-full md:mb-1.25 md:w-1/2 lg:mb-0">
-          <h2 class="font-display text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-h3">{heading}</h2>
-        </div>
-        <div class="hidden justify-end md:flex md:w-1/2">
-          <div>
-            <ArrowLink href={href(routes.projects)} tone="gold">
-              Unser Portfolio
-            </ArrowLink>
-          </div>
-        </div>
+  <section data-sg class="sg">
+    <div class="sg-inner">
+      <div class="sg-heading">
+        <p class="sg-eyebrow" data-anim="fadeIn">{label}</p>
+        <h2 data-anim="fadeIn" data-anim-delay="100">{heading}</h2>
       </div>
-
-      <!-- Karussell -->
-      <div class="relative" data-carousel aria-roledescription="carousel" aria-label={heading}>
-        <div class="@container touch-pan-y overflow-hidden pb-1.25 md:pb-0" data-viewport data-box data-pend>
-          <div
-            class="flex gap-(--gap) [--gap:20px] [--n:1] [--step:calc((100cqw-(var(--n)-1)*var(--gap))/var(--n)+var(--gap))] md:[--n:3] lg:[--gap:30px]"
-            style={`transform:translateX(calc(var(--step) * -${images.length}))`}
-            data-track
-          >
-            {slides.map((s) => (
-              <button
-                type="button"
-                class="group/card relative block aspect-[3/2] w-[calc(var(--step)-var(--gap))] shrink-0 cursor-pointer overflow-hidden"
-                aria-roledescription="slide"
-                aria-label={`${alt}, Bild ${s.i + 1} vergrößern`}
-                aria-hidden={s.clone ? 'true' : undefined}
-                tabindex={s.clone ? -1 : undefined}
-                data-sg-item
-                data-i={s.i}
-                data-full={s.full}
-                data-clone={s.clone ? '' : undefined}
-              >
-                <Picture
-                  formats={['avif']}
-                  fallbackFormat="webp"
-                  src={s.src}
-                  alt={alt}
-                  widths={[350, 440, 880]}
-                  sizes="(min-width: 1025px) 440px, (min-width: 768px) 315px, 350px"
-                  loading="lazy"
-                  draggable="false"
-                  class="block size-full object-cover transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80"
-                />
-                <span
-                  aria-hidden="true"
-                  class="pointer-events-none absolute top-1/2 left-1/2 z-10 flex size-17.5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-[40px]/[22.5px] text-white opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
-                >
-                  +
-                </span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <button
-          type="button"
-          aria-label="Voriges Bild"
-          data-prev
-          class="absolute top-[100.8px] left-[-60px] hidden size-11 cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
-        >
-          <Icon name="arrow-left" class="block shrink-0 size-11" />
-        </button>
-        <button
-          type="button"
-          aria-label="Nächstes Bild"
-          data-next
-          class="absolute top-[100.8px] right-[-60px] hidden size-11 cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
-        >
-          <Icon name="arrow-right" class="block shrink-0 size-11" />
-        </button>
-      </div>
-
-      <!-- Nur Handy: Link unter dem Karussell mit Punkten -->
-      <div class="relative md:hidden">
-        <div class="text-[16px]/[24px]">
-          <ArrowLink href={href(routes.projects)} tone="black">
-            Unser Portfolio
-          </ArrowLink>
-        </div>
-        <div class="absolute top-1/2 right-0 flex -translate-y-1/2" data-dots>
-          {images.map((_, i) => (
-            <button
-              type="button"
-              aria-label={`Bild ${i + 1}`}
-              class="mx-1.25 size-1.25 cursor-pointer rounded-full bg-black opacity-20 data-[active]:opacity-100"
-            />
-          ))}
-        </div>
-      </div>
+      <ul class="sg-grid">
+        {images.map((src, i) => (
+          <li class="sg-item" data-box data-pend>
+            <button type="button" class="sg-btn" data-sg-item data-full={full[i].src} aria-label={`${alt}, Bild ${i + 1} vergrößern`}>
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={src}
+                alt={alt}
+                widths={[170, 340, 460, 920]}
+                sizes="(min-width: 1025px) 400px, (min-width: 768px) 360px, 170px"
+                loading="lazy"
+                draggable="false"
+              />
+              <span class="sg-zoom" aria-hidden="true">+</span>
+            </button>
+          </li>
+        ))}
+      </ul>
     </div>
 
     <div class="sg-lb" data-sg-lb hidden role="dialog" aria-modal="true" aria-label="Bildansicht">
@@ -143,15 +66,12 @@ const slides = [0, 1, 2].flatMap((set) =>
 <script>
   import { lenis } from '../../scripts/motion';
   import { initBoxReveal } from '../../scripts/reveal';
-  import { initCarousel } from '../../scripts/carousel';
 
   const root = document.querySelector<HTMLElement>('[data-sg]');
   if (root) {
-    initCarousel(root);
     initBoxReveal([...root.querySelectorAll<HTMLElement>('[data-box]')]);
 
-    // Die Großansicht blättert nur durch die echten Bilder, die Klone der Schleife öffnen das Bild mit gleicher Nummer
-    const items = [...root.querySelectorAll<HTMLElement>('[data-sg-item]:not([data-clone])')];
+    const items = [...root.querySelectorAll<HTMLElement>('[data-sg-item]')];
     const lb = root.querySelector<HTMLElement>('[data-sg-lb]')!;
     const img = lb.querySelector<HTMLImageElement>('[data-sg-img]')!;
     const closeBtn = lb.querySelector<HTMLElement>('[data-sg-close]')!;
@@ -192,9 +112,7 @@ const slides = [0, 1, 2].flatMap((set) =>
       opener?.focus();
     };
 
-    root.querySelectorAll<HTMLElement>('[data-sg-item]').forEach((it) =>
-      it.addEventListener('click', () => open(Number(it.dataset.i))),
-    );
+    items.forEach((it, i) => it.addEventListener('click', () => open(i)));
     closeBtn.addEventListener('click', close);
     prevBtn.addEventListener('click', () => show(current - 1));
     nextBtn.addEventListener('click', () => show(current + 1));
@@ -224,6 +142,106 @@ const slides = [0, 1, 2].flatMap((set) =>
 </script>
 
 <style>
+  .sg {
+    --ink: #090402;
+    margin: 56px 20px 64px;
+    color: var(--ink);
+  }
+  .sg-inner {
+    display: grid;
+    gap: 32px;
+    max-width: var(--container-page);
+    margin: 0 auto;
+  }
+  .sg-eyebrow {
+    margin: 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .sg-heading h2 {
+    margin: 36px 0 0;
+    color: var(--color-gold);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.25;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+  .sg-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .sg-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+  .sg-btn {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .sg-btn :global(picture),
+  .sg-btn :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .sg-btn :global(img) {
+    transition:
+      transform 0.45s ease-in-out,
+      opacity 0.45s ease-in-out;
+  }
+  .sg-btn:hover :global(img),
+  .sg-btn:focus-visible :global(img) {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  .sg-zoom {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #000000b3;
+    color: #fff;
+    font-size: 40px;
+    line-height: 22.5px;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .sg-btn:hover .sg-zoom,
+  .sg-btn:focus-visible .sg-zoom {
+    opacity: 1;
+  }
+  .sg-btn:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: -4px;
+  }
+
   /* Großansicht */
   .sg-lb {
     position: fixed;
@@ -304,6 +322,35 @@ const slides = [0, 1, 2].flatMap((set) =>
     }
   }
   @media (min-width: 1025px) {
+    .sg-lb-fig {
+      padding: 60px 120px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .sg {
+      margin: 72px 20px 80px;
+    }
+    .sg-lb-fig {
+      padding: 80px 90px;
+    }
+  }
+  @media (min-width: 1025px) {
+    .sg {
+      margin: 12vh 30px;
+    }
+    .sg-inner {
+      grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
+      gap: 0 6vw;
+      align-items: start;
+    }
+    .sg-heading {
+      position: sticky;
+      top: 22vh;
+    }
+    .sg-grid {
+      gap: 30px;
+    }
     .sg-lb-fig {
       padding: 60px 120px;
     }
