@@ -9,12 +9,17 @@ interface Props {
   title: string;
   /** HTML-Liste der Vorteile */
   list: string;
+  /** Satz unter der Überschrift (steht links) */
+  intro?: string;
 }
-const { label, title, list } = Astro.props;
+const { label, title, list, intro } = Astro.props;
 
-const items = [...list.matchAll(/<li>\s*<p>([\s\S]*?)<\/p>\s*<\/li>/g)].map((m) => {
-  const f = m[1].match(/^<strong>([\s\S]*?)<\/strong>\s*:?\s*([\s\S]*)$/);
-  return f ? { title: f[1].trim(), text: f[2].trim() } : { title: '', text: m[1].trim() };
+// `<li><p><strong>Titel</strong>: Text</p></li>`, auch ohne `<p>` und mit dem Doppelpunkt in `<strong>`
+const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)].map((m) => {
+  const f = m[1].match(/^<strong>([\s\S]*?)<\/strong>(?:&nbsp;|\s)*:?(?:&nbsp;|\s)*([\s\S]*)$/);
+  return f
+    ? { title: f[1].replace(/\s*:\s*$/, '').trim(), text: f[2].trim() }
+    : { title: '', text: m[1].trim() };
 });
 ---
 
@@ -23,6 +28,7 @@ const items = [...list.matchAll(/<li>\s*<p>([\s\S]*?)<\/p>\s*<\/li>/g)].map((m) 
     <div class="sb-heading">
       <p class="sb-eyebrow" data-anim="fadeIn">{label}</p>
       <h2 data-anim="fadeIn" data-anim-delay="100">{title}</h2>
+      {intro && <p class="sb-intro" data-anim="fadeIn" data-anim-delay="150">{intro}</p>}
     </div>
     <div class="sb-grid">
       {items.map((it) => (
@@ -67,6 +73,12 @@ const items = [...list.matchAll(/<li>\s*<p>([\s\S]*?)<\/p>\s*<\/li>/g)].map((m) 
     font-weight: 500;
     text-wrap: balance;
   }
+  .sb-intro {
+    margin: 16px 0 0;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
   .sb-grid {
     display: grid;
     gap: 20px;
@@ -99,7 +111,8 @@ const items = [...list.matchAll(/<li>\s*<p>([\s\S]*?)<\/p>\s*<\/li>/g)].map((m) 
     .sb-card h3 {
       font-size: 24px;
     }
-    .sb-card p {
+    .sb-card p,
+    .sb-intro {
       font-size: 16px;
     }
   }

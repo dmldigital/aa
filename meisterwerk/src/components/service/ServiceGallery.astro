@@ -3,7 +3,7 @@
  * Bilder einer Leistung in der Aufteilung der Vorteile und der Exzellenz-Karten (neues Design): links bleiben das kleine
  * Label und die goldene Überschrift stehen, rechts liegen die Bilder in gleich großen Boxen (zwei Spalten). Hover wie bei den Projektkarten der
  * Startseite (Bild größer und heller, runder Kreis mit Plus). Ein Klick öffnet das Bild groß, mit Pfeilen, Tastatur
- * (Pfeiltasten, Esc) und Wischen als Galerie. Es werden immer eine gerade Zahl Bilder gezeigt (keine halbleere Reihe).
+ * (Pfeiltasten, Esc) und Wischen als Galerie. Es bleibt immer eine volle Reihe (gerade Zahl, bei mehr als acht Bildern drei Spalten und ein Vielfaches von sechs).
  */
 import { Picture, getImage } from 'astro:assets';
 import Icon from '../Icon.astro';
@@ -15,7 +15,10 @@ interface Props {
   heading?: string;
 }
 const { alt, label = 'Galerie', heading = 'Einblicke in unsere Arbeit' } = Astro.props;
-const images = Astro.props.images.slice(0, Astro.props.images.length - (Astro.props.images.length % 2));
+// Bis acht Bilder zwei Spalten, darüber drei (ab 1025 px). Es bleibt immer eine volle Reihe: gerade Zahl bzw. Vielfaches von 6
+const cols = Astro.props.images.length > 8 ? 3 : 2;
+const step = cols === 3 ? 6 : 2;
+const images = Astro.props.images.slice(0, Astro.props.images.length - (Astro.props.images.length % step));
 const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, format: 'webp' })));
 ---
 
@@ -26,7 +29,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
         <p class="sg-eyebrow" data-anim="fadeIn">{label}</p>
         <h2 data-anim="fadeIn" data-anim-delay="100">{heading}</h2>
       </div>
-      <ul class="sg-grid">
+      <ul class="sg-grid" style={`--cols:${cols}`}>
         {images.map((src, i) => (
           <li class="sg-item">
             <button type="button" class="sg-btn" data-sg-item data-full={full[i].src} aria-label={`${alt}, Bild ${i + 1} vergrößern`}>
@@ -36,7 +39,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
                 src={src}
                 alt={alt}
                 widths={[170, 340, 460, 920]}
-                sizes="(min-width: 1025px) 400px, (min-width: 768px) 360px, 170px"
+                sizes={`(min-width: 1025px) ${cols === 3 ? 265 : 400}px, (min-width: 768px) 360px, 170px`}
                 loading="lazy"
                 draggable="false"
               />
@@ -345,6 +348,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
       top: 22vh;
     }
     .sg-grid {
+      grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
       gap: 30px;
     }
     .sg-lb-fig {

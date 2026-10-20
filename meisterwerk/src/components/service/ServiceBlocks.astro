@@ -5,11 +5,14 @@
  */
 import { rich } from '../../lib/rich';
 import { cleanHtml } from '../../lib/cleanHtml';
+import ArrowLink from '../ui/ArrowLink.astro';
 
 interface Props {
   blocks: { title: string; html: string }[];
+  /** Link unter den Blöcken (Exklusive-Seiten: „Lassen Sie sich inspirieren“) */
+  cta?: { label: string; href: string };
 }
-const { blocks } = Astro.props;
+const { blocks, cta } = Astro.props;
 ---
 
 <section class="mx-auto mt-10 mb-10 w-full max-w-page px-5 md:mt-15 md:mb-15 lg:mt-27 lg:mb-27 lg:px-7.5">
@@ -23,4 +26,11 @@ const { blocks } = Astro.props;
       </div>
     ))}
   </div>
+  {cta && (
+    <div class="mt-10 lg:mt-15" data-anim="fadeIn">
+      <ArrowLink href={cta.href} tone="gold">
+        {cta.label}
+      </ArrowLink>
+    </div>
+  )}
 </section>

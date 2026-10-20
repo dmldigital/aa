@@ -24,7 +24,9 @@ const { title, items } = Astro.props;
           <h3 set:html={it.title} />
           <div class="se-text" set:html={cleanHtml(it.html)} />
           {it.bullets && it.bullets.length > 0 && (
-            <ul class="se-text">{it.bullets.map((b) => <li set:html={b} />)}</ul>
+            <div class="se-text">
+              <ul>{it.bullets.map((b) => <li set:html={b} />)}</ul>
+            </div>
           )}
         </article>
       ))}

@@ -1,12 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
-import Intro from '../../components/sections/Intro.astro';
-import SectionHeading from '../../components/sections/SectionHeading.astro';
-import Pillars from '../../components/sections/Pillars.astro';
-import Feature from '../../components/sections/Feature.astro';
-import Gallery from '../../components/sections/Gallery.astro';
+import WelcomeScroll from '../../components/sections/WelcomeScroll.astro';
+import ServiceBenefits from '../../components/service/ServiceBenefits.astro';
+import ServiceBlocks from '../../components/service/ServiceBlocks.astro';
+import ServiceGallery from '../../components/service/ServiceGallery.astro';
+import ServiceExcellence from '../../components/service/ServiceExcellence.astro';
 import Projects from '../../components/sections/Projects.astro';
+import { href } from '../../data/links';
 import { EXCELLENCE, projects } from '../../data/pages/exklusive';
 
 export async function getStaticPaths() {
@@ -14,66 +15,73 @@ export async function getStaticPaths() {
   return pages.map(({ data }) => ({ params: { slug: data.slug }, props: { page: data } }));
 }
 const { page } = Astro.props;
-// Die Seite „Fugenlose Bäder“ hat im Original andere Abstände als die übrigen drei
-const old = page.slug === 'fugenlose-baeder';
-const boden = page.slug === 'fugenloser-boden';
+
+/**
+ * Schema wie die Leistungsseiten der Hauptseite (`pages/services/[slug].astro`): Willkommen-Szene mit laufenden Bildern,
+ * Vorteile als Karten (wenn der erste Block eine Vorteile-Liste ist), die übrigen Blöcke samt den Punkten des früheren
+ * Akkordeons als Textblöcke, Galerie, „Exzellenz ist unser Maßstab“ als Karten, darunter die Projekte.
+ * Die Nummern der Blöcke („01“) entfallen.
+ */
+const parts = page.intro.parts;
+const name = page.title.split(' - ')[0];
+const alt = `${name} von Meisterwerke Exklusive`;
+
+// Einleitung: Überschrift und Absätze (im Original in verschachtelten Containern)
+const lead = parts.find((p) => p.t === 'html');
+const leadHtml = lead && lead.t === 'html' ? lead.html : '';
+const heading = leadHtml.match(/<h2[^>]*>([\s\S]*?)<\/h2>/)?.[1].trim() ?? name;
+const paragraphs = [...leadHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)]
+  .map((m) => m[1].replace(/^(?:&nbsp;|\s)+/, '').trim())
+  .filter(Boolean);
+
+const buttons = parts.flatMap((p) => (p.t === 'button' ? [p] : []));
+const blocks = parts.flatMap((p) => (p.t === 'block' ? [{ title: p.title, html: p.html }] : []));
+const label = parts.flatMap((p) => (p.t === 'label' ? [p.text] : []))[0] ?? 'Die Vorteile auf einen Blick';
+
+// Erster Block „Vorteile …“ mit einer Liste aus „Titel: Text“ wird zu Karten
+const first = blocks[0];
+const strongItems = first?.html.match(/<li>\s*(?:<p>)?\s*<strong>/g)?.length ?? 0;
+const benefits = first && /^Vorteile/.test(first.title) && strongItems >= 3 ? first : null;
+const benefitsList = benefits?.html.match(/<ul[\s\S]*<\/ul>/)?.[0] ?? '';
+const benefitsIntro = benefits?.html.split('<ul')[0].replace(/<[^>]+>/g, '').trim() ?? '';
+const textBlocks = [
+  ...(benefits ? blocks.slice(1) : blocks),
+  ...page.feature.accordion.map((a) => ({ title: a.title, html: a.html })),
+];
+
+// Bilder: drei laufen in der Szene, die Galerie zeigt zuerst die übrigen, danach die der Szene
+const pool = [page.intro.img, page.feature.img, ...page.gallery.items];
+const seen = new Set<string>();
+const unique = pool.filter((i) => !seen.has(i.src) && seen.add(i.src));
+const sceneImages = unique.slice(0, 3).map((src) => ({ src, alt }));
+const gallery = [...unique.slice(3), ...unique.slice(0, 3)];
+
+const cta = buttons[0];
+const closing = buttons[1];
 ---
 
 <PageLayout site="exklusive" title={page.title} current={`/meisterwerk-exklusive/${page.slug}/`}>
-  <Intro
-    id="aeb8cf0"
-    img={page.intro.img}
-    parts={page.intro.parts}
-    rootClass="bg-white"
-    smallText={false}
-    innerClass={old ? 'lg:pb-0' : undefined}
-    leftClass={old ? 'md:w-[46%] md:flex-none' : undefined}
-    rightClass={old ? 'md:w-1/2 md:flex-none lg:px-[8%]' : undefined}
+  <WelcomeScroll
+    heading={heading}
+    paragraphs={paragraphs}
+    images={sceneImages}
+    closing={null}
+    headingTag="h1"
+    cta={cta ? { label: cta.label, href: href(cta.href) } : undefined}
+    rootClass="mt-6 mb-[10vh] md:mt-8 md:mb-15 lg:mt-10 lg:mb-[20vh]"
   />
-  <SectionHeading
-    id="4ef4fcc"
-    title={EXCELLENCE}
-    widthClass="lg:max-w-[534px]"
-    rootClass={old ? 'mb-5 md:mb-6.25 lg:mb-0' : undefined}
+  {benefits && <ServiceBenefits label={label} title={benefits.title} list={benefitsList} intro={benefitsIntro} />}
+  <ServiceBlocks
+    blocks={textBlocks}
+    cta={closing ? { label: closing.label, href: href(closing.href) } : undefined}
   />
-  <Pillars
-    id="ef1acb3"
-    items={page.pillars}
-    titleClass="text-[19px]/[24.7px] md:text-[18px]/[23.4px] lg:text-h5"
-    rootClass={old ? 'mb-0' : undefined}
-  />
-  <Feature
-    items={page.feature.accordion}
-    button={page.feature.button}
-    img={page.feature.img}
-    rootClass={old ? 'mt-[12vh]' : undefined}
-    innerClass={old ? undefined : 'lg:py-27'}
-    leftClass={boden ? 'md:w-[45%]' : undefined}
-    rightClass={boden ? 'md:w-[53.55%]' : undefined}
-    imageClass={boden ? 'w-full' : undefined}
-  />
-  <Gallery
-    id={page.gallery.id}
-    items={page.gallery.items}
-    columns={page.gallery.columns}
-    gap={[20, 10, 10]}
-    rootClass={old ? 'mt-[12vh] mb-0' : 'mb-0'}
-    innerClass={
-      old
-        ? 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-0 lg:pb-0'
-        : 'pt-10 pb-10 md:pt-15 md:pb-15 lg:pt-27 lg:pb-27'
-    }
-  />
+  <ServiceGallery images={gallery} alt={alt} />
+  <ServiceExcellence title={EXCELLENCE} items={page.pillars} />
   <Projects
     id={page.projectsId}
     heading={projects.heading}
     link={projects.link}
     projects={projects.items}
-    headingTag="h2"
-    headingClass="text-[23px]/[27.6px] font-medium text-ink md:text-[29px]/[39.15px] lg:text-h2"
-    linkTone="black"
-    rootClass={
-      old ? 'mb-21.25 md:mb-23.75 lg:mt-[12vh] lg:mb-0' : 'mb-21.25 md:mb-23.75 lg:mt-22.5 lg:mb-0'
-    }
+    rootClass="my-[10vh] md:my-15 lg:my-[14vh]"
   />
 </PageLayout>
