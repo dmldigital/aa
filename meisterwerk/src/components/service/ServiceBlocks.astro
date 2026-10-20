@@ -1,0 +1,27 @@
+---
+/**
+ * Die beiden Textblöcke einer Leistung („Materialien & Techniken“, „Technische Vorteile & Innovationen“): zwei Spalten
+ * mit goldener Überschrift in der Größe der Titel auf der Startseite und dem Text der Seite.
+ */
+import { rich } from '../../lib/rich';
+
+interface Props {
+  blocks: { title: string; html: string }[];
+}
+const { blocks } = Astro.props;
+// Leere Zwischenüberschriften aus dem Original entfernen
+const clean = (html: string) => html.replace(/<h3[^>]*>(?:&nbsp;|\s)*<\/h3>/g, '');
+---
+
+<section class="mx-auto mt-10 mb-10 w-full max-w-page px-5 md:mt-15 md:mb-15 lg:mt-27 lg:mb-27 lg:px-7.5">
+  <div class="grid gap-10 md:grid-cols-2 md:gap-x-7.5 lg:gap-x-[6vw]">
+    {blocks.map((b) => (
+      <div data-anim="fadeIn" class="flex flex-col gap-3.75 lg:gap-5">
+        <h3 class="font-display text-[21px]/[26.25px] font-medium text-gold md:text-[24px]/[30px] lg:text-h3">
+          {b.title}
+        </h3>
+        <div class:list={['text-[16px]/[24px] md:text-body [&_p]:text-15', rich]} set:html={clean(b.html)} />
+      </div>
+    ))}
+  </div>
+</section>

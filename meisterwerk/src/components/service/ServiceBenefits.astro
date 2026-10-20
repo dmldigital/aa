@@ -1,0 +1,153 @@
+---
+/**
+ * Vorteile einer Leistung („Die Vorteile auf einen Blick“): graue Fläche wie die Leistungs-Sektion der Startseite,
+ * links bleibt der Text stehen, rechts laufen die Vorteile als weiße Karten mit Rand durch (Maße und Schriften der
+ * Karten von der Startseite, ohne Bild). Die Karten steigen beim Hereinscrollen als ganze Box auf.
+ * Die Vorteile stehen in den Inhalten als Liste `<li><p><strong>Titel</strong>: Text</p></li>`.
+ */
+interface Props {
+  label: string;
+  title: string;
+  /** HTML-Liste der Vorteile */
+  list: string;
+}
+const { label, title, list } = Astro.props;
+
+const items = [...list.matchAll(/<li>\s*<p>([\s\S]*?)<\/p>\s*<\/li>/g)].map((m) => {
+  const f = m[1].match(/^<strong>([\s\S]*?)<\/strong>\s*:?\s*([\s\S]*)$/);
+  return f ? { title: f[1].trim(), text: f[2].trim() } : { title: '', text: m[1].trim() };
+});
+---
+
+<section data-sb class="sb">
+  <div class="sb-inner">
+    <div class="sb-heading">
+      <p class="sb-eyebrow" data-anim="fadeIn">{label}</p>
+      <h2 data-anim="fadeIn" data-anim-delay="100">{title}</h2>
+    </div>
+    <div class="sb-grid">
+      {items.map((it) => (
+        <article class="sb-card" data-sb-card data-pend>
+          {it.title && <h3 set:html={it.title} />}
+          <p set:html={it.text} />
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap, ScrollTrigger } from '../../scripts/motion';
+
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-sb-card]')];
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    cards.forEach((c) => c.removeAttribute('data-pend'));
+  } else if (cards.length) {
+    ScrollTrigger.batch(cards, {
+      start: 'top 90%',
+      once: true,
+      onEnter: (batch) => {
+        batch.forEach((c) => c.removeAttribute('data-pend'));
+        gsap.fromTo(
+          batch,
+          { clipPath: 'inset(100% 0% 0% 0%)', y: 48 },
+          {
+            clipPath: 'inset(0% 0% 0% 0%)',
+            y: 0,
+            duration: 1.3,
+            ease: 'power3.out',
+            stagger: 0.16,
+            clearProps: 'clipPath,transform',
+          },
+        );
+      },
+    });
+  }
+</script>
+
+<style>
+  .sb {
+    --ink: #090402;
+    --hair: #0904021f;
+    padding: 56px 20px 64px;
+    background: var(--color-soft);
+    color: var(--ink);
+  }
+  .sb-inner {
+    display: grid;
+    gap: 32px;
+    max-width: var(--container-page);
+    margin: 0 auto;
+  }
+  .sb-eyebrow {
+    margin: 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .sb-heading h2 {
+    margin: 36px 0 0;
+    color: var(--color-gold);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.25;
+    font-weight: 500;
+    text-wrap: balance;
+  }
+  .sb-grid {
+    display: grid;
+    gap: 20px;
+  }
+  .sb-card {
+    padding: 26px 24px 28px;
+    border: 1px solid var(--hair);
+    background: #fff;
+  }
+  .sb-card h3 {
+    margin: 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 20px;
+    line-height: 1.3;
+    font-weight: 500;
+  }
+  .sb-card p {
+    margin: 8px 0 0;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  @media (min-width: 768px) {
+    .sb {
+      padding: 72px 20px 80px;
+    }
+    .sb-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .sb-card h3 {
+      font-size: 24px;
+    }
+    .sb-card p {
+      font-size: 16px;
+    }
+  }
+  @media (min-width: 1025px) {
+    .sb {
+      padding: 12vh 30px;
+    }
+    .sb-inner {
+      grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
+      gap: 0 6vw;
+      align-items: start;
+    }
+    .sb-heading {
+      position: sticky;
+      top: 22vh;
+    }
+    .sb-card {
+      padding: 32px 30px 34px;
+    }
+  }
+</style>

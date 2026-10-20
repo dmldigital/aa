@@ -16,16 +16,25 @@ import wohnbereich from '../../assets/img/205-meisterwerk-20230120-Bearbeitet-sc
 interface Props {
   heading: string;
   paragraphs: string[];
-  /** Überschrift nach den Bildern */
-  closing?: string;
+  /** Überschrift nach den Bildern (Startseite: Standard; `null` = keine) */
+  closing?: string | null;
+  /** Eigene Bilder (z. B. Leistungsseiten); ohne Angabe die drei Bilder der Startseite */
+  images?: { src: ImageMetadata; alt: string }[];
+  /** Überschrift als h1 (Unterseiten) statt h2 */
+  headingTag?: 'h1' | 'h2';
+  /** Link unter dem Text */
+  cta?: { label: string; href: string };
 }
 const {
   heading,
   paragraphs,
   closing = 'Ihr Partner für exklusive Malerleistungen und individuelle Raumgestaltung',
+  images: customImages,
+  headingTag: Heading = 'h2',
+  cta = { label: 'Projekt starten', href: href(routes.contact) },
 } = Astro.props;
 
-const images = [
+const defaultImages = [
   {
     src: wohnzimmer,
     alt: 'Modernes Wohnzimmer mit dunkler mineralischer Akzentwand, perfekt glatten weißen Wänden und indirekter Deckenbeleuchtung in Ludwigsburg.',
@@ -39,6 +48,7 @@ const images = [
     alt: 'Heller Essbereich mit Esstisch, Pendelleuchte, Vorhängen und perfekt glatten Wänden mit indirekter Deckenbeleuchtung.',
   },
 ];
+const images = customImages ?? defaultImages;
 ---
 
 <section
@@ -57,7 +67,7 @@ const images = [
             data-anim-delay="280"
             data-anim-dur="slow"
           >
-            <h2
+            <Heading
               class="font-display text-[23px]/[25.3px] font-medium text-gold md:text-[30px]/[33px] lg:text-h2"
               set:html={heading}
             />
@@ -74,17 +84,19 @@ const images = [
             data-anim-dur="slow"
           >
             <div>
-              <ArrowLink href={href(routes.contact)} tone="gold" gap="3px">
-                Projekt starten
+              <ArrowLink href={cta.href} tone="gold" gap="3px">
+                {cta.label}
               </ArrowLink>
             </div>
           </div>
           <!-- Kommt nach den Bildern an der Textstelle hereingeglitten (Skript unten) -->
-          <div data-ws-closing data-section="3c77667" class="mt-5 max-w-[660px] lg:mt-12">
-            <h2 class="font-display text-[23px]/[27.6px] font-medium text-gold md:text-[29px]/[39.15px] lg:text-h2">
-              {closing}
-            </h2>
-          </div>
+          {closing && (
+            <div data-ws-closing data-section="3c77667" class="mt-5 max-w-[660px] lg:mt-12">
+              <h2 class="font-display text-[23px]/[27.6px] font-medium text-gold md:text-[29px]/[39.15px] lg:text-h2">
+                {closing}
+              </h2>
+            </div>
+          )}
         </div>
       </div>
 
@@ -121,28 +133,30 @@ const images = [
   if (scene) {
     const stack = scene.querySelector<HTMLElement>('[data-ws-stack]')!;
     const wrap = scene.querySelector<HTMLElement>('[data-ws-pin]')!;
-    const closing = scene.querySelector<HTMLElement>('[data-ws-closing]')!;
+    const closing = scene.querySelector<HTMLElement>('[data-ws-closing]');
     const imgs = [...stack.querySelectorAll<HTMLElement>('[data-ws-img]')];
     const mm = gsap.matchMedia();
 
     // Desktop: Die Bilder haben keine Eingangsanimation, sie laufen nur beim Scrollen mit
     mm.add('(min-width: 1025px) and (prefers-reduced-motion: no-preference)', () => {
       // Schlussüberschrift gleitet unter dem Text herein, sobald das letzte Bild ankommt
+      if (!closing) return;
       gsap.set(closing, { opacity: 0, x: -60 });
       gsap.to(closing, {
         opacity: 1,
         x: 0,
         duration: 1.25,
         ease: 'css',
-        scrollTrigger: { trigger: imgs[2], start: 'top 55%', once: true },
+        scrollTrigger: { trigger: imgs[imgs.length - 1], start: 'top 55%', once: true },
       });
     });
 
     // Tablet und Handy: Sobald das Ende des Blocks den unteren Bildschirmrand erreicht, hält die Seite an: oben bleibt das
     // Textende stehen, unten schieben sich das zweite und dritte Bild von rechts über das erste
     mm.add('(max-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
+      if (imgs.length < 2) return;
       gsap.set(imgs.slice(1), { xPercent: 100 });
-      gsap.set(closing, { opacity: 0, x: -40 });
+      if (closing) gsap.set(closing, { opacity: 0, x: -40 });
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: wrap,
@@ -154,9 +168,10 @@ const images = [
           invalidateOnRefresh: true,
         },
       });
-      tl.to(imgs[1], { xPercent: 0, duration: 1, ease: 'power2.inOut' })
-        .to(imgs[2], { xPercent: 0, duration: 1, ease: 'power2.inOut' }, '+=0.15')
-        .to(closing, { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out' }, '>-0.1');
+      imgs.slice(1).forEach((img, i) => {
+        tl.to(img, { xPercent: 0, duration: 1, ease: 'power2.inOut' }, i === 0 ? undefined : '+=0.15');
+      });
+      if (closing) tl.to(closing, { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out' }, '>-0.1');
     });
   }
 </script>
