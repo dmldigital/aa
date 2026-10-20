@@ -1,5 +1,7 @@
 ---
+import { Picture } from 'astro:assets';
 import TeamCard from '../TeamCard.astro';
+import { href } from '../../data/links';
 import Timeline from '../Timeline.astro';
 import {
   team,
@@ -20,6 +22,25 @@ const { exklusive = false } = Astro.props;
 const people = exklusive ? exklusiveTeam : team;
 const head = exklusive ? exklusiveFounder : founder;
 const ex = exklusiveHaltung;
+
+/** Haltungs-Text der Seite /studio/ in Bausteine zerlegt, damit er gestaltet statt als Fließtext gesetzt werden kann. */
+const [lead, meansLabel, meansList, statement, teamBlock, closing] = haltung.html as [
+  string,
+  string,
+  { list: string[] },
+  string,
+  string,
+  string,
+];
+const strip = (html: string) => html.replace(/<[^>]+>/g, '');
+const splitDash = (text: string): [string, string] => {
+  const i = text.indexOf(' – ');
+  return i < 0 ? [text, ''] : [text.slice(0, i), text.slice(i + 3)];
+};
+const points = meansList.list.map(splitDash);
+const teamMatch = teamBlock.match(/<strong>(.*?)<\/strong><br \/>(.*)/s);
+const [teamKicker, teamTitle] = splitDash(strip(teamMatch?.[1] ?? 'Unser Team'));
+const teamText = teamMatch?.[2] ?? '';
 
 /**
  * Team und Haltung der Seite /studio/. Das Original hat dafür zwei Desktop-Container (4ea78bd Gründer und Zeitleiste,
@@ -94,36 +115,77 @@ const ex = exklusiveHaltung;
   </section>
 ) : (
   <>
-    <!-- Desktop: Team und Text -->
-    <section data-section="2257150" class="mt-45 mb-22.5 hidden flex-col px-7.5 lg:flex">
-      <div class="mx-auto flex w-full max-w-page justify-between gap-x-7.5">
-        <div class="grid w-172.5 shrink-0 auto-rows-fr grid-cols-2 content-start gap-7.5">
-          {team.map((m) => (
-            <TeamCard member={m} />
-          ))}
-        </div>
-        <div class="flex w-141.5 flex-col pr-[8%]">
-          <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+    <!-- Desktop: Text links, Team als Bild-Akkordeon rechts (Hover klappt das Bild auf, Klick führt zum Profil) -->
+    <section
+      data-section="2257150"
+      data-ta-scene
+      data-ta-pend
+      class="mt-45 mb-22.5 hidden flex-col px-7.5 lg:flex"
+    >
+      <div class="mx-auto flex w-full max-w-page justify-between gap-x-12.5">
+        <div class="flex w-141.5 shrink-0 flex-col pr-[3%]">
+          <h6 class="ta-eyebrow font-display text-label font-medium tracking-label text-ink uppercase">
             {haltung.eyebrow}
           </h6>
-          <h1 class="mt-5 mb-5 font-display text-[38px]/[41.8px] font-medium text-ink">
+          <h1 class="mt-6 font-display text-[46px]/[50px] font-medium text-ink">
             {haltung.heading}
           </h1>
-          <div class="mt-4.75 text-[17px]/[25.5px] [&>p]:mb-para [&>p]:text-15">
-            {haltung.html.map((block) =>
-              typeof block === 'string' ? (
-                <p set:html={block} />
-              ) : (
-                <ul class="my-4.25 list-disc pl-[28.9px]">
-                  {block.list.map((li) => (
-                    <li class="pl-[6.375px]">
-                      <p class="mb-para text-15">{li}</p>
-                    </li>
-                  ))}
-                </ul>
-              ),
-            )}
-          </div>
+          <p class="mt-8 text-[19px]/[30px] text-muted" set:html={lead} />
+
+          <h6 class="mt-12 font-display text-label font-medium tracking-label text-gold uppercase">
+            {strip(meansLabel)}
+          </h6>
+          <ul class="mt-4">
+            {points.map(([title, text]) => (
+              <li class="grid grid-cols-[22px_1fr] gap-x-2 border-t border-black/10 py-4 last:border-b">
+                <span class="mt-2.25 block size-1.5 bg-gold" aria-hidden="true"></span>
+                <div>
+                  <h3 class="font-display text-[19px]/[25px] font-medium text-ink">{title}</h3>
+                  {text && <p class="mt-1 text-[15px]/[23px] text-muted">{text}</p>}
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <p
+            class="mt-12 border-l-2 border-gold pl-6 font-display text-[23px]/[33px] font-normal text-ink"
+            set:html={statement}
+          />
+
+          <h6 class="mt-12 font-display text-label font-medium tracking-label text-gold uppercase">
+            {teamKicker}
+          </h6>
+          <h3 class="mt-3 font-display text-[28px]/[34px] font-medium text-ink">{teamTitle}</h3>
+          <p class="mt-4 text-[16px]/[26px] text-muted" set:html={teamText} />
+          <p class="mt-6 text-[16px]/[26px] text-ink" set:html={closing} />
+        </div>
+
+        <div class="min-w-0 flex-1 self-start lg:sticky lg:top-24">
+          <ul class="ta" data-ta aria-label="Unser Team">
+            {team.map((m, i) => (
+              <li class:list={['ta-item', i === 0 && 'is-active']} data-ta-item>
+                <a href={href(m.href)} class="ta-link" aria-label={`${m.name}, ${m.role}`}>
+                  <Picture
+                    formats={['avif']}
+                    fallbackFormat="webp"
+                    src={m.img}
+                    alt={m.alt}
+                    widths={[330, 480, 700, 960]}
+                    sizes="(min-width: 1025px) 480px, 330px"
+                    loading="lazy"
+                    class="ta-img"
+                  />
+                  <span class="ta-shade" aria-hidden="true"></span>
+                  <span class="ta-vert" aria-hidden="true">{m.name}</span>
+                  <span class="ta-cap">
+                    <span class="ta-name">{m.name}</span>
+                    <span class="ta-role">{m.role}</span>
+                    <span class="ta-go">Zum Profil ↗</span>
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>
@@ -510,5 +572,196 @@ const ex = exklusiveHaltung;
   }
   .tlm[data-tlm-on] .tlm-text {
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger } from '../../scripts/motion';
+
+  /*
+   * Team-Akkordeon (Desktop): Bei Hover oder Fokus klappt das Bild auf, die anderen werden schmal. Das zuletzt
+   * angewählte bleibt offen. Auf Touch-Geräten öffnet der erste Tipp das Bild, der zweite führt zum Profil.
+   */
+  const scene = document.querySelector<HTMLElement>('[data-ta-scene]');
+  const items = scene ? [...scene.querySelectorAll<HTMLElement>('[data-ta-item]')] : [];
+  if (scene && items.length) {
+    let touched = false;
+    const activate = (i: number) => items.forEach((it, k) => it.classList.toggle('is-active', k === i));
+    items.forEach((it, i) => {
+      it.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'mouse') activate(i);
+      });
+      it.addEventListener('pointerdown', (e) => {
+        touched = e.pointerType !== 'mouse';
+      });
+      it.addEventListener('focusin', () => activate(i));
+      it.querySelector('a')?.addEventListener('click', (e) => {
+        if (touched && !it.classList.contains('is-active')) {
+          e.preventDefault();
+          activate(i);
+        }
+        touched = false;
+      });
+    });
+
+    // Auftritt: Die Bilder steigen gestaffelt von unten auf, sobald der Bereich im Bild ist
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 64.0625rem) and (prefers-reduced-motion: no-preference)', () => {
+      gsap.set(items, { y: 48, autoAlpha: 0 });
+      scene.removeAttribute('data-ta-pend');
+      const tl = gsap.timeline({ paused: true });
+      tl.to(items, { y: 0, autoAlpha: 1, duration: 1.1, ease: 'power3.out', stagger: 0.12 });
+      const st = ScrollTrigger.create({
+        trigger: scene.querySelector('[data-ta]'),
+        start: 'top 85%',
+        once: true,
+        onEnter: () => tl.play(),
+      });
+      return () => {
+        st.kill();
+        tl.kill();
+        gsap.set(items, { clearProps: 'transform,opacity,visibility' });
+      };
+    });
+  }
+</script>
+
+<style>
+  .ta {
+    --ta-h: clamp(480px, calc(100svh - 190px), 760px);
+    display: flex;
+    gap: 10px;
+    height: var(--ta-h);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ta-item {
+    position: relative;
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    background: #1b1a18;
+    transition: flex-grow 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ta-item.is-active {
+    flex-grow: 6;
+  }
+  .ta-link {
+    position: absolute;
+    inset: 0;
+    display: block;
+    color: #fff;
+    text-decoration: none;
+  }
+  .ta-link :global(.ta-img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 20%;
+    filter: grayscale(1);
+    transform: scale(1.12);
+    transition:
+      filter 0.8s ease,
+      transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ta-item.is-active :global(.ta-img) {
+    filter: grayscale(0);
+    transform: scale(1);
+  }
+  .ta-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(9 4 2 / 0.78) 0%, rgb(9 4 2 / 0.12) 55%, rgb(9 4 2 / 0.28) 100%);
+    transition: background-color 0.8s ease;
+  }
+  .ta-item:not(.is-active) .ta-shade {
+    background-color: rgb(9 4 2 / 0.22);
+  }
+  /* Schmal: Name senkrecht, unten */
+  .ta-vert {
+    position: absolute;
+    bottom: 22px;
+    left: 50%;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    transform: translateX(-50%) rotate(180deg);
+    opacity: 1;
+    transition: opacity 0.4s ease 0.3s;
+  }
+  .ta-item.is-active .ta-vert {
+    opacity: 0;
+    transition-delay: 0s;
+  }
+  /* Offen: Name, Funktion, Link unten links, goldene Linie am Fuß */
+  .ta-cap {
+    position: absolute;
+    right: 28px;
+    bottom: 30px;
+    left: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.45s ease,
+      transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ta-item.is-active .ta-cap {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0.3s;
+  }
+  .ta-name {
+    font-family: var(--font-display);
+    font-size: 26px;
+    line-height: 31px;
+    font-weight: 500;
+  }
+  .ta-role {
+    font-size: 15px;
+    line-height: 22px;
+    color: rgb(255 255 255 / 0.82);
+  }
+  .ta-go {
+    margin-top: 8px;
+    width: fit-content;
+    border-bottom: 1px solid var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-bottom: 4px;
+  }
+  .ta-link:hover .ta-go,
+  .ta-link:focus-visible .ta-go {
+    border-bottom-color: #fff;
+  }
+  .ta-item::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .ta-item.is-active::after {
+    transform: scaleX(1);
+  }
+  .ta-link:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: -4px;
   }
 </style>

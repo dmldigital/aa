@@ -131,6 +131,12 @@
       visibility: hidden;
     }
   }
+  /* Über uns, Team-Akkordeon (nur Desktop): Bilder warten auf ihren Auftritt */
+  @media (min-width: 64.0625rem) and (prefers-reduced-motion: no-preference) {
+    .js [data-ta-pend] .ta-item {
+      visibility: hidden;
+    }
+  }
   /* Über uns, Zeitleiste am Desktop: feine Hover-Effekte, erst nach dem Einfahren (sonst stören sie GSAP) */
   @media (min-width: 64.0625rem) and (hover: hover) {
     [data-tl-scene].is-ready [data-tl-item] {
