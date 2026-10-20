@@ -1,0 +1,1 @@
+import{r as e}from"./motion.CjK4xsKj.js";function t(){window.matchMedia(`(prefers-reduced-motion: reduce)`).matches||e.batch(`[data-rv], [data-rv-line]`,{start:`top 90%`,once:!0,onEnter:e=>e.forEach((e,t)=>{e.style.setProperty(`--d`,`${t*.1}s`),e.classList.add(`is-in`)})})}export{t};

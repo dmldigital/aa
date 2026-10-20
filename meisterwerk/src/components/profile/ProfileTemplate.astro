@@ -266,15 +266,8 @@ const timelineTitle = profile.timeline?.heading ?? '';
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  /* Einblenden beim Scrollen (Klasse is-in setzt profile.ts) */
+  /* Kopf: Auftritt beim Laden (profile.ts); Einblenden beim Scrollen steht in global.css */
   @media (prefers-reduced-motion: no-preference) {
-    .js [data-rv]:not(.is-in) {
-      opacity: 0;
-      transform: translateY(26px);
-    }
-    .js [data-rv-line]:not(.is-in) {
-      transform: scaleX(0);
-    }
     .js .ph-name:not(.is-go) .ph-word {
       visibility: hidden;
     }
@@ -285,14 +278,6 @@ const timelineTitle = profile.timeline?.heading ?? '';
     .js .ph-rule {
       transform: scaleX(0);
     }
-  }
-  [data-rv].is-in {
-    transition:
-      opacity 0.9s ease var(--d, 0s),
-      transform 1s var(--ease) var(--d, 0s);
-  }
-  [data-rv-line].is-in {
-    transition: transform 1.2s var(--ease) var(--d, 0s);
   }
 
   /* ---------- Kopf ---------- */

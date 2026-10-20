@@ -1,4 +1,5 @@
-import { gsap, ScrollTrigger } from './motion';
+import { gsap } from './motion';
+import { initReveal } from './reveal';
 
 /*
  * Teammitglieder-Seite: Auftritt des Kopfbereichs beim Laden (Linie zieht auf, Name steigt Wort für Wort aus einer
@@ -20,15 +21,7 @@ export function initProfile() {
     tl.to(hero.querySelectorAll('[data-ph-fade]'), { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.12 }, 0.6);
   }
 
-  ScrollTrigger.batch('[data-rv], [data-rv-line]', {
-    start: 'top 90%',
-    once: true,
-    onEnter: (els) =>
-      els.forEach((el, i) => {
-        (el as HTMLElement).style.setProperty('--d', `${i * 0.1}s`);
-        el.classList.add('is-in');
-      }),
-  });
+  initReveal();
 
   const quote = document.querySelector<HTMLElement>('[data-pm-quote]');
   if (quote) {
