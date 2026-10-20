@@ -1,0 +1,218 @@
+---
+import TeamCard from './TeamCard.astro';
+
+/**
+ * Zeitleiste als Pin-and-Scroll für Handy und Tablet (bis 1024 px): Sie bleibt beim Scrollen stehen, der Fokus wandert
+ * durch die Jahre. Optional mit Foto (Über uns: Gründer). Ablauf und Skript: scripts/timeline.ts.
+ * Ohne Pin (reduzierte Bewegung) ist es eine einfache Liste mit allen Texten.
+ */
+interface Props {
+  items: { date: string; text: string }[];
+  title: string;
+  /** Optional: Foto-Karte, die sanft von links hereingleitet. */
+  member?: { name: string; role: string; href: string; img: ImageMetadata; alt: string };
+  /** Beschriftung über dem Foto, z. B. „In gedenken an:“ */
+  label?: string;
+  class?: string;
+}
+const { items, title, member, label, class: className = '' } = Astro.props;
+---
+
+<div data-tlm data-tlm-pend class:list={['tlm', className]}>
+  <div class="tlm-stage">
+    <div class="tlm-top">
+      {member && (
+        <div data-tlm-founder class="tlm-founder">
+          {label && (
+            <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">{label}</h6>
+          )}
+          <TeamCard
+            {member}
+            widths={[112, 176, 224, 352]}
+            sizes="144px"
+            textClass="text-[12px]/[17px] md:text-[14px]/[20px]"
+          />
+        </div>
+      )}
+      <h5 class="tlm-title" set:html={title} />
+    </div>
+    <ol class="tlm-list">
+      {items.map((item) => (
+        <li data-tlm-item class="tlm-item">
+          <i class="tlm-seg" aria-hidden="true"></i>
+          <span class="tlm-date">{item.date}</span>
+          <div class="tlm-body"><p class="tlm-text">{item.text}</p></div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>
+
+<script>
+  import { initTimelinePin } from '../scripts/timeline';
+
+  initTimelinePin();
+</script>
+
+<style>
+  /* Ruhezustand (ohne Pin): einfache Liste mit allen Texten, senkrechte goldene Linie links */
+  .tlm-stage {
+    padding: 4px 0 0;
+  }
+  .tlm-top {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+  }
+  .tlm-founder {
+    width: clamp(96px, 14svh, 144px);
+    flex-shrink: 0;
+  }
+  .tlm-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 19px;
+    line-height: 24.7px;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+  .tlm-list {
+    position: relative;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tlm-item {
+    position: relative;
+    padding: 0 0 22px 52px;
+  }
+  .tlm-item:last-child {
+    padding-bottom: 0;
+  }
+  /* Tick auf der Linie */
+  .tlm-item::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    width: 14px;
+    height: 2px;
+    margin-left: -7px;
+    background: var(--color-gold);
+    transition:
+      width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      margin-left 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Linienstück bis zum nächsten Tick: blasse Grundlinie, golden gefüllt, sobald das Jahr erreicht ist */
+  .tlm-item::after {
+    content: '';
+    position: absolute;
+    top: 9px;
+    bottom: -9px;
+    left: 20px;
+    width: 1px;
+    background: var(--color-gold);
+    opacity: 0.35;
+  }
+  .tlm-item:last-child::after {
+    display: none;
+  }
+  .tlm-seg {
+    position: absolute;
+    top: 9px;
+    bottom: -9px;
+    left: 19.5px;
+    z-index: 1;
+    width: 2px;
+    background: var(--color-gold);
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tlm-item:last-child .tlm-seg {
+    display: none;
+  }
+  .tlm-date {
+    display: block;
+    font-size: 12px;
+    line-height: 17.4px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #000;
+    transition:
+      color 0.5s ease,
+      opacity 0.5s ease,
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tlm-body {
+    display: grid;
+    grid-template-rows: 1fr;
+  }
+  .tlm-text {
+    min-height: 0;
+    margin: 6px 0 0;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 20.3px;
+    color: #000;
+  }
+
+  /* Pin-and-Scroll */
+  .tlm[data-tlm-on] {
+    height: calc(100svh + 190svh);
+  }
+  .tlm[data-tlm-on] .tlm-stage {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100svh;
+    padding: 84px 0 24px;
+  }
+  .tlm[data-tlm-on] .tlm-list {
+    margin-top: clamp(20px, 4.5svh, 44px);
+  }
+  .tlm[data-tlm-on] .tlm-item {
+    padding-bottom: clamp(12px, 2.4svh, 22px);
+  }
+  .tlm[data-tlm-on] .tlm-item:last-child {
+    padding-bottom: 0;
+  }
+  .tlm[data-tlm-on] .tlm-body {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.5s ease;
+  }
+  .tlm[data-tlm-on] .tlm-date {
+    color: rgb(0 0 0 / 0.4);
+  }
+  .tlm[data-tlm-on] .tlm-item.is-past .tlm-date {
+    color: rgb(0 0 0 / 0.65);
+  }
+  .tlm[data-tlm-on] .tlm-item.is-past .tlm-seg {
+    transform: scaleY(1);
+  }
+  .tlm[data-tlm-on] .tlm-item.is-active::before {
+    width: 30px;
+    margin-left: -15px;
+  }
+  .tlm[data-tlm-on] .tlm-item.is-active .tlm-date {
+    color: var(--color-gold);
+    transform: translateX(6px);
+  }
+  .tlm[data-tlm-on] .tlm-item.is-active .tlm-body {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition-delay: 0.12s;
+  }
+  .tlm[data-tlm-on] .tlm-item.is-active .tlm-text {
+    transform: translateX(6px);
+  }
+  .tlm[data-tlm-on] .tlm-text {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+</style>

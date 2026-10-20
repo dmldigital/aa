@@ -1,0 +1,900 @@
+---
+/**
+ * Vorlage für die Seite eines Teammitglieds (Hauptseite). Der Aufbau folgt den Inhalten der Collection `profile`:
+ * Kopf mit Name, Rolle und Foto, Steckbrief (Baujahr groß, Fakten als Liste), optional die Zeitleiste „Stationen“
+ * (wie auf /studio/), das Lebensmotto, weitere Teammitglieder. Gedenkseite (Vincenzo): ohne Steckbrief, mit Text.
+ * Die Fakten stehen in den Inhalten als `<p><strong>Label:</strong> Wert</p>` und werden hier zerlegt.
+ */
+import { Picture } from 'astro:assets';
+import Timeline from '../Timeline.astro';
+import TimelinePin from '../TimelinePin.astro';
+import { href } from '../../data/links';
+import { team, founder } from '../../data/pages/studio';
+import type { Profile } from '../../data/pages/profiles';
+
+interface Props {
+  profile: Profile;
+}
+const { profile } = Astro.props;
+
+type Fact = { label: string; value: string };
+const parse = (html: string) => {
+  const facts: Fact[] = [];
+  const prose: string[] = [];
+  for (const m of html.matchAll(/<p>([\s\S]*?)<\/p>/g)) {
+    const f = m[1].match(/^<strong>([^<:]+):<\/strong>\s*([\s\S]*)$/);
+    if (f) facts.push({ label: f[1].trim(), value: f[2].trim() });
+    else prose.push(m[1].trim());
+  }
+  return { facts, prose };
+};
+const strip = (html: string) => html.replace(/<[^>]+>/g, '');
+const splitDash = (text: string): [string, string] => {
+  const i = text.indexOf(' – ');
+  return i < 0 ? [text, ''] : [text.slice(0, i), text.slice(i + 3)];
+};
+
+const intro = parse(profile.intro);
+const motto = parse(profile.motto);
+const position = intro.facts.find((f) => /^Position$/i.test(f.label));
+const born = intro.facts.find((f) => /^Baujahr$/i.test(f.label));
+const rows = intro.facts.filter((f) => f !== position && f !== born);
+const [year, bornRest] = born ? (() => {
+  const m = born.value.match(/^(\d{4})\s*(?:–\s*)?([\s\S]*)$/);
+  return m ? [m[1], m[2].charAt(0).toUpperCase() + m[2].slice(1)] : [born.value, ''];
+})() : ['', ''];
+
+const mottoFact = motto.facts.find((f) => /motto/i.test(f.label));
+const [quoteHtml, quoteNote] = mottoFact ? splitDash(mottoFact.value) : ['', ''];
+const quoteWords = strip(quoteHtml).split(/\s+/).filter(Boolean);
+const extras = motto.facts.filter((f) => f !== mottoFact);
+
+const memorial = !born && intro.prose.length > 0;
+const words = profile.name.split(' ');
+const everyone = [team[0], founder, ...team.slice(1)];
+const others = everyone.filter((m) => !m.href.includes(profile.slug));
+const noPhoto = everyone.find((m) => m.href.includes(profile.slug))?.noPhoto ?? false;
+const initials = (name: string) =>
+  name
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2);
+const timelineTitle = profile.timeline?.heading ?? '';
+---
+
+<!-- Kopf -->
+<section data-ph class="ph">
+  <div class="ph-grid">
+    <div class="ph-copy">
+      <div class="ph-eyebrow-row">
+        <span class="ph-rule" aria-hidden="true"></span>
+        <h6 data-ph-fade class="ph-eyebrow">{profile.tagline}</h6>
+      </div>
+      <h1 class="ph-name" aria-label={profile.name}>
+        {words.map((w) => (
+          <span class="ph-line" aria-hidden="true"><span class="ph-word">{w}</span></span>
+        ))}
+      </h1>
+      {profile.subtitle && <p data-ph-fade class="ph-sub">{profile.subtitle}</p>}
+      {position && <p data-ph-fade class="ph-role" set:html={position.value} />}
+      <a data-ph-fade href="#steckbrief" class="ph-cue">
+        <span>{memorial ? 'In Erinnerung' : 'Steckbrief'}</span>
+        <i aria-hidden="true">↓</i>
+      </a>
+    </div>
+    <div class:list={['ph-photo', noPhoto && 'ph-photo--mono']} data-grow="bottom" data-anim-delay="150">
+      {noPhoto ? (
+        <span class="mono-panel" aria-hidden="true">
+          <span class="mono-letters">{initials(profile.name)}</span>
+        </span>
+      ) : (
+        <Picture
+          formats={['avif']}
+          fallbackFormat="webp"
+          src={profile.photo}
+          alt={profile.name}
+          widths={[350, 700, 1348]}
+          sizes="(min-width: 1025px) 600px, (min-width: 768px) 477px, 350px"
+          loading="eager"
+          class="ph-img"
+        />
+      )}
+    </div>
+  </div>
+</section>
+
+<!-- Steckbrief oder Gedenktext -->
+<section id="steckbrief" class="pb">
+  {memorial ? (
+    <div class="pb-wrap pb-wrap--memorial">
+      <h6 data-rv class="eyebrow">Erinnerung</h6>
+      <p data-rv class="pb-lead" set:html={intro.prose[0]} />
+      <div class="pb-cols">
+        {intro.prose.slice(1).map((p) => (
+          <p data-rv set:html={p} />
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div class="pb-wrap">
+      {born && (
+        <div class="pb-born" data-rv>
+          <h6 class="eyebrow">Baujahr</h6>
+          <p class="pb-year" aria-label={year}>{year}</p>
+          {bornRest && <p class="pb-born-note" set:html={bornRest} />}
+        </div>
+      )}
+      <div class="pb-right">
+        <dl class="pb-rows">
+          {rows.map((f) => (
+            <div class="pb-row" data-rv>
+              <span class="pb-hair" data-rv-line aria-hidden="true"></span>
+              <dt>{f.label}</dt>
+              <dd set:html={f.value} />
+            </div>
+          ))}
+        </dl>
+        {intro.prose.length > 0 && (
+          <div class="pb-prose" data-rv>
+            {intro.prose.map((p) => <p set:html={p} />)}
+          </div>
+        )}
+      </div>
+    </div>
+  )}
+</section>
+
+<!-- Zeitleiste (wie auf /studio/): Desktop waagerecht, Handy und Tablet Pin-and-Scroll -->
+{profile.timeline && (
+  <>
+    <section data-tl-scene class="pt">
+      <div class="pt-wrap">
+        <h5 class="pt-title" set:html={timelineTitle} />
+        <div class="pt-line">
+          <Timeline items={profile.timeline.items} />
+        </div>
+      </div>
+    </section>
+    <TimelinePin class="lg:hidden" title={timelineTitle} items={profile.timeline.items} />
+  </>
+)}
+
+<!-- Lebensmotto -->
+{(mottoFact || extras.length > 0 || motto.prose.length > 0) && (
+  <section class="pm">
+    <div class="pm-wrap">
+      {mottoFact && (
+        <div class="pm-head">
+          <span class="pm-mark" aria-hidden="true">“</span>
+          <h6 data-rv class="eyebrow">{mottoFact.label}</h6>
+          <blockquote data-pm-quote class="pm-quote">
+            <span class="pm-sr">{strip(quoteHtml)}</span>
+            <span aria-hidden="true">
+              {quoteWords.map((w) => (
+                <span class="pm-w">{w} </span>
+              ))}
+            </span>
+          </blockquote>
+          {quoteNote && <p data-rv class="pm-note" set:html={quoteNote} />}
+        </div>
+      )}
+      {extras.length > 0 && (
+        <div class="pm-grid" style={`--n:${Math.min(3, extras.length)}`}>
+          {extras.map((f) => (
+            <article data-rv class="pm-card">
+              <h6 class="pm-card-label">{f.label}</h6>
+              <p set:html={f.value} />
+            </article>
+          ))}
+        </div>
+      )}
+      {motto.prose.length > 0 && (
+        <div class="pm-prose" data-rv>
+          {motto.prose.map((p) => <p set:html={p} />)}
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+<!-- Weitere Teammitglieder -->
+<section class="pn">
+  <div class="pn-wrap">
+    <div class="pn-head" data-rv>
+      <h6 class="eyebrow">Unser Team</h6>
+      <a href={href('/studio/')} class="pn-all">Alle ansehen <i aria-hidden="true">↗</i></a>
+    </div>
+    <ul class="pn-list">
+      {others.map((m) => (
+        <li data-rv>
+          <a href={href(m.href)} class="pn-card">
+            <span class="pn-photo">
+              {m.noPhoto ? (
+                <span class="mono-panel" aria-hidden="true">
+                  <span class="mono-letters">{initials(m.name)}</span>
+                </span>
+              ) : (
+                <Picture
+                  formats={['avif']}
+                  fallbackFormat="webp"
+                  src={m.img}
+                  alt={m.alt}
+                  widths={[165, 229, 330, 480]}
+                  sizes="(min-width: 1025px) 240px, (min-width: 768px) 229px, 165px"
+                  loading="lazy"
+                  class="pn-img"
+                />
+              )}
+              <span class="pn-go" aria-hidden="true">Zum Profil ↗</span>
+            </span>
+            <span class="pn-meta">
+              <span class="pn-name">{m.name}</span>
+              <span class="pn-role">{m.role}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { initProfile } from '../../scripts/profile';
+  import { initTimelineDesktop } from '../../scripts/timeline';
+
+  initProfile();
+  initTimelineDesktop();
+</script>
+
+<style is:global>
+  /* ---------- Gemeinsame Bausteine ---------- */
+  .eyebrow {
+    margin: 0;
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .ph,
+  .pb,
+  .pt,
+  .pm,
+  .pn {
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* Einblenden beim Scrollen (Klasse is-in setzt profile.ts) */
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-rv]:not(.is-in) {
+      opacity: 0;
+      transform: translateY(26px);
+    }
+    .js [data-rv-line]:not(.is-in) {
+      transform: scaleX(0);
+    }
+    .js .ph-name:not(.is-go) .ph-word {
+      visibility: hidden;
+    }
+    .js [data-ph-fade] {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    .js .ph-rule {
+      transform: scaleX(0);
+    }
+  }
+  [data-rv].is-in {
+    transition:
+      opacity 0.9s ease var(--d, 0s),
+      transform 1s var(--ease) var(--d, 0s);
+  }
+  [data-rv-line].is-in {
+    transition: transform 1.2s var(--ease) var(--d, 0s);
+  }
+
+  /* ---------- Kopf ---------- */
+  .ph {
+    padding: 8px 20px 0;
+  }
+  .ph-grid {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 28px;
+    max-width: var(--container-page);
+    margin: 0 auto;
+  }
+  .ph-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding-bottom: 8px;
+  }
+  .ph-eyebrow-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .ph-rule {
+    display: block;
+    width: 44px;
+    height: 1px;
+    background: var(--color-gold);
+    transform-origin: 0 50%;
+  }
+  .ph-eyebrow {
+    margin: 0;
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .ph-name {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(44px, 13vw, 64px);
+    line-height: 0.98;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .ph-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.08em;
+  }
+  .ph-word {
+    display: inline-block;
+  }
+  .ph-sub {
+    margin: 0;
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 18px;
+    letter-spacing: 0.16em;
+  }
+  .ph-role {
+    max-width: 22em;
+    margin: 0;
+    color: var(--color-muted);
+    font-size: 19px;
+    line-height: 29px;
+  }
+  .ph-cue {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--color-gold);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .ph-cue i {
+    font-style: normal;
+    transition: transform 0.5s var(--ease);
+  }
+  .ph-cue:hover i,
+  .ph-cue:focus-visible i {
+    transform: translateY(3px);
+  }
+  .ph-photo {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    width: 100%;
+  }
+  .ph-photo .ph-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 50% 12%;
+  }
+  @media (min-width: 768px) {
+    .ph {
+      padding: 12px 20px 0;
+    }
+    .ph-name {
+      font-size: clamp(56px, 8vw, 88px);
+    }
+  }
+  @media (min-width: 1025px) {
+    .ph {
+      padding: 20px 30px 0;
+    }
+    .ph-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+      align-items: center;
+      gap: 0 72px;
+      min-height: min(calc(100svh - 150px), 860px);
+    }
+    .ph-copy {
+      gap: 26px;
+    }
+    .ph-name {
+      font-size: clamp(64px, 6.9vw, 104px);
+    }
+    .ph-role {
+      font-size: 21px;
+      line-height: 32px;
+    }
+    .ph-photo {
+      aspect-ratio: auto;
+      height: min(calc(100svh - 150px), 860px);
+      min-height: 520px;
+    }
+  }
+
+  /* ---------- Steckbrief ---------- */
+  .pb {
+    padding: 56px 20px 24px;
+  }
+  .pb-wrap {
+    display: grid;
+    gap: 36px;
+    max-width: var(--container-page);
+    margin: 0 auto;
+  }
+  .pb-year {
+    margin: 10px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(88px, 26vw, 140px);
+    line-height: 0.95;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-gold);
+  }
+  .pb-born-note {
+    max-width: 22em;
+    margin: 16px 0 0;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 24px;
+  }
+  .pb-rows {
+    margin: 0;
+  }
+  .pb-row {
+    position: relative;
+    display: grid;
+    gap: 6px 32px;
+    padding: 22px 0;
+  }
+  .pb-hair {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 1px;
+    background: rgb(0 0 0 / 0.12);
+    transform-origin: 0 50%;
+  }
+  .pb-row:last-child {
+    border-bottom: 1px solid rgb(0 0 0 / 0.12);
+  }
+  .pb-row dt {
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .pb-row dd {
+    margin: 0;
+    font-size: 17px;
+    line-height: 27px;
+    color: var(--color-ink);
+  }
+  .pb-prose {
+    padding-top: 28px;
+    font-size: 17px;
+    line-height: 27px;
+    color: var(--color-muted);
+  }
+  .pb-prose p + p {
+    margin-top: 14px;
+  }
+  .pb-wrap--memorial {
+    max-width: 980px;
+  }
+  .pb-lead {
+    margin: 12px 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(26px, 6vw, 40px);
+    line-height: 1.25;
+    font-weight: 400;
+    color: var(--color-ink);
+  }
+  .pb-cols {
+    display: grid;
+    gap: 18px 56px;
+    font-size: 17px;
+    line-height: 28px;
+    color: var(--color-muted);
+  }
+  @media (min-width: 768px) {
+    .pb {
+      padding: 80px 20px 32px;
+    }
+    .pb-row {
+      grid-template-columns: 200px 1fr;
+      align-items: baseline;
+    }
+    .pb-cols {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 1025px) {
+    .pb {
+      padding: 120px 30px 40px;
+    }
+    .pb-wrap {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+      gap: 0 96px;
+      align-items: start;
+    }
+    .pb-wrap--memorial {
+      display: block;
+    }
+    .pb-born {
+      position: sticky;
+      top: 110px;
+    }
+    .pb-row {
+      grid-template-columns: 220px 1fr;
+      padding: 28px 0;
+    }
+  }
+
+  /* ---------- Zeitleiste (Desktop) ---------- */
+  .pt {
+    display: none;
+    padding: 64px 30px 24px;
+    background: #fff;
+  }
+  .pt-wrap {
+    display: flex;
+    max-width: var(--container-page);
+    margin: 0 auto;
+  }
+  .pt-title {
+    width: 14%;
+    align-self: center;
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: 24px;
+    line-height: 31.2px;
+    font-weight: 500;
+  }
+  .pt-line {
+    width: 86%;
+    padding: 40px 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  @media (min-width: 1025px) {
+    .pt {
+      display: block;
+    }
+  }
+
+  /* ---------- Lebensmotto ---------- */
+  .pm {
+    margin-top: 64px;
+    padding: 72px 20px 80px;
+    background: var(--color-soft, #f7f7f7);
+  }
+  .pm-wrap {
+    max-width: var(--container-page);
+    margin: 0 auto;
+  }
+  .pm-head {
+    position: relative;
+    max-width: 1040px;
+  }
+  .pm-mark {
+    position: absolute;
+    top: -0.12em;
+    left: -0.04em;
+    color: var(--color-gold);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(140px, 26vw, 300px);
+    line-height: 1;
+    font-weight: 400;
+    opacity: 0.2;
+    pointer-events: none;
+  }
+  .pm-head .eyebrow {
+    position: relative;
+  }
+  .pm-quote {
+    position: relative;
+    margin: 18px 0 0;
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: clamp(30px, 7.6vw, 62px);
+    line-height: 1.12;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .pm-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .pm-note {
+    position: relative;
+    max-width: 30em;
+    margin: 22px 0 0;
+    color: var(--color-muted);
+    font-size: 17px;
+    line-height: 27px;
+  }
+  .pm-grid {
+    display: grid;
+    gap: 14px;
+    margin-top: 56px;
+  }
+  .pm-card {
+    position: relative;
+    padding: 26px 26px 28px;
+    background: #fff;
+    overflow: hidden;
+  }
+  .pm-card::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.8s var(--ease);
+  }
+  .pm-card:hover::after {
+    transform: scaleX(1);
+  }
+  .pm-card-label {
+    margin: 0 0 12px;
+    color: var(--color-gold);
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .pm-card p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--color-ink);
+  }
+  .pm-prose {
+    max-width: 760px;
+    margin-top: 44px;
+    color: var(--color-muted);
+    font-size: 17px;
+    line-height: 28px;
+  }
+  .pm-prose p + p {
+    margin-top: 14px;
+  }
+  @media (min-width: 768px) {
+    .pm {
+      padding: 96px 20px 104px;
+    }
+    .pm-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1025px) {
+    .pm {
+      margin-top: 96px;
+      padding: 128px 30px 136px;
+    }
+    .pm-grid {
+      grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
+      max-width: calc(var(--n, 3) * 33.34%);
+      gap: 20px;
+      margin-top: 80px;
+    }
+    .pm-card {
+      padding: 32px 32px 34px;
+    }
+  }
+
+  /* ---------- Monogramm statt Foto (noch kein Foto vorhanden) ---------- */
+  .mono-panel {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(120% 70% at 50% 28%, #4a463f 0%, #2a2824 55%, #1b1a18 100%);
+    overflow: hidden;
+  }
+  .mono-panel::before,
+  .mono-panel::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: rgb(255 255 255 / 0.07);
+  }
+  .mono-panel::before {
+    left: 33%;
+  }
+  .mono-panel::after {
+    right: 33%;
+  }
+  .mono-letters {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 12vw, 200px);
+    line-height: 1;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--color-gold);
+  }
+  .pn-photo .mono-letters {
+    font-size: clamp(56px, 7vw, 110px);
+  }
+
+  /* ---------- Weitere Teammitglieder ---------- */
+  .pn {
+    padding: 72px 20px 88px;
+  }
+  .pn-wrap {
+    max-width: var(--container-page);
+    margin: 0 auto;
+  }
+  .pn-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+  .pn-all {
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--color-gold);
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .pn-all i {
+    font-style: normal;
+  }
+  .pn-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pn-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+  .pn-photo {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: #1b1a18;
+  }
+  .pn-photo .pn-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    object-position: 50% 15%;
+    filter: grayscale(1);
+    transition: filter 0.8s ease;
+  }
+  .pn-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(9 4 2 / 0.6) 0%, rgb(9 4 2 / 0) 50%);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .pn-go {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    z-index: 1;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--color-gold);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.7s var(--ease);
+  }
+  .pn-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .pn-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 24px;
+    font-weight: 500;
+    transition: color 0.4s ease;
+  }
+  .pn-role {
+    color: var(--color-muted);
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .pn-card:hover .pn-img,
+  .pn-card:focus-visible .pn-img {
+    filter: grayscale(0);
+  }
+  .pn-card:hover .pn-photo::after,
+  .pn-card:focus-visible .pn-photo::after {
+    opacity: 1;
+  }
+  .pn-card:hover .pn-go,
+  .pn-card:focus-visible .pn-go {
+    opacity: 1;
+    transform: none;
+  }
+  .pn-card:hover .pn-name,
+  .pn-card:focus-visible .pn-name {
+    color: var(--color-gold);
+  }
+  @media (min-width: 768px) {
+    .pn-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 32px 20px;
+    }
+  }
+  @media (min-width: 1025px) {
+    .pn {
+      padding: 96px 30px 120px;
+    }
+    .pn-list {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 0 24px;
+    }
+  }
+</style>

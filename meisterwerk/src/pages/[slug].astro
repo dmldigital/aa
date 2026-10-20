@@ -1,10 +1,8 @@
 ---
-/** Mitarbeiterprofile: eine Route für alle Einträge der Collection `profile`. */
+/** Mitarbeiterprofile: eine Route für alle Einträge der Collection `profile`, dargestellt mit der Profil-Vorlage. */
 import { getCollection } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
-import ProfileHero from '../components/sections/ProfileHero.astro';
-import ProfileTimeline from '../components/sections/ProfileTimeline.astro';
-import ProfileBio from '../components/sections/ProfileBio.astro';
+import ProfileTemplate from '../components/profile/ProfileTemplate.astro';
 
 export async function getStaticPaths() {
   const profiles = await getCollection('profile');
@@ -15,9 +13,5 @@ const { profile } = Astro.props;
 ---
 
 <PageLayout title={profile.title} description={profile.description} current={`/${profile.slug}/`}>
-  <ProfileHero name={profile.name} photo={profile.photo} />
-  {profile.timeline && (
-    <ProfileTimeline heading={profile.timeline.heading} items={profile.timeline.items} />
-  )}
-  <ProfileBio {profile} />
+  <ProfileTemplate {profile} />
 </PageLayout>
