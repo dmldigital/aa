@@ -1,8 +1,12 @@
 ---
 /**
- * „Exzellenz ist unser Maßstab“: graue Fläche, goldene Überschrift und die Säulen als weiße Karten mit Rand
- * (Maße und Schriften der Karten der Startseite), die als ganze Box aufsteigen.
+ * „Exzellenz ist unser Maßstab“: gleiche Aufteilung wie die Vorteile darüber (graue Fläche, links bleibt die goldene
+ * Überschrift stehen, rechts die Säulen als weiße Karten mit Rand untereinander). Jede Karte hat ihre natürliche Höhe,
+ * weil die Texte verschieden lang sind (bei nebeneinander stehenden, gleich hohen Karten blieben große leere Flächen).
+ * Die Karten steigen als ganze Box auf.
  */
+import { cleanHtml } from '../../lib/cleanHtml';
+
 interface Props {
   title: string;
   items: { title: string; html: string; bullets?: string[] }[];
@@ -12,12 +16,14 @@ const { title, items } = Astro.props;
 
 <section class="se">
   <div class="se-inner">
-    <h2 data-anim="fadeIn">{title}</h2>
-    <div class="se-grid" style={`--n:${items.length}`}>
+    <div class="se-heading">
+      <h2 data-anim="fadeIn">{title}</h2>
+    </div>
+    <div class="se-grid">
       {items.map((it) => (
         <article class="se-card" data-box data-pend>
           <h3 set:html={it.title} />
-          <div class="se-text" set:html={it.html} />
+          <div class="se-text" set:html={cleanHtml(it.html)} />
           {it.bullets && it.bullets.length > 0 && (
             <ul class="se-text">{it.bullets.map((b) => <li set:html={b} />)}</ul>
           )}
@@ -42,11 +48,13 @@ const { title, items } = Astro.props;
     color: var(--ink);
   }
   .se-inner {
+    display: grid;
+    gap: 32px;
     max-width: var(--container-page);
     margin: 0 auto;
   }
   .se h2 {
-    margin: 0 0 32px;
+    margin: 0;
     color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
     font-size: clamp(28px, 3.2vw, 40px);
@@ -78,6 +86,10 @@ const { title, items } = Astro.props;
   .se-text :global(p) {
     margin: 0 0 12px;
   }
+  .se-text :global(p:last-child),
+  .se-text :global(li:last-child) {
+    margin-bottom: 0;
+  }
   .se-text :global(strong) {
     color: var(--ink);
     font-weight: 600;
@@ -100,9 +112,6 @@ const { title, items } = Astro.props;
     .se {
       padding: 72px 20px 80px;
     }
-    .se-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
     .se-card h3 {
       font-size: 24px;
     }
@@ -114,11 +123,16 @@ const { title, items } = Astro.props;
     .se {
       padding: 12vh 30px;
     }
-    .se h2 {
-      margin-bottom: 56px;
+    .se-inner {
+      grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
+      gap: 0 6vw;
+      align-items: start;
+    }
+    .se-heading {
+      position: sticky;
+      top: 22vh;
     }
     .se-grid {
-      grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
       gap: 30px;
     }
     .se-card {
