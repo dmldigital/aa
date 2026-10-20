@@ -10,6 +10,7 @@ import { href } from '../../data/links';
 import { cards } from '../../data/services';
 import Button from '../ui/Button.astro';
 import logo from '../../assets/img/logo_exklusive.png';
+import exklusivFoto from '../../assets/img/Exklusive-Spachteltechnik-Kalkpresstechnik-Badedzimmer-Bianco-scaled.jpg';
 
 const copy: Record<string, [string, string]> = {
   '/services/glatte-waende/': ['Glatte Wände & Q4-⁠Spachtelung', 'Perfekt glatte Oberflächen in Q3 und Q4, modern und sauber'],
@@ -25,6 +26,12 @@ const items = cards.map((c) => ({
   img: c.img,
   alt: c.alt,
 }));
+const exklusivLinks = [
+  { label: 'Fugenlose Bäder', href: '/meisterwerk-exklusive/fugenlose-baeder/' },
+  { label: 'Fugenlose Böden', href: '/meisterwerk-exklusive/fugenloser-boden/' },
+  { label: 'Spachteltechniken', href: '/meisterwerk-exklusive/spachteltechniken/' },
+  { label: 'Stuckleisten', href: '/meisterwerk-exklusive/stuckleisten/' },
+];
 ---
 
 <section data-ls class="ls">
@@ -40,19 +47,17 @@ const items = cards.map((c) => ({
 
     <div class="ls-grid" data-ls-grid>
       {items.map((it, i) => (
-        <a href={href(it.href)} class="ls-card" data-anim="fadeIn" data-anim-delay={100 + (i % 2) * 150}>
+        <a href={href(it.href)} class:list={['ls-card', i === items.length - 1 && items.length % 2 === 1 && 'ls-card--row']} data-ls-card data-pend>
           <div class="ls-img">
-            <div data-grow="left" data-anim-delay={350 + (i % 2) * 150}>
-              <Picture
-                formats={['avif']}
-                fallbackFormat="webp"
-                src={it.img}
-                alt={it.alt}
-                widths={[350, 477, 700, 954]}
-                sizes="(min-width: 1025px) 38vw, (min-width: 768px) 45vw, calc(100vw - 40px)"
-                loading="lazy"
-              />
-            </div>
+            <Picture
+              formats={['avif']}
+              fallbackFormat="webp"
+              src={it.img}
+              alt={it.alt}
+              widths={[350, 477, 700, 954]}
+              sizes="(min-width: 1025px) 38vw, (min-width: 768px) 45vw, calc(100vw - 40px)"
+              loading="lazy"
+            />
             <span class="ls-zoom" aria-hidden="true">
               <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter" aria-hidden="true" focusable="false"><path d="M20 13.5V21H3V4h7.5"/><path d="M14 3h7v7"/><path d="M21 3 11 13"/></svg>
             </span>
@@ -64,25 +69,50 @@ const items = cards.map((c) => ({
         </a>
       ))}
 
-      <div class="ls-card ls-card--logo" data-anim="fadeIn" data-anim-delay="250">
-        <Picture formats={['avif']} fallbackFormat="webp" src={logo} alt="Meisterwerke Exklusive by Baldassarre Fortino" widths={[228, 456]} sizes="240px" loading="lazy" />
-        <div class="ls-body">
-          <h2>Fugenlose Bäder und Böden, Spachteltechniken und Stuckleisten</h2>
-          <p>Unsere Spezialleistungen als Meisterbetrieb. Im Showroom in Freiberg am Neckar sehen Sie die Oberflächen persönlich.</p>
+      <div class="ls-card ls-card--wide" data-ls-card data-pend>
+        <div class="ls-wide-img">
+          <Picture
+            formats={['avif']}
+            fallbackFormat="webp"
+            src={exklusivFoto}
+            alt="Fugenlose Spachteltechnik im Bad, Meisterwerke Exklusive."
+            widths={[477, 700, 954, 1360]}
+            sizes="(min-width: 1025px) 38vw, (min-width: 768px) 90vw, calc(100vw - 40px)"
+            loading="lazy"
+          />
         </div>
-        <Button href={href('/meisterwerk-exklusive/')}>Zu Meisterwerk Exklusive ↗</Button>
+        <div class="ls-wide-body">
+          <Picture formats={['avif']} fallbackFormat="webp" src={logo} alt="Meisterwerke Exklusive by Baldassarre Fortino" widths={[228, 456]} sizes="240px" loading="lazy" class="ls-logo" />
+          <div class="ls-body">
+            <h2>Fugenlose Bäder und Böden, Spachteltechniken und Stuckleisten</h2>
+            <p>Unsere Spezialleistungen als Meisterbetrieb. Im Showroom in Freiberg am Neckar sehen Sie die Oberflächen persönlich.</p>
+          </div>
+          <ul class="ls-links">
+            {exklusivLinks.map((l) => (
+              <li>
+                <a href={href(l.href)}>
+                  <span class="underline-anim relative [--underline-gap:0px]">{l.label}</span>
+                  <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter" aria-hidden="true" focusable="false"><path d="M20 13.5V21H3V4h7.5"/><path d="M14 3h7v7"/><path d="M21 3 11 13"/></svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <Button href={href('/meisterwerk-exklusive/')}>Zu Meisterwerk Exklusive ↗</Button>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  import { gsap } from '../../scripts/motion';
+  import { gsap, ScrollTrigger } from '../../scripts/motion';
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // Die Linie unter dem Text füllt sich, während die Karten durchlaufen (wie auf der Startseite)
   const grid = document.querySelector<HTMLElement>('[data-ls-grid]');
   const fill = document.querySelector<HTMLElement>('[data-ls-fill]');
-  if (grid && fill && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (grid && fill && !reduced) {
     gsap.fromTo(
       fill,
       { scaleX: 0.1 },
@@ -92,6 +122,33 @@ const items = cards.map((c) => ({
         scrollTrigger: { trigger: grid, start: 'top 60%', end: 'bottom 75%', scrub: 0.6 },
       },
     );
+  }
+
+  // Auftritt der Karten: Die ganze Box steigt auf und öffnet sich von unten nach oben, das Bild darin bleibt ruhig.
+  // Mehrere Karten gleichzeitig im Bild kommen nacheinander.
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-ls-card]')];
+  if (reduced) {
+    cards.forEach((c) => c.removeAttribute('data-pend'));
+  } else if (cards.length) {
+    ScrollTrigger.batch(cards, {
+      start: 'top 90%',
+      once: true,
+      onEnter: (batch) => {
+        batch.forEach((c) => c.removeAttribute('data-pend'));
+        gsap.fromTo(
+          batch,
+          { clipPath: 'inset(100% 0% 0% 0%)', y: 48 },
+          {
+            clipPath: 'inset(0% 0% 0% 0%)',
+            y: 0,
+            duration: 1.3,
+            ease: 'power3.out',
+            stagger: 0.16,
+            clearProps: 'clipPath,transform',
+          },
+        );
+      },
+    });
   }
 </script>
 
@@ -218,7 +275,7 @@ const items = cards.map((c) => ({
     padding: 22px 24px 26px;
   }
   .ls-text h2,
-  .ls-card--logo h2 {
+  .ls-card--wide h2 {
     margin: 0;
     font-family: var(--font-urbanist), sans-serif;
     font-size: 20px;
@@ -241,16 +298,67 @@ const items = cards.map((c) => ({
     height: 20px;
     margin-top: 5px;
   }
-  .ls-card--logo {
-    justify-content: space-between;
-    gap: 22px;
-    padding: 24px 20px;
+  .ls-card--wide {
+    display: grid;
   }
-  .ls-card--logo :global(img) {
+  .ls-wide-img {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+  .ls-wide-img :global(picture),
+  .ls-wide-img :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ls-wide-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+    padding: 24px 20px 26px;
+  }
+  .ls-wide-body :global(.ls-logo) {
     display: block;
     width: 240px;
     max-width: 100%;
     height: auto;
+  }
+  .ls-wide-body > :global(a) {
+    margin-top: auto;
+  }
+  .ls-links {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--hair);
+  }
+  .ls-links li {
+    border-bottom: 1px solid var(--hair);
+  }
+  .ls-links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 0;
+    color: var(--ink);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 20px;
+    line-height: 1.3;
+    font-weight: 500;
+    text-decoration: none;
+  }
+  .ls-links a .ls-icon {
+    margin-top: 0;
+    transition: transform 0.3s ease;
+  }
+  .ls-links a:hover .ls-icon,
+  .ls-links a:focus-visible .ls-icon {
+    transform: translate(2px, -2px);
   }
   .ls-body p {
     margin: 10px 0 0;
@@ -267,7 +375,35 @@ const items = cards.map((c) => ({
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .ls-text h2,
-    .ls-card--logo h2 {
+    .ls-card--wide h2 {
+      font-size: 24px;
+    }
+    .ls-card--wide,
+    .ls-card--row {
+      grid-column: 1 / -1;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .ls-card--row {
+      display: grid;
+    }
+    .ls-card--row .ls-text {
+      align-items: center;
+      padding: 35px;
+    }
+    .ls-card--row .ls-text h2 {
+      font-size: 28px;
+    }
+    .ls-card--wide .ls-wide-img {
+      order: 2;
+    }
+    .ls-wide-img {
+      aspect-ratio: auto;
+      min-height: 100%;
+    }
+    .ls-wide-body {
+      padding: 35px;
+    }
+    .ls-links a {
       font-size: 24px;
     }
     .ls-text h2 span {
@@ -286,9 +422,6 @@ const items = cards.map((c) => ({
     .ls-heading {
       position: sticky;
       top: 22vh;
-    }
-    .ls-card--logo {
-      padding: 35px;
     }
   }
 </style>

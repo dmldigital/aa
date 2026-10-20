@@ -149,6 +149,12 @@
   [data-rv-line].is-in {
     transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s);
   }
+  /* Leistungsübersicht: Karten warten auf ihren Auftritt */
+  @media (prefers-reduced-motion: no-preference) {
+    .js [data-ls-card][data-pend] {
+      visibility: hidden;
+    }
+  }
   /* Über uns, Team-Akkordeon (nur Desktop): Bilder warten auf ihren Auftritt */
   @media (min-width: 64.0625rem) and (prefers-reduced-motion: no-preference) {
     .js [data-ta-pend] .ta-item {
