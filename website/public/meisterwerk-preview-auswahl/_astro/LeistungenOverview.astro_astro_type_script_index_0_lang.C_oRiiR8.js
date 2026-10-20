@@ -1,0 +1,1 @@
+import{t as e}from"./gsap.CvDoa17S.js";import"./motion.CjK4xsKj.js";var t=document.querySelector(`[data-ls-grid]`),n=document.querySelector(`[data-ls-fill]`);t&&n&&!window.matchMedia(`(prefers-reduced-motion: reduce)`).matches&&e.fromTo(n,{scaleX:.1},{scaleX:1,ease:`none`,scrollTrigger:{trigger:t,start:`top 60%`,end:`bottom 75%`,scrub:.6}});

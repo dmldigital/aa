@@ -1,13 +1,15 @@
 ---
 /**
- * Leistungsübersicht (/leistungen/): Titel, darunter die Leistungen als große Zeilen. Auf dem Desktop bleibt rechts eine
- * Bildbühne stehen, die zum Bild der angewählten Zeile überblendet; auf Handy und Tablet bringt jede Zeile ihr Bild mit.
- * Die Kurztexte sind die der Leistungs-Karten auf der Startseite (Vorschau Auswahl), die Reihenfolge wie dort.
+ * Leistungsübersicht (/leistungen/). Gestaltung und Maße wie die Leistungs-Sektion der Startseite (graue Fläche, Label,
+ * goldene Überschrift, weiße Karten mit Rand, Bild, Titel, Kurztext und Symbol), nur als ruhiges Raster statt als Stapel:
+ * Links bleibt der Text stehen, rechts laufen die Karten durch. Bilder wachsen wie auf der alten Seite von links herein,
+ * die Linie unter dem Text füllt sich beim Scrollen wie auf der Startseite. Texte und Reihenfolge wie auf der Startseite.
  */
 import { Picture } from 'astro:assets';
 import { href } from '../../data/links';
 import { cards } from '../../data/services';
-import exklusive from '../../assets/img/Exklusive-Spachteltechnik-Kalkpresstechnik-Badedzimmer-Bianco-scaled.jpg';
+import Button from '../ui/Button.astro';
+import logo from '../../assets/img/logo_exklusive.png';
 
 const copy: Record<string, [string, string]> = {
   '/services/glatte-waende/': ['Glatte Wände & Q4-⁠Spachtelung', 'Perfekt glatte Oberflächen in Q3 und Q4, modern und sauber'],
@@ -16,390 +18,277 @@ const copy: Record<string, [string, string]> = {
   '/services/tapezieren/': ['Tapezierarbeiten', 'Tapeten an Wand und Decke, mit Fachberatung zur Auswahl'],
   '/services/verputzen/': ['Verputzarbeiten', 'Innen- und Außenputz und dekorative Oberflächen, langlebig ausgeführt'],
 };
-const items = [
-  ...cards.map((c) => ({
-    href: c.href,
-    title: copy[c.href]?.[0] ?? c.title,
-    sub: copy[c.href]?.[1] ?? c.subtitle ?? '',
-    img: c.img,
-    alt: c.alt,
-    tag: '',
-  })),
-  {
-    href: '/meisterwerk-exklusive/',
-    title: 'Meisterwerke Exklusive',
-    sub: 'Fugenlose Bäder und Böden, Spachteltechniken und Stuckleisten',
-    img: exklusive,
-    alt: 'Fugenlose Spachteltechnik im Bad, Meisterwerke Exklusive.',
-    tag: 'Spezialleistungen',
-  },
-];
-const heading = ['Planung, Gestaltung, Umsetzung', 'alles für Ihr Projekt.'];
+const items = cards.map((c) => ({
+  href: c.href,
+  title: copy[c.href]?.[0] ?? c.title,
+  sub: copy[c.href]?.[1] ?? c.subtitle ?? '',
+  img: c.img,
+  alt: c.alt,
+}));
 ---
 
 <section data-ls class="ls">
-  <div class="ls-wrap">
-    <header class="ls-head">
-      <div class="ls-eyebrow-row">
-        <span class="ls-rule" aria-hidden="true"></span>
-        <p class="ls-eyebrow">Unsere Leistungen</p>
-      </div>
-      <h1 class="ls-title" aria-label={heading.join(': ')}>
-        {heading.map((line) => (
-          <span class="ls-line" aria-hidden="true">
-            {line.split(' ').map((w) => <span class="ls-wordbox"><span class="ls-word">{w}</span></span>)}
-          </span>
-        ))}
-      </h1>
-    </header>
+  <div class="ls-inner">
+    <div class="ls-heading">
+      <p class="ls-eyebrow" data-anim="fadeIn">Unsere Leistungen</p>
+      <h1 data-anim="fadeIn" data-anim-delay="100">Ihr Malerbetrieb für Ludwigsburg, Marbach und Bietigheim-Bissingen</h1>
+      <p class="ls-sub" data-anim="fadeIn" data-anim-delay="200">
+        Meisterbetrieb aus Freiberg am Neckar für Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart.
+      </p>
+      <span class="ls-progress" aria-hidden="true"><i data-ls-fill></i></span>
+    </div>
 
-    <div class="ls-body">
-      <ul class="ls-list">
-        {items.map((it) => (
-          <li data-rv>
-            <a href={href(it.href)} class="ls-row" data-ls-row>
-              <span class="ls-hair" data-rv-line aria-hidden="true"></span>
-              <span class="ls-media" data-grow="bottom">
-                <Picture
-                  formats={['avif']}
-                  fallbackFormat="webp"
-                  src={it.img}
-                  alt={it.alt}
-                  widths={[477, 700, 954]}
-                  sizes="(min-width: 768px) 60vw, calc(100vw - 40px)"
-                  loading="lazy"
-                  class="ls-img"
-                />
-              </span>
-              <span class="ls-text">
-                {it.tag && <span class="ls-tag">{it.tag}</span>}
-                <h2 class="ls-name">{it.title}</h2>
-                <p class="ls-sub">{it.sub}</p>
-              </span>
-              <span class="ls-arrow" aria-hidden="true"><i>↗</i></span>
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      <div class="ls-stage" aria-hidden="true">
-        <div class="ls-frame" data-grow="bottom" data-anim-delay="250">
-          {items.map((it) => (
-            <div class="ls-layer" data-ls-layer>
+    <div class="ls-grid" data-ls-grid>
+      {items.map((it, i) => (
+        <a href={href(it.href)} class="ls-card" data-anim="fadeIn" data-anim-delay={100 + (i % 2) * 150}>
+          <div class="ls-img">
+            <div data-grow="left" data-anim-delay={350 + (i % 2) * 150}>
               <Picture
                 formats={['avif']}
                 fallbackFormat="webp"
                 src={it.img}
-                alt=""
-                widths={[480, 700, 954]}
-                sizes="(min-width: 1025px) 40vw, 0px"
+                alt={it.alt}
+                widths={[350, 477, 700, 954]}
+                sizes="(min-width: 1025px) 38vw, (min-width: 768px) 45vw, calc(100vw - 40px)"
                 loading="lazy"
-                class="ls-stage-img"
               />
-              <span class="ls-layer-title">{it.title}</span>
             </div>
-          ))}
-          <span class="ls-shade"></span>
-          <a data-ls-go href={href(items[0].href)} class="ls-go" tabindex="-1">Zum Leistungsbereich <i>↗</i></a>
+            <span class="ls-zoom" aria-hidden="true">
+              <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter" aria-hidden="true" focusable="false"><path d="M20 13.5V21H3V4h7.5"/><path d="M14 3h7v7"/><path d="M21 3 11 13"/></svg>
+            </span>
+          </div>
+          <div class="ls-text">
+            <h2>{it.title}<span>{it.sub}</span></h2>
+            <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter" aria-hidden="true" focusable="false"><path d="M20 13.5V21H3V4h7.5"/><path d="M14 3h7v7"/><path d="M21 3 11 13"/></svg>
+          </div>
+        </a>
+      ))}
+
+      <div class="ls-card ls-card--logo" data-anim="fadeIn" data-anim-delay="250">
+        <Picture formats={['avif']} fallbackFormat="webp" src={logo} alt="Meisterwerke Exklusive by Baldassarre Fortino" widths={[228, 456]} sizes="240px" loading="lazy" />
+        <div class="ls-body">
+          <h2>Fugenlose Bäder und Böden, Spachteltechniken und Stuckleisten</h2>
+          <p>Unsere Spezialleistungen als Meisterbetrieb. Im Showroom in Freiberg am Neckar sehen Sie die Oberflächen persönlich.</p>
         </div>
+        <Button href={href('/meisterwerk-exklusive/')}>Zu Meisterwerk Exklusive ↗</Button>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  import { initLeistungen } from '../../scripts/leistungen';
+  import { gsap } from '../../scripts/motion';
 
-  initLeistungen();
+  // Die Linie unter dem Text füllt sich, während die Karten durchlaufen (wie auf der Startseite)
+  const grid = document.querySelector<HTMLElement>('[data-ls-grid]');
+  const fill = document.querySelector<HTMLElement>('[data-ls-fill]');
+  if (grid && fill && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.fromTo(
+      fill,
+      { scaleX: 0.1 },
+      {
+        scaleX: 1,
+        ease: 'none',
+        scrollTrigger: { trigger: grid, start: 'top 60%', end: 'bottom 75%', scrub: 0.6 },
+      },
+    );
+  }
 </script>
 
-<style is:global>
+<style>
   .ls {
-    --ease: cubic-bezier(0.22, 1, 0.36, 1);
-    padding: 32px 20px 72px;
+    --ink: #090402;
+    --hair: #0904021f;
+    padding: 56px 20px 64px;
+    background: var(--color-soft);
+    color: var(--ink);
   }
-  .ls-wrap {
+  .ls-inner {
+    display: grid;
+    gap: 32px;
     max-width: var(--container-page);
     margin: 0 auto;
   }
-  .ls-eyebrow-row {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .ls-rule {
-    display: block;
-    width: 44px;
-    height: 1px;
-    background: var(--color-gold);
-    transform-origin: 0 50%;
-  }
   .ls-eyebrow {
     margin: 0;
-    color: var(--color-gold);
-    font-family: var(--font-display);
+    font-family: var(--font-urbanist), sans-serif;
     font-size: 12px;
+    line-height: 1.5;
     font-weight: 500;
-    letter-spacing: 0.14em;
+    letter-spacing: 2px;
     text-transform: uppercase;
   }
-  .ls-title {
-    margin: 22px 0 0;
-    color: var(--color-ink);
-    font-family: var(--font-display);
-    font-size: clamp(38px, 10.4vw, 56px);
-    line-height: 1.02;
+  .ls-heading h1 {
+    margin: 36px 0 24px;
+    color: var(--color-gold);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.25;
     font-weight: 500;
-    letter-spacing: -0.01em;
+    text-wrap: balance;
   }
-  .ls-line {
-    display: block;
-    overflow: hidden;
-    padding-bottom: 0.08em;
-  }
-  .ls-wordbox {
-    display: inline-block;
-    margin-right: 0.26em;
-  }
-  .ls-word {
-    display: inline-block;
-  }
-  @media (prefers-reduced-motion: no-preference) {
-    .js .ls-title:not(.is-go) .ls-word {
-      visibility: hidden;
-    }
-    .js .ls-rule {
-      transform: scaleX(0);
-    }
-  }
-
-  /* Zeilen */
-  .ls-body {
-    margin-top: 44px;
-  }
-  .ls-list {
+  .ls-sub {
     margin: 0;
-    padding: 0;
-    list-style: none;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.5;
   }
-  .ls-row {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 14px 20px;
-    padding: 26px 0 30px;
-    color: var(--color-ink);
-    text-decoration: none;
-  }
-  .ls-hair {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 1px;
-    background: rgb(0 0 0 / 0.14);
-    transform-origin: 0 50%;
-  }
-  .ls-list li:last-child .ls-row {
-    border-bottom: 1px solid rgb(0 0 0 / 0.14);
-  }
-  .ls-media {
-    grid-column: 1 / -1;
+  .ls-progress {
     display: block;
-    overflow: hidden;
-    aspect-ratio: 4 / 3;
+    width: 100px;
+    height: 2px;
+    margin-top: 40px;
+    background: #09040226;
   }
-  .ls-media .ls-img {
+  .ls-progress i {
     display: block;
     width: 100%;
     height: 100%;
-    max-width: none;
+    background: var(--color-gold);
+    transform-origin: 0 50%;
+    transform: scaleX(0.1);
+  }
+
+  .ls-grid {
+    display: grid;
+    gap: 20px;
+  }
+  .ls-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--hair);
+    background: #fff;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .ls-img {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+  .ls-img :global(picture),
+  .ls-img :global(img),
+  .ls-img > div {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .ls-img :global(img) {
     object-fit: cover;
+    transition:
+      transform 0.45s ease-in-out,
+      opacity 0.45s ease-in-out;
   }
-  .ls-text {
-    display: block;
-    min-width: 0;
+  .ls-img:hover :global(img) {
+    transform: scale(1.05);
+    opacity: 0.8;
   }
-  .ls-tag {
-    display: block;
-    margin-bottom: 10px;
-    color: var(--color-gold);
-    font-family: var(--font-display);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-  .ls-name {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: clamp(28px, 7.4vw, 40px);
-    line-height: 1.08;
-    font-weight: 500;
-    letter-spacing: -0.005em;
-    transition: color 0.5s ease;
-  }
-  .ls-sub {
-    max-width: 30em;
-    margin: 10px 0 0;
-    color: var(--color-muted);
-    font-size: 16px;
-    line-height: 25px;
-  }
-  .ls-arrow {
+  .ls-zoom {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    align-self: start;
-    width: 44px;
-    height: 44px;
-    border: 1px solid rgb(0 0 0 / 0.25);
-    font-size: 17px;
-    transition:
-      background-color 0.5s ease,
-      border-color 0.5s ease,
-      color 0.5s ease;
-  }
-  .ls-arrow i {
-    font-style: normal;
-    transition: transform 0.6s var(--ease);
-  }
-  .ls-row:hover .ls-arrow,
-  .ls-row:focus-visible .ls-arrow,
-  .ls-row.is-active .ls-arrow {
-    border-color: var(--color-ink);
-    background: var(--color-ink);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #000000b3;
     color: #fff;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
   }
-  .ls-row:hover .ls-arrow i,
-  .ls-row:focus-visible .ls-arrow i {
-    transform: translate(2px, -2px);
+  .ls-img:hover .ls-zoom {
+    opacity: 1;
   }
-  .ls-row:focus-visible {
-    outline: 2px solid var(--color-gold);
-    outline-offset: 4px;
+  .ls-zoom .ls-icon {
+    width: 28px;
+    height: 28px;
+    margin: 0;
   }
-  .ls-stage {
-    display: none;
+  .ls-text {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 22px 24px 26px;
+  }
+  .ls-text h2,
+  .ls-card--logo h2 {
+    margin: 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 20px;
+    line-height: 1.3;
+    font-weight: 500;
+  }
+  .ls-text h2 span {
+    display: block;
+    min-height: 2.8em;
+    margin-top: 4px;
+    color: #090402b3;
+    font-size: 15px;
+    line-height: 1.4;
+    font-weight: 400;
+  }
+  .ls-icon {
+    display: block;
+    flex: none;
+    width: 20px;
+    height: 20px;
+    margin-top: 5px;
+  }
+  .ls-card--logo {
+    justify-content: space-between;
+    gap: 22px;
+    padding: 24px 20px;
+  }
+  .ls-card--logo :global(img) {
+    display: block;
+    width: 240px;
+    max-width: 100%;
+    height: auto;
+  }
+  .ls-body p {
+    margin: 10px 0 0;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.5;
   }
 
   @media (min-width: 768px) {
     .ls {
-      padding: 48px 20px 96px;
+      padding: 72px 20px 80px;
     }
-    .ls-title {
-      font-size: clamp(52px, 8vw, 84px);
+    .ls-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .ls-media {
-      aspect-ratio: 16 / 9;
+    .ls-text h2,
+    .ls-card--logo h2 {
+      font-size: 24px;
     }
-    .ls-name {
-      font-size: clamp(34px, 5vw, 48px);
+    .ls-text h2 span {
+      font-size: 16px;
     }
   }
-
-  /* Desktop: Zeilen links, Bildbühne rechts bleibt stehen */
   @media (min-width: 1025px) {
     .ls {
-      padding: 72px 30px 120px;
+      padding: 12vh 30px;
     }
-    .ls-title {
-      font-size: clamp(64px, 6.6vw, 104px);
-    }
-    .ls-body {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 0.62fr);
-      gap: 0 96px;
+    .ls-inner {
+      grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
+      gap: 0 6vw;
       align-items: start;
-      margin-top: 72px;
     }
-    .ls-row {
-      padding: 40px 0 44px;
-    }
-    .ls-media {
-      display: none;
-    }
-    .ls-name {
-      font-size: clamp(38px, 3.6vw, 56px);
-    }
-    .ls-sub {
-      font-size: 17px;
-    }
-    .ls-arrow {
-      width: 52px;
-      height: 52px;
-    }
-    /* Hat eine Zeile den Fokus, treten die übrigen zurück */
-    .ls.has-active .ls-row:not(.is-active) .ls-name {
-      color: rgb(9 4 2 / 0.32);
-    }
-    .ls.has-active .ls-row:not(.is-active) .ls-sub {
-      color: rgb(0 0 0 / 0.38);
-    }
-    .ls-sub {
-      transition: color 0.5s ease;
-    }
-
-    .ls-stage {
+    .ls-heading {
       position: sticky;
-      top: 110px;
-      display: block;
+      top: 22vh;
     }
-    .ls-frame {
-      position: relative;
-      overflow: hidden;
-      height: min(calc(100svh - 150px), 760px);
-      background: #1b1a18;
-    }
-    .ls-layer {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
-    .ls-layer.is-active {
-      opacity: 1;
-    }
-    .ls-stage-img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      object-fit: cover;
-    }
-    .ls-shade {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgb(9 4 2 / 0.7) 0%, rgb(9 4 2 / 0) 45%);
-      pointer-events: none;
-    }
-    .ls-layer-title {
-      position: absolute;
-      right: 28px;
-      bottom: 74px;
-      left: 28px;
-      color: #fff;
-      font-family: var(--font-display);
-      font-size: 26px;
-      line-height: 31px;
-      font-weight: 500;
-    }
-    .ls-go {
-      position: absolute;
-      bottom: 28px;
-      left: 28px;
-      padding-bottom: 4px;
-      border-bottom: 1px solid var(--color-gold);
-      color: #fff;
-      font-family: var(--font-display);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-    .ls-go i {
-      font-style: normal;
+    .ls-card--logo {
+      padding: 35px;
     }
   }
 </style>
