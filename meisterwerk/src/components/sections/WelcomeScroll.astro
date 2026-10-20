@@ -24,6 +24,8 @@ interface Props {
   headingTag?: 'h1' | 'h2';
   /** Link unter dem Text */
   cta?: { label: string; href: string };
+  /** Abstände der Sektion (Standard: Startseite mit großem Abstand zur Kopfzeile) */
+  rootClass?: string;
 }
 const {
   heading,
@@ -32,6 +34,7 @@ const {
   images: customImages,
   headingTag: Heading = 'h2',
   cta = { label: 'Projekt starten', href: href(routes.contact) },
+  rootClass = 'mt-[8vh] md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0',
 } = Astro.props;
 
 const defaultImages = [
@@ -54,7 +57,7 @@ const images = customImages ?? defaultImages;
 <section
   data-section="53bda50"
   data-welcome-scene
-  class="mt-[8vh] overflow-x-clip px-5 md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0 lg:px-7.5"
+  class:list={['overflow-x-clip px-5 lg:px-7.5', rootClass]}
 >
   <div class="mx-auto w-full max-w-page lg:flex lg:flex-row-reverse lg:gap-x-5">
     <div data-ws-pin class="lg:contents">

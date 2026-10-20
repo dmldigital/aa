@@ -4,10 +4,8 @@ import PageLayout from '../../layouts/PageLayout.astro';
 import WelcomeScroll from '../../components/sections/WelcomeScroll.astro';
 import ServiceBenefits from '../../components/service/ServiceBenefits.astro';
 import ServiceBlocks from '../../components/service/ServiceBlocks.astro';
-import Showcase from '../../components/sections/Showcase.astro';
-import Gallery from '../../components/sections/Gallery.astro';
-import SectionHeading from '../../components/sections/SectionHeading.astro';
-import Pillars from '../../components/sections/Pillars.astro';
+import ServiceGallery from '../../components/service/ServiceGallery.astro';
+import ServiceExcellence from '../../components/service/ServiceExcellence.astro';
 import { EXCELLENCE } from '../../data/pages/services';
 
 export async function getStaticPaths() {
@@ -18,7 +16,8 @@ const { page } = Astro.props;
 
 /**
  * Schema aller Leistungsseiten: Willkommen-Szene wie auf der Startseite (Text steht rechts, die Bilder der Seite laufen
- * links vorbei), Vorteile als Karten, die beiden Textblöcke, dann wie bisher Bildreihen, Galerie und „Exzellenz“.
+ * links vorbei), Vorteile als Karten, die beiden Textblöcke, die übrigen Bilder als Galerie mit Großansicht und
+ * „Exzellenz ist unser Maßstab“ als Karten.
  */
 const name = page.hero.title.split(' – ')[0];
 const pool = [
@@ -28,30 +27,25 @@ const pool = [
   ...(page.gallery ?? []).map((src) => ({ src, alt: `${name} bei Meisterwerk` })),
 ];
 const seen = new Set<string>();
-const images = pool.filter((i) => !seen.has(i.src.src) && seen.add(i.src.src)).slice(0, 3);
+const unique = pool.filter((i) => !seen.has(i.src.src) && seen.add(i.src.src));
+const images = unique.slice(0, 3);
+// Die Bilder, die nicht in der Szene laufen, kommen in die Galerie
+const gallery = unique.slice(3).map((i) => i.src);
+const intro2 =
+  'Wir beraten Sie im Showroom in Freiberg am Neckar, zeigen Ihnen Muster zum Anfassen und setzen Ihr Projekt sauber und termingerecht um.';
 ---
 
 <PageLayout title={page.title} description={page.description} current={`/services/${page.slug}/`}>
   <WelcomeScroll
     heading={page.hero.title}
-    paragraphs={[page.hero.text]}
+    paragraphs={[page.hero.text, intro2]}
     images={images}
     closing={null}
     headingTag="h1"
+    rootClass="mt-6 md:mt-8 md:mb-10 lg:mt-10 lg:mb-0"
   />
   <ServiceBenefits label={page.intro.label} title={page.intro.title} list={page.intro.list} />
   <ServiceBlocks blocks={page.intro.blocks} />
-  {page.showcase && <Showcase columns={page.showcase} />}
-  {page.gallery && (
-    <Gallery
-      id="aa57ee6"
-      items={page.gallery}
-      gap={[30, 10, 10]}
-      innerClass="md:w-[75.7%] lg:w-full"
-    />
-  )}
-  <SectionHeading id="7d071c8" title={EXCELLENCE} />
-  <Pillars id="8afce89" items={page.pillars} smallText />
-  <div data-section="43d17bb" class="mb-10 h-107.5 md:mb-15 md:h-130 lg:mb-27 lg:h-195"></div>
-  <div data-section="8d59bd8" class="h-5 lg:h-10"></div>
+  <ServiceGallery images={gallery} alt={`${name} bei Meisterwerk`} />
+  <ServiceExcellence title={EXCELLENCE} items={page.pillars} />
 </PageLayout>

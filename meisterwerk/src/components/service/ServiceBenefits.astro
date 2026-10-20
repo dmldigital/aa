@@ -37,32 +37,9 @@ const items = [...list.matchAll(/<li>\s*<p>([\s\S]*?)<\/p>\s*<\/li>/g)].map((m) 
 </section>
 
 <script>
-  import { gsap, ScrollTrigger } from '../../scripts/motion';
+  import { initBoxReveal } from '../../scripts/reveal';
 
-  const cards = [...document.querySelectorAll<HTMLElement>('[data-sb-card]')];
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    cards.forEach((c) => c.removeAttribute('data-pend'));
-  } else if (cards.length) {
-    ScrollTrigger.batch(cards, {
-      start: 'top 90%',
-      once: true,
-      onEnter: (batch) => {
-        batch.forEach((c) => c.removeAttribute('data-pend'));
-        gsap.fromTo(
-          batch,
-          { clipPath: 'inset(100% 0% 0% 0%)', y: 48 },
-          {
-            clipPath: 'inset(0% 0% 0% 0%)',
-            y: 0,
-            duration: 1.3,
-            ease: 'power3.out',
-            stagger: 0.16,
-            clearProps: 'clipPath,transform',
-          },
-        );
-      },
-    });
-  }
+  initBoxReveal([...document.querySelectorAll<HTMLElement>('[data-sb-card]')]);
 </script>
 
 <style>
