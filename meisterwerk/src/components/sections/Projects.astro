@@ -2,16 +2,21 @@
 import ArrowLink from '../ui/ArrowLink.astro';
 import { href, routes } from '../../data/links';
 import ProjectCard from '../ui/ProjectCard.astro';
-import Icon from '../Icon.astro';
 import { projects as homeProjects } from '../../data/projects';
 
-/** Projekte-Karussell (Original 3472c30). Ohne Props: Startseite. */
+/**
+ * Projekte-Reihe (Original 3472c30). Ohne Props: Startseite, drei Projekte nebeneinander (Handy untereinander), darunter
+ * der Link „Weitere Projekte“. Kein Karussell (Vorgabe des Nutzers).
+ */
 interface Props {
   id?: string;
   heading?: string;
-  /** Ziel von „Unser Portfolio“ */
+  /** Ziel von „Weitere Projekte“ */
   link?: string;
+  linkLabel?: string;
   projects?: { title: string; href: string; img: ImageMetadata; alt: string }[];
+  /** Anzahl der gezeigten Projekte */
+  count?: number;
   /** Außenabstände der Sektion */
   rootClass?: string;
   headingTag?: 'h2' | 'h3';
@@ -22,107 +27,32 @@ const {
   id = '3472c30',
   heading = 'Unsere Exklusive Projekte',
   link = routes.projects,
+  linkLabel = 'Weitere Projekte',
   projects = homeProjects,
+  count = 3,
   rootClass = 'mt-[10vh] md:mt-0 md:mb-23.75 lg:mt-[20vh] lg:mb-0',
   headingTag: Heading = 'h3',
   headingClass = 'text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-h3',
   linkTone = 'gold',
 } = Astro.props;
-
-// Endlosschleife: je ein Klon-Satz davor und dahinter, die echten Karten stehen in der Mitte
-const slides = [
-  ...projects.map((p) => ({ ...p, clone: true })),
-  ...projects.map((p) => ({ ...p, clone: false })),
-  ...projects.map((p) => ({ ...p, clone: true })),
-];
 ---
 
 <section data-section={id} class:list={['flex flex-col overflow-x-clip px-5 lg:px-7.5', rootClass]}>
   <div class="mx-auto flex w-full max-w-page grow flex-col gap-3.75 lg:gap-5">
-    <!-- Kopfzeile -->
-    <div class="mb-1.25 flex items-center md:gap-5 lg:mb-5">
-      <div class="w-full md:mb-1.25 md:w-1/2 lg:mb-0">
-        <Heading class:list={['font-display', headingClass]}>{heading}</Heading>
-      </div>
-      <div class="hidden justify-end md:flex md:w-1/2">
-        <div>
-          <ArrowLink href={href(link)} tone={linkTone}>
-            Unser Portfolio
-          </ArrowLink>
-        </div>
-      </div>
+    <div class="mb-1.25 lg:mb-5">
+      <Heading class:list={['font-display', headingClass]}>{heading}</Heading>
     </div>
 
-    <!-- Karussell -->
-    <div
-      class="relative"
-      data-carousel
-      aria-roledescription="carousel"
-      aria-label="Unsere Projekte"
-    >
-      <div class="@container touch-pan-y overflow-hidden pb-1.25 md:pb-0" data-viewport>
-        <div
-          class="flex gap-(--gap) [--gap:20px] [--n:1] [--step:calc((100cqw-(var(--n)-1)*var(--gap))/var(--n)+var(--gap))] md:[--n:3] lg:[--gap:30px]"
-          style={`transform:translateX(calc(var(--step) * -${projects.length}))`}
-          data-track
-        >
-          {slides.map((p) => (
-            <ProjectCard
-              project={p}
-              reveal={!p.clone}
-              instant
-              lazy
-              class="w-[calc(var(--step)-var(--gap))] shrink-0"
-              aria-roledescription="slide"
-              aria-hidden={p.clone ? 'true' : undefined}
-              tabindex={p.clone ? -1 : undefined}
-              draggable="false"
-            />
-          ))}
-        </div>
-      </div>
-
-      <button
-        type="button"
-        aria-label="Vorheriges Projekt"
-        data-prev
-        class="absolute top-[100.8px] left-[-60px] hidden size-11 cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
-      >
-        <Icon name="arrow-left" class="block shrink-0 size-11" />
-      </button>
-      <button
-        type="button"
-        aria-label="Nächstes Projekt"
-        data-next
-        class="absolute top-[100.8px] right-[-60px] hidden size-11 cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
-      >
-        <Icon name="arrow-right" class="block shrink-0 size-11" />
-      </button>
+    <div class="grid grid-cols-1 gap-x-5 gap-y-7.5 md:grid-cols-3 lg:gap-x-7.5">
+      {projects.slice(0, count).map((p) => (
+        <ProjectCard project={p} reveal instant lazy />
+      ))}
     </div>
 
-    <!-- Nur Handy: Link unter dem Karussell mit Punkten -->
-    <div class="relative md:hidden">
-      <div class="text-[16px]/[24px]">
-        <ArrowLink href={href(link)} tone="black">
-          Unser Portfolio
-        </ArrowLink>
-      </div>
-      <div class="absolute top-1/2 right-0 flex -translate-y-1/2" data-dots>
-        {projects.map((p, i) => (
-          <button
-            type="button"
-            aria-label={`Projekt ${i + 1}: ${p.title}`}
-            class="mx-1.25 size-1.25 cursor-pointer rounded-full bg-black opacity-20 data-[active]:opacity-100"
-          />
-        ))}
-      </div>
+    <div class="mt-5">
+      <ArrowLink href={href(link)} tone={linkTone}>
+        {linkLabel}
+      </ArrowLink>
     </div>
   </div>
 </section>
-
-<script>
-  import { initCarousel } from '../../scripts/carousel';
-
-  const root = document.querySelector<HTMLElement>('[data-carousel]')?.closest('section');
-  if (root) initCarousel(root);
-</script>
