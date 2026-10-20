@@ -26,17 +26,21 @@ export const pillars = [
   },
 ];
 
-export const gallery = [
-  'handwerkskammer.jpeg',
-  'fakolith.jpeg',
-  'dinova.jpeg',
-  'Brillux.jpeg',
-  'ASB.jpeg',
-  'meisterbrief.jpeg',
-  'Zertifikat.jpeg',
-  'urkunde-brillux-wdvs-2019.jpeg',
-  'sto.jpeg',
-  'oikos.jpeg',
-  'knauf.jpeg',
-  'infra.jpeg',
+/**
+ * Zertifikate und Urkunden (Reihenfolge der Wand: erst Meisterbrief und Bestätigung der Handwerkskammer, dann die
+ * Fortbildungen). `col` verteilt sie auf die zwei Spalten der Wand.
+ */
+export const certificates: { file: string; alt: string; col: 0 | 1 }[] = [
+  { file: 'meisterbrief.jpeg', alt: 'Meisterbrief von Baldassarre Fortino im Maler- und Lackierer-Handwerk', col: 0 },
+  { file: 'handwerkskammer.jpeg', alt: 'Bestätigung der Handwerkskammer Region Stuttgart für die Maler- und Lackiererwerkstätte', col: 1 },
+  { file: 'fakolith.jpeg', alt: 'Teilnahmezertifikat Fakolith, Qualifizierungsseminar Schimmelsanierung in Innenräumen', col: 0 },
+  { file: 'dinova.jpeg', alt: 'Zertifikat Dinova, Praxis-Seminar Wandgestaltung mit italienischen Dekorprodukten', col: 1 },
+  { file: 'Brillux.jpeg', alt: 'Urkunde Brillux, Der Weg zu erfolgreichen Verkaufsgesprächen', col: 0 },
+  { file: 'urkunde-brillux-wdvs-2019.jpeg', alt: 'Urkunde Brillux, Begeistern für WDVS mit Emotionen verkaufen', col: 1 },
+  { file: 'sto.jpeg', alt: 'Zertifikat Sto, Teilnahme am Seminar', col: 0 },
+  { file: 'oikos.jpeg', alt: 'Zertifikat Oikos, Grund-Workshop', col: 1 },
+  { file: 'knauf.jpeg', alt: 'Teilnahmebestätigung der Knauf Akademie, Dachgeschossausbau', col: 0 },
+  { file: 'infra.jpeg', alt: 'Zertifikat infra pro, Geprüfte Fachkraft für Rauchwarnmelder nach DIN 14676', col: 1 },
+  { file: 'Zertifikat.jpeg', alt: 'Attestato di formazione, Elekta Materia, Corso del Reinatore', col: 0 },
+  { file: 'ASB.jpeg', alt: 'Dank des Arbeiter-Samariter-Bundes für die Unterstützung des Sponsoring-Fahrzeugs', col: 1 },
 ];

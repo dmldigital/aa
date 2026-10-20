@@ -6,7 +6,7 @@
  * (Pfeiltasten, Esc) und Wischen als Galerie. Es bleibt immer eine volle Reihe (gerade Zahl, bei mehr als acht Bildern drei Spalten und ein Vielfaches von sechs).
  */
 import { Picture, getImage } from 'astro:assets';
-import Icon from '../Icon.astro';
+import Lightbox from '../ui/Lightbox.astro';
 
 interface Props {
   images: ImageMetadata[];
@@ -50,94 +50,15 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
       </ul>
     </div>
 
-    <div class="sg-lb" data-sg-lb hidden role="dialog" aria-modal="true" aria-label="Bildansicht">
-      <button type="button" class="sg-lb-btn sg-lb-close" data-sg-close aria-label="Schließen">
-        <Icon name="plus" class="size-5 rotate-45" />
-      </button>
-      <button type="button" class="sg-lb-btn sg-lb-prev" data-sg-prev aria-label="Voriges Bild">
-        <Icon name="arrow-left" class="size-4" />
-      </button>
-      <button type="button" class="sg-lb-btn sg-lb-next" data-sg-next aria-label="Nächstes Bild">
-        <Icon name="arrow-right" class="size-4" />
-      </button>
-      <figure class="sg-lb-fig"><img data-sg-img alt="" /></figure>
-    </div>
+    <Lightbox />
   </section>
 )}
 
 <script>
-  import { lenis } from '../../scripts/motion';
+  import { initLightbox } from '../../scripts/lightbox';
 
   const root = document.querySelector<HTMLElement>('[data-sg]');
-  if (root) {
-    const items = [...root.querySelectorAll<HTMLElement>('[data-sg-item]')];
-    const lb = root.querySelector<HTMLElement>('[data-sg-lb]')!;
-    const img = lb.querySelector<HTMLImageElement>('[data-sg-img]')!;
-    const closeBtn = lb.querySelector<HTMLElement>('[data-sg-close]')!;
-    const prevBtn = lb.querySelector<HTMLElement>('[data-sg-prev]')!;
-    const nextBtn = lb.querySelector<HTMLElement>('[data-sg-next]')!;
-    let current = 0;
-    let opener: HTMLElement | null = null;
-    let closing: number | undefined;
-
-    const show = (i: number) => {
-      current = (i + items.length) % items.length;
-      img.classList.remove('is-in');
-      const next = new Image();
-      next.onload = () => {
-        img.src = next.src;
-        requestAnimationFrame(() => img.classList.add('is-in'));
-      };
-      next.src = items[current].dataset.full!;
-    };
-    const open = (i: number) => {
-      opener = document.activeElement as HTMLElement;
-      window.clearTimeout(closing);
-      lb.hidden = false;
-      show(i);
-      requestAnimationFrame(() => lb.classList.add('is-open'));
-      lenis?.stop();
-      document.documentElement.style.overflow = 'hidden';
-      closeBtn.focus();
-    };
-    const close = () => {
-      lb.classList.remove('is-open');
-      closing = window.setTimeout(() => {
-        lb.hidden = true;
-        img.removeAttribute('src');
-      }, 350);
-      lenis?.start();
-      document.documentElement.style.overflow = '';
-      opener?.focus();
-    };
-
-    items.forEach((it, i) => it.addEventListener('click', () => open(i)));
-    closeBtn.addEventListener('click', close);
-    prevBtn.addEventListener('click', () => show(current - 1));
-    nextBtn.addEventListener('click', () => show(current + 1));
-    lb.addEventListener('click', (e) => {
-      if (e.target === lb || (e.target as HTMLElement).classList.contains('sg-lb-fig')) close();
-    });
-    document.addEventListener('keydown', (e) => {
-      if (lb.hidden) return;
-      if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowLeft') show(current - 1);
-      else if (e.key === 'ArrowRight') show(current + 1);
-      else if (e.key === 'Tab') {
-        const f = [closeBtn, prevBtn, nextBtn];
-        const idx = f.indexOf(document.activeElement as HTMLElement);
-        e.preventDefault();
-        f[(idx + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
-      }
-    });
-    // Wischen
-    let x0 = 0;
-    lb.addEventListener('pointerdown', (e) => (x0 = e.clientX));
-    lb.addEventListener('pointerup', (e) => {
-      const dx = e.clientX - x0;
-      if (Math.abs(dx) > 60) show(current + (dx < 0 ? 1 : -1));
-    });
-  }
+  if (root) initLightbox(root, [...root.querySelectorAll<HTMLElement>('[data-sg-item]')]);
 </script>
 
 <style>
@@ -241,97 +162,9 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
     outline-offset: -4px;
   }
 
-  /* Großansicht */
-  .sg-lb {
-    position: fixed;
-    inset: 0;
-    z-index: 120;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgb(9 4 2 / 0.94);
-    opacity: 0;
-    transition: opacity 0.35s ease;
-  }
-  .sg-lb[hidden] {
-    display: none;
-  }
-  .sg-lb.is-open {
-    opacity: 1;
-  }
-  .sg-lb-fig {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 72px 20px;
-  }
-  .sg-lb-fig img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  .sg-lb-fig img.is-in {
-    opacity: 1;
-  }
-  .sg-lb-btn {
-    position: absolute;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border: 1px solid #fff;
-    background: transparent;
-    color: #fff;
-    cursor: pointer;
-    transition:
-      background-color 0.3s ease,
-      color 0.3s ease;
-  }
-  .sg-lb-btn:hover,
-  .sg-lb-btn:focus-visible {
-    background: #fff;
-    color: var(--color-ink);
-  }
-  .sg-lb-close {
-    top: 20px;
-    right: 20px;
-  }
-  .sg-lb-prev,
-  .sg-lb-next {
-    top: 50%;
-    margin-top: -24px;
-  }
-  .sg-lb-prev {
-    left: 20px;
-  }
-  .sg-lb-next {
-    right: 20px;
-  }
-
-  @media (min-width: 768px) {
-    .sg-lb-fig {
-      padding: 80px 90px;
-    }
-  }
-  @media (min-width: 1025px) {
-    .sg-lb-fig {
-      padding: 60px 120px;
-    }
-  }
-
   @media (min-width: 768px) {
     .sg {
       margin: 72px 20px 80px;
-    }
-    .sg-lb-fig {
-      padding: 80px 90px;
     }
   }
   @media (min-width: 1025px) {
@@ -350,9 +183,6 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
     .sg-grid {
       grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
       gap: 30px;
-    }
-    .sg-lb-fig {
-      padding: 60px 120px;
     }
   }
 </style>

@@ -1,21 +1,9 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import SectionHeading from '../../components/sections/SectionHeading.astro';
-import Pillars from '../../components/sections/Pillars.astro';
-import Gallery from '../../components/sections/Gallery.astro';
-import { img } from '../../lib/img';
-import { meta, heading, pillars, gallery } from '../../data/pages/qualifikationen';
+import QualiScene from '../../components/qualifikationen/QualiScene.astro';
+import { meta, heading, pillars, certificates } from '../../data/pages/qualifikationen';
 ---
 
 <PageLayout title={meta.title} description={meta.description} current="/qualifikationen/">
-  <SectionHeading id="dd2507a" title={heading} rootClass="mt-[10vh] md:mt-0 md:mb-15 lg:my-18" />
-  <Pillars id="214893f" items={pillars} smallText rootClass="mb-10 md:mb-15 lg:mb-0" />
-  <Gallery
-    id="a1e26a2"
-    items={gallery.map(img)}
-    layout="justified"
-    gap={[10, 10, 10]}
-    rowHeight={[344, 344, 150]}
-    rootClass="mb-10 md:mb-15 lg:mt-6.75 lg:mb-18"
-  />
+  <QualiScene label="Qualifikationen" {heading} steps={pillars} {certificates} />
 </PageLayout>

@@ -1,0 +1,535 @@
+---
+/**
+ * Qualifikationen: Eröffnung mit großer Überschrift (die Wörter fahren aus einer Maske hoch, darunter zieht eine feine
+ * goldene Linie auf) und eine Szene aus Wand und Text. Links läuft eine Wand aus Zertifikaten in zwei Spalten vorbei,
+ * die zweite Spalte driftet langsamer. Jede Urkunde fährt beim Scrollen gekippt herein und richtet sich auf. Rechts bleibt
+ * der Text stehen (Desktop): Während die Wand läuft, wechseln die vier Versprechen, eine feine Linie je Versprechen füllt
+ * sich mit dem Scrollen und führt per Klick zum Kapitel. Handy und Tablet: die Versprechen untereinander, darunter die
+ * Wand. Hover wie bei den Projektkarten (Bild größer und heller, runder Kreis mit Plus), Klick öffnet die Großansicht.
+ * Ohne Animation (reduzierte Bewegung, ohne Skript) steht alles ruhig untereinander.
+ */
+import { Picture, getImage } from 'astro:assets';
+import Lightbox from '../ui/Lightbox.astro';
+import { rich } from '../../lib/rich';
+import { cleanHtml } from '../../lib/cleanHtml';
+import { img } from '../../lib/img';
+
+interface Props {
+  label: string;
+  heading: string;
+  steps: { title: string; html: string }[];
+  certificates: { file: string; alt: string; col: 0 | 1 }[];
+}
+const { label, heading, steps, certificates } = Astro.props;
+
+const words = heading.split(' ');
+const plain = (html: string) => html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+const items = await Promise.all(
+  certificates.map(async (c) => {
+    const src = img(c.file);
+    return { ...c, src, full: (await getImage({ src, width: 1400, format: 'webp', quality: 90 })).src };
+  }),
+);
+const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)];
+---
+
+<section class="qs" data-qs>
+  <header class="qs-open">
+    <p class="qs-eyebrow" data-qs-fade>{label}</p>
+    <h1 class="qs-title" aria-label={heading}>
+      {words.map((w) => (
+        <>
+          <span class="qs-w" aria-hidden="true"><span class="qs-wi" data-qs-word>{w}</span></span>{' '}
+        </>
+      ))}
+    </h1>
+    <span class="qs-rule" data-qs-rule></span>
+  </header>
+
+  <div class="qs-inner" data-qs-inner>
+    <div class="qs-wall" data-qs-wall>
+      {cols.map((list, c) => (
+        <ul class:list={['qs-col', c === 1 && 'qs-col--b']} data-qs-col={c === 1 ? 'b' : 'a'}>
+          {list.map((it) => (
+            <li class="qs-card" data-qs-card style={`aspect-ratio:${it.src.width}/${it.src.height}`}>
+              <button type="button" class="qs-btn" data-qs-item data-full={it.full} aria-label={`${it.alt}, vergrößern`}>
+                <Picture
+                  formats={['avif']}
+                  fallbackFormat="webp"
+                  src={it.src}
+                  alt={it.alt}
+                  widths={[260, 350, 500, 700]}
+                  sizes="(min-width: 1025px) 350px, (min-width: 768px) 360px, 180px"
+                  loading="lazy"
+                  draggable="false"
+                />
+                <span class="qs-zoom" aria-hidden="true">+</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+
+    <div class="qs-side" data-qs-side>
+      <div class="qs-steps" data-qs-steps>
+        {steps.map((s) => (
+          <article class="qs-step" data-qs-step>
+            <h2 set:html={s.title} />
+            <div class:list={['qs-text', rich]} set:html={cleanHtml(s.html)} />
+          </article>
+        ))}
+      </div>
+      <ol class="qs-nav" data-qs-nav>
+        {steps.map((s, i) => (
+          <li>
+            <button type="button" data-qs-go={i} aria-label={`Zu: ${plain(s.title)}`}>
+              <span class="qs-nav-label">{plain(s.title)}</span>
+              <span class="qs-nav-line" aria-hidden="true"><span data-qs-fill></span></span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+
+  <Lightbox />
+</section>
+
+<script>
+  import { gsap, ScrollTrigger, lenis } from '../../scripts/motion';
+  import { initLightbox } from '../../scripts/lightbox';
+
+  const root = document.querySelector<HTMLElement>('[data-qs]');
+  if (root) {
+    initLightbox(root, [...root.querySelectorAll<HTMLElement>('[data-qs-item]')]);
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const inner = root.querySelector<HTMLElement>('[data-qs-inner]')!;
+      const colB = root.querySelector<HTMLElement>('[data-qs-col="b"]')!;
+      const cards = [...root.querySelectorAll<HTMLElement>('[data-qs-card]')];
+      const mm = gsap.matchMedia();
+
+      mm.add({ desk: '(min-width: 1025px)', mob: '(max-width: 1024px)' }, (ctx) => {
+        const desk = !!ctx.conditions?.desk;
+
+        // Eröffnung: Wörter fahren aus ihrer Maske hoch, Label blendet ein, die Linie zieht auf
+        const words = root.querySelectorAll('[data-qs-word]');
+        gsap.set(words, { yPercent: 115, visibility: 'visible' });
+        gsap.to(words, { yPercent: 0, duration: 1.25, ease: 'css', stagger: 0.09, delay: 0.1 });
+        gsap.fromTo(root.querySelector('[data-qs-fade]'), { opacity: 0 }, { opacity: 1, duration: 1, ease: 'css' });
+        gsap.fromTo(
+          root.querySelector('[data-qs-rule]'),
+          { scaleX: 0 },
+          { scaleX: 1, duration: 1.8, ease: 'grow', delay: 0.5 },
+        );
+
+        // Wand: jede Urkunde kommt gekippt von unten und richtet sich beim Scrollen auf (zweite Spalte gegenläufig)
+        cards.forEach((card, i) => {
+          const dir = i % 2 ? 1 : -1;
+          gsap.fromTo(
+            card,
+            { opacity: 0, y: desk ? 150 : 90, rotation: dir * (desk ? 5 : 4), scale: 0.94 },
+            {
+              opacity: 1,
+              y: 0,
+              rotation: 0,
+              scale: 1,
+              ease: 'none',
+              scrollTrigger: { trigger: card, start: 'top 104%', end: 'top 64%', scrub: 0.6 },
+            },
+          );
+        });
+        // Die zweite Spalte driftet langsamer als die erste
+        const drift = desk ? 130 : 40;
+        gsap.fromTo(
+          colB,
+          { y: drift },
+          {
+            y: -drift,
+            ease: 'none',
+            scrollTrigger: { trigger: inner, start: 'top bottom', end: 'bottom top', scrub: true },
+          },
+        );
+
+        // Text: nur am Desktop bleibt er stehen und wechselt mit dem Scrollen
+        if (!desk) return;
+        const steps = [...root.querySelectorAll<HTMLElement>('[data-qs-step]')];
+        const goBtns = [...root.querySelectorAll<HTMLElement>('[data-qs-go]')];
+        const fills = [...root.querySelectorAll<HTMLElement>('[data-qs-fill]')];
+        root.classList.add('is-stack');
+        // Der Text rechts fährt nach der Überschrift herein (bis dahin unsichtbar, damit beim Laden nichts springt)
+        gsap.fromTo(
+          root.querySelector('[data-qs-side]'),
+          { autoAlpha: 0, y: 40 },
+          { autoAlpha: 1, y: 0, duration: 1.3, ease: 'css', delay: 0.9 },
+        );
+        gsap.set(steps, { autoAlpha: 0, y: 30 });
+        gsap.set(steps[0], { autoAlpha: 1, y: 0 });
+        gsap.set(fills, { scaleX: 0 });
+        goBtns[0].setAttribute('aria-current', 'true');
+        let cur = 0;
+
+        const show = (n: number) => {
+          if (n === cur) return;
+          const dir = n > cur ? 1 : -1;
+          gsap.to(steps[cur], { autoAlpha: 0, y: -30 * dir, duration: 0.5, ease: 'css', overwrite: true });
+          gsap.fromTo(
+            steps[n],
+            { autoAlpha: 0, y: 30 * dir },
+            { autoAlpha: 1, y: 0, duration: 0.9, ease: 'css', delay: 0.2, overwrite: true },
+          );
+          goBtns[cur].removeAttribute('aria-current');
+          goBtns[n].setAttribute('aria-current', 'true');
+          cur = n;
+        };
+
+        const st = ScrollTrigger.create({
+          trigger: inner,
+          start: 'top 30%',
+          end: 'bottom 75%',
+          onUpdate: (self) => {
+            const p = self.progress * steps.length;
+            show(Math.min(steps.length - 1, Math.floor(p)));
+            fills.forEach((f, i) => gsap.set(f, { scaleX: Math.min(1, Math.max(0, p - i)) }));
+          },
+        });
+        const jump = (e: Event) => {
+          const i = Number((e.currentTarget as HTMLElement).dataset.qsGo);
+          const y = st.start + ((i + 0.5) / steps.length) * (st.end - st.start);
+          if (lenis) lenis.scrollTo(y, { duration: 1.6 });
+          else window.scrollTo({ top: y, behavior: 'smooth' });
+        };
+        goBtns.forEach((b) => b.addEventListener('click', jump));
+
+        return () => {
+          goBtns.forEach((b) => b.removeEventListener('click', jump));
+          root.classList.remove('is-stack');
+          gsap.set([...steps, ...fills, root.querySelector('[data-qs-side]')], { clearProps: 'all' });
+        };
+      });
+    }
+  }
+</script>
+
+<style>
+  .qs {
+    --ink: #090402;
+    padding: 0 20px;
+    color: var(--ink);
+  }
+
+  /* Eröffnung */
+  .qs-open {
+    max-width: var(--container-page);
+    margin: 0 auto;
+    padding: 40px 0 44px;
+  }
+  .qs-eyebrow {
+    margin: 0 0 14px;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .qs-title {
+    margin: 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 11.5vw;
+    line-height: 0.94;
+    font-weight: 600;
+    letter-spacing: -0.045em;
+  }
+  .qs-w {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding: 0.04em 0.06em 0.12em 0;
+    margin: -0.04em -0.06em -0.12em 0;
+  }
+  .qs-wi {
+    display: inline-block;
+  }
+  .qs-rule {
+    display: block;
+    height: 1px;
+    margin-top: 28px;
+    background: var(--color-gold);
+    transform-origin: left center;
+  }
+
+  /* Szene */
+  .qs-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    max-width: var(--container-page);
+    margin: 0 auto;
+    padding-bottom: 64px;
+  }
+  .qs-side {
+    order: 1;
+  }
+  .qs-wall {
+    order: 2;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .qs-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .qs-col--b {
+    margin-top: 44px;
+  }
+  .qs-card {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    box-shadow:
+      0 0 0 1px rgb(9 4 2 / 0.06),
+      0 18px 40px -22px rgb(9 4 2 / 0.35);
+  }
+  .qs-btn {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    overflow: hidden;
+  }
+  .qs-btn :global(picture),
+  .qs-btn :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .qs-btn :global(img) {
+    transition:
+      transform 0.45s ease-in-out,
+      opacity 0.45s ease-in-out;
+  }
+  .qs-btn:hover :global(img),
+  .qs-btn:focus-visible :global(img) {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  .qs-zoom {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #000000b3;
+    color: #fff;
+    font-size: 40px;
+    line-height: 22.5px;
+    opacity: 0;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .qs-btn:hover .qs-zoom,
+  .qs-btn:focus-visible .qs-zoom {
+    opacity: 1;
+  }
+  .qs-btn:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: -4px;
+  }
+
+  /* Versprechen */
+  .qs-steps {
+    display: grid;
+    gap: 35px;
+  }
+  .qs-step {
+    padding-top: 20px;
+    border-top: 1px solid rgb(0 0 0 / 0.2);
+  }
+  .qs-step h2 {
+    margin: 0 0 14px;
+    color: var(--color-gold);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.25;
+    font-weight: 500;
+  }
+  .qs-text {
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .qs-text :global(p) {
+    margin: 0;
+  }
+  .qs-text :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .qs-nav {
+    display: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Warten auf den Auftritt (nur mit Skript und Bewegung) */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .qs-wi {
+      visibility: hidden;
+    }
+    :global(.js) .qs-eyebrow,
+    :global(.js) .qs-card {
+      opacity: 0;
+    }
+    :global(.js) .qs-rule {
+      transform: scaleX(0);
+    }
+  }
+  @media (min-width: 1025px) and (prefers-reduced-motion: no-preference) {
+    :global(.js) .qs-side {
+      visibility: hidden;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .qs {
+      padding: 0 20px;
+    }
+    .qs-open {
+      padding: 56px 0 56px;
+    }
+    .qs-title {
+      font-size: clamp(44px, 6vw, 72px);
+    }
+    .qs-text {
+      font-size: 16px;
+    }
+    .qs-wall {
+      gap: 20px;
+    }
+    .qs-col {
+      gap: 20px;
+    }
+    .qs-col--b {
+      margin-top: 70px;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .qs {
+      padding: 0 30px;
+    }
+    .qs-open {
+      padding: 9vh 0 10vh;
+    }
+    .qs-title {
+      font-size: 100px;
+      line-height: 0.94;
+    }
+    .qs-rule {
+      margin-top: 4vh;
+    }
+    .qs-inner {
+      display: grid;
+      grid-template-columns: minmax(0, 0.56fr) minmax(0, 0.44fr);
+      gap: 0 6vw;
+      align-items: start;
+      padding-bottom: 14vh;
+    }
+    .qs-wall {
+      order: 1;
+      gap: 30px;
+      padding-bottom: 130px;
+    }
+    .qs-col {
+      gap: 30px;
+    }
+    .qs-col--b {
+      margin-top: 140px;
+    }
+    .qs-side {
+      order: 2;
+      position: sticky;
+      top: max(96px, 14vh);
+    }
+    .qs-text {
+      line-height: 1.5;
+    }
+
+    /* Mit Skript und Bewegung: die Versprechen liegen übereinander und wechseln */
+    .is-stack .qs-steps {
+      gap: 0;
+    }
+    .is-stack .qs-step {
+      grid-area: 1 / 1;
+      border-top: 0;
+      padding-top: 0;
+    }
+    .is-stack .qs-nav {
+      display: block;
+      margin-top: 48px;
+    }
+    .qs-nav button {
+      position: relative;
+      display: block;
+      width: 100%;
+      padding: 14px 0 13px;
+      border: 0;
+      background: none;
+      text-align: left;
+      cursor: pointer;
+    }
+    .qs-nav-label {
+      display: block;
+      font-family: var(--font-urbanist), sans-serif;
+      font-size: 12px;
+      line-height: 1.3;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgb(9 4 2 / 0.4);
+      transition: color 0.4s var(--ease-css);
+    }
+    .qs-nav button[aria-current='true'] .qs-nav-label,
+    .qs-nav button:hover .qs-nav-label {
+      color: var(--ink);
+    }
+    .qs-nav-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: rgb(0 0 0 / 0.2);
+    }
+    .qs-nav-line span {
+      display: block;
+      height: 100%;
+      background: var(--color-gold);
+      transform: scaleX(0);
+      transform-origin: left center;
+    }
+    .qs-nav button:focus-visible {
+      outline: 2px solid var(--color-gold);
+      outline-offset: 2px;
+    }
+  }
+</style>
