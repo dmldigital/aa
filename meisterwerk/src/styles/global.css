@@ -118,6 +118,12 @@
   .js [data-grow] {
     clip-path: inset(0 0 100% 0);
   }
+  /* Über uns, Zeitleiste: Foto und Meilensteine warten auf ihren Auftritt (nur Desktop) */
+  @media (min-width: 64.0625rem) and (prefers-reduced-motion: no-preference) {
+    .js [data-tl-pending] {
+      visibility: hidden;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .js [data-anim],
     .js [data-anim-mobile] {
