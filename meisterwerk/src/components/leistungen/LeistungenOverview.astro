@@ -10,7 +10,10 @@ import { href } from '../../data/links';
 import { cards } from '../../data/services';
 import Button from '../ui/Button.astro';
 import logo from '../../assets/img/logo_exklusive.png';
-import exklusivFoto from '../../assets/img/Exklusive-Spachteltechnik-Kalkpresstechnik-Badedzimmer-Bianco-scaled.jpg';
+import fugenloseBaeder from '../../assets/img/Fugenlose-Dusche-Nero-Fine-scaled.jpg';
+import fugenloseBoeden from '../../assets/img/324-mw-20241125-Bearbeitet-scaled.jpg';
+import spachtel from '../../assets/img/Exklusive-Spachteltechnik-Kalkpresstechnik-Badedzimmer-Bianco-scaled.jpg';
+import stuck from '../../assets/img/285-mw-20241125-HDR-1-scaled.jpg';
 
 const copy: Record<string, [string, string]> = {
   '/services/glatte-waende/': ['Glatte Wände & Q4-⁠Spachtelung', 'Perfekt glatte Oberflächen in Q3 und Q4, modern und sauber'],
@@ -26,11 +29,36 @@ const items = cards.map((c) => ({
   img: c.img,
   alt: c.alt,
 }));
+// Die Kurztexte fassen die Texte der jeweiligen Leistungsseite zusammen
 const exklusivLinks = [
-  { label: 'Fugenlose Bäder', href: '/meisterwerk-exklusive/fugenlose-baeder/' },
-  { label: 'Fugenlose Böden', href: '/meisterwerk-exklusive/fugenloser-boden/' },
-  { label: 'Spachteltechniken', href: '/meisterwerk-exklusive/spachteltechniken/' },
-  { label: 'Stuckleisten', href: '/meisterwerk-exklusive/stuckleisten/' },
+  {
+    label: 'Fugenlose Bäder',
+    text: 'Nahtlose, glatte Oberflächen, die modern wirken und besonders pflegeleicht und hygienisch sind.',
+    href: '/meisterwerk-exklusive/fugenlose-baeder/',
+    img: fugenloseBaeder,
+    alt: 'Fugenlose Dusche in dunklem Ton, Meisterwerke Exklusive.',
+  },
+  {
+    label: 'Fugenlose Böden',
+    text: 'Eine durchgehende Fläche ohne Fugen, in denen sich Schmutz absetzt. Räume wirken größer und ruhiger.',
+    href: '/meisterwerk-exklusive/fugenloser-boden/',
+    img: fugenloseBoeden,
+    alt: 'Fugenloser Boden in einem Wohnraum, Meisterwerke Exklusive.',
+  },
+  {
+    label: 'Spachteltechniken',
+    text: 'Wände und Decken mit einzigartiger, individueller Optik, wie sie kein klassischer Anstrich erreicht.',
+    href: '/meisterwerk-exklusive/spachteltechniken/',
+    img: spachtel,
+    alt: 'Fugenlose Spachteltechnik im Bad, Meisterwerke Exklusive.',
+  },
+  {
+    label: 'Stuckleisten',
+    text: 'Architektonische Akzente mit raffinierten Lösungen für indirektes und direktes Licht.',
+    href: '/meisterwerk-exklusive/stuckleisten/',
+    img: stuck,
+    alt: 'Stuckleisten mit indirekter Beleuchtung, Meisterwerke Exklusive.',
+  },
 ];
 ---
 
@@ -41,6 +69,9 @@ const exklusivLinks = [
       <h1 data-anim="fadeIn" data-anim-delay="100">Ihr Malerbetrieb für Ludwigsburg, Marbach und Bietigheim-Bissingen</h1>
       <p class="ls-sub" data-anim="fadeIn" data-anim-delay="200">
         Meisterbetrieb aus Freiberg am Neckar für Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart.
+      </p>
+      <p class="ls-sub ls-sub--more" data-anim="fadeIn" data-anim-delay="300">
+        Ob Malerarbeiten, Tapeten, Lack oder Putz: Wir beraten Sie im Showroom, planen gemeinsam mit Ihnen und setzen Ihr Projekt sauber und termingerecht um. Für besondere Wünsche gibt es unsere Spezialleistungen als Meisterwerke Exklusive.
       </p>
       <span class="ls-progress" aria-hidden="true"><i data-ls-fill></i></span>
     </div>
@@ -69,17 +100,21 @@ const exklusivLinks = [
         </a>
       ))}
 
-      <div class="ls-card ls-card--wide" data-ls-card data-pend>
-        <div class="ls-wide-img">
-          <Picture
-            formats={['avif']}
-            fallbackFormat="webp"
-            src={exklusivFoto}
-            alt="Fugenlose Spachteltechnik im Bad, Meisterwerke Exklusive."
-            widths={[477, 700, 954, 1360]}
-            sizes="(min-width: 1025px) 38vw, (min-width: 768px) 90vw, calc(100vw - 40px)"
-            loading="lazy"
-          />
+      <div class="ls-card ls-card--wide" data-ls-card data-pend data-ls-wide>
+        <div class="ls-wide-img" aria-hidden="true">
+          {exklusivLinks.map((l, i) => (
+            <div class:list={['ls-swap', i === 0 && 'is-active']} data-ls-swap>
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={l.img}
+                alt=""
+                widths={[477, 700, 954]}
+                sizes="(min-width: 1025px) 38vw, (min-width: 768px) 45vw, calc(100vw - 40px)"
+                loading="lazy"
+              />
+            </div>
+          ))}
         </div>
         <div class="ls-wide-body">
           <Picture formats={['avif']} fallbackFormat="webp" src={logo} alt="Meisterwerke Exklusive by Baldassarre Fortino" widths={[228, 456]} sizes="240px" loading="lazy" class="ls-logo" />
@@ -87,12 +122,13 @@ const exklusivLinks = [
             <h2>Fugenlose Bäder und Böden, Spachteltechniken und Stuckleisten</h2>
             <p>Unsere Spezialleistungen als Meisterbetrieb. Im Showroom in Freiberg am Neckar sehen Sie die Oberflächen persönlich.</p>
           </div>
-          <ul class="ls-links">
-            {exklusivLinks.map((l) => (
-              <li>
+          <ul class="ls-links" data-ls-links>
+            {exklusivLinks.map((l, i) => (
+              <li class:list={[i === 0 && 'is-on']} data-ls-link>
                 <a href={href(l.href)}>
-                  <span class="underline-anim relative [--underline-gap:0px]">{l.label}</span>
-                  <svg class="ls-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="miter" aria-hidden="true" focusable="false"><path d="M20 13.5V21H3V4h7.5"/><path d="M14 3h7v7"/><path d="M21 3 11 13"/></svg>
+                  <span class="ls-link-title">{l.label}</span>
+                  <span class="ls-link-text">{l.text}</span>
+                  <span class="ls-link-more underline-anim relative [--underline-gap:3px]">Mehr erfahren</span>
                 </a>
               </li>
             ))}
@@ -122,6 +158,22 @@ const exklusivLinks = [
         scrollTrigger: { trigger: grid, start: 'top 60%', end: 'bottom 75%', scrub: 0.6 },
       },
     );
+  }
+
+  // Exklusive-Box: Beim Überfahren (oder Fokussieren) einer Leistung blendet das Bild zum passenden Bild über
+  const swaps = [...document.querySelectorAll<HTMLElement>('[data-ls-swap]')];
+  const links = [...document.querySelectorAll<HTMLElement>('[data-ls-link]')];
+  const linkList = document.querySelector<HTMLElement>('[data-ls-links]');
+  if (swaps.length && links.length === swaps.length) {
+    const select = (i: number) => {
+      links.forEach((l, k) => l.classList.toggle('is-on', k === i));
+      swaps.forEach((w, k) => w.classList.toggle('is-active', k === i));
+    };
+    links.forEach((l, i) => {
+      l.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && select(i));
+      l.addEventListener('focusin', () => select(i));
+    });
+    linkList?.classList.add('has-active');
   }
 
   // Auftritt der Karten: Die ganze Box steigt auf und öffnet sich von unten nach oben, das Bild darin bleibt ruhig.
@@ -189,6 +241,9 @@ const exklusivLinks = [
     color: var(--color-muted);
     font-size: 15px;
     line-height: 1.5;
+  }
+  .ls-sub--more {
+    margin-top: 14px;
   }
   .ls-progress {
     display: block;
@@ -306,11 +361,21 @@ const exklusivLinks = [
     overflow: hidden;
     aspect-ratio: 4 / 3;
   }
-  .ls-wide-img :global(picture),
-  .ls-wide-img :global(img) {
+  .ls-swap {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 0.9s ease;
+  }
+  .ls-swap.is-active {
+    opacity: 1;
+  }
+  .ls-swap :global(picture),
+  .ls-swap :global(img) {
     display: block;
     width: 100%;
     height: 100%;
+    max-width: none;
     object-fit: cover;
   }
   .ls-wide-body {
@@ -329,36 +394,87 @@ const exklusivLinks = [
   .ls-wide-body > :global(a) {
     margin-top: auto;
   }
+  /* Leistungen der Exklusive-Seite: Liste wie die Tabs der Fachsektion (goldene Linie, aktive Zeile golden, übrige blass) */
   .ls-links {
     width: 100%;
     margin: 0;
     padding: 0;
     list-style: none;
-    border-top: 1px solid var(--hair);
   }
   .ls-links li {
-    border-bottom: 1px solid var(--hair);
+    position: relative;
+    padding: 12px 0 14px;
+    transition:
+      opacity 0.6s ease,
+      padding-left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .ls-links li::before {
+    content: '';
+    position: absolute;
+    top: 26px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--color-gold);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .ls-links.has-active li {
+    opacity: 0.45;
+  }
+  .ls-links.has-active li.is-on {
+    padding-left: 36px;
+    opacity: 1;
+  }
+  .ls-links li.is-on::before {
+    width: 22px;
   }
   .ls-links a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    padding: 14px 0;
+    display: block;
     color: var(--ink);
+    text-decoration: none;
+  }
+  .ls-link-title {
+    display: block;
     font-family: var(--font-urbanist), sans-serif;
     font-size: 20px;
     line-height: 1.3;
     font-weight: 500;
-    text-decoration: none;
+    transition: color 0.6s ease;
   }
-  .ls-links a .ls-icon {
+  .ls-links li.is-on .ls-link-title {
+    color: var(--color-gold);
+  }
+  .ls-link-text {
+    display: block;
+    max-width: 30em;
+    margin-top: 4px;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .ls-link-more {
+    display: block;
+    width: fit-content;
+    max-height: 0;
     margin-top: 0;
-    transition: transform 0.3s ease;
+    overflow: hidden;
+    opacity: 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 14px;
+    line-height: 15.4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition:
+      max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      margin-top 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.5s ease;
   }
-  .ls-links a:hover .ls-icon,
-  .ls-links a:focus-visible .ls-icon {
-    transform: translate(2px, -2px);
+  .ls-links li.is-on .ls-link-more {
+    max-height: 30px;
+    margin-top: 12px;
+    padding-bottom: 6px;
+    opacity: 1;
   }
   .ls-body p {
     margin: 10px 0 0;
@@ -381,33 +497,31 @@ const exklusivLinks = [
     .ls-card--wide,
     .ls-card--row {
       grid-column: 1 / -1;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     }
+    /* Das Bild ist genau so breit wie die Bilder der Boxen darüber (eine Spalte ohne Rahmen), der Text füllt den Rest */
     .ls-card--row {
       display: grid;
+      grid-template-columns: calc((100% - 22px) / 2) 1fr;
     }
     .ls-card--row .ls-text {
       align-items: center;
       padding: 35px;
     }
-    .ls-card--row .ls-text h2 {
-      font-size: 28px;
+    .ls-card--wide {
+      grid-template-columns: 1fr calc((100% - 22px) / 2);
     }
     .ls-card--wide .ls-wide-img {
       order: 2;
-    }
-    .ls-wide-img {
       aspect-ratio: auto;
-      min-height: 100%;
     }
     .ls-wide-body {
       padding: 35px;
     }
-    .ls-links a {
+    .ls-link-title {
       font-size: 24px;
     }
-    .ls-text h2 span {
-      font-size: 16px;
+    .ls-links li::before {
+      top: 31px;
     }
   }
   @media (min-width: 1025px) {
