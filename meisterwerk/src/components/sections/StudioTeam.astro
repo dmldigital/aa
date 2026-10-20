@@ -23,9 +23,9 @@ const ex = exklusiveHaltung;
 
 /**
  * Team und Haltung der Seite /studio/. Das Original hat dafür zwei Desktop-Container (4ea78bd Gründer und Zeitleiste,
- * 2257150 Team und Text) und einen für Tablet/Handy (1eb1fb2, Gründer im Raster, Zeitleiste zum Aufklappen).
+ * 2257150 Team und Text) und einen für Tablet/Handy (1eb1fb2; dort steht der Gründer mit der Zeitleiste im Pin-and-Scroll
+ * zwischen Text und Team).
  */
-const all = [team[0], founder, ...team.slice(1)];
 ---
 
 <!-- Desktop: Gründer und Zeitleiste -->
@@ -133,11 +133,8 @@ const all = [team[0], founder, ...team.slice(1)];
       data-section="1eb1fb2"
       class="mt-[10vh] mb-[10vh] flex flex-col px-5 md:mt-0 md:mb-15 lg:hidden"
     >
-      <div class="mx-auto flex w-full max-w-tablet flex-col justify-between gap-y-6.25 md:flex-row md:gap-x-7.5">
-        <div
-          class="flex flex-col gap-3.75 md:order-2 md:mt-5 md:w-119.25 md:shrink-0"
-          data-timeline-root
-        >
+      <div class="mx-auto flex w-full max-w-tablet flex-col justify-between gap-y-6.25 md:flex-row md:flex-wrap md:gap-x-7.5">
+        <div class="order-1 flex flex-col gap-3.75 md:order-2 md:mt-5 md:w-119.25 md:shrink-0">
           <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
             {haltung.eyebrow}
           </h6>
@@ -157,30 +154,38 @@ const all = [team[0], founder, ...team.slice(1)];
               ),
             )}
           </div>
-          <div>
-            <a
-              href="#geschichte"
-              data-timeline-toggle
-              aria-expanded="false"
-              aria-controls="geschichte"
-              class="group/tg inline-block border-b border-gold py-3 font-display text-[14px]/[21px] font-semibold tracking-button text-ink uppercase transition-colors duration-300"
-            >
-              {haltung.toggle}
-              <span class="ml-2 inline-block transition-transform duration-300 group-aria-expanded/tg:rotate-90">
-                ▶
-              </span>
-            </a>
-            <div
-              id="geschichte"
-              data-timeline-panel
-              class="max-h-0 overflow-hidden transition-[max-height,margin] duration-500 ease-in-out"
-            >
-              <Timeline items={timeline} />
+        </div>
+
+        <!-- Zeitleiste: Pin-and-Scroll, läuft beim Scrollen durch die Jahre (Handy und Tablet) -->
+        <div data-tlm data-tlm-pend class="tlm order-2 md:order-3 md:w-full">
+          <div class="tlm-stage">
+            <div class="tlm-top">
+              <div data-tlm-founder class="tlm-founder">
+                <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+                  {memorial}
+                </h6>
+                <TeamCard
+                  member={founder}
+                  widths={[112, 176, 224, 352]}
+                  sizes="144px"
+                  textClass="text-[12px]/[17px] md:text-[14px]/[20px]"
+                />
+              </div>
+              <h5 class="tlm-title">{haltung.toggle}</h5>
             </div>
+            <ol class="tlm-list">
+              {timeline.map((item) => (
+                <li data-tlm-item class="tlm-item">
+                  <i class="tlm-seg" aria-hidden="true"></i>
+                  <span class="tlm-date">{item.date}</span>
+                  <div class="tlm-body"><p class="tlm-text">{item.text}</p></div>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
-        <div class="grid auto-rows-fr grid-cols-2 content-start gap-x-5 gap-y-6.25 md:order-1 md:w-119.25 md:gap-y-7.5">
-          {all.map((m) => (
+        <div class="order-3 grid auto-rows-fr grid-cols-2 content-start gap-x-5 gap-y-6.25 md:order-1 md:max-w-119.25 md:min-w-0 md:flex-1 md:basis-0 md:gap-y-7.5">
+          {team.map((m) => (
             <TeamCard member={m} />
           ))}
         </div>
@@ -208,7 +213,7 @@ const all = [team[0], founder, ...team.slice(1)];
   import { gsap, ScrollTrigger } from '../../scripts/motion';
 
   /*
-   * Über uns, Desktop: Die Linie steht schon. Das Foto von Vincenzo fährt von rechts über die Linie an seinen Platz,
+   * Über uns, Desktop: Die Linie steht schon. Das Foto von Vincenzo gleitet ganz sanft von links an seinen Platz,
    * danach fahren die Meilensteine nacheinander aus dem Linienanfang an ihre Plätze, und ihr Text blendet aus der
    * Linie auf. Läuft einmal, sobald die Zeitleiste im Bild ist. Handy, Tablet und reduzierte Bewegung: unverändert.
    */
@@ -229,11 +234,11 @@ const all = [team[0], founder, ...team.slice(1)];
         // Maße im Ruhezustand messen, bevor etwas verschoben wird
         const first = items[0].getBoundingClientRect();
         const lineY = first.top + first.height / 2;
-        const farRight = document.documentElement.clientWidth - founder.getBoundingClientRect().left + 60;
+        const fromLeft = founder.getBoundingClientRect().right + 24;
         const offsets = items.map((it) => first.left - it.getBoundingClientRect().left);
         const texts = items.map((it) => [...it.querySelectorAll<HTMLElement>('[data-tl-text]')]);
 
-        gsap.set(founder, { x: farRight });
+        gsap.set(founder, { x: -fromLeft, autoAlpha: 0 });
         items.forEach((it, i) => gsap.set(it, { x: offsets[i], autoAlpha: 0 }));
         texts.flat().forEach((t) => {
           const r = t.getBoundingClientRect();
@@ -243,10 +248,13 @@ const all = [team[0], founder, ...team.slice(1)];
 
         tl = gsap.timeline({
           paused: true,
-          onComplete: () =>
-            gsap.set([founder, ...items, ...texts.flat()], { clearProps: 'transform,opacity,visibility' }),
+          onComplete: () => {
+            gsap.set([founder, ...items, ...texts.flat()], { clearProps: 'transform,opacity,visibility' });
+            scene.classList.add('is-ready'); // erst jetzt gelten die Hover-Effekte
+          },
         });
-        tl.to(founder, { x: 0, duration: 2, ease: 'power3.inOut' }, 0.2);
+        tl.to(founder, { x: 0, duration: 1.8, ease: 'power2.out' }, 0.2);
+        tl.to(founder, { autoAlpha: 1, duration: 1, ease: 'power1.out' }, 0.2);
         items.forEach((it, i) => {
           const at = 1.7 + i * 0.2;
           tl.to(it, { x: 0, duration: 1.3, ease: 'power3.out' }, at);
@@ -269,6 +277,7 @@ const all = [team[0], founder, ...team.slice(1)];
         cancelled = true;
         trigger?.kill();
         tl?.kill();
+        scene.classList.remove('is-ready');
         gsap.set([founder, ...items, ...scene.querySelectorAll('[data-tl-text]')], {
           clearProps: 'transform,opacity,visibility',
         });
@@ -276,3 +285,230 @@ const all = [team[0], founder, ...team.slice(1)];
     });
   }
 </script>
+
+<script>
+  import { gsap, ScrollTrigger } from '../../scripts/motion';
+
+  /*
+   * Über uns, Handy und Tablet: Pin-and-Scroll. Zwischen Text und Team bleibt die Zeitleiste stehen, das Foto von
+   * Vincenzo gleitet sanft von links herein, die Jahre fahren nacheinander ein. Beim Scrollen wandert der Fokus durch
+   * die Jahre: Das aktuelle Jahr klappt seinen Text auf, die Linie füllt sich golden. Ohne Pin (reduzierte Bewegung):
+   * eine einfache Liste mit allen Texten.
+   */
+  const tlm = document.querySelector<HTMLElement>('[data-tlm]');
+  if (tlm) {
+    const mm = gsap.matchMedia();
+    mm.add('(max-width: 1024.98px) and (prefers-reduced-motion: no-preference)', () => {
+      const founder = tlm.querySelector<HTMLElement>('[data-tlm-founder]');
+      const items = [...tlm.querySelectorAll<HTMLElement>('[data-tlm-item]')];
+      if (!founder || !items.length) return;
+      const n = items.length;
+
+      tlm.setAttribute('data-tlm-on', '');
+      gsap.set(founder, { x: -140, autoAlpha: 0 });
+      gsap.set(items, { x: -28, autoAlpha: 0 });
+      tlm.removeAttribute('data-tlm-pend');
+
+      const intro = gsap.timeline({ paused: true });
+      intro.to(founder, { x: 0, autoAlpha: 1, duration: 1.8, ease: 'power2.out' }, 0);
+      intro.to(items, { x: 0, autoAlpha: 1, duration: 1.1, ease: 'power3.out', stagger: 0.14 }, 0.8);
+
+      const focus = (idx: number) =>
+        items.forEach((it, i) => {
+          it.classList.toggle('is-active', i === idx);
+          it.classList.toggle('is-past', i < idx);
+        });
+      focus(0);
+
+      const pin = ScrollTrigger.create({
+        trigger: tlm,
+        start: 'top top',
+        end: 'bottom bottom',
+        onUpdate: (self) => {
+          const idx = Math.floor(((self.progress - 0.04) / 0.92) * n);
+          focus(Math.max(0, Math.min(n - 1, idx)));
+        },
+      });
+      const enter = ScrollTrigger.create({
+        trigger: tlm,
+        start: 'top 65%',
+        once: true,
+        onEnter: () => intro.play(),
+      });
+      ScrollTrigger.refresh();
+
+      return () => {
+        pin.kill();
+        enter.kill();
+        intro.kill();
+        gsap.set([founder, ...items], { clearProps: 'transform,opacity,visibility' });
+        items.forEach((it) => it.classList.remove('is-active', 'is-past'));
+        tlm.removeAttribute('data-tlm-on');
+        ScrollTrigger.refresh();
+      };
+    });
+  }
+</script>
+
+<style>
+  /* Ruhezustand (ohne Pin): einfache Liste mit allen Texten, senkrechte goldene Linie links */
+  .tlm-stage {
+    padding: 4px 0 0;
+  }
+  .tlm-top {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+  }
+  .tlm-founder {
+    width: clamp(96px, 14svh, 144px);
+    flex-shrink: 0;
+  }
+  .tlm-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 19px;
+    line-height: 24.7px;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+  .tlm-list {
+    position: relative;
+    margin: 28px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .tlm-item {
+    position: relative;
+    padding: 0 0 22px 52px;
+  }
+  .tlm-item:last-child {
+    padding-bottom: 0;
+  }
+  /* Tick auf der Linie */
+  .tlm-item::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    width: 14px;
+    height: 2px;
+    margin-left: -7px;
+    background: var(--color-gold);
+    transition:
+      width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      margin-left 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  /* Linienstück bis zum nächsten Tick: blasse Grundlinie, golden gefüllt, sobald das Jahr erreicht ist */
+  .tlm-item::after {
+    content: '';
+    position: absolute;
+    top: 9px;
+    bottom: -9px;
+    left: 20px;
+    width: 1px;
+    background: var(--color-gold);
+    opacity: 0.35;
+  }
+  .tlm-item:last-child::after {
+    display: none;
+  }
+  .tlm-seg {
+    position: absolute;
+    top: 9px;
+    bottom: -9px;
+    left: 19.5px;
+    z-index: 1;
+    width: 2px;
+    background: var(--color-gold);
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tlm-item:last-child .tlm-seg {
+    display: none;
+  }
+  .tlm-date {
+    display: block;
+    font-size: 12px;
+    line-height: 17.4px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #000;
+    transition:
+      color 0.5s ease,
+      opacity 0.5s ease,
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .tlm-body {
+    display: grid;
+    grid-template-rows: 1fr;
+  }
+  .tlm-text {
+    min-height: 0;
+    margin: 6px 0 0;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 20.3px;
+    color: #000;
+  }
+
+  /* Pin-and-Scroll */
+  .tlm[data-tlm-on] {
+    height: calc(100svh + 190svh);
+  }
+  .tlm[data-tlm-on] .tlm-stage {
+    position: sticky;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100svh;
+    padding: 84px 0 24px;
+  }
+  .tlm[data-tlm-on] .tlm-list {
+    margin-top: clamp(20px, 4.5svh, 44px);
+  }
+  .tlm[data-tlm-on] .tlm-item {
+    padding-bottom: clamp(12px, 2.4svh, 22px);
+  }
+  .tlm[data-tlm-on] .tlm-item:last-child {
+    padding-bottom: 0;
+  }
+  .tlm[data-tlm-on] .tlm-body {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.5s ease;
+  }
+  .tlm[data-tlm-on] .tlm-date {
+    color: rgb(0 0 0 / 0.4);
+  }
+  .tlm[data-tlm-on] .tlm-item.is-past .tlm-date {
+    color: rgb(0 0 0 / 0.65);
+  }
+  .tlm[data-tlm-on] .tlm-item.is-past .tlm-seg {
+    transform: scaleY(1);
+  }
+  .tlm[data-tlm-on] .tlm-item.is-active::before {
+    width: 30px;
+    margin-left: -15px;
+  }
+  .tlm[data-tlm-on] .tlm-item.is-active .tlm-date {
+    color: var(--color-gold);
+    transform: translateX(6px);
+  }
+  .tlm[data-tlm-on] .tlm-item.is-active .tlm-body {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition-delay: 0.12s;
+  }
+  .tlm[data-tlm-on] .tlm-item.is-active .tlm-text {
+    transform: translateX(6px);
+  }
+  .tlm[data-tlm-on] .tlm-text {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+</style>

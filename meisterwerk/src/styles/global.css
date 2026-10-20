@@ -124,6 +124,46 @@
       visibility: hidden;
     }
   }
+  /* Über uns, Zeitleiste auf Handy und Tablet: Foto und Jahre warten auf ihren Auftritt */
+  @media (max-width: 1024.98px) and (prefers-reduced-motion: no-preference) {
+    .js [data-tlm-pend] [data-tlm-founder],
+    .js [data-tlm-pend] [data-tlm-item] {
+      visibility: hidden;
+    }
+  }
+  /* Über uns, Zeitleiste am Desktop: feine Hover-Effekte, erst nach dem Einfahren (sonst stören sie GSAP) */
+  @media (min-width: 64.0625rem) and (hover: hover) {
+    [data-tl-scene].is-ready [data-tl-item] {
+      transition: opacity 0.5s ease;
+    }
+    [data-tl-scene].is-ready [data-tl-item]::before {
+      transition:
+        height 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 0.3s ease;
+    }
+    [data-tl-scene].is-ready [data-tl-text] {
+      transition:
+        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+        color 0.35s ease;
+    }
+    [data-tl-scene].is-ready:has([data-tl-item]:hover) [data-tl-item]:not(:hover) {
+      opacity: 0.4;
+    }
+    [data-tl-scene].is-ready [data-tl-item]:hover::before {
+      height: 2.25rem;
+    }
+    [data-tl-scene].is-ready [data-tl-item]:hover [data-tl-text] {
+      color: var(--color-gold);
+    }
+    [data-tl-scene].is-ready [data-tl-item]:nth-child(odd):hover [data-tl-text]:first-child,
+    [data-tl-scene].is-ready [data-tl-item]:nth-child(even):hover [data-tl-text]:last-child {
+      transform: translateY(6px);
+    }
+    [data-tl-scene].is-ready [data-tl-item]:nth-child(odd):hover [data-tl-text]:last-child,
+    [data-tl-scene].is-ready [data-tl-item]:nth-child(even):hover [data-tl-text]:first-child {
+      transform: translateY(-6px);
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
     .js [data-anim],
     .js [data-anim-mobile] {
