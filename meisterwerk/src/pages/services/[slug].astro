@@ -16,7 +16,8 @@ const { page } = Astro.props;
 
 /**
  * Schema aller Leistungsseiten: Willkommen-Szene wie auf der Startseite (Text steht rechts, die Bilder der Seite laufen
- * links vorbei), Vorteile als Karten, die beiden Textblöcke, die übrigen Bilder als Galerie mit Großansicht und
+ * links vorbei, das erste Bild beginnt direkt unter der Kopfzeile, danach Luft wie auf der Startseite), Vorteile als
+ * Karten, die beiden Textblöcke, alle Bilder als Karussell wie „Unsere Exklusive Projekte“ mit Großansicht und
  * „Exzellenz ist unser Maßstab“ als Karten.
  */
 const name = page.hero.title.split(' – ')[0];
@@ -29,8 +30,8 @@ const pool = [
 const seen = new Set<string>();
 const unique = pool.filter((i) => !seen.has(i.src.src) && seen.add(i.src.src));
 const images = unique.slice(0, 3);
-// Die Bilder, die nicht in der Szene laufen, kommen in die Galerie
-const gallery = unique.slice(3).map((i) => i.src);
+// Karussell: erst die Bilder, die nicht in der Szene laufen, danach die der Szene (so gibt es auch bei wenigen Bildern eine Schleife)
+const gallery = [...unique.slice(3), ...unique.slice(0, 3)].map((i) => i.src);
 const intro2 =
   'Wir beraten Sie im Showroom in Freiberg am Neckar, zeigen Ihnen Muster zum Anfassen und setzen Ihr Projekt sauber und termingerecht um.';
 ---
@@ -42,7 +43,7 @@ const intro2 =
     images={images}
     closing={null}
     headingTag="h1"
-    rootClass="mt-6 md:mt-8 md:mb-10 lg:mt-10 lg:mb-0"
+    rootClass="mt-6 mb-[10vh] md:mt-8 md:mb-15 lg:mt-0 lg:mb-[20vh]"
   />
   <ServiceBenefits label={page.intro.label} title={page.intro.title} list={page.intro.list} />
   <ServiceBlocks blocks={page.intro.blocks} />

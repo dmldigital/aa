@@ -1,55 +1,129 @@
 ---
 /**
- * Bilder einer Leistung als ruhiges Raster: alle Kacheln einer Reihe sind gleich hoch, abwechselnd breit und schmal.
- * Die Kacheln steigen beim Hereinscrollen als ganze Box auf (das Bild darin bleibt ruhig). Hover wie bei den Karten der
- * Seite (Bild etwas größer und heller, runder Kreis mit Plus). Ein Klick öffnet das Bild groß, mit Pfeilen, Tastatur
- * (Pfeiltasten, Esc) und Wischen als Galerie.
+ * Bilder einer Leistung als Karussell wie „Unsere Exklusive Projekte“ auf der Startseite: goldene Überschrift mit
+ * „Unser Portfolio“, drei Bilder nebeneinander (Handy eins), goldene Pfeile außen, Punkte auf dem Handy, Endlosschleife,
+ * Ziehen und Wischen. Bild beim Darüberfahren wie die Projektkarten (größer, heller, runder Kreis mit Plus). Ein Klick
+ * öffnet das Bild groß, mit Pfeilen, Tastatur (Pfeiltasten, Esc) und Wischen als Galerie. Das Karussell steigt beim
+ * Hereinscrollen als ganze Box auf.
  */
 import { Picture, getImage } from 'astro:assets';
+import ArrowLink from '../ui/ArrowLink.astro';
 import Icon from '../Icon.astro';
+import { href, routes } from '../../data/links';
 
 interface Props {
   images: ImageMetadata[];
   alt: string;
+  heading?: string;
 }
-const { images, alt } = Astro.props;
+const { images, alt, heading = 'Einblicke in unsere Arbeit' } = Astro.props;
 
-// Spannen je Kachel (von 3 Spalten): Paare abwechselnd breit/schmal und schmal/breit, ein einzelnes Bild über die ganze Breite
-const spans: number[] = [];
-for (let i = 0, row = 0; i < images.length; row++) {
-  if (images.length - i >= 2) {
-    spans.push(...(row % 2 === 0 ? [2, 1] : [1, 2]));
-    i += 2;
-  } else {
-    spans.push(3);
-    i += 1;
-  }
-}
 const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, format: 'webp' })));
+// Endlosschleife: je ein Klon-Satz davor und dahinter, die echten Bilder stehen in der Mitte
+const slides = [0, 1, 2].flatMap((set) =>
+  images.map((src, i) => ({ src, i, full: full[i].src, clone: set !== 1 })),
+);
 ---
 
 {images.length > 0 && (
-  <section data-sg class="sg">
-    <ul class="sg-grid">
-      {images.map((src, i) => (
-        <li class="sg-item" style={`--sp:${spans[i]}`} data-box data-pend>
-          <button type="button" class="sg-btn" data-sg-item data-full={full[i].src} aria-label={`${alt}, Bild vergrößern`}>
-            <Picture
-              formats={['avif']}
-              fallbackFormat="webp"
-              src={src}
-              alt={alt}
-              widths={[350, 640, 920, 1380]}
-              sizes={`(min-width: 1025px) ${spans[i] === 1 ? 460 : spans[i] === 2 ? 920 : 1380}px, (min-width: 768px) 50vw, calc(100vw - 40px)`}
-              loading="lazy"
+  <section
+    data-sg
+    class="flex flex-col overflow-x-clip px-5 mt-[10vh] mb-[12vh] md:mt-[8vh] md:mb-[10vh] lg:mt-[14vh] lg:mb-[20vh] lg:px-7.5"
+  >
+    <div class="mx-auto flex w-full max-w-page grow flex-col gap-3.75 lg:gap-5">
+      <!-- Kopfzeile -->
+      <div class="mb-1.25 flex items-center md:gap-5 lg:mb-5" data-anim="fadeIn">
+        <div class="w-full md:mb-1.25 md:w-1/2 lg:mb-0">
+          <h2 class="font-display text-[21px]/[26.25px] text-gold md:text-[24px]/[30px] lg:text-h3">{heading}</h2>
+        </div>
+        <div class="hidden justify-end md:flex md:w-1/2">
+          <div>
+            <ArrowLink href={href(routes.projects)} tone="gold">
+              Unser Portfolio
+            </ArrowLink>
+          </div>
+        </div>
+      </div>
+
+      <!-- Karussell -->
+      <div class="relative" data-carousel aria-roledescription="carousel" aria-label={heading}>
+        <div class="@container touch-pan-y overflow-hidden pb-1.25 md:pb-0" data-viewport data-box data-pend>
+          <div
+            class="flex gap-(--gap) [--gap:20px] [--n:1] [--step:calc((100cqw-(var(--n)-1)*var(--gap))/var(--n)+var(--gap))] md:[--n:3] lg:[--gap:30px]"
+            style={`transform:translateX(calc(var(--step) * -${images.length}))`}
+            data-track
+          >
+            {slides.map((s) => (
+              <button
+                type="button"
+                class="group/card relative block aspect-[3/2] w-[calc(var(--step)-var(--gap))] shrink-0 cursor-pointer overflow-hidden"
+                aria-roledescription="slide"
+                aria-label={`${alt}, Bild ${s.i + 1} vergrößern`}
+                aria-hidden={s.clone ? 'true' : undefined}
+                tabindex={s.clone ? -1 : undefined}
+                data-sg-item
+                data-i={s.i}
+                data-full={s.full}
+                data-clone={s.clone ? '' : undefined}
+              >
+                <Picture
+                  formats={['avif']}
+                  fallbackFormat="webp"
+                  src={s.src}
+                  alt={alt}
+                  widths={[350, 440, 880]}
+                  sizes="(min-width: 1025px) 440px, (min-width: 768px) 315px, 350px"
+                  loading="lazy"
+                  draggable="false"
+                  class="block size-full object-cover transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80"
+                />
+                <span
+                  aria-hidden="true"
+                  class="pointer-events-none absolute top-1/2 left-1/2 z-10 flex size-17.5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-[40px]/[22.5px] text-white opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+                >
+                  +
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button
+          type="button"
+          aria-label="Voriges Bild"
+          data-prev
+          class="absolute top-[100.8px] left-[-60px] hidden size-11 cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
+        >
+          <Icon name="arrow-left" class="block shrink-0 size-11" />
+        </button>
+        <button
+          type="button"
+          aria-label="Nächstes Bild"
+          data-next
+          class="absolute top-[100.8px] right-[-60px] hidden size-11 cursor-pointer text-gold transition-colors duration-[250ms] hover:text-black/20 lg:block"
+        >
+          <Icon name="arrow-right" class="block shrink-0 size-11" />
+        </button>
+      </div>
+
+      <!-- Nur Handy: Link unter dem Karussell mit Punkten -->
+      <div class="relative md:hidden">
+        <div class="text-[16px]/[24px]">
+          <ArrowLink href={href(routes.projects)} tone="black">
+            Unser Portfolio
+          </ArrowLink>
+        </div>
+        <div class="absolute top-1/2 right-0 flex -translate-y-1/2" data-dots>
+          {images.map((_, i) => (
+            <button
+              type="button"
+              aria-label={`Bild ${i + 1}`}
+              class="mx-1.25 size-1.25 cursor-pointer rounded-full bg-black opacity-20 data-[active]:opacity-100"
             />
-            <span class="sg-zoom" aria-hidden="true">
-              <Icon name="plus" class="size-9" />
-            </span>
-          </button>
-        </li>
-      ))}
-    </ul>
+          ))}
+        </div>
+      </div>
+    </div>
 
     <div class="sg-lb" data-sg-lb hidden role="dialog" aria-modal="true" aria-label="Bildansicht">
       <button type="button" class="sg-lb-btn sg-lb-close" data-sg-close aria-label="Schließen">
@@ -69,12 +143,15 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
 <script>
   import { lenis } from '../../scripts/motion';
   import { initBoxReveal } from '../../scripts/reveal';
+  import { initCarousel } from '../../scripts/carousel';
 
   const root = document.querySelector<HTMLElement>('[data-sg]');
   if (root) {
+    initCarousel(root);
     initBoxReveal([...root.querySelectorAll<HTMLElement>('[data-box]')]);
 
-    const items = [...root.querySelectorAll<HTMLElement>('[data-sg-item]')];
+    // Die Großansicht blättert nur durch die echten Bilder, die Klone der Schleife öffnen das Bild mit gleicher Nummer
+    const items = [...root.querySelectorAll<HTMLElement>('[data-sg-item]:not([data-clone])')];
     const lb = root.querySelector<HTMLElement>('[data-sg-lb]')!;
     const img = lb.querySelector<HTMLImageElement>('[data-sg-img]')!;
     const closeBtn = lb.querySelector<HTMLElement>('[data-sg-close]')!;
@@ -115,7 +192,9 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
       opener?.focus();
     };
 
-    items.forEach((it, i) => it.addEventListener('click', () => open(i)));
+    root.querySelectorAll<HTMLElement>('[data-sg-item]').forEach((it) =>
+      it.addEventListener('click', () => open(Number(it.dataset.i))),
+    );
     closeBtn.addEventListener('click', close);
     prevBtn.addEventListener('click', () => show(current - 1));
     nextBtn.addEventListener('click', () => show(current + 1));
@@ -145,79 +224,6 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
 </script>
 
 <style>
-  .sg {
-    padding: 0 20px;
-    margin: 40px 0;
-  }
-  .sg-grid {
-    display: grid;
-    gap: 20px;
-    max-width: var(--container-page);
-    margin: 0 auto;
-    padding: 0;
-    list-style: none;
-  }
-  .sg-item {
-    position: relative;
-    overflow: hidden;
-    aspect-ratio: 4 / 3;
-  }
-  .sg-btn {
-    position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
-    overflow: hidden;
-  }
-  .sg-btn :global(picture),
-  .sg-btn :global(img) {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .sg-btn :global(img) {
-    transition:
-      transform 0.45s ease-in-out,
-      opacity 0.45s ease-in-out;
-  }
-  .sg-btn:hover :global(img),
-  .sg-btn:focus-visible :global(img) {
-    transform: scale(1.05);
-    opacity: 0.8;
-  }
-  .sg-zoom {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: #000000b3;
-    color: #fff;
-    opacity: 0;
-    transform: translate(-50%, -50%);
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .sg-btn:hover .sg-zoom,
-  .sg-btn:focus-visible .sg-zoom {
-    opacity: 1;
-  }
-  .sg-btn:focus-visible {
-    outline: 2px solid var(--color-gold);
-    outline-offset: -4px;
-  }
-
   /* Großansicht */
   .sg-lb {
     position: fixed;
@@ -293,38 +299,11 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
   }
 
   @media (min-width: 768px) {
-    .sg {
-      margin: 60px 0;
-    }
-    .sg-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .sg-item {
-      aspect-ratio: 4 / 3;
-    }
-    .sg-item:last-child:nth-child(odd) {
-      grid-column: 1 / -1;
-      aspect-ratio: 16 / 9;
-    }
     .sg-lb-fig {
       padding: 80px 90px;
     }
   }
   @media (min-width: 1025px) {
-    .sg {
-      padding: 0 30px;
-      margin: 108px 0;
-    }
-    .sg-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      grid-auto-rows: clamp(240px, 26vw, 420px);
-      gap: 30px;
-    }
-    .sg-item,
-    .sg-item:last-child:nth-child(odd) {
-      grid-column: span var(--sp);
-      aspect-ratio: auto;
-    }
     .sg-lb-fig {
       padding: 60px 120px;
     }
