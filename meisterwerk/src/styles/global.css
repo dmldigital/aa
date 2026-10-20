@@ -151,9 +151,7 @@
   }
   /* Leistungsübersicht: Karten warten auf ihren Auftritt */
   @media (prefers-reduced-motion: no-preference) {
-    .js [data-ls-card][data-pend],
-    .js [data-sb-card][data-pend],
-    .js [data-box][data-pend] {
+    .js [data-ls-card][data-pend] {
       visibility: hidden;
     }
   }

@@ -2,8 +2,7 @@
 /**
  * Vorteile einer Leistung („Die Vorteile auf einen Blick“): graue Fläche wie die Leistungs-Sektion der Startseite,
  * links bleibt der Text stehen, rechts laufen die Vorteile als weiße Karten mit Rand durch (Maße und Schriften der
- * Karten von der Startseite, ohne Bild). Die Karten steigen beim Hereinscrollen als ganze Box auf.
- * Die Vorteile stehen in den Inhalten als Liste `<li><p><strong>Titel</strong>: Text</p></li>`.
+ * Karten von der Startseite, ohne Bild). * Die Vorteile stehen in den Inhalten als Liste `<li><p><strong>Titel</strong>: Text</p></li>`.
  */
 interface Props {
   label: string;
@@ -27,7 +26,7 @@ const items = [...list.matchAll(/<li>\s*<p>([\s\S]*?)<\/p>\s*<\/li>/g)].map((m) 
     </div>
     <div class="sb-grid">
       {items.map((it) => (
-        <article class="sb-card" data-sb-card data-pend>
+        <article class="sb-card">
           {it.title && <h3 set:html={it.title} />}
           <p set:html={it.text} />
         </article>
@@ -35,12 +34,6 @@ const items = [...list.matchAll(/<li>\s*<p>([\s\S]*?)<\/p>\s*<\/li>/g)].map((m) 
     </div>
   </div>
 </section>
-
-<script>
-  import { initBoxReveal } from '../../scripts/reveal';
-
-  initBoxReveal([...document.querySelectorAll<HTMLElement>('[data-sb-card]')]);
-</script>
 
 <style>
   .sb {

@@ -1,8 +1,7 @@
 ---
 /**
  * Bilder einer Leistung in der Aufteilung der Vorteile und der Exzellenz-Karten (neues Design): links bleiben das kleine
- * Label und die goldene Überschrift stehen, rechts liegen die Bilder in gleich großen Boxen (zwei Spalten). Die Boxen
- * steigen beim Hereinscrollen als ganze Box auf, das Bild darin bleibt ruhig. Hover wie bei den Projektkarten der
+ * Label und die goldene Überschrift stehen, rechts liegen die Bilder in gleich großen Boxen (zwei Spalten). Hover wie bei den Projektkarten der
  * Startseite (Bild größer und heller, runder Kreis mit Plus). Ein Klick öffnet das Bild groß, mit Pfeilen, Tastatur
  * (Pfeiltasten, Esc) und Wischen als Galerie. Es werden immer eine gerade Zahl Bilder gezeigt (keine halbleere Reihe).
  */
@@ -29,7 +28,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
       </div>
       <ul class="sg-grid">
         {images.map((src, i) => (
-          <li class="sg-item" data-box data-pend>
+          <li class="sg-item">
             <button type="button" class="sg-btn" data-sg-item data-full={full[i].src} aria-label={`${alt}, Bild ${i + 1} vergrößern`}>
               <Picture
                 formats={['avif']}
@@ -65,12 +64,9 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
 
 <script>
   import { lenis } from '../../scripts/motion';
-  import { initBoxReveal } from '../../scripts/reveal';
 
   const root = document.querySelector<HTMLElement>('[data-sg]');
   if (root) {
-    initBoxReveal([...root.querySelectorAll<HTMLElement>('[data-box]')]);
-
     const items = [...root.querySelectorAll<HTMLElement>('[data-sg-item]')];
     const lb = root.querySelector<HTMLElement>('[data-sg-lb]')!;
     const img = lb.querySelector<HTMLImageElement>('[data-sg-img]')!;

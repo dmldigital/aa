@@ -3,7 +3,6 @@
  * „Exzellenz ist unser Maßstab“: gleiche Aufteilung wie die Vorteile darüber (graue Fläche, links bleibt die goldene
  * Überschrift stehen, rechts die Säulen als weiße Karten mit Rand untereinander). Jede Karte hat ihre natürliche Höhe,
  * weil die Texte verschieden lang sind (bei nebeneinander stehenden, gleich hohen Karten blieben große leere Flächen).
- * Die Karten steigen als ganze Box auf.
  */
 import { cleanHtml } from '../../lib/cleanHtml';
 
@@ -21,7 +20,7 @@ const { title, items } = Astro.props;
     </div>
     <div class="se-grid">
       {items.map((it) => (
-        <article class="se-card" data-box data-pend>
+        <article class="se-card">
           <h3 set:html={it.title} />
           <div class="se-text" set:html={cleanHtml(it.html)} />
           {it.bullets && it.bullets.length > 0 && (
@@ -32,12 +31,6 @@ const { title, items } = Astro.props;
     </div>
   </div>
 </section>
-
-<script>
-  import { initBoxReveal } from '../../scripts/reveal';
-
-  initBoxReveal([...document.querySelectorAll<HTMLElement>('.se [data-box]')]);
-</script>
 
 <style>
   .se {
