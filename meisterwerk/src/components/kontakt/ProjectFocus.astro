@@ -1,0 +1,1095 @@
+---
+/**
+ * Projektanfrage, Variante „Fokus“: eine Frage pro Bildschirm, nur Schrift und feine Linien (keine Karten, keine Fotos).
+ * Aufteilung wie die Vorteile der Leistungsseiten: links Zähler und Frage in Gold, rechts die Antworten als Textzeilen mit
+ * Linie, die sich beim Überfahren und Wählen golden aufzieht. Eine Linie ganz oben füllt sich mit dem Fortschritt. Einzel-
+ * auswahl geht nach dem Wählen von selbst weiter. Die Frage fährt wortweise aus einer Maske hoch (wie die Überschrift der
+ * Qualifikationen). Gleiche Feldnamen wie `ContactForm`. Ohne Skript stehen alle Fragen untereinander.
+ * Das Absenden ist noch nicht angebunden: Am Ende die bekannte Meldung und eine vorbereitete E-Mail.
+ */
+import LinkButton from '../ui/LinkButton.astro';
+import Button from '../ui/Button.astro';
+import { site } from '../../data/site';
+
+interface Props {
+  heading: string;
+  intro: string[];
+}
+const { heading, intro } = Astro.props;
+
+type Opt = { v: string; l?: string };
+const art: Opt[] = [{ v: 'Privat' }, { v: 'Gewerbe' }];
+const bereich: Opt[] = [{ v: 'Außenarbeiten' }, { v: 'Innenarbeiten' }];
+const leistungen: Opt[] = ['Spachteltechnik', 'Streichen', 'Lackieren', 'Tapezieren', 'Verputzen'].map((v) => ({ v }));
+const zeit: Opt[] = [
+  { v: 'Sofort', l: 'Sofort' },
+  { v: 'Innerhalb von 1 bis 3 Monaten', l: 'Innerhalb von 1 bis 3 Monaten' },
+  { v: 'Innerhalb von 12 Monaten', l: 'Innerhalb von 12 Monaten' },
+  { v: '-', l: 'Noch offen' },
+];
+
+const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
+const tick = 'M4 10.5l4 4 8-9';
+---
+
+<section class="pf" data-pf>
+  <div class="pf-bar" aria-hidden="true"><span data-pf-fill></span></div>
+
+  <form data-pf-form data-pf-mail={site.email} name="Projektanfrage" aria-label="Projektanfrage" novalidate>
+    <div class="pf-inner">
+      <div class="pf-meta">
+        <p class={eyebrow}>Projektanfrage</p>
+        <p class={eyebrow + ' pf-count'} aria-live="polite" data-pf-count hidden></p>
+      </div>
+
+      <div class="pf-host" data-pf-host>
+        <!-- Start -->
+        <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-start">
+          <div class="pf-q">
+            <h1 class="pf-h pf-h--start" id="pf-h-start" tabindex="-1" data-pf-q>{heading}</h1>
+          </div>
+          <div class="pf-a">
+            <div class="pf-intro" data-pf-item>
+              {intro.map((p) => <p>{p}</p>)}
+            </div>
+            <div data-pf-item class="pf-start" data-pf-startbox hidden>
+              <LinkButton tone="gold" dir="next" data-pf-start>Anfrage starten</LinkButton>
+            </div>
+          </div>
+        </section>
+
+        <!-- 1 Privat oder Gewerbe -->
+        <section class="pf-screen" data-pf-screen data-pf-auto aria-labelledby="pf-h-art">
+          <div class="pf-q"><h2 class="pf-h" id="pf-h-art" tabindex="-1" data-pf-q>Privat oder Gewerbetreibend?</h2></div>
+          <div class="pf-a pf-list" role="radiogroup" aria-labelledby="pf-h-art">
+            {art.map((o, i) => (
+              <label class="pf-opt" data-pf-item>
+                <input type="radio" name="privat_gewerbe" value={o.v} required={i === 0} />
+                <span class="pf-opt-text">{o.l ?? o.v}</span>
+                <span class="pf-ind" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
+                <span class="pf-opt-line" aria-hidden="true"></span>
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <!-- 2 Art der Arbeiten -->
+        <section class="pf-screen" data-pf-screen data-pf-auto aria-labelledby="pf-h-bereich">
+          <div class="pf-q"><h2 class="pf-h" id="pf-h-bereich" tabindex="-1" data-pf-q>Art der Arbeiten</h2></div>
+          <div class="pf-a pf-list" role="radiogroup" aria-labelledby="pf-h-bereich">
+            {bereich.map((o, i) => (
+              <label class="pf-opt" data-pf-item>
+                <input type="radio" name="art_der_arbeiten" value={o.v} required={i === 0} />
+                <span class="pf-opt-text">{o.l ?? o.v}</span>
+                <span class="pf-ind" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
+                <span class="pf-opt-line" aria-hidden="true"></span>
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <!-- 3 Leistungen -->
+        <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-leistung">
+          <div class="pf-q">
+            <h2 class="pf-h" id="pf-h-leistung" tabindex="-1" data-pf-q>Welche Leistung interessiert Sie?</h2>
+            <p class="pf-hint" data-pf-item>Mehrfachauswahl möglich.</p>
+          </div>
+          <div class="pf-a pf-list" role="group" aria-labelledby="pf-h-leistung">
+            {leistungen.map((o) => (
+              <label class="pf-opt pf-opt--check" data-pf-item>
+                <input type="checkbox" name="leistungen[]" value={o.v} />
+                <span class="pf-opt-text">{o.v}</span>
+                <span class="pf-ind" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
+                <span class="pf-opt-line" aria-hidden="true"></span>
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <!-- 4 Fläche -->
+        <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-flaeche">
+          <div class="pf-q">
+            <h2 class="pf-h" id="pf-h-flaeche" tabindex="-1" data-pf-q>Wie groß ist die Fläche?</h2>
+            <p class="pf-hint" data-pf-item>Ungefähr reicht, wir klären alles Weitere gemeinsam.</p>
+          </div>
+          <div class="pf-a">
+            <div class="pf-area" data-pf-item>
+              <label class="pf-fl-label" for="pf-flaeche">ca. Fläche in m2</label>
+              <div class="pf-area-row">
+                <input
+                  class="pf-big"
+                  type="text"
+                  inputmode="decimal"
+                  id="pf-flaeche"
+                  name="flaeche_qm"
+                  placeholder="120"
+                  pattern="[0-9]+([.,][0-9]+)?"
+                  title="Bitte eine Zahl angeben, zum Beispiel 120"
+                  autocomplete="off"
+                  required
+                  data-pf-area
+                />
+                <span class="pf-unit" aria-hidden="true">m²</span>
+              </div>
+              <input class="pf-range" type="range" min="5" max="500" step="5" value="100" aria-label="Fläche per Regler wählen" data-pf-range />
+            </div>
+          </div>
+        </section>
+
+        <!-- 5 Zeitpunkt -->
+        <section class="pf-screen" data-pf-screen data-pf-auto aria-labelledby="pf-h-zeit">
+          <div class="pf-q"><h2 class="pf-h" id="pf-h-zeit" tabindex="-1" data-pf-q>Wann sollen wir starten?</h2></div>
+          <div class="pf-a pf-list" role="radiogroup" aria-labelledby="pf-h-zeit">
+            {zeit.map((o, i) => (
+              <label class="pf-opt" data-pf-item>
+                <input type="radio" name="zeitpunkt" value={o.v} required={i === 0} />
+                <span class="pf-opt-text">{o.l ?? o.v}</span>
+                <span class="pf-ind" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
+                <span class="pf-opt-line" aria-hidden="true"></span>
+              </label>
+            ))}
+          </div>
+        </section>
+
+        <!-- 6 Bilder -->
+        <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-bilder">
+          <div class="pf-q">
+            <h2 class="pf-h" id="pf-h-bilder" tabindex="-1" data-pf-q>Haben Sie Bilder?</h2>
+            <p class="pf-hint" data-pf-item>Optional. Höchstens 12 Bilder, zusammen höchstens 60 MB.</p>
+          </div>
+          <div class="pf-a" data-pf-drop>
+            <div class="pf-files" data-pf-item>
+              <label class="pf-pick">
+                <input type="file" name="bilder[]" accept="image/*" multiple data-pf-files />
+                <span class="group/ul inline-flex gap-2.5 font-display text-button font-semibold tracking-button text-gold">
+                  <span class="underline-anim relative [--underline-gap:0px]">Bilder auswählen oder hierher ziehen</span>
+                </span>
+              </label>
+              <p class="pf-note" role="status" data-pf-files-msg hidden></p>
+              <ul class="pf-thumbs" data-pf-thumbs></ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7 Kontakt -->
+        <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-kontakt">
+          <div class="pf-q"><h2 class="pf-h" id="pf-h-kontakt" tabindex="-1" data-pf-q>Wie erreichen wir Sie?</h2></div>
+          <div class="pf-a pf-fields">
+            <div class="pf-field" data-pf-item>
+              <label for="pf-name">Name</label>
+              <input type="text" id="pf-name" name="name" autocomplete="name" required />
+            </div>
+            <div class="pf-field" data-pf-item>
+              <label for="pf-tel">Rufnummer</label>
+              <input type="tel" id="pf-tel" name="telefon" autocomplete="tel" />
+            </div>
+            <div class="pf-field" data-pf-item>
+              <label for="pf-email">E-Mail</label>
+              <input type="email" id="pf-email" name="email" autocomplete="email" required />
+            </div>
+          </div>
+        </section>
+
+        <!-- 8 Adressen -->
+        <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-adresse">
+          <div class="pf-q"><h2 class="pf-h" id="pf-h-adresse" tabindex="-1" data-pf-q>Wo liegt das Projekt?</h2></div>
+          <div class="pf-a pf-fields">
+            <div class="pf-field" data-pf-item>
+              <label for="pf-adresse">Ihre Adresse</label>
+              <input type="text" id="pf-adresse" name="adresse" autocomplete="street-address" required />
+            </div>
+            <div class="pf-field" data-pf-item>
+              <label for="pf-bauvorhaben">Adresse Bauvorhaben</label>
+              <input type="text" id="pf-bauvorhaben" name="adresse_bauvorhaben" required />
+            </div>
+          </div>
+        </section>
+
+        <!-- 9 Nachricht -->
+        <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-nachricht">
+          <div class="pf-q"><h2 class="pf-h" id="pf-h-nachricht" tabindex="-1" data-pf-q>Was sollen wir noch wissen?</h2></div>
+          <div class="pf-a pf-fields">
+            <div class="pf-field" data-pf-item>
+              <label for="pf-nachricht">Nachricht</label>
+              <textarea id="pf-nachricht" name="nachricht" rows="4" required></textarea>
+            </div>
+          </div>
+        </section>
+
+        <!-- 10 Überblick -->
+        <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-ueberblick">
+          <div class="pf-q"><h2 class="pf-h" id="pf-h-ueberblick" tabindex="-1" data-pf-q>Ihre Anfrage im Überblick</h2></div>
+          <div class="pf-a">
+            <dl class="pf-sum" data-pf-summary></dl>
+          </div>
+        </section>
+
+        <input type="hidden" name="berechneter_preis" />
+        <input type="hidden" name="ausgewaehlte_leistungen" />
+        <input type="hidden" name="preis_pro_qm" />
+        <input type="hidden" name="berechnungsdetails" />
+
+        <!-- Fertig -->
+        <div class="pf-done" data-pf-done tabindex="-1" role="status" hidden>
+          <svg class="pf-done-mark" viewBox="0 0 64 64" aria-hidden="true">
+            <circle cx="32" cy="32" r="30" data-done-circle />
+            <path d="M18 33l10 10 18-21" data-done-check />
+          </svg>
+          <h2 class="pf-h" data-done-in>Ihre Anfrage ist vorbereitet</h2>
+          <p class="pf-intro" data-done-in>
+            Das Formular wird in Kürze freigeschaltet. Bis dahin erreichen Sie uns gern telefonisch oder per E-Mail.
+          </p>
+          <div class="pf-done-links" data-done-in>
+            <a class="pf-mail" data-pf-mail-link href={`mailto:${site.email}`}>
+              <span class="underline-anim relative [--underline-gap:3px]">E-Mail mit Ihren Angaben öffnen</span>
+            </a>
+            <a class="pf-mail" href={`tel:${site.phoneHref}`}>
+              <span class="underline-anim relative [--underline-gap:3px]">{site.phone}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="pf-nav" data-pf-nav>
+        <div data-pf-back hidden><LinkButton tone="black" dir="back">Zurück</LinkButton></div>
+        <div class="pf-nav-r">
+          <div data-pf-next hidden><LinkButton tone="gold" dir="next">Weiter</LinkButton></div>
+          <div data-pf-send hidden><Button type="submit" variant="solid">Anfrage senden</Button></div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  import { gsap } from '../../scripts/motion';
+  import {
+    initFiles,
+    mailto,
+    playDone,
+    splitWords,
+    keepInView,
+    reducedMotion,
+  } from '../../scripts/anfrage';
+
+  const root = document.querySelector<HTMLElement>('[data-pf]');
+  const form = root?.querySelector<HTMLFormElement>('[data-pf-form]');
+  if (root && form) {
+    const reduced = reducedMotion();
+    const screens = [...form.querySelectorAll<HTMLElement>('[data-pf-screen]')];
+    const host = form.querySelector<HTMLElement>('[data-pf-host]')!;
+    const fill = root.querySelector<HTMLElement>('[data-pf-fill]')!;
+    const count = form.querySelector<HTMLElement>('[data-pf-count]')!;
+    const back = form.querySelector<HTMLElement>('[data-pf-back]')!;
+    const next = form.querySelector<HTMLElement>('[data-pf-next]')!;
+    const send = form.querySelector<HTMLElement>('[data-pf-send]')!;
+    const nav = form.querySelector<HTMLElement>('[data-pf-nav]')!;
+    const done = form.querySelector<HTMLElement>('[data-pf-done]')!;
+    const summary = form.querySelector<HTMLElement>('[data-pf-summary]')!;
+    const startBox = form.querySelector<HTMLElement>('[data-pf-startbox]')!;
+    const nextBtn = next.querySelector('button')!;
+    const last = screens.length - 1;
+    const questions = last - 1; // ohne Start und Überblick
+    let cur = 0;
+    let busy = false; // nur während des Ausblendens
+    let entering: gsap.core.Tween[] = [];
+    let autoTimer: number | undefined;
+
+    root.classList.add('is-focus');
+    startBox.hidden = false;
+    screens.forEach((s, i) => (s.hidden = i !== 0));
+    // Fragen wortweise zerlegen (Maske)
+    const words = new Map<HTMLElement, HTMLElement[]>();
+    screens.forEach((s) => {
+      const q = s.querySelector<HTMLElement>('[data-pf-q]');
+      if (q) words.set(s, splitWords(q));
+    });
+
+    // ---------- Fläche ----------
+    const area = form.querySelector<HTMLInputElement>('[data-pf-area]')!;
+    const range = form.querySelector<HTMLInputElement>('[data-pf-range]')!;
+    const paint = () => {
+      const p = ((Number(range.value) - Number(range.min)) / (Number(range.max) - Number(range.min))) * 100;
+      range.style.setProperty('--p', `${p}%`);
+    };
+    range.addEventListener('input', () => {
+      area.value = range.value;
+      paint();
+      state();
+    });
+    area.addEventListener('input', () => {
+      const v = parseFloat(area.value.replace(',', '.'));
+      if (!Number.isNaN(v)) {
+        range.value = String(Math.min(Number(range.max), Math.max(Number(range.min), v)));
+        paint();
+      }
+    });
+    paint();
+
+    // ---------- Bilder ----------
+    const files = initFiles({
+      input: form.querySelector<HTMLInputElement>('[data-pf-files]')!,
+      zone: form.querySelector<HTMLElement>('[data-pf-drop]')!,
+      thumbs: form.querySelector<HTMLElement>('[data-pf-thumbs]')!,
+      msg: form.querySelector<HTMLElement>('[data-pf-files-msg]')!,
+    });
+
+    // ---------- Überblick ----------
+    const val = (n: string) => (form.elements.namedItem(n) as HTMLInputElement | null)?.value.trim() ?? '';
+    const picked = (n: string) =>
+      [...form.querySelectorAll<HTMLInputElement>(`input[name="${n}"]:checked`)].map((i) => i.value);
+    const rows = () =>
+      [
+        { at: 1, label: 'Privat oder Gewerbe', value: picked('privat_gewerbe')[0] },
+        { at: 2, label: 'Art der Arbeiten', value: picked('art_der_arbeiten')[0] },
+        { at: 3, label: 'Leistungen', value: picked('leistungen[]').join(', ') || 'Keine Auswahl' },
+        { at: 4, label: 'Fläche', value: area.value.trim() ? `${area.value.trim()} m²` : '' },
+        { at: 5, label: 'Beginn', value: picked('zeitpunkt')[0] === '-' ? 'Noch offen' : picked('zeitpunkt')[0] },
+        { at: 6, label: 'Bilder', value: files.count() ? `${files.count()} ${files.count() === 1 ? 'Bild' : 'Bilder'}` : 'Keine' },
+        { at: 7, label: 'Name', value: val('name') },
+        { at: 7, label: 'Rufnummer', value: val('telefon') || 'Nicht angegeben' },
+        { at: 7, label: 'E-Mail', value: val('email') },
+        { at: 8, label: 'Adresse', value: val('adresse') },
+        { at: 8, label: 'Adresse Bauvorhaben', value: val('adresse_bauvorhaben') },
+        { at: 9, label: 'Nachricht', value: val('nachricht') },
+      ].filter((r) => r.value) as { at: number; label: string; value: string }[];
+    const buildSummary = () => {
+      summary.innerHTML = '';
+      rows().forEach((r) => {
+        const row = document.createElement('div');
+        row.className = 'pf-sum-row';
+        row.setAttribute('data-pf-item', '');
+        const dt = document.createElement('dt');
+        dt.textContent = r.label;
+        const dd = document.createElement('dd');
+        dd.textContent = r.value;
+        const edit = document.createElement('button');
+        edit.type = 'button';
+        edit.className = 'pf-edit';
+        edit.setAttribute('aria-label', `${r.label} ändern`);
+        edit.innerHTML = '<span class="underline-anim relative [--underline-gap:3px]">Ändern</span>';
+        edit.addEventListener('click', () => go(r.at));
+        row.append(dt, dd, edit);
+        summary.append(row);
+      });
+    };
+
+    // ---------- Zustand ----------
+    const fields = (i: number) =>
+      [...screens[i].querySelectorAll<HTMLInputElement>('input, textarea')].filter(
+        (e) => e.type !== 'hidden' && e.type !== 'range' && e.type !== 'file',
+      );
+    const isValid = (i: number) => fields(i).every((e) => e.checkValidity());
+    const report = (i: number) => {
+      const bad = fields(i).find((e) => !e.checkValidity());
+      bad?.reportValidity();
+      return !bad;
+    };
+    function state() {
+      next.classList.toggle('is-off', !isValid(cur));
+    }
+    const chrome = () => {
+      count.hidden = cur === 0;
+      count.textContent = cur === last ? 'Überblick' : `Frage ${cur} von ${questions}`;
+      back.hidden = cur === 0;
+      next.hidden = cur === 0 || cur === last;
+      send.hidden = cur !== last;
+      const navWasHidden = nav.hidden;
+      nav.hidden = cur === 0;
+      if (navWasHidden && !nav.hidden && !reduced)
+        gsap.fromTo(nav, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.9, delay: 0.6, ease: 'css', clearProps: 'opacity,visibility' });
+      state();
+      if (reduced) gsap.set(fill, { scaleX: cur / last });
+      else gsap.to(fill, { scaleX: cur / last, duration: 1, ease: 'grow', overwrite: true });
+    };
+
+    const focusScreen = (i: number) => {
+      const text = fields(i).find((e) => e.type !== 'radio' && e.type !== 'checkbox');
+      (text ?? screens[i].querySelector<HTMLElement>('[data-pf-q]'))?.focus({ preventScroll: true });
+      keepInView(root);
+    };
+
+    function go(n: number) {
+      if (busy || n === cur || n < 0 || n > last) return;
+      window.clearTimeout(autoTimer);
+      const dir = n > cur ? 1 : -1;
+      const from = screens[cur];
+      const to = screens[n];
+      cur = n;
+      if (n === last) buildSummary();
+      chrome();
+      if (reduced) {
+        from.hidden = true;
+        to.hidden = false;
+        focusScreen(n);
+        return;
+      }
+      // Eine noch laufende Einblendung wird abgelöst
+      entering.forEach((t) => t.kill());
+      entering = [];
+      gsap.killTweensOf(host);
+      gsap.set(host, { clearProps: 'height,overflow' });
+      busy = true;
+      const h0 = host.offsetHeight;
+      gsap.to(from, {
+        autoAlpha: 0,
+        y: -26 * dir,
+        duration: 0.4,
+        ease: 'css',
+        onComplete: () => {
+          from.hidden = true;
+          gsap.set(from, { clearProps: 'all' });
+          busy = false;
+          to.hidden = false;
+          const ws = words.get(to) ?? [];
+          const items = to.querySelectorAll('[data-pf-item]');
+          gsap.set(ws, { yPercent: 115 });
+          gsap.set(items, { autoAlpha: 0, y: 26 * dir });
+          const h1 = host.offsetHeight;
+          if (h1 !== h0)
+            entering.push(
+              gsap.fromTo(
+                host,
+                { height: h0, overflow: 'hidden' },
+                { height: h1, duration: 0.8, ease: 'css', clearProps: 'height,overflow' },
+              ),
+            );
+          entering.push(gsap.to(ws, { yPercent: 0, duration: 1, ease: 'css', stagger: 0.06 }));
+          entering.push(
+            gsap.to(items, {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.8,
+              ease: 'css',
+              stagger: 0.07,
+              delay: 0.25,
+              clearProps: 'opacity,visibility,transform',
+            }),
+          );
+          focusScreen(n);
+        },
+      });
+    }
+
+    const advance = () => {
+      if (cur === 0) return go(1);
+      if (report(cur)) go(cur + 1);
+    };
+    form.querySelector('[data-pf-start]')!.addEventListener('click', () => go(1));
+    nextBtn.addEventListener('click', advance);
+    back.querySelector('button')!.addEventListener('click', () => go(cur - 1));
+
+    // Auswahl: Zustand nachführen, Einzelauswahl geht nach kurzer Pause weiter
+    form.addEventListener('input', state);
+    form.addEventListener('change', (e) => {
+      state();
+      const t = e.target as HTMLInputElement;
+      if (t.type === 'radio' && screens[cur].hasAttribute('data-pf-auto')) {
+        window.clearTimeout(autoTimer);
+        autoTimer = window.setTimeout(() => {
+          if (isValid(cur)) go(cur + 1);
+        }, 750);
+      }
+    });
+    // Enter geht weiter (außer im Nachrichtenfeld)
+    form.addEventListener('keydown', (e) => {
+      const t = e.target as HTMLElement;
+      if (e.key !== 'Enter' || t.tagName === 'TEXTAREA' || t.tagName === 'BUTTON' || cur === last) return;
+      if ((t as HTMLInputElement).type === 'file') return;
+      e.preventDefault();
+      advance();
+    });
+
+    // ---------- Absenden (noch nicht angebunden) ----------
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (cur !== last) return;
+      form.querySelector<HTMLAnchorElement>('[data-pf-mail-link]')!.href = mailto(
+        form.dataset.pfMail ?? '',
+        'Projektanfrage',
+        rows(),
+      );
+      const finish = () => {
+        screens[cur].hidden = true;
+        nav.hidden = true;
+        count.hidden = true;
+        done.hidden = false;
+        gsap.set(fill, { scaleX: 1 });
+        playDone(done);
+        keepInView(root);
+      };
+      if (reduced) return finish();
+      gsap.to([screens[cur], nav], {
+        autoAlpha: 0,
+        y: -20,
+        duration: 0.4,
+        ease: 'css',
+        onComplete: () => {
+          gsap.set([screens[cur], nav], { clearProps: 'all' });
+          finish();
+        },
+      });
+    });
+
+    chrome();
+  }
+</script>
+
+<style>
+  .pf {
+    --ink: #090402;
+    --hair: rgb(0 0 0 / 0.2);
+    margin: 0 20px;
+    color: var(--ink);
+  }
+  .pf-bar {
+    display: none;
+    max-width: var(--container-page);
+    height: 1px;
+    margin: 0 auto;
+    background: var(--hair);
+  }
+  .pf-bar span {
+    display: block;
+    height: 100%;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  .is-focus .pf-bar {
+    display: block;
+  }
+  .pf-inner {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--container-page);
+    min-height: 560px;
+    margin: 0 auto;
+    padding: 28px 0 40px;
+  }
+  .pf-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .pf-meta p {
+    margin: 0;
+  }
+  .pf-host {
+    position: relative;
+  }
+  /* Mit Skript: Frage und Antworten stehen mittig im Abschnitt, die Leiste unten */
+  .is-focus .pf-host {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Eine Frage: links Frage, rechts Antworten */
+  .pf-screen {
+    display: grid;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  .pf-screen[hidden] {
+    display: none;
+  }
+  /* Mit Skript (Klasse `js`) sieht man bis zum Start nur die erste Frage, damit beim Laden nichts aufblitzt */
+  :global(.js) .pf:not(.is-focus) .pf-screen + .pf-screen {
+    display: none;
+  }
+  /* Ohne Skript stehen die Fragen untereinander */
+  .pf:not(.is-focus) .pf-screen + .pf-screen {
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--hair);
+  }
+  .pf-q {
+    min-width: 0;
+  }
+  .pf-h {
+    margin: 0;
+    color: var(--color-gold);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 23px;
+    line-height: 27.6px;
+    font-weight: 500;
+    outline: none;
+  }
+  .pf-h--start {
+    color: var(--ink);
+    font-size: 26px;
+    line-height: 28.6px;
+  }
+  .pf-hint {
+    margin: 14px 0 0;
+    color: var(--color-muted);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .pf-a {
+    min-width: 0;
+  }
+  .pf-intro,
+  .pf-intro :global(p) {
+    margin: 0;
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .pf-intro {
+    display: grid;
+    gap: 14px;
+    max-width: 620px;
+  }
+  .pf-start {
+    margin-top: 32px;
+  }
+
+  /* Antworten als Textzeilen */
+  .pf-list {
+    max-width: 720px;
+  }
+  .pf-opt {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 0 19px;
+    border-top: 1px solid var(--hair);
+    cursor: pointer;
+  }
+  .pf-opt:last-child {
+    border-bottom: 1px solid var(--hair);
+  }
+  .pf-opt input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .pf-opt-text {
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 19px;
+    line-height: 24.7px;
+    font-weight: 500;
+    transition: color 0.4s var(--ease-css);
+  }
+  .pf-opt:hover .pf-opt-text,
+  .pf-opt input:checked ~ .pf-opt-text {
+    color: var(--color-gold);
+  }
+  .pf-ind {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border: 1px solid rgb(0 0 0 / 0.4);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    transition:
+      background-color 0.4s var(--ease-css),
+      border-color 0.4s var(--ease-css);
+  }
+  .pf-opt--check .pf-ind {
+    border-radius: 0;
+  }
+  .pf-ind svg {
+    width: 14px;
+    height: 14px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 1.8;
+    stroke-linecap: square;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    transition: stroke-dashoffset 0.45s var(--ease-grow);
+  }
+  .pf-opt input:checked ~ .pf-ind {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .pf-opt input:checked ~ .pf-ind svg {
+    stroke-dashoffset: 0;
+  }
+  /* Goldene Linie zieht von links auf */
+  .pf-opt-line {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.7s var(--ease-grow);
+  }
+  .pf-opt:hover .pf-opt-line,
+  .pf-opt input:checked ~ .pf-opt-line {
+    transform: scaleX(1);
+  }
+  .pf-opt input:focus-visible ~ .pf-opt-text {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 4px;
+  }
+
+  /* Felder: nur Linie */
+  .pf-fields {
+    display: grid;
+    gap: 28px;
+    max-width: 720px;
+  }
+  .pf-field {
+    position: relative;
+  }
+  .pf-field label,
+  .pf-fl-label {
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 12px;
+    line-height: 15.6px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .pf-field input,
+  .pf-field textarea {
+    display: block;
+    width: 100%;
+    padding: 10px 0 12px;
+    border: 0;
+    border-bottom: 1px solid var(--hair);
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 19px;
+    line-height: 26px;
+    transition: border-color 0.4s var(--ease-css);
+  }
+  .pf-field textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+  .pf-field input:focus,
+  .pf-field textarea:focus {
+    border-bottom-color: var(--color-gold);
+    outline: none;
+  }
+
+  /* Fläche */
+  .pf-area {
+    max-width: 720px;
+  }
+  .pf-area-row {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .pf-big {
+    width: 4.2em;
+    max-width: 100%;
+    padding: 0 0 6px;
+    border: 0;
+    border-bottom: 1px solid var(--hair);
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 40px;
+    line-height: 54px;
+    font-weight: 500;
+    transition: border-color 0.4s var(--ease-css);
+  }
+  .pf-big:focus {
+    border-bottom-color: var(--color-gold);
+    outline: none;
+  }
+  .pf-unit {
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 40px;
+    line-height: 54px;
+    font-weight: 500;
+    color: var(--color-gold);
+  }
+  .pf-range {
+    --p: 20%;
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    height: 24px;
+    margin: 28px 0 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .pf-range::-webkit-slider-runnable-track {
+    height: 1px;
+    background: linear-gradient(to right, var(--ink) var(--p), var(--hair) var(--p));
+  }
+  .pf-range::-moz-range-track {
+    height: 1px;
+    background: linear-gradient(to right, var(--ink) var(--p), var(--hair) var(--p));
+  }
+  .pf-range::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    margin-top: -7.5px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--ink);
+    -webkit-appearance: none;
+    appearance: none;
+    transition: background-color 0.3s var(--ease-css);
+  }
+  .pf-range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: 0;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+  .pf-range:hover::-webkit-slider-thumb,
+  .pf-range:focus-visible::-webkit-slider-thumb {
+    background: var(--color-gold);
+  }
+
+  /* Bilder */
+  .pf-files {
+    max-width: 720px;
+  }
+  .pf-pick {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  .pf-pick input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .pf-note {
+    margin: 12px 0 0;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+  .pf-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .pf-thumbs :global(li) {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+  .pf-thumbs :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pf-thumbs :global(button) {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    border: 0;
+    background: var(--ink);
+    color: #fff;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease-css);
+  }
+  .pf-thumbs :global(button:hover) {
+    background: var(--color-gold);
+  }
+  [data-pf-drop].is-over .pf-pick span {
+    color: var(--ink);
+  }
+
+  /* Überblick */
+  .pf-sum {
+    max-width: 720px;
+    margin: 0;
+  }
+  .pf-sum :global(.pf-sum-row) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2px 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--hair);
+  }
+  .pf-sum :global(.pf-sum-row:last-child) {
+    border-bottom: 1px solid var(--hair);
+  }
+  .pf-sum :global(dt) {
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 12px;
+    line-height: 15.6px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .pf-sum :global(dd) {
+    grid-column: 1;
+    margin: 0;
+    font-size: 16px;
+    line-height: 24px;
+    white-space: pre-line;
+  }
+  .pf-sum :global(.pf-edit) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--color-gold);
+    cursor: pointer;
+  }
+
+  /* Navigation */
+  .pf-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: auto;
+    padding-top: 40px;
+  }
+  .pf-nav[hidden] {
+    display: none;
+  }
+  .pf-nav [hidden] {
+    display: none;
+  }
+  .pf-nav-r {
+    margin-left: auto;
+  }
+  .pf-nav-r :global([data-pf-next]) {
+    transition: opacity 0.4s var(--ease-css);
+  }
+  .pf-nav-r :global([data-pf-next].is-off) {
+    opacity: 0.35;
+  }
+  .pf:not(.is-focus) .pf-nav {
+    display: none;
+  }
+
+  /* Fertig */
+  .pf-done {
+    max-width: 720px;
+    padding: 12px 0 8px;
+    outline: none;
+  }
+  .pf-done[hidden] {
+    display: none;
+  }
+  .pf-done-mark {
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 24px;
+    fill: none;
+    stroke: var(--color-gold);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+  }
+  .pf-done .pf-h {
+    margin-bottom: 14px;
+  }
+  .pf-done-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 30px;
+    margin-top: 24px;
+  }
+  .pf-mail {
+    display: inline-block;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--color-gold);
+  }
+
+  @media (min-width: 768px) {
+    .pf {
+      margin: 0 20px;
+    }
+    .pf-h {
+      font-size: 29px;
+      line-height: 39.15px;
+    }
+    .pf-h--start {
+      font-size: 34px;
+      line-height: 37.4px;
+    }
+    .pf-inner {
+      min-height: 620px;
+      padding-top: 36px;
+    }
+    .pf-opt-text {
+      font-size: 24px;
+      line-height: 31.2px;
+    }
+    .pf-field input,
+    .pf-field textarea {
+      font-size: 24px;
+      line-height: 31.2px;
+    }
+  }
+  @media (min-width: 1025px) {
+    .pf {
+      margin: 0 30px;
+    }
+    .pf-inner {
+      min-height: max(640px, calc(100svh - 190px));
+      padding-top: 40px;
+    }
+    .pf-screen {
+      grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
+      gap: 0 6vw;
+      align-items: start;
+    }
+    .pf-h {
+      font-size: var(--text-h3);
+      line-height: var(--text-h3--line-height);
+    }
+    .pf-h--start {
+      font-size: var(--text-h1);
+      line-height: var(--text-h1--line-height);
+    }
+    .pf-big,
+    .pf-unit {
+      font-size: var(--text-h1);
+      line-height: var(--text-h1--line-height);
+    }
+    .pf-opt {
+      padding: 24px 0 23px;
+    }
+  }
+</style>

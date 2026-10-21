@@ -1,0 +1,15 @@
+---
+/** Projektanfrage, Variante B „Fokus“ (Vorschau zum Vergleichen mit /kontakt/ und /kontakt-c/). */
+import PageLayout from '../../layouts/PageLayout.astro';
+import ProjectFocus from '../../components/kontakt/ProjectFocus.astro';
+import ContactStrip from '../../components/kontakt/ContactStrip.astro';
+import { contactPages } from '../../data/pages/contact';
+
+const page = contactPages.kontakt;
+const intro = page.intro.slice(0, 2).map((lines) => lines.join(' '));
+---
+
+<PageLayout title={page.title} description={page.description} current="/kontakt/">
+  <ProjectFocus heading={page.heading} {intro} />
+  <ContactStrip />
+</PageLayout>

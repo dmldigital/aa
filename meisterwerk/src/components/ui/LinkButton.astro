@@ -1,0 +1,29 @@
+---
+import Icon from '../Icon.astro';
+
+/**
+ * Text-Link als Schaltfläche (wie `ArrowLink`: Pfeil, Unterstrich-Animation), für Weiter und Zurück in Formularen.
+ * `dir="next"` Pfeil rechts, `dir="back"` Pfeil links.
+ */
+interface Props {
+  tone?: 'gold' | 'black';
+  dir?: 'next' | 'back';
+  type?: 'button' | 'submit';
+}
+const { tone = 'gold', dir = 'next', type = 'button', ...rest } = Astro.props;
+---
+
+<button
+  {type}
+  {...rest}
+  class:list={[
+    'group/ul inline-flex cursor-pointer gap-2.5 font-display text-button font-semibold tracking-button',
+    dir === 'next' ? 'flex-row-reverse' : 'flex-row',
+    tone === 'gold' ? 'text-gold' : 'text-black',
+  ]}
+>
+  <span class="flex w-3.75 items-center">
+    <Icon name={dir === 'next' ? 'arrow-right' : 'arrow-left'} class="block size-3.5 shrink-0" />
+  </span>
+  <span class="underline-anim relative [--underline-gap:0px]"><slot /></span>
+</button>

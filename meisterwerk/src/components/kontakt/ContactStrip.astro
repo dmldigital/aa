@@ -1,0 +1,27 @@
+---
+/** Ruhige Kontaktzeile unter den Projektanfrage-Varianten: Telefon, E-Mail, Showroom mit Anfahrt. */
+import ArrowLink from '../ui/ArrowLink.astro';
+import { site } from '../../data/site';
+
+const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
+const link = 'group/ul inline-block text-[16px]/[24px] md:text-body text-black';
+---
+
+<section class="mt-[12vh] mb-[12vh] px-5 lg:px-7.5">
+  <div class="mx-auto grid w-full max-w-page gap-8 border-t border-black/20 pt-7.5 md:grid-cols-3 lg:gap-x-[6vw]">
+    <div class="flex flex-col gap-3.75">
+      <p class={eyebrow}>Lieber persönlich?</p>
+      <p class="text-[16px]/[24px] md:text-body">Rufen Sie uns an oder schreiben Sie uns. Wir nehmen uns Zeit für Ihr Projekt.</p>
+    </div>
+    <div class="flex flex-col gap-3.75">
+      <p class={eyebrow}>Kontakt</p>
+      <a href={`tel:${site.phoneHref}`} class={link}><span class="underline-anim [--underline-gap:3px]">07 141 / 23982 90</span></a>
+      <a href={`mailto:${site.email}`} class={link}><span class="underline-anim [--underline-gap:3px]">{site.email}</span></a>
+    </div>
+    <div class="flex flex-col items-start gap-3.75">
+      <p class={eyebrow}>Studio di Stile / Showroom</p>
+      <p class="text-[16px]/[24px] md:text-body">{site.street}, {site.postalCode} {site.city}</p>
+      <ArrowLink href="https://maps.app.goo.gl/TKguvHRLF81DRLoH6" tone="gold">Anfahrt</ArrowLink>
+    </div>
+  </div>
+</section>
