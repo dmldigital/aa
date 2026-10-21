@@ -6,6 +6,7 @@
 import { getImage } from 'astro:assets';
 import Button from '../ui/Button.astro';
 import ContactForm from '../ContactForm.astro';
+import ProjectWizard from '../kontakt/ProjectWizard.astro';
 import { site } from '../../data/site';
 import type { ContactPage } from '../../data/pages/contact';
 
@@ -148,6 +149,9 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
             exk ? 'px-5' : 'px-1.5',
           ]}
         >
+          {page.form === 'project' ? (
+            <ProjectWizard intro={page.formIntro} />
+          ) : (
           <div
             class="flex w-full flex-col gap-3.75 lg:gap-5"
             class:list={[!quick && 'pb-3.75 lg:pb-4.75']}
@@ -171,6 +175,7 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
             {quick && <div class="h-px md:h-1.25 lg:h-4.5" />}
             <ContactForm variant={page.form} />
           </div>
+          )}
         </div>
       </div>
       <div class="flex min-h-10 border-b border-line px-[10%] md:min-h-15 lg:min-h-22.5">

@@ -1,0 +1,1048 @@
+---
+/**
+ * Projektanfrage als Assistent in fünf Schritten (ersetzt auf /kontakt/ das lange Formular): Projekt, Leistungen,
+ * Umfang, Kontakt, Überblick. Gleiche Felder und Feldnamen wie vorher (`ContactForm`, Variante `project`), damit der
+ * spätere Versand nichts umstellen muss. Auswahlkarten sind echte Radio- und Checkbox-Felder, ohne Skript steht das
+ * Formular als eine lange Seite. Mit Skript: Fortschritt aus fünf Linien, Schritte wechseln mit Einblenden und Verschieben,
+ * die Höhe läuft weich mit, die Auswahlkarten füllen sich schwarz, Fläche mit Regler, Bilder mit Vorschau, Überblick
+ * mit „Ändern“ je Zeile. Das Absenden ist noch nicht angebunden: Am Ende steht die bekannte Meldung und eine vorbereitete
+ * E-Mail mit allen Angaben (kein Versand vortäuschen).
+ */
+import Button from '../ui/Button.astro';
+import { site } from '../../data/site';
+
+interface Props {
+  intro?: { heading: string; text: string };
+}
+const { intro } = Astro.props;
+
+const steps = [
+  { label: 'Projekt', title: 'Ihr Projekt' },
+  { label: 'Leistungen', title: 'Welche Leistung interessiert Sie?' },
+  { label: 'Umfang', title: 'Umfang und Zeitpunkt' },
+  { label: 'Kontakt', title: 'Ihre Kontaktdaten' },
+  { label: 'Überblick', title: 'Ihre Anfrage im Überblick' },
+];
+const leistungen = ['Spachteltechnik', 'Streichen', 'Lackieren', 'Tapezieren', 'Verputzen'];
+const zeitpunkte = [
+  { value: 'Sofort', label: 'Sofort' },
+  { value: 'Innerhalb von 1 bis 3 Monaten', label: 'Innerhalb von 1 bis 3 Monaten' },
+  { value: 'Innerhalb von 12 Monaten', label: 'Innerhalb von 12 Monaten' },
+  { value: '-', label: 'Noch offen' },
+];
+const field =
+  'w-full min-h-10 border border-black/20 bg-white p-3.75 text-[15px]/[21px] text-ink focus:border-ink focus:outline-none';
+const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
+---
+
+<form
+  method="post"
+  data-wz
+  data-wz-mail={site.email}
+  data-wz-mail-subject="Projektanfrage"
+  name="Projektanfrage"
+  aria-label="Projektanfrage"
+  novalidate
+  class="wz"
+>
+  <div class="wz-panel" data-anim="fadeInUp" data-anim-dur="slow">
+    <!-- Kopf: Überschrift und Fortschritt -->
+    <div class="wz-head">
+      {intro && <h2 class="wz-title">{intro.heading}</h2>}
+      <p class={eyebrow + ' wz-count'} aria-live="polite" data-wz-count hidden>
+        Schritt <span data-wz-now>1</span> von {steps.length}
+      </p>
+      <ol class="wz-progress" data-wz-progress hidden>
+        {steps.map((s, i) => (
+          <li>
+            <button type="button" data-wz-go={i} aria-label={`Zu Schritt ${i + 1}: ${s.label}`}>
+              <span class="wz-pline" aria-hidden="true"><span data-wz-fill></span></span>
+              <span class="wz-plabel">{s.label}</span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="wz-stage" data-wz-stage>
+      <!-- 1 Projekt -->
+      <fieldset class="wz-step" data-wz-step>
+        <legend class="wz-h" tabindex="-1">{steps[0].title}</legend>
+        {intro && <p class="wz-lead" data-wz-item>{intro.text}</p>}
+        <div class="wz-group" role="radiogroup" aria-labelledby="wz-art" data-wz-item>
+          <p class={eyebrow} id="wz-art">Privat oder Gewerbetreibend?</p>
+          <div class="wz-choices wz-choices--2">
+            {['Privat', 'Gewerbe'].map((v, i) => (
+              <label class="wz-choice">
+                <input type="radio" name="privat_gewerbe" value={v} required={i === 0} />
+                <span class="wz-choice-body">
+                  <span>{v}</span>
+                  <svg class="wz-tick" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" /></svg>
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+        <div class="wz-group" role="radiogroup" aria-labelledby="wz-bereich" data-wz-item>
+          <p class={eyebrow} id="wz-bereich">Art der Arbeiten</p>
+          <div class="wz-choices wz-choices--2">
+            {['Außenarbeiten', 'Innenarbeiten'].map((v, i) => (
+              <label class="wz-choice">
+                <input type="radio" name="art_der_arbeiten" value={v} required={i === 0} />
+                <span class="wz-choice-body">
+                  <span>{v}</span>
+                  <svg class="wz-tick" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" /></svg>
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 2 Leistungen -->
+      <fieldset class="wz-step" data-wz-step>
+        <legend class="wz-h" tabindex="-1">{steps[1].title}</legend>
+        <p class="wz-lead" data-wz-item>Mehrfachauswahl möglich.</p>
+        <div class="wz-choices wz-choices--3" data-wz-item>
+          {leistungen.map((v) => (
+            <label class="wz-choice">
+              <input type="checkbox" name="leistungen[]" value={v} />
+              <span class="wz-choice-body">
+                <span>{v}</span>
+                <svg class="wz-tick" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" /></svg>
+              </span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <!-- 3 Umfang -->
+      <fieldset class="wz-step" data-wz-step>
+        <legend class="wz-h" tabindex="-1">{steps[2].title}</legend>
+        <div class="wz-group" data-wz-item>
+          <label class={eyebrow} for="wz-flaeche">ca. Fläche in m2</label>
+          <div class="wz-area">
+            <output class="wz-area-out" for="wz-flaeche" data-wz-area-out>–</output>
+            <input
+              class="wz-range"
+              type="range"
+              min="5"
+              max="500"
+              step="5"
+              value="100"
+              aria-label="Fläche per Regler wählen"
+              data-wz-range
+            />
+            <input
+              class={field + ' wz-area-in'}
+              type="text"
+              inputmode="decimal"
+              id="wz-flaeche"
+              name="flaeche_qm"
+              pattern="[0-9]+([.,][0-9]+)?"
+              title="Bitte eine Zahl angeben, zum Beispiel 120"
+              required
+              data-wz-area
+            />
+          </div>
+        </div>
+        <div class="wz-group" role="radiogroup" aria-labelledby="wz-zeit" data-wz-item>
+          <p class={eyebrow} id="wz-zeit">Zeitpunkt der Ausführung</p>
+          <div class="wz-choices wz-choices--2">
+            {zeitpunkte.map((z, i) => (
+              <label class="wz-choice">
+                <input type="radio" name="zeitpunkt" value={z.value} required={i === 0} />
+                <span class="wz-choice-body">
+                  <span>{z.label}</span>
+                  <svg class="wz-tick" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" /></svg>
+                </span>
+              </label>
+            ))}
+          </div>
+        </div>
+        <div class="wz-group" data-wz-item>
+          <p class={eyebrow}>Bilder hochladen (max. 12 Bilder, max 60MB)</p>
+          <label class="wz-drop" data-wz-drop>
+            <input type="file" name="bilder[]" accept="image/*" multiple data-wz-files />
+            <span class="wz-drop-text">Bilder hierher ziehen oder auswählen</span>
+          </label>
+          <p class="wz-note" role="status" data-wz-files-msg hidden></p>
+          <ul class="wz-thumbs" data-wz-thumbs></ul>
+        </div>
+      </fieldset>
+
+      <!-- 4 Kontakt -->
+      <fieldset class="wz-step" data-wz-step>
+        <legend class="wz-h" tabindex="-1">{steps[3].title}</legend>
+        <div class="wz-grid">
+          <div class="wz-group" data-wz-item>
+            <label class={eyebrow} for="wz-name">Name</label>
+            <input class={field} type="text" id="wz-name" name="name" autocomplete="name" required />
+          </div>
+          <div class="wz-group" data-wz-item>
+            <label class={eyebrow} for="wz-tel">Rufnummer</label>
+            <input class={field} type="tel" id="wz-tel" name="telefon" autocomplete="tel" />
+          </div>
+          <div class="wz-group" data-wz-item>
+            <label class={eyebrow} for="wz-adresse">Adresse</label>
+            <input class={field} type="text" id="wz-adresse" name="adresse" autocomplete="street-address" required />
+          </div>
+          <div class="wz-group" data-wz-item>
+            <label class={eyebrow} for="wz-bauvorhaben">Adresse Bauvorhaben</label>
+            <input class={field} type="text" id="wz-bauvorhaben" name="adresse_bauvorhaben" required />
+          </div>
+          <div class="wz-group wz-wide" data-wz-item>
+            <label class={eyebrow} for="wz-email">E-Mail</label>
+            <input class={field} type="email" id="wz-email" name="email" autocomplete="email" required />
+          </div>
+          <div class="wz-group wz-wide" data-wz-item>
+            <label class={eyebrow} for="wz-nachricht">Nachricht</label>
+            <textarea class={field + ' wz-text'} id="wz-nachricht" name="nachricht" rows="4" required></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- 5 Überblick -->
+      <fieldset class="wz-step" data-wz-step>
+        <legend class="wz-h" tabindex="-1">{steps[4].title}</legend>
+        <dl class="wz-sum" data-wz-summary></dl>
+      </fieldset>
+
+      <input type="hidden" name="berechneter_preis" />
+      <input type="hidden" name="ausgewaehlte_leistungen" />
+      <input type="hidden" name="preis_pro_qm" />
+      <input type="hidden" name="berechnungsdetails" />
+    </div>
+
+    <!-- Fertig (die Anfrage wird noch nicht versendet) -->
+    <div class="wz-done" data-wz-done tabindex="-1" role="status" hidden>
+      <svg class="wz-done-mark" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="32" cy="32" r="30" data-wz-circle />
+        <path d="M18 33l10 10 18-21" data-wz-check />
+      </svg>
+      <h3 class="wz-h">Ihre Anfrage ist vorbereitet</h3>
+      <p class="wz-lead">
+        Das Formular wird in Kürze freigeschaltet. Bis dahin erreichen Sie uns gern telefonisch oder per E-Mail.
+      </p>
+      <div class="wz-done-actions">
+        <a class="wz-mail" data-wz-mail-link href={`mailto:${site.email}`}>
+          <span class="underline-anim relative [--underline-gap:3px]">E-Mail mit Ihren Angaben öffnen</span>
+        </a>
+        <a class="wz-mail" href={`tel:${site.phoneHref}`}>
+          <span class="underline-anim relative [--underline-gap:3px]">{site.phone}</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Schaltflächen -->
+    <div class="wz-actions" data-wz-actions>
+      <div class="wz-back" data-wz-back hidden><Button type="button" variant="outline">Zurück</Button></div>
+      <div class="wz-next" data-wz-next hidden><Button type="button" variant="solid">Weiter</Button></div>
+      <div class="wz-send" data-wz-send><Button type="submit" variant="solid">Anfrage senden</Button></div>
+    </div>
+  </div>
+</form>
+
+<script>
+  import { gsap, lenis } from '../../scripts/motion';
+
+  const MAX_FILES = 12;
+  const MAX_BYTES = 60 * 1024 * 1024;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const form = document.querySelector<HTMLFormElement>('[data-wz]');
+  if (form) {
+    const steps = [...form.querySelectorAll<HTMLElement>('[data-wz-step]')];
+    const stage = form.querySelector<HTMLElement>('[data-wz-stage]')!;
+    const goBtns = [...form.querySelectorAll<HTMLButtonElement>('[data-wz-go]')];
+    const fills = [...form.querySelectorAll<HTMLElement>('[data-wz-fill]')];
+    const count = form.querySelector<HTMLElement>('[data-wz-count]')!;
+    const now = form.querySelector<HTMLElement>('[data-wz-now]')!;
+    const progress = form.querySelector<HTMLElement>('[data-wz-progress]')!;
+    const backBox = form.querySelector<HTMLElement>('[data-wz-back]')!;
+    const nextBox = form.querySelector<HTMLElement>('[data-wz-next]')!;
+    const sendBox = form.querySelector<HTMLElement>('[data-wz-send]')!;
+    const actions = form.querySelector<HTMLElement>('[data-wz-actions]')!;
+    const done = form.querySelector<HTMLElement>('[data-wz-done]')!;
+    const summary = form.querySelector<HTMLElement>('[data-wz-summary]')!;
+    const last = steps.length - 1;
+    let cur = 0;
+    let reached = 0;
+    let busy = false;
+
+    form.classList.add('is-wizard');
+    count.hidden = false;
+    progress.hidden = false;
+    steps.forEach((s, i) => (s.hidden = i !== 0));
+
+    // ---------- Fläche: Regler und Eingabe ----------
+    const area = form.querySelector<HTMLInputElement>('[data-wz-area]')!;
+    const range = form.querySelector<HTMLInputElement>('[data-wz-range]')!;
+    const areaOut = form.querySelector<HTMLElement>('[data-wz-area-out]')!;
+    const paintRange = () => {
+      const p = ((Number(range.value) - Number(range.min)) / (Number(range.max) - Number(range.min))) * 100;
+      range.style.setProperty('--p', `${p}%`);
+    };
+    const showArea = () => {
+      areaOut.textContent = area.value.trim() ? `${area.value.trim()} m²` : '–';
+    };
+    range.addEventListener('input', () => {
+      area.value = range.value;
+      showArea();
+      paintRange();
+    });
+    area.addEventListener('input', () => {
+      const v = parseFloat(area.value.replace(',', '.'));
+      if (!Number.isNaN(v)) {
+        range.value = String(Math.min(Number(range.max), Math.max(Number(range.min), v)));
+        paintRange();
+      }
+      showArea();
+    });
+    paintRange();
+
+    // ---------- Bilder: Auswahl, Vorschau, Grenzen ----------
+    const fileInput = form.querySelector<HTMLInputElement>('[data-wz-files]')!;
+    const drop = form.querySelector<HTMLElement>('[data-wz-drop]')!;
+    const thumbs = form.querySelector<HTMLElement>('[data-wz-thumbs]')!;
+    const filesMsg = form.querySelector<HTMLElement>('[data-wz-files-msg]')!;
+    let files: File[] = [];
+    const syncFiles = () => {
+      const dt = new DataTransfer();
+      files.forEach((f) => dt.items.add(f));
+      fileInput.files = dt.files;
+      thumbs.querySelectorAll('img').forEach((i) => URL.revokeObjectURL(i.src));
+      thumbs.innerHTML = '';
+      files.forEach((f, i) => {
+        const li = document.createElement('li');
+        const img = document.createElement('img');
+        img.src = URL.createObjectURL(f);
+        img.alt = f.name;
+        const rm = document.createElement('button');
+        rm.type = 'button';
+        rm.setAttribute('aria-label', `${f.name} entfernen`);
+        rm.textContent = '×';
+        rm.addEventListener('click', () => {
+          files.splice(i, 1);
+          syncFiles();
+        });
+        li.append(img, rm);
+        thumbs.append(li);
+        if (!reduced) gsap.fromTo(li, { autoAlpha: 0, scale: 0.94 }, { autoAlpha: 1, scale: 1, duration: 0.5, ease: 'css' });
+      });
+    };
+    const addFiles = (list: FileList | File[]) => {
+      const incoming = [...list].filter((f) => f.type.startsWith('image/'));
+      const next = [...files, ...incoming];
+      const bytes = next.reduce((s, f) => s + f.size, 0);
+      if (next.length > MAX_FILES || bytes > MAX_BYTES) {
+        filesMsg.textContent = 'Bitte wählen Sie höchstens 12 Bilder mit zusammen höchstens 60 MB.';
+        filesMsg.hidden = false;
+        fileInput.value = '';
+        return;
+      }
+      filesMsg.hidden = true;
+      files = next;
+      syncFiles();
+    };
+    fileInput.addEventListener('change', () => addFiles(fileInput.files ?? []));
+    ['dragenter', 'dragover'].forEach((t) =>
+      drop.addEventListener(t, (e) => {
+        e.preventDefault();
+        drop.classList.add('is-over');
+      }),
+    );
+    ['dragleave', 'drop'].forEach((t) =>
+      drop.addEventListener(t, (e) => {
+        e.preventDefault();
+        drop.classList.remove('is-over');
+      }),
+    );
+    drop.addEventListener('drop', (e) => {
+      const dt = (e as DragEvent).dataTransfer;
+      if (dt?.files) addFiles(dt.files);
+    });
+
+    // ---------- Überblick ----------
+    const val = (name: string) => (form.elements.namedItem(name) as HTMLInputElement | null)?.value.trim() ?? '';
+    const checked = (name: string) =>
+      [...form.querySelectorAll<HTMLInputElement>(`input[name="${name}"]:checked`)].map((i) => i.value);
+    const labelOf = (v: string) => (v === '-' ? 'Noch offen' : v);
+    const rows = () =>
+      [
+        { step: 0, label: 'Privat oder Gewerbe', value: val('privat_gewerbe') || checked('privat_gewerbe')[0] },
+        { step: 0, label: 'Art der Arbeiten', value: checked('art_der_arbeiten')[0] },
+        { step: 1, label: 'Leistungen', value: checked('leistungen[]').join(', ') || 'Keine Auswahl' },
+        { step: 2, label: 'Fläche', value: area.value.trim() ? `${area.value.trim()} m²` : '' },
+        { step: 2, label: 'Zeitpunkt', value: labelOf(checked('zeitpunkt')[0] ?? '') },
+        { step: 2, label: 'Bilder', value: files.length ? `${files.length} ${files.length === 1 ? 'Bild' : 'Bilder'}` : 'Keine' },
+        { step: 3, label: 'Name', value: val('name') },
+        { step: 3, label: 'Rufnummer', value: val('telefon') || 'Nicht angegeben' },
+        { step: 3, label: 'Adresse', value: val('adresse') },
+        { step: 3, label: 'Adresse Bauvorhaben', value: val('adresse_bauvorhaben') },
+        { step: 3, label: 'E-Mail', value: val('email') },
+        { step: 3, label: 'Nachricht', value: val('nachricht') },
+      ].filter((r) => r.value);
+    const buildSummary = () => {
+      summary.innerHTML = '';
+      rows().forEach((r) => {
+        const row = document.createElement('div');
+        row.className = 'wz-sum-row';
+        row.setAttribute('data-wz-item', '');
+        const dt = document.createElement('dt');
+        dt.textContent = r.label;
+        const dd = document.createElement('dd');
+        dd.textContent = r.value;
+        const edit = document.createElement('button');
+        edit.type = 'button';
+        edit.className = 'wz-edit';
+        edit.innerHTML = '<span class="underline-anim relative [--underline-gap:3px]">Ändern</span>';
+        edit.setAttribute('aria-label', `${r.label} ändern`);
+        edit.addEventListener('click', () => go(r.step));
+        row.append(dt, dd, edit);
+        summary.append(row);
+      });
+    };
+
+    // ---------- Zustand und Wechsel ----------
+    const update = () => {
+      now.textContent = String(cur + 1);
+      goBtns.forEach((b, i) => {
+        b.disabled = i > reached;
+        if (i === cur) b.setAttribute('aria-current', 'step');
+        else b.removeAttribute('aria-current');
+        b.classList.toggle('is-reached', i <= reached);
+      });
+      fills.forEach((f, i) => {
+        const to = i <= cur ? 1 : 0;
+        if (reduced) gsap.set(f, { scaleX: to });
+        else gsap.to(f, { scaleX: to, duration: 0.9, ease: 'grow', overwrite: true });
+      });
+      backBox.hidden = cur === 0;
+      nextBox.hidden = cur === last;
+      sendBox.hidden = cur !== last;
+    };
+
+    const valid = (i: number) => {
+      const els = [...steps[i].querySelectorAll<HTMLInputElement>('input, select, textarea')].filter((e) => e.type !== 'hidden' && e.type !== 'range' && e.type !== 'file');
+      for (const el of els) {
+        if (!el.checkValidity()) {
+          el.reportValidity();
+          return false;
+        }
+      }
+      return true;
+    };
+
+    const focusStep = (i: number) => {
+      const h = steps[i].querySelector<HTMLElement>('.wz-h');
+      h?.focus({ preventScroll: true });
+      const top = form.getBoundingClientRect().top;
+      if (top < 0 || top > window.innerHeight * 0.6) {
+        const y = form.getBoundingClientRect().top + window.scrollY - 100;
+        if (lenis) lenis.scrollTo(y, { duration: 0.9 });
+        else window.scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' });
+      }
+    };
+
+    const go = (n: number) => {
+      if (busy || n === cur || n < 0 || n > last) return;
+      const dir = n > cur ? 1 : -1;
+      const from = steps[cur];
+      const to = steps[n];
+      cur = n;
+      reached = Math.max(reached, n);
+      if (n === last) buildSummary();
+      update();
+      if (reduced) {
+        from.hidden = true;
+        to.hidden = false;
+        focusStep(n);
+        return;
+      }
+      busy = true;
+      const h0 = stage.offsetHeight;
+      gsap.to(from, {
+        autoAlpha: 0,
+        x: -36 * dir,
+        duration: 0.35,
+        ease: 'css',
+        onComplete: () => {
+          from.hidden = true;
+          gsap.set(from, { clearProps: 'all' });
+          to.hidden = false;
+          gsap.set(to, { autoAlpha: 0 });
+          const h1 = stage.offsetHeight;
+          gsap.fromTo(
+            stage,
+            { height: h0, overflow: 'hidden' },
+            { height: h1, duration: 0.7, ease: 'css', clearProps: 'height,overflow' },
+          );
+          gsap.fromTo(to, { x: 36 * dir }, { autoAlpha: 1, x: 0, duration: 0.6, ease: 'css', clearProps: 'transform' });
+          gsap.fromTo(
+            to.querySelectorAll('[data-wz-item]'),
+            { autoAlpha: 0, y: 22 },
+            {
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.7,
+              ease: 'css',
+              stagger: 0.07,
+              delay: 0.1,
+              clearProps: 'opacity,visibility,transform',
+              onComplete: () => {
+                busy = false;
+              },
+            },
+          );
+          focusStep(n);
+        },
+      });
+    };
+
+    nextBox.querySelector('button')!.addEventListener('click', () => {
+      if (valid(cur)) go(cur + 1);
+    });
+    backBox.querySelector('button')!.addEventListener('click', () => go(cur - 1));
+    goBtns.forEach((b, i) =>
+      b.addEventListener('click', () => {
+        if (i < cur) go(i);
+        else if (i > cur && i <= reached && valid(cur)) go(i);
+      }),
+    );
+    // Enter in einem Feld geht weiter, statt das Formular abzusenden
+    form.addEventListener('keydown', (e) => {
+      const t = e.target as HTMLElement;
+      if (e.key === 'Enter' && t.tagName === 'INPUT' && (t as HTMLInputElement).type !== 'file' && cur < last) {
+        e.preventDefault();
+        if (valid(cur)) go(cur + 1);
+      }
+    });
+
+    // ---------- Absenden (noch nicht angebunden) ----------
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (cur !== last) return;
+      const lines = rows().map((r) => `${r.label}: ${r.value}`);
+      const link = form.querySelector<HTMLAnchorElement>('[data-wz-mail-link]')!;
+      link.href = `mailto:${form.dataset.wzMail}?subject=${encodeURIComponent(form.dataset.wzMailSubject ?? '')}&body=${encodeURIComponent(lines.join('\n'))}`;
+      const finish = () => {
+        steps[cur].hidden = true;
+        actions.hidden = true;
+        done.hidden = false;
+        count.hidden = true;
+        fills.forEach((f) => gsap.set(f, { scaleX: 1 }));
+        const circle = done.querySelector<SVGGeometryElement>('[data-wz-circle]')!;
+        const check = done.querySelector<SVGGeometryElement>('[data-wz-check]')!;
+        done.focus({ preventScroll: true });
+        if (reduced) return;
+        const cl = circle.getTotalLength();
+        const kl = check.getTotalLength();
+        gsap.set(circle, { strokeDasharray: cl, strokeDashoffset: cl });
+        gsap.set(check, { strokeDasharray: kl, strokeDashoffset: kl });
+        gsap.timeline()
+          .to(circle, { strokeDashoffset: 0, duration: 0.9, ease: 'grow' })
+          .to(check, { strokeDashoffset: 0, duration: 0.6, ease: 'css' }, '-=0.25')
+          .fromTo(
+            done.querySelectorAll('h3, p, .wz-done-actions'),
+            { autoAlpha: 0, y: 20 },
+            { autoAlpha: 1, y: 0, duration: 0.7, ease: 'css', stagger: 0.1, clearProps: 'opacity,visibility,transform' },
+            '-=0.5',
+          );
+      };
+      if (reduced) finish();
+      else {
+        gsap.to([steps[cur], actions], {
+          autoAlpha: 0,
+          y: -16,
+          duration: 0.4,
+          ease: 'css',
+          onComplete: () => {
+            gsap.set([steps[cur], actions], { clearProps: 'all' });
+            finish();
+          },
+        });
+      }
+    });
+
+    update();
+  }
+</script>
+
+<style>
+  .wz {
+    --ink: #090402;
+    --hair: rgb(0 0 0 / 0.2);
+    width: 100%;
+    color: var(--ink);
+  }
+  .wz-panel {
+    padding: 24px 20px 28px;
+    background: #fff;
+    box-shadow: 0 30px 70px -40px rgb(9 4 2 / 0.5);
+  }
+  .wz-head {
+    margin-bottom: 28px;
+  }
+  .wz-title {
+    margin: 0 0 20px;
+    color: var(--color-gold);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 23px;
+    line-height: 27.6px;
+    font-weight: 500;
+  }
+  .wz-count {
+    margin: 0 0 12px;
+  }
+  .wz-progress {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .wz-progress button {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: left;
+    cursor: default;
+  }
+  .wz-progress button.is-reached {
+    cursor: pointer;
+  }
+  .wz-pline {
+    display: block;
+    height: 1px;
+    background: var(--hair);
+  }
+  .wz-pline span {
+    display: block;
+    height: 100%;
+    background: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  .wz-plabel {
+    display: none;
+    margin-top: 10px;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 12px;
+    line-height: 1.3;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgb(9 4 2 / 0.4);
+    transition: color 0.4s var(--ease-css);
+  }
+  .wz-progress button[aria-current='step'] .wz-plabel,
+  .wz-progress button.is-reached:hover .wz-plabel {
+    color: var(--ink);
+  }
+
+  .wz-stage {
+    position: relative;
+  }
+  .wz-step {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  /* Ohne Skript stehen alle Schritte untereinander */
+  .wz:not(.is-wizard) .wz-step + .wz-step {
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--hair);
+  }
+  .wz-h {
+    display: block;
+    margin: 0 0 18px;
+    padding: 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 21px;
+    line-height: 26.25px;
+    font-weight: 500;
+    outline: none;
+  }
+  .wz-lead {
+    margin: -4px 0 22px;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--color-muted);
+  }
+  .wz-group {
+    margin-bottom: 26px;
+  }
+  .wz-group > :global(.font-display),
+  .wz-group > label {
+    display: block;
+    margin-bottom: 12px;
+  }
+  .wz-grid {
+    display: grid;
+    gap: 0 20px;
+  }
+  .wz-text {
+    min-height: 120px;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Auswahlkarten */
+  .wz-choices {
+    display: grid;
+    gap: 12px;
+  }
+  .wz-choice {
+    position: relative;
+    display: block;
+    cursor: pointer;
+  }
+  .wz-choice input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .wz-choice-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 60px;
+    padding: 14px 18px;
+    border: 1px solid var(--hair);
+    background: #fff;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 500;
+    transition:
+      background-color 0.4s var(--ease-css),
+      border-color 0.4s var(--ease-css),
+      color 0.4s var(--ease-css);
+  }
+  .wz-choice:hover .wz-choice-body {
+    border-color: var(--ink);
+  }
+  .wz-choice input:checked + .wz-choice-body {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #fff;
+  }
+  .wz-choice input:focus-visible + .wz-choice-body {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 2px;
+  }
+  .wz-tick {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: square;
+    stroke-dasharray: 20;
+    stroke-dashoffset: 20;
+    transition: stroke-dashoffset 0.45s var(--ease-grow);
+  }
+  .wz-choice input:checked + .wz-choice-body .wz-tick {
+    stroke-dashoffset: 0;
+  }
+
+  /* Fläche */
+  .wz-area {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    align-items: center;
+  }
+  .wz-area-out {
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 24px;
+    line-height: 31.2px;
+    font-weight: 500;
+  }
+  .wz-area-in {
+    max-width: 200px;
+  }
+  .wz-range {
+    --p: 0%;
+    width: 100%;
+    height: 24px;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .wz-range::-webkit-slider-runnable-track {
+    height: 1px;
+    background: linear-gradient(to right, var(--ink) var(--p), var(--hair) var(--p));
+  }
+  .wz-range::-moz-range-track {
+    height: 1px;
+    background: linear-gradient(to right, var(--ink) var(--p), var(--hair) var(--p));
+  }
+  .wz-range::-webkit-slider-thumb {
+    width: 18px;
+    height: 18px;
+    margin-top: -8.5px;
+    border: 0;
+    background: var(--ink);
+    -webkit-appearance: none;
+    appearance: none;
+    transition: background-color 0.3s var(--ease-css);
+  }
+  .wz-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border: 0;
+    border-radius: 0;
+    background: var(--ink);
+  }
+  .wz-range:hover::-webkit-slider-thumb,
+  .wz-range:focus-visible::-webkit-slider-thumb {
+    background: var(--color-gold);
+  }
+  .wz-range:focus-visible {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 4px;
+  }
+
+  /* Bilder */
+  .wz-drop {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 96px;
+    padding: 20px;
+    border: 1px dashed rgb(0 0 0 / 0.4);
+    background: #fff;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      border-color 0.4s var(--ease-css),
+      background-color 0.4s var(--ease-css);
+  }
+  .wz-drop:hover,
+  .wz-drop.is-over {
+    border-color: var(--ink);
+    background: var(--color-soft);
+  }
+  .wz-drop input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .wz-drop-text {
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--color-muted);
+  }
+  .wz-note {
+    margin: 10px 0 0;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .wz-thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin: 12px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .wz-thumbs :global(li) {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+  .wz-thumbs :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .wz-thumbs :global(button) {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+    border: 0;
+    background: var(--ink);
+    color: #fff;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.3s var(--ease-css);
+  }
+  .wz-thumbs :global(button:hover) {
+    background: var(--color-gold);
+  }
+
+  /* Überblick */
+  .wz-sum {
+    margin: 0;
+  }
+  .wz-sum :global(.wz-sum-row) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 4px 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--hair);
+  }
+  .wz-sum :global(.wz-sum-row:last-child) {
+    border-bottom: 1px solid var(--hair);
+  }
+  .wz-sum :global(dt) {
+    grid-column: 1;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 12px;
+    line-height: 15.6px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+  .wz-sum :global(dd) {
+    grid-column: 1;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    white-space: pre-line;
+  }
+  .wz-sum :global(.wz-edit) {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--color-gold);
+    cursor: pointer;
+  }
+
+  /* Schaltflächen */
+  .wz-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 28px;
+  }
+  .wz-actions > [hidden] {
+    display: none;
+  }
+  .wz-next,
+  .wz-send {
+    margin-left: auto;
+  }
+  .wz:not(.is-wizard) .wz-send {
+    margin-left: 0;
+  }
+
+  /* Fertig */
+  .wz-done {
+    padding: 12px 0 8px;
+    outline: none;
+  }
+  .wz-done[hidden] {
+    display: none;
+  }
+  .wz-done-mark {
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 22px;
+    fill: none;
+    stroke: var(--color-gold);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+  }
+  .wz-done-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 30px;
+    margin-top: 22px;
+  }
+  .wz-mail {
+    display: inline-block;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--color-gold);
+  }
+
+  @media (min-width: 768px) {
+    .wz-panel {
+      padding: 36px 36px 40px;
+    }
+    .wz-title {
+      font-size: 29px;
+      line-height: 39.15px;
+    }
+    .wz-count {
+      display: none;
+    }
+    .wz-plabel {
+      display: block;
+    }
+    .wz-choices--2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .wz-choices--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .wz-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .wz-wide {
+      grid-column: 1 / -1;
+    }
+    .wz-area {
+      grid-template-columns: auto 1fr auto;
+      gap: 24px;
+    }
+    .wz-h {
+      font-size: 24px;
+      line-height: 31.2px;
+    }
+  }
+  @media (max-width: 767px) {
+    .wz-choices--2,
+    .wz-choices--3 {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .wz-grid .wz-group {
+      margin-bottom: 20px;
+    }
+  }
+  @media (min-width: 1025px) {
+    .wz-panel {
+      padding: 44px 48px 48px;
+    }
+    .wz-title {
+      font-size: var(--text-h3);
+      line-height: var(--text-h3--line-height);
+    }
+  }
+</style>
