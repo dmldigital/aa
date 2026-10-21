@@ -1,18 +1,46 @@
 ---
+import { Picture } from 'astro:assets';
 import PageLayout from '../../layouts/PageLayout.astro';
-import PageIntro from '../../components/sections/PageIntro.astro';
-import ProjectGrid from '../../components/sections/ProjectGrid.astro';
-import { projects } from '../../data/projects';
+import ProjectRows from '../../components/projekte/ProjectRows.astro';
+import Surface from '../../components/sections/Surface.astro';
 import { meta, intro } from '../../data/pages/projekte';
+
+const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
 ---
 
 <PageLayout title={meta.title} description={meta.description} current="/projekte/">
-  <PageIntro
-    id="b9d36c5"
-    heading={intro.heading}
-    paragraphs={intro.paragraphs}
-    image={intro.image}
-    imageAlt={intro.alt}
-  />
-  <ProjectGrid id="6dc4e82" {projects} />
+  <!-- Einstieg: Überschrift der Unterseiten und Text links, Bild rechts (nur Desktop) -->
+  <section class="px-5 mt-10 mb-15 md:mt-15 md:mb-[10vh] lg:mt-[10vh] lg:mb-[14vh] lg:px-7.5">
+    <div class="mx-auto grid w-full max-w-page items-center gap-y-5 lg:grid-cols-2 lg:gap-x-5">
+      <div class="flex flex-col gap-3.75 lg:gap-5">
+        <p class={eyebrow} data-anim="fadeIn">Referenzen</p>
+        <h1
+          class="font-display text-[26px]/[28.6px] font-medium text-ink md:text-[34px]/[37.4px] lg:text-h1"
+          data-anim="fadeInUp"
+          data-anim-delay="100"
+        >
+          {intro.heading}
+        </h1>
+        <div class="[&>p]:mb-3.75 [&>p]:text-15 lg:max-w-[690px] lg:[&>p]:mb-para" data-anim="fadeIn" data-anim-delay="250">
+          {intro.paragraphs.map((p) => <p set:html={p} />)}
+        </div>
+      </div>
+      <div class="hidden justify-end lg:flex">
+        <div class="w-[80%] overflow-hidden" data-grow="bottom" data-anim-delay="340">
+          <Picture
+            formats={['avif']}
+            fallbackFormat="webp"
+            src={intro.image}
+            alt={intro.alt}
+            widths={[544, 1088]}
+            sizes="544px"
+            class="block h-auto w-full"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <ProjectRows />
+  <Surface />
 </PageLayout>

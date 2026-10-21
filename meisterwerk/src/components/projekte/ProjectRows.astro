@@ -1,0 +1,98 @@
+---
+/**
+ * Projekte als Zeilen (Seite /projekte/): Bild und Text wechseln die Seite. Bild wie die Projektkarten der Startseite
+ * (Aufwachsen von unten, beim Überfahren größer und heller, runder Kreis mit Plus), daneben Leistungen als Label,
+ * goldene Überschrift, ein kurzer Auszug aus dem Beitrag, die Eckdaten mit Linie oben (wie die Versprechen der
+ * Qualifikationen) und der Pfeil-Link zum Projekt. Die Texte stammen aus den Beiträgen (Collection `beitraege`).
+ */
+import { Picture } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import ArrowLink from '../ui/ArrowLink.astro';
+import { href } from '../../data/links';
+import { projects } from '../../data/projects';
+
+const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
+
+const posts = new Map((await getCollection('beitraege')).map((p) => [p.data.slug, p.data]));
+const rows = projects.flatMap((p) => {
+  const post = posts.get(p.href.split('/').filter(Boolean).pop() ?? '');
+  return post ? [{ ...p, post }] : [];
+});
+
+/** Erste Sätze des Beitrags bis etwa 220 Zeichen, am Satzende beendet */
+function teaser(text: string, max = 220) {
+  const plain = text.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+  const sentences = plain.match(/[^.!?]+[.!?]+(?:\s|$)/g) ?? [plain];
+  let out = '';
+  for (const s of sentences) {
+    if (out && (out + s).length > max) break;
+    out += s;
+  }
+  return out.trim();
+}
+
+const facts = (i: { year: string; place: string; duration: string; area: string }) => [
+  { label: 'Jahr', value: i.year },
+  { label: 'Ort', value: i.place },
+  { label: 'Dauer', value: i.duration },
+  { label: 'Fläche', value: `${i.area} m²` },
+];
+---
+
+<section data-section="projekt-zeilen" class="px-5 lg:px-7.5">
+  <div class="mx-auto flex w-full max-w-page flex-col gap-15 md:gap-[12vh]">
+    {rows.map((r, i) => (
+      <article class="group/card grid items-center gap-6 lg:grid-cols-12 lg:gap-x-[6vw]">
+        <a
+          href={href(r.href)}
+          class:list={['relative block overflow-hidden lg:col-span-7', i % 2 === 1 && 'lg:order-2']}
+          aria-label={`${r.title}, Projekt ansehen`}
+        >
+          <div data-grow="bottom">
+            <Picture
+              formats={['avif']}
+              fallbackFormat="webp"
+              src={r.img}
+              alt={r.alt}
+              widths={[350, 700, 960, 1400]}
+              sizes="(min-width: 1025px) 58vw, calc(100vw - 40px)"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              class="block aspect-[3/2] h-auto w-full object-cover transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80"
+            />
+          </div>
+          <span
+            aria-hidden="true"
+            class="pointer-events-none absolute top-1/2 left-1/2 z-10 flex size-17.5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-[40px]/[22.5px] text-white opacity-0 transition-opacity duration-300 group-hover/card:opacity-100"
+          >
+            +
+          </span>
+        </a>
+
+        <div
+          class:list={['flex flex-col gap-5 lg:col-span-5', i % 2 === 1 && 'lg:order-1']}
+          data-anim="fadeInUp"
+          data-anim-dur="fast"
+        >
+          <p class={eyebrow}>{r.post.services.join(', ')}</p>
+          <h2 class="font-display text-[21px]/[26.25px] font-medium text-gold md:text-[24px]/[30px] lg:text-h3">
+            {r.title}
+          </h2>
+          <p class="text-[16px]/[24px] md:text-body">{teaser(r.post.sections[0].text)}</p>
+          <dl class="grid grid-cols-2 gap-x-5 gap-y-5 border-t border-black/20 pt-5 md:grid-cols-4">
+            {facts(r.post.info).map((f) => (
+              <div class="flex flex-col gap-1.25">
+                <dt class={eyebrow + ' opacity-60'}>{f.label}</dt>
+                <dd class="text-[16px]/[24px] text-ink md:text-body">{f.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <div>
+            <ArrowLink href={href(r.href)} tone="gold">
+              Projekt ansehen
+            </ArrowLink>
+          </div>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>

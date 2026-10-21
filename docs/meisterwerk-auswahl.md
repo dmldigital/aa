@@ -122,3 +122,10 @@ Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = E
 - **Großansicht:** gemeinsamer Baustein `components/ui/Lightbox.astro` mit `scripts/lightbox.ts` (`initLightbox`), von Leistungsgalerie und Qualifikationen genutzt. Die Urkunden liegen nur in 500 × 700 px vor, die Großansicht zeigt sie in dieser Größe.
 - Prüfen mit Bildfolgen (Laden, Scrollschritte), nicht nur mit dem Endzustand.
 
+## Projekte (`/projekte/`, Quelle `src/pages/projekte/index.astro`, Baustein `components/projekte/ProjectRows.astro`)
+- **Auftrag:** „An der Startseite orientieren, alle Elemente benutzen, die wir haben; was Neues darf, muss aber passen.“ Nur vorhandene Bausteine und Größen, keine neue Animation.
+- **Aufbau:** Einstieg mit Label „Referenzen“, Überschrift der Unterseiten (`text-h1`, medium) und den drei Absätzen, rechts das Bild (nur Desktop, wächst von unten auf). Darunter **fünf Projekt-Zeilen**, Bild und Text wechseln die Seite: Bild wie die Projektkarten der Startseite (Aufwachsen, beim Überfahren größer und heller mit Plus-Kreis), daneben Leistungen als Label, goldene Überschrift, Auszug aus dem Beitrag (erste Sätze bis etwa 220 Zeichen), Eckdaten (Jahr, Ort, Dauer, Fläche) mit Linie oben, Pfeil-Link „Projekt ansehen“. Am Ende das Betonwand-Banner der Startseite (`Surface`). Handy: Bild über Text, Eckdaten in zwei Spalten.
+- **Daten:** Reihenfolge und Bilder aus `data/projects.ts`, Texte und Eckdaten aus der Collection `beitraege` (Zuordnung über den letzten Teil des Links). Neue Projekte erscheinen automatisch, wenn sie in beiden stehen.
+- **Vorschau:** Die fünf Projektseiten (`2025/09/18/traumhaus/` usw.) liegen mit im Auswahl-Ordner, damit die Links nicht ins Leere führen. Sie sind der unveränderte Stand aus dem Quellcode (`PostArticle`), nicht überarbeitet.
+- **Nicht angefasst:** Die Projekte-Seite der Teil-Website Exklusive (`/meisterwerk-exklusive/projekte/`) und die Reihe „Unsere Exklusive Projekte“ der Startseite.
+
