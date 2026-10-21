@@ -7,6 +7,10 @@
  * die volle Breite und bekommt einen schmalen Rand, dann scrollt die Seite normal weiter. Handy: Fläche fährt
  * nach oben weg, das Bild füllt den Bildschirm. Ohne reduzierte Bewegung nur als ruhige Zweiteilung bzw. Stapel.
  * Die Zustände steuern die Varianten `hero-d` und `hero-m` (global.css), die Animation das Skript unten.
+ *
+ * Das große Bild ist ein Video (Higgsfield, Kling 4.0): Flug über die Terrasse des Altbaus (Projekt Altbau WDVS)
+ * durch das linke Fenster ins Wohnzimmer (Projekt Kernsanierung). Es liegt als Bildfolge vor, 97 Bilder,
+ * Desktop 1600×904 (`d/`), Handy als Hochformat-Ausschnitt 608×1080 (`m/`), in `public/hero-flug/`.
  */
 import { Picture } from 'astro:assets';
 import Button from '../ui/Button.astro';
@@ -19,6 +23,9 @@ interface Props {
   id?: string;
 }
 const { id = 'ca992c2' } = Astro.props;
+
+const FRAMES = 97;
+const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
 ---
 
 <section
@@ -32,24 +39,24 @@ const { id = 'ca992c2' } = Astro.props;
       data-hero-picture
       class="relative order-1 h-120 overflow-hidden min-[701px]:absolute min-[701px]:inset-[0_0_0_50%] min-[701px]:h-auto hero-m:absolute hero-m:inset-x-0 hero-m:top-full hero-m:-bottom-full hero-m:h-auto"
     >
-      {slides.map((slide, i) => (
-        <div
-          data-hero-slide
-          class:list={['absolute inset-0', i > 0 && 'hidden opacity-0 hero-d:block']}
-        >
-          <Picture
-            formats={['avif']}
-            fallbackFormat="webp"
-            src={slide.image}
-            alt={i === 0 ? slide.alt : ''}
-            widths={[640, 1024, 1440, 1920, 2560]}
-            sizes="100vw"
-            loading={i === 0 ? 'eager' : 'lazy'}
-            fetchpriority={i === 0 ? 'high' : undefined}
-            class="size-full max-w-none object-cover object-[30%_50%] min-[701px]:object-center"
+      <div data-hero-media class="absolute inset-0">
+        <picture>
+          <source media="(max-aspect-ratio: 4/5)" srcset={`${flug}m/000.webp`} />
+          <img
+            src={`${flug}d/000.webp`}
+            alt="Sanierter Altbau mit grauer Fassade, Terrasse und bodentiefen Fenstern"
+            fetchpriority="high"
+            class="absolute inset-0 size-full max-w-none object-cover object-[42%_50%]"
           />
-        </div>
-      ))}
+        </picture>
+        <canvas
+          data-hero-canvas
+          data-frames={FRAMES}
+          data-base={flug}
+          aria-hidden="true"
+          class="absolute inset-0 size-full object-cover object-[42%_50%] opacity-0 [&.is-ready]:opacity-100"
+        ></canvas>
+      </div>
       <div class="absolute inset-0 bg-[linear-gradient(transparent_55%,rgb(0_0_0/0.35))] hero-m:bg-[linear-gradient(transparent_45%,rgb(0_0_0/0.4))]"></div>
       <p class="absolute right-6 bottom-6 font-display text-[9px] tracking-[0.17em] text-white uppercase min-[701px]:right-[clamp(24px,4.4vw,88px)] min-[701px]:bottom-8 min-[701px]:text-[10px] hero-m:hidden">
         Streichen. Lackieren. Tapezieren.
@@ -142,14 +149,13 @@ const { id = 'ca992c2' } = Astro.props;
     const q = <T extends Element = HTMLElement>(s: string) => hero.querySelector<T>(s)!;
     const mm = gsap.matchMedia();
 
-    // Desktop (ab 701 px): erst läuft der Streifen mit Bildern und Wörtern durch (das große Bild wechselt mit),
+    // Desktop (ab 701 px): erst läuft der Streifen mit Bildern und Wörtern durch (im großen Bild läuft das Video),
     // danach schiebt sich der Text weg, die Fläche folgt, das Bild wächst auf die volle Breite und bekommt einen Rand
     mm.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => {
-      const slidesEl = [...hero.querySelectorAll<HTMLElement>('[data-hero-slide]')];
       const captions = [...hero.querySelectorAll<HTMLElement>('[data-hero-caption]')];
       const track = q('[data-hero-track]');
       const panel = q('[data-hero-panel]');
-      const n = slidesEl.length;
+      const n = captions.length;
       const START = 0.06;
       const SLIDE = 0.1; // Anteil des Scrollwegs je Wort
       const tl = gsap.timeline({
@@ -181,33 +187,15 @@ const { id = 'ca992c2' } = Astro.props;
           },
           START,
         );
-      tl.fromTo(
-        slidesEl[0].querySelector('img'),
-        { scale: 1.04 },
-        { scale: 1, duration: START + SLIDE, ease: 'none' },
-        0,
-      );
-      // Wort und großes Bild je Station
+      // Wort je Station
       for (let k = 1; k < n; k++) {
         const at = START + k * SLIDE;
         tl.fromTo(
-          slidesEl[k],
-          { opacity: 0 },
-          { opacity: 1, duration: 0.05, ease: 'power1.inOut' },
-          at - 0.025,
+          captions[k],
+          { opacity: 0.35 },
+          { opacity: 1, duration: 0.04, ease: 'none' },
+          at - 0.02,
         )
-          .fromTo(
-            slidesEl[k].querySelector('img'),
-            { scale: 1.08 },
-            { scale: 1, duration: SLIDE, ease: 'none' },
-            at - 0.025,
-          )
-          .fromTo(
-            captions[k],
-            { opacity: 0.35 },
-            { opacity: 1, duration: 0.04, ease: 'none' },
-            at - 0.02,
-          )
           .fromTo(
             captions[k - 1],
             { opacity: 1 },
@@ -286,7 +274,7 @@ const { id = 'ca992c2' } = Astro.props;
             END + 0.02,
           )
           .fromTo(
-            '[data-hero-picture] img',
+            q('[data-hero-media]'),
             { scale: 1.18 },
             { scale: 1, duration: 0.4, ease: 'none' },
             END + 0.02,
@@ -301,5 +289,128 @@ const { id = 'ca992c2' } = Astro.props;
     );
 
     document.fonts.ready.then(() => ScrollTrigger.refresh());
+
+    // Video im großen Bild als Bildfolge (Verfahren wie das Köpfer-Video bei Poolbau Koch, aber ohne Scroll-Sperre).
+    // Ruhe oben: erstes Bild. Erstes Scrollen nach unten: Das Video läuft von selbst in gleichem Tempo bis zum Ende,
+    // egal wie weit oder schnell gescrollt wird (nicht anhaltbar). Zurück ganz oben: Es läuft genauso von selbst
+    // rückwärts. Richtungswechsel mitten im Lauf sind weich. Zwischen zwei Einzelbildern wird überblendet.
+    const canvas = q<HTMLCanvasElement>('[data-hero-canvas]');
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const ctx = canvas.getContext('2d')!;
+      const N = Number(canvas.dataset.frames);
+      const END = N - 1;
+      const DURATION = 6000; // ms für den ganzen Durchlauf
+      const set = window.matchMedia('(max-aspect-ratio: 4/5)').matches ? 'm' : 'd';
+      const src = (i: number) => `${canvas.dataset.base}${set}/${String(i).padStart(3, '0')}.webp`;
+      const frames: (HTMLImageElement | null)[] = new Array(N).fill(null);
+
+      const load = (i: number) =>
+        new Promise<void>((resolve) => {
+          const img = new Image();
+          img.decoding = 'async';
+          img.onload = () => {
+            frames[i] = img;
+            resolve();
+          };
+          img.onerror = () => resolve();
+          img.src = src(i);
+        });
+      // Ladereihenfolge: erst Start und Ende, dann immer feiner verteilt
+      const order = [0, END];
+      for (let step = 32; step >= 1; step = Math.floor(step / 2)) {
+        for (let i = 0; i < N; i += step) if (!order.includes(i)) order.push(i);
+        if (step === 1) break;
+      }
+      const nearest = (i: number) => {
+        for (let d = 0; d < N; d++) {
+          if (frames[i - d]) return i - d;
+          if (frames[i + d]) return i + d;
+        }
+        return -1;
+      };
+
+      let pos = 0;
+      let target = 0;
+      let raf = 0;
+      let last = 0;
+
+      // Bild in Originalgröße zeichnen, den Ausschnitt macht CSS (object-fit wie beim Standbild darunter)
+      const draw = () => {
+        const i = Math.floor(pos);
+        const a = nearest(i);
+        if (a < 0) return;
+        const img = frames[a]!;
+        if (canvas.width !== img.naturalWidth) {
+          canvas.width = img.naturalWidth;
+          canvas.height = img.naturalHeight;
+        }
+        ctx.globalAlpha = 1;
+        ctx.drawImage(img, 0, 0);
+        const next = frames[i + 1];
+        if (a === i && next && pos > i) {
+          ctx.globalAlpha = pos - i;
+          ctx.drawImage(next, 0, 0, canvas.width, canvas.height);
+          ctx.globalAlpha = 1;
+        }
+        canvas.classList.add('is-ready');
+      };
+
+      const tick = (t: number) => {
+        const dt = last ? Math.min(t - last, 64) : 16;
+        last = t;
+        const step = (dt / DURATION) * END;
+        pos = target > pos ? Math.min(target, pos + step) : Math.max(target, pos - step);
+        draw();
+        if (pos !== target) raf = requestAnimationFrame(tick);
+        else raf = last = 0;
+      };
+      const play = (to: number) => {
+        target = to;
+        if (!raf) raf = requestAnimationFrame(tick);
+      };
+
+      // Auslöser: vorwärts beim Scrollen nach unten, sobald das Bild zu mindestens 60 % zu sehen ist (Desktop sofort,
+      // Handy erst, wenn es sich von unten hereingeschoben hat). Rückwärts beim Scrollen nach oben, wenn die Seite
+      // ganz oben ist (Desktop) bzw. das Bild wieder nach unten hinausgleitet (Handy).
+      const picture = q('[data-hero-picture]');
+      const shown = () => {
+        const r = picture.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const visible = Math.max(0, Math.min(r.bottom, vh) - Math.max(r.top, 0));
+        return { f: r.height ? visible / Math.min(r.height, vh) : 0, top: r.top };
+      };
+      let lastY = window.scrollY;
+      window.addEventListener(
+        'scroll',
+        () => {
+          const y = window.scrollY;
+          const up = y < lastY;
+          lastY = y;
+          const { f, top } = shown();
+          if (target === 0 && !up && y > 2 && f >= 0.6) play(END);
+          else if (target === END && up && (y <= 2 || (f < 0.6 && top > 0))) play(0);
+        },
+        { passive: true },
+      );
+
+      (async () => {
+        // Seite schon weiter unten geladen (Neuladen, Anker): gleich das letzte Bild zeigen
+        if (window.scrollY > 2 && shown().f >= 0.6) {
+          pos = target = END;
+          await load(END);
+        }
+        await load(0);
+        draw();
+        // Rest im Hintergrund laden, 6 gleichzeitig
+        const queue = order.filter((i) => !frames[i]);
+        const worker = async () => {
+          while (queue.length) {
+            await load(queue.shift()!);
+            if (!raf) draw();
+          }
+        };
+        await Promise.all(Array.from({ length: 6 }, worker));
+      })();
+    }
   }
 </script>
