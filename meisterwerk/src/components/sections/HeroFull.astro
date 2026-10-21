@@ -1,0 +1,159 @@
+---
+/**
+ * Hero in voller Größe mit dem Flug-Video (zwei Varianten für die Startseiten-Kopien `/startseite-a/` und `/startseite-b/`).
+ * Das Video (Terrasse des Altbaus, durch das Fenster ins Wohnzimmer) füllt den Hero, der Text liegt darüber.
+ *   a  Vollbild: Video über die ganze Fläche bis an den Rand, Kopfzeile durchsichtig mit weißem Logo,
+ *      große weiße Überschrift unten links.
+ *   b  Rahmen: helle Fläche mit dunkler Kopfzeile, Video als großes Feld mit schmalem Rand (wie der Endstand des
+ *      Original-Heros), Überschrift weiß im Video unten links, Anfrage-Box unten rechts.
+ * Der Ablauf ist derselbe wie beim Original-Hero (scripts/hero-play.ts): Beim ersten Scrollen läuft er von selbst
+ * (Text und Kopfzeile blenden aus, das Video läuft durch), danach scrollt die Seite zur nächsten Sektion,
+ * beim Hochscrollen läuft alles rückwärts.
+ */
+import Button from '../ui/Button.astro';
+import Header from './Header.astro';
+import { href, routes } from '../../data/links';
+
+interface Props {
+  variant: 'a' | 'b';
+}
+const { variant } = Astro.props;
+const a = variant === 'a';
+const FRAMES = 97;
+const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
+---
+
+<section
+  data-hero
+  data-hero-full={variant}
+  data-section={`hero-${variant}`}
+  aria-label="Willkommen bei Meisterwerk Malermanufaktur"
+  class:list={['relative h-svh min-h-150 overflow-clip', a ? 'bg-ink' : 'bg-soft']}
+>
+  <div
+    data-hero-picture
+    class:list={[
+      'absolute overflow-hidden',
+      a ? 'inset-0' : 'inset-x-3 top-19 bottom-3 min-[701px]:inset-x-6 min-[701px]:top-32.5 min-[701px]:bottom-6',
+    ]}
+  >
+    <div data-hero-media class="absolute inset-0">
+      <picture>
+        <source media="(max-aspect-ratio: 4/5)" srcset={`${flug}m/000.webp`} />
+        <img
+          src={`${flug}d/000.webp`}
+          alt="Sanierter Altbau mit grauer Fassade, Terrasse und bodentiefen Fenstern"
+          fetchpriority="high"
+          class="absolute inset-0 size-full max-w-none object-cover object-[42%_50%]"
+        />
+      </picture>
+      <canvas
+        data-hero-canvas
+        data-frames={FRAMES}
+        data-base={flug}
+        aria-hidden="true"
+        class="absolute inset-0 size-full object-cover object-[42%_50%] opacity-0 [&.is-ready]:opacity-100"
+      ></canvas>
+    </div>
+    <div
+      class:list={[
+        'absolute inset-0',
+        a
+          ? 'bg-[linear-gradient(rgb(0_0_0/0.38),transparent_24%,transparent_38%,rgb(0_0_0/0.62))]'
+          : 'bg-[linear-gradient(transparent_42%,rgb(0_0_0/0.58))]',
+      ]}
+    >
+    </div>
+  </div>
+
+  <Header variant="hero" tone={a ? 'light' : 'dark'} />
+
+  <div
+    data-hero-content
+    class:list={[
+      'absolute z-[2] flex flex-col text-white',
+      a
+        ? 'inset-x-5.5 bottom-7 min-[701px]:inset-x-7.5 min-[701px]:bottom-10'
+        : 'inset-x-8 bottom-9 min-[701px]:inset-x-12 min-[701px]:bottom-14 min-[701px]:flex-row min-[701px]:items-end min-[701px]:justify-between min-[701px]:gap-10',
+    ]}
+  >
+    <div class:list={[a ? 'max-w-[min(1180px,100%)]' : 'min-[701px]:max-w-[64%]']}>
+      <h1
+        class:list={[
+          'font-display font-semibold tracking-[-0.045em] text-white',
+          a
+            ? 'mb-5 text-[12.5vw]/[0.94] min-[701px]:mb-6 min-[701px]:text-[clamp(44px,6.2vw,118px)]/[0.92]'
+            : 'text-[11.5vw]/[0.94] min-[701px]:text-[clamp(38px,4.6vw,86px)]/[0.94]',
+        ]}
+      >
+        <span
+          class="mb-3.5 block font-display text-[10px]/[1] font-normal tracking-[0.2em] text-white uppercase min-[701px]:text-[12px]"
+        >
+          Meisterwerk Malermanufaktur
+        </span>
+        Malerarbeiten in Ludwigsburg, Freiberg und Umgebung
+      </h1>
+      <p
+        class:list={[
+          'font-display tracking-[-0.02em] text-white/90',
+          a
+            ? 'mb-7 max-w-[34rem] text-[15px]/[1.4] min-[701px]:mb-8 min-[701px]:text-[clamp(16px,1.4vw,26px)]/[1.35]'
+            : 'mt-4 max-w-[34rem] text-[14px]/[1.4] min-[701px]:mt-5 min-[701px]:text-[clamp(16px,1.3vw,24px)]/[1.35]',
+        ]}
+      >
+        Ihr Meisterbetrieb für Streichen, Lackieren, Tapezieren und glatte Oberflächen.{' '}
+        <span class="max-[700px]:hidden">Persönlich beraten, sauber ausgeführt, mit über 22 Jahren Erfahrung.</span>
+      </p>
+      {a && <Button href={href(routes.contact)} variant="light">Projekt anfragen</Button>}
+    </div>
+
+    {
+      !a && (
+        <div class="mt-6 flex shrink-0 items-center gap-2.5 rounded-[3px] border border-black/15 bg-white/60 p-2 text-ink backdrop-blur-[10px] max-[700px]:border-0 max-[700px]:bg-transparent max-[700px]:p-0 max-[700px]:backdrop-blur-none min-[701px]:mt-0 min-[701px]:p-2.5">
+          <span class="flex-1 p-2 font-display text-[clamp(10px,1vw,17px)] whitespace-nowrap text-muted max-[700px]:hidden">
+            Ihr Malerbetrieb in Freiberg a. N.
+          </span>
+          <Button href={href(routes.contact)} class="max-[700px]:border-white max-[700px]:bg-transparent max-[700px]:text-white">
+            Projekt anfragen
+          </Button>
+        </div>
+      )
+    }
+  </div>
+
+  {
+    a && (
+      <p
+        data-hero-caption
+        class="absolute right-[clamp(24px,4.4vw,88px)] bottom-10 z-[2] hidden font-display text-[10px] tracking-[0.17em] text-white uppercase min-[701px]:block"
+      >
+        Streichen. Lackieren. Tapezieren.
+      </p>
+    )
+  }
+</section>
+
+<script>
+  import { gsap } from '../../scripts/motion';
+  import { createFlug } from '../../scripts/flug';
+  import { createHeroPlayer } from '../../scripts/hero-play';
+
+  const hero = document.querySelector<HTMLElement>('[data-hero-full]');
+  if (hero) {
+    const q = <T extends Element = HTMLElement>(s: string) => hero.querySelector<T>(s)!;
+    const DURATION = 6.5; // Sekunden für den ganzen Ablauf (Text, Kopfzeile und Video zusammen)
+    const flug = createFlug(q<HTMLCanvasElement>('[data-hero-canvas]'));
+    const player = createHeroPlayer(hero, flug, DURATION);
+
+    gsap.matchMedia().add('(prefers-reduced-motion: no-preference)', () => {
+      const t = player.timeline();
+      // Das Video läuft über die ganze Länge, Kopfzeile und Text blenden gleich zu Beginn aus
+      t.to({}, { duration: 1 }, 0)
+        .to(q('[data-site-header]'), { autoAlpha: 0, y: -16, duration: 0.14, ease: 'none' }, 0)
+        .to(q('[data-hero-content]'), { autoAlpha: 0, y: -28, duration: 0.24, ease: 'power1.in' }, 0.02)
+        .to('[data-hero-caption]', { autoAlpha: 0, duration: 0.1, ease: 'none' }, 0);
+      player.ready(t);
+      return () => player.detach();
+    });
+  }
+</script>

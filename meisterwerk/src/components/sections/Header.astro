@@ -11,8 +11,10 @@ import Brand from '../header/Brand.astro';
 interface Props {
   site?: Site;
   variant?: 'bar' | 'hero';
+  /** `light` = weißes Logo und Menü-Knopf (Hero über Foto oder Video) */
+  tone?: 'dark' | 'light';
 }
-const { site = 'main', variant = 'bar' } = Astro.props;
+const { site = 'main', variant = 'bar', tone = 'dark' } = Astro.props;
 const hero = variant === 'hero';
 ---
 
@@ -25,6 +27,6 @@ const hero = variant === 'hero';
       : 'relative h-20.5 border-b border-black/10 bg-white px-5 min-[701px]:h-26 min-[701px]:px-7.5',
   ]}
 >
-  <Brand {site} class={hero ? 'w-40 min-[701px]:w-44.5' : 'w-36 min-[701px]:w-44.5'} />
-  <Actions {site} compact={hero} />
+  <Brand {site} {tone} class={hero ? 'w-40 min-[701px]:w-44.5' : 'w-36 min-[701px]:w-44.5'} />
+  <Actions {site} {tone} compact={hero} />
 </header>
