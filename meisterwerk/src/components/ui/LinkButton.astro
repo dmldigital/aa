@@ -6,7 +6,7 @@ import Icon from '../Icon.astro';
  * `dir="next"` Pfeil rechts, `dir="back"` Pfeil links.
  */
 interface Props {
-  tone?: 'gold' | 'black';
+  tone?: 'gold' | 'black' | 'white';
   dir?: 'next' | 'back';
   type?: 'button' | 'submit';
 }
@@ -19,7 +19,7 @@ const { tone = 'gold', dir = 'next', type = 'button', ...rest } = Astro.props;
   class:list={[
     'group/ul inline-flex cursor-pointer gap-2.5 font-display text-button font-semibold tracking-button',
     dir === 'next' ? 'flex-row-reverse' : 'flex-row',
-    tone === 'gold' ? 'text-gold' : 'text-black',
+    tone === 'gold' ? 'text-gold' : tone === 'white' ? 'text-white' : 'text-black',
   ]}
 >
   <span class="flex w-3.75 items-center">

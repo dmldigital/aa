@@ -1,5 +1,5 @@
 ---
-/** Projektanfrage, Variante B „Fokus“ (Vorschau zum Vergleichen mit /kontakt/ und /kontakt-c/). */
+/** Projektanfrage, Variante B1 „Linien“ (Vorschau zum Vergleichen mit /kontakt-b2/ und /kontakt-b3/). */
 import PageLayout from '../../layouts/PageLayout.astro';
 import ProjectFocus from '../../components/kontakt/ProjectFocus.astro';
 import ContactStrip from '../../components/kontakt/ContactStrip.astro';
@@ -10,6 +10,6 @@ const intro = page.intro.slice(0, 2).map((lines) => lines.join(' '));
 ---
 
 <PageLayout title={page.title} description={page.description} current="/kontakt/">
-  <ProjectFocus heading={page.heading} {intro} />
+  <ProjectFocus heading={page.heading} {intro} variant="lines" />
   <ContactStrip />
 </PageLayout>

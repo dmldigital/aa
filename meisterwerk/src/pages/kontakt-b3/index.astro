@@ -1,0 +1,16 @@
+---
+/** Projektanfrage, Variante B3 „Glas“ (Vorschau zum Vergleichen mit /kontakt-b/ und /kontakt-b2/). */
+import PageLayout from '../../layouts/PageLayout.astro';
+import ProjectFocus from '../../components/kontakt/ProjectFocus.astro';
+import ContactStrip from '../../components/kontakt/ContactStrip.astro';
+import concrete from '../../assets/img/249-mw-20241125-scaled.jpg';
+import { contactPages } from '../../data/pages/contact';
+
+const page = contactPages.kontakt;
+const intro = page.intro.slice(0, 2).map((lines) => lines.join(' '));
+---
+
+<PageLayout title={page.title} description={page.description} current="/kontakt/">
+  <ProjectFocus heading={page.heading} {intro} variant="glass" background={concrete} />
+  <ContactStrip />
+</PageLayout>

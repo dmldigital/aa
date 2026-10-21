@@ -7,15 +7,28 @@
  * Qualifikationen). Gleiche Feldnamen wie `ContactForm`. Ohne Skript stehen alle Fragen untereinander.
  * Das Absenden ist noch nicht angebunden: Am Ende die bekannte Meldung und eine vorbereitete E-Mail.
  */
+import { getImage } from 'astro:assets';
 import LinkButton from '../ui/LinkButton.astro';
 import Button from '../ui/Button.astro';
 import { site } from '../../data/site';
 
+/**
+ * `variant` ändert nur die Gestaltung, der Ablauf ist immer derselbe:
+ * `lines` weißer Grund, Antworten als Textzeilen mit Linie (B1); `tiles` grauer Grund, mittig, Antworten als weiße
+ * Kacheln (B2); `glass` Betonwand mit Linienraster und Milchglas-Spalte wie das Banner der Startseite (B3).
+ */
 interface Props {
   heading: string;
   intro: string[];
+  variant?: 'lines' | 'tiles' | 'glass';
+  /** Hintergrundbild der Variante `glass` */
+  background?: ImageMetadata;
 }
-const { heading, intro } = Astro.props;
+const { heading, intro, variant = 'lines', background } = Astro.props;
+const glass = variant === 'glass';
+const bg = glass && background ? await getImage({ src: background, width: 2000, format: 'webp', quality: 80 }) : null;
+const back = glass ? 'white' : 'black';
+const forward = glass ? 'white' : 'gold';
 
 type Opt = { v: string; l?: string };
 const art: Opt[] = [{ v: 'Privat' }, { v: 'Gewerbe' }];
@@ -32,7 +45,7 @@ const eyebrow = 'font-display text-label font-medium tracking-label text-ink upp
 const tick = 'M4 10.5l4 4 8-9';
 ---
 
-<section class="pf" data-pf>
+<section class:list={['pf', `pf--${variant}`]} data-pf style={bg ? `background-image:url(${bg.src})` : undefined}>
   <div class="pf-bar" aria-hidden="true"><span data-pf-fill></span></div>
 
   <form data-pf-form data-pf-mail={site.email} name="Projektanfrage" aria-label="Projektanfrage" novalidate>
@@ -53,7 +66,7 @@ const tick = 'M4 10.5l4 4 8-9';
               {intro.map((p) => <p>{p}</p>)}
             </div>
             <div data-pf-item class="pf-start" data-pf-startbox hidden>
-              <LinkButton tone="gold" dir="next" data-pf-start>Anfrage starten</LinkButton>
+              <LinkButton tone={forward} dir="next" data-pf-start>Anfrage starten</LinkButton>
             </div>
           </div>
         </section>
@@ -161,7 +174,7 @@ const tick = 'M4 10.5l4 4 8-9';
             <div class="pf-files" data-pf-item>
               <label class="pf-pick">
                 <input type="file" name="bilder[]" accept="image/*" multiple data-pf-files />
-                <span class="group/ul inline-flex gap-2.5 font-display text-button font-semibold tracking-button text-gold">
+                <span class:list={['group/ul inline-flex gap-2.5 font-display text-button font-semibold tracking-button', glass ? 'text-white' : 'text-gold']}>
                   <span class="underline-anim relative [--underline-gap:0px]">Bilder auswählen oder hierher ziehen</span>
                 </span>
               </label>
@@ -251,10 +264,10 @@ const tick = 'M4 10.5l4 4 8-9';
       </div>
 
       <div class="pf-nav" data-pf-nav>
-        <div data-pf-back hidden><LinkButton tone="black" dir="back">Zurück</LinkButton></div>
+        <div data-pf-back hidden><LinkButton tone={back} dir="back">Zurück</LinkButton></div>
         <div class="pf-nav-r">
-          <div data-pf-next hidden><LinkButton tone="gold" dir="next">Weiter</LinkButton></div>
-          <div data-pf-send hidden><Button type="submit" variant="solid">Anfrage senden</Button></div>
+          <div data-pf-next hidden><LinkButton tone={forward} dir="next">Weiter</LinkButton></div>
+          <div data-pf-send hidden><Button type="submit" variant={glass ? 'light' : 'solid'}>Anfrage senden</Button></div>
         </div>
       </div>
     </div>
@@ -539,6 +552,13 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf {
     --ink: #090402;
     --hair: rgb(0 0 0 / 0.2);
+    --q: var(--color-gold); /* Farbe der Frage */
+    --sel: var(--color-gold); /* Linie, Fokus, Fortschritt, Links */
+    --muted-t: var(--color-muted);
+    --tick: #fff; /* Haken im gewählten Feld */
+    --ind-on: var(--ink); /* gewähltes Feld */
+    --ind-off: rgb(0 0 0 / 0.4);
+    --unit: var(--color-gold);
     margin: 0 20px;
     color: var(--ink);
   }
@@ -552,7 +572,7 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf-bar span {
     display: block;
     height: 100%;
-    background: var(--color-gold);
+    background: var(--sel);
     transform: scaleX(0);
     transform-origin: left center;
   }
@@ -612,7 +632,7 @@ const tick = 'M4 10.5l4 4 8-9';
   }
   .pf-h {
     margin: 0;
-    color: var(--color-gold);
+    color: var(--q);
     font-family: var(--font-urbanist), sans-serif;
     font-size: 23px;
     line-height: 27.6px;
@@ -626,7 +646,7 @@ const tick = 'M4 10.5l4 4 8-9';
   }
   .pf-hint {
     margin: 14px 0 0;
-    color: var(--color-muted);
+    color: var(--muted-t);
     font-size: 15px;
     line-height: 1.5;
   }
@@ -683,13 +703,13 @@ const tick = 'M4 10.5l4 4 8-9';
   }
   .pf-opt:hover .pf-opt-text,
   .pf-opt input:checked ~ .pf-opt-text {
-    color: var(--color-gold);
+    color: var(--sel);
   }
   .pf-ind {
     flex: none;
     width: 22px;
     height: 22px;
-    border: 1px solid rgb(0 0 0 / 0.4);
+    border: 1px solid var(--ind-off);
     border-radius: 50%;
     display: grid;
     place-items: center;
@@ -704,7 +724,7 @@ const tick = 'M4 10.5l4 4 8-9';
     width: 14px;
     height: 14px;
     fill: none;
-    stroke: #fff;
+    stroke: var(--tick);
     stroke-width: 1.8;
     stroke-linecap: square;
     stroke-dasharray: 20;
@@ -712,8 +732,8 @@ const tick = 'M4 10.5l4 4 8-9';
     transition: stroke-dashoffset 0.45s var(--ease-grow);
   }
   .pf-opt input:checked ~ .pf-ind {
-    background: var(--ink);
-    border-color: var(--ink);
+    background: var(--ind-on);
+    border-color: var(--ind-on);
   }
   .pf-opt input:checked ~ .pf-ind svg {
     stroke-dashoffset: 0;
@@ -725,7 +745,7 @@ const tick = 'M4 10.5l4 4 8-9';
     left: 0;
     width: 100%;
     height: 1px;
-    background: var(--color-gold);
+    background: var(--sel);
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.7s var(--ease-grow);
@@ -781,7 +801,7 @@ const tick = 'M4 10.5l4 4 8-9';
   }
   .pf-field input:focus,
   .pf-field textarea:focus {
-    border-bottom-color: var(--color-gold);
+    border-bottom-color: var(--sel);
     outline: none;
   }
 
@@ -810,7 +830,7 @@ const tick = 'M4 10.5l4 4 8-9';
     transition: border-color 0.4s var(--ease-css);
   }
   .pf-big:focus {
-    border-bottom-color: var(--color-gold);
+    border-bottom-color: var(--sel);
     outline: none;
   }
   .pf-unit {
@@ -818,7 +838,7 @@ const tick = 'M4 10.5l4 4 8-9';
     font-size: 40px;
     line-height: 54px;
     font-weight: 500;
-    color: var(--color-gold);
+    color: var(--unit);
   }
   .pf-range {
     --p: 20%;
@@ -860,7 +880,7 @@ const tick = 'M4 10.5l4 4 8-9';
   }
   .pf-range:hover::-webkit-slider-thumb,
   .pf-range:focus-visible::-webkit-slider-thumb {
-    background: var(--color-gold);
+    background: var(--sel);
   }
 
   /* Bilder */
@@ -911,7 +931,7 @@ const tick = 'M4 10.5l4 4 8-9';
     width: 24px;
     height: 24px;
     border: 0;
-    background: var(--ink);
+    background: #090402;
     color: #fff;
     font-size: 16px;
     line-height: 1;
@@ -967,7 +987,7 @@ const tick = 'M4 10.5l4 4 8-9';
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    color: var(--color-gold);
+    color: var(--sel);
     cursor: pointer;
   }
 
@@ -1014,7 +1034,7 @@ const tick = 'M4 10.5l4 4 8-9';
     height: 64px;
     margin-bottom: 24px;
     fill: none;
-    stroke: var(--color-gold);
+    stroke: var(--sel);
     stroke-width: 1.5;
     stroke-linecap: square;
   }
@@ -1033,7 +1053,7 @@ const tick = 'M4 10.5l4 4 8-9';
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    color: var(--color-gold);
+    color: var(--sel);
   }
 
   @media (min-width: 768px) {
@@ -1090,6 +1110,219 @@ const tick = 'M4 10.5l4 4 8-9';
     }
     .pf-opt {
       padding: 24px 0 23px;
+    }
+  }
+
+  /* ===== B2 „Kacheln“: grauer Grund wie die Vorteile, mittig, Antworten als weiße Kacheln ===== */
+  .pf--tiles {
+    margin: 0;
+    padding: 0 20px;
+    background: var(--color-soft);
+  }
+  .pf--tiles .pf-screen {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 32px;
+    text-align: center;
+  }
+  .pf--tiles .pf-q,
+  .pf--tiles .pf-a {
+    width: 100%;
+    max-width: 760px;
+  }
+  .pf--tiles .pf-intro {
+    margin-inline: auto;
+  }
+  .pf--tiles .pf-list {
+    display: grid;
+    gap: 12px;
+  }
+  .pf--tiles .pf-opt {
+    min-height: 76px;
+    padding: 20px 24px;
+    border: 1px solid var(--hair);
+    background: #fff;
+    text-align: left;
+    transition:
+      background-color 0.45s var(--ease-css),
+      border-color 0.45s var(--ease-css),
+      color 0.45s var(--ease-css);
+  }
+  .pf--tiles .pf-opt:last-child {
+    border-bottom: 1px solid var(--hair);
+  }
+  .pf--tiles .pf-opt-line {
+    display: none;
+  }
+  .pf--tiles .pf-opt:hover {
+    border-color: var(--ink);
+  }
+  .pf--tiles .pf-opt:has(input:checked) {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #fff;
+  }
+  .pf--tiles .pf-opt:hover .pf-opt-text,
+  .pf--tiles .pf-opt input:checked ~ .pf-opt-text {
+    color: inherit;
+  }
+  .pf--tiles .pf-opt input:checked ~ .pf-ind {
+    border-color: #fff;
+    background: transparent;
+  }
+  .pf--tiles .pf-fields {
+    margin-inline: auto;
+    width: 100%;
+    text-align: left;
+  }
+  .pf--tiles .pf-field label {
+    margin-bottom: 8px;
+  }
+  .pf--tiles .pf-field input,
+  .pf--tiles .pf-field textarea {
+    padding: 14px 18px;
+    border: 1px solid var(--hair);
+    background: #fff;
+    transition: border-color 0.4s var(--ease-css);
+  }
+  .pf--tiles .pf-field input:focus,
+  .pf--tiles .pf-field textarea:focus {
+    border-color: var(--ink);
+  }
+  .pf--tiles .pf-area {
+    margin-inline: auto;
+  }
+  .pf--tiles .pf-area-row {
+    justify-content: center;
+  }
+  .pf--tiles .pf-range {
+    margin-inline: auto;
+  }
+  .pf--tiles .pf-big {
+    text-align: center;
+    background: #fff;
+    padding: 6px 12px;
+    border: 1px solid var(--hair);
+  }
+  .pf--tiles .pf-big:focus {
+    border-color: var(--ink);
+  }
+  .pf--tiles .pf-files {
+    margin-inline: auto;
+  }
+  .pf--tiles .pf-thumbs {
+    max-width: 420px;
+    margin-inline: auto;
+  }
+  .pf--tiles .pf-sum {
+    padding: 4px 24px;
+    border: 1px solid var(--hair);
+    background: #fff;
+    text-align: left;
+  }
+  .pf--tiles .pf-sum :global(.pf-sum-row:first-child) {
+    border-top: 0;
+  }
+  .pf--tiles .pf-sum :global(.pf-sum-row:last-child) {
+    border-bottom: 0;
+  }
+  .pf--tiles .pf-done {
+    margin-inline: auto;
+    text-align: center;
+  }
+  .pf--tiles .pf-done-mark {
+    margin-inline: auto;
+  }
+  .pf--tiles .pf-done-links {
+    justify-content: center;
+  }
+  .pf--tiles .pf-inner {
+    padding-bottom: 56px;
+  }
+
+  /* ===== B3 „Glas“: Betonwand, Linienraster und Milchglas-Spalte wie das Banner der Startseite ===== */
+  .pf--glass {
+    --ink: #fff;
+    --hair: var(--color-line);
+    --q: #fff;
+    --sel: #fff;
+    --muted-t: rgb(255 255 255 / 0.85);
+    --tick: #090402;
+    --ind-on: #fff;
+    --ind-off: rgb(255 255 255 / 0.6);
+    --unit: #fff;
+    position: relative;
+    margin: 0;
+    padding: 5vh 0;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
+  }
+  .pf--glass .pf-bar {
+    position: absolute;
+    top: 5vh;
+    left: 50%;
+    z-index: 2;
+    width: min(94%, 1300px);
+    max-width: none;
+    transform: translateX(-50%);
+    background: transparent;
+  }
+  .pf--glass .pf-inner {
+    position: relative;
+    width: min(94%, 1300px);
+    max-width: none;
+    padding: 28px 20px 32px;
+    border-right: 1px solid var(--color-line);
+    border-left: 1px solid var(--color-line);
+    background: rgb(9 4 2 / 0.12);
+    -webkit-backdrop-filter: blur(40px) saturate(1.8);
+    backdrop-filter: blur(40px) saturate(1.8);
+  }
+  /* Linien über die ganze Breite oben und unten wie beim Banner */
+  .pf--glass .pf-inner::before,
+  .pf--glass .pf-inner::after {
+    content: '';
+    position: absolute;
+    left: -100vw;
+    width: 300vw;
+    height: 1px;
+    background: var(--color-line);
+  }
+  .pf--glass .pf-inner::before {
+    top: -1px;
+  }
+  .pf--glass .pf-inner::after {
+    bottom: -1px;
+  }
+  .pf--glass .pf-meta p {
+    color: #fff;
+  }
+  .pf--glass .pf-thumbs :global(li) {
+    outline: 1px solid var(--color-line);
+  }
+
+  @media (min-width: 768px) {
+    .pf--tiles .pf-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .pf--glass .pf-inner {
+      padding: 36px 36px 40px;
+    }
+  }
+  @media (min-width: 1025px) {
+    .pf--tiles {
+      margin: 0;
+    }
+    .pf--glass {
+      margin: 0;
+    }
+    .pf--glass .pf-inner {
+      min-height: max(600px, calc(100svh - 10vh - 140px));
+      padding: 40px 56px 44px;
+    }
+    .pf--tiles .pf-inner {
+      padding-bottom: 64px;
     }
   }
 </style>
