@@ -9,10 +9,8 @@ import type { Site } from '../../data/nav';
 interface Props {
   site?: Site;
   compact?: boolean;
-  /** `light` = weißer Menü-Knopf (über Fotos und Video) */
-  tone?: 'dark' | 'light';
 }
-const { site = 'main', compact = false, tone = 'dark' } = Astro.props;
+const { site = 'main', compact = false } = Astro.props;
 const exk = site === 'exklusive';
 const contact = href(exk ? '/meisterwerk-exklusive/kontakt/' : '/schnellkontakt/');
 ---
@@ -23,7 +21,7 @@ const contact = href(exk ? '/meisterwerk-exklusive/kontakt/' : '/schnellkontakt/
     data-menu-open
     aria-label="Menü öffnen"
     aria-expanded="false"
-    class:list={['group/menu flex cursor-pointer items-center gap-4 py-3.75 pl-2.5', tone === 'light' ? 'text-white' : 'text-ink']}
+    class="group/menu flex cursor-pointer items-center gap-4 py-3.75 pl-2.5 text-ink"
   >
     <span class="hidden font-display text-[11px] tracking-[0.07em] uppercase min-[701px]:block">
       Menü

@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
-"""Setzt den Hero aus dem Astro-Build in die handbearbeitete Startseite der Auswahl-Vorschau und legt die Kopien an.
-
-  index.html               Original-Hero (neuer Gesamtablauf: Streifen, Zoom und Video laufen zusammen)
-  startseite-a/index.html  Kopie der Startseite mit Hero in voller Größe, Variante a (Vollbild)
-  startseite-b/index.html  Kopie der Startseite mit Hero in voller Größe, Variante b (Rahmen)
+"""Setzt den Hero aus dem Astro-Build in die handbearbeitete Startseite (`index.html`) der Auswahl-Vorschau.
 
 Alles außer dem Hero-Abschnitt bleibt, wie es in der handbearbeiteten Startseite steht (`data-header-lock` am Hero
 bleibt erhalten). Das Skript des Heros wird ausgetauscht, nötige JS-Module aus dem Build werden ergänzt (nie überschrieben),
 und CSS-Regeln für Klassen, die das Startseiten-CSS noch nicht kennt, kommen als eigener <style>-Block in den <head>.
+Die Bildfolge des Videos (`public/hero-flug/`) kopiert das Skript nach `hero-flug/` in die Vorschau.
 
 Vorbereitung: Build wie bei add-pages.py (SITE_URL=... BASE_PATH=/aa/meisterwerk-preview-auswahl/ astro build --outDir /tmp/studio-dist).
 Aufruf:  python3 tools/meisterwerk-auswahl/hero-patch.py
@@ -132,5 +129,13 @@ def patch(base, built, target):
 
 
 base = re.sub(r'<style data-hero-patch>[\s\S]*?</style>', '', (D / 'index.html').read_text())
-for name, page in [('index.html', 'index.html'), ('startseite-a/index.html', 'startseite-a/index.html'), ('startseite-b/index.html', 'startseite-b/index.html')]:
-    patch(base, (B / page).read_text(), D / name)
+patch(base, (B / 'index.html').read_text(), D / 'index.html')
+# Bildfolge des Videos (alle Dateien des Builds, vorhandene gleichnamige werden ersetzt, die Bilder sind eine Einheit)
+src, dst = B / 'hero-flug', D / 'hero-flug'
+n = 0
+for f in sorted(src.rglob('*.webp')):
+    t = dst / f.relative_to(src)
+    t.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(f, t)
+    n += 1
+print(f'hero-flug: {n} Bilder')

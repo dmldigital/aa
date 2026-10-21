@@ -1,32 +1,25 @@
 /**
  * Video als Bildfolge auf einem Canvas (Hero-Flug: Terrasse des Altbaus, durch das Fenster ins Wohnzimmer).
  * Die 97 Bilder liegen in `public/hero-flug/` (Desktop `d/`, Handy `m/` als Hochformat-Ausschnitt).
- * Ruhe = erstes Bild. `play(1)` lässt das Video mit gleichmäßigem Tempo bis zum Ende laufen, `play(0)` rückwärts,
- * Richtungswechsel mitten im Lauf sind weich. Zwischen zwei Bildern wird überblendet. Den Ausschnitt macht CSS (object-fit).
+ * Es gibt kein eigenes Abspielen: `seek(p)` stellt das Video auf 0 bis 1, wer es aufruft (die Scroll-Zeitleiste des Heros),
+ * bestimmt Tempo und Richtung, Anhalten und Zurückscrollen gehen damit von selbst. Zwischen zwei Bildern wird
+ * überblendet. Den Ausschnitt macht CSS (object-fit), das Standbild darunter ist das erste Bild.
  */
 export interface Flug {
-  /** Stand 0 bis 1 */
-  readonly pos: number;
-  /** Ziel des laufenden Abspielens: 0 oder 1 */
-  readonly target: 0 | 1;
-  play(to: 0 | 1): void;
-  /** Sofort an Anfang oder Ende springen */
-  jump(to: 0 | 1): void;
-  /** Stand von außen setzen (0 bis 1), z. B. aus einer GSAP-Zeitleiste, die den ganzen Ablauf steuert */
+  /** Video auf Stand 0 bis 1 stellen */
   seek(p: number): void;
-  /** Bilder laden (zuerst Anfang oder Ende, dann der Rest im Hintergrund) */
-  load(startAtEnd?: boolean): Promise<void>;
-  onFrame?: (pos: number) => void;
-  onDone?: (at: 0 | 1) => void;
+  /** Bilder laden: zuerst Anfang und Ende, dann der Rest im Hintergrund, 6 gleichzeitig */
+  load(): Promise<void>;
 }
 
-export function createFlug(canvas: HTMLCanvasElement, duration = 6000): Flug {
+export function createFlug(canvas: HTMLCanvasElement): Flug {
   const ctx = canvas.getContext('2d')!;
   const N = Number(canvas.dataset.frames);
   const END = N - 1;
   const set = window.matchMedia('(max-aspect-ratio: 4/5)').matches ? 'm' : 'd';
   const src = (i: number) => `${canvas.dataset.base}${set}/${String(i).padStart(3, '0')}.webp`;
   const frames: (HTMLImageElement | null)[] = new Array(N).fill(null);
+  let pos = 0; // in Bildern, 0 bis END
 
   const loadOne = (i: number) =>
     new Promise<void>((resolve) => {
@@ -53,11 +46,6 @@ export function createFlug(canvas: HTMLCanvasElement, duration = 6000): Flug {
     return -1;
   };
 
-  let pos = 0; // in Bildern, 0 bis END
-  let target: 0 | 1 = 0;
-  let raf = 0;
-  let last = 0;
-
   const draw = () => {
     const i = Math.floor(pos);
     const a = nearest(i);
@@ -78,59 +66,22 @@ export function createFlug(canvas: HTMLCanvasElement, duration = 6000): Flug {
     canvas.classList.add('is-ready');
   };
 
-  const flug: Flug = {
-    get pos() {
-      return pos / END;
-    },
-    get target() {
-      return target;
-    },
-    play(to) {
-      target = to;
-      if (!raf) raf = requestAnimationFrame(tick);
-    },
-    jump(to) {
-      target = to;
-      pos = to * END;
-      draw();
-      flug.onFrame?.(flug.pos);
-    },
+  return {
     seek(p) {
       pos = Math.min(1, Math.max(0, p)) * END;
       draw();
     },
-    async load(startAtEnd = false) {
-      if (startAtEnd) await loadOne(END);
+    async load() {
       await loadOne(0);
       draw();
-      flug.onFrame?.(flug.pos);
-      // Rest im Hintergrund laden, 6 gleichzeitig
       const queue = order.filter((i) => !frames[i]);
       const worker = async () => {
         while (queue.length) {
           await loadOne(queue.shift()!);
-          if (!raf) draw();
+          draw();
         }
       };
       await Promise.all(Array.from({ length: 6 }, worker));
     },
   };
-
-  function tick(t: number) {
-    const dt = last ? Math.min(t - last, 64) : 16;
-    last = t;
-    const goal = target * END;
-    const step = (dt / duration) * END;
-    pos = goal > pos ? Math.min(goal, pos + step) : Math.max(goal, pos - step);
-    draw();
-    flug.onFrame?.(flug.pos);
-    if (pos !== goal) {
-      raf = requestAnimationFrame(tick);
-      return;
-    }
-    raf = last = 0;
-    flug.onDone?.(target);
-  }
-
-  return flug;
 }

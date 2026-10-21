@@ -8,10 +8,8 @@ import exklusiveLogo from '../../assets/img/logo_exklusive.png';
 interface Props {
   site?: Site;
   class?: string;
-  /** `light` = weißes Logo (über Fotos und Video) */
-  tone?: 'dark' | 'light';
 }
-const { site = 'main', class: className = '', tone = 'dark' } = Astro.props;
+const { site = 'main', class: className = '' } = Astro.props;
 const exk = site === 'exklusive';
 ---
 
@@ -34,6 +32,6 @@ const exk = site === 'exklusive';
     widths={[180, 360]}
     sizes="180px"
     loading="eager"
-    class:list={['h-auto', tone === 'light' && 'brightness-0 invert', className]}
+    class:list={['h-auto', className]}
   />
 </a>
