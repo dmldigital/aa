@@ -1,7 +1,7 @@
 ---
 /**
  * Rechteckiger Button mit Unterstrich-Animation (Original: Elementor-Button 14px/15,4px).
- * `light` = weiß auf Bild (Rand weiß), `outline` = weiß mit schwarzem Rand, `solid` = schwarz mit weißer Schrift.
+ * `light` = weiß auf Bild (Rand und Schrift weiß), `outline` = weiß mit schwarzem Rand, `solid` = schwarz mit weißer Schrift.
  * `size="sm"` = kompakt (Kopfzeile).
  */
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 const { href, variant = 'outline', size = 'md', type = 'submit' } = Astro.props;
 const Tag = href ? 'a' : 'button';
 const variants = {
-  light: { link: 'border-white', text: 'relative [--underline-gap:0px]' },
+  light: { link: 'border-white text-white', text: 'relative [--underline-gap:0px]' },
   outline: { link: 'border-black bg-white text-black', text: '[--underline-gap:3px]' },
   solid: {
     link: 'border-black bg-black text-white transition-colors duration-300 hover:border-gold hover:bg-gold',
