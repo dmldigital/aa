@@ -1,6 +1,6 @@
 ---
 /**
- * Qualifikationen: Eröffnung mit großer Überschrift (die Wörter fahren aus einer Maske hoch, darunter zieht eine feine
+ * Qualifikationen: Eröffnung mit der Überschrift der Unterseiten (die Wörter fahren aus einer Maske hoch, darunter zieht eine feine
  * goldene Linie auf) und eine Szene aus Wand und Text. Links läuft eine Wand aus Zertifikaten in zwei Spalten vorbei,
  * die zweite Spalte driftet langsamer. Jede Urkunde fährt beim Scrollen gekippt herein und richtet sich auf. Rechts bleibt
  * der Text stehen (Desktop): Während die Wand läuft, wechseln die vier Versprechen, eine feine Linie je Versprechen füllt
@@ -223,31 +223,32 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   .qs-open {
     max-width: var(--container-page);
     margin: 0 auto;
-    padding: 40px 0 44px;
+    padding: 32px 0 36px;
   }
+  /* Label wie „Die Vorteile auf einen Blick“ */
   .qs-eyebrow {
-    margin: 0 0 14px;
+    margin: 0 0 20px;
     font-family: var(--font-urbanist), sans-serif;
     font-size: 12px;
-    line-height: 1;
-    font-weight: 400;
-    letter-spacing: 0.2em;
+    line-height: 1.5;
+    font-weight: 500;
+    letter-spacing: 2px;
     text-transform: uppercase;
   }
+  /* Überschrift der Unterseiten (wie TextPage, PostHead): font-medium, 26/34 px, ab Desktop text-h1 */
   .qs-title {
     margin: 0;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 11.5vw;
-    line-height: 0.94;
-    font-weight: 600;
-    letter-spacing: -0.045em;
+    font-size: 26px;
+    line-height: 28.6px;
+    font-weight: 500;
   }
   .qs-w {
     display: inline-block;
     overflow: hidden;
     vertical-align: top;
-    padding: 0.04em 0.06em 0.12em 0;
-    margin: -0.04em -0.06em -0.12em 0;
+    padding: 0.04em 0.06em 0.16em 0;
+    margin: -0.04em -0.06em -0.16em 0;
   }
   .qs-wi {
     display: inline-block;
@@ -364,6 +365,11 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     padding-top: 20px;
     border-top: 1px solid rgb(0 0 0 / 0.2);
   }
+  /* Die Linie unter der Überschrift ist zugleich die Linie über dem ersten Versprechen */
+  .qs-step:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
   .qs-step h2 {
     margin: 0 0 14px;
     color: var(--color-gold);
@@ -415,10 +421,11 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
       padding: 0 20px;
     }
     .qs-open {
-      padding: 56px 0 56px;
+      padding: 40px 0 44px;
     }
     .qs-title {
-      font-size: clamp(44px, 6vw, 72px);
+      font-size: 34px;
+      line-height: 37.4px;
     }
     .qs-text {
       font-size: 16px;
@@ -439,14 +446,15 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
       padding: 0 30px;
     }
     .qs-open {
-      padding: 9vh 0 10vh;
+      padding: 7vh 0 8vh;
     }
     .qs-title {
-      font-size: 100px;
-      line-height: 0.94;
+      max-width: 640px;
+      font-size: var(--text-h1);
+      line-height: var(--text-h1--line-height);
     }
     .qs-rule {
-      margin-top: 4vh;
+      margin-top: 32px;
     }
     .qs-inner {
       display: grid;
@@ -503,7 +511,7 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
       font-family: var(--font-urbanist), sans-serif;
       font-size: 12px;
       line-height: 1.3;
-      letter-spacing: 0.2em;
+      letter-spacing: 2px;
       text-transform: uppercase;
       color: rgb(9 4 2 / 0.4);
       transition: color 0.4s var(--ease-css);
