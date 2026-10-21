@@ -86,13 +86,16 @@ const tick = 'M4 10.5l4 4 8-9';
           </div>
         </section>
 
-        <!-- 2 Art der Arbeiten -->
-        <section class="pf-screen" data-pf-screen data-pf-auto aria-labelledby="pf-h-bereich">
-          <div class="pf-q"><h2 class="pf-h" id="pf-h-bereich" tabindex="-1" data-pf-q>Art der Arbeiten</h2></div>
-          <div class="pf-a pf-list" role="radiogroup" aria-labelledby="pf-h-bereich">
-            {bereich.map((o, i) => (
-              <label class="pf-opt" data-pf-item>
-                <input type="radio" name="art_der_arbeiten" value={o.v} required={i === 0} />
+        <!-- 2 Art der Arbeiten (Mehrfachauswahl, mindestens eine) -->
+        <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-bereich">
+          <div class="pf-q">
+            <h2 class="pf-h" id="pf-h-bereich" tabindex="-1" data-pf-q>Art der Arbeiten</h2>
+            <p class="pf-hint" data-pf-item>Sie können beides wählen.</p>
+          </div>
+          <div class="pf-a pf-list" role="group" aria-labelledby="pf-h-bereich" data-pf-atleast>
+            {bereich.map((o) => (
+              <label class="pf-opt pf-opt--check" data-pf-item>
+                <input type="checkbox" name="art_der_arbeiten[]" value={o.v} />
                 <span class="pf-opt-text">{o.l ?? o.v}</span>
                 <span class="pf-ind" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
                 <span class="pf-opt-line" aria-hidden="true"></span>
@@ -318,6 +321,17 @@ const tick = 'M4 10.5l4 4 8-9';
       if (q) words.set(s, splitWords(q));
     });
 
+    // ---------- Mehrfachauswahl mit mindestens einer Wahl ----------
+    form.querySelectorAll<HTMLElement>('[data-pf-atleast]').forEach((group) => {
+      const boxes = [...group.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')];
+      const sync = () => {
+        const any = boxes.some((b) => b.checked);
+        boxes.forEach((b) => b.setCustomValidity(any ? '' : 'Bitte wählen Sie mindestens eine Option.'));
+      };
+      boxes.forEach((b) => b.addEventListener('change', sync));
+      sync();
+    });
+
     // ---------- Fläche ----------
     const area = form.querySelector<HTMLInputElement>('[data-pf-area]')!;
     const range = form.querySelector<HTMLInputElement>('[data-pf-range]')!;
@@ -354,7 +368,7 @@ const tick = 'M4 10.5l4 4 8-9';
     const rows = () =>
       [
         { at: 1, label: 'Privat oder Gewerbe', value: picked('privat_gewerbe')[0] },
-        { at: 2, label: 'Art der Arbeiten', value: picked('art_der_arbeiten')[0] },
+        { at: 2, label: 'Art der Arbeiten', value: picked('art_der_arbeiten[]').join(', ') },
         { at: 3, label: 'Leistungen', value: picked('leistungen[]').join(', ') || 'Keine Auswahl' },
         { at: 4, label: 'Fläche', value: area.value.trim() ? `${area.value.trim()} m²` : '' },
         { at: 5, label: 'Beginn', value: picked('zeitpunkt')[0] === '-' ? 'Noch offen' : picked('zeitpunkt')[0] },
