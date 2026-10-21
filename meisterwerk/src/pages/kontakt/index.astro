@@ -1,12 +1,14 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import ContactSection from '../../components/sections/ContactSection.astro';
-
+import ProjectRequest from '../../components/kontakt/ProjectRequest.astro';
+import ContactStrip from '../../components/kontakt/ContactStrip.astro';
 import { contactPages } from '../../data/pages/contact';
 
 const page = contactPages.kontakt;
+const intro = page.intro.slice(0, 2).map((lines) => lines.join(' '));
 ---
 
 <PageLayout title={page.title} description={page.description} current="/kontakt/">
-  <ContactSection {page} />
+  <ProjectRequest heading={page.heading} {intro} />
+  <ContactStrip />
 </PageLayout>

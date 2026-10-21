@@ -1,34 +1,21 @@
 ---
 /**
- * Projektanfrage, Variante „Fokus“: eine Frage pro Bildschirm, nur Schrift und feine Linien (keine Karten, keine Fotos).
- * Aufteilung wie die Vorteile der Leistungsseiten: links Zähler und Frage in Gold, rechts die Antworten als Textzeilen mit
- * Linie, die sich beim Überfahren und Wählen golden aufzieht. Eine Linie ganz oben füllt sich mit dem Fortschritt. Einzel-
- * auswahl geht nach dem Wählen von selbst weiter. Die Frage fährt wortweise aus einer Maske hoch (wie die Überschrift der
- * Qualifikationen). Gleiche Feldnamen wie `ContactForm`. Ohne Skript stehen alle Fragen untereinander.
+ * Projektanfrage (Seite /kontakt/): eine Frage pro Bildschirm auf grauem Grund wie die Vorteile der Leistungsseiten.
+ * Antworten sind weiße Kacheln (gewählt = schwarz mit Haken), Einzelauswahl geht nach kurzer Pause von selbst weiter,
+ * Mehrfachauswahl (Art der Arbeiten, Leistungen) mit „Weiter“. Eine Linie oben füllt sich mit dem Fortschritt, die Frage
+ * fährt wortweise aus einer Maske hoch. Fehler stehen als Zeile unter dem Feld (kein Browser-Fenster). Am Ende ein
+ * Überblick mit „Ändern“ je Block. Gleiche Feldnamen wie `ContactForm`. Ohne Skript stehen alle Fragen untereinander.
  * Das Absenden ist noch nicht angebunden: Am Ende die bekannte Meldung und eine vorbereitete E-Mail.
  */
-import { getImage } from 'astro:assets';
-import LinkButton from '../ui/LinkButton.astro';
 import Button from '../ui/Button.astro';
+import Icon from '../Icon.astro';
 import { site } from '../../data/site';
 
-/**
- * `variant` ändert nur die Gestaltung, der Ablauf ist immer derselbe:
- * `lines` weißer Grund, Antworten als Textzeilen mit Linie (B1); `tiles` grauer Grund, mittig, Antworten als weiße
- * Kacheln (B2); `glass` Betonwand mit Linienraster und Milchglas-Spalte wie das Banner der Startseite (B3).
- */
 interface Props {
   heading: string;
   intro: string[];
-  variant?: 'lines' | 'tiles' | 'glass';
-  /** Hintergrundbild der Variante `glass` */
-  background?: ImageMetadata;
 }
-const { heading, intro, variant = 'lines', background } = Astro.props;
-const glass = variant === 'glass';
-const bg = glass && background ? await getImage({ src: background, width: 2000, format: 'webp', quality: 80 }) : null;
-const back = glass ? 'white' : 'black';
-const forward = glass ? 'white' : 'gold';
+const { heading, intro } = Astro.props;
 
 type Opt = { v: string; l?: string };
 const art: Opt[] = [{ v: 'Privat' }, { v: 'Gewerbe' }];
@@ -43,16 +30,17 @@ const zeit: Opt[] = [
 
 const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
 const tick = 'M4 10.5l4 4 8-9';
+const QUESTIONS = 9;
 ---
 
-<section class:list={['pf', `pf--${variant}`]} data-pf style={bg ? `background-image:url(${bg.src})` : undefined}>
+<section class="pf" data-pf>
   <div class="pf-bar" aria-hidden="true"><span data-pf-fill></span></div>
 
   <form data-pf-form data-pf-mail={site.email} name="Projektanfrage" aria-label="Projektanfrage" novalidate>
     <div class="pf-inner">
       <div class="pf-meta">
         <p class={eyebrow}>Projektanfrage</p>
-        <p class={eyebrow + ' pf-count'} aria-live="polite" data-pf-count hidden></p>
+        <p class={eyebrow} aria-live="polite" data-pf-count hidden></p>
       </div>
 
       <div class="pf-host" data-pf-host>
@@ -65,8 +53,9 @@ const tick = 'M4 10.5l4 4 8-9';
             <div class="pf-intro" data-pf-item>
               {intro.map((p) => <p>{p}</p>)}
             </div>
-            <div data-pf-item class="pf-start" data-pf-startbox hidden>
-              <LinkButton tone={forward} dir="next" data-pf-start>Anfrage starten</LinkButton>
+            <div class="pf-start" data-pf-item data-pf-startbox>
+              <div data-pf-start><Button type="button" variant="solid">Anfrage starten</Button></div>
+              <p class="pf-facts">{QUESTIONS} kurze Fragen</p>
             </div>
           </div>
         </section>
@@ -80,7 +69,6 @@ const tick = 'M4 10.5l4 4 8-9';
                 <input type="radio" name="privat_gewerbe" value={o.v} required={i === 0} />
                 <span class="pf-opt-text">{o.l ?? o.v}</span>
                 <span class="pf-ind" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
-                <span class="pf-opt-line" aria-hidden="true"></span>
               </label>
             ))}
           </div>
@@ -96,9 +84,8 @@ const tick = 'M4 10.5l4 4 8-9';
             {bereich.map((o) => (
               <label class="pf-opt pf-opt--check" data-pf-item>
                 <input type="checkbox" name="art_der_arbeiten[]" value={o.v} />
-                <span class="pf-opt-text">{o.l ?? o.v}</span>
+                <span class="pf-opt-text">{o.v}</span>
                 <span class="pf-ind" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
-                <span class="pf-opt-line" aria-hidden="true"></span>
               </label>
             ))}
           </div>
@@ -116,7 +103,6 @@ const tick = 'M4 10.5l4 4 8-9';
                 <input type="checkbox" name="leistungen[]" value={o.v} />
                 <span class="pf-opt-text">{o.v}</span>
                 <span class="pf-ind" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
-                <span class="pf-opt-line" aria-hidden="true"></span>
               </label>
             ))}
           </div>
@@ -126,10 +112,10 @@ const tick = 'M4 10.5l4 4 8-9';
         <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-flaeche">
           <div class="pf-q">
             <h2 class="pf-h" id="pf-h-flaeche" tabindex="-1" data-pf-q>Wie groß ist die Fläche?</h2>
-            <p class="pf-hint" data-pf-item>Ungefähr reicht, wir klären alles Weitere gemeinsam.</p>
+            <p class="pf-hint" data-pf-item>Ungefähr reicht, wir klären alles Weitere gemeinsam. Mehr als 500 m²? Tragen Sie die Zahl einfach ein.</p>
           </div>
           <div class="pf-a">
-            <div class="pf-area" data-pf-item>
+            <div class="pf-area" data-pf-item data-pf-group>
               <label class="pf-fl-label" for="pf-flaeche">ca. Fläche in m2</label>
               <div class="pf-area-row">
                 <input
@@ -140,7 +126,6 @@ const tick = 'M4 10.5l4 4 8-9';
                   name="flaeche_qm"
                   placeholder="120"
                   pattern="[0-9]+([.,][0-9]+)?"
-                  title="Bitte eine Zahl angeben, zum Beispiel 120"
                   autocomplete="off"
                   required
                   data-pf-area
@@ -148,6 +133,7 @@ const tick = 'M4 10.5l4 4 8-9';
                 <span class="pf-unit" aria-hidden="true">m²</span>
               </div>
               <input class="pf-range" type="range" min="5" max="500" step="5" value="100" aria-label="Fläche per Regler wählen" data-pf-range />
+              <div class="pf-scale" aria-hidden="true"><span>5 m²</span><span>500 m²</span></div>
             </div>
           </div>
         </section>
@@ -161,7 +147,6 @@ const tick = 'M4 10.5l4 4 8-9';
                 <input type="radio" name="zeitpunkt" value={o.v} required={i === 0} />
                 <span class="pf-opt-text">{o.l ?? o.v}</span>
                 <span class="pf-ind" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
-                <span class="pf-opt-line" aria-hidden="true"></span>
               </label>
             ))}
           </div>
@@ -171,19 +156,17 @@ const tick = 'M4 10.5l4 4 8-9';
         <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-bilder">
           <div class="pf-q">
             <h2 class="pf-h" id="pf-h-bilder" tabindex="-1" data-pf-q>Haben Sie Bilder?</h2>
-            <p class="pf-hint" data-pf-item>Optional. Höchstens 12 Bilder, zusammen höchstens 60 MB.</p>
+            <p class="pf-hint" data-pf-item>Optional, Sie können diesen Schritt überspringen. Höchstens 12 Bilder, zusammen höchstens 60 MB.</p>
           </div>
           <div class="pf-a" data-pf-drop>
-            <div class="pf-files" data-pf-item>
-              <label class="pf-pick">
-                <input type="file" name="bilder[]" accept="image/*" multiple data-pf-files />
-                <span class:list={['group/ul inline-flex gap-2.5 font-display text-button font-semibold tracking-button', glass ? 'text-white' : 'text-gold']}>
-                  <span class="underline-anim relative [--underline-gap:0px]">Bilder auswählen oder hierher ziehen</span>
-                </span>
-              </label>
-              <p class="pf-note" role="status" data-pf-files-msg hidden></p>
-              <ul class="pf-thumbs" data-pf-thumbs></ul>
-            </div>
+            <label class="pf-drop" data-pf-item>
+              <input type="file" name="bilder[]" accept="image/*" multiple data-pf-files />
+              <span class="pf-drop-plus" aria-hidden="true"><Icon name="plus" class="size-5" /></span>
+              <span class="pf-drop-text">Bilder auswählen oder hierher ziehen</span>
+            </label>
+            <p class="pf-note" role="status" data-pf-files-msg hidden></p>
+            <p class="pf-note" aria-live="polite" data-pf-files-count hidden></p>
+            <ul class="pf-thumbs" data-pf-thumbs></ul>
           </div>
         </section>
 
@@ -196,7 +179,7 @@ const tick = 'M4 10.5l4 4 8-9';
               <input type="text" id="pf-name" name="name" autocomplete="name" required />
             </div>
             <div class="pf-field" data-pf-item>
-              <label for="pf-tel">Rufnummer</label>
+              <label for="pf-tel">Rufnummer, optional</label>
               <input type="tel" id="pf-tel" name="telefon" autocomplete="tel" />
             </div>
             <div class="pf-field" data-pf-item>
@@ -216,25 +199,36 @@ const tick = 'M4 10.5l4 4 8-9';
             </div>
             <div class="pf-field" data-pf-item>
               <label for="pf-bauvorhaben">Adresse Bauvorhaben</label>
-              <input type="text" id="pf-bauvorhaben" name="adresse_bauvorhaben" required />
+              <input type="text" id="pf-bauvorhaben" name="adresse_bauvorhaben" required data-pf-site />
+              <label class="pf-same">
+                <input type="checkbox" data-pf-same />
+                <span class="pf-same-box" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
+                <span>Das Bauvorhaben liegt an meiner Adresse</span>
+              </label>
             </div>
           </div>
         </section>
 
         <!-- 9 Nachricht -->
         <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-nachricht">
-          <div class="pf-q"><h2 class="pf-h" id="pf-h-nachricht" tabindex="-1" data-pf-q>Was sollen wir noch wissen?</h2></div>
+          <div class="pf-q">
+            <h2 class="pf-h" id="pf-h-nachricht" tabindex="-1" data-pf-q>Was sollen wir noch wissen?</h2>
+            <p class="pf-hint" data-pf-item>Zum Beispiel Wünsche, Besonderheiten oder Terminvorstellungen.</p>
+          </div>
           <div class="pf-a pf-fields">
             <div class="pf-field" data-pf-item>
               <label for="pf-nachricht">Nachricht</label>
-              <textarea id="pf-nachricht" name="nachricht" rows="4" required></textarea>
+              <textarea id="pf-nachricht" name="nachricht" rows="5" required></textarea>
             </div>
           </div>
         </section>
 
         <!-- 10 Überblick -->
         <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-ueberblick">
-          <div class="pf-q"><h2 class="pf-h" id="pf-h-ueberblick" tabindex="-1" data-pf-q>Ihre Anfrage im Überblick</h2></div>
+          <div class="pf-q">
+            <h2 class="pf-h" id="pf-h-ueberblick" tabindex="-1" data-pf-q>Ihre Anfrage im Überblick</h2>
+            <p class="pf-hint" data-pf-item>Bitte prüfen Sie Ihre Angaben.</p>
+          </div>
           <div class="pf-a">
             <dl class="pf-sum" data-pf-summary></dl>
           </div>
@@ -267,10 +261,10 @@ const tick = 'M4 10.5l4 4 8-9';
       </div>
 
       <div class="pf-nav" data-pf-nav>
-        <div data-pf-back hidden><LinkButton tone={back} dir="back">Zurück</LinkButton></div>
+        <div data-pf-back hidden><button type="button" class="pf-back"><span class="pf-back-arrow" aria-hidden="true"><Icon name="arrow-left" class="size-3.5" /></span><span class="underline-anim relative [--underline-gap:0px]">Zurück</span></button></div>
         <div class="pf-nav-r">
-          <div data-pf-next hidden><LinkButton tone={forward} dir="next">Weiter</LinkButton></div>
-          <div data-pf-send hidden><Button type="submit" variant={glass ? 'light' : 'solid'}>Anfrage senden</Button></div>
+          <div data-pf-next hidden><Button type="button" variant="solid">Weiter</Button></div>
+          <div data-pf-send hidden><Button type="submit" variant="solid">Anfrage senden</Button></div>
         </div>
       </div>
     </div>
@@ -302,7 +296,6 @@ const tick = 'M4 10.5l4 4 8-9';
     const nav = form.querySelector<HTMLElement>('[data-pf-nav]')!;
     const done = form.querySelector<HTMLElement>('[data-pf-done]')!;
     const summary = form.querySelector<HTMLElement>('[data-pf-summary]')!;
-    const startBox = form.querySelector<HTMLElement>('[data-pf-startbox]')!;
     const nextBtn = next.querySelector('button')!;
     const last = screens.length - 1;
     const questions = last - 1; // ohne Start und Überblick
@@ -312,7 +305,6 @@ const tick = 'M4 10.5l4 4 8-9';
     let autoTimer: number | undefined;
 
     root.classList.add('is-focus');
-    startBox.hidden = false;
     screens.forEach((s, i) => (s.hidden = i !== 0));
     // Fragen wortweise zerlegen (Maske)
     const words = new Map<HTMLElement, HTMLElement[]>();
@@ -353,65 +345,125 @@ const tick = 'M4 10.5l4 4 8-9';
     });
     paint();
 
+    // ---------- Adresse des Bauvorhabens ----------
+    const addr = form.querySelector<HTMLInputElement>('#pf-adresse')!;
+    const site = form.querySelector<HTMLInputElement>('[data-pf-site]')!;
+    const same = form.querySelector<HTMLInputElement>('[data-pf-same]')!;
+    const syncSite = () => {
+      if (!same.checked) return;
+      site.value = addr.value;
+    };
+    same.addEventListener('change', () => {
+      site.readOnly = same.checked;
+      site.classList.toggle('is-same', same.checked);
+      syncSite();
+      state();
+    });
+    addr.addEventListener('input', () => {
+      syncSite();
+      state();
+    });
+
     // ---------- Bilder ----------
+    const filesCount = form.querySelector<HTMLElement>('[data-pf-files-count]')!;
     const files = initFiles({
       input: form.querySelector<HTMLInputElement>('[data-pf-files]')!,
       zone: form.querySelector<HTMLElement>('[data-pf-drop]')!,
       thumbs: form.querySelector<HTMLElement>('[data-pf-thumbs]')!,
       msg: form.querySelector<HTMLElement>('[data-pf-files-msg]')!,
+      onChange: (n) => {
+        filesCount.hidden = n === 0;
+        filesCount.textContent = `${n} ${n === 1 ? 'Bild' : 'Bilder'} gewählt`;
+      },
     });
 
-    // ---------- Überblick ----------
+    // ---------- Angaben und Überblick ----------
     const val = (n: string) => (form.elements.namedItem(n) as HTMLInputElement | null)?.value.trim() ?? '';
     const picked = (n: string) =>
       [...form.querySelectorAll<HTMLInputElement>(`input[name="${n}"]:checked`)].map((i) => i.value);
+    const beginn = () => (picked('zeitpunkt')[0] === '-' ? 'Noch offen' : picked('zeitpunkt')[0] ?? '');
+    const bilder = () => (files.count() ? `${files.count()} ${files.count() === 1 ? 'Bild' : 'Bilder'}` : 'Keine');
+    // Für die E-Mail: eine Zeile je Angabe
     const rows = () =>
       [
-        { at: 1, label: 'Privat oder Gewerbe', value: picked('privat_gewerbe')[0] },
-        { at: 2, label: 'Art der Arbeiten', value: picked('art_der_arbeiten[]').join(', ') },
-        { at: 3, label: 'Leistungen', value: picked('leistungen[]').join(', ') || 'Keine Auswahl' },
-        { at: 4, label: 'Fläche', value: area.value.trim() ? `${area.value.trim()} m²` : '' },
-        { at: 5, label: 'Beginn', value: picked('zeitpunkt')[0] === '-' ? 'Noch offen' : picked('zeitpunkt')[0] },
-        { at: 6, label: 'Bilder', value: files.count() ? `${files.count()} ${files.count() === 1 ? 'Bild' : 'Bilder'}` : 'Keine' },
-        { at: 7, label: 'Name', value: val('name') },
-        { at: 7, label: 'Rufnummer', value: val('telefon') || 'Nicht angegeben' },
-        { at: 7, label: 'E-Mail', value: val('email') },
-        { at: 8, label: 'Adresse', value: val('adresse') },
-        { at: 8, label: 'Adresse Bauvorhaben', value: val('adresse_bauvorhaben') },
-        { at: 9, label: 'Nachricht', value: val('nachricht') },
-      ].filter((r) => r.value) as { at: number; label: string; value: string }[];
+        { label: 'Privat oder Gewerbe', value: picked('privat_gewerbe')[0] },
+        { label: 'Art der Arbeiten', value: picked('art_der_arbeiten[]').join(', ') },
+        { label: 'Leistungen', value: picked('leistungen[]').join(', ') || 'Keine Auswahl' },
+        { label: 'Fläche', value: area.value.trim() ? `${area.value.trim()} m²` : '' },
+        { label: 'Beginn', value: beginn() },
+        { label: 'Bilder', value: bilder() },
+        { label: 'Name', value: val('name') },
+        { label: 'Rufnummer', value: val('telefon') || 'Nicht angegeben' },
+        { label: 'E-Mail', value: val('email') },
+        { label: 'Adresse', value: val('adresse') },
+        { label: 'Adresse Bauvorhaben', value: val('adresse_bauvorhaben') },
+        { label: 'Nachricht', value: val('nachricht') },
+      ].filter((r) => r.value) as { label: string; value: string }[];
+    // Für den Überblick: zusammengehörige Angaben in einem Block
+    const blocks = () => [
+      { at: 1, label: 'Projekt', lines: [picked('privat_gewerbe')[0], picked('art_der_arbeiten[]').join(', ')] },
+      { at: 3, label: 'Leistungen', lines: [picked('leistungen[]').join(', ') || 'Keine Auswahl'] },
+      { at: 4, label: 'Umfang und Beginn', lines: [area.value.trim() ? `${area.value.trim()} m²` : '', `Beginn: ${beginn()}`] },
+      { at: 6, label: 'Bilder', lines: [bilder()] },
+      { at: 7, label: 'Kontakt', lines: [val('name'), val('telefon'), val('email')] },
+      { at: 8, label: 'Adressen', lines: [`Adresse: ${val('adresse')}`, `Bauvorhaben: ${val('adresse_bauvorhaben')}`] },
+      { at: 9, label: 'Nachricht', lines: [val('nachricht')] },
+    ];
     const buildSummary = () => {
       summary.innerHTML = '';
-      rows().forEach((r) => {
+      blocks().forEach((b) => {
         const row = document.createElement('div');
         row.className = 'pf-sum-row';
         row.setAttribute('data-pf-item', '');
         const dt = document.createElement('dt');
-        dt.textContent = r.label;
+        dt.textContent = b.label;
         const dd = document.createElement('dd');
-        dd.textContent = r.value;
+        dd.textContent = b.lines.filter(Boolean).join('\n');
         const edit = document.createElement('button');
         edit.type = 'button';
         edit.className = 'pf-edit';
-        edit.setAttribute('aria-label', `${r.label} ändern`);
+        edit.setAttribute('aria-label', `${b.label} ändern`);
         edit.innerHTML = '<span class="underline-anim relative [--underline-gap:3px]">Ändern</span>';
-        edit.addEventListener('click', () => go(r.at));
+        edit.addEventListener('click', () => go(b.at));
         row.append(dt, dd, edit);
         summary.append(row);
       });
     };
 
-    // ---------- Zustand ----------
+    // ---------- Prüfen und Fehlerzeile ----------
     const fields = (i: number) =>
       [...screens[i].querySelectorAll<HTMLInputElement>('input, textarea')].filter(
-        (e) => e.type !== 'hidden' && e.type !== 'range' && e.type !== 'file',
+        (e) => e.type !== 'hidden' && e.type !== 'range' && e.type !== 'file' && !e.hasAttribute('data-pf-same'),
       );
     const isValid = (i: number) => fields(i).every((e) => e.checkValidity());
-    const report = (i: number) => {
-      const bad = fields(i).find((e) => !e.checkValidity());
-      bad?.reportValidity();
-      return !bad;
+    const clearErrors = () => {
+      screens[cur].querySelectorAll('.pf-err').forEach((e) => e.remove());
+      screens[cur].querySelectorAll('.is-invalid').forEach((e) => e.classList.remove('is-invalid'));
     };
+    const message = (el: HTMLInputElement) => {
+      if (el.validity.customError) return el.validationMessage;
+      if (el.type === 'radio') return 'Bitte wählen Sie eine Option.';
+      if (el.type === 'email' && !el.validity.valueMissing) return 'Bitte geben Sie eine gültige E-Mail-Adresse an.';
+      if (el.name === 'flaeche_qm') return 'Bitte geben Sie eine Zahl an, zum Beispiel 120.';
+      return 'Bitte füllen Sie dieses Feld aus.';
+    };
+    const report = (i: number) => {
+      clearErrors();
+      const bad = fields(i).find((e) => !e.checkValidity());
+      if (!bad) return true;
+      const holder = bad.closest<HTMLElement>('.pf-field, .pf-area, .pf-list') ?? bad.parentElement!;
+      const err = document.createElement('p');
+      err.className = 'pf-err';
+      err.setAttribute('role', 'alert');
+      err.textContent = message(bad);
+      holder.classList.add('is-invalid');
+      holder.after(err);
+      if (!reduced) gsap.fromTo(err, { autoAlpha: 0, y: 6 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: 'css' });
+      if (bad.type !== 'radio' && bad.type !== 'checkbox') bad.focus({ preventScroll: true });
+      return false;
+    };
+
+    // ---------- Zustand ----------
     function state() {
       next.classList.toggle('is-off', !isValid(cur));
     }
@@ -431,7 +483,7 @@ const tick = 'M4 10.5l4 4 8-9';
     };
 
     const focusScreen = (i: number) => {
-      const text = fields(i).find((e) => e.type !== 'radio' && e.type !== 'checkbox');
+      const text = fields(i).find((e) => e.type !== 'radio' && e.type !== 'checkbox' && !e.readOnly);
       (text ?? screens[i].querySelector<HTMLElement>('[data-pf-q]'))?.focus({ preventScroll: true });
       keepInView(root);
     };
@@ -442,6 +494,7 @@ const tick = 'M4 10.5l4 4 8-9';
       const dir = n > cur ? 1 : -1;
       const from = screens[cur];
       const to = screens[n];
+      clearErrors();
       cur = n;
       if (n === last) buildSummary();
       chrome();
@@ -502,14 +555,18 @@ const tick = 'M4 10.5l4 4 8-9';
       if (cur === 0) return go(1);
       if (report(cur)) go(cur + 1);
     };
-    form.querySelector('[data-pf-start]')!.addEventListener('click', () => go(1));
+    form.querySelector('[data-pf-start] button')!.addEventListener('click', () => go(1));
     nextBtn.addEventListener('click', advance);
     back.querySelector('button')!.addEventListener('click', () => go(cur - 1));
 
     // Auswahl: Zustand nachführen, Einzelauswahl geht nach kurzer Pause weiter
-    form.addEventListener('input', state);
-    form.addEventListener('change', (e) => {
+    const touched = () => {
+      clearErrors();
       state();
+    };
+    form.addEventListener('input', touched);
+    form.addEventListener('change', (e) => {
+      touched();
       const t = e.target as HTMLInputElement;
       if (t.type === 'radio' && screens[cur].hasAttribute('data-pf-auto')) {
         window.clearTimeout(autoTimer);
@@ -566,14 +623,9 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf {
     --ink: #090402;
     --hair: rgb(0 0 0 / 0.2);
-    --q: var(--color-gold); /* Farbe der Frage */
-    --sel: var(--color-gold); /* Linie, Fokus, Fortschritt, Links */
-    --muted-t: var(--color-muted);
-    --tick: #fff; /* Haken im gewählten Feld */
-    --ind-on: var(--ink); /* gewähltes Feld */
-    --ind-off: rgb(0 0 0 / 0.4);
-    --unit: var(--color-gold);
-    margin: 0 20px;
+    margin: 0;
+    padding: 0 20px;
+    background: var(--color-soft);
     color: var(--ink);
   }
   .pf-bar {
@@ -586,7 +638,7 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf-bar span {
     display: block;
     height: 100%;
-    background: var(--sel);
+    background: var(--color-gold);
     transform: scaleX(0);
     transform-origin: left center;
   }
@@ -599,7 +651,7 @@ const tick = 'M4 10.5l4 4 8-9';
     max-width: var(--container-page);
     min-height: 560px;
     margin: 0 auto;
-    padding: 28px 0 40px;
+    padding: 28px 0 48px;
   }
   .pf-meta {
     display: flex;
@@ -621,12 +673,15 @@ const tick = 'M4 10.5l4 4 8-9';
     justify-content: center;
   }
 
-  /* Eine Frage: links Frage, rechts Antworten */
+  /* Eine Frage: Frage oben mittig, Antworten darunter */
   .pf-screen {
     display: grid;
-    gap: 28px;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 32px;
     margin: 0;
     padding: 0;
+    text-align: center;
   }
   .pf-screen[hidden] {
     display: none;
@@ -641,12 +696,15 @@ const tick = 'M4 10.5l4 4 8-9';
     padding-top: 32px;
     border-top: 1px solid var(--hair);
   }
-  .pf-q {
+  .pf-q,
+  .pf-a {
+    width: 100%;
     min-width: 0;
+    max-width: 760px;
   }
   .pf-h {
     margin: 0;
-    color: var(--q);
+    color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
     font-size: 23px;
     line-height: 27.6px;
@@ -660,12 +718,9 @@ const tick = 'M4 10.5l4 4 8-9';
   }
   .pf-hint {
     margin: 14px 0 0;
-    color: var(--muted-t);
+    color: var(--color-muted);
     font-size: 15px;
     line-height: 1.5;
-  }
-  .pf-a {
-    min-width: 0;
   }
   .pf-intro,
   .pf-intro :global(p) {
@@ -677,14 +732,30 @@ const tick = 'M4 10.5l4 4 8-9';
     display: grid;
     gap: 14px;
     max-width: 620px;
+    margin-inline: auto;
   }
   .pf-start {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
     margin-top: 32px;
   }
+  .pf-facts {
+    margin: 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 12px;
+    line-height: 15.6px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
 
-  /* Antworten als Textzeilen */
+  /* Antworten als Kacheln */
   .pf-list {
-    max-width: 720px;
+    display: grid;
+    gap: 12px;
   }
   .pf-opt {
     position: relative;
@@ -692,12 +763,16 @@ const tick = 'M4 10.5l4 4 8-9';
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    padding: 20px 0 19px;
-    border-top: 1px solid var(--hair);
+    min-height: 76px;
+    padding: 20px 24px;
+    border: 1px solid var(--hair);
+    background: #fff;
+    text-align: left;
     cursor: pointer;
-  }
-  .pf-opt:last-child {
-    border-bottom: 1px solid var(--hair);
+    transition:
+      background-color 0.45s var(--ease-css),
+      border-color 0.45s var(--ease-css),
+      color 0.45s var(--ease-css);
   }
   .pf-opt input {
     position: absolute;
@@ -713,32 +788,38 @@ const tick = 'M4 10.5l4 4 8-9';
     font-size: 19px;
     line-height: 24.7px;
     font-weight: 500;
-    transition: color 0.4s var(--ease-css);
   }
-  .pf-opt:hover .pf-opt-text,
-  .pf-opt input:checked ~ .pf-opt-text {
-    color: var(--sel);
+  .pf-opt:hover {
+    border-color: var(--ink);
+  }
+  .pf-opt:has(input:checked) {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: #fff;
+  }
+  .pf-opt:has(input:focus-visible) {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
   }
   .pf-ind {
     flex: none;
+    display: grid;
     width: 22px;
     height: 22px;
-    border: 1px solid var(--ind-off);
-    border-radius: 50%;
-    display: grid;
     place-items: center;
-    transition:
-      background-color 0.4s var(--ease-css),
-      border-color 0.4s var(--ease-css);
+    border: 1px solid rgb(0 0 0 / 0.4);
+    border-radius: 50%;
+    transition: border-color 0.45s var(--ease-css);
   }
   .pf-opt--check .pf-ind {
     border-radius: 0;
   }
-  .pf-ind svg {
+  .pf-ind svg,
+  .pf-same-box svg {
     width: 14px;
     height: 14px;
     fill: none;
-    stroke: var(--tick);
+    stroke: #fff;
     stroke-width: 1.8;
     stroke-linecap: square;
     stroke-dasharray: 20;
@@ -746,46 +827,25 @@ const tick = 'M4 10.5l4 4 8-9';
     transition: stroke-dashoffset 0.45s var(--ease-grow);
   }
   .pf-opt input:checked ~ .pf-ind {
-    background: var(--ind-on);
-    border-color: var(--ind-on);
+    border-color: #fff;
   }
   .pf-opt input:checked ~ .pf-ind svg {
     stroke-dashoffset: 0;
   }
-  /* Goldene Linie zieht von links auf */
-  .pf-opt-line {
-    position: absolute;
-    top: -1px;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: var(--sel);
-    transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 0.7s var(--ease-grow);
-  }
-  .pf-opt:hover .pf-opt-line,
-  .pf-opt input:checked ~ .pf-opt-line {
-    transform: scaleX(1);
-  }
-  .pf-opt input:focus-visible ~ .pf-opt-text {
-    outline: 2px solid var(--color-gold);
-    outline-offset: 4px;
-  }
 
-  /* Felder: nur Linie */
+  /* Felder */
   .pf-fields {
     display: grid;
-    gap: 28px;
-    max-width: 720px;
+    gap: 24px;
+    text-align: left;
   }
   .pf-field {
-    position: relative;
+    min-width: 0;
   }
-  .pf-field label,
+  .pf-field > label:first-child,
   .pf-fl-label {
     display: block;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
     font-family: var(--font-urbanist), sans-serif;
     font-size: 12px;
     line-height: 15.6px;
@@ -794,15 +854,16 @@ const tick = 'M4 10.5l4 4 8-9';
     text-transform: uppercase;
     opacity: 0.6;
   }
-  .pf-field input,
+  .pf-field input[type='text'],
+  .pf-field input[type='tel'],
+  .pf-field input[type='email'],
   .pf-field textarea {
     display: block;
     width: 100%;
-    padding: 10px 0 12px;
-    border: 0;
-    border-bottom: 1px solid var(--hair);
+    padding: 14px 18px;
+    border: 1px solid var(--hair);
     border-radius: 0;
-    background: transparent;
+    background: #fff;
     color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
     font-size: 19px;
@@ -810,41 +871,114 @@ const tick = 'M4 10.5l4 4 8-9';
     transition: border-color 0.4s var(--ease-css);
   }
   .pf-field textarea {
-    min-height: 120px;
+    min-height: 150px;
     resize: vertical;
   }
   .pf-field input:focus,
   .pf-field textarea:focus {
-    border-bottom-color: var(--sel);
+    border-color: var(--ink);
     outline: none;
+  }
+  .pf-field input.is-same {
+    background: var(--color-soft);
+    color: var(--color-muted);
+  }
+  .pf-same {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+    font-size: 15px;
+    line-height: 22px;
+    cursor: pointer;
+  }
+  .pf-same input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .pf-same-box {
+    flex: none;
+    display: grid;
+    width: 22px;
+    height: 22px;
+    place-items: center;
+    border: 1px solid rgb(0 0 0 / 0.4);
+    background: #fff;
+    transition:
+      background-color 0.4s var(--ease-css),
+      border-color 0.4s var(--ease-css);
+  }
+  .pf-same input:checked ~ .pf-same-box {
+    border-color: var(--ink);
+    background: var(--ink);
+  }
+  .pf-same input:checked ~ .pf-same-box svg {
+    stroke-dashoffset: 0;
+  }
+  .pf-same input:focus-visible ~ .pf-same-box {
+    outline: 2px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+
+  /* Fehler: eine Zeile unter dem Feld */
+  .pf-err {
+    margin: 10px 0 0;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .pf-err::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 1px;
+    margin-right: 10px;
+    vertical-align: middle;
+    background: var(--color-gold);
+  }
+  .pf-field.is-invalid input,
+  .pf-field.is-invalid textarea,
+  .pf-area.is-invalid .pf-big {
+    border-color: var(--ink);
+  }
+  .pf-list.is-invalid .pf-opt {
+    border-color: rgb(0 0 0 / 0.5);
   }
 
   /* Fläche */
   .pf-area {
-    max-width: 720px;
+    text-align: center;
   }
   .pf-area-row {
     display: flex;
     align-items: baseline;
+    justify-content: center;
     gap: 14px;
   }
   .pf-big {
     width: 4.2em;
     max-width: 100%;
-    padding: 0 0 6px;
-    border: 0;
-    border-bottom: 1px solid var(--hair);
+    padding: 6px 12px;
+    border: 1px solid var(--hair);
     border-radius: 0;
-    background: transparent;
+    background: #fff;
     color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
     font-size: 40px;
     line-height: 54px;
     font-weight: 500;
+    text-align: center;
     transition: border-color 0.4s var(--ease-css);
   }
   .pf-big:focus {
-    border-bottom-color: var(--sel);
+    border-color: var(--ink);
     outline: none;
   }
   .pf-unit {
@@ -852,7 +986,7 @@ const tick = 'M4 10.5l4 4 8-9';
     font-size: 40px;
     line-height: 54px;
     font-weight: 500;
-    color: var(--unit);
+    color: var(--color-gold);
   }
   .pf-range {
     --p: 20%;
@@ -860,7 +994,7 @@ const tick = 'M4 10.5l4 4 8-9';
     width: 100%;
     max-width: 480px;
     height: 24px;
-    margin: 28px 0 0;
+    margin: 28px auto 0;
     background: transparent;
     cursor: pointer;
     -webkit-appearance: none;
@@ -894,19 +1028,45 @@ const tick = 'M4 10.5l4 4 8-9';
   }
   .pf-range:hover::-webkit-slider-thumb,
   .pf-range:focus-visible::-webkit-slider-thumb {
-    background: var(--sel);
+    background: var(--color-gold);
+  }
+  .pf-scale {
+    display: flex;
+    justify-content: space-between;
+    max-width: 480px;
+    margin: 6px auto 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 12px;
+    line-height: 15.6px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.5;
   }
 
   /* Bilder */
-  .pf-files {
-    max-width: 720px;
-  }
-  .pf-pick {
+  .pf-drop {
     position: relative;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    min-height: 170px;
+    padding: 24px;
+    border: 1px dashed rgb(0 0 0 / 0.4);
+    background: #fff;
     cursor: pointer;
+    transition:
+      border-color 0.4s var(--ease-css),
+      background-color 0.4s var(--ease-css);
   }
-  .pf-pick input {
+  .pf-drop:hover,
+  [data-pf-drop].is-over .pf-drop {
+    border-color: var(--ink);
+    border-style: solid;
+  }
+  .pf-drop input {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -914,22 +1074,49 @@ const tick = 'M4 10.5l4 4 8-9';
     opacity: 0;
     cursor: pointer;
   }
+  .pf-drop-plus {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 1px solid var(--hair);
+    border-radius: 50%;
+    transition:
+      background-color 0.4s var(--ease-css),
+      color 0.4s var(--ease-css);
+  }
+  .pf-drop:hover .pf-drop-plus,
+  [data-pf-drop].is-over .pf-drop-plus {
+    background: var(--ink);
+    color: #fff;
+  }
+  .pf-drop-text {
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 500;
+  }
   .pf-note {
     margin: 12px 0 0;
     font-size: 14px;
     line-height: 1.4;
   }
+  .pf-note[hidden] {
+    display: none;
+  }
   .pf-thumbs {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
-    margin: 20px 0 0;
+    margin: 16px 0 0;
     padding: 0;
     list-style: none;
   }
   .pf-thumbs :global(li) {
     position: relative;
-    aspect-ratio: 1;
+    width: 84px;
+    height: 84px;
     overflow: hidden;
   }
   .pf-thumbs :global(img) {
@@ -955,24 +1142,24 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf-thumbs :global(button:hover) {
     background: var(--color-gold);
   }
-  [data-pf-drop].is-over .pf-pick span {
-    color: var(--ink);
-  }
 
   /* Überblick */
   .pf-sum {
-    max-width: 720px;
     margin: 0;
+    padding: 4px 24px;
+    border: 1px solid var(--hair);
+    background: #fff;
+    text-align: left;
   }
   .pf-sum :global(.pf-sum-row) {
     display: grid;
     grid-template-columns: 1fr auto;
-    gap: 2px 16px;
+    gap: 4px 16px;
     padding: 14px 0;
     border-top: 1px solid var(--hair);
   }
-  .pf-sum :global(.pf-sum-row:last-child) {
-    border-bottom: 1px solid var(--hair);
+  .pf-sum :global(.pf-sum-row:first-child) {
+    border-top: 0;
   }
   .pf-sum :global(dt) {
     font-family: var(--font-urbanist), sans-serif;
@@ -986,9 +1173,10 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf-sum :global(dd) {
     grid-column: 1;
     margin: 0;
-    font-size: 16px;
-    line-height: 24px;
+    font-size: 15px;
+    line-height: 22px;
     white-space: pre-line;
+    overflow-wrap: anywhere;
   }
   .pf-sum :global(.pf-edit) {
     grid-column: 2;
@@ -1001,7 +1189,7 @@ const tick = 'M4 10.5l4 4 8-9';
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    color: var(--sel);
+    color: var(--color-gold);
     cursor: pointer;
   }
 
@@ -1011,12 +1199,12 @@ const tick = 'M4 10.5l4 4 8-9';
     align-items: center;
     justify-content: space-between;
     gap: 20px;
-    margin-top: auto;
+    width: 100%;
+    max-width: 760px;
+    margin: auto auto 0;
     padding-top: 40px;
   }
-  .pf-nav[hidden] {
-    display: none;
-  }
+  .pf-nav[hidden],
   .pf-nav [hidden] {
     display: none;
   }
@@ -1027,16 +1215,43 @@ const tick = 'M4 10.5l4 4 8-9';
     transition: opacity 0.4s var(--ease-css);
   }
   .pf-nav-r :global([data-pf-next].is-off) {
-    opacity: 0.35;
+    opacity: 0.4;
   }
   .pf:not(.is-focus) .pf-nav {
     display: none;
+  }
+  .pf-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+  }
+  .pf-back-arrow {
+    display: flex;
+    width: 15px;
+    align-items: center;
+  }
+  .pf-back:hover .underline-anim::before {
+    animation: underline-in 0.65s ease forwards;
+  }
+  .pf-back:hover .underline-anim::after {
+    animation: underline-out 0.5s ease forwards;
   }
 
   /* Fertig */
   .pf-done {
     max-width: 720px;
+    margin-inline: auto;
     padding: 12px 0 8px;
+    text-align: center;
     outline: none;
   }
   .pf-done[hidden] {
@@ -1046,9 +1261,9 @@ const tick = 'M4 10.5l4 4 8-9';
     display: block;
     width: 64px;
     height: 64px;
-    margin-bottom: 24px;
+    margin: 0 auto 24px;
     fill: none;
-    stroke: var(--sel);
+    stroke: var(--color-gold);
     stroke-width: 1.5;
     stroke-linecap: square;
   }
@@ -1058,6 +1273,7 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf-done-links {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 14px 30px;
     margin-top: 24px;
   }
@@ -1067,13 +1283,10 @@ const tick = 'M4 10.5l4 4 8-9';
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.5px;
-    color: var(--sel);
+    color: var(--color-gold);
   }
 
   @media (min-width: 768px) {
-    .pf {
-      margin: 0 20px;
-    }
     .pf-h {
       font-size: 29px;
       line-height: 39.15px;
@@ -1086,28 +1299,39 @@ const tick = 'M4 10.5l4 4 8-9';
       min-height: 620px;
       padding-top: 36px;
     }
-    .pf-opt-text {
-      font-size: 24px;
-      line-height: 31.2px;
+    .pf-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .pf-field input,
-    .pf-field textarea {
-      font-size: 24px;
-      line-height: 31.2px;
+    /* Eine einzelne letzte Kachel (fünf Leistungen) geht über die ganze Breite */
+    .pf-list .pf-opt:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+    .pf-opt-text {
+      font-size: 21px;
+      line-height: 27px;
+    }
+    .pf-thumbs :global(li) {
+      width: 110px;
+      height: 110px;
+    }
+    /* Überblick auf zwei Spalten, damit „Anfrage senden“ im Bild bleibt */
+    .pf-sum {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: 40px;
+    }
+    .pf-sum :global(.pf-sum-row:nth-child(2)) {
+      border-top: 0;
+    }
+    .pf-sum :global(.pf-sum-row:last-child:nth-child(odd)) {
+      grid-column: 1 / -1;
     }
   }
   @media (min-width: 1025px) {
-    .pf {
-      margin: 0 30px;
-    }
     .pf-inner {
       min-height: max(640px, calc(100svh - 190px));
       padding-top: 40px;
-    }
-    .pf-screen {
-      grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
-      gap: 0 6vw;
-      align-items: start;
+      padding-bottom: 64px;
     }
     .pf-h {
       font-size: var(--text-h3);
@@ -1121,222 +1345,6 @@ const tick = 'M4 10.5l4 4 8-9';
     .pf-unit {
       font-size: var(--text-h1);
       line-height: var(--text-h1--line-height);
-    }
-    .pf-opt {
-      padding: 24px 0 23px;
-    }
-  }
-
-  /* ===== B2 „Kacheln“: grauer Grund wie die Vorteile, mittig, Antworten als weiße Kacheln ===== */
-  .pf--tiles {
-    margin: 0;
-    padding: 0 20px;
-    background: var(--color-soft);
-  }
-  .pf--tiles .pf-screen {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: 32px;
-    text-align: center;
-  }
-  .pf--tiles .pf-q,
-  .pf--tiles .pf-a {
-    width: 100%;
-    max-width: 760px;
-  }
-  .pf--tiles .pf-intro {
-    margin-inline: auto;
-  }
-  .pf--tiles .pf-list {
-    display: grid;
-    gap: 12px;
-  }
-  .pf--tiles .pf-opt {
-    min-height: 76px;
-    padding: 20px 24px;
-    border: 1px solid var(--hair);
-    background: #fff;
-    text-align: left;
-    transition:
-      background-color 0.45s var(--ease-css),
-      border-color 0.45s var(--ease-css),
-      color 0.45s var(--ease-css);
-  }
-  .pf--tiles .pf-opt:last-child {
-    border-bottom: 1px solid var(--hair);
-  }
-  .pf--tiles .pf-opt-line {
-    display: none;
-  }
-  .pf--tiles .pf-opt:hover {
-    border-color: var(--ink);
-  }
-  .pf--tiles .pf-opt:has(input:checked) {
-    border-color: var(--ink);
-    background: var(--ink);
-    color: #fff;
-  }
-  .pf--tiles .pf-opt:hover .pf-opt-text,
-  .pf--tiles .pf-opt input:checked ~ .pf-opt-text {
-    color: inherit;
-  }
-  .pf--tiles .pf-opt input:checked ~ .pf-ind {
-    border-color: #fff;
-    background: transparent;
-  }
-  .pf--tiles .pf-fields {
-    margin-inline: auto;
-    width: 100%;
-    text-align: left;
-  }
-  .pf--tiles .pf-field label {
-    margin-bottom: 8px;
-  }
-  .pf--tiles .pf-field input,
-  .pf--tiles .pf-field textarea {
-    padding: 14px 18px;
-    border: 1px solid var(--hair);
-    background: #fff;
-    transition: border-color 0.4s var(--ease-css);
-  }
-  .pf--tiles .pf-field input:focus,
-  .pf--tiles .pf-field textarea:focus {
-    border-color: var(--ink);
-  }
-  .pf--tiles .pf-area {
-    margin-inline: auto;
-  }
-  .pf--tiles .pf-area-row {
-    justify-content: center;
-  }
-  .pf--tiles .pf-range {
-    margin-inline: auto;
-  }
-  .pf--tiles .pf-big {
-    text-align: center;
-    background: #fff;
-    padding: 6px 12px;
-    border: 1px solid var(--hair);
-  }
-  .pf--tiles .pf-big:focus {
-    border-color: var(--ink);
-  }
-  .pf--tiles .pf-files {
-    margin-inline: auto;
-  }
-  .pf--tiles .pf-thumbs {
-    max-width: 420px;
-    margin-inline: auto;
-  }
-  .pf--tiles .pf-sum {
-    padding: 4px 24px;
-    border: 1px solid var(--hair);
-    background: #fff;
-    text-align: left;
-  }
-  .pf--tiles .pf-sum :global(.pf-sum-row:first-child) {
-    border-top: 0;
-  }
-  .pf--tiles .pf-sum :global(.pf-sum-row:last-child) {
-    border-bottom: 0;
-  }
-  .pf--tiles .pf-done {
-    margin-inline: auto;
-    text-align: center;
-  }
-  .pf--tiles .pf-done-mark {
-    margin-inline: auto;
-  }
-  .pf--tiles .pf-done-links {
-    justify-content: center;
-  }
-  .pf--tiles .pf-inner {
-    padding-bottom: 56px;
-  }
-
-  /* ===== B3 „Glas“: Betonwand, Linienraster und Milchglas-Spalte wie das Banner der Startseite ===== */
-  .pf--glass {
-    --ink: #fff;
-    --hair: var(--color-line);
-    --q: #fff;
-    --sel: #fff;
-    --muted-t: rgb(255 255 255 / 0.85);
-    --tick: #090402;
-    --ind-on: #fff;
-    --ind-off: rgb(255 255 255 / 0.6);
-    --unit: #fff;
-    position: relative;
-    margin: 0;
-    padding: 5vh 0;
-    overflow: hidden;
-    background-position: center;
-    background-size: cover;
-  }
-  .pf--glass .pf-bar {
-    position: absolute;
-    top: 5vh;
-    left: 50%;
-    z-index: 2;
-    width: min(94%, 1300px);
-    max-width: none;
-    transform: translateX(-50%);
-    background: transparent;
-  }
-  .pf--glass .pf-inner {
-    position: relative;
-    width: min(94%, 1300px);
-    max-width: none;
-    padding: 28px 20px 32px;
-    border-right: 1px solid var(--color-line);
-    border-left: 1px solid var(--color-line);
-    background: rgb(9 4 2 / 0.12);
-    -webkit-backdrop-filter: blur(40px) saturate(1.8);
-    backdrop-filter: blur(40px) saturate(1.8);
-  }
-  /* Linien über die ganze Breite oben und unten wie beim Banner */
-  .pf--glass .pf-inner::before,
-  .pf--glass .pf-inner::after {
-    content: '';
-    position: absolute;
-    left: -100vw;
-    width: 300vw;
-    height: 1px;
-    background: var(--color-line);
-  }
-  .pf--glass .pf-inner::before {
-    top: -1px;
-  }
-  .pf--glass .pf-inner::after {
-    bottom: -1px;
-  }
-  .pf--glass .pf-meta p {
-    color: #fff;
-  }
-  .pf--glass .pf-thumbs :global(li) {
-    outline: 1px solid var(--color-line);
-  }
-
-  @media (min-width: 768px) {
-    .pf--tiles .pf-list {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .pf--glass .pf-inner {
-      padding: 36px 36px 40px;
-    }
-  }
-  @media (min-width: 1025px) {
-    .pf--tiles {
-      margin: 0;
-    }
-    .pf--glass {
-      margin: 0;
-    }
-    .pf--glass .pf-inner {
-      min-height: max(600px, calc(100svh - 10vh - 140px));
-      padding: 40px 56px 44px;
-    }
-    .pf--tiles .pf-inner {
-      padding-bottom: 64px;
     }
   }
 </style>
