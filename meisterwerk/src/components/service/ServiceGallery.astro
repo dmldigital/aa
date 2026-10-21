@@ -13,12 +13,16 @@ interface Props {
   alt: string;
   label?: string;
   heading?: string;
+  /** Auf volle Reihen kürzen (Standard). Projektseiten zeigen alle Bilder, die letzte Reihe darf kürzer sein. */
+  trim?: boolean;
 }
-const { alt, label = 'Galerie', heading = 'Einblicke in unsere Arbeit' } = Astro.props;
+const { alt, label = 'Galerie', heading = 'Einblicke in unsere Arbeit', trim = true } = Astro.props;
 // Bis acht Bilder zwei Spalten, darüber drei (ab 1025 px). Es bleibt immer eine volle Reihe: gerade Zahl bzw. Vielfaches von 6
 const cols = Astro.props.images.length > 8 ? 3 : 2;
 const step = cols === 3 ? 6 : 2;
-const images = Astro.props.images.slice(0, Astro.props.images.length - (Astro.props.images.length % step));
+const images = trim
+  ? Astro.props.images.slice(0, Astro.props.images.length - (Astro.props.images.length % step))
+  : Astro.props.images;
 const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, format: 'webp' })));
 ---
 

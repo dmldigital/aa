@@ -2,7 +2,7 @@
 /** Projektbeiträge: eine Route für alle Einträge der Collection `beitraege`. */
 import { getCollection } from 'astro:content';
 import PageLayout from '../../../../layouts/PageLayout.astro';
-import PostArticle from '../../../../components/sections/PostArticle.astro';
+import ProjectPage from '../../../../components/projekte/ProjectPage.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('beitraege');
@@ -20,5 +20,5 @@ const { post } = Astro.props;
   description={post.description}
   current={`/${post.year}/${post.month}/${post.day}/${post.slug}/`}
 >
-  <PostArticle {post} />
+  <ProjectPage {post} />
 </PageLayout>

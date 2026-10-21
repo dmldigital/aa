@@ -1,0 +1,200 @@
+---
+/**
+ * Einzelnes Projekt (Beiträge der Collection `beitraege`): Kopf mit Label „Projekte“, Überschrift der Unterseiten und
+ * den Eckdaten (Linie oben, wie in der Projektliste), großes Titelbild, die drei Abschnitte des Beitrags als Kapitel
+ * mit Bildern aus der Galerie (Bild und Text wechseln die Seite), die übrigen Bilder als Galerie, das nächste Projekt
+ * als Karte und das Betonwand-Banner der Startseite. Bilder wie die Projektkarten der Startseite (Aufwachsen,
+ * beim Überfahren größer und heller mit Plus-Kreis, Klick öffnet die Großansicht). Keine neuen Animationen.
+ */
+import { Picture, getImage } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import ArrowLink from '../ui/ArrowLink.astro';
+import Lightbox from '../ui/Lightbox.astro';
+import ServiceGallery from '../service/ServiceGallery.astro';
+import Surface from '../sections/Surface.astro';
+import { href, routes } from '../../data/links';
+import { projects } from '../../data/projects';
+
+interface Props {
+  post: CollectionEntry<'beitraege'>['data'];
+}
+const { post } = Astro.props;
+
+const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
+const tile =
+  'group/card relative block cursor-pointer overflow-hidden';
+const zoom =
+  'pointer-events-none absolute top-1/2 left-1/2 z-10 flex size-17.5 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-black/70 text-[40px]/[22.5px] text-white opacity-0 transition-opacity duration-300 group-hover/card:opacity-100';
+const zoomImg =
+  'block size-full object-cover transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80';
+
+const postHref = `/${post.year}/${post.month}/${post.day}/${post.slug}/`;
+const facts = [
+  { label: 'Leistungen', value: post.services.join(', '), wide: true },
+  { label: 'Jahr', value: post.info.year },
+  { label: 'Ort', value: post.info.place },
+  { label: 'Dauer', value: post.info.duration },
+  { label: 'Fläche', value: `${post.info.area} m²` },
+];
+
+// Bilder: Titelbild nicht doppeln. Ab neun Bildern zwei je Kapitel, sonst eines. Der Rest bildet die Galerie.
+const pool = post.gallery.filter((g) => g.src !== post.image.src);
+const per = pool.length >= 9 ? 2 : 1;
+const chapters = post.sections.map((s, i) => ({ ...s, images: pool.slice(i * per, i * per + per) }));
+const rest = pool.slice(post.sections.length * per);
+const full = new Map(
+  await Promise.all(
+    chapters.flatMap((c) => c.images).map(async (src) => [src.src, (await getImage({ src, width: 1800, format: 'webp' })).src] as const),
+  ),
+);
+
+// Nächstes Projekt: das folgende in der Reihenfolge der Projektliste (nach dem letzten wieder das erste)
+const idx = projects.findIndex((p) => p.href.includes(`/${post.slug}/`));
+const next = projects[(idx + 1) % projects.length];
+---
+
+<!-- Kopf -->
+<section class="px-5 mt-10 mb-10 md:mt-15 md:mb-15 lg:mt-[10vh] lg:mb-[8vh] lg:px-7.5">
+  <div class="mx-auto flex w-full max-w-page flex-col gap-3.75 lg:gap-5">
+    <a href={href(routes.projects)} class={`group/ul inline-block self-start ${eyebrow}`} data-anim="fadeIn">
+      <span class="underline-anim relative [--underline-gap:3px]">Projekte</span>
+    </a>
+    <h1
+      class="font-display text-[26px]/[28.6px] font-medium text-balance text-ink md:text-[34px]/[37.4px] lg:text-h1"
+      data-anim="fadeInUp"
+      data-anim-delay="100"
+    >
+      {post.title}
+    </h1>
+    <dl
+      class="mt-2.5 grid grid-cols-2 gap-x-5 gap-y-5 border-t border-black/20 pt-5 md:grid-cols-4 lg:mt-5 lg:grid-cols-[2fr_1fr_1fr_1fr_1fr]"
+      data-anim="fadeIn"
+      data-anim-delay="250"
+    >
+      {facts.map((f) => (
+        <div class:list={['flex flex-col gap-1.25', f.wide && 'col-span-2 md:col-span-4 lg:col-span-1']}>
+          <dt class={eyebrow + ' opacity-60'}>{f.label}</dt>
+          <dd class="text-[16px]/[24px] text-ink md:text-body">{f.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<!-- Titelbild -->
+<section class="px-5 lg:px-7.5">
+  <div class="mx-auto w-full max-w-page overflow-hidden" data-grow="bottom">
+    <Picture
+      formats={['avif']}
+      fallbackFormat="webp"
+      src={post.image}
+      alt={post.title}
+      widths={[390, 780, 1200, 1700, 2200]}
+      sizes="(min-width: 1025px) 1380px, calc(100vw - 40px)"
+      loading="eager"
+      class="block aspect-[4/3] h-auto w-full object-cover md:aspect-[16/9] lg:aspect-[2/1]"
+    />
+  </div>
+</section>
+
+<!-- Kapitel -->
+<section data-pj class="px-5 mt-15 md:mt-[10vh] lg:px-7.5">
+  <div class="mx-auto flex w-full max-w-page flex-col gap-15 md:gap-[12vh]">
+    {chapters.map((c, i) => (
+      <article class="grid items-start gap-6 lg:grid-cols-12 lg:gap-x-[6vw]">
+        <div
+          class:list={['flex flex-col gap-3.75 lg:sticky lg:top-[18vh] lg:col-span-5 lg:gap-5', i % 2 === 1 && 'lg:order-2']}
+          data-anim="fadeInUp"
+          data-anim-dur="fast"
+        >
+          <h2 class="font-display text-[21px]/[26.25px] font-medium text-gold md:text-[24px]/[30px] lg:text-h3">
+            {c.heading}
+          </h2>
+          <p class="text-[16px]/[24px] md:text-body">{c.text}</p>
+        </div>
+        {c.images.length > 0 && (
+          <div
+            class:list={[
+              'grid gap-5 lg:col-span-7 lg:gap-7.5',
+              c.images.length > 1 && 'grid-cols-2',
+              i % 2 === 1 && 'lg:order-1',
+            ]}
+          >
+            {c.images.map((src, k) => (
+              <button
+                type="button"
+                class:list={[tile, c.images.length > 1 ? 'aspect-[3/4]' : 'aspect-[4/3]', k === 1 && 'mt-[14%]']}
+                data-pj-item
+                data-full={full.get(src.src)}
+                aria-label={`${post.title}, Bild vergrößern`}
+              >
+                <div class="size-full [&_picture]:block [&_picture]:size-full" data-grow="bottom">
+                  <Picture
+                    formats={['avif']}
+                    fallbackFormat="webp"
+                    src={src}
+                    alt={post.title}
+                    widths={[350, 560, 800, 1100]}
+                    sizes={c.images.length > 1 ? '(min-width: 1025px) 340px, 50vw' : '(min-width: 1025px) 800px, calc(100vw - 40px)'}
+                    loading="lazy"
+                    draggable="false"
+                    class={zoomImg}
+                  />
+                </div>
+                <span aria-hidden="true" class={zoom}>+</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </article>
+    ))}
+  </div>
+  <Lightbox />
+</section>
+
+<!-- Weitere Bilder -->
+{rest.length > 0 && <ServiceGallery images={rest} alt={post.title} heading="Weitere Eindrücke" trim={false} />}
+
+<!-- Nächstes Projekt -->
+<section class:list={['px-5 lg:px-7.5', rest.length > 0 ? 'mt-0' : 'mt-[12vh]']}>
+  <div class="mx-auto grid w-full max-w-page items-center gap-6 lg:grid-cols-12 lg:gap-x-[6vw]">
+    <div class="flex flex-col gap-3.75 lg:col-span-5 lg:gap-5" data-anim="fadeInUp" data-anim-dur="fast">
+      <p class={eyebrow}>Nächstes Projekt</p>
+      <h2 class="font-display text-[21px]/[26.25px] font-medium text-gold md:text-[24px]/[30px] lg:text-h3">
+        {next.title}
+      </h2>
+      <div class="flex flex-wrap gap-x-7.5 gap-y-2.5">
+        <ArrowLink href={href(next.href)} tone="gold">Projekt ansehen</ArrowLink>
+        <ArrowLink href={href(routes.projects)} tone="black">Alle Projekte</ArrowLink>
+      </div>
+    </div>
+    <a
+      href={href(next.href)}
+      class="group/card relative block overflow-hidden lg:col-span-7"
+      aria-label={`${next.title}, Projekt ansehen`}
+    >
+      <div data-grow="bottom">
+        <Picture
+          formats={['avif']}
+          fallbackFormat="webp"
+          src={next.img}
+          alt={next.alt}
+          widths={[350, 700, 960, 1400]}
+          sizes="(min-width: 1025px) 58vw, calc(100vw - 40px)"
+          loading="lazy"
+          class="block aspect-[3/2] h-auto w-full object-cover transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80"
+        />
+      </div>
+      <span aria-hidden="true" class={zoom}>+</span>
+    </a>
+  </div>
+</section>
+
+<Surface rootClass="mt-[14vh] md:mt-[20vh]" />
+
+<script>
+  import { initLightbox } from '../../scripts/lightbox';
+
+  const root = document.querySelector<HTMLElement>('[data-pj]');
+  if (root) initLightbox(root, [...root.querySelectorAll<HTMLElement>('[data-pj-item]')]);
+</script>

@@ -1,0 +1,1 @@
+import{t as e}from"./lightbox.cbQ17PsQ.js";var t=document.querySelector(`[data-pj]`);t&&e(t,[...t.querySelectorAll(`[data-pj-item]`)]);
