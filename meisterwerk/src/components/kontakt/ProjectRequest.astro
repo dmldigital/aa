@@ -33,7 +33,7 @@ const tick = 'M4 10.5l4 4 8-9';
 const QUESTIONS = 9;
 ---
 
-<section class="pf" data-pf>
+<section class="pf" data-pf data-cta-off data-no-header>
   <div class="pf-bar" aria-hidden="true"><span data-pf-fill></span></div>
 
   <form data-pf-form data-pf-mail={site.email} name="Projektanfrage" aria-label="Projektanfrage" novalidate>
@@ -54,7 +54,7 @@ const QUESTIONS = 9;
               {intro.map((p) => <p>{p}</p>)}
             </div>
             <div class="pf-start" data-pf-item data-pf-startbox>
-              <div data-pf-start><Button type="button" variant="solid">Anfrage starten</Button></div>
+              <div data-pf-start><Button type="button">Anfrage starten</Button></div>
               <p class="pf-facts">{QUESTIONS} kurze Fragen</p>
             </div>
           </div>
@@ -263,8 +263,8 @@ const QUESTIONS = 9;
       <div class="pf-nav" data-pf-nav>
         <div data-pf-back hidden><button type="button" class="pf-back"><span class="pf-back-arrow" aria-hidden="true"><Icon name="arrow-left" class="size-3.5" /></span><span class="underline-anim relative [--underline-gap:0px]">Zurück</span></button></div>
         <div class="pf-nav-r">
-          <div data-pf-next hidden><Button type="button" variant="solid">Weiter</Button></div>
-          <div data-pf-send hidden><Button type="submit" variant="solid">Anfrage senden</Button></div>
+          <div data-pf-next hidden><Button type="button">Weiter</Button></div>
+          <div data-pf-send hidden><Button type="submit">Anfrage senden</Button></div>
         </div>
       </div>
     </div>

@@ -104,6 +104,18 @@
 
 /* Ausgangszustand für Scroll-Animationen (nur mit JavaScript) */
 @layer components {
+  /* Textlink im Fließtext (interne Verlinkung, `lib/autolink.ts`): wie die Links im Text der Startseite */
+  .inline-link {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 3px;
+    transition: color 0.3s;
+  }
+  .inline-link:hover {
+    color: var(--color-gold);
+  }
+
   .js [data-anim]:not([data-anim='none']) {
     visibility: hidden;
   }

@@ -4,7 +4,9 @@ import Actions from '../header/Actions.astro';
 import Brand from '../header/Brand.astro';
 /**
  * Smart Sticky: Die Kopfzeile erscheint nach dem oberen Seitenbereich (Hero bzw. Kopfzeile) beim Hochscrollen
- * (nach mehr als 12 px in eine Richtung) und verschwindet beim Runterscrollen wieder. Skript unten.
+ * (nach mehr als 12 px in eine Richtung) und verschwindet beim Runterscrollen wieder. Sie bleibt weg, wo sie stören
+ * würde: in Bereichen mit `data-no-header` (Szenen mit festgehaltenem oder mitlaufendem Inhalt, die Projektanfrage)
+ * und bei geöffnetem Menü oder Großansicht. Skript unten.
  */
 interface Props {
   site?: Site;
@@ -42,6 +44,17 @@ const { site = 'main' } = Astro.props;
       last = y;
       const end = top ? top.offsetTop + top.offsetHeight : 0;
       if (y < end) {
+        run = 0;
+        show(false);
+        return;
+      }
+      // Szenen und Formulare: Die Kopfzeile bleibt weg, solange ein solcher Bereich den oberen Rand einnimmt
+      const bar = header.offsetHeight || 88;
+      const blocked = [...document.querySelectorAll<HTMLElement>('[data-no-header]')].some((z) => {
+        const r = z.getBoundingClientRect();
+        return r.top < bar && r.bottom > 0;
+      });
+      if (blocked || document.querySelector('[data-gallery-lightbox]:not([hidden]), [data-lb]:not([hidden])')) {
         run = 0;
         show(false);
         return;

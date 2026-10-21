@@ -33,7 +33,7 @@ const items = await Promise.all(
 const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)];
 ---
 
-<section class="qs" data-qs>
+<section class="qs" data-qs data-no-header>
   <header class="qs-open">
     <p class="qs-eyebrow" data-qs-fade>{label}</p>
     <h1 class="qs-title" aria-label={heading}>

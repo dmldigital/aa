@@ -1,25 +1,23 @@
 ---
 /**
- * Rechteckiger Button mit Unterstrich-Animation (Original: Elementor-Button 14px/15,4px).
- * `light` = weiß auf Bild (Rand und Schrift weiß), `outline` = weiß mit schwarzem Rand, `solid` = schwarz mit weißer Schrift.
- * `size="sm"` = kompakt (Kopfzeile).
+ * Der Button der Website (Original: Elementor-Button 14px/15,4px): rechteckig, Rahmen 1 px, Schrift Urbanist 14 px
+ * halbfett in Großbuchstaben, Unterstrich-Animation beim Überfahren. Es gibt ihn nur in zwei Farben nach Untergrund:
+ * `outline` (weiß mit schwarzem Rand) auf hellen Flächen, `light` (durchsichtig mit weißem Rand und weißer Schrift) auf
+ * Fotos. `size="sm"` = kompakt (Kopfzeile, Menü). Labels ohne Pfeil-Zeichen, die Großschreibung übernimmt der Button.
+ * Weitere Attribute (z. B. `data-…`) und `class` gehen an das Element. Der schwebende Sticker im Fuß ist derselbe Button.
  */
-interface Props {
+interface Props extends astroHTML.JSX.HTMLAttributes {
   /** Ohne `href` entsteht ein `<button>` (z. B. Senden-Button im Formular). */
   href?: string;
-  variant?: 'light' | 'outline' | 'solid';
+  variant?: 'light' | 'outline';
   size?: 'md' | 'sm';
   type?: 'submit' | 'button';
 }
-const { href, variant = 'outline', size = 'md', type = 'submit' } = Astro.props;
+const { href, variant = 'outline', size = 'md', type = 'submit', class: className, ...rest } = Astro.props;
 const Tag = href ? 'a' : 'button';
 const variants = {
   light: { link: 'border-white text-white', text: 'relative [--underline-gap:0px]' },
   outline: { link: 'border-black bg-white text-black', text: '[--underline-gap:3px]' },
-  solid: {
-    link: 'border-black bg-black text-white transition-colors duration-300 hover:border-gold hover:bg-gold',
-    text: '[--underline-gap:3px]',
-  },
 };
 const sizes = {
   md: 'px-5 py-3.25 md:px-6.25 lg:px-7.5 lg:py-3.75',
@@ -28,11 +26,13 @@ const sizes = {
 ---
 
 <Tag
+  {...rest}
   {...(href ? { href } : { type })}
   class:list={[
-    'group/ul inline-block cursor-pointer border text-center font-display text-button font-semibold tracking-button',
+    'group/ul inline-block cursor-pointer border text-center font-display text-button font-semibold tracking-button uppercase',
     sizes[size],
     variants[variant].link,
+    className,
   ]}
 >
   <span class="flex justify-center gap-1.25">

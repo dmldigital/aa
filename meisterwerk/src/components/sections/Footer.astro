@@ -1,4 +1,5 @@
 ---
+import Button from '../ui/Button.astro';
 import { href } from '../../data/links';
 import { footers } from '../../data/footer';
 import type { Site } from '../../data/nav';
@@ -12,7 +13,8 @@ import Social from '../footer/Social.astro';
 import ToTop from '../footer/ToTop.astro';
 /**
  * Fußbereich (Original: Elementor-Container 80dbe99), Inhalte wie im Original: Kontaktaufruf, Bewertungs-Badge,
- * Logos, Social Media, Kontaktdaten, rechtliche Links, Pfeil nach oben und der schwebende Link "Projekt starten".
+ * Logos, Social Media, Kontaktdaten, rechtliche Links, Pfeil nach oben und der schwebende Button "Projekt starten"
+ * (Sticker). Wann der Sticker wegbleibt, steht im Skript unten.
  * Ab Tablet vier Spalten in einer Zeile (Überschrift, Badge, Logo mit Kontakt, zweites Logo mit Links) und eine
  * schmale Leiste; auf dem Handy eine Spalte in anderer Reihenfolge (die Spalten lösen sich per `contents` auf).
  */
@@ -27,17 +29,17 @@ const line =
 ---
 
 <footer data-section="80dbe99" class="relative z-10 overflow-x-clip bg-white">
-  <!-- Trennlinie, enthält den schwebenden Link "Projekt starten" -->
+  <!-- Trennlinie, enthält den schwebenden Button "Projekt starten" (derselbe Button wie überall, nur kompakt) -->
   <div class="border-b border-black/20">
-    <a
+    <Button
       href={href(f.contactHref)}
+      size="sm"
       data-floating-cta
-      class="group/cta invisible fixed bottom-7.5 left-7.5 z-[9999] inline-block -translate-x-[50px] border border-black bg-white px-6 py-2 text-center text-14 text-black md:leading-[22.5px] opacity-0 shadow-[0_2px_8px_rgb(0_0_0/0.1)] transition-all duration-300 ease-[ease] hover:-translate-y-px hover:bg-black hover:shadow-[0_4px_12px_rgb(0_0_0/0.15)] data-[show]:visible data-[show]:translate-x-0 data-[show]:opacity-100 max-[768px]:bottom-5 max-[768px]:left-5 max-[768px]:px-5 max-[768px]:py-1.5 max-[768px]:text-13 max-[480px]:px-4.5 max-[480px]:py-1.25 max-[480px]:text-[12px]"
+      inert
+      class="invisible fixed bottom-7.5 left-7.5 z-[9999] -translate-x-[50px] opacity-0 shadow-[0_2px_8px_rgb(0_0_0/0.1)] transition-[transform,opacity,visibility] duration-300 ease-[ease] data-[show]:visible data-[show]:translate-x-0 data-[show]:opacity-100 max-[768px]:bottom-5 max-[768px]:left-5"
     >
-      <span class="text-black transition-colors duration-300 group-hover/cta:text-white">
-        Projekt starten
-      </span>
-    </a>
+      Projekt starten
+    </Button>
   </div>
 
   <div class="px-5 pt-8 pb-5 lg:px-7.5">
@@ -106,22 +108,85 @@ const line =
     }),
   );
 
-  // Schwebender Link "Projekt starten": erscheint nach 100vh Scrollen (auf der Startseite nach dem Hero) und verschwindet wieder
-  // 100vh (Handy bis 768 px: 150vh) vor dem Seitenende, wie im Original
+  /*
+   * Schwebender Button „Projekt starten“ (Sticker). Er erscheint nach 100vh Scrollen (auf der Startseite nach dem Hero)
+   * und bleibt weg,
+   *  - kurz vor dem Seitenende (100vh, Handy 150vh), dort steht der Kontaktaufruf im Fuß,
+   *  - auf den Kontaktseiten selbst und in Bereichen mit `data-cta-off` (eigener Kontaktaufruf oder Formular),
+   *  - bei geöffnetem Menü oder Großansicht,
+   *  - solange er ein Bild, einen Button, ein Formularfeld oder eine Überschrift verdecken würde.
+   * Er blendet sofort aus, kommt aber erst nach 0,35 s ohne Konflikt wieder, damit er beim Scrollen nicht flackert.
+   */
   const cta = document.querySelector<HTMLElement>('[data-floating-cta]');
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (cta) {
-    const update = () => {
+    const here = location.pathname.replace(/\/$/, '');
+    const own = new URL(cta.getAttribute('href') ?? '', location.href).pathname.replace(/\/$/, '');
+    const offZones = [...document.querySelectorAll<HTMLElement>('[data-cta-off]')];
+    const PROTECT = 'img,picture,video,svg,a,button,input,textarea,select,label,summary,h1,h2,h3,h4,h5,h6';
+    let on = false;
+    let timer = 0;
+
+    const set = (visible: boolean) => {
+      if (visible === on) return;
+      on = visible;
+      cta.toggleAttribute('data-show', visible);
+      cta.inert = !visible;
+    };
+    const allowed = () => {
+      if (here === own) return false;
+      if (document.querySelector('dialog[open], [data-gallery-lightbox]:not([hidden]), [data-lb]:not([hidden])')) return false;
       const h = window.innerHeight;
       const y = window.scrollY;
       const hideDistance = window.innerWidth <= 768 ? h * 1.5 : h;
-      const nearEnd = y + h > document.documentElement.scrollHeight - hideDistance;
+      if (y + h > document.documentElement.scrollHeight - hideDistance) return false;
       // Auf der Startseite erst nach dem Hero (er ist mehrere Bildschirme hoch)
-      const start = Math.max(h, hero ? hero.offsetTop + hero.offsetHeight : 0);
-      cta.toggleAttribute('data-show', y > start && !nearEnd);
+      if (y <= Math.max(h, hero ? hero.offsetTop + hero.offsetHeight : 0)) return false;
+      return !offZones.some((z) => {
+        const r = z.getBoundingClientRect();
+        return r.top < h && r.bottom > 0;
+      });
+    };
+    // Würde der Sticker etwas Wichtiges verdecken? Prüft sechs Punkte auf seiner Fläche.
+    const covers = () => {
+      const cs = getComputedStyle(cta);
+      const w = cta.offsetWidth;
+      const hgt = cta.offsetHeight;
+      const left = parseFloat(cs.left);
+      const top = window.innerHeight - parseFloat(cs.bottom) - hgt;
+      const pts: [number, number][] = [
+        [left + 3, top + 3],
+        [left + w - 3, top + 3],
+        [left + 3, top + hgt - 3],
+        [left + w - 3, top + hgt - 3],
+        [left + w / 2, top + hgt / 2],
+        [left + w / 2, top + 3],
+      ];
+      return pts.some(([x, yy]) => {
+        const el = document
+          .elementsFromPoint(x, yy)
+          .find((e) => !cta.contains(e) && !e.closest('[data-smart-header]') && e !== document.documentElement && e !== document.body);
+        return !!el?.closest(PROTECT);
+      });
+    };
+    const free = () => allowed() && !covers();
+    const update = () => {
+      if (!free()) {
+        window.clearTimeout(timer);
+        timer = 0;
+        set(false);
+        return;
+      }
+      if (!on && !timer)
+        timer = window.setTimeout(() => {
+          timer = 0;
+          if (free()) set(true);
+        }, 350);
     };
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
+    document.addEventListener('keyup', update);
+    new MutationObserver(update).observe(document.documentElement, { attributes: true, attributeFilter: ['style', 'class'] });
     update();
   }
 

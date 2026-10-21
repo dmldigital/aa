@@ -18,7 +18,7 @@ interface Props {
 const { items, title, member, label, class: className = '' } = Astro.props;
 ---
 
-<div data-tlm data-tlm-pend class:list={['tlm', className]}>
+<div data-tlm data-tlm-pend data-no-header class:list={['tlm', className]}>
   <div class="tlm-stage">
     <div class="tlm-top">
       {member && (
