@@ -5,15 +5,14 @@ import { site as company } from '../../data/site';
 import type { Site } from '../../data/nav';
 /**
  * Schwebende Menü-Schaltfläche oben rechts: der Ersatz für die mitlaufende Kopfzeile. Die Kopfzeile steht nur ganz oben
- * (Header.astro), sobald sie aus dem Bild ist, erscheint diese Pille an ihrer Stelle (Skript unten). Ein Klick öffnet direkt
- * das Hauptmenü (Menu.astro, dasselbe wie der Menü-Knopf der Kopfzeile). Beim Überfahren (Maus) wächst sie ein wenig, der
- * Schatten wird stärker, und die Kontaktwege klappen auf: WhatsApp, Telefon, Kontakt, Projektanfrage. Auf Touch-Geräten
- * gibt es kein Überfahren, dort öffnet das Antippen das Menü, das die Kontaktwege ebenfalls enthält.
- * Zur Auswahl vier Gestaltungen des Aufklappens (Vorschau: `?menue=1` bis `?menue=4`, merkt sich die Wahl pro Sitzung):
- *   1  Karte: weiße Karte unter der Pille, Liste mit Symbol, Name und Zeile darunter
- *   2  Leiste: zweite Pille links neben der Menü-Pille mit vier runden Symbolen, Name beim Überfahren darunter
- *   3  Fächer: vier einzelne Pillen fahren nacheinander unter der Menü-Pille heraus
- *   4  Kacheln: größere Karte mit zwei mal zwei Kacheln
+ * (Header.astro), sobald sie aus dem Bild ist, erscheint diese Schaltfläche an ihrer Stelle (Skript unten). Ein Klick öffnet
+ * direkt das Hauptmenü (Menu.astro, dasselbe wie der Menü-Knopf der Kopfzeile). Beim Überfahren (Maus) oder Tastaturfokus
+ * klappt links daneben eine zweite Box mit den Kontaktwegen auf: WhatsApp, Telefon, Kontakt, Projektanfrage (Name als Schild
+ * unter dem Symbol). Kein Zoom und keine Schattenänderung beim Überfahren. Auf Touch-Geräten gibt es kein Überfahren, dort
+ * öffnet das Antippen das Menü, das die Kontaktwege ebenfalls enthält.
+ * Zwei Stile zur Auswahl (Vorschau: `?stil=eckig` oder `?stil=rund`, siehe Layout.astro, `data-stil` am html):
+ *   eckig  wie die Buttons der Seite (eckig, schwarzer Rand, Großbuchstaben, Schatten wie der Sticker), Standard
+ *   rund   Pille mit Haarlinie und Glas, dazu sind in global.css alle Buttons der Seite rund
  */
 interface Props {
   site?: Site;
@@ -35,191 +34,67 @@ const items = [
     : [{ icon: 'roller', label: 'Projektanfrage', sub: 'Projekt starten', href: href('/kontakt/'), ext: false }]),
 ] as const;
 const ext = (on: boolean) => (on ? { target: '_blank', rel: 'noopener noreferrer' } : {});
+const n = items.length;
 
 // Außenrahmen: fährt von oben ein und aus (Skript setzt `data-show`, `data-open` beim Überfahren)
 const wrap =
-  'group/fm hidden data-[on]:block invisible fixed top-3.75 right-5 z-[45] -translate-y-5 opacity-0 transition-[transform,opacity,visibility] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:translate-y-0 data-[show]:opacity-100 min-[701px]:top-5 min-[701px]:right-7.5';
+  'group/fm invisible fixed top-3.75 right-5 z-[45] -translate-y-5 opacity-0 transition-[transform,opacity,visibility] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:translate-y-0 data-[show]:opacity-100 min-[701px]:top-5 min-[701px]:right-7.5';
+// Menü-Schaltfläche. Grundform eckig (wie der Button der Seite), `in-data-[stil=rund]:` macht daraus die Pille
 const pill =
-  'group/ul relative flex h-11 origin-top-right cursor-pointer items-center gap-3.5 rounded-full border border-black/10 bg-white/90 pr-5 pl-5.5 text-ink shadow-[0_1px_2px_rgb(21_24_27/0.06),0_14px_32px_-10px_rgb(21_24_27/0.24)] backdrop-blur-xl backdrop-saturate-150 transition-[transform,box-shadow] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:scale-[1.05] group-data-[open]/fm:shadow-[0_2px_4px_rgb(21_24_27/0.08),0_22px_44px_-12px_rgb(21_24_27/0.36)] min-[701px]:h-12 min-[701px]:pr-5.5 min-[701px]:pl-6.5';
+  'group/ul relative flex h-10 cursor-pointer items-center gap-3.5 border border-black bg-white px-5 text-ink shadow-[0_2px_8px_rgb(0_0_0/0.1)] in-data-[stil=rund]:h-11 min-[701px]:in-data-[stil=rund]:h-12 in-data-[stil=rund]:rounded-full in-data-[stil=rund]:border-black/10 in-data-[stil=rund]:bg-white/90 in-data-[stil=rund]:pr-5 in-data-[stil=rund]:pl-5.5 in-data-[stil=rund]:shadow-[0_1px_2px_rgb(21_24_27/0.06),0_14px_32px_-10px_rgb(21_24_27/0.24)] in-data-[stil=rund]:backdrop-blur-xl in-data-[stil=rund]:backdrop-saturate-150 min-[701px]:in-data-[stil=rund]:pr-5.5 min-[701px]:in-data-[stil=rund]:pl-6.5';
+const pillText =
+  'underline-anim font-display text-[12px]/none font-semibold tracking-button uppercase [--underline-gap:5px] in-data-[stil=rund]:text-[11px]/none in-data-[stil=rund]:font-medium in-data-[stil=rund]:tracking-[0.07em]';
 const bar = 'block h-px w-full bg-current';
-// Aufklapp-Fläche: unsichtbar, bis der Rahmen geöffnet ist
+// Kontakt-Box links neben der Schaltfläche: unsichtbar, bis der Rahmen geöffnet ist
 const panel =
-  'invisible absolute opacity-0 transition-[transform,opacity,visibility] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:visible group-data-[open]/fm:opacity-100';
-const card =
-  'rounded-[22px] border border-black/10 bg-white/95 shadow-[0_1px_2px_rgb(21_24_27/0.05),0_24px_48px_-14px_rgb(21_24_27/0.3)] backdrop-blur-xl';
-const rise =
-  'translate-y-1.5 opacity-0 transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:translate-y-0 group-data-[open]/fm:opacity-100 group-data-[open]/fm:[transition-delay:var(--d)]';
-const label = 'font-display text-[14px]/[1.1] font-medium tracking-[0.01em]';
-const n = items.length;
+  'invisible absolute top-0 right-full h-full origin-right translate-x-3 scale-95 pr-2.5 opacity-0 transition-[transform,opacity,visibility] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:visible group-data-[open]/fm:translate-x-0 group-data-[open]/fm:scale-100 group-data-[open]/fm:opacity-100';
+const box =
+  'flex h-full items-stretch divide-x divide-black/15 border border-black bg-white shadow-[0_2px_8px_rgb(0_0_0/0.1)] in-data-[stil=rund]:items-center in-data-[stil=rund]:gap-0.5 in-data-[stil=rund]:divide-x-0 in-data-[stil=rund]:rounded-full in-data-[stil=rund]:border-black/10 in-data-[stil=rund]:bg-white/90 in-data-[stil=rund]:px-1.5 in-data-[stil=rund]:shadow-[0_1px_2px_rgb(21_24_27/0.06),0_14px_32px_-10px_rgb(21_24_27/0.24)] in-data-[stil=rund]:backdrop-blur-xl in-data-[stil=rund]:backdrop-saturate-150';
+const item =
+  'flex h-full translate-x-2 opacity-0 transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:translate-x-0 group-data-[open]/fm:opacity-100 group-data-[open]/fm:[transition-delay:var(--d)] in-data-[stil=rund]:h-auto';
+const link =
+  'group/it relative grid h-full w-10 place-items-center text-ink transition-colors duration-300 hover:bg-ink hover:text-white in-data-[stil=rund]:size-9 in-data-[stil=rund]:rounded-full min-[701px]:in-data-[stil=rund]:size-10';
+const tip =
+  'pointer-events-none absolute top-full left-1/2 mt-3.5 -translate-x-1/2 translate-y-1 bg-ink px-3 py-1.5 font-display text-[10px]/none tracking-[0.08em] whitespace-nowrap text-white uppercase opacity-0 transition-[transform,opacity] duration-300 group-hover/it:translate-y-0 group-hover/it:opacity-100 in-data-[stil=rund]:rounded-full';
 ---
 
 <div data-fm-root class="contents">
-  {
-    [1, 2, 3, 4].map((v) => (
-      <div data-float-menu data-fm={v} aria-hidden="true" inert class={wrap}>
-        {v === 2 && (
-          <div
-            role="group"
-            aria-label="Schnellkontakt"
-            class={`${panel} top-0 right-full h-full origin-right translate-x-3 scale-95 pr-2.5 group-data-[open]/fm:translate-x-0 group-data-[open]/fm:scale-100`}
-          >
-            <ul class="flex h-full items-center gap-0.5 rounded-full border border-black/10 bg-white/90 px-1.5 shadow-[0_1px_2px_rgb(21_24_27/0.06),0_14px_32px_-10px_rgb(21_24_27/0.24)] backdrop-blur-xl backdrop-saturate-150">
-              {items.map((it, i) => (
-                <li
-                  class="translate-x-2 opacity-0 transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:translate-x-0 group-data-[open]/fm:opacity-100 group-data-[open]/fm:[transition-delay:var(--d)]"
-                  style={`--d:${80 + (n - 1 - i) * 55}ms`}
-                >
-                  <a
-                    href={it.href}
-                    {...ext(it.ext)}
-                    aria-label={`${it.label}: ${it.sub}`}
-                    class="group/it relative grid size-9 place-items-center rounded-full text-ink transition-colors duration-300 hover:bg-ink hover:text-white min-[701px]:size-10"
-                  >
-                    <ContactIcon name={it.icon} class="size-4.5" />
-                    <span class="pointer-events-none absolute top-full left-1/2 mt-3.5 -translate-x-1/2 translate-y-1 rounded-full bg-ink px-3 py-1.5 font-display text-[10px]/none tracking-[0.08em] whitespace-nowrap text-white uppercase opacity-0 transition-[transform,opacity] duration-300 group-hover/it:translate-y-0 group-hover/it:opacity-100">
-                      {it.label}
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+  <div data-float-menu aria-hidden="true" inert class={wrap}>
+    <div role="group" aria-label="Schnellkontakt" class={panel}>
+      <ul class={box}>
+        {
+          items.map((it, i) => (
+            <li class={item} style={`--d:${80 + (n - 1 - i) * 55}ms`}>
+              <a href={it.href} {...ext(it.ext)} aria-label={`${it.label}: ${it.sub}`} class={link}>
+                <ContactIcon name={it.icon} class="size-4.5" />
+                <span class={tip}>{it.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
 
-        <button
-          type="button"
-          data-menu-open
-          aria-haspopup="dialog"
-          aria-expanded="false"
-          aria-label="Menü öffnen"
-          class={pill}
-        >
-          <span class="underline-anim font-display text-[11px]/none font-medium tracking-[0.07em] uppercase [--underline-gap:5px]">
-            Menü
-          </span>
-          <span aria-hidden="true" class="flex w-5.5 flex-col gap-1.5">
-            <i class={bar} />
-            <i class={`${bar} transition-[width] duration-200 group-hover/ul:w-[65%]`} />
-          </span>
-        </button>
-
-        {v === 1 && (
-          <div
-            role="group"
-            aria-label="Schnellkontakt"
-            class={`${panel} top-full right-0 w-[272px] origin-top-right -translate-y-2 scale-[0.97] pt-3 group-data-[open]/fm:translate-y-0 group-data-[open]/fm:scale-100`}
-          >
-            <div class={`${card} p-2`}>
-              <p class="px-3 pt-2.5 pb-2 font-display text-[10px] tracking-[0.12em] text-gold uppercase">Direkt anfragen</p>
-              <ul>
-                {items.map((it, i) => (
-                  <li class={rise} style={`--d:${90 + i * 55}ms`}>
-                    <a
-                      href={it.href}
-                      {...ext(it.ext)}
-                      class="group/row flex items-center gap-3.5 rounded-2xl px-2.5 py-2 text-ink transition-colors duration-300 hover:bg-soft"
-                    >
-                      <span class="grid size-9 shrink-0 place-items-center rounded-full border border-black/10 bg-white transition-colors duration-300 group-hover/row:border-ink group-hover/row:bg-ink group-hover/row:text-white">
-                        <ContactIcon name={it.icon} class="size-4.5" />
-                      </span>
-                      <span class="flex min-w-0 flex-col gap-1">
-                        <span class={label}>{it.label}</span>
-                        <span class="truncate font-display text-[12px]/[1.2] text-muted">{it.sub}</span>
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
-
-        {v === 3 && (
-          <div role="group" aria-label="Schnellkontakt" class={`${panel} top-full right-0 pt-3`}>
-            <ul class="flex flex-col items-end gap-2.5">
-              {items.map((it, i) => (
-                <li
-                  class="origin-top-right -translate-y-3 scale-90 opacity-0 transition-[transform,opacity] duration-[460ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:translate-y-0 group-data-[open]/fm:scale-100 group-data-[open]/fm:opacity-100 group-data-[open]/fm:[transition-delay:var(--d)]"
-                  style={`--d:${60 + i * 70}ms`}
-                >
-                  <a
-                    href={it.href}
-                    {...ext(it.ext)}
-                    class="group/row flex items-center gap-3 rounded-full border border-black/10 bg-white/95 py-1.5 pr-1.5 pl-5.5 text-ink shadow-[0_1px_2px_rgb(21_24_27/0.06),0_12px_28px_-10px_rgb(21_24_27/0.28)] backdrop-blur-xl transition-[background-color,border-color,color] duration-300 hover:border-ink hover:bg-ink hover:text-white"
-                  >
-                    <span class="font-display text-[11px]/none font-medium tracking-[0.07em] uppercase">{it.label}</span>
-                    <span class="grid size-9 place-items-center rounded-full bg-soft transition-colors duration-300 group-hover/row:bg-white/15">
-                      <ContactIcon name={it.icon} class="size-4.5" />
-                    </span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {v === 4 && (
-          <div
-            role="group"
-            aria-label="Schnellkontakt"
-            class={`${panel} top-full right-0 w-[344px] origin-top-right -translate-y-2 scale-[0.96] pt-3 group-data-[open]/fm:translate-y-0 group-data-[open]/fm:scale-100`}
-          >
-            <div class={`${card} p-3`}>
-              <div class="flex items-center gap-4 px-2 pt-1.5 pb-3">
-                <p class="font-display text-[10px] tracking-[0.12em] whitespace-nowrap text-gold uppercase">Direkt anfragen</p>
-                <span class="h-px grow bg-gold/40" />
-              </div>
-              <ul class="grid grid-cols-2 gap-2">
-                {items.map((it, i) => (
-                  <li class={rise} style={`--d:${90 + i * 55}ms`}>
-                    <a
-                      href={it.href}
-                      {...ext(it.ext)}
-                      class="group/row flex min-h-28 flex-col justify-between rounded-2xl border border-black/10 bg-white p-4 text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-white"
-                    >
-                      <span class="flex items-start justify-between">
-                        <ContactIcon name={it.icon} class="size-5.5" />
-                        <svg
-                          viewBox="0 0 12 12"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="1.2"
-                          aria-hidden="true"
-                          class="size-3 opacity-40 transition-[transform,opacity] duration-300 group-hover/row:translate-x-0.5 group-hover/row:-translate-y-0.5 group-hover/row:opacity-100"
-                        >
-                          <path d="M3 9 9 3M4 3h5v5" />
-                        </svg>
-                      </span>
-                      <span class="flex flex-col gap-1.5">
-                        <span class={label}>{it.label}</span>
-                        <span class="font-display text-[11.5px]/[1.2] text-muted transition-colors duration-300 group-hover/row:text-white/70">
-                          {it.sub}
-                        </span>
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        )}
-      </div>
-    ))
-  }
+    <button
+      type="button"
+      data-menu-open
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      aria-label="Menü öffnen"
+      class={pill}
+    >
+      <span class={pillText}>Menü</span>
+      <span aria-hidden="true" class="flex w-5.5 flex-col gap-1.5">
+        <i class={bar} />
+        <i class={`${bar} transition-[width] duration-200 group-hover/ul:w-[65%]`} />
+      </span>
+    </button>
+  </div>
 </div>
 
 <script>
   const roots = [...document.querySelectorAll<HTMLElement>('[data-float-menu]')];
   if (roots.length) {
-    // Auswahl der Fassung (Vorschau): ?menue=1 bis 4, gemerkt für die Sitzung
-    let pick = new URLSearchParams(location.search).get('menue');
-    try {
-      if (pick) sessionStorage.setItem('menue', pick);
-      else pick = sessionStorage.getItem('menue');
-    } catch {}
-    if (!pick || !'1234'.includes(pick) || pick.length !== 1) pick = '1';
-    roots.forEach((r) => r.toggleAttribute('data-on', r.dataset.fm === pick));
-
     // Aufklappen: Maus über der Schaltfläche (kurze Schonfrist beim Verlassen) oder Tastaturfokus. Touch: nichts, Antippen öffnet das Menü.
     roots.forEach((r) => {
       let timer = 0;

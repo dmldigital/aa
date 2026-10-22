@@ -91,9 +91,9 @@ def missing_rules(section, base_html, built_html):
         for wrappers, sel, body in rules:
             if re.search(re.escape(key) + r'(?![\w\\-])', sel):
                 css.append((len(wrappers), ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
-    # Regeln ohne Klassen-Selektor, die zum Hero gehören (Zustand der Bewertung, `data-rating`)
+    # Regeln ohne Klassen-Selektor, die zum Hero gehören (Zustand der Bewertung, `data-rating`), und der Stil-Schalter (`data-stil`)
     for wrappers, sel, body in rules:
-        if 'data-rating' in sel:
+        if 'data-rating' in sel or 'data-stil' in sel:
             css.append((len(wrappers), ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
     # Reihenfolge wie bei Tailwind: Regeln ohne Medienabfrage zuerst, die Varianten (Breite, Bewegung) danach,
     # sonst überschreibt die allgemeine Regel die breitenabhängige
@@ -224,6 +224,12 @@ def shell(base, built):
     h = h.replace('data-header-lock data-no-header', 'data-header-lock')
     h = re.sub(r'<link[^>]*HeaderLock\.css[^>]*>', '', h)
     h = re.sub(r'<script[^>]*HeaderLock\.js[^>]*></script>', '', h)
+
+    # Schalter für den Stil (?stil=eckig|rund), vor dem Rendern gesetzt: Vorschau-Auswahl, entfällt nach der Entscheidung
+    boot = lone(built, r'<script[^>]*data-stil-boot[^>]*>[\s\S]*?</script>').group(0)
+    h = re.sub(r'<script[^>]*data-stil-boot[^>]*>[\s\S]*?</script>', '', h)
+    assert h.count('</head>') == 1
+    h = h.replace('</head>', boot + '</head>')
 
     # Fehlende Tailwind-Regeln für die ersetzten Teile
     h = re.sub(r'<style data-shell-patch>[\s\S]*?</style>', '', h)
