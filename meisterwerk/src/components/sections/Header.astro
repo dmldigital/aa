@@ -5,8 +5,8 @@ import Brand from '../header/Brand.astro';
 /**
  * Kopfzeile (Vorlage: Header der Referenzseite, Referenz „Kaisergärten“): Logo links, Ort, Kontakt-Link und
  * Menü-Knopf rechts. `bar` steht oben auf jeder Unterseite im Fluss, `hero` liegt auf der Fläche des Startseiten-
- * Heros (durchsichtig, nur Logo und Menü-Knopf) und fährt mit der Hero-Animation weg. Der Header, der beim
- * Hochscrollen wieder erscheint, steht in SmartHeader.astro.
+ * Heros (durchsichtig, nur Logo und Menü-Knopf) und fährt mit der Hero-Animation weg. Die Kopfzeile steht nur oben (nicht
+ * mitlaufend); danach übernimmt die schwebende Menü-Schaltfläche (FloatingMenu.astro).
  */
 interface Props {
   site?: Site;

@@ -5,6 +5,8 @@ export const site = {
   email: 'info@meisterwerk-lb.de',
   phone: '07141 / 23982 90',
   phoneHref: '+4971412398290',
+  /** WhatsApp-Link (wa.me, Nummer ohne +). Vorläufig die Festnetznummer: muss eine WhatsApp-Nummer sein, offen beim Kunden. */
+  whatsappHref: 'https://wa.me/4971412398290',
   street: 'Einsteinstr. 10',
   postalCode: '71691',
   city: 'Freiberg',

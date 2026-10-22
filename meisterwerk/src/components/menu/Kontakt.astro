@@ -3,7 +3,7 @@ import Button from '../ui/Button.astro';
 import { href } from '../../data/links';
 import { site as company } from '../../data/site';
 import type { Site } from '../../data/nav';
-/** Kontaktblock im Menü: Telefon, E-Mail, Adresse und Button „Projekt anfragen“. */
+/** Kontaktblock im Menü: Telefon, WhatsApp, E-Mail, Adresse und Button „Projekt anfragen“. */
 interface Props {
   site?: Site;
   class?: string;
@@ -16,6 +16,9 @@ const link = 'group/ul inline-block font-display text-[15px]/[1.4] tracking-[0.0
   <p class="font-display text-[11px] tracking-[0.12em] text-gold uppercase">Direkt anfragen</p>
   <a href={`tel:${company.phoneHref}`} class={link}>
     <span class="underline-anim [--underline-gap:3px]">{company.phone}</span>
+  </a>
+  <a href={company.whatsappHref} target="_blank" rel="noopener noreferrer" class={link}>
+    <span class="underline-anim [--underline-gap:3px]">WhatsApp schreiben</span>
   </a>
   <a href={`mailto:${company.email}`} class={link}>
     <span class="underline-anim [--underline-gap:3px]">{company.email}</span>

@@ -98,7 +98,25 @@ def missing_rules(section, base_html, built_html):
     # Reihenfolge wie bei Tailwind: Regeln ohne Medienabfrage zuerst, die Varianten (Breite, Bewegung) danach,
     # sonst überschreibt die allgemeine Regel die breitenabhängige
     css.sort(key=lambda r: r[0])
-    return need, '\n'.join(dict.fromkeys(r[1] for r in css))
+    text = '\n'.join(dict.fromkeys(r[1] for r in css))
+    return need, missing_vars(text, have, build_css(built_html)) + text
+
+
+def missing_vars(new_css, have, built_css):
+    """Variablen (Theme-Werte wie --radius-2xl, --font-weight-medium) und Tailwind-@property, die die neuen Regeln brauchen,
+    das Startseiten-CSS aber nicht kennt, aus dem Build übernehmen"""
+    out = []
+    for v in sorted(set(re.findall(r'var\((--[\w-]+)', new_css))):
+        if v.startswith('--tw-'):
+            if not re.search(r'@property ' + re.escape(v) + r'\b', have):
+                m = re.search(r'@property ' + re.escape(v) + r'\s*\{[^}]*\}', built_css)
+                if m:
+                    out.append(m.group(0))
+        elif not re.search(re.escape(v) + r'\s*:', have):
+            m = re.search(re.escape(v) + r'\s*:\s*([^;}]+)', built_css)
+            if m:
+                out.append(':root{%s:%s}' % (v, m.group(1)))
+    return '\n'.join(out) + '\n' if out else ''
 
 
 def copy_modules(chunk):
@@ -129,6 +147,20 @@ def lone(text, pattern):
     return re.search(pattern, text)
 
 
+def balanced(text, start):
+    """Das <div ...>…</div> ab `start` (öffnender Anfang) samt passendem Ende, None wenn nicht vorhanden"""
+    i = text.find(start)
+    if i < 0:
+        return None
+    depth = 0
+    for m in re.finditer(r'<(/?)div\b', text[i:]):
+        depth += -1 if m.group(1) else 1
+        if depth == 0:
+            end = i + m.start() + text[i + m.start():].index('>') + 1
+            return text[i:end]
+    raise AssertionError('div nicht geschlossen')
+
+
 def shell(base, built):
     """Hülle (Kopfzeile, Menü, Fuß, Skripte, Buttons) der handbearbeiteten Startseite auf den Stand des Builds bringen"""
     h = base
@@ -142,14 +174,18 @@ def shell(base, built):
             h = h[:a.start()] + b.group(0) + h[a.end():]
         parts += [b.group(0) for b in rn]
 
-    # Smart-Kopfzeile samt schwebender Menü-Schaltfläche
-    new_head = lone(built, r'<header data-smart-header[\s\S]*?</header>\s*<button[^>]*data-float-menu[\s\S]*?</button>').group(0)
-    old_head = lone(h, r'<header data-smart-header[\s\S]*?</header>(?:\s*<button[^>]*data-float-menu[\s\S]*?</button>)?').group(0)
-    h = h.replace(old_head, new_head, 1)
-    parts.append(new_head)
+    # Schwebende Menü-Schaltfläche (ersetzt die frühere Smart-Kopfzeile samt Schaltfläche)
+    new_fm = balanced(built, '<div data-fm-root')
+    old_fm = balanced(h, '<div data-fm-root')
+    if old_fm:
+        h = h.replace(old_fm, new_fm, 1)
+    else:
+        old_head = lone(h, r'<header data-smart-header[\s\S]*?</header>(?:\s*<button[^>]*data-float-menu[\s\S]*?</button>)?').group(0)
+        h = h.replace(old_head, new_fm, 1)
+    parts.append(new_fm)
 
-    # Inline-Skript der Smart-Kopfzeile
-    inl = r'<script type="module">((?:(?!</script>)[\s\S])*?data-smart-header(?:(?!</script>)[\s\S])*?)</script>'
+    # Inline-Skript der Schaltfläche (früher: der Smart-Kopfzeile)
+    inl = r'<script type="module">((?:(?!</script>)[\s\S])*?data-float-menu(?:(?!</script>)[\s\S])*?)</script>'
     new_js = lone(built, inl).group(1)
     old_js = lone(h, inl).group(1)
     h = h.replace(old_js, new_js, 1)
@@ -184,17 +220,8 @@ def shell(base, built):
     h = re.sub(r'class="[^"]*\bborder text-center\b[^"]*"', up, h)
     h = h.replace(' ↗</span></span></a>', '</span></span></a>')
 
-    # Zonen mit Kopfzeilen-Sperre: wie `data-no-header` der Quelle behandeln, altes HeaderLock nicht mehr einbinden
-    # Nur dort, wo die Kopfzeile Inhalt verdecken würde (gemessen: Hero, Willkommen-Szene, Fachsektion mit Tabs). In der
-    # Leistungs-Szene und den Zonen der FAQ bleibt der obere Rand frei, dort darf die Kopfzeile beim Hochscrollen kommen.
-    def lock(m):
-        tag = m.group(0)
-        if 'data-no-header' in tag or not re.search(r'data-(?:hero|welcome-scene|tb)\b', tag):
-            return tag
-        return tag.replace('data-header-lock', 'data-header-lock data-no-header', 1)
-
-    h = h.replace('data-header-lock data-no-header', 'data-header-lock')  # frühere Läufe zurücknehmen
-    h = re.sub(r'<(?:section|div)\b[^>]*data-header-lock[^>]*>', lock, h)
+    # Altes HeaderLock (Kopfzeilen-Sperre) nicht mehr einbinden, `data-no-header` früherer Läufe zurücknehmen: die Kopfzeile steht nur oben
+    h = h.replace('data-header-lock data-no-header', 'data-header-lock')
     h = re.sub(r'<link[^>]*HeaderLock\.css[^>]*>', '', h)
     h = re.sub(r'<script[^>]*HeaderLock\.js[^>]*></script>', '', h)
 

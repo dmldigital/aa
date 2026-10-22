@@ -2,7 +2,7 @@
 import Layout from './Layout.astro';
 import Header from '../components/sections/Header.astro';
 import Menu from '../components/sections/Menu.astro';
-import SmartHeader from '../components/sections/SmartHeader.astro';
+import FloatingMenu from '../components/sections/FloatingMenu.astro';
 import Footer from '../components/sections/Footer.astro';
 import type { Site } from '../data/nav';
 
@@ -22,7 +22,7 @@ const { title, description, current = '/', site = 'main', hero = false } = Astro
 
 <Layout {title} {description}>
   {!hero && <Header {site} />}
-  <SmartHeader {site} />
+  <FloatingMenu {site} />
   <Menu {site} {current} />
   <main>
     <slot />
