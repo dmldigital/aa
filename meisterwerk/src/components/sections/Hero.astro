@@ -19,6 +19,7 @@
 import { Picture } from 'astro:assets';
 import Button from '../ui/Button.astro';
 import Header from './Header.astro';
+import HeroRating from './HeroRating.astro';
 import { href, routes } from '../../data/links';
 import { slides } from '../../data/hero';
 
@@ -134,11 +135,9 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
             Persönlich beraten, sauber ausgeführt, mit über 22 Jahren Erfahrung.
           </span>
         </p>
-        <div class="flex flex-wrap items-center gap-2.5 rounded-[3px] border border-black/15 bg-white/60 p-2 backdrop-blur-[10px] min-[701px]:flex-nowrap min-[701px]:p-2.5 hero-m:order-2 hero-m:flex-nowrap hero-m:border-0 hero-m:bg-transparent hero-m:p-0 hero-m:backdrop-blur-none">
-          <span class="flex-1 p-2 font-display text-[12px] text-muted min-[701px]:pl-2 min-[701px]:text-[clamp(10px,1vw,17px)] hero-m:hidden">
-            Ihr Malerbetrieb in Freiberg a. N.
-          </span>
-          <Button href={href(routes.contact)}>Projekt anfragen</Button>
+        <div class="flex flex-wrap items-center gap-2.5 rounded-[3px] border border-black/15 bg-white/60 p-2 backdrop-blur-[10px] min-[701px]:p-2.5 min-[1240px]:flex-nowrap hero-m:order-2 hero-m:flex-col hero-m:flex-nowrap hero-m:items-start hero-m:gap-4 hero-m:border-0 hero-m:bg-transparent hero-m:p-0 hero-m:backdrop-blur-none">
+          <HeroRating class="min-w-0 max-[1239px]:basis-full min-[1240px]:flex-1 hero-m:basis-auto" />
+          <Button href={href(routes.contact)} class="min-[701px]:max-[1239px]:w-full">Projekt anfragen</Button>
         </div>
       </div>
     </div>
@@ -148,10 +147,12 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
 <script>
   import { gsap, ScrollTrigger } from '../../scripts/motion';
   import { createFlug } from '../../scripts/flug';
+  import { initRating } from '../../scripts/rating';
 
   const hero = document.querySelector<HTMLElement>('[data-hero]');
   if (hero) {
     const q = <T extends Element = HTMLElement>(s: string) => hero.querySelector<T>(s)!;
+    initRating(hero);
     const mm = gsap.matchMedia();
     const flug = createFlug(q<HTMLCanvasElement>('[data-hero-canvas]'));
     let loaded = false;

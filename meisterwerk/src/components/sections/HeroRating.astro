@@ -1,0 +1,58 @@
+---
+/**
+ * Bewertung in der Anfrage-Box des Heros: das Footer-Badge (Trustindex-Nachbau, `footer/Badge.astro`) zerlegt und
+ * waagerecht gelegt. Links die große Zahl mit den Sternen darunter, daneben Google-Logo, „Bestbewerteter Anbieter 2026“
+ * und der Trustindex-Hinweis. Die Zahl zählt beim Laden von 0,0 auf 5,0 hoch, die Sterne füllen sich dazu von links
+ * nach rechts (scripts/rating.ts, `data-rating`). Ohne Skript oder bei reduzierter Bewegung steht gleich 5,0 mit vollen Sternen.
+ * Ein Klick führt wie im Footer zu den Google-Bewertungen.
+ */
+import GoogleLogo from '../footer/GoogleLogo.astro';
+import Stars from '../ui/Stars.astro';
+
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<div
+  data-rating="5"
+  class:list={['relative flex items-center gap-4 pl-1 min-[701px]:gap-5 min-[701px]:pl-3', className]}
+>
+  <div class="flex flex-col items-center gap-1">
+    <span data-rating-num class="font-display text-[28px]/[1] font-semibold text-ink tabular-nums min-[701px]:text-[34px]/[1]">5.0</span>
+    <Stars size={14} />
+  </div>
+  <i class="h-10 w-px shrink-0 bg-black/15"></i>
+  <div class="flex min-w-0 flex-col gap-1.5">
+    <GoogleLogo class="w-14" />
+    <span class="font-display text-[12px]/[1.25] font-semibold text-ink">Bestbewerteter Anbieter 2026</span>
+    <span class="font-display text-[9px]/[1] whitespace-nowrap text-black/55 max-[700px]:hidden">
+      verifiziert von: Trustindex
+      <svg
+          viewBox="0 0 512 512"
+          aria-hidden="true"
+          class="relative -top-px ml-0.5 inline-block size-2.25 fill-black/55"
+        >
+          <path d="M256 32a224 224 0 1 1 0 448 224 224 0 1 1 0-448zm0 480A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM208 352c-8.8 0-16 7.2-16 16s7.2 16 16 16h96c8.8 0 16-7.2 16-16s-7.2-16-16-16H272V240c0-8.8-7.2-16-16-16H216c-8.8 0-16 7.2-16 16s7.2 16 16 16h24v96H208zm48-168a24 24 0 1 0 0-48 24 24 0 1 0 0 48z" />
+        </svg>
+    </span>
+  </div>
+  <a
+    href="https://share.google/DnitNH9jIeNPjNxgP"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Google-Bewertungen ansehen"
+    class="absolute inset-0 z-[5]"
+  ></a>
+</div>
+
+<style is:global>
+  /* Bis das Skript die Zählung startet, steht die Bewertung auf 0 (ohne Skript bleibt sie bei 5,0 mit vollen Sternen) */
+  .js [data-rating]:not([data-rating-on]) [data-rating-num] {
+    visibility: hidden;
+  }
+  .js [data-rating]:not([data-rating-on]) [data-rating-fill] {
+    width: 0 !important;
+  }
+</style>

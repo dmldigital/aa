@@ -86,6 +86,10 @@ def missing_rules(section, base_html, built_html):
         for wrappers, sel, body in rules:
             if re.search(re.escape(key) + r'(?![\w\\-])', sel):
                 css.append((len(wrappers), ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
+    # Regeln ohne Klassen-Selektor, die zum Hero gehören (Zustand der Bewertung, `data-rating`)
+    for wrappers, sel, body in rules:
+        if 'data-rating' in sel:
+            css.append((len(wrappers), ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
     # Reihenfolge wie bei Tailwind: Regeln ohne Medienabfrage zuerst, die Varianten (Breite, Bewegung) danach,
     # sonst überschreibt die allgemeine Regel die breitenabhängige
     css.sort(key=lambda r: r[0])
