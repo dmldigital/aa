@@ -83,22 +83,25 @@ def missing_rules(section, base_html, built_html):
         # exakte Klasse: nach dem Namen darf kein weiteres Namens- oder Escape-Zeichen folgen (.bottom-7 ist nicht .bottom-7\.5)
         return re.search(re.escape('.' + esc(t)) + r'(?![\w\\-])', css) is not None
 
-    need = [t for t in sorted(tokens) if not known(have, t) and not t.startswith(('astro-', 'js'))]
+    # Fehlende Klassen, dazu alle Klassen mit Variante (md:, lg:, min-[…]:, group-…): Deren Regeln stehen im Startseiten-CSS vor den neu
+    # ergänzten Grundregeln und würden von ihnen überstimmt (z. B. lg:px-10 von px-7). Neu ausgegeben stehen sie danach, wie bei Tailwind.
+    need = [t for t in sorted(tokens) if (not known(have, t) or ':' in t) and not t.startswith(('astro-', 'js'))]
     rules = parse_css(build_css(built_html))
     css = []
     for t in need:
         key = '.' + esc(t)
-        for wrappers, sel, body in rules:
+        for idx, (wrappers, sel, body) in enumerate(rules):
             if re.search(re.escape(key) + r'(?![\w\\-])', sel):
-                css.append((len(wrappers), ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
+                css.append((len(wrappers), idx, ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
     # Regeln ohne Klassen-Selektor, die zum Hero gehören (Zustand der Bewertung, `data-rating`)
-    for wrappers, sel, body in rules:
+    for idx, (wrappers, sel, body) in enumerate(rules):
         if 'data-rating' in sel:
-            css.append((len(wrappers), ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
+            css.append((len(wrappers), idx, ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
     # Reihenfolge wie bei Tailwind: Regeln ohne Medienabfrage zuerst, die Varianten (Breite, Bewegung) danach,
     # sonst überschreibt die allgemeine Regel die breitenabhängige
-    css.sort(key=lambda r: r[0])
-    text = '\n'.join(dict.fromkeys(r[1] for r in css))
+    # (innerhalb gleicher Tiefe in der Reihenfolge des Builds, sonst käme lg: vor md:)
+    css.sort(key=lambda r: (r[0], r[1]))
+    text = '\n'.join(dict.fromkeys(r[2] for r in css))
     return need, missing_vars(text, have, build_css(built_html)) + text
 
 
