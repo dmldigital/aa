@@ -8,15 +8,13 @@ import FloatingMenu from './FloatingMenu.astro';
  * (nach mehr als 12 px in eine Richtung) und verschwindet beim Runterscrollen wieder. Sie bleibt weg, wo sie stören
  * würde: in Bereichen mit `data-no-header` (Szenen mit festgehaltenem oder mitlaufendem Inhalt, die Projektanfrage)
  * und bei geöffnetem Menü oder Großansicht. Dort (und überall nach dem oberen Seitenbereich, solange die Kopfzeile fehlt)
- * steht unten rechts die schwebende Menü-Schaltfläche (FloatingMenu.astro): Ein Klick lässt die Kopfzeile herunterfahren
+ * steht oben rechts die schwebende Menü-Schaltfläche (FloatingMenu.astro): Ein Klick lässt die Kopfzeile herunterfahren
  * und hält sie, bis man mehr als 80 px nach unten weiterscrollt. Skript unten.
  */
 interface Props {
   site?: Site;
 }
 const { site = 'main' } = Astro.props;
-/** Gestaltung der schwebenden Menü-Schaltfläche (siehe FloatingMenu.astro) */
-const FLOAT_VARIANT = (Number(import.meta.env.PUBLIC_FLOAT_VARIANT) || 1) as 1 | 2 | 3; // Vorschau: PUBLIC_FLOAT_VARIANT=2 beim Build
 ---
 
 <header
@@ -29,7 +27,7 @@ const FLOAT_VARIANT = (Number(import.meta.env.PUBLIC_FLOAT_VARIANT) || 1) as 1 |
   <Actions {site} />
 </header>
 
-<FloatingMenu variant={FLOAT_VARIANT} />
+<FloatingMenu />
 
 <script>
   const header = document.querySelector<HTMLElement>('[data-smart-header]');

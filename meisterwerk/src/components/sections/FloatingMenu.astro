@@ -1,73 +1,33 @@
 ---
-import Button from '../ui/Button.astro';
 /**
- * Schwebende Menü-Schaltfläche unten rechts (Gegenstück zum Sticker „Projekt starten“ unten links). Sie ersetzt den früher
- * geplanten Back-to-Top-Pfeil: Ein Klick lässt die Kopfzeile (Logo, Menü, Kontakt) von oben herunterfahren, auch dort,
+ * Schwebende Menü-Schaltfläche oben rechts, genau dort, wo später der Menü-Knopf der Smart-Kopfzeile steht. Sie ersetzt den
+ * früher geplanten Back-to-Top-Pfeil: Ein Klick lässt die Kopfzeile (Logo, Menü, Kontakt) von oben herunterfahren, auch dort,
  * wo sie beim Hochscrollen sonst wegbleibt (Szenen, Formulare). Wann sie erscheint, regelt das Skript in SmartHeader.astro
  * (nach dem Hero bzw. der Kopfzeile, solange die Kopfzeile nicht zu sehen ist, nicht kurz vor dem Seitenende).
- * Drei Gestaltungen zur Auswahl (`variant`):
- *   1  Kreis: runde weiße Fläche mit dünnem Rand und den zwei Haarlinien des Menü-Knopfs, weicher Schatten
- *   2  Pille: derselbe Button wie der Sticker (Rahmen, Großbuchstaben, Unterstreichung) mit Haarlinien, Zwilling zum Sticker
- *   3  Lasche: schmale senkrechte Lasche am rechten Rand mit stehender Schrift „Menü“, schiebt sich beim Überfahren heraus
+ * Gestaltung: weiße Glas-Pille mit Haarlinie, „Menü“ und den zwei Haarlinien des Menü-Knopfs. Beim Überfahren: Unterstrich-
+ * Animation der Seite (wie bei den Buttons), goldener Ring, zweite Linie verkürzt sich. Sie fährt von oben ein und wieder aus.
  */
-interface Props {
-  variant?: 1 | 2 | 3;
-}
-const { variant = 1 } = Astro.props;
-
-const show =
-  'invisible opacity-0 transition-[transform,opacity,visibility,padding,box-shadow,border-color] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:opacity-100';
-const bars = 'flex w-5 flex-col gap-1.5';
 const bar = 'block h-px w-full bg-current';
 ---
 
-{
-  variant === 1 && (
-    <button
-      type="button"
-      aria-label="Menü und Kopfzeile einblenden" aria-hidden="true" tabindex="-1" inert data-float-menu
-      class={`group/fm fixed right-4 bottom-4 z-[45] flex size-12 translate-y-3 cursor-pointer items-center justify-center rounded-full border border-black/15 bg-white/95 text-ink shadow-[0_8px_28px_rgb(0_0_0/0.12)] backdrop-blur-md hover:border-gold hover:shadow-[0_10px_32px_rgb(165_147_113/0.3)] data-[show]:translate-y-0 min-[701px]:right-7.5 min-[701px]:bottom-7.5 min-[701px]:size-14 ${show}`}
-    >
-      <span aria-hidden="true" class="pointer-events-none absolute -inset-1.5 rounded-full border border-gold opacity-0 transition-[opacity,transform] duration-500 ease-out group-hover/fm:scale-100 group-hover/fm:opacity-100 scale-90" />
-      <span aria-hidden="true" class={bars}>
-        <i class={bar}></i>
-        <i class={`${bar} transition-[width] duration-200 group-hover/fm:w-[65%]`}></i>
-      </span>
-    </button>
-  )
-}
-
-{
-  variant === 2 && (
-    <Button
-      size="sm"
-      type="button"
-      aria-label="Menü und Kopfzeile einblenden" aria-hidden="true" tabindex="-1" inert data-float-menu
-      class={`fixed right-5 bottom-5 z-[45] translate-y-3 shadow-[0_2px_8px_rgb(0_0_0/0.1)] data-[show]:translate-y-0 min-[769px]:right-7.5 min-[769px]:bottom-7.5 ${show}`}
-    >
-      <span class="flex items-center gap-3">
-        Menü
-        <span aria-hidden="true" class="flex w-4 flex-col gap-1">
-          <i class={bar}></i>
-          <i class={bar}></i>
-        </span>
-      </span>
-    </Button>
-  )
-}
-
-{
-  variant === 3 && (
-    <button
-      type="button"
-      aria-label="Menü und Kopfzeile einblenden" aria-hidden="true" tabindex="-1" inert data-float-menu
-      class={`group/fm fixed right-0 bottom-24 z-[45] flex translate-x-2 cursor-pointer flex-col items-center gap-3.5 border border-r-0 border-black/15 bg-white py-4 pr-3.5 pl-3 text-ink shadow-[-6px_0_24px_rgb(0_0_0/0.07)] before:absolute before:inset-y-0 before:-left-px before:w-px before:bg-gold hover:pr-5 data-[show]:translate-x-0 min-[701px]:bottom-32 ${show}`}
-    >
-      <span aria-hidden="true" class={bars}>
-        <i class={bar}></i>
-        <i class={`${bar} transition-[width] duration-200 group-hover/fm:w-[65%]`}></i>
-      </span>
-      <span class="font-display text-[11px]/none tracking-[0.2em] uppercase [writing-mode:vertical-rl] rotate-180">Menü</span>
-    </button>
-  )
-}
+<button
+  type="button"
+  aria-label="Menü und Kopfzeile einblenden"
+  aria-hidden="true"
+  tabindex="-1"
+  inert
+  data-float-menu
+  class="group/fm group/ul invisible fixed top-3.75 right-5 z-[45] flex h-11 -translate-y-5 cursor-pointer items-center gap-3.5 rounded-full border border-black/10 bg-white/90 pr-5 pl-5.5 text-ink opacity-0 shadow-[0_1px_2px_rgb(21_24_27/0.06),0_14px_32px_-10px_rgb(21_24_27/0.24)] backdrop-blur-xl backdrop-saturate-150 transition-[transform,opacity,visibility,box-shadow,border-color] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-gold hover:shadow-[0_1px_2px_rgb(21_24_27/0.06),0_16px_36px_-10px_rgb(165_147_113/0.5)] active:scale-[0.97] data-[show]:visible data-[show]:translate-y-0 data-[show]:opacity-100 min-[701px]:top-5 min-[701px]:right-7.5 min-[701px]:h-12 min-[701px]:pr-5.5 min-[701px]:pl-6.5"
+>
+  <span
+    aria-hidden="true"
+    class="pointer-events-none absolute -inset-1.5 scale-95 rounded-full border border-gold opacity-0 transition-[opacity,transform] duration-500 ease-out group-hover/fm:scale-100 group-hover/fm:opacity-100"
+  ></span>
+  <span class="underline-anim font-display text-[11px]/none font-medium tracking-[0.07em] uppercase [--underline-gap:5px]">
+    Menü
+  </span>
+  <span aria-hidden="true" class="flex w-5.5 flex-col gap-1.5">
+    <i class={bar}></i>
+    <i class={`${bar} transition-[width] duration-200 group-hover/fm:w-[65%]`}></i>
+  </span>
+</button>
