@@ -71,7 +71,7 @@ const { site = 'main', current = '/' } = Astro.props;
   // rechts und unten auf seine Größe (Pille mittig: nach beiden Seiten, Pille rechts: nach unten und links). Der Inhalt blendet danach ein.
   const pillClip = (menu: HTMLElement, p: DOMRect) => {
     const m = menu.getBoundingClientRect();
-    return `inset(${p.top - m.top}px ${m.right - p.right}px ${m.bottom - p.bottom}px ${p.left - m.left}px round ${p.height / 2}px)`;
+    return `inset(${p.top - m.top}px ${m.right - p.right}px ${m.bottom - p.bottom}px ${p.left - m.left}px round ${getComputedStyle(menu).borderTopLeftRadius})`; // gleicher Radius wie das Fenster, bei kleiner Fläche begrenzt ihn der Browser auf die halbe Höhe
   };
   const pillOf = (b: HTMLElement | null) => b?.closest<HTMLElement>('[data-float-menu]') ?? null;
   // Abbild der Pille im Fenster, genau über der echten Pille: So ist beim Wechsel nichts zu sehen, die Pille wird einfach größer,
@@ -139,7 +139,7 @@ const { site = 'main', current = '/' } = Astro.props;
             busy = false;
           },
         })
-        .to(menu, { clipPath: `inset(0px 0px 0px 0px round ${radius})`, duration: 1, ease: 'power2.inOut' }, 0)
+        .fromTo(menu, { clipPath: pillClip(menu, from0) }, { clipPath: `inset(0px 0px 0px 0px round ${radius})`, duration: 1, ease: 'power2.inOut' }, 0)
         .to(menu, { '--bd': 1, duration: 0.8, ease: 'power1.out' }, 0)
         .to(menu, { backgroundColor: bg, duration: 0.7, ease: 'power1.inOut' }, 0.1)
         .to(ghost, { opacity: 0, duration: 0.3, ease: 'power1.inOut' }, 0.02)
@@ -193,7 +193,10 @@ const { site = 'main', current = '/' } = Astro.props;
       const content = [...menu.children] as HTMLElement[];
       const ghost = ghostOf(menu, pill, r);
       gsap.set(ghost, { opacity: 0 });
-      gsap.set(menu, { '--bd': 1 }); // Startwert festhalten, sonst fängt die Abdunklung bei 0 an und ist sofort weg
+      // Startwerte ausdrücklich angeben (nie aus dem Browser auslesen lassen): „none“ ergäbe Radius 0, und gekürzt gelesene Zuschnitte
+      // („inset(0px round 24px)“) ordnet GSAP den Zahlen falsch zu, die Ecken würden erst eckig und dann wieder rund. Abdunklung sonst sofort weg.
+      const full = `inset(0px 0px 0px 0px round ${getComputedStyle(menu).borderTopLeftRadius})`;
+      gsap.set(menu, { clipPath: full, '--bd': 1 });
       gsap
         .timeline({
           onComplete: () => {
@@ -202,7 +205,7 @@ const { site = 'main', current = '/' } = Astro.props;
           },
         })
         .to(content, { opacity: 0, duration: 0.2, ease: 'power1.in' }, 0)
-        .to(menu, { clipPath: pillClip(menu, r), duration: 0.7, ease: 'power2.inOut' }, 0)
+        .fromTo(menu, { clipPath: full }, { clipPath: pillClip(menu, r), duration: 0.7, ease: 'power2.inOut' }, 0)
         .to(menu, { backgroundColor: '#ffffff', duration: 0.5, ease: 'none' }, 0)
         .to(menu, { '--bd': 0, duration: 0.6, ease: 'power1.in' }, 0)
         .call(() => showPill(false), undefined, 0.25)
