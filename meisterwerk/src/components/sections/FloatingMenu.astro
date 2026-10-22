@@ -4,12 +4,14 @@ import { href } from '../../data/links';
 import { site as company } from '../../data/site';
 import type { Site } from '../../data/nav';
 /**
- * Schwebende Pille oben rechts: der Ersatz für die mitlaufende Kopfzeile. Die Kopfzeile steht nur ganz oben (Header.astro),
- * sobald sie aus dem Bild ist, erscheint diese Pille an ihrer Stelle (Skript unten). Eine Pille, zwei Felder:
+ * Die Pille „Kontakt | Menü“ ersetzt Menü-Knopf und Kontakt-Button der Kopfzeile (Header.astro, nur noch das Logo). Sie ist ein festes
+ * Element: Beim Laden liegt sie an der Stelle der Kopfzeile (rechts, mittig zum Logo), sobald man scrollt, gleitet sie weich an ihre
+ * schwebende Position oben rechts, beim Zurückscrollen an den Anfang wieder in die Kopfzeile. Die Verschiebung misst das Skript unten
+ * (`--fm-dx`, `--fm-dy`), sie hängt nur von der Kopfzeile der Seite ab. Zwei Felder:
  *   Kontakt  klappt die Kontaktwege auf: WhatsApp, Telefon, Kontakt, Projektanfrage. Maus: Überfahren öffnet, die Box steht
  *            links neben der Pille, der Name als Schild unter dem Symbol. Touch: Antippen öffnet, die Box steht als Liste
  *            unter der Pille. Tastatur: Fokus öffnet. Antippen daneben oder Esc schließt.
- *   Menü     öffnet das Hauptmenü (Menu.astro, dasselbe wie der Menü-Knopf der Kopfzeile).
+ *   Menü     öffnet das Hauptmenü (Menu.astro).
  * Kein Zoom und keine Schattenänderung beim Überfahren. Rund wie alle Buttons der Seite (Button.astro).
  */
 interface Props {
@@ -42,14 +44,17 @@ const shadow =
 // nicht von der Reihenfolge der CSS-Regeln ab (in der handbearbeiteten Vorschau-Startseite stimmte sie nicht).
 // Tailwind 4: translate und scale sind eigene CSS-Eigenschaften, `transition-[transform]` würde sie nicht animieren.
 // Einblenden weich auslaufend und etwas länger, Ausblenden kürzer und gleichmäßig.
-// Außenrahmen: gleitet von oben herein und wieder hinaus (Skript setzt `data-show`, `data-open` bei geöffneten Kontaktwegen)
+// Außenrahmen: unsichtbar, bis das Skript die Kopfzeilen-Position gemessen hat (`data-show`). `data-top` = Pille liegt in der Kopfzeile (Verschiebung
+// um `--fm-dx`/`--fm-dy`), ohne `data-top` schwebt sie. `data-init` schaltet die Übergänge kurz ab (erstes Platzieren, Fenstergröße ändern).
+// Verschiebung 700 ms weich auslaufend, Ein- und Ausblenden 450 ms. `data-open` bei geöffneten Kontaktwegen.
 const wrap =
-  'group/fm invisible fixed z-[45] -translate-y-4 opacity-0 transition-[translate,opacity,visibility] duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)] data-[show]:visible data-[show]:translate-y-0 data-[show]:opacity-100 data-[show]:duration-[700ms] data-[show]:ease-[cubic-bezier(0.22,1,0.36,1)] max-[700px]:top-3.75 max-[700px]:right-5 min-[701px]:top-5 min-[701px]:right-7.5';
+  'group/fm invisible fixed z-[45] opacity-0 transition-[translate,opacity,visibility] duration-[700ms,450ms,450ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:opacity-100 data-[top]:translate-x-[var(--fm-dx,0px)] data-[top]:translate-y-[var(--fm-dy,0px)] data-[init]:transition-none max-[700px]:top-3.75 max-[700px]:right-5 min-[701px]:top-5 min-[701px]:right-7.5';
 const pill = `relative flex items-stretch rounded-full border border-black/[0.08] bg-white text-ink ${shadow} max-[700px]:h-11 min-[701px]:h-12`;
 // Felder der Pille: weicher Grund beim Überfahren und solange die Kontaktwege offen sind, kein Unterstrich
 const seg =
   'group/ul my-1 flex cursor-pointer items-center rounded-full text-ink transition-colors duration-300 hover:bg-black/[0.055]';
-const text = 'font-display text-[11.5px]/none font-medium tracking-[0.07em] uppercase';
+const text =
+  'font-display font-medium tracking-[0.07em] uppercase max-[700px]:text-[11px]/none min-[701px]:text-[11.5px]/none';
 const bar = 'block h-px w-full bg-current';
 // Kontaktwege: Handy unter der Pille als Liste, ab 701 px links neben der Pille als Reihe von Symbolen. Der Grund (Pille mit
 // Rand und Schatten) wächst dort von der Kontakt-Taste nach links, die Symbole blenden nacheinander von der Pille aus ein.
@@ -76,7 +81,7 @@ const label =
           data-fm-contact
           aria-expanded="false"
           aria-controls="fm-contact"
-          class={`${seg} ml-1 px-4.5 group-data-[open]/fm:bg-black/[0.055]`}
+          class={`${seg} ml-1 max-[700px]:px-3.5 min-[701px]:px-4.5 group-data-[open]/fm:bg-black/[0.055]`}
         >
           <span class={text}>Kontakt</span>
         </button>
@@ -107,10 +112,10 @@ const label =
         aria-haspopup="dialog"
         aria-expanded="false"
         aria-label="Menü öffnen"
-        class={`${seg} mr-1 gap-3.5 pr-5 pl-4.5`}
+        class={`${seg} mr-1 max-[700px]:gap-2.5 max-[700px]:pr-4 max-[700px]:pl-3.5 min-[701px]:gap-3.5 min-[701px]:pr-5 min-[701px]:pl-4.5`}
       >
         <span class={text}>Menü</span>
-        <span aria-hidden="true" class="flex w-5.5 flex-col gap-1.5">
+        <span aria-hidden="true" class="flex flex-col gap-1.5 max-[700px]:w-4 min-[701px]:w-5.5">
           <i class={bar}></i>
           <i class={`${bar} transition-[width] duration-300 group-hover/ul:w-[65%]`}></i>
         </span>
@@ -154,39 +159,55 @@ const label =
     root.querySelector('[data-menu-open]')?.addEventListener('click', () => open(false));
     new MutationObserver(() => root.hasAttribute('data-show') || open(false)).observe(root, { attributeFilter: ['data-show'] });
 
-    // Sichtbar, sobald die Kopfzeile oben aus dem Bild ist (auch wenn der Hero sie ausblendet), nicht in der Großansicht
-    const bar = document.querySelector<HTMLElement>('[data-site-header]');
-    let shown = false;
+    // Position: ganz oben in der Kopfzeile (rechts, mittig zum Logo), sonst schwebend. Die Verschiebung dorthin wird gemessen, solange man oben steht.
+    const header = document.querySelector<HTMLElement>('[data-site-header]');
+    const brand = header?.querySelector<HTMLElement>('a');
+    let measured = false;
+    const measure = () => {
+      if (!header || !brand || window.scrollY > 8) return;
+      const own = getComputedStyle(root);
+      const floatRight = document.documentElement.clientWidth - parseFloat(own.right);
+      const floatMid = parseFloat(own.top) + root.offsetHeight / 2;
+      const bar = header.getBoundingClientRect();
+      const logo = brand.getBoundingClientRect();
+      const slotRight = bar.right - parseFloat(getComputedStyle(header).paddingRight);
+      const slotMid = logo.top + window.scrollY + logo.height / 2;
+      // Passt die Pille neben das Logo (Startseite auf dem Tablet: Kopfzeile nur in der linken Hälfte), sonst bleibt sie gleich schwebend
+      const fits = slotRight - root.offsetWidth > logo.right + 16;
+      root.style.setProperty('--fm-dx', fits ? `${(slotRight - floatRight).toFixed(2)}px` : '0px');
+      root.style.setProperty('--fm-dy', fits ? `${(slotMid - floatMid).toFixed(2)}px` : '0px');
+      measured = true;
+    };
     const update = () => {
-      let gone = !bar;
-      if (bar) {
-        const style = getComputedStyle(bar);
-        gone = bar.getBoundingClientRect().bottom < 40 || style.visibility === 'hidden' || Number(style.opacity) < 0.1;
+      const top = window.scrollY <= 8;
+      if (top && !measured) measure();
+      root.toggleAttribute('data-top', top && measured);
+      const on = !document.querySelector('[data-gallery-lightbox]:not([hidden]), [data-lb]:not([hidden])');
+      if (on !== root.hasAttribute('data-show')) {
+        root.toggleAttribute('data-show', on);
+        root.inert = !on;
+        root.setAttribute('aria-hidden', String(!on));
       }
-      const on = gone && !document.querySelector('[data-gallery-lightbox]:not([hidden]), [data-lb]:not([hidden])');
-      if (on === shown) return;
-      shown = on;
-      root.toggleAttribute('data-show', on);
-      root.inert = !on;
-      root.setAttribute('aria-hidden', String(!on));
     };
-    // Nach dem Scrollen noch kurz mitprüfen: Die Hero-Animation läuft dem Scrollstand etwas hinterher
-    let until = 0;
-    let running = false;
-    const tick = (now: number) => {
+    let queued = false;
+    const later = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        update();
+      });
+    };
+    // Erstes Platzieren und neues Messen bei geänderter Fenstergröße ohne Übergang
+    const place = () => {
+      root.setAttribute('data-init', '');
+      measured = false;
       update();
-      if (now < until) requestAnimationFrame(tick);
-      else running = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => root.removeAttribute('data-init')));
     };
-    const kick = () => {
-      until = performance.now() + 1500;
-      if (!running) {
-        running = true;
-        requestAnimationFrame(tick);
-      }
-    };
-    addEventListener('scroll', kick, { passive: true });
-    addEventListener('resize', kick);
-    kick();
+    addEventListener('scroll', later, { passive: true });
+    addEventListener('resize', place);
+    place();
+    document.fonts?.ready.then(() => window.scrollY <= 8 && place());
   }
 </script>

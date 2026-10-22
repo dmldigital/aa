@@ -4,7 +4,7 @@ import { items, exklusiveItems, type Item, type Site } from '../../data/nav';
 import Kontakt from './Kontakt.astro';
 import Badge from '../footer/Badge.astro';
 /**
- * Menü-Variante 3 „Seitenfläche“: schmale Fläche, die von rechts hereinfährt (die Seite dahinter bleibt sichtbar,
+ * Menü-Variante 3 „Seitenfläche“: schmale Fläche mit der Rundung der Buttons (24 px) und 10 px Rand, die von rechts hereinfährt (die Seite dahinter bleibt sichtbar,
  * abgedunkelt). Linksbündige Liste, Untermenüs als Akkordeon mit goldener Linie, darunter das Bewertungs-Badge aus dem Fuß
  * (nur Hauptseite), unten der Kontaktblock.
  */
@@ -28,7 +28,7 @@ const sub =
   data-menu-from="right"
   id="main-menu-3"
   aria-label="Hauptmenü"
-  class="fixed inset-y-0 right-0 left-auto m-0 hidden h-dvh max-h-none w-[min(460px,100%)] max-w-none overflow-y-auto border-0 bg-soft px-6 py-5 text-ink shadow-[-12px_0_40px_rgb(0_0_0/0.12)] backdrop:bg-ink/50 backdrop:backdrop-blur-xs open:flex open:flex-col min-[701px]:px-9 min-[701px]:py-7"
+  class="fixed inset-y-2.5 right-2.5 left-auto m-0 hidden h-[calc(100dvh-20px)] max-h-none w-[min(460px,calc(100%-20px))] max-w-none overflow-y-auto rounded-[24px] border-0 bg-soft px-6 py-5 text-ink shadow-[-12px_0_40px_rgb(0_0_0/0.12)] backdrop:bg-ink/50 backdrop:backdrop-blur-xs open:flex open:flex-col min-[701px]:px-9 min-[701px]:py-7"
 >
   <div class="flex items-center justify-between gap-6 font-display text-[10px] tracking-[0.09em] uppercase">
     <span>Menü</span>
@@ -47,7 +47,7 @@ const sub =
     </button>
   </div>
 
-  <nav aria-label="Hauptmenü" class="my-8 grow">
+  <nav aria-label="Hauptmenü" class="my-8 flex grow flex-col justify-center">
     <ul
       data-accordion
       data-accordion-exclusive

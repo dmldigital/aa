@@ -4,7 +4,8 @@ import { items, exklusiveItems, type Item, type Site } from '../../data/nav';
 import KontaktPanel from './KontaktPanel.astro';
 import Badge from '../footer/Badge.astro';
 /**
- * Menü für Tablet und Desktop (ab 701 px) „Geteilt“: Vollbild, links die Hauptpunkte linksbündig ohne Trennlinien
+ * Menü für Tablet und Desktop (ab 701 px) „Geteilt“: Fenster mit der Rundung der Buttons (28 px), links die Hauptpunkte linksbündig ohne Trennlinien
+ * und senkrecht mittig im Fenster (`pb-[78px]` gleicht die Kopfzeile des Fensters aus)
  * (daneben, ab 1100 px, bzw. darunter das Bewertungs-Badge aus dem Fuß, nur Hauptseite),
  * rechts stehen Kontaktmöglichkeiten mit kurzem Formular; nur bei Punkten mit Untermenü (Leistungen) blendet dessen
  * Liste dort ein und beim Verlassen wieder aus. Skript in Menu.astro.
@@ -34,7 +35,7 @@ const sub =
   data-menu-from="top"
   id="main-menu-2"
   aria-label="Hauptmenü"
-  class="fixed inset-2.5 m-0 hidden h-[calc(100dvh-20px)] max-h-none w-[calc(100%-20px)] max-w-none overflow-y-auto border-0 bg-soft p-4.5 text-ink backdrop:bg-ink/50 backdrop:backdrop-blur-xs open:flex open:flex-col min-[701px]:inset-6 min-[701px]:h-[calc(100dvh-48px)] min-[701px]:w-[calc(100%-48px)] min-[701px]:px-10 min-[701px]:py-7"
+  class="fixed inset-2.5 m-0 hidden h-[calc(100dvh-20px)] max-h-none w-[calc(100%-20px)] max-w-none overflow-y-auto rounded-[24px] border-0 bg-soft p-4.5 text-ink backdrop:bg-ink/50 backdrop:backdrop-blur-xs open:flex open:flex-col min-[701px]:inset-6 min-[701px]:h-[calc(100dvh-48px)] min-[701px]:w-[calc(100%-48px)] min-[701px]:rounded-[28px] min-[701px]:px-10 min-[701px]:py-7"
 >
   <div class="flex items-center justify-between gap-6 font-display text-[10px] tracking-[0.09em] uppercase">
     <span>{exk ? 'Meisterwerke Exklusive' : 'Meisterwerk Malermanufaktur'}</span>
@@ -57,9 +58,9 @@ const sub =
     <nav
       aria-label="Hauptmenü"
       data-split-list
-      class="flex flex-col gap-8 min-[701px]:pr-[clamp(32px,5vw,96px)] min-[701px]:pb-6 min-[1100px]:flex-row min-[1100px]:items-end"
+      class="flex flex-col justify-center gap-8 min-[701px]:pr-[clamp(32px,5vw,96px)] min-[701px]:pb-[78px] min-[1100px]:flex-row min-[1100px]:items-center"
     >
-      <ul class="flex min-w-0 flex-1 flex-col gap-1">
+      <ul class="flex min-w-0 flex-col gap-1 min-[1100px]:flex-1">
         {menu.map((item, i) => (
           <li data-menu-item>
             {item.children ? (
@@ -86,7 +87,7 @@ const sub =
           </li>
         ))}
       </ul>
-      {!exk && <Badge class="shrink-0 self-start min-[1100px]:mb-2 min-[1100px]:self-end" />}
+      {!exk && <Badge class="shrink-0 self-start min-[1100px]:self-center" />}
     </nav>
 
     <div class="grid content-start items-start min-[701px]:border-l min-[701px]:border-black/10 min-[701px]:pb-6 min-[701px]:pl-[clamp(32px,5vw,96px)]">
