@@ -91,9 +91,9 @@ def missing_rules(section, base_html, built_html):
         for wrappers, sel, body in rules:
             if re.search(re.escape(key) + r'(?![\w\\-])', sel):
                 css.append((len(wrappers), ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
-    # Regeln ohne Klassen-Selektor, die zum Hero gehören (Zustand der Bewertung, `data-rating`), und der Stil-Schalter (`data-stil`)
+    # Regeln ohne Klassen-Selektor, die zum Hero gehören (Zustand der Bewertung, `data-rating`)
     for wrappers, sel, body in rules:
-        if 'data-rating' in sel or 'data-stil' in sel:
+        if 'data-rating' in sel:
             css.append((len(wrappers), ''.join(w + '{' for w in wrappers) + sel + '{' + body + '}' + '}' * len(wrappers)))
     # Reihenfolge wie bei Tailwind: Regeln ohne Medienabfrage zuerst, die Varianten (Breite, Bewegung) danach,
     # sonst überschreibt die allgemeine Regel die breitenabhängige
@@ -145,6 +145,30 @@ def lone(text, pattern):
     m = re.findall(pattern, text)
     assert len(m) == 1, (pattern, len(m))
     return re.search(pattern, text)
+
+
+# Button wie in Button.astro (Pille, seitlich großzügig, Haarlinie und weicher Schatten bei `outline`)
+BTN_SHADOW = 'shadow-[0_1px_2px_rgb(21_24_27/0.06),0_8px_20px_-8px_rgb(21_24_27/0.22)]'
+BTN_OUTLINE = 'border-black/10 bg-white text-black ' + BTN_SHADOW
+BTN_SWAP = [
+    ('px-5 py-3.25 md:px-6.25 lg:px-7.5 lg:py-3.75', 'px-7 py-3.25 md:px-8.5 lg:px-10 lg:py-3.75'),
+    ('px-4 py-2.25 text-[12px] md:px-5 lg:py-2.75', 'px-5.5 py-2.25 text-[12px] md:px-6.5 lg:py-2.75'),
+]
+
+
+def round_button(m):
+    """Button-Klassen der handbearbeiteten Startseite auf den Stand von Button.astro bringen"""
+    c = m.group(0)
+    if not all(k in c for k in ('tracking-button', 'text-center', 'border')):
+        return c
+    for old, new in BTN_SWAP:
+        c = c.replace(old, new)
+    if 'rounded-full' not in c:
+        c = c.replace(' border ', ' rounded-full border ', 1)
+    if 'border-black/10' not in c and re.search(r'\bborder-black\b(?!/)', c):
+        c = re.sub(r'\bborder-black\b(?!/)', 'border-black/10 ' + BTN_SHADOW, c, count=1)
+    c = c.replace(' shadow-[0_2px_8px_rgb(0_0_0/0.1)]', '')
+    return c
 
 
 def balanced(text, start):
@@ -199,8 +223,8 @@ def shell(base, built):
 
     # Schaltflächen wie in der Quelle: Großschreibung über die Klasse, kein "↗", eigene Buttons der Startseite ersetzen
     def btn(label, href=None, tag='a', extra=''):
-        cls = ('group/ul inline-block cursor-pointer border text-center font-display text-button font-semibold tracking-button uppercase '
-               'px-5 py-3.25 md:px-6.25 lg:px-7.5 lg:py-3.75 border-black bg-white text-black')
+        cls = ('group/ul inline-block cursor-pointer rounded-full border text-center font-display text-button font-semibold tracking-button uppercase '
+               'px-7 py-3.25 md:px-8.5 lg:px-10 lg:py-3.75 ' + BTN_OUTLINE)
         inner = '<span class="flex justify-center gap-1.25"><span class="underline-anim [--underline-gap:3px]">%s</span></span>' % label
         if tag == 'a':
             return '<a href="%s" class="%s"%s>%s</a>' % (href, cls, extra, inner)
@@ -218,6 +242,7 @@ def shell(base, built):
         return c if 'uppercase' in c else c.replace(' tracking-button', ' tracking-button uppercase', 1)
 
     h = re.sub(r'class="[^"]*\bborder text-center\b[^"]*"', up, h)
+    h = re.sub(r'class="[^"]*"', round_button, h)
     h = h.replace(' ↗</span></span></a>', '</span></span></a>')
 
     # Altes HeaderLock (Kopfzeilen-Sperre) nicht mehr einbinden, `data-no-header` früherer Läufe zurücknehmen: die Kopfzeile steht nur oben
@@ -225,15 +250,13 @@ def shell(base, built):
     h = re.sub(r'<link[^>]*HeaderLock\.css[^>]*>', '', h)
     h = re.sub(r'<script[^>]*HeaderLock\.js[^>]*></script>', '', h)
 
-    # Schalter für den Stil (?stil=eckig|rund), vor dem Rendern gesetzt: Vorschau-Auswahl, entfällt nach der Entscheidung
-    boot = lone(built, r'<script[^>]*data-stil-boot[^>]*>[\s\S]*?</script>').group(0)
+    # Stil-Schalter der Auswahl (?stil=…) ist entschieden und entfällt: Skript früherer Läufe entfernen
     h = re.sub(r'<script[^>]*data-stil-boot[^>]*>[\s\S]*?</script>', '', h)
-    assert h.count('</head>') == 1
-    h = h.replace('</head>', boot + '</head>')
 
     # Fehlende Tailwind-Regeln für die ersetzten Teile
     h = re.sub(r'<style data-shell-patch>[\s\S]*?</style>', '', h)
-    need, css = missing_rules('\n'.join(parts) + '\n<span class="uppercase px-5 py-3.25 md:px-6.25 lg:px-7.5 lg:py-3.75 border-black bg-white text-black">', h, built)
+    buttons = ' '.join(re.findall(r'class="[^"]*\btracking-button\b[^"]*"', h))
+    need, css = missing_rules('\n'.join(parts) + '\n' + buttons, h, built)
     extra = '.transition-\\[transform\\,opacity\\,visibility\\]{transition-property:transform,opacity,visibility;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}[data-lk-stretch]::after{content:"";position:absolute;inset:0}'
     assert h.count('</head>') == 1
     h = h.replace('</head>', '<style data-shell-patch>' + css + '\n' + extra + '</style></head>')

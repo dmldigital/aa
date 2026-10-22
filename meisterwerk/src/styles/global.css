@@ -266,18 +266,3 @@
     animation: underline-out 0.5s ease forwards;
   }
 }
-
-/* Vorschau-Auswahl „Stil“ (data-stil am html, gesetzt in Layout.astro): bei „rund“ sind alle Buttons Pillen wie die Menü-Pille.
-   Entfällt nach der Entscheidung (dann Button.astro selbst anpassen). */
-html[data-stil='rund'] .border.text-center.tracking-button.uppercase {
-  border-radius: 9999px;
-  box-shadow:
-    0 1px 2px rgb(21 24 27 / 0.06),
-    0 8px 20px -8px rgb(21 24 27 / 0.22);
-}
-html[data-stil='rund'] .border-black.border.text-center.tracking-button.uppercase {
-  border-color: rgb(0 0 0 / 0.12);
-}
-html[data-stil='rund'] .border-white.border.text-center.tracking-button.uppercase {
-  box-shadow: none;
-}

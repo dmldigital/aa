@@ -4,15 +4,13 @@ import { href } from '../../data/links';
 import { site as company } from '../../data/site';
 import type { Site } from '../../data/nav';
 /**
- * Schwebende Menü-Schaltfläche oben rechts: der Ersatz für die mitlaufende Kopfzeile. Die Kopfzeile steht nur ganz oben
- * (Header.astro), sobald sie aus dem Bild ist, erscheint diese Schaltfläche an ihrer Stelle (Skript unten). Ein Klick öffnet
- * direkt das Hauptmenü (Menu.astro, dasselbe wie der Menü-Knopf der Kopfzeile). Beim Überfahren (Maus) oder Tastaturfokus
- * klappt links daneben eine zweite Box mit den Kontaktwegen auf: WhatsApp, Telefon, Kontakt, Projektanfrage (Name als Schild
- * unter dem Symbol). Kein Zoom und keine Schattenänderung beim Überfahren. Auf Touch-Geräten gibt es kein Überfahren, dort
- * öffnet das Antippen das Menü, das die Kontaktwege ebenfalls enthält.
- * Zwei Stile zur Auswahl (Vorschau: `?stil=eckig` oder `?stil=rund`, siehe Layout.astro, `data-stil` am html):
- *   eckig  wie die Buttons der Seite (eckig, schwarzer Rand, Großbuchstaben, Schatten wie der Sticker), Standard
- *   rund   Pille mit Haarlinie und Glas, dazu sind in global.css alle Buttons der Seite rund
+ * Schwebende Pille oben rechts: der Ersatz für die mitlaufende Kopfzeile. Die Kopfzeile steht nur ganz oben (Header.astro),
+ * sobald sie aus dem Bild ist, erscheint diese Pille an ihrer Stelle (Skript unten). Eine Pille, zwei Felder:
+ *   Kontakt  klappt die Kontaktwege auf: WhatsApp, Telefon, Kontakt, Projektanfrage. Maus: Überfahren öffnet, die Box steht
+ *            links neben der Pille, der Name als Schild unter dem Symbol. Touch: Antippen öffnet, die Box steht als Liste
+ *            unter der Pille. Tastatur: Fokus öffnet. Antippen daneben oder Esc schließt.
+ *   Menü     öffnet das Hauptmenü (Menu.astro, dasselbe wie der Menü-Knopf der Kopfzeile).
+ * Kein Zoom und keine Schattenänderung beim Überfahren. Rund wie alle Buttons der Seite (Button.astro).
  */
 interface Props {
   site?: Site;
@@ -36,81 +34,113 @@ const items = [
 const ext = (on: boolean) => (on ? { target: '_blank', rel: 'noopener noreferrer' } : {});
 const n = items.length;
 
-// Außenrahmen: fährt von oben ein und aus (Skript setzt `data-show`, `data-open` beim Überfahren)
+const shadow = 'shadow-[0_1px_2px_rgb(21_24_27/0.06),0_14px_32px_-10px_rgb(21_24_27/0.24)]';
+// Außenrahmen: fährt von oben ein und aus (Skript setzt `data-show`, `data-open` bei geöffneten Kontaktwegen)
 const wrap =
   'group/fm invisible fixed top-3.75 right-5 z-[45] -translate-y-5 opacity-0 transition-[transform,opacity,visibility] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:translate-y-0 data-[show]:opacity-100 min-[701px]:top-5 min-[701px]:right-7.5';
-// Menü-Schaltfläche. Grundform eckig (wie der Button der Seite), `in-data-[stil=rund]:` macht daraus die Pille
-const pill =
-  'group/ul relative flex h-10 cursor-pointer items-center gap-3.5 border border-black bg-white px-5 text-ink shadow-[0_2px_8px_rgb(0_0_0/0.1)] in-data-[stil=rund]:h-11 min-[701px]:in-data-[stil=rund]:h-12 in-data-[stil=rund]:rounded-full in-data-[stil=rund]:border-black/10 in-data-[stil=rund]:bg-white/90 in-data-[stil=rund]:pr-5 in-data-[stil=rund]:pl-5.5 in-data-[stil=rund]:shadow-[0_1px_2px_rgb(21_24_27/0.06),0_14px_32px_-10px_rgb(21_24_27/0.24)] in-data-[stil=rund]:backdrop-blur-xl in-data-[stil=rund]:backdrop-saturate-150 min-[701px]:in-data-[stil=rund]:pr-5.5 min-[701px]:in-data-[stil=rund]:pl-6.5';
-const pillText =
-  'underline-anim font-display text-[12px]/none font-semibold tracking-button uppercase [--underline-gap:5px] in-data-[stil=rund]:text-[11px]/none in-data-[stil=rund]:font-medium in-data-[stil=rund]:tracking-[0.07em]';
+const pill = `relative flex h-11 items-stretch rounded-full border border-black/10 bg-white/95 text-ink ${shadow} min-[701px]:h-12`;
+const seg = 'group/ul flex h-full cursor-pointer items-center';
+const text =
+  'underline-anim font-display text-[11px]/none font-medium tracking-[0.07em] uppercase [--underline-gap:5px]';
 const bar = 'block h-px w-full bg-current';
-// Kontakt-Box links neben der Schaltfläche: unsichtbar, bis der Rahmen geöffnet ist
+// Kontaktwege: Handy unter der Pille als Liste, ab 701 px links neben der Pille als Reihe von Symbolen
 const panel =
-  'invisible absolute top-0 right-full h-full origin-right translate-x-3 scale-95 pr-2.5 opacity-0 transition-[transform,opacity,visibility] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:visible group-data-[open]/fm:translate-x-0 group-data-[open]/fm:scale-100 group-data-[open]/fm:opacity-100';
-const box =
-  'flex h-full items-stretch divide-x divide-black/15 border border-black bg-white shadow-[0_2px_8px_rgb(0_0_0/0.1)] in-data-[stil=rund]:items-center in-data-[stil=rund]:gap-0.5 in-data-[stil=rund]:divide-x-0 in-data-[stil=rund]:rounded-full in-data-[stil=rund]:border-black/10 in-data-[stil=rund]:bg-white/90 in-data-[stil=rund]:px-1.5 in-data-[stil=rund]:shadow-[0_1px_2px_rgb(21_24_27/0.06),0_14px_32px_-10px_rgb(21_24_27/0.24)] in-data-[stil=rund]:backdrop-blur-xl in-data-[stil=rund]:backdrop-saturate-150';
+  'invisible absolute top-full right-0 origin-top-right -translate-y-2 scale-95 pt-2.5 opacity-0 transition-[transform,opacity,visibility] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:visible group-data-[open]/fm:translate-x-0 group-data-[open]/fm:translate-y-0 group-data-[open]/fm:scale-100 group-data-[open]/fm:opacity-100 min-[701px]:top-0 min-[701px]:right-full min-[701px]:h-full min-[701px]:origin-right min-[701px]:translate-x-3 min-[701px]:translate-y-0 min-[701px]:pt-0 min-[701px]:pr-2.5';
+const box = `flex flex-col gap-0.5 rounded-[22px] border border-black/10 bg-white/95 p-1.5 ${shadow} min-[701px]:h-full min-[701px]:flex-row min-[701px]:items-center min-[701px]:rounded-full min-[701px]:px-1.5 min-[701px]:py-0`;
 const item =
-  'flex h-full translate-x-2 opacity-0 transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:translate-x-0 group-data-[open]/fm:opacity-100 group-data-[open]/fm:[transition-delay:var(--d)] in-data-[stil=rund]:h-auto';
+  'flex translate-x-2 opacity-0 transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:translate-x-0 group-data-[open]/fm:opacity-100 group-data-[open]/fm:[transition-delay:var(--d)]';
 const link =
-  'group/it relative grid h-full w-10 place-items-center text-ink transition-colors duration-300 hover:bg-ink hover:text-white in-data-[stil=rund]:size-9 in-data-[stil=rund]:rounded-full min-[701px]:in-data-[stil=rund]:size-10';
-const tip =
-  'pointer-events-none absolute top-full left-1/2 mt-3.5 -translate-x-1/2 translate-y-1 bg-ink px-3 py-1.5 font-display text-[10px]/none tracking-[0.08em] whitespace-nowrap text-white uppercase opacity-0 transition-[transform,opacity] duration-300 group-hover/it:translate-y-0 group-hover/it:opacity-100 in-data-[stil=rund]:rounded-full';
+  'group/it relative flex h-11 w-full items-center gap-3 rounded-full pr-5 pl-2.5 text-ink transition-colors duration-300 hover:bg-ink hover:text-white min-[701px]:grid min-[701px]:size-10 min-[701px]:place-items-center min-[701px]:gap-0 min-[701px]:p-0';
+// Name: Handy neben dem Symbol, ab 701 px als Schild unter dem Symbol beim Überfahren oder Fokus
+const label =
+  'font-display text-[11px]/none tracking-[0.07em] uppercase min-[701px]:pointer-events-none min-[701px]:absolute min-[701px]:top-full min-[701px]:left-1/2 min-[701px]:mt-3.5 min-[701px]:-translate-x-1/2 min-[701px]:translate-y-1 min-[701px]:rounded-full min-[701px]:bg-ink min-[701px]:px-3 min-[701px]:py-1.5 min-[701px]:text-[10px]/none min-[701px]:tracking-[0.08em] min-[701px]:whitespace-nowrap min-[701px]:text-white min-[701px]:opacity-0 min-[701px]:transition-[transform,opacity] min-[701px]:duration-300 min-[701px]:group-hover/it:translate-y-0 min-[701px]:group-hover/it:opacity-100 min-[701px]:group-focus-visible/it:translate-y-0 min-[701px]:group-focus-visible/it:opacity-100';
 ---
 
 <div data-fm-root class="contents">
   <div data-float-menu aria-hidden="true" inert class={wrap}>
-    <div role="group" aria-label="Schnellkontakt" class={panel}>
-      <ul class={box}>
-        {
-          items.map((it, i) => (
-            <li class={item} style={`--d:${80 + (n - 1 - i) * 55}ms`}>
-              <a href={it.href} {...ext(it.ext)} aria-label={`${it.label}: ${it.sub}`} class={link}>
-                <ContactIcon name={it.icon} class="size-4.5" />
-                <span class={tip}>{it.label}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
+    <div class={pill}>
+      <div data-fm-seg class="flex h-full">
+        <button
+          type="button"
+          data-fm-contact
+          aria-expanded="false"
+          aria-controls="fm-contact"
+          class={`${seg} pr-5 pl-6 min-[701px]:pl-6.5`}
+        >
+          <span class={text}>Kontakt</span>
+        </button>
+        <div id="fm-contact" role="group" aria-label="Schnellkontakt" class={panel}>
+          <ul class={box}>
+            {
+              items.map((it, i) => (
+                <li class={item} style={`--d:${80 + (n - 1 - i) * 55}ms`}>
+                  <a href={it.href} {...ext(it.ext)} aria-label={`${it.label}: ${it.sub}`} class={link}>
+                    <span class="grid size-6 shrink-0 place-items-center min-[701px]:size-auto">
+                      <ContactIcon name={it.icon} class="size-4.5" />
+                    </span>
+                    <span class={label}>{it.label}</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
 
-    <button
-      type="button"
-      data-menu-open
-      aria-haspopup="dialog"
-      aria-expanded="false"
-      aria-label="Menü öffnen"
-      class={pill}
-    >
-      <span class={pillText}>Menü</span>
-      <span aria-hidden="true" class="flex w-5.5 flex-col gap-1.5">
-        <i class={bar} />
-        <i class={`${bar} transition-[width] duration-200 group-hover/ul:w-[65%]`} />
-      </span>
-    </button>
+      <span aria-hidden="true" class="my-auto h-4 w-px bg-black/15"></span>
+
+      <button
+        type="button"
+        data-menu-open
+        aria-haspopup="dialog"
+        aria-expanded="false"
+        aria-label="Menü öffnen"
+        class={`${seg} gap-3.5 pr-6 pl-5 min-[701px]:pr-6.5`}
+      >
+        <span class={text}>Menü</span>
+        <span aria-hidden="true" class="flex w-5.5 flex-col gap-1.5">
+          <i class={bar}></i>
+          <i class={`${bar} transition-[width] duration-200 group-hover/ul:w-[65%]`}></i>
+        </span>
+      </button>
+    </div>
   </div>
 </div>
 
 <script>
-  const roots = [...document.querySelectorAll<HTMLElement>('[data-float-menu]')];
-  if (roots.length) {
-    // Aufklappen: Maus über der Schaltfläche (kurze Schonfrist beim Verlassen) oder Tastaturfokus. Touch: nichts, Antippen öffnet das Menü.
-    roots.forEach((r) => {
-      let timer = 0;
-      const open = (on: boolean) => {
-        clearTimeout(timer);
-        r.toggleAttribute('data-open', on);
-      };
-      r.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && open(true));
-      r.addEventListener('pointerleave', (e) => {
-        if (e.pointerType === 'mouse') timer = window.setTimeout(() => open(false), 220);
-      });
-      r.addEventListener('focusin', () => r.matches(':has(:focus-visible)') && open(true));
-      r.addEventListener('focusout', (e) => r.contains(e.relatedTarget as Node) || open(false));
-      r.querySelector('[data-menu-open]')?.addEventListener('click', () => open(false));
-      new MutationObserver(() => r.hasAttribute('data-show') || open(false)).observe(r, { attributeFilter: ['data-show'] });
+  const root = document.querySelector<HTMLElement>('[data-float-menu]');
+  const seg = root?.querySelector<HTMLElement>('[data-fm-seg]');
+  const contact = root?.querySelector<HTMLButtonElement>('[data-fm-contact]');
+  if (root && seg && contact) {
+    // Kontaktwege: Maus über dem Feld (kurze Schonfrist beim Verlassen), Antippen (Touch), Tastaturfokus. Esc oder Antippen daneben schließt.
+    const hoverCapable = matchMedia('(hover: hover)').matches;
+    let timer = 0;
+    const open = (on: boolean) => {
+      clearTimeout(timer);
+      root.toggleAttribute('data-open', on);
+      contact.setAttribute('aria-expanded', String(on));
+    };
+    seg.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && open(true));
+    seg.addEventListener('pointerleave', (e) => {
+      if (e.pointerType === 'mouse') timer = window.setTimeout(() => open(false), 220);
     });
+    root.querySelector('[data-menu-open]')?.addEventListener('pointerenter', (e) => {
+      if ((e as PointerEvent).pointerType === 'mouse') open(false);
+    });
+    contact.addEventListener('click', () => open(hoverCapable ? true : !root.hasAttribute('data-open')));
+    seg.addEventListener('focusin', (e) => (e.target as Element).matches(':focus-visible') && open(true));
+    seg.addEventListener('focusout', (e) => seg.contains(e.relatedTarget as Node) || open(false));
+    document.addEventListener('pointerdown', (e) => {
+      if (root.hasAttribute('data-open') && !seg.contains(e.target as Node)) open(false);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && root.hasAttribute('data-open')) {
+        open(false);
+        if (seg.contains(document.activeElement)) contact.focus();
+      }
+    });
+    root.querySelector('[data-menu-open]')?.addEventListener('click', () => open(false));
+    new MutationObserver(() => root.hasAttribute('data-show') || open(false)).observe(root, { attributeFilter: ['data-show'] });
 
     // Sichtbar, sobald die Kopfzeile oben aus dem Bild ist (auch wenn der Hero sie ausblendet), nicht in der Großansicht
     const bar = document.querySelector<HTMLElement>('[data-site-header]');
@@ -124,11 +154,9 @@ const tip =
       const on = gone && !document.querySelector('[data-gallery-lightbox]:not([hidden]), [data-lb]:not([hidden])');
       if (on === shown) return;
       shown = on;
-      roots.forEach((r) => {
-        r.toggleAttribute('data-show', on);
-        r.inert = !on;
-        r.setAttribute('aria-hidden', String(!on));
-      });
+      root.toggleAttribute('data-show', on);
+      root.inert = !on;
+      root.setAttribute('aria-hidden', String(!on));
     };
     // Nach dem Scrollen noch kurz mitprüfen: Die Hero-Animation läuft dem Scrollstand etwas hinterher
     let until = 0;

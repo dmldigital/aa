@@ -25,19 +25,6 @@ const noindex = import.meta.env.PUBLIC_INDEXABLE !== 'true';
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
-    <!-- Vorschau-Auswahl: ?stil=eckig oder ?stil=rund (gemerkt pro Sitzung). Entfällt nach der Entscheidung. -->
-    <script is:inline data-stil-boot>
-      (function () {
-        var s = 'eckig';
-        try {
-          var q = new URLSearchParams(location.search).get('stil');
-          if (q) sessionStorage.setItem('stil', q);
-          else q = sessionStorage.getItem('stil');
-          if (q === 'rund') s = q;
-        } catch (e) {}
-        document.documentElement.dataset.stil = s;
-      })();
-    </script>
   </head>
   <body>
     <slot />
