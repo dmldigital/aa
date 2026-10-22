@@ -34,26 +34,33 @@ const items = [
 const ext = (on: boolean) => (on ? { target: '_blank', rel: 'noopener noreferrer' } : {});
 const n = items.length;
 
-const shadow = 'shadow-[0_1px_2px_rgb(21_24_27/0.06),0_14px_32px_-10px_rgb(21_24_27/0.24)]';
-// Außenrahmen: fährt von oben ein und aus (Skript setzt `data-show`, `data-open` bei geöffneten Kontaktwegen)
+const shadow =
+  'shadow-[0_1px_1px_rgb(21_24_27/0.04),0_6px_16px_-4px_rgb(21_24_27/0.1),0_18px_40px_-14px_rgb(21_24_27/0.2)]';
+// Tailwind 4: translate und scale sind eigene CSS-Eigenschaften, `transition-[transform]` würde sie nicht animieren.
+// Einblenden weich auslaufend und etwas länger, Ausblenden kürzer und gleichmäßig.
+// Außenrahmen: gleitet von oben herein und wieder hinaus (Skript setzt `data-show`, `data-open` bei geöffneten Kontaktwegen)
 const wrap =
-  'group/fm invisible fixed top-3.75 right-5 z-[45] -translate-y-5 opacity-0 transition-[transform,opacity,visibility] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:translate-y-0 data-[show]:opacity-100 min-[701px]:top-5 min-[701px]:right-7.5';
-const pill = `relative flex h-11 items-stretch rounded-full border border-black/10 bg-white/95 text-ink ${shadow} min-[701px]:h-12`;
-const seg = 'group/ul flex h-full cursor-pointer items-center';
-const text =
-  'underline-anim font-display text-[11px]/none font-medium tracking-[0.07em] uppercase [--underline-gap:5px]';
+  'group/fm invisible fixed top-3.75 right-5 z-[45] -translate-y-4 opacity-0 transition-[translate,opacity,visibility] duration-[380ms] ease-[cubic-bezier(0.4,0,0.2,1)] data-[show]:visible data-[show]:translate-y-0 data-[show]:opacity-100 data-[show]:duration-[700ms] data-[show]:ease-[cubic-bezier(0.22,1,0.36,1)] min-[701px]:top-5 min-[701px]:right-7.5';
+const pill = `relative flex h-11 items-stretch rounded-full border border-black/[0.08] bg-white text-ink ${shadow} min-[701px]:h-12`;
+// Felder der Pille: weicher Grund beim Überfahren und solange die Kontaktwege offen sind, kein Unterstrich
+const seg =
+  'group/ul my-1 flex cursor-pointer items-center rounded-full text-ink transition-colors duration-300 hover:bg-black/[0.055]';
+const text = 'font-display text-[11.5px]/none font-medium tracking-[0.07em] uppercase';
 const bar = 'block h-px w-full bg-current';
-// Kontaktwege: Handy unter der Pille als Liste, ab 701 px links neben der Pille als Reihe von Symbolen
+// Kontaktwege: Handy unter der Pille als Liste, ab 701 px links neben der Pille als Reihe von Symbolen. Der Grund (Pille mit
+// Rand und Schatten) wächst dort von der Kontakt-Taste nach links, die Symbole blenden nacheinander von der Pille aus ein.
 const panel =
-  'invisible absolute top-full right-0 origin-top-right -translate-y-2 scale-95 pt-2.5 opacity-0 transition-[transform,opacity,visibility] duration-[380ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:visible group-data-[open]/fm:translate-x-0 group-data-[open]/fm:translate-y-0 group-data-[open]/fm:scale-100 group-data-[open]/fm:opacity-100 min-[701px]:top-0 min-[701px]:right-full min-[701px]:h-full min-[701px]:origin-right min-[701px]:translate-x-3 min-[701px]:translate-y-0 min-[701px]:pt-0 min-[701px]:pr-2.5';
-const box = `flex flex-col gap-0.5 rounded-[22px] border border-black/10 bg-white/95 p-1.5 ${shadow} min-[701px]:h-full min-[701px]:flex-row min-[701px]:items-center min-[701px]:rounded-full min-[701px]:px-1.5 min-[701px]:py-0`;
+  'invisible absolute top-full right-0 pt-2.5 transition-[visibility] duration-[420ms] group-data-[open]/fm:visible group-data-[open]/fm:duration-0 min-[701px]:-top-px min-[701px]:right-full min-[701px]:h-[calc(100%+2px)] min-[701px]:pt-0 min-[701px]:pr-2.5';
+const ground = `pointer-events-none absolute top-2.5 right-0 bottom-0 left-0 origin-top-right scale-90 rounded-[22px] border border-black/[0.08] bg-white opacity-0 ${shadow} transition-[width,scale,opacity] duration-[320ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-data-[open]/fm:scale-100 group-data-[open]/fm:opacity-100 group-data-[open]/fm:duration-[720ms] group-data-[open]/fm:ease-[cubic-bezier(0.32,0.72,0,1)] min-[701px]:top-0 min-[701px]:right-2.5 min-[701px]:left-auto min-[701px]:w-9 min-[701px]:scale-100 min-[701px]:rounded-full min-[701px]:group-data-[open]/fm:w-[calc(100%-0.625rem)]`;
+const box =
+  'relative flex flex-col gap-0.5 p-1.5 min-[701px]:h-full min-[701px]:flex-row min-[701px]:items-center min-[701px]:px-1.5 min-[701px]:py-0';
 const item =
-  'flex translate-x-2 opacity-0 transition-[transform,opacity] duration-[420ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-data-[open]/fm:translate-x-0 group-data-[open]/fm:opacity-100 group-data-[open]/fm:[transition-delay:var(--d)]';
+  'flex translate-x-3 opacity-0 blur-[2px] transition-[translate,opacity,filter] duration-[220ms] ease-out group-data-[open]/fm:translate-x-0 group-data-[open]/fm:opacity-100 group-data-[open]/fm:blur-none group-data-[open]/fm:duration-[640ms] group-data-[open]/fm:ease-[cubic-bezier(0.32,0.72,0,1)] group-data-[open]/fm:[transition-delay:var(--d)]';
 const link =
   'group/it relative flex h-11 w-full items-center gap-3 rounded-full pr-5 pl-2.5 text-ink transition-colors duration-300 hover:bg-ink hover:text-white min-[701px]:grid min-[701px]:size-10 min-[701px]:place-items-center min-[701px]:gap-0 min-[701px]:p-0';
 // Name: Handy neben dem Symbol, ab 701 px als Schild unter dem Symbol beim Überfahren oder Fokus
 const label =
-  'font-display text-[11px]/none tracking-[0.07em] uppercase min-[701px]:pointer-events-none min-[701px]:absolute min-[701px]:top-full min-[701px]:left-1/2 min-[701px]:mt-3.5 min-[701px]:-translate-x-1/2 min-[701px]:translate-y-1 min-[701px]:rounded-full min-[701px]:bg-ink min-[701px]:px-3 min-[701px]:py-1.5 min-[701px]:text-[10px]/none min-[701px]:tracking-[0.08em] min-[701px]:whitespace-nowrap min-[701px]:text-white min-[701px]:opacity-0 min-[701px]:transition-[transform,opacity] min-[701px]:duration-300 min-[701px]:group-hover/it:translate-y-0 min-[701px]:group-hover/it:opacity-100 min-[701px]:group-focus-visible/it:translate-y-0 min-[701px]:group-focus-visible/it:opacity-100';
+  'font-display text-[11px]/none tracking-[0.07em] uppercase min-[701px]:pointer-events-none min-[701px]:absolute min-[701px]:top-full min-[701px]:left-1/2 min-[701px]:mt-3.5 min-[701px]:-translate-x-1/2 min-[701px]:translate-y-1 min-[701px]:rounded-full min-[701px]:bg-ink min-[701px]:px-3 min-[701px]:py-1.5 min-[701px]:text-[10px]/none min-[701px]:tracking-[0.08em] min-[701px]:whitespace-nowrap min-[701px]:text-white min-[701px]:opacity-0 min-[701px]:transition-[translate,opacity] min-[701px]:duration-300 min-[701px]:ease-out min-[701px]:group-hover/it:translate-y-0 min-[701px]:group-hover/it:opacity-100 min-[701px]:group-focus-visible/it:translate-y-0 min-[701px]:group-focus-visible/it:opacity-100';
 ---
 
 <div data-fm-root class="contents">
@@ -65,15 +72,16 @@ const label =
           data-fm-contact
           aria-expanded="false"
           aria-controls="fm-contact"
-          class={`${seg} pr-5 pl-6 min-[701px]:pl-6.5`}
+          class={`${seg} ml-1 px-4.5 group-data-[open]/fm:bg-black/[0.055]`}
         >
           <span class={text}>Kontakt</span>
         </button>
         <div id="fm-contact" role="group" aria-label="Schnellkontakt" class={panel}>
+          <span aria-hidden="true" class={ground}></span>
           <ul class={box}>
             {
               items.map((it, i) => (
-                <li class={item} style={`--d:${80 + (n - 1 - i) * 55}ms`}>
+                <li class={item} style={`--d:${170 + (n - 1 - i) * 70}ms`}>
                   <a href={it.href} {...ext(it.ext)} aria-label={`${it.label}: ${it.sub}`} class={link}>
                     <span class="grid size-6 shrink-0 place-items-center min-[701px]:size-auto">
                       <ContactIcon name={it.icon} class="size-4.5" />
@@ -87,7 +95,7 @@ const label =
         </div>
       </div>
 
-      <span aria-hidden="true" class="my-auto h-4 w-px bg-black/15"></span>
+      <span aria-hidden="true" class="my-auto h-3.5 w-px bg-black/[0.12]"></span>
 
       <button
         type="button"
@@ -95,12 +103,12 @@ const label =
         aria-haspopup="dialog"
         aria-expanded="false"
         aria-label="Menü öffnen"
-        class={`${seg} gap-3.5 pr-6 pl-5 min-[701px]:pr-6.5`}
+        class={`${seg} mr-1 gap-3.5 pr-5 pl-4.5`}
       >
         <span class={text}>Menü</span>
         <span aria-hidden="true" class="flex w-5.5 flex-col gap-1.5">
           <i class={bar}></i>
-          <i class={`${bar} transition-[width] duration-200 group-hover/ul:w-[65%]`}></i>
+          <i class={`${bar} transition-[width] duration-300 group-hover/ul:w-[65%]`}></i>
         </span>
       </button>
     </div>
@@ -122,7 +130,7 @@ const label =
     };
     seg.addEventListener('pointerenter', (e) => e.pointerType === 'mouse' && open(true));
     seg.addEventListener('pointerleave', (e) => {
-      if (e.pointerType === 'mouse') timer = window.setTimeout(() => open(false), 220);
+      if (e.pointerType === 'mouse') timer = window.setTimeout(() => open(false), 200);
     });
     root.querySelector('[data-menu-open]')?.addEventListener('pointerenter', (e) => {
       if ((e as PointerEvent).pointerType === 'mouse') open(false);
