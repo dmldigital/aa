@@ -1,0 +1,127 @@
+---
+/**
+ * Variante A der Startseite (`/startseite-a/`): Hero in voller Größe mit dem Flug-Video.
+ * Das Video (Terrasse des Altbaus, durch das Fenster ins Wohnzimmer) füllt den ganzen Hero bis an den Rand, die Kopfzeile
+ * liegt durchsichtig mit weißem Logo darüber, die große weiße Überschrift steht unten links.
+ * Beim Scrollen (Einzelbilder, scrollgesteuert wie beim Original-Hero): Kopfzeile und Text blenden aus und fahren nach oben,
+ * das Video läuft über die ganze Länge des Hero-Scrollwegs mit (`flug.seek`, scripts/flug.ts). Man kann jederzeit anhalten,
+ * vor und zurück scrollen. Danach scrollt die Seite normal weiter. Reduzierte Bewegung: nur das Standbild.
+ * Länge und Tempo: die Höhe des Abschnitts (`h-[250svh]`, wie beim Original-Hero).
+ */
+import Button from '../ui/Button.astro';
+import Header from './Header.astro';
+import { href, routes } from '../../data/links';
+
+const FRAMES = 193;
+const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
+---
+
+<section
+  data-hero
+  data-hero-full
+  data-section="hero-a"
+  aria-label="Willkommen bei Meisterwerk Malermanufaktur"
+  class="relative bg-ink hero-d:h-[250svh] hero-m:h-[240svh]"
+>
+  <div class="relative h-svh min-h-150 overflow-clip hero-d:sticky hero-d:top-0 hero-m:sticky hero-m:top-0 hero-m:min-h-0">
+    <div data-hero-picture class="absolute inset-0 overflow-hidden">
+      <div data-hero-media class="absolute inset-0">
+        <picture>
+          <source media="(max-aspect-ratio: 4/5)" srcset={`${flug}m/000.webp`} />
+          <img
+            src={`${flug}d/000.webp`}
+            alt="Sanierter Altbau mit grauer Fassade, Terrasse und bodentiefen Fenstern"
+            fetchpriority="high"
+            class="absolute inset-0 size-full max-w-none object-cover object-[42%_50%]"
+          />
+        </picture>
+        <canvas
+          data-hero-canvas
+          data-frames={FRAMES}
+          data-base={flug}
+          aria-hidden="true"
+          class="absolute inset-0 size-full object-cover object-[42%_50%] opacity-0 [&.is-ready]:opacity-100"
+        ></canvas>
+      </div>
+      <div
+        class="absolute inset-0 bg-[linear-gradient(rgb(0_0_0/0.38),transparent_24%,transparent_38%,rgb(0_0_0/0.62))]"
+      >
+      </div>
+    </div>
+
+    <Header variant="hero" tone="light" />
+
+    <div
+      data-hero-content
+      class="absolute inset-x-5.5 bottom-7 z-[2] flex flex-col text-white min-[701px]:inset-x-7.5 min-[701px]:bottom-10"
+    >
+      <div class="max-w-[min(1180px,100%)]">
+        <h1
+          class="mb-5 font-display text-[12.5vw]/[0.94] font-semibold tracking-[-0.045em] text-white min-[701px]:mb-6 min-[701px]:text-[clamp(44px,6.2vw,118px)]/[0.92]"
+        >
+          <span
+            class="mb-3.5 block font-display text-[10px]/[1] font-normal tracking-[0.2em] text-white uppercase min-[701px]:text-[12px]"
+          >
+            Meisterwerk Malermanufaktur
+          </span>
+          Malerarbeiten in Ludwigsburg, Freiberg und Umgebung
+        </h1>
+        <p
+          class="mb-7 max-w-[34rem] font-display text-[15px]/[1.4] tracking-[-0.02em] text-white/90 min-[701px]:mb-8 min-[701px]:text-[clamp(16px,1.4vw,26px)]/[1.35]"
+        >
+          Ihr Meisterbetrieb für Streichen, Lackieren, Tapezieren und glatte Oberflächen.{' '}
+          <span class="max-[700px]:hidden">Persönlich beraten, sauber ausgeführt, mit über 22 Jahren Erfahrung.</span>
+        </p>
+        <Button href={href(routes.contact)} variant="light">Projekt anfragen</Button>
+      </div>
+    </div>
+
+    <p
+      data-hero-caption
+      class="absolute right-[clamp(24px,4.4vw,88px)] bottom-10 z-[2] hidden font-display text-[10px] tracking-[0.17em] text-white uppercase min-[701px]:block"
+    >
+      Streichen. Lackieren. Tapezieren.
+    </p>
+  </div>
+</section>
+
+<script>
+  import { gsap, ScrollTrigger } from '../../scripts/motion';
+  import { createFlug } from '../../scripts/flug';
+
+  const hero = document.querySelector<HTMLElement>('[data-hero-full]');
+  if (hero) {
+    const q = <T extends Element = HTMLElement>(s: string) => hero.querySelector<T>(s)!;
+    const flug = createFlug(q<HTMLCanvasElement>('[data-hero-canvas]'));
+    let loaded = false;
+
+    // Eine Zeitleiste am Scrollstand (scrub): Kopfzeile und Text blenden gleich zu Beginn aus und fahren nach oben,
+    // das Video läuft über die ganze Länge mit. Anhalten, Vor und Zurück gehen von selbst.
+    const run = (scrub: number) => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: hero,
+          start: 'top top',
+          end: 'bottom bottom',
+          scrub,
+          invalidateOnRefresh: true,
+        },
+        onUpdate: () => flug.seek(tl.progress()),
+      });
+      // Leere Strecke über die ganze Länge, damit die Zeitleiste 1 lang ist und Ausblenden und Video ihre eigenen Anteile haben
+      tl.to({}, { duration: 1 }, 0)
+        .to(q('[data-site-header]'), { autoAlpha: 0, y: -16, duration: 0.1, ease: 'none' }, 0)
+        .to(q('[data-hero-content]'), { autoAlpha: 0, y: -40, duration: 0.2, ease: 'power1.in' }, 0.02)
+        .to(q('[data-hero-caption]'), { autoAlpha: 0, duration: 0.08, ease: 'none' }, 0);
+      if (!loaded) {
+        loaded = true;
+        flug.load().then(() => flug.seek(tl.progress()));
+      }
+    };
+
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => run(1));
+    mm.add('(max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)', () => run(0.45));
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }
+</script>
