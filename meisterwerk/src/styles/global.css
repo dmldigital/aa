@@ -266,3 +266,8 @@
     animation: underline-out 0.5s ease forwards;
   }
 }
+
+/* Menü offen (Menu.astro): Der Scrollbalken bleibt sichtbar, die Seite springt nicht um seine Breite */
+html.menu-open {
+  overflow-y: scroll;
+}

@@ -31,10 +31,32 @@ const { site = 'main', current = '/' } = Astro.props;
   let busy = false;
   let opener: HTMLElement | null = null;
 
+  // Menü offen: Die Seite dahinter bleibt stehen, der Scrollbalken bleibt aber sichtbar (`html.menu-open` erzwingt ihn), damit nichts um
+  // die Breite des Balkens springt. Rad und Wischen außerhalb des Fensters werden abgefangen (so erreicht es auch kein anderes Skript
+  // für weiches Scrollen), im Fenster scrollt nur das Fenster. Wer am Balken zieht, wird sofort zurückgesetzt.
+  let lockY = 0;
+  const hold = () => {
+    if (window.scrollY !== lockY) window.scrollTo({ top: lockY, behavior: 'instant' });
+  };
+  const guard = (e: Event) => {
+    e.stopImmediatePropagation();
+    const open = dialogs.find((d) => d.open);
+    if (!open || !open.contains(e.target as Node)) e.preventDefault();
+  };
   const lock = (on: boolean) => {
-    document.body.style.overflow = on ? 'hidden' : '';
-    if (on) lenis?.stop();
-    else lenis?.start();
+    document.documentElement.classList.toggle('menu-open', on);
+    if (on) {
+      lockY = window.scrollY;
+      window.addEventListener('scroll', hold);
+      window.addEventListener('wheel', guard, { capture: true, passive: false });
+      window.addEventListener('touchmove', guard, { capture: true, passive: false });
+      lenis?.stop();
+    } else {
+      window.removeEventListener('scroll', hold);
+      window.removeEventListener('wheel', guard, { capture: true });
+      window.removeEventListener('touchmove', guard, { capture: true });
+      lenis?.start();
+    }
   };
   const setExpanded = (on: boolean) =>
     document
@@ -47,17 +69,16 @@ const { site = 'main', current = '/' } = Astro.props;
 
   // Aufklappen aus der Pille: Das Fenster wird von außen zugeschnitten (clip-path) und wächst aus dem Umriss der Pille gleichzeitig nach links,
   // rechts und unten auf seine Größe (Pille mittig: nach beiden Seiten, Pille rechts: nach unten und links). Der Inhalt blendet danach ein.
-  const pillClip = (menu: HTMLElement, pill: HTMLElement) => {
+  const pillClip = (menu: HTMLElement, p: DOMRect) => {
     const m = menu.getBoundingClientRect();
-    const p = pill.getBoundingClientRect();
     return `inset(${p.top - m.top}px ${m.right - p.right}px ${m.bottom - p.bottom}px ${p.left - m.left}px round ${p.height / 2}px)`;
   };
   const pillOf = (b: HTMLElement | null) => b?.closest<HTMLElement>('[data-float-menu]') ?? null;
   // Abbild der Pille im Fenster, genau über der echten Pille: So ist beim Wechsel nichts zu sehen, die Pille wird einfach größer,
-  // ihre Beschriftung blendet dabei aus (und beim Schließen wieder ein)
-  const ghostOf = (menu: HTMLElement, pill: HTMLElement) => {
-    const inner = pill.firstElementChild as HTMLElement;
-    const g = inner.cloneNode(true) as HTMLElement;
+  // ihre Beschriftung blendet dabei einfach aus (und beim Schließen wieder ein, ohne Skalierung)
+  const rectOf = (pill: HTMLElement) => (pill.firstElementChild as HTMLElement).getBoundingClientRect();
+  const ghostOf = (menu: HTMLElement, pill: HTMLElement, r: DOMRect) => {
+    const g = (pill.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
     g.querySelectorAll('[id]').forEach((e) => e.removeAttribute('id'));
     g.querySelectorAll('[data-menu-open],[data-fm-contact]').forEach((e) => {
       e.removeAttribute('data-menu-open');
@@ -66,7 +87,6 @@ const { site = 'main', current = '/' } = Astro.props;
     g.setAttribute('aria-hidden', 'true');
     g.setAttribute('inert', '');
     const m = menu.getBoundingClientRect();
-    const r = inner.getBoundingClientRect();
     Object.assign(g.style, {
       position: 'absolute',
       left: `${r.left - m.left}px`,
@@ -75,17 +95,19 @@ const { site = 'main', current = '/' } = Astro.props;
       height: `${r.height}px`,
       margin: '0',
       boxShadow: 'none',
+      borderColor: 'transparent',
+      backgroundColor: 'transparent',
       pointerEvents: 'none',
       zIndex: '5',
     });
     menu.appendChild(g);
     return g;
   };
-  const showPill = () => {
+  const showPill = (instant: boolean) => {
     const pill = document.querySelector<HTMLElement>('[data-float-menu]');
-    pill?.setAttribute('data-init', '');
+    if (instant) pill?.setAttribute('data-init', '');
     document.documentElement.removeAttribute('data-menu-morph');
-    requestAnimationFrame(() => requestAnimationFrame(() => pill?.removeAttribute('data-init')));
+    if (instant) requestAnimationFrame(() => requestAnimationFrame(() => pill?.removeAttribute('data-init')));
   };
 
   const open = (from: HTMLElement) => {
@@ -93,12 +115,13 @@ const { site = 'main', current = '/' } = Astro.props;
     if (!menu || menu.open || busy) return;
     opener = from;
     const pill = pillOf(from);
+    const from0 = pill ? rectOf(pill) : null; // vor dem Öffnen gemessen, so wie der Nutzer die Pille gesehen hat
     menu.showModal();
     lock(true);
     setExpanded(true);
     if (reduced) return;
     const items = menu.querySelectorAll('[data-menu-item]');
-    if (pill) {
+    if (pill && from0) {
       // Die Pille wird größer: Das Fenster beginnt als ihr Abbild (weiß, gleicher Umriss, gleiche Beschriftung), wächst aus diesem Umriss
       // gleichzeitig nach links, rechts und unten, die Beschriftung blendet dabei aus, der Inhalt des Menüs erst danach ein.
       const css = getComputedStyle(menu);
@@ -106,9 +129,8 @@ const { site = 'main', current = '/' } = Astro.props;
       const radius = css.borderTopLeftRadius;
       const content = [...menu.children] as HTMLElement[];
       busy = true;
-      const ghost = ghostOf(menu, pill);
-      document.documentElement.setAttribute('data-menu-morph', '');
-      gsap.set(menu, { clipPath: pillClip(menu, pill), backgroundColor: '#ffffff', '--bd': 0 });
+      const ghost = ghostOf(menu, pill, from0);
+      gsap.set(menu, { clipPath: pillClip(menu, from0), backgroundColor: '#ffffff', '--bd': 0 });
       gsap.set(content, { opacity: 0 });
       gsap
         .timeline({
@@ -120,13 +142,15 @@ const { site = 'main', current = '/' } = Astro.props;
         .to(menu, { clipPath: `inset(0px 0px 0px 0px round ${radius})`, duration: 1, ease: 'power2.inOut' }, 0)
         .to(menu, { '--bd': 1, duration: 0.8, ease: 'power1.out' }, 0)
         .to(menu, { backgroundColor: bg, duration: 0.7, ease: 'power1.inOut' }, 0.1)
-        .to(ghost, { opacity: 0, scale: 1.2, duration: 0.45, ease: 'power1.in' }, 0.05)
-        .to(content, { opacity: 1, duration: 0.5, ease: 'power1.out', clearProps: 'opacity' }, 0.5)
+        .to(ghost, { opacity: 0, duration: 0.3, ease: 'power1.inOut' }, 0.02)
+        // Die echte Pille bleibt darunter noch kurz sichtbar (ihr Schatten verschwindet so nicht auf einmal) und blendet dann aus
+        .call(() => document.documentElement.setAttribute('data-menu-morph', ''), undefined, 0.3)
+        .to(content, { opacity: 1, duration: 0.55, ease: 'power1.out', clearProps: 'opacity' }, 0.3)
         .set(menu, { clearProps: 'clipPath,backgroundColor,--bd' });
       gsap.fromTo(
         items,
         { opacity: 0, y: 22 },
-        { opacity: 1, y: 0, duration: 0.55, stagger: 0.06, delay: 0.6, clearProps: 'opacity,transform' },
+        { opacity: 1, y: 0, duration: 0.55, stagger: 0.06, delay: 0.45, clearProps: 'opacity,transform' },
       );
       return;
     }
@@ -150,6 +174,7 @@ const { site = 'main', current = '/' } = Astro.props;
       setExpanded(false);
       gsap.set(menu, { clearProps: 'transform,opacity,clipPath,backgroundColor,--bd' });
       gsap.set(menu.children, { clearProps: 'opacity' });
+      if (pill) showPill(true);
       busy = false;
       if (hash) {
         const target = document.querySelector<HTMLElement>(hash);
@@ -163,24 +188,25 @@ const { site = 'main', current = '/' } = Astro.props;
     if (reduced) done();
     else if (pill) {
       // Zurück in die Pille: Inhalt blendet zuerst aus, das Fenster zieht sich auf ihren Umriss zusammen und wird weiß, ihre Beschriftung
-      // blendet wieder ein. Am Ende ist die echte Pille da, ohne dass etwas springt.
+      // blendet wieder ein, die echte Pille blendet darunter ein. Am Ende liegt alles deckungsgleich, nichts springt.
+      const r = rectOf(pill);
       const content = [...menu.children] as HTMLElement[];
-      const ghost = ghostOf(menu, pill);
+      const ghost = ghostOf(menu, pill, r);
       gsap.set(ghost, { opacity: 0 });
       gsap.set(menu, { '--bd': 1 }); // Startwert festhalten, sonst fängt die Abdunklung bei 0 an und ist sofort weg
       gsap
         .timeline({
           onComplete: () => {
-            showPill();
             ghost.remove();
             done();
           },
         })
         .to(content, { opacity: 0, duration: 0.2, ease: 'power1.in' }, 0)
-        .to(menu, { clipPath: pillClip(menu, pill), duration: 0.7, ease: 'power2.inOut' }, 0)
+        .to(menu, { clipPath: pillClip(menu, r), duration: 0.7, ease: 'power2.inOut' }, 0)
         .to(menu, { backgroundColor: '#ffffff', duration: 0.5, ease: 'none' }, 0)
         .to(menu, { '--bd': 0, duration: 0.6, ease: 'power1.in' }, 0)
-        .fromTo(ghost, { opacity: 0, scale: 1.2 }, { opacity: 1, scale: 1, duration: 0.4, ease: 'power1.out' }, 0.3);
+        .call(() => showPill(false), undefined, 0.25)
+        .fromTo(ghost, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: 'power1.inOut' }, 0.35);
     } else {
       const a = axis(menu);
       gsap.to(menu, { ...a.from, duration: 0.45, ease: 'power3.in', onComplete: done });

@@ -260,7 +260,7 @@ def shell(base, built):
     h = re.sub(r'<style data-shell-patch>[\s\S]*?</style>', '', h)
     buttons = ' '.join(re.findall(r'class="[^"]*\btracking-button\b[^"]*"', h))
     need, css = missing_rules('\n'.join(parts) + '\n' + buttons, h, built)
-    extra = '.transition-\\[transform\\,opacity\\,visibility\\]{transition-property:transform,opacity,visibility;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}[data-lk-stretch]::after{content:"";position:absolute;inset:0}'
+    extra = '.transition-\\[transform\\,opacity\\,visibility\\]{transition-property:transform,opacity,visibility;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}[data-lk-stretch]::after{content:"";position:absolute;inset:0}html.menu-open{overflow-y:scroll}'
     assert h.count('</head>') == 1
     h = h.replace('</head>', '<style data-shell-patch>' + css + '\n' + extra + '</style></head>')
     print(f'Hülle: {len(need)} neue Klassen, Kopf, Menü, Fuß und Skripte aktualisiert')
