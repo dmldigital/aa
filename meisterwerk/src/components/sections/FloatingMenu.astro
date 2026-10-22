@@ -52,12 +52,13 @@ const bar = 'block h-px w-full bg-current';
 const panel =
   'invisible absolute top-full right-0 pt-2.5 transition-[visibility] duration-[420ms] group-data-[open]/fm:visible group-data-[open]/fm:duration-0 min-[701px]:-top-px min-[701px]:right-full min-[701px]:h-[calc(100%+2px)] min-[701px]:pt-0 min-[701px]:pr-2.5';
 const ground = `pointer-events-none absolute top-2.5 right-0 bottom-0 left-0 origin-top-right scale-90 rounded-[22px] border border-black/[0.08] bg-white opacity-0 ${shadow} transition-[width,scale,opacity] duration-[320ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-data-[open]/fm:scale-100 group-data-[open]/fm:opacity-100 group-data-[open]/fm:duration-[720ms] group-data-[open]/fm:ease-[cubic-bezier(0.32,0.72,0,1)] min-[701px]:top-0 min-[701px]:right-2.5 min-[701px]:left-auto min-[701px]:w-9 min-[701px]:scale-100 min-[701px]:rounded-full min-[701px]:group-data-[open]/fm:w-[calc(100%-0.625rem)]`;
+// Die Enden der Box sind halbrund: seitlich 12 px Luft, damit das erste und letzte Symbol (und sein Grund beim Überfahren) nicht in der Rundung sitzen
 const box =
-  'relative flex flex-col gap-0.5 p-1.5 min-[701px]:h-full min-[701px]:flex-row min-[701px]:items-center min-[701px]:px-1.5 min-[701px]:py-0';
+  'relative flex flex-col gap-0.5 p-2 min-[701px]:h-full min-[701px]:flex-row min-[701px]:items-center min-[701px]:gap-1.5 min-[701px]:px-3 min-[701px]:py-0';
 const item =
   'flex translate-x-3 opacity-0 blur-[2px] transition-[translate,opacity,filter] duration-[220ms] ease-out group-data-[open]/fm:translate-x-0 group-data-[open]/fm:opacity-100 group-data-[open]/fm:blur-none group-data-[open]/fm:duration-[640ms] group-data-[open]/fm:ease-[cubic-bezier(0.32,0.72,0,1)] group-data-[open]/fm:[transition-delay:var(--d)]';
 const link =
-  'group/it relative flex h-11 w-full items-center gap-3 rounded-full pr-5 pl-2.5 text-ink transition-colors duration-300 hover:bg-ink hover:text-white min-[701px]:grid min-[701px]:size-10 min-[701px]:place-items-center min-[701px]:gap-0 min-[701px]:p-0';
+  'group/it relative flex h-11 w-full items-center gap-3 rounded-full pr-5 pl-2.5 text-ink transition-colors duration-300 hover:bg-ink hover:text-white min-[701px]:grid min-[701px]:size-9 min-[701px]:place-items-center min-[701px]:gap-0 min-[701px]:p-0';
 // Name: Handy neben dem Symbol, ab 701 px als Schild unter dem Symbol beim Überfahren oder Fokus
 const label =
   'font-display text-[11px]/none tracking-[0.07em] uppercase min-[701px]:pointer-events-none min-[701px]:absolute min-[701px]:top-full min-[701px]:left-1/2 min-[701px]:mt-3.5 min-[701px]:-translate-x-1/2 min-[701px]:translate-y-1 min-[701px]:rounded-full min-[701px]:bg-ink min-[701px]:px-3 min-[701px]:py-1.5 min-[701px]:text-[10px]/none min-[701px]:tracking-[0.08em] min-[701px]:whitespace-nowrap min-[701px]:text-white min-[701px]:opacity-0 min-[701px]:transition-[translate,opacity] min-[701px]:duration-300 min-[701px]:ease-out min-[701px]:group-hover/it:translate-y-0 min-[701px]:group-hover/it:opacity-100 min-[701px]:group-focus-visible/it:translate-y-0 min-[701px]:group-focus-visible/it:opacity-100';
@@ -84,7 +85,7 @@ const label =
                 <li class={item} style={`--d:${170 + (n - 1 - i) * 70}ms`}>
                   <a href={it.href} {...ext(it.ext)} aria-label={`${it.label}: ${it.sub}`} class={link}>
                     <span class="grid size-6 shrink-0 place-items-center min-[701px]:size-auto">
-                      <ContactIcon name={it.icon} class="size-4.5" />
+                      <ContactIcon name={it.icon} class={it.icon === 'whatsapp' ? 'size-4' : 'size-4.5'} />
                     </span>
                     <span class={label}>{it.label}</span>
                   </a>
