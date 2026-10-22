@@ -2,9 +2,11 @@
 import { href } from '../../data/links';
 import { items, exklusiveItems, type Item, type Site } from '../../data/nav';
 import Kontakt from './Kontakt.astro';
+import Badge from '../footer/Badge.astro';
 /**
  * Menü-Variante 3 „Seitenfläche“: schmale Fläche, die von rechts hereinfährt (die Seite dahinter bleibt sichtbar,
- * abgedunkelt). Linksbündige Liste, Untermenüs als Akkordeon mit goldener Linie, unten der Kontaktblock.
+ * abgedunkelt). Linksbündige Liste, Untermenüs als Akkordeon mit goldener Linie, darunter das Bewertungs-Badge aus dem Fuß
+ * (nur Hauptseite), unten der Kontaktblock.
  */
 interface Props {
   site?: Site;
@@ -135,6 +137,8 @@ const sub =
       ))}
     </ul>
   </nav>
+
+  {!exk && <Badge class="mb-6" />}
 
   <Kontakt {site} class="border-t border-black/10 pt-6" />
 </dialog>

@@ -2,8 +2,10 @@
 import { href } from '../../data/links';
 import { items, exklusiveItems, type Item, type Site } from '../../data/nav';
 import KontaktPanel from './KontaktPanel.astro';
+import Badge from '../footer/Badge.astro';
 /**
- * Menü für Tablet und Desktop (ab 701 px) „Geteilt“: Vollbild, links die Hauptpunkte linksbündig ohne Trennlinien,
+ * Menü für Tablet und Desktop (ab 701 px) „Geteilt“: Vollbild, links die Hauptpunkte linksbündig ohne Trennlinien
+ * (daneben, ab 1100 px, bzw. darunter das Bewertungs-Badge aus dem Fuß, nur Hauptseite),
  * rechts stehen Kontaktmöglichkeiten mit kurzem Formular; nur bei Punkten mit Untermenü (Leistungen) blendet dessen
  * Liste dort ein und beim Verlassen wieder aus. Skript in Menu.astro.
  */
@@ -55,9 +57,9 @@ const sub =
     <nav
       aria-label="Hauptmenü"
       data-split-list
-      class="min-[701px]:pr-[clamp(32px,5vw,96px)] min-[701px]:pb-6"
+      class="flex flex-col gap-8 min-[701px]:pr-[clamp(32px,5vw,96px)] min-[701px]:pb-6 min-[1100px]:flex-row min-[1100px]:items-end"
     >
-      <ul class="flex flex-col gap-1">
+      <ul class="flex min-w-0 flex-1 flex-col gap-1">
         {menu.map((item, i) => (
           <li data-menu-item>
             {item.children ? (
@@ -84,6 +86,7 @@ const sub =
           </li>
         ))}
       </ul>
+      {!exk && <Badge class="shrink-0 self-start min-[1100px]:mb-2 min-[1100px]:self-end" />}
     </nav>
 
     <div class="grid content-start items-start min-[701px]:border-l min-[701px]:border-black/10 min-[701px]:pb-6 min-[701px]:pl-[clamp(32px,5vw,96px)]">

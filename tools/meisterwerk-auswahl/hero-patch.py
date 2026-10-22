@@ -7,6 +7,11 @@ bleibt erhalten). Das Skript des Heros wird ausgetauscht, nötige JS-Module aus 
 und CSS-Regeln für Klassen, die das Startseiten-CSS noch nicht kennt, kommen als eigener <style>-Block in den <head>.
 Die Bildfolge des Videos (`public/hero-flug/`) kopiert das Skript nach `hero-flug/` in die Vorschau.
 
+Zusätzlich bringt es die gemeinsame Hülle der Seite auf den Stand der Quelle (Schritt `shell`): Kopfzeile mit schwebender
+Menü-Schaltfläche, Menü, Fuß, deren Skripte (Menü, Fuß, Smart-Header) und die einheitlichen Buttons. Die Zonen mit
+`data-header-lock` der handbearbeiteten Startseite bekommen zusätzlich `data-no-header` (dort bleibt die Kopfzeile weg, die
+Menü-Schaltfläche springt ein), das alte `HeaderLock.js/css` wird nicht mehr eingebunden. Alles andere bleibt, wie es dort steht.
+
 Vorbereitung: Build wie bei add-pages.py (SITE_URL=... BASE_PATH=/aa/meisterwerk-preview-auswahl/ astro build --outDir /tmp/studio-dist).
 Aufruf:  python3 tools/meisterwerk-auswahl/hero-patch.py
 """
@@ -113,6 +118,96 @@ def copy_modules(chunk):
         todo += re.findall(r'["\']\./([\w.@-]+\.js)["\']', src.read_text())
 
 
+
+def regions(text, tag):
+    return list(re.finditer(r'<%s\b[\s\S]*?</%s>' % (tag, tag), text))
+
+
+def lone(text, pattern):
+    m = re.findall(pattern, text)
+    assert len(m) == 1, (pattern, len(m))
+    return re.search(pattern, text)
+
+
+def shell(base, built):
+    """Hülle (Kopfzeile, Menü, Fuß, Skripte, Buttons) der handbearbeiteten Startseite auf den Stand des Builds bringen"""
+    h = base
+    parts = []
+
+    # Menü-Flächen und Fuß: Austausch gegen die Fassung aus dem Build
+    for tag in ['dialog', 'footer']:
+        ro, rn = regions(h, tag), regions(built, tag)
+        assert len(ro) == len(rn), (tag, len(ro), len(rn))
+        for a, b in reversed(list(zip(ro, rn))):
+            h = h[:a.start()] + b.group(0) + h[a.end():]
+        parts += [b.group(0) for b in rn]
+
+    # Smart-Kopfzeile samt schwebender Menü-Schaltfläche
+    new_head = lone(built, r'<header data-smart-header[\s\S]*?</header>\s*<button[^>]*data-float-menu[\s\S]*?</button>').group(0)
+    old_head = lone(h, r'<header data-smart-header[\s\S]*?</header>(?:\s*<button[^>]*data-float-menu[\s\S]*?</button>)?').group(0)
+    h = h.replace(old_head, new_head, 1)
+    parts.append(new_head)
+
+    # Inline-Skript der Smart-Kopfzeile
+    inl = r'<script type="module">((?:(?!</script>)[\s\S])*?data-smart-header(?:(?!</script>)[\s\S])*?)</script>'
+    new_js = lone(built, inl).group(1)
+    old_js = lone(h, inl).group(1)
+    h = h.replace(old_js, new_js, 1)
+
+    # Menü- und Fuß-Skripte (Chunks) auf den Stand des Builds, handbearbeitete Chunks (mit ?v=) bleiben
+    for name in ['Menu', 'Footer']:
+        pat = r'_astro/%s\.astro_astro_type_script_index_0_lang\.([\w-]+)\.js' % name
+        new = re.search(pat, built).group(0)
+        h = re.sub(pat + r'(?!\?v=)', new, h)
+        copy_modules(new.split('/')[-1])
+
+    # Schaltflächen wie in der Quelle: Großschreibung über die Klasse, kein "↗", eigene Buttons der Startseite ersetzen
+    def btn(label, href=None, tag='a', extra=''):
+        cls = ('group/ul inline-block cursor-pointer border text-center font-display text-button font-semibold tracking-button uppercase '
+               'px-5 py-3.25 md:px-6.25 lg:px-7.5 lg:py-3.75 border-black bg-white text-black')
+        inner = '<span class="flex justify-center gap-1.25"><span class="underline-anim [--underline-gap:3px]">%s</span></span>' % label
+        if tag == 'a':
+            return '<a href="%s" class="%s"%s>%s</a>' % (href, cls, extra, inner)
+        return '<button type="submit" class="%s"%s>%s</button>' % (cls, extra, inner)
+
+    lk = '<a class="lk-btn" href="%s/meisterwerk-exklusive/">Zu Meisterwerk Exklusive <span aria-hidden="true">↗</span></a>' % PREFIX
+    if lk in h:
+        h = h.replace(lk, btn('Zu Meisterwerk Exklusive', PREFIX + '/meisterwerk-exklusive/', extra=' data-lk-stretch'))
+    mz = '<button type="submit" class="mz-btn">Nachricht senden</button>'
+    if mz in h:
+        h = h.replace(mz, btn('Nachricht senden', tag='button'))
+
+    def up(m):
+        c = m.group(0)
+        return c if 'uppercase' in c else c.replace(' tracking-button', ' tracking-button uppercase', 1)
+
+    h = re.sub(r'class="[^"]*\bborder text-center\b[^"]*"', up, h)
+    h = h.replace(' ↗</span></span></a>', '</span></span></a>')
+
+    # Zonen mit Kopfzeilen-Sperre: wie `data-no-header` der Quelle behandeln, altes HeaderLock nicht mehr einbinden
+    # Nur dort, wo die Kopfzeile Inhalt verdecken würde (gemessen: Hero, Willkommen-Szene, Fachsektion mit Tabs). In der
+    # Leistungs-Szene und den Zonen der FAQ bleibt der obere Rand frei, dort darf die Kopfzeile beim Hochscrollen kommen.
+    def lock(m):
+        tag = m.group(0)
+        if 'data-no-header' in tag or not re.search(r'data-(?:hero|welcome-scene|tb)\b', tag):
+            return tag
+        return tag.replace('data-header-lock', 'data-header-lock data-no-header', 1)
+
+    h = h.replace('data-header-lock data-no-header', 'data-header-lock')  # frühere Läufe zurücknehmen
+    h = re.sub(r'<(?:section|div)\b[^>]*data-header-lock[^>]*>', lock, h)
+    h = re.sub(r'<link[^>]*HeaderLock\.css[^>]*>', '', h)
+    h = re.sub(r'<script[^>]*HeaderLock\.js[^>]*></script>', '', h)
+
+    # Fehlende Tailwind-Regeln für die ersetzten Teile
+    h = re.sub(r'<style data-shell-patch>[\s\S]*?</style>', '', h)
+    need, css = missing_rules('\n'.join(parts) + '\n<span class="uppercase px-5 py-3.25 md:px-6.25 lg:px-7.5 lg:py-3.75 border-black bg-white text-black">', h, built)
+    extra = '.transition-\\[transform\\,opacity\\,visibility\\]{transition-property:transform,opacity,visibility;transition-timing-function:var(--tw-ease,var(--default-transition-timing-function));transition-duration:var(--tw-duration,var(--default-transition-duration))}[data-lk-stretch]::after{content:"";position:absolute;inset:0}'
+    assert h.count('</head>') == 1
+    h = h.replace('</head>', '<style data-shell-patch>' + css + '\n' + extra + '</style></head>')
+    print(f'Hülle: {len(need)} neue Klassen, Kopf, Menü, Fuß und Skripte aktualisiert')
+    return h
+
+
 def patch(base, built, target):
     sec = SECTION.search(built).group(0)
     assert 'data-header-lock' not in sec
@@ -133,7 +228,8 @@ def patch(base, built, target):
     print(f'{target.relative_to(D)}: Skript {chunk}, {len(need)} neue Klassen')
 
 
-base = re.sub(r'<style data-hero-patch>[\s\S]*?</style>', '', (D / 'index.html').read_text())
+base = re.sub(r'<style data-(?:hero|shell)-patch>[\s\S]*?</style>', '', (D / 'index.html').read_text())
+base = shell(base, (B / 'index.html').read_text())
 patch(base, (B / 'index.html').read_text(), D / 'index.html')
 patch(base, (B / 'startseite-a/index.html').read_text(), D / 'startseite-a/index.html')
 # Bildfolge des Videos (alle Dateien des Builds, vorhandene gleichnamige werden ersetzt, die Bilder sind eine Einheit)

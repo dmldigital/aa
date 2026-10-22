@@ -2,16 +2,21 @@
 import type { Site } from '../../data/nav';
 import Actions from '../header/Actions.astro';
 import Brand from '../header/Brand.astro';
+import FloatingMenu from './FloatingMenu.astro';
 /**
  * Smart Sticky: Die Kopfzeile erscheint nach dem oberen Seitenbereich (Hero bzw. Kopfzeile) beim Hochscrollen
  * (nach mehr als 12 px in eine Richtung) und verschwindet beim Runterscrollen wieder. Sie bleibt weg, wo sie stören
  * würde: in Bereichen mit `data-no-header` (Szenen mit festgehaltenem oder mitlaufendem Inhalt, die Projektanfrage)
- * und bei geöffnetem Menü oder Großansicht. Skript unten.
+ * und bei geöffnetem Menü oder Großansicht. Dort (und überall nach dem oberen Seitenbereich, solange die Kopfzeile fehlt)
+ * steht unten rechts die schwebende Menü-Schaltfläche (FloatingMenu.astro): Ein Klick lässt die Kopfzeile herunterfahren
+ * und hält sie, bis man mehr als 80 px nach unten weiterscrollt. Skript unten.
  */
 interface Props {
   site?: Site;
 }
 const { site = 'main' } = Astro.props;
+/** Gestaltung der schwebenden Menü-Schaltfläche (siehe FloatingMenu.astro) */
+const FLOAT_VARIANT = (Number(import.meta.env.PUBLIC_FLOAT_VARIANT) || 1) as 1 | 2 | 3; // Vorschau: PUBLIC_FLOAT_VARIANT=2 beim Build
 ---
 
 <header
@@ -24,18 +29,31 @@ const { site = 'main' } = Astro.props;
   <Actions {site} />
 </header>
 
+<FloatingMenu variant={FLOAT_VARIANT} />
+
 <script>
   const header = document.querySelector<HTMLElement>('[data-smart-header]');
   if (header) {
+    const fab = document.querySelector<HTMLElement>('[data-float-menu]');
     const top = document.querySelector<HTMLElement>('[data-hero], [data-site-header]');
     let last = window.scrollY;
     let run = 0;
     let dir = 0;
     let ticking = false;
+    let pinned = false; // per Menü-Schaltfläche heruntergeholt: bleibt, bis man weiter nach unten scrollt
+    let pinRun = 0;
     const show = (visible: boolean) => {
       header.toggleAttribute('data-visible', visible);
       header.inert = !visible;
       header.setAttribute('aria-hidden', String(!visible));
+    };
+    // Menü-Schaltfläche: nur sichtbar, wenn die Kopfzeile fehlt
+    const showFab = (on: boolean) => {
+      if (!fab) return;
+      fab.toggleAttribute('data-show', on);
+      fab.inert = !on;
+      fab.tabIndex = on ? 0 : -1;
+      fab.setAttribute('aria-hidden', String(!on));
     };
     const update = () => {
       ticking = false;
@@ -45,8 +63,32 @@ const { site = 'main' } = Astro.props;
       const end = top ? top.offsetTop + top.offsetHeight : 0;
       if (y < end) {
         run = 0;
+        pinned = false;
         show(false);
+        showFab(false);
         return;
+      }
+      const vh = window.innerHeight;
+      const nearEnd = y + vh > document.documentElement.scrollHeight - vh; // im Fuß stehen die Links selbst
+      const lightbox = !!document.querySelector('[data-gallery-lightbox]:not([hidden]), [data-lb]:not([hidden])');
+      if (lightbox) {
+        run = 0;
+        pinned = false;
+        show(false);
+        showFab(false);
+        return;
+      }
+      // Per Schaltfläche heruntergeholt: bleibt auch in Szenen und Formularen, bis man mehr als 80 px nach unten scrollt
+      if (pinned) {
+        pinRun = delta > 0 ? pinRun + delta : delta < 0 ? 0 : pinRun;
+        if (pinRun <= 80) {
+          show(true);
+          showFab(false);
+          return;
+        }
+        pinned = false;
+        run = 0;
+        show(false);
       }
       // Szenen und Formulare: Die Kopfzeile bleibt weg, solange ein solcher Bereich den oberen Rand einnimmt
       const bar = header.offsetHeight || 88;
@@ -54,12 +96,16 @@ const { site = 'main' } = Astro.props;
         const r = z.getBoundingClientRect();
         return r.top < bar && r.bottom > 0;
       });
-      if (blocked || document.querySelector('[data-gallery-lightbox]:not([hidden]), [data-lb]:not([hidden])')) {
+      if (blocked) {
         run = 0;
         show(false);
+        showFab(!nearEnd);
         return;
       }
-      if (document.querySelector('dialog[open]') || Math.abs(delta) < 0.5) return;
+      if (document.querySelector('dialog[open]') || Math.abs(delta) < 0.5) {
+        showFab(!nearEnd && !header.hasAttribute('data-visible'));
+        return;
+      }
       const d = delta > 0 ? 1 : -1;
       run = d === dir ? run + Math.abs(delta) : Math.abs(delta);
       dir = d;
@@ -67,7 +113,15 @@ const { site = 'main' } = Astro.props;
         if (dir < 0) show(true);
         else if (!header.contains(document.activeElement)) show(false);
       }
+      showFab(!nearEnd && !header.hasAttribute('data-visible'));
     };
+    fab?.addEventListener('click', () => {
+      pinned = true;
+      pinRun = 0;
+      run = 0;
+      show(true);
+      showFab(false);
+    });
     window.addEventListener(
       'scroll',
       () => {
