@@ -48,7 +48,7 @@ const shadow =
 // um `--fm-dx`/`--fm-dy`), ohne `data-top` schwebt sie. `data-init` schaltet die Übergänge kurz ab (erstes Platzieren, Fenstergröße ändern).
 // Verschiebung 700 ms weich auslaufend, Ein- und Ausblenden 450 ms. `data-open` bei geöffneten Kontaktwegen.
 const wrap =
-  'group/fm invisible fixed z-[45] opacity-0 transition-[translate,opacity,visibility] duration-[700ms,450ms,450ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:opacity-100 data-[top]:translate-x-[var(--fm-dx,0px)] data-[top]:translate-y-[var(--fm-dy,0px)] data-[init]:transition-none max-[700px]:top-3.75 max-[700px]:right-5 min-[701px]:top-5 min-[701px]:right-7.5';
+  'group/fm invisible fixed z-[45] opacity-0 transition-[translate,opacity,visibility] duration-[700ms,450ms,450ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:opacity-100 data-[top]:translate-x-[var(--fm-dx,0px)] data-[top]:translate-y-[var(--fm-dy,0px)] data-[init]:transition-none in-data-[menu-morph]:opacity-0! in-data-[menu-morph]:transition-none! max-[700px]:top-3.75 max-[700px]:right-5 min-[701px]:top-5 min-[701px]:right-7.5';
 const pill = `relative flex items-stretch rounded-full border border-black/[0.08] bg-white text-ink ${shadow} max-[700px]:h-11 min-[701px]:h-12`;
 // Felder der Pille: weicher Grund beim Überfahren und solange die Kontaktwege offen sind, kein Unterstrich
 const seg =

@@ -3,9 +3,9 @@ import type { Site } from '../../data/nav';
 import V2 from '../menu/V2.astro';
 import V3 from '../menu/V3.astro';
 /**
- * Menü: Tablet und Desktop (ab 701 px) geteiltes Vollbild-Menü (`menu/V2`, rechts Untermenü oder Kontakt mit
- * kurzem Formular), Handy (bis 700 px) Seitenfläche von rechts (`menu/V3`). Öffnen und Schließen steuert das
- * Skript unten, ebenso die rechte Seite des Desktop-Menüs.
+ * Menü: Es öffnet aus der Pille „Kontakt | Menü“ (FloatingMenu.astro) und wächst aus ihrem Umriss auf seine Größe. Tablet und
+ * Desktop (ab 701 px) geteiltes Vollbild-Menü (`menu/V2`, rechts Untermenü oder Kontakt mit kurzem Formular), Handy (bis 700 px)
+ * Seitenfläche (`menu/V3`). Öffnen und Schließen steuert das Skript unten, ebenso die rechte Seite des Desktop-Menüs.
  */
 interface Props {
   site?: Site;
@@ -45,27 +45,65 @@ const { site = 'main', current = '/' } = Astro.props;
       ? { from: { xPercent: 110 }, to: { xPercent: 0 } }
       : { from: { yPercent: -110 }, to: { yPercent: 0 } };
 
+  // Aufklappen aus der Pille: Das Fenster wird von außen zugeschnitten (clip-path) und wächst aus dem Umriss der Pille gleichzeitig nach links,
+  // rechts und unten auf seine Größe (Pille mittig: nach beiden Seiten, Pille rechts: nach unten und links). Der Inhalt blendet danach ein.
+  const pillClip = (menu: HTMLElement, pill: HTMLElement) => {
+    const m = menu.getBoundingClientRect();
+    const p = pill.getBoundingClientRect();
+    return `inset(${p.top - m.top}px ${m.right - p.right}px ${m.bottom - p.bottom}px ${p.left - m.left}px round ${p.height / 2}px)`;
+  };
+  const pillOf = (b: HTMLElement | null) => b?.closest<HTMLElement>('[data-float-menu]') ?? null;
+  const showPill = () => {
+    const pill = document.querySelector<HTMLElement>('[data-float-menu]');
+    pill?.setAttribute('data-init', '');
+    document.documentElement.removeAttribute('data-menu-morph');
+    requestAnimationFrame(() => requestAnimationFrame(() => pill?.removeAttribute('data-init')));
+  };
+
   const open = (from: HTMLElement) => {
     const menu = active();
     if (!menu || menu.open || busy) return;
     opener = from;
+    const pill = pillOf(from);
     menu.showModal();
     lock(true);
     setExpanded(true);
     if (reduced) return;
+    const items = menu.querySelectorAll('[data-menu-item]');
+    if (pill) {
+      // Das Fenster liegt zuerst durchsichtig über der Pille (Beschriftung bleibt sichtbar), wird in 0,25 s weiß und deckt sie ab,
+      // wächst dabei aus ihrem Umriss und nimmt dann seine Farbe an. Der Inhalt blendet erst ein, wenn das Fenster schon groß ist.
+      const css = getComputedStyle(menu);
+      const bg = css.backgroundColor;
+      const radius = css.borderTopLeftRadius;
+      busy = true;
+      gsap.set(menu, { clipPath: pillClip(menu, pill), backgroundColor: 'rgba(255,255,255,0)', '--bd': 0 });
+      gsap
+        .timeline({ onComplete: () => (busy = false) })
+        .to(menu, { clipPath: `inset(0px 0px 0px 0px round ${radius})`, duration: 1, ease: 'power2.inOut' }, 0)
+        .to(menu, { '--bd': 1, duration: 0.8, ease: 'power1.out' }, 0)
+        .to(menu, { backgroundColor: '#ffffff', duration: 0.25, ease: 'none' }, 0)
+        .call(() => document.documentElement.setAttribute('data-menu-morph', ''), undefined, 0.25)
+        .to(menu, { backgroundColor: bg, duration: 0.6, ease: 'power1.inOut' }, 0.25)
+        .set(menu, { clearProps: 'clipPath,backgroundColor,--bd' });
+      gsap.fromTo(
+        menu.children,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.5, delay: 0.5, ease: 'power1.out', clearProps: 'opacity' },
+      );
+      gsap.fromTo(
+        items,
+        { opacity: 0, y: 22 },
+        { opacity: 1, y: 0, duration: 0.55, stagger: 0.06, delay: 0.6, clearProps: 'opacity,transform' },
+      );
+      return;
+    }
     const a = axis(menu);
     gsap.fromTo(menu, a.from, { ...a.to, duration: 0.75, ease: 'power3.out' });
     gsap.fromTo(
-      menu.querySelectorAll('[data-menu-item]'),
+      items,
       { opacity: 0, y: 22 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        stagger: 0.06,
-        delay: 0.3,
-        clearProps: 'opacity,transform',
-      },
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.06, delay: 0.3, clearProps: 'opacity,transform' },
     );
   };
 
@@ -73,11 +111,13 @@ const { site = 'main', current = '/' } = Astro.props;
     const menu = dialogs.find((d) => d.open);
     if (!menu || busy) return;
     busy = true;
+    const pill = pillOf(opener);
     const done = () => {
       menu.close();
       lock(false);
       setExpanded(false);
-      gsap.set(menu, { clearProps: 'transform,opacity' });
+      gsap.set(menu, { clearProps: 'transform,opacity,clipPath,backgroundColor,--bd' });
+      gsap.set(menu.children, { clearProps: 'opacity' });
       busy = false;
       if (hash) {
         const target = document.querySelector<HTMLElement>(hash);
@@ -89,7 +129,18 @@ const { site = 'main', current = '/' } = Astro.props;
       } else opener?.focus({ preventScroll: true });
     };
     if (reduced) done();
-    else {
+    else if (pill) {
+      // Zurück in die Pille: Inhalt blendet zuerst aus, das Fenster zieht sich auf ihren Umriss zusammen, wird weiß, und kurz vor
+      // dem Ende ist die Pille darunter wieder da und das Fenster wird durchsichtig
+      gsap
+        .timeline({ onComplete: done })
+        .to(menu.children, { opacity: 0, duration: 0.2, ease: 'power1.in' }, 0)
+        .to(menu, { clipPath: pillClip(menu, pill), duration: 0.7, ease: 'power2.inOut' }, 0)
+        .to(menu, { backgroundColor: '#ffffff', duration: 0.4, ease: 'none' }, 0)
+        .to(menu, { '--bd': 0, duration: 0.6, ease: 'power1.in' }, 0)
+        .call(showPill, undefined, 0.45)
+        .to(menu, { backgroundColor: 'rgba(255,255,255,0)', duration: 0.25, ease: 'none' }, 0.45);
+    } else {
       const a = axis(menu);
       gsap.to(menu, { ...a.from, duration: 0.45, ease: 'power3.in', onComplete: done });
     }
