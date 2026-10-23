@@ -11,77 +11,79 @@ interface Props {
   collection: CollectionEntry<'kollektionen'>['data']['collections'][number];
   /** Spalten je Zeile ab Tablet (Karten stehen links, auch bei weniger Karten) */
   columns?: 3 | 4;
-  /** Außenabstand unter der letzten Zeile */
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab); Karten haben die jeweils andere Fläche */
+  tone?: 'white' | 'soft';
+  /** Nicht mehr nötig (Abstände kommen aus `py-section`), bleibt aus Kompatibilität */
   bottomClass?: string;
 }
-const { collection, columns = 3, bottomClass = '' } = Astro.props;
-const colWidth = columns === 3 ? 'md:w-[33%]' : 'md:w-[25%]';
-const last = collection.rows.length - 1;
+const { collection, columns = 3, tone = 'white' } = Astro.props;
+const colWidth = columns === 3 ? 'md:w-[calc((100%-2.5rem)/3)]' : 'md:w-[calc((100%-3.75rem)/4)]';
+const card = tone === 'soft' ? 'bg-white' : 'bg-soft';
 ---
 
-<section data-section={collection.id} class="mt-13.5 pl-12.5">
-  <h2 class="font-display text-h2 font-medium text-ink">
-    {collection.title}
-  </h2>
-</section>
+<section data-section={collection.id} class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
+  <div class="mx-auto flex w-full max-w-page flex-col gap-12">
+    <h2 class="font-display text-h2 font-medium text-ink">
+      {collection.title}
+    </h2>
 
-{collection.rows.map((row, i) => (
-  <section
-    data-section={row.id}
-    class:list={['px-5 lg:px-7.5', i === 0 ? 'mt-13.5' : 'mt-2.25', i === last && bottomClass]}
-  >
-    <div class="mx-auto flex max-w-mobile flex-col md:max-w-tablet md:flex-row lg:max-w-page">
-      {row.cards.map((card) => (
-        <div class:list={['w-full px-5 lg:px-7.5', colWidth]}>
-          <div data-acc class="group/acc mb-5">
-            <div class="relative z-2 flex items-center justify-between border border-[#e5e5e5] bg-white px-6.25 py-5">
-              <h3 class="font-display text-h4 tracking-[1px] text-black uppercase">
-                {card.title}
-              </h3>
-              <button
-                type="button"
-                aria-expanded="false"
-                class="flex cursor-pointer items-center gap-3 text-label text-[#888] uppercase after:absolute after:inset-0 after:content-['']"
-              >
-                <span data-acc-label>Mehr erfahren</span>
-                <span
-                  aria-hidden="true"
-                  class="text-h4 transition-transform duration-800 ease-[cubic-bezier(0.65,0,0.35,1)] group-data-[open]/acc:rotate-45"
+    {collection.rows.map((row) => (
+      <div data-section={row.id} class="flex flex-col gap-5 md:flex-row md:items-start">
+        {row.cards.map((c) => (
+          <div class:list={['w-full', colWidth]}>
+            <div data-acc class="group/acc mb-5">
+              <div class:list={['relative z-2 flex items-center justify-between gap-4 px-6 py-5 md:px-8', card]}>
+                <h3 class="font-display text-h4 text-ink uppercase">
+                  {c.title}
+                </h3>
+                <button
+                  type="button"
+                  aria-expanded="false"
+                  class="flex cursor-pointer items-center gap-3 text-label text-muted uppercase after:absolute after:inset-0 after:content-['']"
                 >
-                  +
-                </span>
-              </button>
-            </div>
-            <div
-              class="max-h-0 overflow-hidden border border-t-0 border-[#e5e5e5] bg-white opacity-0 transition-[max-height,opacity] duration-[0s] group-data-[open]/acc:max-h-[2000px] group-data-[open]/acc:opacity-100 [transition-duration:800ms,600ms] [transition-timing-function:cubic-bezier(0.65,0,0.35,1),ease]"
-              data-acc-panel
-            >
-              <div class="-translate-y-5 p-7.5 transition-transform duration-800 ease-[cubic-bezier(0.65,0,0.35,1)] group-data-[open]/acc:translate-y-0">
-                <p class="mb-4 md:mb-3.75 lg:mb-para" set:html={card.text} />
-                <div
-                  class="[&_strong]:font-bold [&_ul]:my-3.75 [&_ul]:list-disc [&_ul]:pl-[25.5px]"
-                  set:html={card.details}
-                />
+                  <span data-acc-label>Mehr erfahren</span>
+                  <span
+                    aria-hidden="true"
+                    class="text-h4 transition-transform duration-800 ease-[cubic-bezier(0.65,0,0.35,1)] group-data-[open]/acc:rotate-45"
+                  >
+                    +
+                  </span>
+                </button>
+              </div>
+              <div
+                class:list={[
+                  'max-h-0 overflow-hidden opacity-0 transition-[max-height,opacity] duration-[0s] group-data-[open]/acc:max-h-[2000px] group-data-[open]/acc:opacity-100 [transition-duration:800ms,600ms] [transition-timing-function:cubic-bezier(0.65,0,0.35,1),ease]',
+                  card,
+                ]}
+                data-acc-panel
+              >
+                <div class="-translate-y-5 px-6 pt-2 pb-8 transition-transform duration-800 ease-[cubic-bezier(0.65,0,0.35,1)] group-data-[open]/acc:translate-y-0 md:px-8">
+                  <p class="mb-4 text-body" set:html={c.text} />
+                  <div
+                    class="text-body [&_strong]:font-bold [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6"
+                    set:html={c.details}
+                  />
+                </div>
               </div>
             </div>
+            <div class="overflow-hidden text-center">
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={c.image}
+                alt={`Oberflächenmuster ${c.title}`}
+                widths={[310, 395, 790]}
+                sizes="(min-width: 1025px) 395px, (min-width: 768px) 285px, 310px"
+                loading="lazy"
+                class="mx-auto block h-auto max-w-full"
+              />
+            </div>
           </div>
-          <div class="-mt-3.75 overflow-hidden text-center">
-            <Picture
-              formats={['avif']}
-              fallbackFormat="webp"
-              src={card.image}
-              alt={`Oberflächenmuster ${card.title}`}
-              widths={[310, 395, 790]}
-              sizes="(min-width: 1025px) 395px, (min-width: 768px) 285px, 310px"
-              loading="lazy"
-              class="mx-auto block h-auto max-w-full"
-            />
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
-))}
+        ))}
+      </div>
+    ))}
+  </div>
+</section>
 
 <script>
   document.addEventListener('click', (event) => {

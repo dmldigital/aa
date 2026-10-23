@@ -1,0 +1,26 @@
+---
+/** Fehlerseite: im Seitenlayout, mit Links zu den wichtigsten Seiten. Nie im Index (Liste in `lib/seo.ts`, zusätzlich `noindex` im Layout). */
+import PageLayout from '../layouts/PageLayout.astro';
+import PageHeader from '../components/sections/PageHeader.astro';
+import Button from '../components/ui/Button.astro';
+import { href, routes } from '../data/links';
+---
+
+<PageLayout
+  title="Seite nicht gefunden"
+  description="Diese Seite gibt es nicht oder nicht mehr. Hier geht es zurück zur Startseite, zu unseren Leistungen und zum Kontakt der Meisterwerk Malermanufaktur."
+  current="/404/"
+>
+  <PageHeader
+    label="Fehler 404"
+    title="Diese Seite gibt es nicht"
+    lead="Die Adresse ist vielleicht veraltet oder falsch geschrieben. Von hier aus finden Sie weiter."
+  />
+  <section class="px-page pb-section">
+    <div class="mx-auto flex w-full max-w-page flex-col items-start gap-5 sm:flex-row">
+      <Button href={href(routes.home)}>Zur Startseite</Button>
+      <Button href={href('/leistungen/')}>Unsere Leistungen</Button>
+      <Button href={href('/schnellkontakt/')}>Kontakt</Button>
+    </div>
+  </section>
+</PageLayout>

@@ -5,10 +5,13 @@ import Menu from '../components/sections/Menu.astro';
 import FloatingMenu from '../components/sections/FloatingMenu.astro';
 import Footer from '../components/sections/Footer.astro';
 import type { Site } from '../data/nav';
+import { composeTitle } from '../lib/seo';
 
 interface Props {
   title: string;
   description?: string;
+  /** Canonical-Pfad, falls nicht die Seite selbst (sonst regelt `lib/seo.ts` die Ausnahmen) */
+  canonical?: string;
   /** Pfad der Seite (wie auf der alten Seite, z. B. /services/malerarbeiten/), markiert den Menüpunkt. */
   current?: string;
   /** Auftritt: Hauptseite (Standard) oder Teil-Website „Meisterwerke Exklusive“ mit eigenem Kopf und Fuß. */
@@ -17,10 +20,10 @@ interface Props {
   hero?: boolean;
 }
 
-const { title, description, current = '/', site = 'main', hero = false } = Astro.props;
+const { title, description, canonical, current = '/', site = 'main', hero = false } = Astro.props;
 ---
 
-<Layout {title} {description}>
+<Layout title={composeTitle(title, site)} {description} {canonical} {site}>
   {!hero && <Header {site} />}
   <FloatingMenu {site} />
   <Menu {site} {current} />

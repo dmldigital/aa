@@ -1,0 +1,34 @@
+---
+/** Strukturierte Daten der Seite als ein JSON-LD-Block (siehe `lib/schema.ts`). */
+import { getImage } from 'astro:assets';
+import type { Site } from '../../data/nav';
+import { pageSchema, toJsonLd, type SchemaContext } from '../../lib/schema';
+import { TITLE_SEPARATOR } from '../../lib/seo';
+import logo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
+import ogMain from '../../assets/img/117-meisterwerk-20230120-Bearbeitet-scaled.jpg';
+
+interface Props {
+  /** Pfad relativ zur Basis, mit Schrägstrich am Ende */
+  path: string;
+  title: string;
+  description?: string;
+  site?: Site;
+}
+const { path, title, description, site = 'main' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const abs = (p: string) => new URL(`${base}${p.replace(/^\//, '')}`, Astro.site).href;
+
+const [logoImg, image] = await Promise.all([
+  getImage({ src: logo, width: 779, format: 'png' }),
+  getImage({ src: ogMain, width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 80 }),
+]);
+const ctx: SchemaContext = {
+  abs,
+  logo: new URL(logoImg.src, Astro.site).href,
+  image: new URL(image.src, Astro.site).href,
+};
+const topic = title.split(TITLE_SEPARATOR)[0];
+const json = toJsonLd(pageSchema({ path, topic, description, site }, ctx));
+---
+
+<script type="application/ld+json" set:html={json} />

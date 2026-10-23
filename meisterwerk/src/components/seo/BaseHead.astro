@@ -1,0 +1,55 @@
+---
+/**
+ * SEO-Kopf: Canonical, robots, Open Graph, Twitter-Card, theme-color, Icons.
+ * Der Titel kommt fertig zusammengesetzt (`lib/seo.ts: composeTitle`), das Vorschaubild ist 1200x630.
+ */
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { BRAND } from '../../lib/seo';
+import type { Site } from '../../data/nav';
+import ogMain from '../../assets/img/117-meisterwerk-20230120-Bearbeitet-scaled.jpg';
+import ogExklusive from '../../assets/img/Fugenloses-Bad-Liscio-scaled.jpg';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Pfad der Seite für `canonical` und `og:url` (relativ zur Basis, mit Schrägstrich am Ende) */
+  canonical: string;
+  site?: Site;
+  /** Eigenes Vorschaubild dieser Seite (wird auf 1200x630 zugeschnitten) */
+  image?: ImageMetadata;
+  imageAlt?: string;
+  /** Seite nicht indexieren (Vorschau-Build oder Seite, die nie in den Index soll) */
+  noindex: boolean;
+}
+
+const { title, description, canonical, site = 'main', image, imageAlt, noindex } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const abs = (path: string) => new URL(`${base}${path.replace(/^\//, '')}`, Astro.site).href;
+
+const og = await getImage({ src: image ?? (site === 'exklusive' ? ogExklusive : ogMain), width: 1200, height: 630, fit: 'cover', format: 'jpg', quality: 80 });
+const ogUrl = new URL(og.src, Astro.site).href;
+const url = abs(canonical);
+const alt = imageAlt ?? `${BRAND[site]}: Oberflächen und Malerarbeiten aus Freiberg am Neckar`;
+---
+
+<link rel="canonical" href={url} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Meisterwerk Malermanufaktur" />
+<meta property="og:locale" content="de_DE" />
+<meta property="og:title" content={title} />
+{description && <meta property="og:description" content={description} />}
+<meta property="og:url" content={url} />
+<meta property="og:image" content={ogUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={alt} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+{description && <meta name="twitter:description" content={description} />}
+<meta name="twitter:image" content={ogUrl} />
+<meta name="twitter:image:alt" content={alt} />
+<meta name="theme-color" content="#ffffff" />
+<link rel="icon" href={`${base}favicon.png`} />
+<link rel="apple-touch-icon" href={`${base}apple-touch-icon.png`} />

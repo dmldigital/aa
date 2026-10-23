@@ -27,11 +27,7 @@ const exk = site === 'exklusive';
     formats={['avif']}
     fallbackFormat="webp"
     src={exk ? exklusiveLogo : tone === 'duo' ? heroLogo : mainLogo}
-    alt={
-      exk
-        ? 'Meisterwerke Exklusive by Baldassarre Fortino'
-        : 'Meisterwerk Malermanufaktur by Baldassarre Fortino'
-    }
+    alt={exk ? 'Meisterwerke Exklusive' : 'Meisterwerk Malermanufaktur'}
     widths={[180, 360]}
     sizes="180px"
     loading="eager"

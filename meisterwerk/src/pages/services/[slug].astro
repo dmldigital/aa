@@ -6,6 +6,8 @@ import ServiceBenefits from '../../components/service/ServiceBenefits.astro';
 import ServiceBlocks from '../../components/service/ServiceBlocks.astro';
 import ServiceGallery from '../../components/service/ServiceGallery.astro';
 import ServiceExcellence from '../../components/service/ServiceExcellence.astro';
+import MoreServices from '../../components/service/MoreServices.astro';
+import MiniFormSection from '../../components/sections/MiniFormSection.astro';
 import { EXCELLENCE } from '../../data/pages/services';
 
 export async function getStaticPaths() {
@@ -23,15 +25,26 @@ const { page } = Astro.props;
 const name = page.hero.title.split(' – ')[0];
 const pool = [
   { src: page.hero.img, alt: page.hero.alt },
-  { src: page.intro.img, alt: page.intro.alt || `${name} bei Meisterwerk` },
-  ...(page.showcase ?? []).flatMap((c) => c.images).map((src) => ({ src, alt: `${name} bei Meisterwerk` })),
-  ...(page.gallery ?? []).map((src) => ({ src, alt: `${name} bei Meisterwerk` })),
+  { src: page.intro.img, alt: page.intro.alt },
+  ...(page.showcase ?? []).flatMap((c) => c.images).map((src) => ({ src, alt: '' })),
+  ...(page.gallery ?? []).map((src) => ({ src, alt: '' })),
 ];
 const seen = new Set<string>();
 const unique = pool.filter((i) => !seen.has(i.src.src) && seen.add(i.src.src));
-const images = unique.slice(0, 3);
+// Bilder ohne eigene Beschreibung: Leistung und Nummer, damit kein Alt-Text doppelt vorkommt
+const images = unique.slice(0, 3).map((i, n) => ({ src: i.src, alt: i.alt || `${name} bei Meisterwerk, Bild ${n + 1}` }));
 // Karussell: erst die Bilder, die nicht in der Szene laufen, danach die der Szene (so gibt es auch bei wenigen Bildern eine Schleife)
 const gallery = [...unique.slice(3), ...unique.slice(0, 3)].map((i) => i.src);
+
+// Mini-Formular: Leistung vorwählen und Titel anpassen
+const form: Record<string, { service: string; title: string }> = {
+  malerarbeiten: { service: 'Malerarbeiten', title: 'Ihre Malerarbeiten in Ludwigsburg besprechen' },
+  tapezieren: { service: 'Tapezierarbeiten', title: 'Ihre Tapezierarbeiten in Ludwigsburg besprechen' },
+  lackierarbeiten: { service: 'Lackierarbeiten', title: 'Ihre Lackierarbeiten in Ludwigsburg besprechen' },
+  verputzen: { service: 'Verputzarbeiten', title: 'Ihre Verputzarbeiten in Ludwigsburg besprechen' },
+  'glatte-waende': { service: 'Glatte Oberflächen', title: 'Ihre glatten Wände in Ludwigsburg besprechen' },
+};
+const f = form[page.slug];
 const intro2 =
   'Wir beraten Sie im Showroom in Freiberg am Neckar, zeigen Ihnen Muster zum Anfassen und setzen Ihr Projekt sauber und termingerecht um.';
 ---
@@ -46,7 +59,13 @@ const intro2 =
     rootClass="mt-6 mb-[10vh] md:mt-8 md:mb-15 lg:mt-10 lg:mb-[20vh]"
   />
   <ServiceBenefits label={page.intro.label} title={page.intro.title} list={page.intro.list} />
-  <ServiceBlocks blocks={page.intro.blocks} />
+  <ServiceBlocks blocks={page.intro.blocks} class="pb-0!" />
   <ServiceGallery images={gallery} alt={`${name} bei Meisterwerk`} />
   <ServiceExcellence title={EXCELLENCE} items={page.pillars} />
+  <MoreServices current={`/services/${page.slug}/`} />
+  <MiniFormSection
+    service={f?.service}
+    title={f?.title}
+    text="Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich bei Ihnen und besprechen Ihr Vorhaben, auf Wunsch im Showroom in Freiberg am Neckar."
+  />
 </PageLayout>

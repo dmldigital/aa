@@ -1,15 +1,32 @@
 ---
 import { Font } from 'astro:assets';
 import '../styles/global.css';
+import type { ImageMetadata } from 'astro';
+import BaseHead from '../components/seo/BaseHead.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import type { Site } from '../data/nav';
+import { TITLE_MAX, canonicalPath, isIndexablePage, pathFromUrl, siteIndexable } from '../lib/seo';
 
 interface Props {
+  /** Fertiger Seitentitel („Thema | Marke“), siehe `composeTitle` in `lib/seo.ts` (PageLayout setzt ihn zusammen). */
   title: string;
   description?: string;
+  /** Canonical-Pfad, falls nicht die Seite selbst (z. B. Teil-Website-Duplikat), relativ zur Basis */
+  canonical?: string;
+  site?: Site;
+  /** Eigenes Vorschaubild (Open Graph), sonst das Standardbild des Auftritts */
+  image?: ImageMetadata;
+  /** Erzwingt noindex (z. B. 404), zusätzlich zur Liste in `lib/seo.ts` */
+  noindex?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, canonical, site = 'main', image, noindex: forceNoindex = false } = Astro.props;
+const path = pathFromUrl(Astro.url.href, import.meta.env.BASE_URL);
 // Vorschau-Builds sind für Suchmaschinen gesperrt. Für den Livegang: PUBLIC_INDEXABLE=true beim Build setzen.
-const noindex = import.meta.env.PUBLIC_INDEXABLE !== 'true';
+// Testseiten (/stil/) und 404 bleiben auch dann gesperrt.
+const noindex = forceNoindex || !siteIndexable(import.meta.env.PUBLIC_INDEXABLE) || !isIndexablePage(path);
+const canonicalOf = canonical ?? canonicalPath(path);
+if (import.meta.env.DEV && title.length > TITLE_MAX) console.warn(`Titel zu lang (${title.length}): ${title}`);
 ---
 
 <!doctype html>
@@ -19,8 +36,8 @@ const noindex = import.meta.env.PUBLIC_INDEXABLE !== 'true';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
-    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.png`} />
+    <BaseHead {title} {description} canonical={canonicalOf} {site} {image} {noindex} />
+    {!noindex && <JsonLd {path} {title} {description} {site} />}
     <Font cssVariable="--font-urbanist" preload />
     <Font cssVariable="--font-dm-sans" preload />
     <script is:inline>
