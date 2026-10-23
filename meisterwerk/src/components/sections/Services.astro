@@ -11,6 +11,7 @@ import { cards as homeCards } from '../../data/services';
 interface Props {
   id?: string;
   eyebrow?: string;
+  /** Tag der Überzeile (Standard p) */
   eyebrowTag?: 'p' | 'h2';
   eyebrowClass?: string;
   heading?: string;
@@ -24,6 +25,8 @@ interface Props {
   subtitleClass?: string;
   sizes?: string;
   widths?: number[];
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
 }
 const {
   id = 'bc3ca42',
@@ -32,8 +35,9 @@ const {
   eyebrowClass = 'mb-3 lg:mb-4.5',
   heading = 'Planung, Gestaltung, Umsetzung – alles für Ihr Projekt.',
   cards = homeCards,
-  rootClass = 'mt-[14vh] md:mt-0 md:mb-15 lg:mt-[20vh] lg:mb-0',
-  headingTag: Heading = 'h3',
+  rootClass = '',
+  tone = 'soft',
+  headingTag: Heading = 'h2',
   headingClass = 'text-h2 text-gold',
   gridClass = 'lg:grid-cols-5',
   titleClass = 'text-h4 lg:text-h3',
@@ -42,10 +46,11 @@ const {
   sizes = '(min-width: 1760px) 316px, (min-width: 1025px) calc((100vw - 180px) / 5), (min-width: 768px) calc((100vw - 70px) / 2), calc(100vw - 40px)',
   widths = [252, 350, 477, 700, 954],
 } = Astro.props;
+const CardTitle = Heading === 'h2' ? 'h3' : 'h4';
 ---
 
-<section data-section={id} class:list={['flex flex-col bg-soft px-5 lg:px-7.5', rootClass]}>
-  <div class="mx-auto flex w-full flex-col gap-3.75 py-10 md:py-15 lg:max-w-page lg:gap-5 lg:py-[12vh]">
+<section data-section={id} class:list={['flex flex-col px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white', rootClass]}>
+  <div class="mx-auto flex w-full max-w-page flex-col gap-3.75 lg:gap-5">
     <div>
       <Eyebrow
         class:list={['font-display text-label font-medium tracking-label uppercase', eyebrowClass]}
@@ -58,7 +63,7 @@ const {
       <Heading class:list={['font-display', headingClass]} set:html={heading} />
     </div>
 
-    <div class:list={['grid grid-cols-1 items-stretch gap-7.5 md:grid-cols-2', gridClass]}>
+    <div class:list={['grid grid-cols-1 items-stretch gap-5 md:grid-cols-2', gridClass]}>
       {cards.map((card) => (
         <a
           href={href(card.href)}
@@ -88,7 +93,7 @@ const {
 
           <div class="flex flex-wrap items-start justify-between gap-5 md:flex-nowrap">
             <div class:list={['min-w-0', titleBoxClass]} data-anim-mobile="fadeInLeft">
-              <h4 class:list={['font-display font-medium', titleClass]}>
+              <CardTitle class:list={['font-display font-medium', titleClass]}>
                 {card.title}
                 {card.subtitle && (
                   <>
@@ -96,7 +101,7 @@ const {
                     <span class={subtitleClass}>{card.subtitle}</span>
                   </>
                 )}
-              </h4>
+              </CardTitle>
             </div>
             <div
               class="min-w-0 transition-opacity duration-300 ease-in-out lg:[@media(hover:hover)]:opacity-0 lg:group-hover/card:opacity-100"

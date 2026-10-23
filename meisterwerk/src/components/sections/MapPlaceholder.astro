@@ -7,17 +7,19 @@ import { site } from '../../data/site';
 
 interface Props {
   id?: string;
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
 }
-const { id = '2a4b946' } = Astro.props;
+const { id = '2a4b946', tone = 'white' } = Astro.props;
 ---
 
-<section data-section={id} class="my-[4vw] px-5 lg:px-7.5">
+<section data-section={id} class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
   <div class="mx-auto max-w-page">
     <a
       href={site.mapsUrl}
       target="_blank"
       rel="noopener noreferrer"
-      class="flex h-140.25 flex-col items-center justify-center gap-3 bg-[#e2e2e2] font-display text-ink"
+      class="flex h-140.25 flex-col items-center justify-center gap-3 bg-black/10 font-display text-ink"
       aria-label={`Karte: ${site.street}, ${site.postalCode} ${site.city} auf Google Maps öffnen`}
     >
       <svg class="h-10 w-7" viewBox="0 0 24 34" fill="currentColor" aria-hidden="true">

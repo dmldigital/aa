@@ -11,8 +11,10 @@ interface Props {
   list: string;
   /** Satz unter der Überschrift (steht links) */
   intro?: string;
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab); die Karten haben den jeweils anderen Ton */
+  tone?: 'white' | 'soft';
 }
-const { label, title, list, intro } = Astro.props;
+const { label, title, list, intro, tone = 'soft' } = Astro.props;
 
 // `<li><p><strong>Titel</strong>: Text</p></li>`, auch ohne `<p>` und mit dem Doppelpunkt in `<strong>`
 const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)].map((m) => {
@@ -23,7 +25,7 @@ const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)
 });
 ---
 
-<section data-sb class="sb">
+<section data-sb class:list={['sb', tone === 'white' && 'sb--white']}>
   <div class="sb-inner">
     <div class="sb-heading">
       <p class="sb-eyebrow" data-anim="fadeIn">{label}</p>
@@ -48,6 +50,12 @@ const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)
     padding: 64px 20px;
     background: var(--color-soft);
     color: var(--ink);
+  }
+  .sb--white {
+    background: #fff;
+  }
+  .sb--white .sb-card {
+    background: var(--color-soft);
   }
   .sb-inner {
     display: grid;

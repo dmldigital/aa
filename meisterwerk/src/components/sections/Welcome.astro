@@ -15,11 +15,14 @@ interface Props {
   image?: ImageMetadata;
   imageAlt?: string;
   heading?: string;
+  /** Tag der Überschrift (Standard h2; genau eine H1 liefert der Seitenkopf) */
   headingTag?: 'h1' | 'h2';
   headingClass?: string;
   paragraphs?: string[];
   bodyClass?: string;
   cta?: { label: string; href: string; tone?: 'gold' | 'black' };
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
 }
 const {
   id = '53bda50',
@@ -28,7 +31,7 @@ const {
   image = wohnzimmer,
   imageAlt = 'Modernes Wohnzimmer mit dunkler mineralischer Akzentwand, perfekt glatten weißen Wänden und indirekter Deckenbeleuchtung in Ludwigsburg.',
   heading = 'Willkommen bei Meisterwerk <br /> der Maler-Manufaktur',
-  headingTag: Heading = 'h1',
+  headingTag: Heading = 'h2',
   headingClass = 'text-h1 text-gold',
   paragraphs = [
     'Ihrem Spezialisten für hochwertige Malerarbeiten und individuelle Oberflächengestaltung. <br /> Mit über 22 Jahren Erfahrung vereinen wir traditionelles Handwerk mit modernem Design. Ob beim Innen- oder Außenanstrich, bei kreativen Wandtechniken oder der Veredelung von Oberflächen – wir setzen Ihre Wünsche mit höchster Präzision und Leidenschaft um.',
@@ -37,17 +40,19 @@ const {
   ],
   bodyClass = '[&>p]:mb-3.75 [&>p]:text-body lg:[&>p]:mb-para',
   cta = { label: 'Projekt starten', href: href(routes.contact), tone: 'gold' },
+  tone = 'white',
 } = Astro.props;
 ---
 
 <section
   data-section={id}
   class:list={[
-    'mt-[8vh] flex flex-col overflow-hidden px-5 md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0 lg:px-7.5',
+    'flex flex-col overflow-hidden px-page py-section',
+    tone === 'soft' ? 'bg-soft' : 'bg-white',
     rootClass,
   ]}
 >
-  <div class="mx-auto flex w-full flex-wrap gap-5 md:flex-nowrap md:gap-x-7.5 lg:max-w-page lg:gap-x-5">
+  <div class="mx-auto flex w-full flex-wrap gap-5 md:flex-nowrap md:gap-x-7.5 max-w-page lg:gap-x-5">
     <!-- Bild: nur auf dem Desktop sichtbar (Original: elementor-hidden-tablet/-mobile) -->
     <div class="hidden flex-1 flex-col gap-5 lg:flex">
       <div class="overflow-hidden">
@@ -67,7 +72,7 @@ const {
 
     <div
       class:list={[
-        'mt-[12vh] flex w-full flex-col gap-3.75 md:mt-0 md:w-1/2 lg:w-auto lg:flex-1 lg:gap-5',
+        'flex w-full flex-col gap-3.75 md:w-1/2 lg:w-auto lg:flex-1 lg:gap-5',
         textColClass,
       ]}
     >

@@ -4,7 +4,7 @@ import palm from '../../assets/img/black-white-palm-landscape-scaled.jpg';
 import concrete from '../../assets/img/249-mw-20241125-scaled.jpg';
 
 export const meta = {
-  title: 'Maler Urlaubsservice | Renovieren während Sie weg sind',
+  title: 'Maler Urlaubsservice',
   description:
     'Renovieren ohne Stress: Unser exklusiver Urlaubsservice für Ludwigsburg & Stuttgart. Während Sie entspannen, verschönern wir Ihr Zuhause.',
 };
@@ -41,5 +41,9 @@ export const columns = [
 ];
 
 // Teil-Website Exklusive (/meisterwerk-exklusive/urlaub/): Überzeile, anderes Bild, gleicher Text und Ablauf
-export const exklusiveMeta = { title: 'Urlaub - Meisterwerke Exklusive' };
+export const exklusiveMeta = {
+  title: 'Urlaubsservice',
+  description:
+    'Renovieren, während Sie verreist sind: der Urlaubsservice von Meisterwerke Exklusive für Ludwigsburg und Stuttgart. Zurück im renovierten Zuhause.',
+};
 export const exklusiveIntro = { ...intro, eyebrow: 'Meisterwerk Exklusive', image: palm };

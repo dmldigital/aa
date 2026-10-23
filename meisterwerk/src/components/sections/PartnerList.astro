@@ -1,54 +1,53 @@
 ---
 /**
  * Partner- und Sponsorenliste (Original ce0397d: HTML-Block "Sponsor / Spenden / Partner / Hersteller").
- * Überschriften mit Linie, darunter ein Raster aus Linkzeilen mit Plus.
+ * Überschriften, darunter ein Raster aus Linkkarten mit Plus (ohne Linien).
  */
 import type { PartnerGroup } from '../../data/pages/partner';
 
 interface Props {
   id?: string;
   groups: PartnerGroup[];
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
 }
-const { id = 'ce0397d', groups } = Astro.props;
+const { id = 'ce0397d', groups, tone = 'white' } = Astro.props;
+const card = tone === 'soft' ? 'bg-white hover:bg-black/5' : 'bg-soft hover:bg-black/5';
 ---
 
-<section data-section={id} class="mt-[6vh] px-5 lg:px-7.5">
-  <div class="mx-auto flex max-w-page flex-col">
-    <div>
-      <div class="mx-auto mb-25 w-full max-w-page px-5 text-black">
-        {groups.map((group) => (
-          <>
-            <h2 class="mt-[0.6em] mb-10 border-b-2 border-black pb-3.75 font-display text-h2 font-medium tracking-[4px] text-ink">
-              {group.title}
-            </h2>
-            <div class="grid grid-cols-1 gap-x-12.5 gap-y-5 pb-15 min-[501px]:grid-cols-2 min-[801px]:grid-cols-3 min-[1101px]:grid-cols-4 min-[1401px]:grid-cols-5">
-              {group.links.map((link) => (
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="group/p flex items-center justify-between border-b border-[#eee] py-3.75 text-small text-ink transition-all duration-300 ease-[ease] hover:border-black hover:pl-2 hover:text-black"
-                >
-                  <span class="block text-label tracking-[1px] uppercase">
-                    {link.name}
-                    {link.sub && (
-                      <>
-                        <br />
-                        <small class="mt-1 block text-small tracking-normal text-[#999] normal-case">
-                          {link.sub}
-                        </small>
-                      </>
-                    )}
-                  </span>
-                  <span class="ml-2.5 text-h4 font-extralight text-[#bbb] transition-all duration-300 group-hover/p:scale-120 group-hover/p:text-black">
-                    +
-                  </span>
-                </a>
-              ))}
-            </div>
-          </>
-        ))}
+<section data-section={id} class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
+  <div class="mx-auto flex w-full max-w-page flex-col gap-16">
+    {groups.map((group) => (
+      <div class="flex flex-col gap-8">
+        <h2 class="font-display text-h2 font-medium text-ink">
+          {group.title}
+        </h2>
+        <div class="grid grid-cols-1 gap-5 min-[501px]:grid-cols-2 min-[801px]:grid-cols-3 min-[1101px]:grid-cols-4 min-[1401px]:grid-cols-5">
+          {group.links.map((link) => (
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class:list={['group/p flex items-center justify-between p-6 text-small text-ink transition-colors duration-300', card]}
+            >
+              <span class="block text-label tracking-label uppercase">
+                {link.name}
+                {link.sub && (
+                  <>
+                    <br />
+                    <small class="mt-1 block text-small tracking-normal text-muted normal-case">
+                      {link.sub}
+                    </small>
+                  </>
+                )}
+              </span>
+              <span class="ml-2.5 text-h4 font-extralight text-muted transition-transform duration-300 group-hover/p:scale-120 group-hover/p:text-black">
+                +
+              </span>
+            </a>
+          ))}
+        </div>
       </div>
-    </div>
+    ))}
   </div>
 </section>

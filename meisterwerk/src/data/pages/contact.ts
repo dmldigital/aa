@@ -16,14 +16,13 @@ export interface ContactPage {
   formIntro?: { heading: string; text: string };
 }
 
-const TITLE = 'Kontakt & Beratung | Meisterwerk Malermanufaktur - Ludwigsburg';
-const DESCRIPTION =
-  'Planen Sie Ihr Projekt mit uns. Ihr Meisterbetrieb für exklusive Malerarbeiten in Ludwigsburg & Stuttgart. Rufen Sie an oder schreiben Sie uns!';
+// Titel ohne Markenzusatz (das Layout ergänzt ihn). Jede Seite hat eigenen Titel und eigene Beschreibung.
 
 export const contactPages: Record<'kontakt' | 'schnellkontakt' | 'exklusive', ContactPage> = {
   kontakt: {
-    title: TITLE,
-    description: DESCRIPTION,
+    title: 'Projektanfrage stellen',
+    description:
+      'Schildern Sie uns Ihr Projekt: Die Meisterwerk Malermanufaktur prüft Ihre Anfrage persönlich und meldet sich zeitnah. Ludwigsburg, Stuttgart und Umgebung.',
     heading: 'Projektanfrage stellen',
     intro: [
       [
@@ -47,8 +46,9 @@ export const contactPages: Record<'kontakt' | 'schnellkontakt' | 'exklusive', Co
     },
   },
   schnellkontakt: {
-    title: TITLE,
-    description: DESCRIPTION,
+    title: 'Kontakt zum Maler in Freiberg',
+    description:
+      'Kontakt zur Meisterwerk Malermanufaktur in Freiberg am Neckar: Rufen Sie an oder schreiben Sie uns, wir beraten Sie gern zu Ihrem Vorhaben.',
     heading: 'Kontaktieren Sie uns',
     intro: [
       ['Sie interessieren sich für unsere Dienstleistungen oder für unsere Produkte? Sehr gerne!'],
@@ -63,8 +63,9 @@ export const contactPages: Record<'kontakt' | 'schnellkontakt' | 'exklusive', Co
   },
   // /meisterwerk-exklusive/kontakt/: Text wie Schnellkontakt, Formular mit Projektfeldern für Exklusiv-Leistungen
   exklusive: {
-    title: 'Kontakt - Meisterwerke Exklusive',
-    description: '',
+    title: 'Kontakt',
+    description:
+      'Kontakt zu Meisterwerke Exklusive: Schildern Sie uns Ihr Projekt für fugenlose Bäder, Böden oder Spachteltechniken in Ludwigsburg und Stuttgart.',
     heading: 'Kontaktieren Sie uns',
     intro: [
       ['Sie interessieren sich für unsere Dienstleistungen oder für unsere Produkte? Sehr gerne!'],

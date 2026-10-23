@@ -1,30 +1,30 @@
 ---
 /**
- * Drei umrandete Textkarten nebeneinander (Original 797793f auf /meisterwerk-exklusive/):
- * Überschrift, Linie, Fließtext. Auf dem Handy untereinander.
+ * Drei Textkarten nebeneinander (Original 797793f auf /meisterwerk-exklusive/): Überschrift und Fließtext auf einer
+ * Fläche ohne Rahmen. Auf dem Handy untereinander.
  */
 interface Props {
   id?: string;
   cards: { title: string; text: string }[];
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab); die Karten haben die jeweils andere Fläche */
+  tone?: 'white' | 'soft';
   rootClass?: string;
 }
-const { id = '797793f', cards, rootClass = 'my-10 md:my-15 lg:my-[25vh]' } = Astro.props;
+const { id = '797793f', cards, tone = 'white', rootClass = '' } = Astro.props;
 ---
 
-<section data-section={id} class:list={['flex flex-col px-5 lg:px-7.5', rootClass]}>
-  <div class="mx-auto flex w-full max-w-page flex-col gap-5 md:flex-row md:items-stretch lg:gap-7.5">
+<section data-section={id} class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white', rootClass]}>
+  <div class="mx-auto grid w-full max-w-page grid-cols-1 gap-5 md:grid-cols-3">
     {cards.map((card) => (
       <div
-        class="flex flex-col gap-7.5 border border-black/20 px-5 pt-7.5 pb-2.5 text-ink md:flex-1 md:px-7.5 md:pt-10 md:pb-5 lg:gap-8.75 lg:px-10 lg:pb-2.5"
+        class:list={['flex flex-col gap-4 p-6 text-ink md:p-8', tone === 'soft' ? 'bg-white' : 'bg-soft']}
         data-anim="fadeIn"
         data-anim-delay="100"
       >
-        <h3 class="font-display text-h3 lg:text-h2">
+        <h3 class="font-display text-h4 font-medium">
           {card.title}
         </h3>
-        <div class="flex flex-col border-t border-black/20 pt-5 lg:pt-6.25">
-          <p class="mb-3.75 lg:mb-para">{card.text}</p>
-        </div>
+        <p class="text-body">{card.text}</p>
       </div>
     ))}
   </div>

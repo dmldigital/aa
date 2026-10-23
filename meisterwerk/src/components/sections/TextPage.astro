@@ -1,34 +1,26 @@
 ---
 /**
- * Textseite (Impressum, Datenschutzerklärung): Überschrift und langer Text aus einer HTML-Datei.
- * Original: Elementor-Container mit H1 und Text-Editor-Widget.
+ * Textseite (Impressum, Datenschutzerklärung): Seitenkopf (`PageHeader.astro`, genau eine H1) und darunter der lange
+ * Text aus einer HTML-Datei.
  */
+import PageHeader from './PageHeader.astro';
+
 interface Props {
   id?: string;
   title: string;
   /** Fertiges HTML des Textes (h2 bis h5, p, ul, a). */
   html: string;
-  /** Teil-Website Exklusive: Absätze auf dem Handy in Standardgröße (16 px) mit 16 px Abstand. */
+  /** Teil-Website Exklusive (gleiche Darstellung, Prop bleibt aus Kompatibilität). */
   exklusive?: boolean;
 }
-const { id = '9e8e860', title, html, exklusive = false } = Astro.props;
+const { id = '9e8e860', title, html } = Astro.props;
 ---
 
-<section
-  data-section={id}
-  class="mt-19.5 mb-0 overflow-hidden px-5 md:mt-0 md:mb-10 lg:my-45 lg:px-7.5"
->
-  <div class="mx-auto flex max-w-mobile flex-col gap-3.75 md:max-w-tablet lg:max-w-page lg:gap-5">
-    <h1 class="font-display text-h1 font-medium text-ink">
-      {title}
-    </h1>
+<PageHeader title={title} />
+<section data-section={id} class="overflow-hidden bg-white px-page pb-16 md:pb-24 lg:pb-32">
+  <div class="mx-auto flex w-full max-w-page flex-col">
     <div
-      class:list={[
-        '[&_a]:cursor-pointer [&_a]:text-ink [&_a]:transition-[color] [&_a]:duration-300 [&_a:hover]:underline [&_div]:contents [&_h2]:mt-[0.6em] [&_h2]:mb-[0.3em] [&_h2]:font-display [&_h2]:text-h2 [&_h2]:font-medium [&_h2]:text-ink [&_h3]:mt-[0.6em] [&_h3]:mb-[0.3em] [&_h3]:font-display [&_h3]:text-h3 [&_h3]:text-ink [&_h4]:mt-[0.6em] [&_h4]:mb-[0.3em] [&_h4]:font-display [&_h4]:text-h4 [&_h4]:font-medium [&_h4]:text-ink [&_h5]:mt-[0.6em] [&_h5]:mb-[0.3em] [&_h5]:font-display [&_h5]:text-h4 [&_h5]:font-medium [&_h5]:text-ink [&_li]:list-item [&_strong]:font-bold [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-[27.2px] md:[&_ul]:my-3.75 md:[&_ul]:pl-[25.5px]',
-        exklusive
-          ? '[&_p]:mb-4 md:[&_p]:mb-3.75 lg:[&_p]:mb-para'
-          : '[&_p]:mb-3.75 [&_p]:text-body lg:[&_p]:mb-para',
-      ]}
+      class="max-w-[65ch] [&_a]:cursor-pointer [&_a]:text-ink [&_a]:underline [&_a]:transition-[color] [&_a]:duration-300 [&_a:hover]:text-gold [&_div]:contents [&_h2]:mt-10 [&_h2]:mb-3 [&_h2]:font-display [&_h2]:text-h2 [&_h2]:font-medium [&_h2]:text-ink [&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:font-display [&_h3]:text-h3 [&_h3]:text-ink [&_h4]:mt-6 [&_h4]:mb-2 [&_h4]:font-display [&_h4]:text-h4 [&_h4]:font-medium [&_h4]:text-ink [&_h5]:mt-6 [&_h5]:mb-2 [&_h5]:font-display [&_h5]:text-h4 [&_h5]:font-medium [&_h5]:text-ink [&_li]:list-item [&_p]:mb-4 [&_p]:text-body [&_strong]:font-bold [&_ul]:my-4 [&_ul]:list-disc [&_ul]:pl-6"
       set:html={html}
     />
   </div>

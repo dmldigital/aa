@@ -1,7 +1,7 @@
 ---
 /**
  * Profil-Steckbrief (Original 3a18279d): Text links, Foto in der Mitte, Lebensmotto rechts, grauer Grund.
- * Wie im Original ohne Seitenrand. Am Handy folgt unter dem Motto der aufklappbare Werdegang (nur Baldassarre Fortino).
+ * Am Handy folgt unter dem Motto der aufklappbare Werdegang (nur Baldassarre Fortino).
  */
 import Button from '../ui/Button.astro';
 import { Picture } from 'astro:assets';
@@ -12,8 +12,10 @@ interface Props {
   profile: Profile;
   /** Exklusiv-Site: am Handy 16/24 statt 15/24 und größerer Name (so im Original). */
   exklusive?: boolean;
+  /** Hintergrund der Sektion (Standard: Hellgrau) */
+  tone?: 'white' | 'soft';
 }
-const { id = '3a18279d', profile, exklusive = false } = Astro.props;
+const { id = '3a18279d', profile, exklusive = false, tone = 'soft' } = Astro.props;
 
 const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
 const richText = [
@@ -23,12 +25,12 @@ const richText = [
 const bodySize = 'text-body';
 ---
 
-<section data-section={id} class="overflow-hidden bg-soft">
-  <div class="flex flex-col gap-y-7.5 md:flex-row md:flex-wrap md:gap-y-10 md:gap-x-7.5 lg:flex-nowrap lg:gap-x-[8%]">
+<section data-section={id} class:list={['overflow-hidden px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
+  <div class="mx-auto flex w-full max-w-page flex-col gap-y-7.5 md:flex-row md:flex-wrap md:gap-y-10 md:gap-x-7.5 lg:flex-nowrap lg:gap-x-[8%]">
     <!-- Links: Kurzzeile, Name, Text -->
     <div class="flex flex-col justify-between gap-5 md:w-full lg:w-[25.35%]">
       <div class="flex flex-col gap-3.75 lg:gap-5">
-        <h6 class={eyebrow}>{profile.tagline}</h6>
+        <p class={eyebrow}>{profile.tagline}</p>
         <h2
           class:list={[
             'font-display font-medium text-ink text-h2',
@@ -38,9 +40,9 @@ const bodySize = 'text-body';
           {profile.name}
         </h2>
         {profile.subtitle && (
-          <h6 class="pb-5 font-display text-label font-medium tracking-label text-ink uppercase">
+          <p class="pb-5 font-display text-label font-medium tracking-label text-ink uppercase">
             {profile.subtitle}
-          </h6>
+          </p>
         )}
         <div class:list={[richText, bodySize]} set:html={profile.intro} />
       </div>
@@ -67,7 +69,7 @@ const bodySize = 'text-body';
       <div class:list={[richText, bodySize]} set:html={profile.motto} />
       {profile.timeline && !profile.werdegangList && (
         <div class="flex flex-col gap-3.75 md:hidden">
-          <h5
+          <h3
             class="font-display text-h4 text-ink"
             set:html={profile.timeline.heading}
           />
@@ -97,9 +99,9 @@ const bodySize = 'text-body';
       )}
       {profile.werdegangList && (
         <div class="flex flex-col gap-3.75 md:mt-[15px] md:gap-5 lg:mt-[22.5px] mb-[16px] md:mb-[15px] lg:mb-[49.5px]">
-          <h5 class="font-display text-h4 font-medium text-ink">
+          <h3 class="font-display text-h4 font-medium text-ink">
             {profile.werdegangList.heading}
-          </h5>
+          </h3>
           <ul>
             {profile.werdegangList.items.map((item) => (
               <li class="flex items-start pb-[2.5px] not-first:mt-[2.5px] last:pb-0">

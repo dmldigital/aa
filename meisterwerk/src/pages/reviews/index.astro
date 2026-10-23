@@ -1,18 +1,24 @@
 ---
 /**
- * Bewertungen: Auf der alten Seite besteht /reviews/ aus zwei leeren Elementor-Karussells
- * ("nichts gefunden", grau hinterlegte Flächen). Die Bewertungen selbst (Trustindex) stehen im Footer.
- * Wir bilden die Seite deshalb genau so nach: zwei leere Flächen in Originalgröße.
+ * Bewertungen: Auf der alten Seite besteht /reviews/ aus zwei leeren Elementor-Karussells ("nichts gefunden").
+ * Die Bewertungen selbst (Trustindex) stehen im Footer. Die Seite zeigt deshalb den Seitenkopf (nur Text) und
+ * verweist auf die Bewertungen im Fuß der Seite und auf die Projekte.
  */
 import PageLayout from '../../layouts/PageLayout.astro';
-
-const bands = ['34467c0', '3b002a7'];
+import PageHeader from '../../components/sections/PageHeader.astro';
+import { href, routes } from '../../data/links';
 ---
 
-<PageLayout title="Reviews - Meisterwerk Malermanufaktur" current="/reviews/">
-  {bands.map((id) => (
-    <section data-section={id} class="mb-11.25 bg-soft px-5 md:mb-15 lg:mb-27 lg:px-7.5">
-      <div class="mx-auto max-w-mobile pt-10 pb-6.25 md:max-w-tablet md:py-15 lg:max-w-[1160px] lg:py-27" />
-    </section>
-  ))}
+<PageLayout
+  title="Kundenbewertungen"
+  description="Kundenbewertungen zur Meisterwerk Malermanufaktur in Freiberg am Neckar, tätig in Ludwigsburg, Stuttgart und der gesamten Umgebung."
+  current="/reviews/"
+>
+  <PageHeader
+    label="Bewertungen"
+    title="Bewertungen unserer Kunden"
+    paragraphs={[
+      `Die Bewertungen unserer Kunden finden Sie unten im Fuß dieser Seite. Einen Eindruck unserer Arbeit geben Ihnen außerdem unsere <a href="${href(routes.projects)}" class="inline-link">Projekte</a>.`,
+    ]}
+  />
 </PageLayout>

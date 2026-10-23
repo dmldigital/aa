@@ -17,7 +17,10 @@ export function exklusivProfile(profile: ProfileData): Profile {
   return {
     ...rest,
     ...exklusiv,
-    title: `${profile.name} - Meisterwerke Exklusive`,
-    description: '',
+    // Seitentitel ohne Marke (das Layout ergänzt sie). Eigene Beschreibung, weil die Seite per Canonical auf das Profil der Hauptseite zeigt
+    title: profile.name,
+    description: profile.subtitle
+      ? `In Erinnerung an ${profile.name}, Teil der Familie und der Meisterwerk Malermanufaktur in Freiberg am Neckar. Gedenkseite bei Meisterwerke Exklusive.`
+      : `${profile.name} gehört zum Team der Meisterwerk Malermanufaktur in Freiberg am Neckar. Das Profil auf der Teil-Website Meisterwerke Exklusive.`,
   };
 }

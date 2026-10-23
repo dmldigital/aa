@@ -1,46 +1,24 @@
 ---
-import { Picture } from 'astro:assets';
 import PageLayout from '../../layouts/PageLayout.astro';
+import PageHeader from '../../components/sections/PageHeader.astro';
 import ProjectRows from '../../components/projekte/ProjectRows.astro';
+import MiniFormSection from '../../components/sections/MiniFormSection.astro';
 import Surface from '../../components/sections/Surface.astro';
 import { meta, intro } from '../../data/pages/projekte';
-
-const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
 ---
 
 <PageLayout title={meta.title} description={meta.description} current="/projekte/">
-  <!-- Einstieg: Überschrift der Unterseiten und Text links, Bild rechts (nur Desktop) -->
-  <section class="px-5 mt-10 mb-15 md:mt-15 md:mb-[10vh] lg:mt-[10vh] lg:mb-[14vh] lg:px-7.5">
-    <div class="mx-auto grid w-full max-w-page items-center gap-y-5 lg:grid-cols-2 lg:gap-x-5">
-      <div class="flex flex-col gap-3.75 lg:gap-5">
-        <p class={eyebrow} data-anim="fadeIn">Referenzen</p>
-        <h1
-          class="font-display text-h1 font-medium text-ink"
-          data-anim="fadeInUp"
-          data-anim-delay="100"
-        >
-          {intro.heading}
-        </h1>
-        <div class="[&>p]:mb-3.75 [&>p]:text-body lg:max-w-[690px] lg:[&>p]:mb-para" data-anim="fadeIn" data-anim-delay="250">
-          {intro.paragraphs.map((p) => <p set:html={p} />)}
-        </div>
-      </div>
-      <div class="hidden justify-end lg:flex">
-        <div class="w-[80%] overflow-hidden" data-grow="bottom" data-anim-delay="340">
-          <Picture
-            formats={['avif']}
-            fallbackFormat="webp"
-            src={intro.image}
-            alt={intro.alt}
-            widths={[544, 1088]}
-            sizes="544px"
-            class="block h-auto w-full"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <PageHeader
+    label="Referenzen"
+    title={intro.heading}
+    paragraphs={intro.paragraphs}
+    image={intro.image}
+    imageAlt="Dunkles Gäste-WC mit mineralisch gespachtelter Wand und indirekter LED-Beleuchtung"
+  />
   <ProjectRows />
-  <Surface />
+  <MiniFormSection
+    title="Ihr Projekt in Ludwigsburg besprechen"
+    text="Ein Vorhaben wie diese Projekte im Kopf? Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich bei Ihnen und besprechen alles Weitere, auf Wunsch im Showroom in Freiberg am Neckar."
+  />
+  <Surface rootClass="mt-0" />
 </PageLayout>

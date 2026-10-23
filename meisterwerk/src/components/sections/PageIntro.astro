@@ -1,63 +1,27 @@
 ---
-import { Picture } from 'astro:assets';
-
 /**
- * Seiteneinstieg: Überschrift und Absätze links, Bild rechts (nur Desktop), z. B. /projekte/ (Original b9d36c5).
+ * Seiteneinstieg mit Bild: Überschrift und Absätze links, Bild rechts, z. B. /projekte/ (Original b9d36c5).
+ * Rendert den einheitlichen Seitenkopf `PageHeader.astro` (genau eine H1, Überzeile `label`, Absätze, Bild).
+ * Die Props `rootClass`, `bodyClass` und `textClass` aus früheren Fassungen werden nicht mehr gebraucht.
  */
+import PageHeader from './PageHeader.astro';
+
 interface Props {
   id?: string;
   heading: string;
   paragraphs: string[];
+  /** Überzeile über der Überschrift */
+  label?: string;
+  /** Einleitung in größerer Schrift (Stufe „lead“) */
+  lead?: string;
   image?: ImageMetadata;
   imageAlt?: string;
+  button?: { label: string; href: string };
   rootClass?: string;
-  /** Schrift und Absatzabstand der Absätze (Standard: Hauptseite). */
   bodyClass?: string;
-  /** Zusätzliche Klassen der Textspalte. */
   textClass?: string;
 }
-const {
-  id = 'b9d36c5',
-  heading,
-  paragraphs,
-  image,
-  imageAlt = '',
-  rootClass = 'mt-19.5 md:mt-0 md:mb-10 lg:mt-[12vh] lg:mb-0',
-  bodyClass = '[&>p]:mb-3.75 [&>p]:text-body lg:[&>p]:mb-para',
-  textClass,
-} = Astro.props;
+const { heading, paragraphs, label, lead, image, imageAlt = '', button } = Astro.props;
 ---
 
-<section data-section={id} class:list={['flex flex-col px-5 lg:px-7.5', rootClass]}>
-  <div class="mx-auto flex w-full max-w-page items-center lg:gap-0">
-    <div class:list={['flex w-full flex-col gap-3.75 md:w-1/2 lg:gap-5', textClass]}>
-      <h2
-        class="font-display text-h2 font-medium text-ink"
-        data-anim="fadeInUp"
-        data-anim-delay="100"
-      >
-        {heading}
-      </h2>
-      <div class={bodyClass}>
-        {paragraphs.map((p) => (
-          <p set:html={p} />
-        ))}
-      </div>
-    </div>
-    {image && (
-      <div class="hidden w-1/2 justify-end lg:flex">
-        <div class="w-[80%] overflow-hidden" data-grow="bottom" data-anim-delay="340">
-          <Picture
-            formats={['avif']}
-            fallbackFormat="webp"
-            src={image}
-            alt={imageAlt}
-            widths={[544, 1088]}
-            sizes="544px"
-            class="block h-auto w-full"
-          />
-        </div>
-      </div>
-    )}
-  </div>
-</section>
+<PageHeader title={heading} {label} {lead} {paragraphs} {button} {image} {imageAlt} />

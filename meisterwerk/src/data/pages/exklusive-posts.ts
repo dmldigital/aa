@@ -15,7 +15,7 @@ export const related: {
     image: '069-meisterwerk-20230508-Bearbeitet.jpg',
     alt: 'Exklusive mineralische Wandspachteltechnik in Grau in einem modernen offenen Wohn- und Geschäftsbereich in Ludwigsburg.',
     category: 'Spachteltechnik',
-    categoryHref: '/meisterwerk-exklusive/category/portfolio/spachteltechnik/',
+    categoryHref: '/meisterwerk-exklusive/spachteltechniken/',
     title: 'Spachteltechnik für Lotter Bäderausstellung',
   },
   {
@@ -23,7 +23,7 @@ export const related: {
     image: 'fugenlos-1.jpg',
     alt: 'Luxuriöses fugenloses Badezimmer mit mineralischer Wand- und Bodenbeschichtung sowie beleuchteten Wandnischen in Ludwigsburg.',
     category: 'Fugenloses Bad',
-    categoryHref: '/meisterwerk-exklusive/category/portfolio/fugenloses-bad/',
+    categoryHref: '/meisterwerk-exklusive/fugenlose-baeder/',
     title: 'Masterbad Fugenlos',
   },
 ];

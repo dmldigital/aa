@@ -10,6 +10,9 @@ import { z } from 'astro/zod';
 
 const json = (name: string) => glob({ pattern: '*.json', base: `./src/content/${name}` });
 
+/** Meta-Beschreibung: Pflicht, 110 bis 160 Zeichen (Build bricht sonst ab). */
+const metaDescription = z.string().min(110).max(160);
+
 const triple = z.tuple([z.number(), z.number(), z.number()]);
 
 const beitragFelder = (image: ImageFunction) => ({
@@ -18,8 +21,8 @@ const beitragFelder = (image: ImageFunction) => ({
   day: z.string(),
   slug: z.string(),
   title: z.string(),
-  /** Meta-Beschreibung (optional) */
-  description: z.string().optional(),
+  /** Meta-Beschreibung (Pflicht, 110 bis 160 Zeichen) */
+  description: metaDescription,
   /** Titelbild über dem Text */
   image: image(),
   /** Erbrachte Leistungen (Kacheln links in der Infoleiste) */
@@ -41,8 +44,8 @@ const exklusivBeitraege = defineCollection({
   schema: ({ image }) =>
     z.object({
       ...beitragFelder(image),
-      /** Seitentitel (Original: „<Titel> - Meisterwerke Exklusive“) */
-      pageTitle: z.string(),
+      /** Seitentitel ohne Markenzusatz (das Layout hängt „ | Meisterwerke Exklusive“ an), höchstens 35 Zeichen */
+      pageTitle: z.string().max(35),
       category: z.string(),
       categoryHref: z.string(),
       /** Datum unter der Überschrift, z. B. „Mai / 2025“ */
@@ -60,9 +63,9 @@ const profile = defineCollection({
   schema: ({ image }) =>
     z.object({
       slug: z.string(),
-      /** Seitentitel und Meta-Beschreibung (wie im Original) */
-      title: z.string(),
-      description: z.string(),
+      /** Seitentitel (ohne Markenzusatz, höchstens 30 Zeichen) und Meta-Beschreibung */
+      title: z.string().max(30),
+      description: metaDescription,
       name: z.string(),
       /** Kurzzeile über dem Namen (Bereich unter dem Hero) */
       tagline: z.string(),
@@ -92,8 +95,9 @@ const leistungen = defineCollection({
   schema: ({ image }) =>
     z.object({
       slug: z.string(),
-      title: z.string(),
-      description: z.string(),
+      /** Seitentitel ohne Markenzusatz, höchstens 30 Zeichen */
+      title: z.string().max(30),
+      description: metaDescription,
       hero: z.object({ title: z.string(), text: z.string(), img: image(), alt: z.string() }),
       intro: z.object({
         img: image(),
@@ -135,7 +139,9 @@ const exklusivLeistungen = defineCollection({
   schema: ({ image }) =>
     z.object({
       slug: z.string(),
-      title: z.string(),
+      /** Seitentitel ohne Markenzusatz (auch Name der Leistung), höchstens 35 Zeichen */
+      title: z.string().max(35),
+      description: metaDescription,
       intro: z.object({ img: image(), parts: z.array(introTeil) }),
       pillars: z.array(
         z.object({ title: z.string(), html: z.string(), bullets: z.array(z.string()) }),
@@ -156,8 +162,9 @@ const kollektionen = defineCollection({
   schema: ({ image }) =>
     z.object({
       slug: z.string(),
-      /** Seitentitel (im Original ohne Meta-Beschreibung) */
-      title: z.string(),
+      /** Seitentitel ohne Markenzusatz, höchstens 35 Zeichen */
+      title: z.string().max(35),
+      description: metaDescription,
       headline: z.string(),
       headlineId: z.string(),
       /** Spalten je Zeile ab Tablet (Karten stehen links, auch bei weniger Karten) */

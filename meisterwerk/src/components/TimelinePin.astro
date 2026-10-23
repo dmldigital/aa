@@ -24,7 +24,7 @@ const { items, title, member, label, class: className = '' } = Astro.props;
       {member && (
         <div data-tlm-founder class="tlm-founder">
           {label && (
-            <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">{label}</h6>
+            <p class="font-display text-label font-medium tracking-label text-ink uppercase">{label}</p>
           )}
           <TeamCard
             {member}
@@ -34,7 +34,7 @@ const { items, title, member, label, class: className = '' } = Astro.props;
           />
         </div>
       )}
-      <h5 class="tlm-title" set:html={title} />
+      <h2 class="tlm-title" set:html={title} />
     </div>
     <ol class="tlm-list">
       {items.map((item) => (

@@ -3,7 +3,7 @@
  * Leistungsübersicht (/leistungen/). Gestaltung und Maße wie die Leistungs-Sektion der Startseite (graue Fläche, Label,
  * goldene Überschrift, weiße Karten mit Rand, Bild, Titel, Kurztext und Symbol), nur als ruhiges Raster statt als Stapel:
  * Links bleibt der Text stehen, rechts laufen die Karten durch. Bilder wachsen wie auf der alten Seite von links herein,
- * die Linie unter dem Text füllt sich beim Scrollen wie auf der Startseite. Texte und Reihenfolge wie auf der Startseite.
+ *. Texte und Reihenfolge wie auf der Startseite.
  */
 import { Picture } from 'astro:assets';
 import { href } from '../../data/links';
@@ -73,7 +73,6 @@ const exklusivLinks = [
       <p class="ls-sub ls-sub--more" data-anim="fadeIn" data-anim-delay="300">
         Ob Malerarbeiten, Tapeten, Lack oder Putz: Wir beraten Sie im Showroom, planen gemeinsam mit Ihnen und setzen Ihr Projekt sauber und termingerecht um. Für besondere Wünsche gibt es unsere Spezialleistungen als Meisterwerke Exklusive.
       </p>
-      <span class="ls-progress" aria-hidden="true"><i data-ls-fill></i></span>
     </div>
 
     <div class="ls-grid" data-ls-grid>
@@ -146,21 +145,6 @@ const exklusivLinks = [
   import { gsap, ScrollTrigger } from '../../scripts/motion';
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  // Die Linie unter dem Text füllt sich, während die Karten durchlaufen (wie auf der Startseite)
-  const grid = document.querySelector<HTMLElement>('[data-ls-grid]');
-  const fill = document.querySelector<HTMLElement>('[data-ls-fill]');
-  if (grid && fill && !reduced) {
-    gsap.fromTo(
-      fill,
-      { scaleX: 0.1 },
-      {
-        scaleX: 1,
-        ease: 'none',
-        scrollTrigger: { trigger: grid, start: 'top 60%', end: 'bottom 75%', scrub: 0.6 },
-      },
-    );
-  }
 
   // Exklusive-Box: Beim Überfahren (oder Fokussieren) einer Leistung wechselt das Bild. Die Texte bleiben unverändert,
   // die Box behält ihre Größe.
@@ -244,22 +228,6 @@ const exklusivLinks = [
   }
   .ls-sub--more {
     margin-top: 16px;
-  }
-  /* Fortschrittslinie entfällt (Seite ohne Trennlinien, Stil-Referenz) */
-  .ls-progress {
-    display: none;
-    width: 100px;
-    height: 2px;
-    margin-top: 40px;
-    background: #09040226;
-  }
-  .ls-progress i {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background: var(--color-gold);
-    transform-origin: 0 50%;
-    transform: scaleX(0.1);
   }
 
   .ls-grid {

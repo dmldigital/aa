@@ -22,6 +22,8 @@ interface Props {
   /** erster Eintrag beim Laden geöffnet */
   openFirst?: boolean;
   accordionClass?: string;
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
 }
 const {
   id = 'b1f5cd6',
@@ -34,16 +36,17 @@ const {
   image = sketch,
   imageAlt = 'Handzeichnung eines Einfamilienhauses mit Terrasse und Gartenmöbeln',
   imageClass = 'lg:w-[45rem]',
-  rootClass = 'mt-[10vh] md:mt-[20vh] lg:mt-[20vh]',
+  rootClass = '',
   buttonClass = 'py-[1em] hover:text-gold',
   titleClass = 'text-h4',
   openFirst = false,
-  accordionClass = 'p-2.5 md:p-0 md:pt-25',
+  accordionClass = 'md:pt-25',
+  tone = 'soft',
 } = Astro.props;
 ---
 
-<section data-section={id} class:list={['flex flex-col bg-soft px-5 lg:px-7.5', rootClass]}>
-  <div class="mx-auto flex w-full max-w-page grow flex-col gap-7.5 py-10 md:py-15 lg:gap-y-10 lg:py-[12vh]">
+<section data-section={id} class:list={['flex flex-col px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white', rootClass]}>
+  <div class="mx-auto flex w-full max-w-page grow flex-col gap-7.5 lg:gap-y-10">
     <!-- Überschrift und Einleitung -->
     <div class="flex w-full flex-col gap-3.75 lg:w-[70%] lg:gap-5">
       <div class="w-full">

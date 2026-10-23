@@ -1,9 +1,8 @@
 ---
 /**
- * Ablauf des Urlaubsservice in der Aufteilung der Vorteile (Label und goldene Überschrift stehen links, rechts die
- * Schritte). Die Schritte hängen an einer senkrechten Linie mit Punkten wie die Zeitleiste auf „Über uns“: Beim Scrollen
- * füllt sich die Linie golden, der Punkt des erreichten Schritts füllt sich, noch nicht erreichte Schritte stehen blasser.
- * Ohne Skript oder bei reduzierter Bewegung ist alles voll sichtbar. Die Schritte stehen als `<strong>Titel</strong><br />Text`.
+ * Ablauf des Urlaubsservice: Überzeile und Überschrift, darunter die Schritte als gleich große Karten ohne Rahmen
+ * (weiß auf hellgrauem Grund), nebeneinander ab Desktop, sonst untereinander. Keine Linie zwischen den Schritten und keine
+ * Nummerierung. Die Schritte stehen als `<strong>Titel</strong><br />Text`.
  */
 interface Props {
   label: string;
@@ -18,196 +17,19 @@ const items = steps.map((s) => {
 });
 ---
 
-<section data-hf class="hf">
-  <div class="hf-inner">
-    <div class="hf-heading">
-      <p class="hf-eyebrow" data-anim="fadeIn">{label}</p>
-      <h2 data-anim="fadeIn" data-anim-delay="100">{heading}</h2>
+<section data-section="ablauf" class="bg-soft px-page py-section">
+  <div class="mx-auto flex w-full max-w-page flex-col gap-12">
+    <div class="flex max-w-[65ch] flex-col gap-3">
+      <p class="font-display text-label font-medium tracking-label text-ink uppercase" data-anim="fadeIn">{label}</p>
+      <h2 class="font-display text-h2 text-balance text-gold" data-anim="fadeIn" data-anim-delay="100">{heading}</h2>
     </div>
-    <ol class="hf-list" data-hf-list>
+    <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
       {items.map((it, i) => (
-        <li class="hf-item" data-hf-item>
-          <span class="hf-dot" aria-hidden="true"></span>
-          {i < items.length - 1 && (
-            <span class="hf-seg" aria-hidden="true"><span data-hf-fill></span></span>
-          )}
-          <div class="hf-body">
-            {it.title && <h3 set:html={it.title} />}
-            <p set:html={it.text} />
-          </div>
+        <li class="flex flex-col gap-4 bg-white p-6 md:p-8" data-anim="fadeInUp" data-anim-dur="fast" data-anim-delay={i * 100}>
+          {it.title && <h3 class="font-display text-h4 text-ink" set:html={it.title} />}
+          <p class="text-body text-muted" set:html={it.text} />
         </li>
       ))}
-    </ol>
+    </ul>
   </div>
 </section>
-
-<script>
-  import { gsap, ScrollTrigger } from '../../scripts/motion';
-
-  const root = document.querySelector<HTMLElement>('[data-hf]');
-  if (root && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    root.classList.add('is-live');
-    root.querySelectorAll<HTMLElement>('[data-hf-item]').forEach((item) => {
-      const fill = item.querySelector<HTMLElement>('[data-hf-fill]');
-      if (fill) gsap.set(fill, { scaleY: 0 });
-      // Der Schritt gilt als erreicht, sobald sein Anfang die Höhe von 60 % des Bildschirms passiert
-      ScrollTrigger.create({
-        trigger: item,
-        start: 'top 60%',
-        onToggle: (self) => item.classList.toggle('is-reached', self.isActive || self.progress === 1),
-      });
-      // Die Linie zum nächsten Schritt füllt sich, während der Schritt durch den Bildschirm läuft
-      if (fill)
-        gsap.to(fill, {
-          scaleY: 1,
-          ease: 'none',
-          scrollTrigger: { trigger: item, start: 'top 60%', end: 'bottom 60%', scrub: 0.5 },
-        });
-    });
-  }
-</script>
-
-<style>
-  .hf {
-    --ink: #090402;
-    margin: 56px 20px 64px;
-    color: var(--ink);
-  }
-  .hf-inner {
-    display: grid;
-    gap: 32px;
-    max-width: var(--container-page);
-    margin: 0 auto;
-  }
-  .hf-eyebrow {
-    margin: 0;
-    font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-label);
-    line-height: var(--text-label--line-height);
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-  .hf-heading h2 {
-    margin: 36px 0 0;
-    color: var(--color-gold);
-    font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-h2);
-    line-height: var(--text-h2--line-height);
-    font-weight: 500;
-    text-wrap: balance;
-  }
-  .hf-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .hf-item {
-    position: relative;
-    padding: 0 0 44px 40px;
-  }
-  .hf-item:last-child {
-    padding-bottom: 0;
-  }
-  /* Punkt und Linie zum nächsten Schritt */
-  .hf-dot {
-    position: absolute;
-    top: 5px;
-    left: 0;
-    z-index: 1;
-    width: 14px;
-    height: 14px;
-    box-sizing: border-box;
-    border: 1px solid var(--color-gold);
-    border-radius: 50%;
-    background: var(--color-gold);
-    transition: background-color 0.5s var(--ease-css);
-  }
-  .hf-seg {
-    position: absolute;
-    top: 19px;
-    bottom: -5px;
-    left: 6.5px;
-    width: 1px;
-    background: rgb(0 0 0 / 0.2);
-  }
-  .hf-seg span {
-    display: block;
-    height: 100%;
-    background: var(--color-gold);
-    transform-origin: top center;
-  }
-  .hf-body h3 {
-    margin: 0;
-    font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-h4);
-    line-height: var(--text-h4--line-height);
-    font-weight: 500;
-  }
-  .hf-body p {
-    max-width: 620px;
-    margin: 8px 0 0;
-    color: var(--color-muted);
-    font-size: var(--text-body);
-    line-height: var(--text-body--line-height);
-  }
-  .hf-body {
-    transition: opacity 0.5s var(--ease-css);
-  }
-  /* Mit Skript: noch nicht erreichte Schritte stehen blasser, der Punkt ist leer */
-  .is-live .hf-item:not(.is-reached) .hf-dot {
-    background: #fff;
-  }
-  .is-live .hf-item:not(.is-reached) .hf-body {
-    opacity: 0.35;
-  }
-
-  @media (min-width: 768px) {
-    .hf {
-      margin: 72px 20px 80px;
-    }
-    .hf-body h3 {
-      font-size: var(--text-h4);
-      line-height: var(--text-h4--line-height);
-    }
-    .hf-item {
-      padding-bottom: 56px;
-      padding-left: 56px;
-    }
-    .hf-dot {
-      top: 6px;
-    }
-    .hf-seg {
-      top: 20px;
-    }
-  }
-  @media (min-width: 1025px) {
-    .hf {
-      margin: 12vh 30px;
-    }
-    .hf-inner {
-      grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
-      gap: 0 6vw;
-      align-items: start;
-    }
-    .hf-heading {
-      position: sticky;
-      top: 22vh;
-    }
-    .hf-body h3 {
-      font-size: var(--text-h3);
-      line-height: var(--text-h3--line-height);
-    }
-    .hf-item {
-      padding-bottom: 120px;
-      padding-left: 72px;
-    }
-    .hf-dot {
-      top: 8.5px;
-    }
-    .hf-seg {
-      top: 23px;
-      bottom: -8px;
-    }
-  }
-</style>

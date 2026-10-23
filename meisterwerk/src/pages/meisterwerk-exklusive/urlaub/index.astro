@@ -1,6 +1,7 @@
 ---
 import PageLayout from '../../../layouts/PageLayout.astro';
-import Masterly from '../../../components/sections/Masterly.astro';
+import PageHeader from '../../../components/sections/PageHeader.astro';
+import MiniFormSection from '../../../components/sections/MiniFormSection.astro';
 import HolidaySteps from '../../../components/sections/HolidaySteps.astro';
 import {
   exklusiveMeta,
@@ -10,17 +11,24 @@ import {
 } from '../../../data/pages/urlaubsservice';
 ---
 
-<PageLayout site="exklusive" title={exklusiveMeta.title} current="/meisterwerk-exklusive/urlaub/">
-  <Masterly
-    id="9e8e860"
-    eyebrow={exklusiveIntro.eyebrow}
-    eyebrowTag="h6"
-    heading={exklusiveIntro.heading}
-    headingColor="text-ink"
-    text={exklusiveIntro.text}
+<PageLayout
+  site="exklusive"
+  title={exklusiveMeta.title}
+  description={exklusiveMeta.description}
+  current="/meisterwerk-exklusive/urlaub/"
+>
+  <PageHeader
+    label={exklusiveIntro.eyebrow}
+    title={exklusiveIntro.heading}
+    paragraphs={[exklusiveIntro.text]}
     image={exklusiveIntro.image}
-    imageAlt={exklusiveIntro.alt}
-    rootClass="mt-19.5 md:mt-0 md:mb-10 lg:mt-[12vh] lg:mb-0"
+    imageAlt="Drei Palmen in Schwarzweiß am Strand, Sinnbild für den Urlaub"
   />
-  <HolidaySteps {background} {columns} boxed />
+  <HolidaySteps {background} {columns} boxed tone="soft" />
+  <MiniFormSection
+    exklusive
+    class="bg-white!"
+    title="Ihren Urlaubsservice in Ludwigsburg besprechen"
+    text="Schreiben Sie uns kurz, wann Sie verreisen und was in der Zeit gemacht werden soll. Wir melden uns persönlich bei Ihnen und klären gemeinsam den Ablauf."
+  />
 </PageLayout>

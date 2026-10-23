@@ -20,6 +20,8 @@ interface Props {
   /** Außenabstände der Sektion */
   rootClass?: string;
   headingTag?: 'h2' | 'h3';
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
   headingClass?: string;
   linkTone?: 'gold' | 'black';
 }
@@ -30,22 +32,27 @@ const {
   linkLabel = 'Weitere Projekte',
   projects = homeProjects,
   count = 3,
-  rootClass = 'mt-[10vh] md:mt-0 md:mb-23.75 lg:mt-[20vh] lg:mb-0',
-  headingTag: Heading = 'h3',
+  rootClass = '',
+  tone = 'white',
+  headingTag: Heading = 'h2',
   headingClass = 'text-h2 text-gold',
   linkTone = 'gold',
 } = Astro.props;
+const CardTitle = Heading === 'h2' ? 'h3' : 'h4';
 ---
 
-<section data-section={id} class:list={['flex flex-col overflow-x-clip px-5 lg:px-7.5', rootClass]}>
+<section
+  data-section={id}
+  class:list={['flex flex-col overflow-x-clip px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white', rootClass]}
+>
   <div class="mx-auto flex w-full max-w-page grow flex-col gap-3.75 lg:gap-5">
     <div class="mb-1.25 lg:mb-5">
       <Heading class:list={['font-display', headingClass]}>{heading}</Heading>
     </div>
 
-    <div class="grid grid-cols-1 gap-x-5 gap-y-7.5 md:grid-cols-3 lg:gap-x-7.5">
+    <div class="grid grid-cols-1 gap-x-5 gap-y-10 md:grid-cols-3">
       {projects.slice(0, count).map((p) => (
-        <ProjectCard project={p} reveal instant lazy />
+        <ProjectCard project={p} reveal instant lazy titleTag={CardTitle} />
       ))}
     </div>
 

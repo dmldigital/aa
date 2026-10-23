@@ -20,7 +20,7 @@ import sketch from '../../assets/img/2985394.svg';
 import type { Part, Faq } from '../faq';
 
 export const meta = {
-  title: 'Spachteltechnik & Fugenloses Design | Meisterwerke Exklusive',
+  title: 'Spachteltechnik & Fugenloses Design',
   description:
     'Exklusive fugenlose Bäder & Böden vom Experten. Edle Spachteltechniken für Ihr Zuhause. Langlebig, modern & pflegeleicht. Jetzt Beratung vereinbaren!',
 };

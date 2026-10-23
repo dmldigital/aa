@@ -13,10 +13,10 @@ interface Props {
 const { id = '31de600', heading, items } = Astro.props;
 ---
 
-<section data-section={id} class="mb-22.5 hidden px-7.5 lg:flex">
+<section data-section={id} class="hidden bg-white px-page py-section lg:block">
   <div class="mx-auto flex w-full max-w-page">
     <div class="flex w-[14%] flex-col justify-center">
-      <h5 class="font-display text-h3 font-medium text-ink" set:html={heading} />
+      <h2 class="font-display text-h3 font-medium text-ink" set:html={heading} />
     </div>
     <div class="w-[86%]">
       <div class="py-10 font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',system-ui,sans-serif] text-black">

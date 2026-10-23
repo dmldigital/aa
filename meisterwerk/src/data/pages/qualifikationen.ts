@@ -1,6 +1,6 @@
 // Inhalte der Seite /qualifikationen/ (Texte wie im Original, live ausgelesen)
 export const meta = {
-  title: 'Qualifikationen & Meisterbriefe | Meisterwerk Ludwigsburg',
+  title: 'Qualifikationen & Meisterbrief',
   description:
     'Geprüfte Qualität für Ihr Zuhause. Entdecken Sie unsere Qualifikationen als Malermeister & Experten für fugenlose Systeme in Ludwigsburg & Stuttgart.',
 };

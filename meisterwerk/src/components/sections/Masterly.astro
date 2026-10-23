@@ -9,7 +9,7 @@ import stairs from '../../assets/img/2025-meisterwerk-20230524-HDR-scaled.jpg';
 interface Props {
   id?: string;
   eyebrow?: string | null;
-  /** `h6`: Überzeile als Überschrift (Exklusive-Seiten), sonst Fließtext-Zeile. */
+  /** Aus Kompatibilität erlaubt, die Überzeile ist immer ein Absatz (keine Überschrift). */
   eyebrowTag?: 'h6';
   heading?: string;
   headingColor?: string;
@@ -17,34 +17,32 @@ interface Props {
   image?: ImageMetadata;
   imageAlt?: string;
   rootClass?: string;
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
 }
 const {
   id = '9e8e860',
   eyebrow = 'Meisterwerk Maler Manufaktur',
-  eyebrowTag,
   heading = 'Meisterliche Malerarbeiten für Wohnträume und Lebensräume',
   headingColor = 'text-gold',
   text,
   image = stairs,
   imageAlt = 'Helles Treppenhaus mit Holzstufen, frisch gestrichene Wände und Wandleuchte',
-  rootClass = 'mt-[10vh] md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0',
+  rootClass = '',
+  tone = 'soft',
 } = Astro.props;
 ---
 
-<section data-section={id} class:list={['flex flex-col overflow-hidden px-5 lg:px-7.5', rootClass]}>
+<section
+  data-section={id}
+  class:list={['overflow-hidden px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white', rootClass]}
+>
   <div class="mx-auto flex w-full max-w-page grow flex-col gap-5 md:flex-row md:items-center md:gap-x-7.5 lg:gap-x-5">
     <div class="flex flex-col gap-3.75 md:w-1/2 lg:gap-5">
-      {eyebrow && eyebrowTag === 'h6' && (
-        <h6 class="font-display text-label font-medium tracking-label text-ink uppercase">
+      {eyebrow && (
+        <p class="font-display text-label font-medium tracking-label text-ink uppercase">
           {eyebrow}
-        </h6>
-      )}
-      {eyebrow && !eyebrowTag && (
-        <div>
-          <span class="font-display text-label font-medium tracking-label uppercase">
-            {eyebrow}
-          </span>
-        </div>
+        </p>
       )}
       <div
         class="w-full max-w-full lg:mb-5 lg:max-w-[500px]"
@@ -59,7 +57,7 @@ const {
           set:html={heading}
         />
       </div>
-      {text && <p set:html={text} />}
+      {text && <p class="text-body" set:html={text} />}
     </div>
     <div class="overflow-hidden md:w-1/2">
       <div class="[clip-path:none]" data-grow="bottom" data-anim-delay="340">

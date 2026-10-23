@@ -69,7 +69,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     <div class="ph-copy">
       <div class="ph-eyebrow-row">
         <span class="ph-rule" aria-hidden="true"></span>
-        <h6 data-ph-fade class="ph-eyebrow">{profile.tagline}</h6>
+        <p data-ph-fade class="ph-eyebrow">{profile.tagline}</p>
       </div>
       <h1 class="ph-name" aria-label={profile.name}>
         {words.map((w) => (
@@ -108,7 +108,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
 <section id="steckbrief" class="pb">
   {memorial ? (
     <div class="pb-wrap pb-wrap--memorial">
-      <h6 data-rv class="eyebrow">Erinnerung</h6>
+      <p data-rv class="eyebrow">Erinnerung</p>
       <p data-rv class="pb-lead" set:html={intro.prose[0]} />
       <div class="pb-cols">
         {intro.prose.slice(1).map((p) => (
@@ -120,7 +120,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     <div class="pb-wrap">
       {born && (
         <div class="pb-born" data-rv>
-          <h6 class="eyebrow">Baujahr</h6>
+          <p class="eyebrow">Baujahr</p>
           <p class="pb-year" aria-label={year}>{year}</p>
           {bornRest && <p class="pb-born-note" set:html={bornRest} />}
         </div>
@@ -129,7 +129,6 @@ const timelineTitle = profile.timeline?.heading ?? '';
         <dl class="pb-rows">
           {rows.map((f) => (
             <div class="pb-row" data-rv>
-              <span class="pb-hair" data-rv-line aria-hidden="true"></span>
               <dt>{f.label}</dt>
               <dd set:html={f.value} />
             </div>
@@ -150,7 +149,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
   <>
     <section data-tl-scene class="pt">
       <div class="pt-wrap">
-        <h5 class="pt-title" set:html={timelineTitle} />
+        <h2 class="pt-title" set:html={timelineTitle} />
         <div class="pt-line">
           <Timeline items={profile.timeline.items} />
         </div>
@@ -167,7 +166,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
       {mottoFact && (
         <div class="pm-head">
           <span class="pm-mark" aria-hidden="true">“</span>
-          <h6 data-rv class="eyebrow">{mottoFact.label}</h6>
+          <p data-rv class="eyebrow">{mottoFact.label}</p>
           <blockquote data-pm-quote class="pm-quote">
             <span class="pm-sr">{strip(quoteHtml)}</span>
             <span aria-hidden="true">
@@ -183,7 +182,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
         <div class="pm-grid" style={`--n:${Math.min(3, extras.length)}`}>
           {extras.map((f) => (
             <article data-rv class="pm-card">
-              <h6 class="pm-card-label">{f.label}</h6>
+              <p class="pm-card-label">{f.label}</p>
               <p set:html={f.value} />
             </article>
           ))}
@@ -202,7 +201,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
 <section class="pn">
   <div class="pn-wrap">
     <div class="pn-head" data-rv>
-      <h6 class="eyebrow">Unser Team</h6>
+      <h2 class="eyebrow">Unser Team</h2>
       <a href={href('/studio/')} class="pn-all">Alle ansehen <i aria-hidden="true">↗</i></a>
     </div>
     <ul class="pn-list">
@@ -453,18 +452,6 @@ const timelineTitle = profile.timeline?.heading ?? '';
     gap: 6px 32px;
     padding: 22px 0;
   }
-  .pb-hair {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 1px;
-    background: rgb(0 0 0 / 0.12);
-    transform-origin: 0 50%;
-  }
-  .pb-row:last-child {
-    border-bottom: 1px solid rgb(0 0 0 / 0.12);
-  }
   .pb-row dt {
     color: var(--color-gold);
     font-family: var(--font-display);
@@ -662,7 +649,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
-  .pm-card p {
+  .pm-card p:not(.pm-card-label) {
     margin: 0;
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);

@@ -1,0 +1,9 @@
+# Cloudflare Pages: alte WordPress-Adressen auf die neuen Ziele (301). Nur Fälle mit eindeutigem Ziel.
+# Doppelte Adressen der alten Seite
+/services/lackieren/ /services/lackierarbeiten/ 301
+/spachteltechniken/ /meisterwerk-exklusive/spachteltechniken/ 301
+# Menüpunkt „Kontakt“ der Teil-Website und Kategorie-Archive der alten Seite (gibt es neu nicht mehr)
+/meisterwerk-exklusive/kontakt-2/ /meisterwerk-exklusive/kontakt/ 301
+/meisterwerk-exklusive/category/portfolio/spachteltechnik/ /meisterwerk-exklusive/spachteltechniken/ 301
+/meisterwerk-exklusive/category/portfolio/fugenloses-bad/ /meisterwerk-exklusive/fugenlose-baeder/ 301
+/meisterwerk-exklusive/category/portfolio/fugenloser-boden/ /meisterwerk-exklusive/fugenloser-boden/ 301

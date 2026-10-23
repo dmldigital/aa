@@ -1,21 +1,24 @@
 ---
 import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHeader from '../../../components/sections/PageHeader.astro';
 import Services from '../../../components/sections/Services.astro';
+import MiniFormSection from '../../../components/sections/MiniFormSection.astro';
 import Projects from '../../../components/sections/Projects.astro';
 import { leistungen, projekte } from '../../../data/pages/exklusive-start';
 ---
 
 <PageLayout
   site="exklusive"
-  title="Unsere Leistungen - Meisterwerke Exklusive"
+  title="Unsere Leistungen"
+  description="Fugenlose Bäder, fugenlose Böden, Spachteltechniken und Stuckleisten: die Leistungen von Meisterwerke Exklusive in Ludwigsburg, Stuttgart und Umgebung."
   current="/meisterwerk-exklusive/unsere-leistungen/"
 >
+  <PageHeader label="Meisterwerke Exklusive" title="Unsere Leistungen" />
   <Services
     id="7031ea3"
     eyebrow={leistungen.eyebrow}
     heading={leistungen.heading}
     cards={leistungen.cards}
-    rootClass="mt-[10vh] md:mt-0 md:mb-15 lg:mt-0 lg:mb-[10vh]"
     headingTag="h2"
     headingClass="text-h2 text-ink"
     gridClass="lg:grid-cols-4"
@@ -30,5 +33,10 @@ import { leistungen, projekte } from '../../../data/pages/exklusive-start';
     headingTag="h2"
     headingClass="text-h2 font-medium text-ink"
     linkTone="black"
+  />
+  <MiniFormSection
+    exklusive
+    title="Ihr Projekt in Ludwigsburg besprechen"
+    text="Schreiben Sie uns kurz, welche Leistung Sie interessiert. Wir melden uns persönlich bei Ihnen und besprechen Ihr Vorhaben, auf Wunsch im Showroom in Freiberg am Neckar."
   />
 </PageLayout>

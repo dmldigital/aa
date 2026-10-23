@@ -1,8 +1,18 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import LeistungenOverview from '../../components/leistungen/LeistungenOverview.astro';
+import MiniFormSection from '../../components/sections/MiniFormSection.astro';
 ---
 
-<PageLayout title="Unsere Leistungen - Meisterwerk Malermanufaktur" current="/leistungen/">
+<PageLayout
+  title="Leistungen im Raum Ludwigsburg"
+  description="Malerarbeiten, Tapezieren, Lackieren, Verputzen und glatte Wände: die Leistungen der Meisterwerk Malermanufaktur in Ludwigsburg, Stuttgart und Umgebung."
+  current="/leistungen/"
+>
   <LeistungenOverview />
+  <MiniFormSection
+    class="bg-white!"
+    title="Ihr Vorhaben in Ludwigsburg besprechen"
+    text="Sie wissen noch nicht, welche Leistung die richtige ist? Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich bei Ihnen und beraten Sie, auf Wunsch im Showroom in Freiberg am Neckar."
+  />
 </PageLayout>

@@ -1,7 +1,6 @@
 ---
 /**
- * Qualifikationen: Eröffnung mit der Überschrift der Unterseiten (die Wörter fahren aus einer Maske hoch, darunter zieht eine feine
- * goldene Linie auf) und eine Szene aus Wand und Text. Links läuft eine Wand aus Zertifikaten in zwei Spalten vorbei,
+ * Qualifikationen: Eröffnung mit der Überschrift der Unterseiten (die Wörter fahren aus einer Maske hoch) und eine Szene aus Wand und Text. Links läuft eine Wand aus Zertifikaten in zwei Spalten vorbei,
  * die zweite Spalte driftet langsamer. Jede Urkunde fährt beim Scrollen gekippt herein und richtet sich auf. Rechts bleibt
  * der Text stehen (Desktop): Während die Wand läuft, wechseln die vier Versprechen, eine feine Linie je Versprechen füllt
  * sich mit dem Scrollen und führt per Klick zum Kapitel. Handy und Tablet: die Versprechen untereinander, darunter die
@@ -43,7 +42,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
         </>
       ))}
     </h1>
-    <span class="qs-rule" data-qs-rule></span>
   </header>
 
   <div class="qs-inner" data-qs-inner>
@@ -113,16 +111,11 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
       mm.add({ desk: '(min-width: 1025px)', mob: '(max-width: 1024px)' }, (ctx) => {
         const desk = !!ctx.conditions?.desk;
 
-        // Eröffnung: Wörter fahren aus ihrer Maske hoch, Label blendet ein, die Linie zieht auf
+        // Eröffnung: Wörter fahren aus ihrer Maske hoch, Label blendet ein
         const words = root.querySelectorAll('[data-qs-word]');
         gsap.set(words, { yPercent: 115, visibility: 'visible' });
         gsap.to(words, { yPercent: 0, duration: 1.25, ease: 'css', stagger: 0.09, delay: 0.1 });
         gsap.fromTo(root.querySelector('[data-qs-fade]'), { opacity: 0 }, { opacity: 1, duration: 1, ease: 'css' });
-        gsap.fromTo(
-          root.querySelector('[data-qs-rule]'),
-          { scaleX: 0 },
-          { scaleX: 1, duration: 1.8, ease: 'grow', delay: 0.5 },
-        );
 
         // Wand: jede Urkunde kommt gekippt von unten und richtet sich beim Scrollen auf (zweite Spalte gegenläufig)
         cards.forEach((card, i) => {
@@ -253,13 +246,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   .qs-wi {
     display: inline-block;
   }
-  .qs-rule {
-    display: block;
-    height: 1px;
-    margin-top: 28px;
-    background: var(--color-gold);
-    transform-origin: left center;
-  }
 
   /* Szene */
   .qs-inner {
@@ -294,9 +280,7 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     position: relative;
     overflow: hidden;
     background: #fff;
-    box-shadow:
-      0 0 0 1px rgb(9 4 2 / 0.06),
-      0 18px 40px -22px rgb(9 4 2 / 0.35);
+    box-shadow: 0 18px 40px -22px rgb(9 4 2 / 0.35);
   }
   .qs-btn {
     position: absolute;
@@ -359,16 +343,7 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   /* Versprechen */
   .qs-steps {
     display: grid;
-    gap: 35px;
-  }
-  .qs-step {
-    padding-top: 20px;
-    border-top: 1px solid rgb(0 0 0 / 0.2);
-  }
-  /* Die Linie unter der Überschrift ist zugleich die Linie über dem ersten Versprechen */
-  .qs-step:first-child {
-    padding-top: 0;
-    border-top: 0;
+    gap: 48px;
   }
   .qs-step h2 {
     margin: 0 0 14px;
@@ -406,9 +381,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     :global(.js) .qs-card {
       opacity: 0;
     }
-    :global(.js) .qs-rule {
-      transform: scaleX(0);
-    }
   }
   @media (min-width: 1025px) and (prefers-reduced-motion: no-preference) {
     :global(.js) .qs-side {
@@ -444,9 +416,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     .qs-title {
       max-width: 640px;
     }
-    .qs-rule {
-      margin-top: 32px;
-    }
     .qs-inner {
       display: grid;
       grid-template-columns: minmax(0, 0.56fr) minmax(0, 0.44fr);
@@ -480,8 +449,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     }
     .is-stack .qs-step {
       grid-area: 1 / 1;
-      border-top: 0;
-      padding-top: 0;
     }
     .is-stack .qs-nav {
       display: block;

@@ -9,19 +9,21 @@ interface Props {
   id?: string;
   name: string;
   photo: ImageMetadata;
+  /** Tag des Namens (Standard h1: der Profil-Kopf ist der Seitenkopf) */
+  headingTag?: 'h1' | 'h2';
 }
-const { id = '16ee660', name, photo } = Astro.props;
+const { id = '16ee660', name, photo, headingTag: Heading = 'h1' } = Astro.props;
 ---
 
 <section
   data-section={id}
-  class="mb-10 overflow-hidden px-5 md:mb-15 md:min-h-screen lg:mb-27 lg:px-7.5"
+  class="overflow-hidden bg-white px-page pt-16 pb-12 md:min-h-screen md:pt-24 md:pb-16"
 >
-  <div class="mx-auto flex max-w-mobile flex-col-reverse gap-5 md:max-w-tablet md:flex-row md:items-stretch md:gap-x-7.5 lg:max-w-page">
+  <div class="mx-auto flex w-full max-w-page flex-col-reverse gap-5 md:flex-row md:items-stretch md:gap-x-7.5">
     <div class="flex min-h-25 flex-col items-start justify-center gap-3.75 md:min-h-0 md:w-[calc((100%-30px)/2)] md:gap-5 lg:w-[49%] lg:pr-[110.39px]">
-      <h1 class="font-display lg:pb-5 text-h1 font-medium text-ink">
+      <Heading class="font-display lg:pb-5 text-h1 font-medium text-ink">
         {name}
-      </h1>
+      </Heading>
     </div>
     <div class="md:w-[calc((100%-30px)/2)] md:self-start lg:w-auto lg:flex-1">
       <Picture

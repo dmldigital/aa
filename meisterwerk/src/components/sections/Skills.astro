@@ -3,33 +3,41 @@ import Icon from '../Icon.astro';
 import { accordions } from '../../data/skills';
 
 /**
- * Drei Akkordeons (Original 0ee7325). `embedded`: ohne eigene graue Sektion, z. B. im Slot von Services
- * (dann bestimmt `class` den Außenabstand).
+ * Drei Akkordeons (Original 0ee7325) als Karten ohne Rahmen. `embedded`: ohne eigene Sektion, z. B. im Slot von Services
+ * (dann bestimmt `class` den Außenabstand; die Karten sind weiß, weil Services hellgrau ist).
+ * `tone` ist der Hintergrund der Sektion, die Karten haben die jeweils andere Fläche.
  */
 interface Props {
   id?: string;
   embedded?: boolean;
   class?: string;
+  /** Hintergrund der Sektion (Standard: Weiß, eingebettet Hellgrau wie die umgebende Services-Fläche) */
+  tone?: 'white' | 'soft';
 }
-const { id = '0ee7325', embedded = false, class: className } = Astro.props;
+const { id = '0ee7325', embedded = false, class: className, tone: toneProp } = Astro.props;
+const tone = toneProp ?? (embedded ? 'soft' : 'white');
+const card = tone === 'soft' ? 'bg-white' : 'bg-soft';
 const Wrapper = embedded ? 'div' : 'section';
 ---
 
 <Wrapper
   data-section={embedded ? undefined : id}
-  class:list={[embedded ? 'flex flex-col' : 'bg-soft md:my-15 lg:my-0', className]}
+  class:list={[
+    embedded ? 'flex flex-col' : ['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white'],
+    className,
+  ]}
 >
-  <div class="mx-auto flex w-full flex-col pb-12.5 lg:max-w-page">
-    <div class="grid grid-cols-1 items-stretch gap-5 md:grid-cols-3 lg:gap-7.5">
+  <div class="mx-auto flex w-full max-w-page flex-col">
+    <div class="grid grid-cols-1 items-start gap-5 md:grid-cols-3">
       {accordions.map((acc, i) => (
         <div
-          class="flex flex-col gap-7.5 my-[0.5px] md:my-0 md:px-7.5 md:pt-10 md:pb-5 lg:gap-5 lg:p-0"
+          class:list={['flex flex-col gap-5 p-6 md:p-8', card]}
           data-anim="slideInUp"
           data-anim-delay="50"
           data-anim-dur="fast"
         >
           <div
-            class="-mt-4 p-2.5 md:m-0 md:p-0"
+            class="w-full"
             data-anim="fadeIn"
             data-accordion
             data-accordion-ease="none"
@@ -39,7 +47,7 @@ const Wrapper = embedded ? 'div' : 'section';
               id={`skills-title-${i + 1}`}
               aria-expanded="false"
               aria-controls={`skills-panel-${i + 1}`}
-              class="group/acc flex w-full cursor-pointer items-center justify-center gap-x-2.5 py-4 text-start text-black hover:text-gold aria-expanded:text-gold md:py-3.75 lg:py-[22.5px]"
+              class="group/acc flex w-full cursor-pointer items-center justify-center gap-x-2.5 text-start text-black hover:text-gold aria-expanded:text-gold"
             >
               <span
                 class="font-display text-h3 font-medium"
@@ -56,15 +64,14 @@ const Wrapper = embedded ? 'div' : 'section';
               role="region"
               aria-labelledby={`skills-title-${i + 1}`}
               class="overflow-hidden"
-
               hidden
             >
-              <div class="flex flex-col gap-5 border-b border-black/20 pt-8 pr-0 pb-4 md:pt-7.5 md:pb-3.75 lg:pr-7.5">
+              <div class="flex flex-col gap-5 pt-5">
                 <div class="[&>p]:mb-3.75 [&>p]:text-body lg:[&>p]:mb-para">
                   <p set:html={acc.intro} />
                 </div>
 
-                <div class="flex flex-col gap-3.75 border-t border-gold pt-5 transition-[border-color] duration-300 ease-[ease] hover:border-ink lg:gap-5 lg:pt-6.25">
+                <div class="flex flex-col gap-3.75 lg:gap-5">
                   {acc.groups.map((group) => (
                     <>
                       <h4

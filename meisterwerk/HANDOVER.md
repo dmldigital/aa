@@ -58,9 +58,19 @@ Regressions- und Messskripte (Playwright, Pillow). Mehr in den Kopfkommentaren.
 - Bilder: `<Picture formats={['avif']} fallbackFormat="webp">`, leeres `alt` ist bewusst dekorativ.
 - Tipp: Kein `pkill -f` per Muster im Befehl (beendet die eigene Shell); Astro 7 erlaubt nur einen Dev-Server pro Projekt.
 
+## SEO und Livegang
+
+- **Umgebungsvariablen (Build):** `SITE_URL` (Standard `https://meisterwerk-lb.de`), `BASE_PATH` (Standard `/`, nur für Vorschau unter einem Unterpfad setzen), `PUBLIC_INDEXABLE` (nur `true` gibt die Seite für Suchmaschinen frei; fehlt sie, ist alles `noindex` und `robots.txt` sperrt, es entsteht keine Sitemap).
+- **Livegang (Cloudflare Pages, Produktion):** `PUBLIC_INDEXABLE=true`, `SITE_URL` und `BASE_PATH` leer lassen. Preview-Umgebungen ohne `PUBLIC_INDEXABLE` bauen (bleiben gesperrt). Danach prüfen: `python3 tools/seo-check.py <dist> --indexable`.
+- **Was der Kopf liefert** (`src/components/seo/BaseHead.astro`, `JsonLd.astro`, Regeln in `src/lib/seo.ts`, Daten in `src/lib/schema.ts`): Canonical (absolut, mit Schrägstrich am Ende), Open Graph und Twitter-Card mit Vorschaubild 1200x630 (Standardbild je Auftritt, per Prop `image` des Layouts überschreibbar), `theme-color`, Apple-Touch-Icon, JSON-LD (`HousePainter` und `WebSite` und `FAQPage` auf der Startseite, `BreadcrumbList` auf allen Unterseiten, `Service` auf den Leistungsseiten).
+- **Titel** setzt `PageLayout` zusammen: „Thema | Marke“, genau ein Trennzeichen, Marke „Meisterwerk Malermanufaktur“ bzw. „Meisterwerke Exklusive“. Seiten geben nur das Thema (alte Markenzusätze werden entfernt). Höchstens 60 Zeichen. Beschreibungen sind Pflicht (110 bis 160 Zeichen, in den Collections vom Schema geprüft).
+- **Nie im Index** (auch in Produktion): `/stil/`, `/404/`, `/reviews/` (Liste `NOINDEX_PATHS` in `src/lib/seo.ts`). Nicht in der Sitemap sind außerdem Duplikate mit fremdem Canonical: Impressum, Datenschutz und die sechs Profile der Teil-Website zeigen per Canonical auf die Hauptseite (Entscheidung noch vom Nutzer zu bestätigen).
+- **Weiterleitungen:** `public/_redirects` (Cloudflare Pages) mit den alten WordPress-Adressen, deren Ziel eindeutig ist. Links auf `meisterwerk-lb.de` gibt es im Bau nicht mehr.
+- **Vom Kunden nötig (noch offen, nichts erfunden):** Öffnungszeiten (`site.openingHours`), Koordinaten (`site.geo`, aus dem Google-Unternehmensprofil), echte WhatsApp-Nummer (`site.whatsappHref`), Gründungsjahr (`site.foundingYear`, optional), USt-IdNr. (`site.vatId`, nur wenn öffentlich gewünscht). Felder in `src/data/site.ts` anlegen die Ausgabe automatisch, sobald sie befüllt sind. Außerdem: Schreibweise des Firmennamens und „Freiberg am Neckar“ mit dem Google-Unternehmensprofil abgleichen. `aggregateRating` wird bewusst nicht ausgegeben (statisches Selbstbewertungs-Badge).
+
 ## Offen (Entscheidung des Nutzers nötig)
 
-- SEO (Sitemap, robots, Canonical, OG, h1, Meta, Alt-Texte, strukturierte Daten, Weiterleitungen alter Duplikate wie `/services/lackieren/`, `/spachteltechniken/`): nur auf ausdrücklichen Auftrag, nicht automatisch.
+- SEO-Infrastruktur (Sitemap, robots, Canonical, OG, Meta, strukturierte Daten, Weiterleitungen) ist umgesetzt, siehe „SEO und Livegang“. Offen bleiben h1, Alt-Texte, Ortsseiten.
 - Kontrast und Touch-Ziele: nicht anfassen. Neue Animationen und neuer Hero: später.
 - Urlaubsservice Desktop: zweite Spalte „Warum unser Urlaubsservice?“ ist eine Änderung gegenüber dem doppelten Ablauf im Original.
 - „Roma 01“ → „Roma 08“ im Original geändert; Jahr der Kernsanierung (2021) geraten.

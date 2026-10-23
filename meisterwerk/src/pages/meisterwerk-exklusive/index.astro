@@ -34,12 +34,11 @@ import {
   <Hero id="ca992c2" slides={hero} />
   <Welcome
     id="53bda50"
-    rootClass="min-h-[40vh] md:min-h-[60vh]"
     textColClass="min-h-screen md:min-h-0"
     image={welcome.image}
     imageAlt={welcome.imageAlt}
     heading={welcome.heading}
-    headingTag="h2"
+    headingTag="h1"
     headingClass="text-h2 text-ink"
     paragraphs={welcome.paragraphs}
     bodyClass="text-body [&>p]:mb-3.5 md:[&>p]:mb-4.25 lg:[&>p]:mb-[25.5px]"
@@ -48,10 +47,10 @@ import {
   <Partner
     id="3c77667"
     heading={intro.heading}
-    headingTag="h1"
+    headingTag="h2"
     headingColor="text-ink"
     images={intro.images}
-    rootClass="mt-0 md:mb-15 md:min-h-75 md:px-5 lg:mt-[20vh] lg:mb-0 lg:min-h-[60vh] lg:px-7.5"
+    tone="soft"
     gridClass="content-center md:items-center md:gap-x-5 lg:gap-x-7.5"
   />
   <Services
@@ -61,13 +60,13 @@ import {
     eyebrowClass="mb-0"
     heading={leistungen.heading}
     cards={leistungen.cards}
-    rootClass="mt-[10vh] md:mt-0 md:mb-15 lg:my-[10vh]"
+    tone="white"
     headingClass="text-h3 text-ink lg:text-h2"
     gridClass="lg:grid-cols-4"
     titleClass="text-h4 lg:text-h3"
     titleBoxClass="w-[calc(100%-40px)]"
   >
-    <Skills embedded class="md:my-15 lg:mt-33.75 lg:mb-0" />
+    <Skills embedded tone="white" />
   </Services>
   <Masterly
     id="9e8e860"
@@ -76,9 +75,9 @@ import {
     headingColor="text-ink"
     image={philosophie.image}
     imageAlt={philosophie.alt}
-    rootClass="mt-[14vh] md:mt-0 md:mb-10 lg:my-[20vh]"
+    tone="soft"
   />
-  <TextCards id="797793f" cards={prinzipien} />
+  <TextCards id="797793f" cards={prinzipien} tone="white" />
   <Surface
     id="882761a"
     image={banner.image}
@@ -87,7 +86,7 @@ import {
     leadClass="font-display text-h4 font-medium text-white"
     button={{ label: banner.button.label, href: href(banner.button.href) }}
     heading={banner.heading}
-    rootClass="my-[14vh] md:my-[20vh]"
+    rootClass="mt-0"
   />
   <Projects
     id="3472c30"
@@ -105,7 +104,6 @@ import {
     image={vorgehen.image}
     imageAlt={vorgehen.alt}
     imageClass="max-w-[467px] lg:w-[45rem] lg:max-w-none"
-    rootClass="mt-[20vh]"
     openFirst
     accordionClass=""
     buttonClass="border-b border-black/20 py-4 hover:text-gold md:py-3.75 lg:py-[22.5px]"

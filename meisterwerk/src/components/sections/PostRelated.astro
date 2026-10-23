@@ -1,7 +1,7 @@
 ---
 /**
- * „Related“ unter einem Beitrag der Exklusiv-Site (Original 774b801, dort ein Endlos-Karussell): hier drei
- * feststehende Karten (Handy eine), im Original ist es dieselbe Ansicht der Schleife.
+ * „Weitere Projekte“ unter einem Beitrag der Exklusiv-Site (Original 774b801, dort ein Endlos-Karussell): bis zu drei
+ * Karten nebeneinander (Handy untereinander). Der aktuelle Beitrag wird ausgenommen, es erscheinen nur vorhandene Karten.
  */
 import { Picture } from 'astro:assets';
 import { href } from '../../data/links';
@@ -17,55 +17,68 @@ interface Props {
     categoryHref: string;
     title: string;
   }[];
+  /** Adresse der aktuellen Seite (Standard: aktuelle URL), diese Karte wird nicht gezeigt */
+  current?: string;
+  heading?: string;
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
   rootClass?: string;
 }
 const {
   id = '774b801',
   items,
-  rootClass = 'mt-10 mb-10 md:mt-15 md:mb-15 lg:mt-27 lg:mb-27',
+  current = Astro.url.pathname,
+  heading = 'Weitere Projekte',
+  tone = 'soft',
+  rootClass = '',
 } = Astro.props;
-// Die Schleife zeigt auf dem Desktop und Tablet drei Karten: Wiederholung der echten
-const slides = [0, 1, 2].map((i) => items[i % items.length]);
+// Vergleich über den Pfad ohne Basis, Adresse und Anker (href() liefert je nach Seite absolute Adressen)
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const norm = (p: string) => {
+  let path = p;
+  try {
+    path = new URL(p, 'https://x.invalid').pathname;
+  } catch {}
+  if (base && path.startsWith(`${base}/`)) path = path.slice(base.length);
+  return path.replace(/\/$/, '');
+};
+const here = norm(current);
+const slides = items.filter((item) => norm(item.href) !== here).slice(0, 3);
 ---
 
-<section data-section={id} class:list={['px-5 lg:px-7.5', rootClass]}>
-  <div class="mx-auto flex max-w-mobile flex-col gap-5 md:max-w-tablet lg:max-w-page">
-    <h3 class="font-display text-h3 text-ink lg:text-h2">
-      Related
-    </h3>
-    <div class="flex overflow-hidden pb-7.5 md:pb-8.75 lg:pb-0">
-      {slides.map((item, i) => (
-        <div
-          class:list={[
-            'mr-5 flex w-full shrink-0 flex-col gap-5 lg:mr-7.5 md:w-[calc((100%-40px)/3)] lg:w-[calc((100%-60px)/3)]',
-            i > 0 && 'hidden md:flex',
-          ]}
-        >
-          <a
-            href={href(item.href)}
-            class="mb-2.5 block h-117 overflow-hidden text-ink md:h-150 lg:h-180"
-          >
-            <Picture
-              formats={['avif']}
-              fallbackFormat="webp"
-              src={img(item.image)}
-              alt={item.alt}
-              widths={[350, 440, 880]}
-              sizes="(min-width: 1025px) 440px, (min-width: 768px) 315px, 350px"
-              loading="lazy"
-              class="block size-full object-cover"
-            />
-          </a>
-          <div class="flex flex-col gap-2.5">
-            <div class="-mb-0.75 text-small">
-              <a href={href(item.categoryHref)}>{item.category}</a>
+{slides.length > 0 && (
+  <section
+    data-section={id}
+    class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white', rootClass]}
+  >
+    <div class="mx-auto flex w-full max-w-page flex-col gap-8">
+      <h2 class="font-display text-h2 font-medium text-ink">{heading}</h2>
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+        {slides.map((item) => (
+          <div class="flex flex-col gap-5">
+            <a href={href(item.href)} class="block aspect-[3/4] overflow-hidden text-ink" tabindex="-1" aria-hidden="true">
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={img(item.image)}
+                alt=""
+                widths={[350, 440, 880]}
+                sizes="(min-width: 1025px) 440px, (min-width: 768px) 315px, 350px"
+                loading="lazy"
+                class="block size-full object-cover"
+              />
+            </a>
+            <div class="flex flex-col gap-2.5">
+              <p class="text-small">
+                <a href={href(item.categoryHref)}>{item.category}</a>
+              </p>
+              <h3 class="font-display text-h3 font-medium text-ink">
+                <a href={href(item.href)}>{item.title}</a>
+              </h3>
             </div>
-            <h4 class="font-display text-h3 font-medium text-ink md:w-[calc(100%-32px)] lg:w-[calc(100%-44px)]">
-              <a href={href(item.href)}>{item.title}</a>
-            </h4>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+)}

@@ -1,5 +1,6 @@
 ---
 import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHeader from '../../../components/sections/PageHeader.astro';
 import PartnerList from '../../../components/sections/PartnerList.astro';
 import { partnerGroups, partnerPage } from '../../../data/pages/partner';
 import { routes } from '../../../data/links';
@@ -11,5 +12,6 @@ import { routes } from '../../../data/links';
   description={partnerPage.description}
   current={routes.partners}
 >
-  <PartnerList groups={partnerGroups} />
+  <PageHeader label="Partnernetzwerk" title={partnerPage.title} />
+  <PartnerList groups={partnerGroups} tone="soft" />
 </PageLayout>

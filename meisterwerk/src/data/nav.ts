@@ -77,5 +77,5 @@ export const exklusiveItems: Item[] = [
   { label: 'Projekte', href: '/meisterwerk-exklusive/projekte/' },
   { label: 'Urlaubsservice', href: '/meisterwerk-exklusive/urlaub/' },
   { label: 'Projektanfrage', href: '/meisterwerk-exklusive/kontakt/' },
-  { label: 'Kontakt', href: '/meisterwerk-exklusive/kontakt-2/' },
+  { label: 'Kontakt', href: '/meisterwerk-exklusive/kontakt/' },
 ];

@@ -1,6 +1,7 @@
 ---
 /**
- * Beitragskopf der Exklusiv-Site (Original fced28b): Kategorie, Überschrift und Datum, mittig (am Handy linksbündig).
+ * Beitragskopf der Exklusiv-Site (Original fced28b): Kategorie, Überschrift und Datum. Gleicher Aufbau und gleiche
+ * Abstände wie `PageHeader.astro` (Überzeile, genau eine H1, Zeile darunter), nur dass die Überzeile ein Link ist.
  */
 import { href } from '../../data/links';
 
@@ -12,21 +13,20 @@ interface Props {
   date: string;
 }
 const { id = 'fced28b', title, category, categoryHref, date } = Astro.props;
-const label = 'text-label font-medium tracking-label uppercase';
 ---
 
-<section data-section={id} class="my-5 px-5 lg:mt-20 lg:mb-10 lg:px-7.5">
-  <div class="mx-auto flex max-w-mobile flex-col items-start gap-3.75 md:max-w-tablet md:items-center md:gap-3.75 text-body lg:max-w-page lg:gap-5">
-    <div>
-      <span class={label}>
+<section data-section={id} class="bg-white px-page pt-16 pb-12 md:pt-24 md:pb-16">
+  <div class="mx-auto flex w-full max-w-page flex-col">
+    <div class="flex max-w-[65ch] flex-col">
+      <p class="mb-3 font-display text-label font-medium tracking-label text-ink uppercase" data-anim="fadeIn">
         <a href={href(categoryHref)}>{category}</a>
-      </span>
-    </div>
-    <h1 class="w-full max-w-205 font-display text-h1 font-medium text-ink md:mb-1.25 md:text-center lg:mb-2.5">
-      {title}
-    </h1>
-    <div class:list={[label, 'leading-[15.6px]']}>
-      <time>{date}</time>
+      </p>
+      <h1 class="font-display text-h1 text-balance text-ink" data-anim="fadeInUp" data-anim-delay="100">
+        {title}
+      </h1>
+      <p class="mt-6 font-display text-lead text-ink" data-anim="fadeInUp" data-anim-delay="150">
+        <time>{date}</time>
+      </p>
     </div>
   </div>
 </section>

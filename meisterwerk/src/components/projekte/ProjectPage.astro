@@ -12,6 +12,7 @@ import Button from '../ui/Button.astro';
 import Lightbox from '../ui/Lightbox.astro';
 import ServiceGallery from '../service/ServiceGallery.astro';
 import Surface from '../sections/Surface.astro';
+import MiniFormSection from '../sections/MiniFormSection.astro';
 import { href, routes } from '../../data/links';
 import { projects } from '../../data/projects';
 
@@ -28,7 +29,19 @@ const zoom =
 const zoomImg =
   'block size-full object-cover transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80';
 
-const postHref = `/${post.year}/${post.month}/${post.day}/${post.slug}/`;
+// Leistungen der Eckdaten verlinken auf die passende Leistungsseite (wo die Zuordnung eindeutig ist)
+const serviceLinks: [RegExp, string][] = [
+  [/^Malerarbeiten$/, '/services/malerarbeiten/'],
+  [/^Tapezier/, '/services/tapezieren/'],
+  [/^Lackier/, '/services/lackierarbeiten/'],
+  [/^Verputz/, '/services/verputzen/'],
+  [/^Glatte/, '/services/glatte-waende/'],
+  [/^Spachteltechnik/, '/meisterwerk-exklusive/spachteltechniken/'],
+  [/^Fugenlose[sn]? Bad|^Fugenlose Bäder/, '/meisterwerk-exklusive/fugenlose-baeder/'],
+  [/^Fugenlose[rn]? Bo|^Fugenlose Böden/, '/meisterwerk-exklusive/fugenloser-boden/'],
+  [/^Stuck/, '/meisterwerk-exklusive/stuckleisten/'],
+];
+const serviceItems = post.services.map((name) => ({ name, to: serviceLinks.find(([re]) => re.test(name))?.[1] }));
 const facts = [
   { label: 'Leistungen', value: post.services.join(', '), wide: true },
   { label: 'Jahr', value: post.info.year },
@@ -36,12 +49,18 @@ const facts = [
   { label: 'Dauer', value: post.info.duration },
   { label: 'Fläche', value: `${post.info.area} m²` },
 ];
+// Alt-Texte: „Titel: Leistungen in Ort, Bild n“, jedes Bild mit eigener Nummer (Titelbild ist Bild 1)
+const altBase = `${post.title}: ${post.services.join(', ')} in ${post.info.place}`;
 
 // Bilder: Titelbild nicht doppeln. Ab neun Bildern zwei je Kapitel, sonst eines. Der Rest bildet die Galerie.
 const pool = post.gallery.filter((g) => g.src !== post.image.src);
 const per = pool.length >= 9 ? 2 : 1;
 const chapters = post.sections.map((s, i) => ({ ...s, images: pool.slice(i * per, i * per + per) }));
 const rest = pool.slice(post.sections.length * per);
+// Bildnummern der Kapitel: Titelbild = 1, dann der Reihe nach
+let counter = 1;
+const numbered = new Map<string, number>();
+chapters.forEach((c) => c.images.forEach((src) => numbered.set(src.src, ++counter)));
 const full = new Map(
   await Promise.all(
     chapters.flatMap((c) => c.images).map(async (src) => [src.src, (await getImage({ src, width: 1800, format: 'webp' })).src] as const),
@@ -53,8 +72,8 @@ const idx = projects.findIndex((p) => p.href.includes(`/${post.slug}/`));
 const next = projects[(idx + 1) % projects.length];
 ---
 
-<!-- Kopf -->
-<section class="px-page pt-16 pb-12 md:pt-24 md:pb-16">
+<!-- Kopf (Abstände wie PageHeader) -->
+<section data-section="seitenkopf" class="px-page pt-16 pb-12 md:pt-24 md:pb-16">
   <div class="mx-auto flex w-full max-w-page flex-col gap-3">
     <a href={href(routes.projects)} class={`group/ul inline-block self-start ${eyebrow}`} data-anim="fadeIn">
       <span class="underline-anim relative [--underline-gap:3px]">Projekte</span>
@@ -74,7 +93,16 @@ const next = projects[(idx + 1) % projects.length];
       {facts.map((f) => (
         <div class:list={['flex flex-col gap-1.25', f.wide && 'col-span-2 md:col-span-4 lg:col-span-1']}>
           <dt class={eyebrow + ' text-muted'}>{f.label}</dt>
-          <dd class="text-small text-ink">{f.value}</dd>
+          <dd class="text-small text-ink">
+            {f.label === 'Leistungen'
+              ? serviceItems.map((it, i) => (
+                  <>
+                    {i > 0 && ', '}
+                    {it.to ? <a href={href(it.to)} class="inline-link">{it.name}</a> : it.name}
+                  </>
+                ))
+              : f.value}
+          </dd>
         </div>
       ))}
     </dl>
@@ -88,7 +116,7 @@ const next = projects[(idx + 1) % projects.length];
       formats={['avif']}
       fallbackFormat="webp"
       src={post.image}
-      alt={post.title}
+      alt={`${altBase}, Bild 1`}
       widths={[390, 780, 1200, 1700, 2200]}
       sizes="(min-width: 1025px) 1380px, calc(100vw - 40px)"
       loading="eager"
@@ -126,14 +154,14 @@ const next = projects[(idx + 1) % projects.length];
                 class:list={[tile, c.images.length > 1 ? 'aspect-[3/4]' : 'aspect-[4/3]', k === 1 && 'mt-[14%]']}
                 data-pj-item
                 data-full={full.get(src.src)}
-                aria-label={`${post.title}, Bild vergrößern`}
+                aria-label={`${post.title}, Bild ${numbered.get(src.src)} vergrößern`}
               >
                 <div class="size-full [&_picture]:block [&_picture]:size-full" data-grow="bottom">
                   <Picture
                     formats={['avif']}
                     fallbackFormat="webp"
                     src={src}
-                    alt={post.title}
+                    alt={`${altBase}, Bild ${numbered.get(src.src)}`}
                     widths={[350, 560, 800, 1100]}
                     sizes={c.images.length > 1 ? '(min-width: 1025px) 340px, 50vw' : '(min-width: 1025px) 800px, calc(100vw - 40px)'}
                     loading="lazy"
@@ -153,10 +181,10 @@ const next = projects[(idx + 1) % projects.length];
 </section>
 
 <!-- Weitere Bilder -->
-{rest.length > 0 && <ServiceGallery images={rest} alt={post.title} heading="Weitere Eindrücke" trim={false} />}
+{rest.length > 0 && <ServiceGallery images={rest} alt={altBase} heading="Weitere Eindrücke" trim={false} tone="soft" start={counter + 1} />}
 
-<!-- Nächstes Projekt -->
-<section class="px-page py-section">
+<!-- Nächstes Projekt (Weiß und Hellgrau wechseln: nach der hellgrauen Galerie weiß, sonst hellgrau) -->
+<section data-section="naechstes-projekt" class:list={['px-page py-section', rest.length === 0 && 'bg-soft']}>
   <div class="mx-auto grid w-full max-w-page items-center gap-6 lg:grid-cols-12 lg:gap-x-[6vw]">
     <div class="flex flex-col gap-3 lg:col-span-5" data-anim="fadeInUp" data-anim-dur="fast">
       <p class={eyebrow}>Nächstes Projekt</p>
@@ -189,6 +217,12 @@ const next = projects[(idx + 1) % projects.length];
     </a>
   </div>
 </section>
+
+<MiniFormSection
+  title="Ihr Projekt in Ludwigsburg besprechen"
+  text="Sie planen etwas Ähnliches? Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich bei Ihnen und besprechen Ihr Vorhaben, auf Wunsch im Showroom in Freiberg am Neckar."
+  class={rest.length === 0 ? 'bg-white!' : ''}
+/>
 
 <Surface rootClass="mt-0" />
 

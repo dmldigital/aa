@@ -24,7 +24,7 @@ interface Props {
   headingTag?: 'h1' | 'h2';
   /** Link unter dem Text */
   cta?: { label: string; href: string };
-  /** Abstände der Sektion (Standard: Startseite mit großem Abstand zur Kopfzeile) */
+  /** Abstände der Sektion (Standard: `py-section`) */
   rootClass?: string;
 }
 const {
@@ -34,7 +34,7 @@ const {
   images: customImages,
   headingTag: Heading = 'h2',
   cta = { label: 'Projekt starten', href: href(routes.contact) },
-  rootClass = 'mt-[8vh] md:mt-0 md:mb-10 lg:mt-[20vh] lg:mb-0',
+  rootClass = 'py-section',
 } = Astro.props;
 
 const defaultImages = [
@@ -58,7 +58,7 @@ const images = customImages ?? defaultImages;
   data-section="53bda50"
   data-welcome-scene
   data-cta-off
-  class:list={['overflow-x-clip px-5 lg:px-7.5', rootClass]}
+  class:list={['overflow-x-clip bg-white px-page', rootClass]}
 >
   <div class="mx-auto w-full max-w-page lg:flex lg:flex-row-reverse lg:gap-x-5">
     <div data-ws-pin class="lg:contents">

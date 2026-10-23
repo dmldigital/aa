@@ -1,9 +1,14 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import QualiScene from '../../components/qualifikationen/QualiScene.astro';
+import MiniFormSection from '../../components/sections/MiniFormSection.astro';
 import { meta, heading, pillars, certificates } from '../../data/pages/qualifikationen';
 ---
 
 <PageLayout title={meta.title} description={meta.description} current="/qualifikationen/">
   <QualiScene label="Qualifikationen" {heading} steps={pillars} {certificates} />
+  <MiniFormSection
+    title="Ihr Projekt in Ludwigsburg besprechen"
+    text="Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich bei Ihnen und besprechen Ihr Vorhaben, auf Wunsch im Showroom in Freiberg am Neckar."
+  />
 </PageLayout>

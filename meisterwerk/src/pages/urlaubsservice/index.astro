@@ -1,14 +1,12 @@
 ---
-import { Picture } from 'astro:assets';
 import PageLayout from '../../layouts/PageLayout.astro';
-import Button from '../../components/ui/Button.astro';
+import PageHeader from '../../components/sections/PageHeader.astro';
 import HolidayFlow from '../../components/urlaub/HolidayFlow.astro';
 import ServiceBenefits from '../../components/service/ServiceBenefits.astro';
+import MiniFormSection from '../../components/sections/MiniFormSection.astro';
 import Surface from '../../components/sections/Surface.astro';
 import { href, routes } from '../../data/links';
 import { meta, intro, columns } from '../../data/pages/urlaubsservice';
-
-const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
 
 // Zweite Spalte der Daten („Warum unser Urlaubsservice?“) wird zu Vorteile-Karten: `Titel – Text`
 const [flow, why] = columns;
@@ -22,41 +20,19 @@ const benefits = `<ul>${why.items
 ---
 
 <PageLayout title={meta.title} description={meta.description} current="/urlaubsservice/">
-  <!-- Einstieg: Überschrift der Unterseiten und Text links, Bild rechts -->
-  <section class="px-5 mt-10 mb-5 md:mt-15 md:mb-10 lg:mt-[10vh] lg:mb-0 lg:px-7.5">
-    <div class="mx-auto grid w-full max-w-page items-center gap-y-7.5 lg:grid-cols-2 lg:gap-x-[6vw]">
-      <div class="flex flex-col gap-3.75 lg:gap-5">
-        <p class={eyebrow} data-anim="fadeIn">Urlaubsservice</p>
-        <h1
-          class="font-display text-h1 font-medium text-balance text-ink"
-          data-anim="fadeInUp"
-          data-anim-delay="100"
-        >
-          {intro.heading}
-        </h1>
-        <p class="text-body lg:max-w-[620px]" data-anim="fadeIn" data-anim-delay="250">
-          {intro.text}
-        </p>
-        <div data-anim="fadeIn" data-anim-delay="400">
-          <Button href={href(routes.contact)}>Projekt starten</Button>
-        </div>
-      </div>
-      <div class="overflow-hidden" data-grow="bottom" data-anim-delay="200">
-        <Picture
-          formats={['avif']}
-          fallbackFormat="webp"
-          src={intro.image}
-          alt={intro.alt}
-          widths={[390, 780, 1125]}
-          sizes="(min-width: 1025px) 47vw, calc(100vw - 40px)"
-          loading="eager"
-          class="block h-auto w-full"
-        />
-      </div>
-    </div>
-  </section>
-
+  <PageHeader
+    label="Urlaubsservice"
+    title={intro.heading}
+    paragraphs={[intro.text]}
+    button={{ label: 'Projekt starten', href: href(routes.contact) }}
+    image={intro.image}
+    imageAlt="Palmen am Sandstrand mit türkisfarbenem Meer, Sinnbild für den Urlaub"
+  />
   <HolidayFlow label="Ablauf" heading={flow.title.replace(/:\s*$/, '')} steps={flow.items} />
-  <ServiceBenefits label="Vorteile" title={why.title} list={benefits} />
+  <ServiceBenefits tone="white" label="Vorteile" title={why.title} list={benefits} />
+  <MiniFormSection
+    title="Ihren Urlaubsservice in Ludwigsburg besprechen"
+    text="Schreiben Sie uns kurz, wann Sie verreisen und was in der Zeit gemacht werden soll. Wir melden uns persönlich bei Ihnen und klären gemeinsam den Ablauf."
+  />
   <Surface rootClass="mt-0" />
 </PageLayout>

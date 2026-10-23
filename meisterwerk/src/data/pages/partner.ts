@@ -11,7 +11,7 @@ export interface PartnerGroup {
 }
 
 export const partnerPage = {
-  title: 'Partner & Sponsoring - Meisterwerke Exklusive',
+  title: 'Partner & Sponsoring',
   description:
     'Partner, Sponsoring und Spenden der Meisterwerk Malermanufaktur: Vereine, Meisterbetriebe sowie Hersteller und Lieferanten.',
 };

@@ -1,9 +1,22 @@
 ---
 import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHeader from '../../../components/sections/PageHeader.astro';
 import StudioTeam from '../../../components/sections/StudioTeam.astro';
+import MiniFormSection from '../../../components/sections/MiniFormSection.astro';
 import { exklusiveMeta } from '../../../data/pages/studio';
 ---
 
-<PageLayout site="exklusive" title={exklusiveMeta.title} current="/meisterwerk-exklusive/studio/">
-  <StudioTeam exklusive />
+<PageLayout
+  site="exklusive"
+  title={exklusiveMeta.title}
+  description={exklusiveMeta.description}
+  current="/meisterwerk-exklusive/studio/"
+>
+  <PageHeader label="Meisterwerke Exklusive" title="Studio und Team" />
+  <StudioTeam exklusive tone="soft" />
+  <MiniFormSection
+    exklusive
+    title="Ihr Projekt in Ludwigsburg besprechen"
+    text="Lernen Sie uns kennen: Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich bei Ihnen und besprechen Ihr Vorhaben, auf Wunsch im Showroom in Freiberg am Neckar."
+  />
 </PageLayout>

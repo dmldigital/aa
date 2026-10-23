@@ -1,9 +1,17 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
 import StudioTeam from '../../components/sections/StudioTeam.astro';
-import { meta } from '../../data/pages/studio';
+import MiniFormSection from '../../components/sections/MiniFormSection.astro';
+import PageHeader from '../../components/sections/PageHeader.astro';
+import { meta, haltung } from '../../data/pages/studio';
 ---
 
 <PageLayout title={meta.title} description={meta.description} current="/studio/">
-  <StudioTeam />
+  <PageHeader label={haltung.eyebrow} title={haltung.heading} />
+  <StudioTeam hideHead tone="soft" />
+  <MiniFormSection
+    class="bg-white! lg:bg-soft!"
+    title="Ihr Projekt in Ludwigsburg besprechen"
+    text="Lernen Sie uns kennen: Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich bei Ihnen und besprechen Ihr Vorhaben, auf Wunsch im Showroom in Freiberg am Neckar."
+  />
 </PageLayout>

@@ -8,9 +8,9 @@ import baldassarreExklusive from '../../assets/img/Maler-u.-Lackierer-Meister-Ba
 import vincenzo from '../../assets/img/Papa-Vincenzo-Fortino-e1753863670297.png';
 
 export const meta = {
-  title: 'Studio – Malermanufaktur für exklusives Design | Ludwigsburg & Stuttgart',
+  title: 'Studio und Team in Freiberg',
   description:
-    'Erfahren Sie mehr über das Studio der Meisterwerk Malermanufaktur. Ihr Partner für puristische Ästhetik, fugenlose Systeme und exklusives Handwerk in Ludwigsburg & Stuttgart.',
+    'Das Studio der Meisterwerk Malermanufaktur: Ihr Partner für puristische Ästhetik, fugenlose Systeme und exklusives Handwerk in Ludwigsburg und Stuttgart.',
 };
 
 export interface Member {
@@ -119,7 +119,11 @@ export const haltung = {
 
 // Teil-Website Exklusive (/meisterwerk-exklusive/studio/): gleiche Personen, Profile unter /meisterwerk-exklusive/<name>/,
 // Baldassarre mit anderem Foto, eigene Texte
-export const exklusiveMeta = { title: 'Studio - Meisterwerke Exklusive' };
+export const exklusiveMeta = {
+  title: 'Studio und Team',
+  description:
+    'Studio und Team von Meisterwerke Exklusive aus Freiberg am Neckar: Handwerker für fugenlose Oberflächen und Spachteltechniken in Ludwigsburg und Stuttgart.',
+};
 
 const exklusiveHref = (href: string) => `/meisterwerk-exklusive${href}`;
 export const exklusiveTeam: Member[] = team.map((m, i) => ({

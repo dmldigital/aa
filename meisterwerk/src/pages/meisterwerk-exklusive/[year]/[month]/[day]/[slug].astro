@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import PageLayout from '../../../../../layouts/PageLayout.astro';
 import PostHead from '../../../../../components/sections/PostHead.astro';
 import PostArticle from '../../../../../components/sections/PostArticle.astro';
+import MiniFormSection from '../../../../../components/sections/MiniFormSection.astro';
 import PostRelated from '../../../../../components/sections/PostRelated.astro';
 import { related } from '../../../../../data/pages/exklusive-posts';
 
@@ -16,10 +17,19 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+// Mini-Formular: die erste passende Exklusiv-Leistung des Projekts vorwählen
+const exkServices: [RegExp, string][] = [
+  [/^Fugenlose[sn]? Bad|^Fugenlose Bäder/, 'Fugenlose Bäder'],
+  [/^Fugenlose[rn]? Bo|^Fugenlose Böden/, 'Fugenlose Böden'],
+  [/^Spachteltechnik/, 'Spachteltechniken'],
+  [/^Stuck/, 'Stuckleisten'],
+];
+const formService = post.services.map((n) => exkServices.find(([re]) => re.test(n))?.[1]).find(Boolean);
 ---
 
 <PageLayout
   title={post.pageTitle}
+  description={post.description}
   site="exklusive"
   current={`/meisterwerk-exklusive/${post.year}/${post.month}/${post.day}/${post.slug}/`}
 >
@@ -36,7 +46,13 @@ const { post } = Astro.props;
     galleryLayout="grid"
     labelClass="text-label"
     servicesClass="md:ml-0"
-    rootClass="mb-0"
+    tone="soft"
   />
-  <PostRelated items={related} rootClass="mt-20 mb-10 md:mt-[119px] md:mb-15 lg:mt-40.5 lg:mb-27" />
+  <PostRelated items={related} tone="white" />
+  <MiniFormSection
+    exklusive
+    service={formService}
+    title="Ihr Projekt in Ludwigsburg besprechen"
+    text="Sie planen etwas Ähnliches? Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich bei Ihnen und besprechen Ihr Vorhaben, auf Wunsch im Showroom in Freiberg am Neckar."
+  />
 </PageLayout>

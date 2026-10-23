@@ -1,52 +1,56 @@
 ---
+import { Picture } from 'astro:assets';
 import Button from '../ui/Button.astro';
 import { href, routes } from '../../data/links';
-import { getImage } from 'astro:assets';
 import concrete from '../../assets/img/249-mw-20241125-scaled.jpg';
 
-/** Betonwand-Banner (Original 882761a). Ohne Props: Startseite. */
+/**
+ * Betonwand-Banner (Original 882761a). Ohne Props: Startseite. Foto-Szene: bleibt vollflächig, hat keinen Grund-Wechsel
+ * Weiß/Hellgrau und keine Linien; der Text steht auf einer Milchglas-Fläche.
+ */
 interface Props {
   id?: string;
   image?: ImageMetadata;
   /** Kurztext über dem Button; `leadTag` + `leadClass` ersetzen die Startseiten-Darstellung (span, weiß, 15 px). */
   lead?: string;
-  leadTag?: 'span' | 'h5';
+  /** `h5` bleibt aus Kompatibilität erlaubt, wird aber als Absatz ausgegeben */
+  leadTag?: 'span' | 'p' | 'h5';
   leadClass?: string;
   button?: { label: string; href: string };
   heading?: string;
+  /** Tag der Überschrift (Standard h2) */
+  headingTag?: 'h2' | 'h3';
   rootClass?: string;
 }
 const {
   id = '882761a',
   image = concrete,
   lead = 'Lassen Sie uns gemeinsam etwas Einzigartiges schaffen.',
-  leadTag: Lead = 'span',
-  leadClass = 'text-white leading-[16px] md:leading-[15px]',
+  leadTag = 'span',
+  leadClass = 'text-white text-body',
   button = { label: 'Projekt Starten', href: href(routes.contact) },
   heading = 'Jede Oberfläche ist einzigartig. <br /> Genauso wie unser Ansatz.',
-  rootClass = 'mt-[14vh] md:mt-[20vh] lg:mt-[20vh]',
+  headingTag: Heading = 'h2',
+  rootClass = '',
 } = Astro.props;
-
-const bg = await getImage({ src: image, width: 2000, format: 'webp', quality: 80 });
+const Lead = leadTag === 'h5' ? 'p' : leadTag;
 ---
 
-<section
-  data-section={id}
-  data-cta-off
-  class:list={['flex flex-col bg-cover bg-center', rootClass]}
-  style={`background-image:url(${bg.src})`}
->
-  <!-- Oberer Linienstreifen -->
-  <div class="flex min-h-5 flex-col border-b border-line pl-[5%] md:min-h-15 md:pl-[10%] lg:min-h-[10vh]">
-    <div class="mx-auto flex w-full max-w-page grow">
-      <div class="w-[65%] border-x border-line md:w-85 lg:w-105"></div>
-    </div>
-  </div>
+<section data-section={id} data-cta-off class:list={['relative flex flex-col overflow-hidden', rootClass]}>
+  <Picture
+    formats={['avif']}
+    fallbackFormat="webp"
+    src={image}
+    alt=""
+    widths={[640, 1024, 1440, 2000]}
+    sizes="100vw"
+    loading="lazy"
+    class="absolute inset-0 size-full object-cover object-center"
+  />
 
-  <!-- Mittlerer Bereich mit Text -->
-  <div class="flex min-h-[100vw] flex-col border-b border-line pl-[5%] md:min-h-100 md:pl-[10%] lg:min-h-[clamp(500px,80vh,600px)]">
+  <div class="relative flex min-h-[100vw] flex-col py-5 pl-[5%] md:min-h-100 md:py-15 md:pl-[10%] lg:min-h-[clamp(500px,80vh,600px)] lg:py-[10vh]">
     <div class="mx-auto flex w-full max-w-page grow">
-      <div class="flex w-[65%] flex-col justify-between gap-5 border-x border-line px-5 py-7.5 backdrop-blur-[40px] backdrop-saturate-[1.8] md:w-85 lg:w-105 lg:px-7.5 lg:py-10">
+      <div class="flex w-[65%] flex-col justify-between gap-5 px-5 py-7.5 backdrop-blur-[40px] backdrop-saturate-[1.8] md:w-85 lg:w-105 lg:px-7.5 lg:py-10">
         <div class="flex flex-col gap-3.75 lg:gap-5">
           <div class="mb-2.5 w-full max-w-[280px]" data-anim="slideInUp" data-anim-delay="50">
             <Lead class={leadClass} set:html={lead} />
@@ -58,19 +62,9 @@ const bg = await getImage({ src: image, width: 2000, format: 'webp', quality: 80
           </div>
         </div>
         <div data-anim="slideInUp">
-          <h2
-            class="font-display text-h2 font-medium text-white"
-            set:html={heading}
-          />
+          <Heading class="font-display text-h2 font-medium text-white" set:html={heading} />
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Unterer Linienstreifen -->
-  <div class="flex min-h-5 flex-col border-b border-line pl-[5%] md:min-h-15 md:pl-[10%] lg:min-h-[10vh]">
-    <div class="mx-auto flex w-full max-w-page grow">
-      <div class="w-[65%] border-x border-line md:w-85 lg:w-105"></div>
     </div>
   </div>
 </section>

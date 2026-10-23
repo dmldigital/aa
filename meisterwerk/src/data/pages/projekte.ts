@@ -2,7 +2,7 @@
 import image from '../../assets/img/117-meisterwerk-20230120-Bearbeitet-scaled.jpg';
 
 export const meta = {
-  title: 'Referenzen & Projekte | Meisterwerk Malermanufaktur',
+  title: 'Referenzen & Projekte',
   description:
     'Lassen Sie sich inspirieren: Entdecken Sie unsere exklusiven Projekte in Ludwigsburg & Stuttgart. Von fugenlosen Bädern bis hin zu puristischen Fassaden.',
 };
@@ -19,7 +19,11 @@ export const intro = {
 };
 
 // Teil-Website Exklusive (/meisterwerk-exklusive/projekte/): eigene Texte, Projekte aus exklusive-start.ts
-export const exklusiveMeta = { title: 'Unsere Projekte - Meisterwerke Exklusive' };
+export const exklusiveMeta = {
+  title: 'Unsere Projekte',
+  description:
+    'Ausgewählte Referenzen von Meisterwerke Exklusive: fugenlose Bäder, edle Spachteltechniken und Stuckarbeiten, ausgeführt im Raum Ludwigsburg und Stuttgart.',
+};
 
 export const exklusiveIntro = {
   heading: 'Unsere Projekte',
