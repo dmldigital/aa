@@ -6,7 +6,7 @@ import { href } from '../../data/links';
  */
 import { Picture } from 'astro:assets';
 import Icon from '../Icon.astro';
-import ArrowLink from '../ui/ArrowLink.astro';
+import Button from '../ui/Button.astro';
 import { rich } from '../../lib/rich';
 
 interface Props {
@@ -80,9 +80,9 @@ const {
           ))}
         </div>
         <div class="text-[16px]/[24px]">
-          <ArrowLink href={href(button.href)} tone="black">
+          <Button href={href(button.href)}>
             {button.label}
-          </ArrowLink>
+          </Button>
         </div>
       </div>
       <div class:list={['flex w-full justify-end px-5 lg:px-7.5', rightClass]}>

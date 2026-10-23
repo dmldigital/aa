@@ -3,6 +3,7 @@
  * Profil-Steckbrief (Original 3a18279d): Text links, Foto in der Mitte, Lebensmotto rechts, grauer Grund.
  * Wie im Original ohne Seitenrand. Am Handy folgt unter dem Motto der aufklappbare Werdegang (nur Baldassarre Fortino).
  */
+import Button from '../ui/Button.astro';
 import { Picture } from 'astro:assets';
 import type { Profile } from '../../data/pages/profiles';
 
@@ -72,18 +73,10 @@ const bodySize = exklusive ? 'text-[16px]/6' : 'text-[15px]/6';
             set:html={profile.timeline.heading}
           />
           <div class="font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',system-ui,sans-serif]">
-            <button
-              type="button"
-              data-timeline-toggle
-              aria-expanded="false"
-              aria-controls="werdegang"
-              class="group/t inline-block cursor-pointer border-b border-gold py-3 font-display text-sm/[21px] font-semibold tracking-button text-ink uppercase"
-            >
-              Mein Werdegang{' '}
-              <span class="ml-2 inline-block transition-transform duration-300 group-aria-expanded/t:rotate-90">
-                ▶
-              </span>
-            </button>
+            <Button type="button" data-timeline-toggle aria-expanded="false" aria-controls="werdegang">
+              Mein Werdegang
+              <span class="ml-2 inline-block transition-transform duration-300 group-aria-expanded/ul:rotate-90">▶</span>
+            </Button>
             <div id="werdegang" data-timeline-content hidden class="mt-5">
               <div class="px-3.75 py-5 text-black">
                 <div class="relative py-10 before:absolute before:top-0 before:bottom-0 before:left-5 before:w-px before:bg-gold before:content-['']">

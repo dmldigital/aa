@@ -1,6 +1,6 @@
 ---
 import { Picture } from 'astro:assets';
-import ArrowLink from '../ui/ArrowLink.astro';
+import Button from '../ui/Button.astro';
 import { href, routes } from '../../data/links';
 import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
 import kueche from '../../assets/img/2014-meisterwerk-20230524-Bearbeitet-1-scaled.jpg';
@@ -88,9 +88,9 @@ const images = customImages ?? defaultImages;
             data-anim-dur="slow"
           >
             <div>
-              <ArrowLink href={cta.href} tone="gold" gap="3px">
+              <Button href={cta.href}>
                 {cta.label}
-              </ArrowLink>
+              </Button>
             </div>
           </div>
           <!-- Kommt nach den Bildern an der Textstelle hereingeglitten (Skript unten) -->

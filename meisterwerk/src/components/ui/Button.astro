@@ -1,48 +1,37 @@
 ---
 /**
- * Der Button der Website: Pille (rund wie die Menü-Schaltfläche), Rahmen 1 px, Schrift Urbanist 14 px halbfett in
- * Großbuchstaben, Unterstrich-Animation beim Überfahren (Original: Elementor-Button 14px/15,4px, dort eckig). Es gibt ihn nur
- * in zwei Farben nach Untergrund: `outline` (weiß mit heller Haarlinie und weichem Schatten) auf hellen Flächen, `light`
- * (durchsichtig mit weißem Rand und weißer Schrift) auf Fotos. Seitlich großzügig gepolstert, damit die Schrift nicht an
- * den runden Enden klebt. `size="sm"` = kompakt (Kopfzeile, Menü, Sticker). Labels ohne Pfeil-Zeichen, die Großschreibung
- * übernimmt der Button. Weitere Attribute (z. B. `data-…`) und `class` gehen an das Element. Der schwebende Sticker im Fuß
- * ist derselbe Button.
+ * Der Button der Website: ein einziger, überall gleich großer Button. Pille (rund wie die Menü-Pille), Höhe 48 px (Handy 44 px,
+ * wie die Menü-Pille, bei sehr langem Text umbricht er und wächst nur dann), Rahmen 1 px, Schrift Urbanist 14 px halbfett in Großbuchstaben, seitlich großzügig gepolstert, kein
+ * Unterstrich. Beim Überfahren bekommt er den weichen grauen Grund wie die Felder der Menü-Pille. Es gibt ihn nur in zwei Farben
+ * nach Untergrund: `outline` (weiß mit heller Haarlinie und weichem Schatten) auf hellen Flächen, `light` (durchsichtig mit weißem
+ * Rand und weißer Schrift) auf Fotos. Auch Sticker, Footer, Menü und frühere Pfeil-Links („Projekt starten“, „Unser Portfolio“, …)
+ * sind dieser Button. Labels ohne Pfeil-Zeichen, die Großschreibung übernimmt der Button. Weitere Attribute (z. B. `data-…`) und
+ * `class` gehen an das Element (Position, Animation); eigene `transition-…`-Klassen ersetzen die Farbüberblendung des Buttons.
  */
 interface Props extends astroHTML.JSX.HTMLAttributes {
   /** Ohne `href` entsteht ein `<button>` (z. B. Senden-Button im Formular). */
   href?: string;
   variant?: 'light' | 'outline';
-  size?: 'md' | 'sm';
   type?: 'submit' | 'button';
 }
-const { href, variant = 'outline', size = 'md', type = 'submit', class: className, ...rest } = Astro.props;
+const { href, variant = 'outline', type = 'submit', class: className, ...rest } = Astro.props;
 const Tag = href ? 'a' : 'button';
 const variants = {
-  light: { link: 'border-white text-white', text: 'relative [--underline-gap:0px]' },
-  outline: {
-    link: 'border-black/10 bg-white text-black shadow-[0_1px_2px_rgb(21_24_27/0.06),0_8px_20px_-8px_rgb(21_24_27/0.22)]',
-    text: '[--underline-gap:3px]',
-  },
+  light: 'border-white text-white hover:bg-white/15',
+  outline:
+    'border-black/10 bg-white text-black shadow-[0_1px_2px_rgb(21_24_27/0.06),0_8px_20px_-8px_rgb(21_24_27/0.22)] hover:bg-[#f1f1f1]',
 };
-const sizes = {
-  md: 'px-7 py-3.25 md:px-8.5 lg:px-10 lg:py-3.75',
-  sm: 'px-5.5 py-2.25 text-[12px] md:px-6.5 lg:py-2.75',
-};
+// Höhe wie die Menü-Pille (Mindesthöhe, damit ein sehr langer Text umbrechen kann statt über den Rand zu laufen): Handy und Desktop
+// getrennt geschrieben (nie Grundwert plus Überschreibung)
+const base =
+  'group/ul inline-flex cursor-pointer items-center justify-center rounded-full border px-7 text-center font-display text-button font-semibold tracking-button uppercase max-[700px]:min-h-11 min-[701px]:min-h-12 py-2 md:px-8.5 lg:px-10';
+const own = String(className ?? '').includes('transition-');
 ---
 
 <Tag
   {...rest}
   {...(href ? { href } : { type })}
-  class:list={[
-    'group/ul inline-block cursor-pointer rounded-full border text-center font-display text-button font-semibold tracking-button uppercase',
-    sizes[size],
-    variants[variant].link,
-    className,
-  ]}
+  class:list={[base, !own && 'transition-colors duration-300', variants[variant], className]}
 >
-  <span class="flex justify-center gap-1.25">
-    <span class:list={['underline-anim', variants[variant].text]}>
-      <slot />
-    </span>
-  </span>
+  <slot />
 </Tag>

@@ -1,5 +1,5 @@
 ---
-import ArrowLink from '../ui/ArrowLink.astro';
+import Button from '../ui/Button.astro';
 import { href, routes } from '../../data/links';
 import ProjectCard from '../ui/ProjectCard.astro';
 import { projects as homeProjects } from '../../data/projects';
@@ -50,9 +50,9 @@ const {
     </div>
 
     <div class="mt-5">
-      <ArrowLink href={href(link)} tone={linkTone}>
+      <Button href={href(link)}>
         {linkLabel}
-      </ArrowLink>
+      </Button>
     </div>
   </div>
 </section>

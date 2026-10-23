@@ -1,7 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import PageLayout from '../../layouts/PageLayout.astro';
-import ArrowLink from '../../components/ui/ArrowLink.astro';
+import Button from '../../components/ui/Button.astro';
 import HolidayFlow from '../../components/urlaub/HolidayFlow.astro';
 import ServiceBenefits from '../../components/service/ServiceBenefits.astro';
 import Surface from '../../components/sections/Surface.astro';
@@ -38,7 +38,7 @@ const benefits = `<ul>${why.items
           {intro.text}
         </p>
         <div data-anim="fadeIn" data-anim-delay="400">
-          <ArrowLink href={href(routes.contact)} tone="gold" gap="3px">Projekt starten</ArrowLink>
+          <Button href={href(routes.contact)}>Projekt starten</Button>
         </div>
       </div>
       <div class="overflow-hidden" data-grow="bottom" data-anim-delay="200">

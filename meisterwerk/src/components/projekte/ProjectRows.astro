@@ -7,7 +7,7 @@
  */
 import { Picture } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import ArrowLink from '../ui/ArrowLink.astro';
+import Button from '../ui/Button.astro';
 import { href } from '../../data/links';
 import { projects } from '../../data/projects';
 
@@ -87,9 +87,9 @@ const facts = (i: { year: string; place: string; duration: string; area: string 
             ))}
           </dl>
           <div>
-            <ArrowLink href={href(r.href)} tone="gold">
+            <Button href={href(r.href)}>
               Projekt ansehen
-            </ArrowLink>
+            </Button>
           </div>
         </div>
       </article>

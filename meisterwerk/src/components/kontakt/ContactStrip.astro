@@ -1,6 +1,6 @@
 ---
 /** Ruhige Kontaktzeile unter den Projektanfrage-Varianten: Telefon, E-Mail, Showroom mit Anfahrt. */
-import ArrowLink from '../ui/ArrowLink.astro';
+import Button from '../ui/Button.astro';
 import { site } from '../../data/site';
 
 const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
@@ -21,7 +21,7 @@ const link = 'group/ul inline-block text-[16px]/[24px] md:text-body text-black';
     <div class="flex flex-col items-start gap-3.75">
       <p class={eyebrow}>Studio di Stile / Showroom</p>
       <p class="text-[16px]/[24px] md:text-body">{site.street}, {site.postalCode} {site.city}</p>
-      <ArrowLink href="https://maps.app.goo.gl/TKguvHRLF81DRLoH6" tone="gold">Anfahrt</ArrowLink>
+      <Button href="https://maps.app.goo.gl/TKguvHRLF81DRLoH6">Anfahrt</Button>
     </div>
   </div>
 </section>

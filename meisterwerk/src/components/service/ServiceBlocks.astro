@@ -5,7 +5,7 @@
  */
 import { rich } from '../../lib/rich';
 import { cleanHtml } from '../../lib/cleanHtml';
-import ArrowLink from '../ui/ArrowLink.astro';
+import Button from '../ui/Button.astro';
 
 interface Props {
   blocks: { title: string; html: string }[];
@@ -28,9 +28,9 @@ const { blocks, cta } = Astro.props;
   </div>
   {cta && (
     <div class="mt-10 lg:mt-15" data-anim="fadeIn">
-      <ArrowLink href={cta.href} tone="gold">
+      <Button href={cta.href}>
         {cta.label}
-      </ArrowLink>
+      </Button>
     </div>
   )}
 </section>

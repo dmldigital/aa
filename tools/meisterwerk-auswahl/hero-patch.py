@@ -150,28 +150,40 @@ def lone(text, pattern):
     return re.search(pattern, text)
 
 
-# Button wie in Button.astro (Pille, seitlich großzügig, Haarlinie und weicher Schatten bei `outline`)
+# Button wie in Button.astro: ein einziger Button (Pille, 48 px, Handy 44 px, kein Unterstrich, grauer Grund beim Überfahren)
 BTN_SHADOW = 'shadow-[0_1px_2px_rgb(21_24_27/0.06),0_8px_20px_-8px_rgb(21_24_27/0.22)]'
-BTN_OUTLINE = 'border-black/10 bg-white text-black ' + BTN_SHADOW
-BTN_SWAP = [
-    ('px-5 py-3.25 md:px-6.25 lg:px-7.5 lg:py-3.75', 'px-7 py-3.25 md:px-8.5 lg:px-10 lg:py-3.75'),
-    ('px-4 py-2.25 text-[12px] md:px-5 lg:py-2.75', 'px-5.5 py-2.25 text-[12px] md:px-6.5 lg:py-2.75'),
-]
+BTN_BASE = ('group/ul inline-flex cursor-pointer items-center justify-center rounded-full border px-7 text-center font-display text-button '
+            'font-semibold tracking-button uppercase max-[700px]:min-h-11 min-[701px]:min-h-12 py-2 md:px-8.5 lg:px-10')
+BTN_OUT = 'border-black/10 bg-white text-black ' + BTN_SHADOW + ' hover:bg-[#f1f1f1]'
+BTN_LIGHT = 'border-white text-white hover:bg-white/15'
+BTN_OWN = set(BTN_BASE.split()) | set(BTN_OUT.split()) | set(BTN_LIGHT.split()) | {
+    'inline-block', 'border-black', 'text-[12px]', 'shadow-[0_2px_8px_rgb(0_0_0/0.1)]', 'transition-colors', 'duration-300'}
+BTN_PAD = re.compile(r'^(?:(?:md|lg):)?p[xy]-[\d.]+$')  # (py-2 gehört zur Basis und wird neu gesetzt)
+BTN_EL = re.compile(r'<(a|button)\b((?:[^>"]|"[^"]*")*)>([\s\S]*?)</\1>')
 
 
-def round_button(m):
-    """Button-Klassen der handbearbeiteten Startseite auf den Stand von Button.astro bringen"""
-    c = m.group(0)
-    if not all(k in c for k in ('tracking-button', 'text-center', 'border')):
-        return c
-    for old, new in BTN_SWAP:
-        c = c.replace(old, new)
-    if 'rounded-full' not in c:
-        c = c.replace(' border ', ' rounded-full border ', 1)
-    if 'border-black/10' not in c and re.search(r'\bborder-black\b(?!/)', c):
-        c = re.sub(r'\bborder-black\b(?!/)', 'border-black/10 ' + BTN_SHADOW, c, count=1)
-    c = c.replace(' shadow-[0_2px_8px_rgb(0_0_0/0.1)]', '')
-    return c
+def canon_button(m):
+    """Button-Element der handbearbeiteten Startseite auf den Stand von Button.astro bringen (Klassen, kein Unterstrich im Inhalt)"""
+    tag, attrs, inner = m.groups()
+    cm = re.search(r'\bclass="([^"]*)"', attrs)
+    if not cm:
+        return m.group(0)
+    toks = cm.group(1).split()
+    if not all(k in toks for k in ('tracking-button', 'border', 'text-center')):
+        return m.group(0)
+    light = 'border-white' in toks or ('text-white' in toks and 'bg-white' not in toks)
+    extra = [t for t in toks if t not in BTN_OWN and not BTN_PAD.match(t)]
+    own = any(t.startswith('transition-') for t in extra)
+    cls = ' '.join([BTN_BASE, BTN_LIGHT if light else BTN_OUT] + ([] if own else ['transition-colors', 'duration-300']) + extra)
+
+    def clean(mm):
+        t = mm.group(1).split()
+        if 'underline-anim' not in t:
+            return mm.group(0)
+        t = [x for x in t if x not in ('underline-anim', 'relative') and not x.startswith('[--underline-gap')]
+        return 'class="%s"' % ' '.join(t)
+
+    return '<%s%s>%s</%s>' % (tag, attrs.replace(cm.group(0), 'class="%s"' % cls), re.sub(r'class="([^"]*)"', clean, inner), tag)
 
 
 def balanced(text, start):
@@ -224,14 +236,12 @@ def shell(base, built):
         h = re.sub(pat + r'(?!\?v=)', new, h)
         copy_modules(new.split('/')[-1])
 
-    # Schaltflächen wie in der Quelle: Großschreibung über die Klasse, kein "↗", eigene Buttons der Startseite ersetzen
+    # Schaltflächen wie in der Quelle: ein einziger Button, eigene Buttons und Pfeil-Links der Startseite werden ersetzt
     def btn(label, href=None, tag='a', extra=''):
-        cls = ('group/ul inline-block cursor-pointer rounded-full border text-center font-display text-button font-semibold tracking-button uppercase '
-               'px-7 py-3.25 md:px-8.5 lg:px-10 lg:py-3.75 ' + BTN_OUTLINE)
-        inner = '<span class="flex justify-center gap-1.25"><span class="underline-anim [--underline-gap:3px]">%s</span></span>' % label
+        cls = BTN_BASE + ' ' + BTN_OUT + ' transition-colors duration-300'
         if tag == 'a':
-            return '<a href="%s" class="%s"%s>%s</a>' % (href, cls, extra, inner)
-        return '<button type="submit" class="%s"%s>%s</button>' % (cls, extra, inner)
+            return '<a href="%s" class="%s"%s>%s</a>' % (href, cls, extra, label)
+        return '<button type="submit" class="%s"%s>%s</button>' % (cls, extra, label)
 
     lk = '<a class="lk-btn" href="%s/meisterwerk-exklusive/">Zu Meisterwerk Exklusive <span aria-hidden="true">↗</span></a>' % PREFIX
     if lk in h:
@@ -239,13 +249,9 @@ def shell(base, built):
     mz = '<button type="submit" class="mz-btn">Nachricht senden</button>'
     if mz in h:
         h = h.replace(mz, btn('Nachricht senden', tag='button'))
-
-    def up(m):
-        c = m.group(0)
-        return c if 'uppercase' in c else c.replace(' tracking-button', ' tracking-button uppercase', 1)
-
-    h = re.sub(r'class="[^"]*\bborder text-center\b[^"]*"', up, h)
-    h = re.sub(r'class="[^"]*"', round_button, h)
+    arrow = re.compile(r'<a href="([^"]+)" class="[^"]*flex-row-reverse[^"]*">[\s\S]*?<span class="underline-anim[^"]*">([\s\S]*?)</span></a>')
+    h = arrow.sub(lambda m: btn(m.group(2).strip(), m.group(1)), h)
+    h = BTN_EL.sub(canon_button, h)
     h = h.replace(' ↗</span></span></a>', '</span></span></a>')
 
     # Altes HeaderLock (Kopfzeilen-Sperre) nicht mehr einbinden, `data-no-header` früherer Läufe zurücknehmen: die Kopfzeile steht nur oben

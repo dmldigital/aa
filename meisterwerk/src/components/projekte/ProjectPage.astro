@@ -8,7 +8,7 @@
  */
 import { Picture, getImage } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
-import ArrowLink from '../ui/ArrowLink.astro';
+import Button from '../ui/Button.astro';
 import Lightbox from '../ui/Lightbox.astro';
 import ServiceGallery from '../service/ServiceGallery.astro';
 import Surface from '../sections/Surface.astro';
@@ -164,8 +164,8 @@ const next = projects[(idx + 1) % projects.length];
         {next.title}
       </h2>
       <div class="flex flex-wrap gap-x-7.5 gap-y-2.5">
-        <ArrowLink href={href(next.href)} tone="gold">Projekt ansehen</ArrowLink>
-        <ArrowLink href={href(routes.projects)} tone="black">Alle Projekte</ArrowLink>
+        <Button href={href(next.href)}>Projekt ansehen</Button>
+        <Button href={href(routes.projects)}>Alle Projekte</Button>
       </div>
     </div>
     <a
