@@ -24,13 +24,21 @@ export interface SiteData {
   region: string;
   country: string;
   mapsUrl: string;
+  /** Google-Unternehmensprofil (Maps-Adresse mit Orts-Kennung), Ziel für Bewertungs-Badge, `sameAs` und `hasMap` */
+  googleProfile: string;
+  /** Name, wie er im Google-Unternehmensprofil steht (`alternateName` in den strukturierten Daten) */
+  googleName: string;
+  /**
+   * Google-Bewertung des Profils. `value` ist die angezeigte Note (5.0 im Badge), `count` die Anzahl der Rezensionen:
+   * OFFEN, vom Kunden nötig. `aggregateRating` erscheint in den strukturierten Daten erst, wenn beides befüllt ist.
+   */
+  rating?: { value: number; count?: number };
   /** Profile in sozialen Netzwerken (Instagram, Facebook), auch Quelle für `sameAs` in den strukturierten Daten */
   social: { instagram: string; facebook: string };
   /** Orte, in denen der Betrieb tätig ist (`areaServed`) */
   areaServed: string[];
   /**
-   * OFFEN, vom Kunden nötig: Koordinaten des Betriebs (aus dem Google-Unternehmensprofil).
-   * Erst wenn befüllt, erscheint `geo` in den strukturierten Daten. Nichts raten.
+   * Koordinaten des Betriebs: Pin des Google-Unternehmensprofils (aus der Adresse des Maps-Kurzlinks).
    */
   geo?: { latitude: number; longitude: number };
   /** OFFEN, vom Kunden nötig: Öffnungszeiten (erscheinen als `openingHoursSpecification`, sobald befüllt). */
@@ -57,6 +65,11 @@ export const site: SiteData = {
   region: 'Baden-Württemberg',
   country: 'DE',
   mapsUrl: 'https://maps.app.goo.gl/xUpACLa2gyAQ1G8K7',
+  googleProfile:
+    'https://www.google.de/maps/place/Meisterwerk+Malerbetrieb/data=!4m6!3m5!1s0x4799cf0e22fe1bbd:0x79746b334c3355d0!8m2!3d48.9311111!4d9.2043551!16s%2Fg%2F11h5w8fky5',
+  googleName: 'Meisterwerk Malerbetrieb',
+  rating: { value: 5 },
+  geo: { latitude: 48.9311111, longitude: 9.2043551 },
   social: {
     instagram: 'https://www.instagram.com/maler.meisterwerk/',
     facebook: 'https://www.facebook.com/Meisterwerk2014/',

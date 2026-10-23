@@ -1,7 +1,9 @@
 /**
  * Strukturierte Daten (JSON-LD, schema.org). Nur Angaben, die im Projekt belegt sind:
  * `geo`, `openingHours`, `foundingYear`, `vatId` erscheinen erst, wenn sie in `data/site.ts` befüllt sind.
- * Kein `aggregateRating`, kein `priceRange` (nichts Erfundenes, Selbstbewertungen sind für LocalBusiness nicht zulässig).
+ * `aggregateRating` nur, wenn Note UND Anzahl der Google-Rezensionen in `data/site.ts` stehen (Anzahl ist beim Kunden offen).
+ * Hinweis: Google zeigt Sterne in der Suche für LocalBusiness-Eigenbewertungen auf der eigenen Seite nicht als Rich Result;
+ * die Sterne in Suche und Maps kommen aus dem Google-Unternehmensprofil. Kein `priceRange`.
  */
 import { site } from '../data/site';
 import { items as mainNav, exklusiveItems, type Item } from '../data/nav';
@@ -34,6 +36,7 @@ export function localBusiness(ctx: SchemaContext): Json {
     '@type': 'HousePainter',
     '@id': businessId(ctx),
     name: site.name,
+    alternateName: site.googleName,
     url: ctx.abs('/'),
     telephone: `+${site.phoneHref.replace(/^\+/, '')}`,
     email: site.email,
@@ -46,8 +49,8 @@ export function localBusiness(ctx: SchemaContext): Json {
       addressCountry: site.country,
     },
     areaServed: site.areaServed.map(city),
-    sameAs: [site.social.instagram, site.social.facebook],
-    hasMap: site.mapsUrl,
+    sameAs: [site.social.instagram, site.social.facebook, site.googleProfile],
+    hasMap: site.googleProfile,
     logo: { '@type': 'ImageObject', url: ctx.logo },
     image: ctx.image,
     founder: {
@@ -67,6 +70,15 @@ export function localBusiness(ctx: SchemaContext): Json {
       opens: h.opens,
       closes: h.closes,
     }));
+  }
+  if (site.rating?.count) {
+    node.aggregateRating = {
+      '@type': 'AggregateRating',
+      ratingValue: site.rating.value,
+      bestRating: 5,
+      worstRating: 1,
+      ratingCount: site.rating.count,
+    };
   }
   if (site.foundingYear) node.foundingDate = site.foundingYear;
   if (site.vatId) node.vatID = site.vatId;
