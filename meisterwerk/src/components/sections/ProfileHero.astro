@@ -30,7 +30,7 @@ const { id = '16ee660', name, photo, headingTag: Heading = 'h1' } = Astro.props;
         formats={['avif']}
         fallbackFormat="webp"
         src={photo}
-        alt={name}
+        alt={`${name}, Porträt`}
         widths={[350, 700, 1348]}
         sizes="(min-width: 1025px) 674px, (min-width: 768px) 477px, 350px"
         loading="eager"

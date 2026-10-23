@@ -85,7 +85,7 @@ const closing = buttons[1];
     blocks={textBlocks}
     cta={closing ? { label: closing.label, href: href(closing.href) } : undefined}
   />
-  <ServiceGallery images={gallery} alt={alt} />
+  <ServiceGallery images={gallery} alt={alt} start={4} />
   <ServiceExcellence title={EXCELLENCE} items={page.pillars} />
   <Projects
     id={page.projectsId}

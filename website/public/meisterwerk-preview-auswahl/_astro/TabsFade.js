@@ -2,7 +2,8 @@
 // Meisterliche Malerarbeiten, Desktop (ab 1200 px Breite und 600 px Höhe, volle Bewegung): Die Sektion wird gepinnt.
 // Rechts steht statt des Bildes ein feststehender Trennstrich. Die Tab-Texte gleiten von links unter ihm hindurch nach
 // rechts heraus und beim nächsten Tab nach rechts wieder weg. Danach löst sich der Pin.
-// Die Texte passen immer in 100vh: Schrift und Abstände werden bei Bedarf verkleinert.
+// Die Texte passen immer in 100vh: Abstände und notfalls die Stufe (small) werden verkleinert, die Schrift bleibt in der Skala.
+// Passt es so nicht (sehr niedrige Fenster), gibt es statt des Pins die aufklappbaren Tabs.
 // FAQ (data-tb-accordion), Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt
 // direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere), auch über beide FAQ-Spalten.
 import { t as gsap } from "./gsap.CvDoa17S.js";
@@ -26,7 +27,7 @@ function initTabs(sec) {
     "(min-width: 1200px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)"
   );
 
-  const MIN_SCALE = 0.62;
+  const MIN_SCALE = 0.4;
   let ctx = null;
   let controller = null;
   let timer = null;
@@ -44,7 +45,7 @@ function initTabs(sec) {
     right.querySelector(".tb-line")?.remove();
     panels.forEach((p) => view.appendChild(p));
     tabs.forEach((li) => li.querySelector(".tb-collapse")?.remove());
-    sec.classList.remove("tb--pin", "tb--ui");
+    sec.classList.remove("tb--pin", "tb--ui", "tb--compact");
     sec.style.height = "";
     sec.style.removeProperty("--tb-s");
     left.style.transform = "";
@@ -100,18 +101,20 @@ function initTabs(sec) {
   };
 
   // ---------- Pin mit Ein- und Ausblenden ----------
-  // Schrift und Abstände so weit verkleinern, dass der höchste Tab in die Bühne passt
+  // Die Schrift bleibt in den Stufen der Skala. Passt der höchste Tab nicht in die Bühne, werden zuerst nur die Abstände
+  // (--tb-s) verkleinert, reicht das nicht, schaltet .tb--compact Lede, Listenpunkte, Hinweis und Tabellenzellen auf die Stufe small.
   const fitPanels = () => {
-    const avail = view.clientHeight;
-    let scale = 1;
-    sec.style.setProperty("--tb-s", "1");
-    for (let k = 0; k < 8; k++) {
-      const tallest = Math.max(...inners.map((i) => i.offsetHeight));
-      if (tallest <= avail * 0.97) break;
-      scale = Math.max(MIN_SCALE, scale * Math.sqrt((avail * 0.96) / tallest));
-      sec.style.setProperty("--tb-s", scale.toFixed(3));
-      if (scale === MIN_SCALE) break;
+    const avail = view.clientHeight * 0.97;
+    const tallest = () => Math.max(...inners.map((i) => i.offsetHeight));
+    sec.classList.remove("tb--compact");
+    for (const compact of [false, true]) {
+      sec.classList.toggle("tb--compact", compact);
+      for (const scale of [1, 0.85, 0.7, 0.55, MIN_SCALE]) {
+        sec.style.setProperty("--tb-s", String(scale));
+        if (tallest() <= avail) return true;
+      }
     }
+    return false;
   };
 
   // Lange Tab-Listen (FAQ) links ebenfalls in die Bühne passen lassen
@@ -126,9 +129,10 @@ function initTabs(sec) {
     }
   };
 
+  // false, wenn der höchste Tab selbst mit den kleinsten Abständen und der Stufe small nicht in die Bühne passt (niedrige Fenster)
   const buildPin = () => {
     sec.classList.add("tb--pin");
-    fitPanels();
+    if (!fitPanels()) return false;
     fitLeft();
 
     const vh = window.innerHeight;
@@ -207,12 +211,15 @@ function initTabs(sec) {
 
       tl.to({}, { duration: TAIL }, plan[plan.length - 1].end);
     }, sec);
+    return true;
   };
 
   const build = () => {
     reset();
-    if (!accordionOnly && mq.matches) buildPin();
-    else buildTabs();
+    if (!(!accordionOnly && mq.matches && buildPin())) {
+      reset();
+      buildTabs();
+    }
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 

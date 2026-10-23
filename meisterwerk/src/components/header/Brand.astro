@@ -31,6 +31,7 @@ const exk = site === 'exklusive';
     widths={[180, 360]}
     sizes="180px"
     loading="eager"
-    class:list={['h-auto', tone === 'light' && 'brightness-0 invert', className]}
+    class:list={['h-auto', tone === 'light' && 'brightness-0 invert',
+      tone === 'duo' && 'drop-shadow-[0_1px_12px_rgb(0_0_0/0.4)]', className]}
   />
 </a>

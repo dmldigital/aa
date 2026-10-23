@@ -1,7 +1,8 @@
 /* Leistungen: Text links bleibt stehen, die Karten schieben sich von rechts übereinander.
    Verhalten und Maße nach der Vorlage "Mehr als vier Wände" (kaiser.d-lesmeister.workers.dev).
    Karten wie im bisherigen Meisterwerk-Design: Bild oben, Text darunter, alle gleich,
-   weiße Karte mit feinem 1-Pixel-Rahmen, Hover mit Zoom und Plus-Kreis. */
+   weiße Fläche ohne Rahmen auf hellgrauem Grund, Hover mit Zoom und Plus-Kreis.
+   Schrift nur in den Stufen der Website-Skala (--text-h2, -h3, -h4, -body, -small, -label), Innenabstand 24/32, Kartenabstand 20. */
 
 .lk{--lk-gutter:clamp(24px,4.4vw,88px);--lk-ink:#090402;--lk-gold:#a59371;--lk-soft:#f7f7f7;--lk-hair:#0904021f;--lk-strip:58px;position:relative;margin-top:14vh;padding:60px var(--lk-gutter);background:var(--lk-soft);color:var(--lk-ink)}
 @media (width>=768px){.lk{margin-top:0;margin-bottom:60px}}
@@ -9,15 +10,15 @@
 .lk-eyebrow,.lk h2,.lk-card h3,.lk-count{font-family:var(--font-urbanist),sans-serif}
 
 .lk-heading{margin-bottom:35px}
-.lk-eyebrow{margin:0;font-size:12px;line-height:1.5;font-weight:500;letter-spacing:2px;text-transform:uppercase}
-.lk h2{margin:36px 0 24px;color:var(--lk-gold);font-size:clamp(28px,3.2vw,40px);line-height:1.25;font-weight:500;text-wrap:balance}
-.lk-sub{margin:0;color:var(--color-muted,#000000b3);font-size:15px;line-height:1.5}
+.lk-eyebrow{margin:0;font-size:var(--text-label);line-height:var(--text-label--line-height);font-weight:500;letter-spacing:var(--tracking-label);text-transform:uppercase}
+.lk h2{margin:36px 0 24px;color:var(--lk-gold);font-size:var(--text-h2);line-height:var(--text-h2--line-height);letter-spacing:var(--text-h2--letter-spacing);font-weight:500;text-wrap:balance}
+.lk-sub{margin:0;color:var(--color-muted,#000000b3);font-size:var(--text-body);line-height:var(--text-body--line-height)}
 .lk-progress{display:none;width:100px;height:2px;margin-top:40px;background:#09040226}
 .lk-progress i{display:block;width:100%;height:100%;background:var(--lk-gold);transform-origin:0 50%;transform:scaleX(.1)}
 .lk-count{display:none}
 
-.lk-track{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.lk-card{position:relative;display:flex;flex-direction:column;border:1px solid var(--lk-hair);background:#fff;color:var(--lk-ink);text-decoration:none}
+.lk-track{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.lk-card{position:relative;display:flex;flex-direction:column;background:#fff;color:var(--lk-ink);text-decoration:none}
 .lk-card:focus-visible{outline:2px solid var(--lk-ink);outline-offset:3px}
 .lk-img{position:relative;aspect-ratio:4/3;overflow:hidden}
 .lk-img picture,.lk-img img{display:block;width:100%;height:100%}
@@ -27,30 +28,22 @@
   .lk-img:hover img{transform:scale(1.05);opacity:.8}
   .lk-img:hover .lk-zoom{opacity:1}
 }
-.lk-card--logo{justify-content:space-between;gap:22px;padding:35px}
+.lk-card--logo{justify-content:space-between;gap:20px;padding:24px}
 .lk-card--logo picture{display:block;width:min(70%,240px)}
 .lk-card--logo img{display:block;width:100%;height:auto}
-.lk-card--logo h3{font-size:24px}
-.lk-card--logo p{max-width:360px;margin:14px 0 0;color:#090402b3;font-size:15px;line-height:1.5}
-.lk-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:15px 30px;border:1px solid var(--lk-ink);background:var(--lk-ink);color:#fff;font:600 14px/15.4px var(--font-urbanist),sans-serif;letter-spacing:.5px;text-transform:uppercase;text-align:center;text-decoration:none;transition:background-color .3s ease,color .3s ease}
-.lk-btn::after{content:"";position:absolute;inset:0}
-.lk-btn span{display:inline-block;transition:transform .3s ease}
-.lk-btn:focus-visible{outline:2px solid var(--lk-ink);outline-offset:3px}
-@media (hover:hover){
-  .lk-card--logo:hover .lk-btn{background:#fff;color:var(--lk-ink)}
-  .lk-card--logo:hover .lk-btn span{transform:translate(3px,-3px)}
-}
-.lk-text{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:22px 24px 26px}
-.lk-card h3{margin:0;font-size:24px;line-height:1.3;font-weight:500}
-.lk-card h3 span{display:block;min-height:2.8em;margin-top:4px;color:#090402b3;font-size:16px;line-height:1.4;font-weight:400}
+.lk-card--logo p{max-width:360px;margin:12px 0 0;color:#090402b3;font-size:var(--text-body);line-height:var(--text-body--line-height)}
+.lk-text{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding:24px}
+@media (width>=1025px){.lk-text,.lk-card--logo{padding:32px}}
+.lk-card h3{margin:0;font-weight:500}
+@media (width<=1024px){.lk-card h3{font-size:var(--text-h4);line-height:var(--text-h4--line-height);letter-spacing:var(--text-h4--letter-spacing)}}
+@media (width>=1025px){.lk-card h3{font-size:var(--text-h3);line-height:var(--text-h3--line-height);letter-spacing:var(--text-h3--letter-spacing)}}
+.lk-card h3 span{display:block;min-height:3.2em;margin-top:4px;color:#090402b3;font-size:var(--text-body);line-height:var(--text-body--line-height);letter-spacing:0;font-weight:400}
 .lk-icon{display:block;flex:none;width:20px;height:20px;margin-top:5px}
 .lk-zoom .lk-icon{width:28px;height:28px;margin:0}
 
 @media (width<=700px){
   .lk{padding:50px 20px}
-  .lk-track{grid-template-columns:1fr;gap:15px}
-  .lk-card h3{font-size:20px}
-  .lk-card h3 span{font-size:15px}
+  .lk-track{grid-template-columns:1fr;gap:20px}
 }
 
 /* Desktop und Tablet: Bühne steht, Karten fahren nacheinander von rechts darüber */
@@ -71,13 +64,9 @@
   .lk{--lk-strip:34px}
   .lk-sticky{grid-template-columns:35% 65%}
   .lk-card{width:min(350px,calc(.65*(100vw - var(--lk-gutter)) - var(--lk-gutter) - 5*var(--lk-strip) - 16px))}
-  .lk-text{padding:18px 20px 22px}
-  .lk-card h3 span{min-height:4.2em}
-  .lk-card--logo{gap:14px;padding:24px 20px}
+  .lk-card h3 span{min-height:4.8em}
+  .lk-card--logo{gap:16px}
   .lk-card--logo picture{width:min(75%,190px)}
-  .lk-card--logo h3{font-size:19px}
-  .lk-card--logo p{margin-top:10px;font-size:14px}
-  .lk-btn{padding:13px 14px;font-size:12px}
 }
 
 /* Handy: Karten stapeln sich von unten übereinander, Zähler läuft mit */
@@ -85,37 +74,29 @@
   .lk{height:525svh;padding:0 20px}
   .lk-sticky{position:sticky;top:0;display:block;height:100svh;min-height:0;overflow:clip}
   .lk-heading{margin:0;padding:92px 0 0}
-  .lk-eyebrow{font-size:11px}
-  .lk h2{margin:14px 0 10px;font-size:clamp(22px,6.4vw,28px);line-height:1.2}
-  .lk-sub{font-size:13px;line-height:1.4}
+  .lk h2{margin:14px 0 10px}
+  .lk-sub{font-size:var(--text-small);line-height:var(--text-small--line-height)}
   .lk-progress{display:block;width:100%;margin-top:18px}
-  .lk-count{position:absolute;top:calc(36svh - 24px);left:0;right:0;display:flex;justify-content:space-between;color:var(--color-muted,#000000b3);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+  .lk-count{position:absolute;top:calc(40svh - 24px);left:0;right:0;display:flex;justify-content:space-between;color:var(--color-muted,#000000b3);font-size:var(--text-label);line-height:var(--text-label--line-height);letter-spacing:var(--tracking-label);text-transform:uppercase}
   .lk-count b{color:var(--lk-ink);font-weight:500}
-  .lk-window{position:absolute;inset:36svh 0 max(7svh,64px);overflow:visible}
+  .lk-window{position:absolute;inset:40svh 0 max(7svh,64px);overflow:visible}
   .lk-track{display:block;position:relative;width:100%;height:100%;perspective:1100px}
   .lk-card{position:absolute;inset:0;width:100%;height:100%;transform-origin:top;will-change:transform}
   .lk-card:nth-child(n+2){translate:0 125%}
   .lk.lk--ready .lk-card{translate:none}
   .lk-img{flex:1 1 0;min-height:0;aspect-ratio:auto}
-  .lk-text{padding:18px 20px 20px}
-  .lk-card--logo{gap:16px;padding:22px 20px}
+  .lk-card--logo{gap:16px}
   .lk-card--logo picture{width:min(55%,190px)}
-  .lk-card--logo h3{font-size:20px}
-  .lk-card--logo p{margin-top:8px;font-size:14px}
-  .lk-btn{padding:14px 20px}
+  .lk-card--logo p{margin-top:8px;font-size:var(--text-small);line-height:var(--text-small--line-height)}
 }
 @media (width<=700px) and (650px<=height<=740px) and (prefers-reduced-motion:no-preference){
   .lk-heading{padding-top:84px}
-  .lk h2{margin:10px 0 8px;font-size:21px}
+  .lk h2{margin:10px 0 8px}
   .lk-sub{display:none}
   .lk-progress{margin-top:14px}
-  .lk-count{top:calc(36svh - 22px)}
-  .lk-text{padding:14px 18px 16px}
-  .lk-card--logo{gap:10px;padding:16px 18px}
+  .lk-count{top:calc(40svh - 22px)}
+  .lk-card--logo{gap:12px}
   .lk-card--logo picture{width:min(45%,150px)}
-  .lk-card--logo h3{font-size:17px}
   .lk-card--logo p{display:none}
-  .lk-btn{padding:12px 16px}
-  .lk-card h3{font-size:18px}
-  .lk-card h3 span{font-size:14px}
+  .lk-card h3 span{font-size:var(--text-small);line-height:var(--text-small--line-height);min-height:2.9em}
 }

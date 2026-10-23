@@ -305,3 +305,12 @@ for f in sorted(src.rglob('*.webp')):
     shutil.copy(f, t)
     n += 1
 print(f'hero-flug: {n} Bilder')
+# Dateien, die der gebaute Hero und die Hülle der Startseite brauchen (z. B. das Logo des Heros), falls noch nicht vorhanden
+n = 0
+for f in sorted(set(m.split('?')[0].split('#')[0] for m in re.findall(r'%s/([\w./@%%-]+)' % re.escape(PREFIX), (B / 'index.html').read_text(errors='ignore')))):
+    s, t = B / f, D / f
+    if s.is_file() and not t.exists():
+        t.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy(s, t)
+        n += 1
+print(f'Startseite: {n} fehlende Dateien aus dem Build ergänzt')
