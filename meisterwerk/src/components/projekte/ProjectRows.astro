@@ -74,15 +74,15 @@ const facts = (i: { year: string; place: string; duration: string; area: string 
           data-anim-dur="fast"
         >
           <p class={eyebrow}>{r.post.services.join(', ')}</p>
-          <h2 class="font-display text-[21px]/[26.25px] font-medium text-gold md:text-[24px]/[30px] lg:text-h3">
+          <h2 class="font-display text-h2 font-medium text-gold">
             {r.title}
           </h2>
-          <p class="text-[16px]/[24px] md:text-body">{teaser(r.post.sections[0].text)}</p>
+          <p class="text-body">{teaser(r.post.sections[0].text)}</p>
           <dl class="grid grid-cols-2 gap-x-5 gap-y-5 border-t border-black/20 pt-5 md:grid-cols-4">
             {facts(r.post.info).map((f) => (
               <div class="flex flex-col gap-1.25">
                 <dt class={eyebrow + ' opacity-60'}>{f.label}</dt>
-                <dd class="text-[16px]/[24px] text-ink md:text-body">{f.value}</dd>
+                <dd class="text-body text-ink">{f.value}</dd>
               </div>
             ))}
           </dl>

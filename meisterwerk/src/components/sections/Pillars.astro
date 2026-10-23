@@ -18,7 +18,7 @@ const {
   items,
   rootClass = 'mb-10 md:mb-15 lg:mb-49.5',
   smallText = false,
-  titleClass = 'text-[19px]/[24.7px] md:text-[18px]/[23.4px] lg:text-h4',
+  titleClass = 'text-h3',
 } = Astro.props;
 ---
 
@@ -36,7 +36,7 @@ const {
         <h5 class:list={['font-display font-medium text-ink', titleClass]} set:html={item.title} />
         <div
           class:list={[
-            '-mb-4 text-[16px]/[24px] md:mb-0 md:text-body',
+            '-mb-4 text-body md:mb-0',
             smallText && '[&_p]:text-15',
             rich,
           ]}

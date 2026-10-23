@@ -206,7 +206,7 @@ const exklusivLinks = [
   .ls {
     --ink: #090402;
     --hair: #0904021f;
-    padding: 56px 20px 64px;
+    padding: 64px 20px;
     background: var(--color-soft);
     color: var(--ink);
   }
@@ -219,32 +219,35 @@ const exklusivLinks = [
   .ls-eyebrow {
     margin: 0;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 12px;
-    line-height: 1.5;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
     font-weight: 500;
-    letter-spacing: 2px;
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
   }
   .ls-heading h1 {
-    margin: 36px 0 24px;
+    margin: 12px 0 24px;
     color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: clamp(28px, 3.2vw, 40px);
-    line-height: 1.25;
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
+    letter-spacing: var(--text-h1--letter-spacing);
     font-weight: 500;
     text-wrap: balance;
   }
   .ls-sub {
+    max-width: 65ch;
     margin: 0;
     color: var(--color-muted);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .ls-sub--more {
-    margin-top: 14px;
+    margin-top: 16px;
   }
+  /* Fortschrittslinie entfällt (Seite ohne Trennlinien, Stil-Referenz) */
   .ls-progress {
-    display: block;
+    display: none;
     width: 100px;
     height: 2px;
     margin-top: 40px;
@@ -267,7 +270,6 @@ const exklusivLinks = [
     position: relative;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--hair);
     background: #fff;
     color: var(--ink);
     text-decoration: none;
@@ -325,14 +327,14 @@ const exklusivLinks = [
     align-items: flex-start;
     justify-content: space-between;
     gap: 20px;
-    padding: 22px 24px 26px;
+    padding: 24px;
   }
   .ls-text h2,
   .ls-card--wide h2 {
     margin: 0;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 20px;
-    line-height: 1.3;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
     font-weight: 500;
   }
   .ls-text h2 span {
@@ -340,8 +342,8 @@ const exklusivLinks = [
     min-height: 2.8em;
     margin-top: 4px;
     color: #090402b3;
-    font-size: 15px;
-    line-height: 1.4;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     font-weight: 400;
   }
   .ls-icon {
@@ -410,8 +412,8 @@ const exklusivLinks = [
   .ls-link-title {
     display: block;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 20px;
-    line-height: 1.3;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
     font-weight: 500;
   }
   .ls-link-text {
@@ -419,8 +421,8 @@ const exklusivLinks = [
     max-width: 32em;
     margin-top: 4px;
     color: var(--color-muted);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .ls-link-more {
     display: block;
@@ -437,22 +439,18 @@ const exklusivLinks = [
     white-space: nowrap;
   }
   .ls-body p {
-    margin: 10px 0 0;
+    margin: 16px 0 0;
     color: var(--color-muted);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
 
   @media (min-width: 768px) {
     .ls {
-      padding: 72px 20px 80px;
+      padding: 96px 32px;
     }
     .ls-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .ls-text h2,
-    .ls-card--wide h2 {
-      font-size: 24px;
     }
     .ls-card--wide,
     .ls-card--row {
@@ -465,7 +463,7 @@ const exklusivLinks = [
     }
     .ls-card--row .ls-text {
       align-items: center;
-      padding: 35px;
+      padding: 32px;
     }
     .ls-card--wide {
       grid-template-columns: 1fr calc((100% - 22px) / 2);
@@ -475,15 +473,12 @@ const exklusivLinks = [
       aspect-ratio: auto;
     }
     .ls-wide-body {
-      padding: 35px;
-    }
-    .ls-link-title {
-      font-size: 24px;
+      padding: 32px;
     }
   }
   @media (min-width: 1025px) {
     .ls {
-      padding: 12vh 30px;
+      padding: 128px 32px;
     }
     .ls-inner {
       grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);

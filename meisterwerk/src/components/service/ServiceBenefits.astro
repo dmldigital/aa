@@ -45,7 +45,7 @@ const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)
   .sb {
     --ink: #090402;
     --hair: #0904021f;
-    padding: 56px 20px 64px;
+    padding: 64px 20px;
     background: var(--color-soft);
     color: var(--ink);
   }
@@ -58,67 +58,60 @@ const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)
   .sb-eyebrow {
     margin: 0;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 12px;
-    line-height: 1.5;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
     font-weight: 500;
-    letter-spacing: 2px;
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
   }
   .sb-heading h2 {
-    margin: 36px 0 0;
+    margin: 12px 0 0;
     color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: clamp(28px, 3.2vw, 40px);
-    line-height: 1.25;
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
+    letter-spacing: var(--text-h2--letter-spacing);
     font-weight: 500;
     text-wrap: balance;
   }
   .sb-intro {
-    margin: 16px 0 0;
+    margin: 24px 0 0;
     color: var(--color-muted);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .sb-grid {
     display: grid;
     gap: 20px;
   }
   .sb-card {
-    padding: 26px 24px 28px;
-    border: 1px solid var(--hair);
+    padding: 24px;
     background: #fff;
   }
   .sb-card h3 {
     margin: 0;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 20px;
-    line-height: 1.3;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
     font-weight: 500;
   }
   .sb-card p {
-    margin: 8px 0 0;
+    margin: 16px 0 0;
     color: var(--color-muted);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   @media (min-width: 768px) {
     .sb {
-      padding: 72px 20px 80px;
+      padding: 96px 32px;
     }
     .sb-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    .sb-card h3 {
-      font-size: 24px;
-    }
-    .sb-card p,
-    .sb-intro {
-      font-size: 16px;
-    }
   }
   @media (min-width: 1025px) {
     .sb {
-      padding: 12vh 30px;
+      padding: 128px 32px;
     }
     .sb-inner {
       grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
@@ -130,7 +123,7 @@ const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)
       top: 22vh;
     }
     .sb-card {
-      padding: 32px 30px 34px;
+      padding: 32px;
     }
   }
 </style>

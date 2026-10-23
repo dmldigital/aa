@@ -15,42 +15,42 @@ const type = [
   {
     name: 'Display',
     use: 'Nur Hero der Startseite',
-    min: 44, max: 96, lh: 0.95, track: '-0.04em', weight: 600, font: 'display',
+    min: 48, max: 95, lh: 0.95, track: '-0.04em', weight: 600, font: 'display',
     sample: 'Malerarbeiten in Ludwigsburg',
     was: 'text-[12.5vw], text-[11.5vw], clamp(44–118px), 100px, 50px, 46px',
   },
   {
     name: 'H1',
     use: 'Seitentitel (eine pro Seite)',
-    min: 36, max: 60, lh: 1.05, track: '-0.03em', weight: 500, font: 'display',
+    min: 33, max: 61, lh: 1.05, track: '-0.03em', weight: 500, font: 'display',
     sample: 'Unser Urlaubsservice für Sie',
     was: 'text-h1 (60), 38, 34, 32 px',
   },
   {
     name: 'H2',
     use: 'Sektionstitel',
-    min: 28, max: 40, lh: 1.15, track: '-0.02em', weight: 500, font: 'display',
+    min: 28, max: 39, lh: 1.15, track: '-0.02em', weight: 500, font: 'display',
     sample: 'Ihr Malerbetrieb für Ludwigsburg',
-    was: 'text-h2, text-h3 (40), 30, 29, 28, 26 px',
+    was: 'text-h2, text-h2 (40), 30, 29, 28, 26 px',
   },
   {
     name: 'H3',
     use: 'Karten, Untertitel, Projektnamen',
-    min: 21, max: 24, lh: 1.25, track: '-0.01em', weight: 500, font: 'display',
+    min: 23, max: 25, lh: 1.25, track: '-0.01em', weight: 500, font: 'display',
     sample: 'Glatte Wände und Q4-Spachtelung',
-    was: 'text-h4 (24), 23, 21, 20, 19.2 px',
+    was: 'text-h3 (24), 23, 21, 20, 19.2 px',
   },
   {
     name: 'H4',
     use: 'Kleine Überschriften, Akkordeon, Listen-Titel',
-    min: 17, max: 18, lh: 1.35, track: '0', weight: 500, font: 'display',
+    min: 19, max: 20, lh: 1.35, track: '0', weight: 500, font: 'display',
     sample: 'Welche Leistungen bieten Sie an?',
-    was: 'text-h5 (20), 19, 18, 17.6, 17 px',
+    was: 'text-h4 (20), 19, 18, 17.6, 17 px',
   },
   {
     name: 'Einleitung',
     use: 'Erster Absatz unter einem Titel',
-    min: 17, max: 19, lh: 1.5, track: '-0.01em', weight: 400, font: 'display',
+    min: 19, max: 20, lh: 1.5, track: '-0.01em', weight: 400, font: 'display',
     sample: 'Ihr Meisterbetrieb für Streichen, Lackieren, Tapezieren und glatte Oberflächen.',
     was: '18, 17, 16.5 px (verstreut)',
   },
@@ -65,14 +65,14 @@ const type = [
   {
     name: 'Klein',
     use: 'Bildunterschriften, Hinweise, Daten',
-    min: 13, max: 14, lh: 1.45, track: '0', weight: 400, font: 'body',
+    min: 13, max: 13, lh: 1.45, track: '0', weight: 400, font: 'body',
     sample: 'Jahr 2019 · Ludwigsburg · 6 Monate · 150 m²',
     was: '14, 13.6, 13.3, 13 px',
   },
   {
     name: 'Überzeile',
     use: 'Kleine Zeile über Titeln, Großbuchstaben',
-    min: 11, max: 12, lh: 1.3, track: '0.16em', weight: 500, font: 'display', upper: true,
+    min: 12, max: 12, lh: 1.3, track: '0.16em', weight: 500, font: 'display', upper: true,
     sample: 'Unsere Leistungen',
     was: 'text-label (12), 11.5, 11, 10.4, 10, 9, 8 px',
   },
@@ -102,7 +102,8 @@ const space = [
 const rules = [
   'Nur die Größen dieser Skala. Keine Einzelwerte in Pixeln (text-[23px] usw.) mehr in Komponenten.',
   'Eine H1 pro Seite. Überschriften-Stufen nicht überspringen, die Optik folgt der Stufe.',
-  'Urbanist für Titel, Einleitung, Überzeilen und Buttons, Systemschrift für Fließtext und Kleines.',
+  'Urbanist für Titel, Einleitung, Überzeilen und Buttons, DM Sans für Fließtext und Kleines (fest eingebunden, auf jedem Gerät gleich).',
+  'Bilder, Karten und Flächen sind eckig, Bedienelemente (Buttons, Menü-Pille, Fenster) sind rund.',
   'Fließtext höchstens 65 Zeichen breit (max-w-[65ch]).',
   'Größen gleiten stufenlos zwischen Handy und Desktop, keine Sprünge an Breakpoints.',
   'Abstände nur aus der Abstands-Skala. Vertikaler Rhythmus: Überzeile 12 → Titel 24 → Text 32 → Button.',
@@ -116,17 +117,17 @@ const rules = [
 <PageLayout title="Stil-Referenz - Meisterwerk Malermanufaktur" current="/stil/">
   <div data-no-autolink class="px-5 pt-16 pb-32 md:px-8">
     <div class="mx-auto max-w-[1100px]">
-      <p class="font-display text-[12px] font-medium tracking-[0.16em] text-ink uppercase">Vorschlag zur Abnahme</p>
-      <h1 class="mt-3 font-display font-medium text-ink" style={`font-size:${fluid(36, 60)};line-height:1.05;letter-spacing:-0.03em`}>
+      <p class="font-display text-[12px] font-medium tracking-[0.16em] text-ink uppercase">Stil-Referenz Meisterwerk</p>
+      <h1 class="mt-3 font-display font-medium text-ink" style={`font-size:${fluid(33, 61)};line-height:1.05;letter-spacing:-0.03em`}>
         Stil-Referenz
       </h1>
       <p class="mt-6 max-w-[65ch] text-[16px]/[1.6] text-muted">
-        Bisher nutzt die Seite rund 45 verschiedene Schriftgrößen und viele Einzelabstände. Hier stehen zehn Schriftstufen,
-        elf Abstände und zehn Regeln. Nach der Abnahme stelle ich alle Seiten darauf um. Die Größen gleiten zwischen Handy
+        Die Schriftstufen folgen einem festen Verhältnis: Faktor 1,25 am Desktop und 1,2 am Handy, Grundgröße 16 px. Fließtext in
+        DM Sans, Überschriften und Bedienelemente in Urbanist. Bisher nutzte die Seite rund 45 verschiedene Schriftgrößen. Die Größen gleiten zwischen Handy
         (390 px) und Desktop (1440 px) stufenlos mit, zum Vergleich einfach das Fenster schmaler ziehen.
       </p>
 
-      <h2 class="mt-24 font-display font-medium text-ink" style={`font-size:${fluid(28, 40)};line-height:1.15;letter-spacing:-0.02em`}>
+      <h2 class="mt-24 font-display font-medium text-ink" style={`font-size:${fluid(28, 39)};line-height:1.15;letter-spacing:-0.02em`}>
         Schrift
       </h2>
       <div class="mt-8 border-t border-black/10">
@@ -152,7 +153,7 @@ const rules = [
         }
       </div>
 
-      <h2 class="mt-24 font-display font-medium text-ink" style={`font-size:${fluid(28, 40)};line-height:1.15;letter-spacing:-0.02em`}>
+      <h2 class="mt-24 font-display font-medium text-ink" style={`font-size:${fluid(28, 39)};line-height:1.15;letter-spacing:-0.02em`}>
         Abstände
       </h2>
       <div class="mt-8 flex flex-col gap-3">
@@ -167,15 +168,15 @@ const rules = [
         }
       </div>
 
-      <h2 class="mt-24 font-display font-medium text-ink" style={`font-size:${fluid(28, 40)};line-height:1.15;letter-spacing:-0.02em`}>
+      <h2 class="mt-24 font-display font-medium text-ink" style={`font-size:${fluid(28, 39)};line-height:1.15;letter-spacing:-0.02em`}>
         Beispiel einer Sektion
       </h2>
       <div class="mt-8 rounded-[24px] bg-soft px-5 py-16 md:px-8">
         <p class="font-display text-[12px] font-medium tracking-[0.16em] text-ink uppercase">Unsere Leistungen</p>
-        <h3 class="mt-3 font-display font-medium text-ink" style={`font-size:${fluid(28, 40)};line-height:1.15;letter-spacing:-0.02em`}>
+        <h3 class="mt-3 font-display font-medium text-ink" style={`font-size:${fluid(28, 39)};line-height:1.15;letter-spacing:-0.02em`}>
           Ihr Malerbetrieb für Ludwigsburg
         </h3>
-        <p class="mt-6 max-w-[65ch] font-display text-ink" style={`font-size:${fluid(17, 19)};line-height:1.5;letter-spacing:-0.01em`}>
+        <p class="mt-6 max-w-[65ch] font-display text-ink" style={`font-size:${fluid(19, 20)};line-height:1.5;letter-spacing:-0.01em`}>
           Ihr Meisterbetrieb für Streichen, Lackieren, Tapezieren und glatte Oberflächen.
         </p>
         <p class="mt-4 max-w-[65ch] text-[16px]/[1.6] text-muted">
@@ -186,7 +187,7 @@ const rules = [
         <p class="mt-6 text-[13px]/[1.45] text-muted">Abstände: Überzeile 12 · Titel 24 · Einleitung 16 · Text 32 · Button</p>
       </div>
 
-      <h2 class="mt-24 font-display font-medium text-ink" style={`font-size:${fluid(28, 40)};line-height:1.15;letter-spacing:-0.02em`}>
+      <h2 class="mt-24 font-display font-medium text-ink" style={`font-size:${fluid(28, 39)};line-height:1.15;letter-spacing:-0.02em`}>
         Regeln
       </h2>
       <ol class="mt-8 flex max-w-[75ch] list-decimal flex-col gap-3 pl-5 text-[16px]/[1.6] text-ink">

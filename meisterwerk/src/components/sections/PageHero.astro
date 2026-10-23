@@ -22,12 +22,12 @@ const { id = '16ee660', title, text, img, alt } = Astro.props;
   <div class="mx-auto flex w-full max-w-mobile flex-col gap-5 md:max-w-tablet md:min-h-[inherit] md:flex-row md:gap-7.5 lg:max-w-page">
     <div class="order-2 flex flex-col items-start justify-center gap-3.75 md:order-1 md:min-w-0 md:flex-1 md:gap-5 lg:w-[48.99%] lg:flex-none lg:pr-[8%]">
       <h1
-        class="font-display text-[23px]/[25.3px] font-medium text-ink md:text-[34px]/[37.4px] lg:mb-5 lg:text-h1"
+        class="font-display text-h1 font-medium text-ink lg:mb-5"
         data-anim="fadeInLeft"
       >
         {title}
       </h1>
-      <p class="text-body md:text-[17px]/[25.5px] lg:w-4/5 lg:text-body">{text}</p>
+      <p class="text-body lg:w-4/5">{text}</p>
     </div>
     <div class="order-1 overflow-hidden md:order-2 md:h-[calc(100vh-50px)] md:min-w-0 md:flex-1 md:self-start">
       <Picture

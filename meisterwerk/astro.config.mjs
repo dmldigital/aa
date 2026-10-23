@@ -17,6 +17,15 @@ export default defineConfig({
       subsets: ['latin'],
       fallbacks: ['sans-serif'],
     },
+    {
+      name: 'DM Sans',
+      cssVariable: '--font-dm-sans',
+      provider: fontProviders.google(),
+      weights: [400, 500, 700],
+      styles: ['normal'],
+      subsets: ['latin'],
+      fallbacks: ['sans-serif'],
+    },
   ],
   build: {
     // Eine einzelne Seite: das kleine CSS direkt ins HTML, damit kein Stylesheet das Rendern blockiert

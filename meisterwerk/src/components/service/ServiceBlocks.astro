@@ -15,19 +15,19 @@ interface Props {
 const { blocks, cta } = Astro.props;
 ---
 
-<section class="mx-auto mt-10 mb-10 w-full max-w-page px-5 md:mt-15 md:mb-15 lg:mt-27 lg:mb-27 lg:px-7.5">
-  <div class="grid gap-10 md:grid-cols-2 md:gap-x-7.5 lg:gap-x-[6vw]">
+<section class="mx-auto w-full max-w-page px-page py-section">
+  <div class="grid gap-12 md:grid-cols-2 md:gap-x-12 lg:gap-x-[6vw]">
     {blocks.map((b) => (
-      <div data-anim="fadeIn" class="flex flex-col gap-3.75 lg:gap-5">
-        <h3 class="font-display text-[21px]/[26.25px] font-medium text-gold md:text-[24px]/[30px] lg:text-h3">
+      <div data-anim="fadeIn" class="flex flex-col gap-4">
+        <h3 class="font-display text-h2 font-medium text-gold">
           {b.title}
         </h3>
-        <div class:list={['text-[16px]/[24px] md:text-body [&_p]:text-15', rich]} set:html={cleanHtml(b.html)} />
+        <div class:list={['max-w-[65ch] text-body', rich]} set:html={cleanHtml(b.html)} />
       </div>
     ))}
   </div>
   {cta && (
-    <div class="mt-10 lg:mt-15" data-anim="fadeIn">
+    <div class="mt-8" data-anim="fadeIn">
       <Button href={cta.href}>
         {cta.label}
       </Button>
