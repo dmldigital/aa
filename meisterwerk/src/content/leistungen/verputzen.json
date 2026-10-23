@@ -3,16 +3,17 @@
   "title": "Verputzarbeiten in Ludwigsburg",
   "description": "Perfekte Wände von Grund auf. Wir bieten hochwertige Innen- & Außenputze sowie dekorative Oberflächen in Ludwigsburg & Stuttgart. Fachgerecht & langlebig.",
   "hero": {
-    "title": "Verputzarbeiten – Edle Strukturen für Ihre Wände und Decken!",
+    "title": "Verputzarbeiten in Ludwigsburg: Edle Strukturen für Ihre Wände und Decken",
     "text": "Maler und Stuckateure führen anspruchsvolle Arbeiten am und im Haus durch – dazu gehört vor allem das Verputzen. Dabei entstehen glatte und hochwertige Oberflächen an Wänden und Decken. Diese Arbeit erfordert viel Geschick, Erfahrung und ein tiefes Verständnis der Materialien. Bei der Meisterwerk Maler Manufaktur arbeiten wir immer sorgfältig, um ein perfektes Ergebnis zu erzielen. Es gibt viele Arten des Verputzens, zum Beispiel aus Kalk oder Gips. Wir kennen uns bestens mit den unterschiedlichen Techniken aus und beraten Sie gerne, welche Materialien und Verfahren sich für Ihre Räume besonders eignen. So gestalten wir Ihre Räume stilvoll, modern und langlebig. Darüber hinaus steht Ihnen unser Malermeister Baldassarre Fortino persönlich für die Beratung über die richtige Tapete und deren optimale Umsetzung zur Seite. Unser Ziel ist es, Ihre Wände in echte Meisterwerke zu verwandeln – ästhetisch, präzise und langlebig.",
     "img": "../../assets/img/2097-meisterwerk-20230524-scaled.jpg",
-    "alt": "Glattputz-Arbeiten für moderne Innenräume in Ludwigsburg – Meisterwerk Malermanufaktur."
+    "alt": "Glattputz-Arbeiten für moderne Innenräume in Ludwigsburg – Meisterwerk Malermanufaktur.",
+    "local": "Innen- und Außenputz sowie dekorative Oberflächen führen wir in Ludwigsburg und Umgebung aus, als Betrieb aus Freiberg am Neckar."
   },
   "intro": {
     "img": "../../assets/img/2084-meisterwerk-20230524-Bearbeitet-1-scaled.jpg",
     "alt": "",
     "label": "Die Vorteile auf einen Blick",
-    "title": "Vorteile professioneller Verputzarbeiten",
+    "title": "Vorteile professioneller Verputzarbeiten in Ludwigsburg",
     "list": "<ul><li><p><strong>Glatte und hochwertige Oberflächen</strong>: Perfekt vorbereitet für Malerarbeiten oder dekorative Gestaltung.</p></li><li><p><strong>Individuelle Gestaltung</strong>: Unterschiedliche Strukturen und Techniken möglich, angepasst an Ihren Stil.</p></li><li><p><strong>Langlebigkeit</strong>: Hochwertige Materialien sorgen für ein stabiles, dauerhaft schönes Ergebnis.</p></li><li><p><strong>Präzise Ausführung</strong>: Unser Team arbeitet sorgfältig, schnell und zuverlässig.</p></li><li><p><strong>Fachberatung inklusive</strong>: Unser Malermeister <strong>Baldassarre Fortino</strong> unterstützt Sie bei der Wahl der richtigen Technik und Materialien.</p></li></ul>",
     "blocks": [
       {
@@ -29,7 +30,10 @@
   },
   "showcase": [
     {
-      "width": [24.333, 23.88],
+      "width": [
+        24.333,
+        23.88
+      ],
       "images": [
         "../../assets/img/41-bf-20241206-Bearbeitet-scaled.jpg",
         "../../assets/img/902-bf-20241206-Bearbeitet-scaled.jpg",
@@ -37,8 +41,13 @@
       ]
     },
     {
-      "width": [66.667, 74.09],
-      "images": ["../../assets/img/2104-meisterwerk-20230524-Bearbeitet-2-scaled.jpg"]
+      "width": [
+        66.667,
+        74.09
+      ],
+      "images": [
+        "../../assets/img/2104-meisterwerk-20230524-Bearbeitet-2-scaled.jpg"
+      ]
     }
   ],
   "pillars": [

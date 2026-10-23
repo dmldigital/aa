@@ -15,6 +15,7 @@ import Surface from '../sections/Surface.astro';
 import MiniFormSection from '../sections/MiniFormSection.astro';
 import { href, routes } from '../../data/links';
 import { projects } from '../../data/projects';
+import { projectHeading } from '../../lib/seo';
 
 interface Props {
   post: CollectionEntry<'beitraege'>['data'];
@@ -83,7 +84,7 @@ const next = projects[(idx + 1) % projects.length];
       data-anim="fadeInUp"
       data-anim-delay="100"
     >
-      {post.title}
+      {projectHeading(post.title, post.services, post.info.place)}
     </h1>
     <dl
       class="mt-9 grid grid-cols-2 gap-5 md:grid-cols-4 lg:grid-cols-[2fr_1fr_1fr_1fr_1fr]"

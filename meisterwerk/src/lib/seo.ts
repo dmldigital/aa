@@ -75,3 +75,20 @@ export function pathFromUrl(url: string, base = '/'): string {
 export function siteIndexable(value: string | undefined): boolean {
   return value === 'true';
 }
+
+/** Orte, die in Überschriften von Projekten genannt werden dürfen (Zielregion). */
+const TARGET_PLACES = ['Ludwigsburg', 'Freiberg am Neckar', 'Marbach am Neckar', 'Bietigheim-Bissingen', 'Stuttgart'];
+
+/**
+ * Überschrift (H1) einer Projektseite mit Ortsbezug, nur aus vorhandenen Daten: „Titel: Leistung in Ort“. Steht die Leistung
+ * schon im Titel, entfällt sie („Spachteltechnik für Lotter Bäderausstellung in Ludwigsburg“). Liegt der Ort außerhalb der
+ * Zielregion, bleibt der Titel unverändert.
+ */
+export function projectHeading(title: string, services: string[], place: string): string {
+  const ort = place.replace(/^Freiberg a\. Neckar$/, 'Freiberg am Neckar');
+  if (!TARGET_PLACES.includes(ort)) return title;
+  const service = services[0] ?? '';
+  const first = service.split(' ')[0].toLowerCase();
+  if (!service || title.toLowerCase().includes(first)) return `${title} in ${ort}`;
+  return `${title}: ${service} in ${ort}`;
+}

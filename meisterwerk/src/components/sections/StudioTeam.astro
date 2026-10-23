@@ -296,7 +296,8 @@ const teamText = teamMatch?.[2] ?? '';
 
   /*
    * Team-Akkordeon (Desktop): Bei Hover oder Fokus klappt das Bild auf, die anderen werden schmal. Das zuletzt
-   * angewählte bleibt offen. Auf Touch-Geräten öffnet der erste Tipp das Bild, der zweite führt zum Profil.
+   * angewählte bleibt offen. Beim Scrollen bleibt der Bereich stehen und die Bilder öffnen nacheinander. Auf
+   * Touch-Geräten öffnet der erste Tipp das Bild, der zweite führt zum Profil.
    */
   const scene = document.querySelector<HTMLElement>('[data-ta-scene]');
   const items = scene ? [...scene.querySelectorAll<HTMLElement>('[data-ta-item]')] : [];
@@ -333,9 +334,27 @@ const teamText = teamMatch?.[2] ?? '';
         once: true,
         onEnter: () => tl.play(),
       });
+      // Durchscrollen: Der Bereich bleibt stehen, die Bilder öffnen nacheinander (Hover bleibt möglich und gilt bis zur
+      // nächsten Scroll-Stufe)
+      let last = 0;
+      const pin = ScrollTrigger.create({
+        trigger: scene,
+        start: 'top top',
+        end: () => `+=${Math.round(window.innerHeight * 0.55 * items.length)}`,
+        pin: true,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          const i = Math.min(items.length - 1, Math.floor(self.progress * items.length));
+          if (i !== last) {
+            last = i;
+            activate(i);
+          }
+        },
+      });
       return () => {
         st.kill();
         tl.kill();
+        pin.kill();
         gsap.set(items, { clearProps: 'transform,opacity,visibility' });
       };
     });

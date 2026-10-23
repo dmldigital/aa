@@ -98,7 +98,7 @@ const leistungen = defineCollection({
       /** Seitentitel ohne Markenzusatz, höchstens 30 Zeichen */
       title: z.string().max(30),
       description: metaDescription,
-      hero: z.object({ title: z.string(), text: z.string(), img: image(), alt: z.string() }),
+      hero: z.object({ title: z.string(), text: z.string(), /** Ein Satz mit Ortsbezug (Ludwigsburg, Freiberg am Neckar) */ local: z.string().optional(), img: image(), alt: z.string() }),
       intro: z.object({
         img: image(),
         alt: z.string(),

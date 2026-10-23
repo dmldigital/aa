@@ -52,7 +52,7 @@ export const site: SiteData = {
   whatsappHref: 'https://wa.me/4971412398290',
   street: 'Einsteinstr. 10',
   postalCode: '71691',
-  city: 'Freiberg',
+  city: 'Freiberg am Neckar',
   cityFull: 'Freiberg am Neckar',
   region: 'Baden-Württemberg',
   country: 'DE',

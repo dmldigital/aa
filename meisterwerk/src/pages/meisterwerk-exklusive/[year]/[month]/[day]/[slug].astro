@@ -7,6 +7,7 @@ import PostArticle from '../../../../../components/sections/PostArticle.astro';
 import MiniFormSection from '../../../../../components/sections/MiniFormSection.astro';
 import PostRelated from '../../../../../components/sections/PostRelated.astro';
 import { related } from '../../../../../data/pages/exklusive-posts';
+import { projectHeading } from '../../../../../lib/seo';
 
 export async function getStaticPaths() {
   const posts = await getCollection('exklusiv-beitraege');
@@ -34,7 +35,7 @@ const formService = post.services.map((n) => exkServices.find(([re]) => re.test(
   current={`/meisterwerk-exklusive/${post.year}/${post.month}/${post.day}/${post.slug}/`}
 >
   <PostHead
-    title={post.title}
+    title={projectHeading(post.title, post.services, post.info.place)}
     category={post.category}
     categoryHref={post.categoryHref}
     date={post.date}

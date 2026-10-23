@@ -31,10 +31,38 @@ const alt = `${name} von Meisterwerke Exklusive`;
 // Einleitung: Überschrift und Absätze (im Original in verschachtelten Containern)
 const lead = parts.find((p) => p.t === 'html');
 const leadHtml = lead && lead.t === 'html' ? lead.html : '';
-const heading = leadHtml.match(/<h2[^>]*>([\s\S]*?)<\/h2>/)?.[1].trim() ?? name;
-const paragraphs = [...leadHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)]
-  .map((m) => m[1].replace(/^(?:&nbsp;|\s)+/, '').trim())
-  .filter(Boolean);
+// Ortsbezug (Ludwigsburg, Freiberg am Neckar): Überschrift, ein Satz im Text, Galerie-Überschrift
+const local: Record<string, { h1: string; sentence: string; gallery: string }> = {
+  'fugenlose-baeder': {
+    h1: 'Fugenlose Bäder in Ludwigsburg: Was macht sie besonders?',
+    sentence:
+      'Fugenlose Bäder planen und gestalten wir für Kunden in Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart, als Betrieb aus Freiberg am Neckar.',
+    gallery: 'Einblicke: Fugenlose Bäder aus Ludwigsburg und Umgebung',
+  },
+  'fugenloser-boden': {
+    h1: 'Fugenlose Böden in Ludwigsburg: Was macht sie besonders?',
+    sentence:
+      'Fugenlose Böden führen wir in Ludwigsburg und Umgebung aus. Muster sehen Sie im Showroom in Freiberg am Neckar.',
+    gallery: 'Einblicke: Fugenlose Böden aus Ludwigsburg und Umgebung',
+  },
+  spachteltechniken: {
+    h1: 'Das Besondere an Spachteltechniken in Ludwigsburg',
+    sentence:
+      'Spachteltechniken für Wände und Decken setzen wir in Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart um.',
+    gallery: 'Einblicke: Spachteltechniken aus Ludwigsburg und Umgebung',
+  },
+  stuckleisten: {
+    h1: 'Das Besondere an Stuckleisten in Ludwigsburg',
+    sentence: 'Stuckleisten für indirektes und direktes Licht montieren wir in Ludwigsburg und Umgebung.',
+    gallery: 'Einblicke: Stuckleisten aus Ludwigsburg und Umgebung',
+  },
+};
+const loc = local[page.slug];
+const heading = loc?.h1 ?? leadHtml.match(/<h2[^>]*>([\s\S]*?)<\/h2>/)?.[1].trim() ?? name;
+const paragraphs = [
+  ...[...leadHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].map((m) => m[1].replace(/^(?:&nbsp;|\s)+/, '').trim()).filter(Boolean),
+  ...(loc ? [loc.sentence] : []),
+];
 
 const buttons = parts.flatMap((p) => (p.t === 'button' ? [p] : []));
 const blocks = parts.flatMap((p) => (p.t === 'block' ? [{ title: p.title, html: p.html }] : []));
@@ -79,13 +107,13 @@ const closing = buttons[1];
     cta={cta ? { label: cta.label, href: href(cta.href) } : undefined}
     rootClass="mt-6 mb-[10vh] md:mt-8 md:mb-15 lg:mt-10 lg:mb-[20vh]"
   />
-  {benefits && <ServiceBenefits label={label} title={benefits.title} list={benefitsList} intro={benefitsIntro} />}
+  {benefits && <ServiceBenefits label={label} title={`${benefits.title} in Ludwigsburg`} list={benefitsList} intro={benefitsIntro} />}
   <ServiceBlocks
     class="pb-0!"
     blocks={textBlocks}
     cta={closing ? { label: closing.label, href: href(closing.href) } : undefined}
   />
-  <ServiceGallery images={gallery} alt={alt} start={4} />
+  <ServiceGallery images={gallery} alt={alt} heading={loc?.gallery} start={4} />
   <ServiceExcellence title={EXCELLENCE} items={page.pillars} />
   <Projects
     id={page.projectsId}

@@ -22,7 +22,9 @@ const { page } = Astro.props;
  * Karten, die beiden Textblöcke, alle Bilder als Karussell wie „Unsere Exklusive Projekte“ mit Großansicht und
  * „Exzellenz ist unser Maßstab“ als Karten.
  */
-const name = page.hero.title.split(' – ')[0];
+const name = page.hero.title.split(': ')[0].split(' – ')[0];
+// Leistung ohne Ortszusatz für die Überschrift der Galerie
+const short = name.replace(/ in Ludwigsburg$/, '');
 const pool = [
   { src: page.hero.img, alt: page.hero.alt },
   { src: page.intro.img, alt: page.intro.alt },
@@ -52,7 +54,7 @@ const intro2 =
 <PageLayout title={page.title} description={page.description} current={`/services/${page.slug}/`}>
   <WelcomeScroll
     heading={page.hero.title}
-    paragraphs={[page.hero.text, intro2]}
+    paragraphs={[page.hero.text, ...(page.hero.local ? [page.hero.local] : []), intro2]}
     images={images}
     closing={null}
     headingTag="h1"
@@ -60,7 +62,7 @@ const intro2 =
   />
   <ServiceBenefits label={page.intro.label} title={page.intro.title} list={page.intro.list} />
   <ServiceBlocks blocks={page.intro.blocks} class="pb-0!" />
-  <ServiceGallery images={gallery} alt={`${name} bei Meisterwerk`} start={4} />
+  <ServiceGallery images={gallery} alt={`${name} bei Meisterwerk`} heading={`Einblicke: ${short} aus Ludwigsburg und Umgebung`} start={4} />
   <ServiceExcellence title={EXCELLENCE} items={page.pillars} />
   <MoreServices current={`/services/${page.slug}/`} />
   <MiniFormSection

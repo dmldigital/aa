@@ -29,7 +29,7 @@ export const contactPages: Record<'kontakt' | 'schnellkontakt' | 'exklusive', Co
         'Sie planen ein Renovierungs- oder Gestaltungsprojekt und möchten Wert auf saubere Ausführung, klare Kommunikation und hochwertige Ergebnisse legen?',
       ],
       [
-        'Über dieses Formular können Sie uns alle relevanten Informationen zu Ihrem Vorhaben übermitteln. Je genauer Ihre Angaben, desto präziser können wir Ihr Projekt einschätzen und vorbereiten.',
+        'Über dieses Formular können Sie uns alle relevanten Informationen zu Ihrem Vorhaben übermitteln. Je genauer Ihre Angaben, desto präziser können wir Ihr Projekt einschätzen und vorbereiten. Wir sind Ihr Malerbetrieb in Freiberg am Neckar und arbeiten in Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart.',
       ],
       [
         'Ob private Wohnräume, Gewerbeflächen oder exklusive Oberflächenlösungen – wir begleiten Ihr Projekt von der ersten Idee bis zur fertigen Umsetzung.',
