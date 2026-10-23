@@ -15,8 +15,12 @@ interface Props {
   heading?: string;
   /** Auf volle Reihen kürzen (Standard). Projektseiten zeigen alle Bilder, die letzte Reihe darf kürzer sein. */
   trim?: boolean;
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
+  /** Zählung der Bilder im Alt-Text beginnt bei diesem Wert (Projektseiten: nach den Kapitelbildern) */
+  start?: number;
 }
-const { alt, label = 'Galerie', heading = 'Einblicke in unsere Arbeit', trim = true } = Astro.props;
+const { alt, label = 'Galerie', heading = 'Einblicke in unsere Arbeit', trim = true, tone = 'white', start = 1 } = Astro.props;
 // Bis acht Bilder zwei Spalten, darüber drei (ab 1025 px). Es bleibt immer eine volle Reihe: gerade Zahl bzw. Vielfaches von 6
 const cols = Astro.props.images.length > 8 ? 3 : 2;
 const step = cols === 3 ? 6 : 2;
@@ -27,7 +31,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
 ---
 
 {images.length > 0 && (
-  <section data-sg class="sg">
+  <section data-sg class:list={['sg', tone === 'soft' && 'sg--soft']}>
     <div class="sg-inner">
       <div class="sg-heading">
         <p class="sg-eyebrow" data-anim="fadeIn">{label}</p>
@@ -36,12 +40,12 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
       <ul class="sg-grid" style={`--cols:${cols}`}>
         {images.map((src, i) => (
           <li class="sg-item">
-            <button type="button" class="sg-btn" data-sg-item data-full={full[i].src} aria-label={`${alt}, Bild ${i + 1} vergrößern`}>
+            <button type="button" class="sg-btn" data-sg-item data-full={full[i].src} aria-label={`${alt}, Bild ${start + i} vergrößern`}>
               <Picture
                 formats={['avif']}
                 fallbackFormat="webp"
                 src={src}
-                alt={alt}
+                alt={`${alt}, Bild ${start + i}`}
                 widths={[170, 340, 460, 920]}
                 sizes={`(min-width: 1025px) ${cols === 3 ? 265 : 400}px, (min-width: 768px) 360px, 170px`}
                 loading="lazy"
@@ -68,8 +72,11 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
 <style>
   .sg {
     --ink: #090402;
-    margin: 64px 20px;
+    padding: 64px 20px;
     color: var(--ink);
+  }
+  .sg--soft {
+    background: var(--color-soft);
   }
   .sg-inner {
     display: grid;
@@ -169,12 +176,12 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
 
   @media (min-width: 768px) {
     .sg {
-      margin: 96px 32px;
+      padding: 96px 32px;
     }
   }
   @media (min-width: 1025px) {
     .sg {
-      margin: 128px 32px;
+      padding: 128px 32px;
     }
     .sg-inner {
       grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);

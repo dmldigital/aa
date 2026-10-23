@@ -1,0 +1,73 @@
+---
+/**
+ * „Weitere Leistungen“ am Ende jeder Leistungsseite: drei Karten ohne Rahmen (Bild, Titel, Kurztext) mit Link auf andere
+ * Leistungen, darüber eine Zeile mit dem Link zur Übersicht „Alle Leistungen“. Die Hauptseite zeigt die drei folgenden
+ * Leistungen der Reihenfolge nach, die Exklusiv-Seiten die drei übrigen Exklusiv-Leistungen.
+ * Ein Klick auf Bild oder Titel führt zur Leistung (die ganze Karte ist ein Link, der Titel ist der Linktext).
+ */
+import { Picture } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+import { cards } from '../../data/services';
+import { leistungen } from '../../data/pages/exklusive-start';
+
+interface Props {
+  /** Adresse der aktuellen Seite (wird nicht als Karte gezeigt) */
+  current: string;
+  exklusive?: boolean;
+  /** Hintergrund der Sektion; die Karten haben den jeweils anderen Ton */
+  tone?: 'white' | 'soft';
+}
+const { current, exklusive = false, tone = 'white' } = Astro.props;
+
+const label = 'font-display text-label font-medium tracking-label text-ink uppercase';
+
+const all = exklusive
+  ? leistungen.cards.map((c) => ({ href: c.href, title: c.title, text: '', img: c.img }))
+  : cards.map((c) => ({ href: c.href, title: c.title.replace(/\s*[–-]\s*$/, ''), text: c.subtitle ?? '', img: c.img }));
+const at = all.findIndex((c) => c.href === current);
+// Die drei folgenden in der Reihenfolge (nach der letzten wieder von vorn), die eigene Seite fällt weg
+const items = [...all.slice(at + 1), ...all.slice(0, Math.max(at, 0))].slice(0, 3);
+const overview = exklusive ? '/meisterwerk-exklusive/unsere-leistungen/' : '/leistungen/';
+---
+
+<section data-section="weitere-leistungen" class:list={['px-page py-section', tone === 'soft' && 'bg-soft']}>
+  <div class="mx-auto flex w-full max-w-page flex-col gap-12">
+    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+      <div class="flex flex-col gap-3" data-anim="fadeInUp" data-anim-dur="fast">
+        <p class={label}>Weitere Leistungen</p>
+        <h2 class="font-display text-h2 text-balance text-ink">Das können wir noch für Sie tun</h2>
+      </div>
+      <div data-anim="fadeInUp" data-anim-dur="fast">
+        <Button href={href(overview)}>Alle Leistungen</Button>
+      </div>
+    </div>
+    <ul class="grid gap-5 md:grid-cols-3">
+      {items.map((it, i) => (
+        <li data-anim="fadeInUp" data-anim-dur="fast" data-anim-delay={i * 100}>
+          <a href={href(it.href)} class="group/card flex h-full flex-col text-ink">
+            <div class="overflow-hidden">
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={it.img}
+                alt=""
+                widths={[350, 480, 700, 960]}
+                sizes="(min-width: 1025px) 33vw, (min-width: 768px) 30vw, calc(100vw - 40px)"
+                loading="lazy"
+                class="block aspect-[4/3] h-auto w-full object-cover transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80"
+              />
+            </div>
+            <div class:list={['flex flex-1 flex-col gap-4 p-6 md:p-8', tone === 'soft' ? 'bg-white' : 'bg-soft']}>
+              <h3 class="font-display text-h4 text-ink">{it.title}</h3>
+              {it.text && <p class="text-body text-muted">{it.text}</p>}
+              <span class="mt-auto font-display text-small tracking-label text-ink uppercase underline underline-offset-4">
+                {it.title} ansehen
+              </span>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

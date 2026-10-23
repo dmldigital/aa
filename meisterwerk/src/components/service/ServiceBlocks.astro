@@ -11,12 +11,13 @@ interface Props {
   blocks: { title: string; html: string }[];
   /** Link unter den Blöcken (Exklusive-Seiten: „Lassen Sie sich inspirieren“) */
   cta?: { label: string; href: string };
+  class?: string;
 }
-const { blocks, cta } = Astro.props;
+const { blocks, cta, class: className = '' } = Astro.props;
 ---
 
-<section class="mx-auto w-full max-w-page px-page py-section">
-  <div class="grid gap-12 md:grid-cols-2 md:gap-x-12 lg:gap-x-[6vw]">
+<section class:list={['px-page py-section', className]}>
+  <div class="mx-auto grid w-full max-w-page gap-12 md:grid-cols-2 md:gap-x-12 lg:gap-x-[6vw]">
     {blocks.map((b) => (
       <div data-anim="fadeIn" class="flex flex-col gap-4">
         <h3 class="font-display text-h2 font-medium text-gold">
@@ -27,7 +28,7 @@ const { blocks, cta } = Astro.props;
     ))}
   </div>
   {cta && (
-    <div class="mt-8" data-anim="fadeIn">
+    <div class="mx-auto mt-8 w-full max-w-page" data-anim="fadeIn">
       <Button href={cta.href}>
         {cta.label}
       </Button>
