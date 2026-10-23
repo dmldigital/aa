@@ -1,0 +1,39 @@
+---
+/**
+ * Sektion mit Mini-Kontaktformular: links Überzeile, Titel und kurzer Text, rechts das Formular (`ui/MiniForm.astro`).
+ * Hellgrauer Grund, damit sie sich von weißen Sektionen absetzt; Abstände wie jede Sektion (`py-section`).
+ * Kommt vor dem Footer auf Leistungs-, Projekt- und Info-Seiten.
+ */
+import MiniForm from '../ui/MiniForm.astro';
+
+interface Props {
+  label?: string;
+  title?: string;
+  text?: string;
+  /** Vorgewählte Leistung im Formular */
+  service?: string;
+  exklusive?: boolean;
+  class?: string;
+}
+const {
+  label = 'Kontakt',
+  title = 'Erzählen Sie uns von Ihrem Vorhaben',
+  text = 'Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich und vereinbaren auf Wunsch einen Termin im Showroom.',
+  service,
+  exklusive = false,
+  class: className = '',
+} = Astro.props;
+---
+
+<section data-section="mini-kontakt" class:list={['bg-soft px-page py-section', className]}>
+  <div class="mx-auto grid w-full max-w-page gap-10 lg:grid-cols-12 lg:gap-x-[6vw]">
+    <div class="flex flex-col gap-3 lg:col-span-5" data-anim="fadeInUp" data-anim-dur="fast">
+      <p class="font-display text-label font-medium tracking-label text-ink uppercase">{label}</p>
+      <h2 class="font-display text-h2 text-ink">{title}</h2>
+      <p class="mt-3 max-w-[65ch] text-body">{text}</p>
+    </div>
+    <div class="bg-white p-6 md:p-8 lg:col-span-7" data-anim="fadeInUp" data-anim-dur="fast">
+      <MiniForm {service} {exklusive} />
+    </div>
+  </div>
+</section>

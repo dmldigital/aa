@@ -1,0 +1,68 @@
+---
+/**
+ * Seitenkopf: zwei Vorlagen für alle Unterseiten.
+ * Mit Bild (`image` gesetzt): Überzeile, H1, Einleitung und Button links, das Bild rechts (Handy: Bild unter dem Text).
+ * Nur Text (ohne `image`): dieselbe Spalte, aber linksbündig mit etwas mehr Luft, ohne leere Bildfläche.
+ * Genau eine H1 pro Seite (`h1` hier); Abstände aus der Stil-Referenz (Überzeile 12, Titel 24, Text 32).
+ * `trail` ist eine kleine Rücklink-Zeile über der Überzeile (z. B. „Projekte“).
+ */
+import { Picture } from 'astro:assets';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  label?: string;
+  title: string;
+  /** Einleitung (Schriftstufe „lead“) */
+  lead?: string;
+  /** Weitere Absätze (Text darf Links enthalten) */
+  paragraphs?: string[];
+  button?: { label: string; href: string };
+  image?: ImageMetadata;
+  imageAlt?: string;
+  /** Bild lädt sofort (nur wenn es über der Falz liegt) */
+  eager?: boolean;
+  class?: string;
+}
+const { label, title, lead, paragraphs = [], button, image, imageAlt = '', eager = true, class: className = '' } = Astro.props;
+---
+
+<section data-section="seitenkopf" class:list={['px-page pt-16 pb-12 md:pt-24 md:pb-16', className]}>
+  <div
+    class:list={[
+      'mx-auto grid w-full max-w-page items-center gap-10',
+      image ? 'lg:grid-cols-12 lg:gap-x-[6vw]' : '',
+    ]}
+  >
+    <div class:list={['flex flex-col', image ? 'lg:col-span-6' : 'max-w-[65ch]']}>
+      {label && (
+        <p class="mb-3 font-display text-label font-medium tracking-label text-ink uppercase" data-anim="fadeIn">{label}</p>
+      )}
+      <h1 class="font-display text-h1 text-balance text-ink" data-anim="fadeInUp" data-anim-delay="100">{title}</h1>
+      {lead && <p class="mt-6 max-w-[65ch] font-display text-lead text-ink" data-anim="fadeInUp" data-anim-delay="150">{lead}</p>}
+      {paragraphs.length > 0 && (
+        <div class="mt-4 flex max-w-[65ch] flex-col gap-4 text-body" data-anim="fadeInUp" data-anim-delay="200">
+          {paragraphs.map((p) => <p set:html={p} />)}
+        </div>
+      )}
+      {button && (
+        <div class="mt-8" data-anim="fadeInUp" data-anim-delay="250">
+          <Button href={button.href}>{button.label}</Button>
+        </div>
+      )}
+    </div>
+    {image && (
+      <div class="overflow-hidden lg:col-span-6" data-grow="bottom">
+        <Picture
+          formats={['avif']}
+          fallbackFormat="webp"
+          src={image}
+          alt={imageAlt}
+          widths={[390, 780, 1200, 1700]}
+          sizes="(min-width: 1025px) 50vw, calc(100vw - 40px)"
+          loading={eager ? 'eager' : 'lazy'}
+          class="block aspect-[4/3] h-auto w-full object-cover"
+        />
+      </div>
+    )}
+  </div>
+</section>

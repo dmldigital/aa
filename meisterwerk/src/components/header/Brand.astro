@@ -4,12 +4,13 @@ import { href, routes } from '../../data/links';
 import type { Site } from '../../data/nav';
 import mainLogo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
 import exklusiveLogo from '../../assets/img/logo_exklusive.png';
+import heroLogo from '../../assets/img/logo_meisterwerk_hero.png';
 /** Logo der Kopfzeile (Hauptseite: Meisterwerk Malermanufaktur, Teil-Website: Meisterwerke Exklusive). */
 interface Props {
   site?: Site;
   class?: string;
-  /** `light` = weißes Logo (über Fotos und Video) */
-  tone?: 'dark' | 'light';
+  /** `light` = weißes Logo (über Fotos), `duo` = „MEISTERWERK“ in Gold, Zusatzzeilen weiß (Vollbild-Hero der Startseite) */
+  tone?: 'dark' | 'light' | 'duo';
 }
 const { site = 'main', class: className = '', tone = 'dark' } = Astro.props;
 const exk = site === 'exklusive';
@@ -25,11 +26,11 @@ const exk = site === 'exklusive';
   <Picture
     formats={['avif']}
     fallbackFormat="webp"
-    src={exk ? exklusiveLogo : mainLogo}
+    src={exk ? exklusiveLogo : tone === 'duo' ? heroLogo : mainLogo}
     alt={
       exk
         ? 'Meisterwerke Exklusive by Baldassarre Fortino'
-        : 'Meisterwerk Malermanufaktur by Baldasarre Fortino'
+        : 'Meisterwerk Malermanufaktur by Baldassarre Fortino'
     }
     widths={[180, 360]}
     sizes="180px"

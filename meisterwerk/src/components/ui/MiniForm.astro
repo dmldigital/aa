@@ -1,0 +1,69 @@
+---
+/**
+ * Mini-Kontaktformular (wie auf der Startseite in „Jede Oberfläche ist einzigartig“): Name, Telefon oder E-Mail, Leistung,
+ * Ort, Nachricht, Linienfelder ohne Kasten. Das Absenden ist noch nicht angebunden (Meldung, Skript in `Menu.astro` über
+ * `form[data-menu-form]`; Hosting später Cloudflare Pages Functions mit Resend). `service` wählt die Leistung vor
+ * (z. B. auf einer Leistungsseite), `exklusive` tauscht die Leistungsliste gegen die Exklusiv-Leistungen.
+ */
+import Button from './Button.astro';
+import { site } from '../../data/site';
+
+interface Props {
+  title?: string;
+  /** Vorgewählte Leistung (muss in der Liste stehen) */
+  service?: string;
+  exklusive?: boolean;
+  class?: string;
+}
+const { title = 'Wie können wir Ihnen helfen?', service = '', exklusive = false, class: className = '' } = Astro.props;
+
+const main = ['Malerarbeiten', 'Tapezierarbeiten', 'Lackierarbeiten', 'Verputzarbeiten', 'Glatte Oberflächen'];
+const exk = ['Fugenlose Bäder', 'Fugenlose Böden', 'Spachteltechniken', 'Stuckleisten'];
+const options = [...(exklusive ? exk : [...main, ...exk]), 'Etwas anderes'];
+
+const field = 'flex min-w-0 flex-col gap-0.5';
+const label = 'font-display text-label tracking-label text-muted uppercase';
+const input =
+  'w-full border-0 border-b border-black/25 bg-transparent pt-1.5 pb-2 font-display text-body text-ink outline-none transition-colors duration-300 focus:border-ink';
+---
+
+<form data-menu-form aria-label="Kurze Nachricht" class:list={['flex w-full flex-col gap-5', className]}>
+  <h3 class="font-display text-h3 text-ink">{title}</h3>
+  <div class="grid gap-x-8 gap-y-4 md:grid-cols-2">
+    <label class={field}>
+      <span class={label}>Name</span>
+      <input type="text" name="name" autocomplete="name" required class={input} />
+    </label>
+    <label class={field}>
+      <span class={label}>Telefon oder E-Mail</span>
+      <input type="text" name="kontakt" autocomplete="email" required class={input} />
+    </label>
+    <label class={field}>
+      <span class={label}>Leistung</span>
+      <select name="leistung" class={`${input} appearance-none bg-[url("data:image/svg+xml,%3Csvg%20xmlns=%27http://www.w3.org/2000/svg%27%20viewBox=%270%200%2012%208%27%20fill=%27none%27%20stroke=%27%23090402%27%20stroke-width=%271.3%27%3E%3Cpath%20d=%27M1%201.5l5%205%205-5%27/%3E%3C/svg%3E")] bg-[length:12px] bg-[right_2px_center] bg-no-repeat pr-6`}>
+        <option value="">Bitte wählen</option>
+        {options.map((o) => <option selected={o === service}>{o}</option>)}
+      </select>
+    </label>
+    <label class={field}>
+      <span class={label}>Ort</span>
+      <input type="text" name="ort" autocomplete="address-level2" class={input} />
+    </label>
+    <label class={`${field} md:col-span-2`}>
+      <span class={label}>Ihre Nachricht</span>
+      <textarea name="nachricht" rows="2" required class={`${input} min-h-12 resize-none`}></textarea>
+    </label>
+  </div>
+  <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
+    <Button type="submit">Nachricht senden</Button>
+    <p role="status" aria-live="polite" data-form-message hidden class="min-w-55 flex-1 text-small text-muted">
+      Das Formular wird in Kürze freigeschaltet. Bis dahin erreichen Sie uns gern telefonisch oder per E-Mail.
+    </p>
+  </div>
+  <p class="text-small text-muted">
+    Direkt erreichen Sie uns unter{' '}
+    <a href={`tel:${site.phoneHref}`} class="text-ink underline underline-offset-3">{site.phone}</a>
+    {' '}oder{' '}
+    <a href={`mailto:${site.email}`} class="text-ink underline underline-offset-3">{site.email}</a>
+  </p>
+</form>

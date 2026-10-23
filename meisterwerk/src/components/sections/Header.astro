@@ -10,8 +10,8 @@ import Brand from '../header/Brand.astro';
 interface Props {
   site?: Site;
   variant?: 'bar' | 'hero';
-  /** `light` = weißes Logo (Hero über Foto oder Video) */
-  tone?: 'dark' | 'light';
+  /** `light` = weißes Logo (Hero über Foto oder Video), `duo` = Gold und Weiß (Vollbild-Hero) */
+  tone?: 'dark' | 'light' | 'duo';
 }
 const { site = 'main', variant = 'bar', tone = 'dark' } = Astro.props;
 const hero = variant === 'hero';

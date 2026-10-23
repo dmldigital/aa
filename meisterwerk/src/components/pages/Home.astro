@@ -1,10 +1,6 @@
 ---
-/**
- * Startseite als Baustein: `index.astro` zeigt den Original-Hero, `startseite-a.astro` ist eine Kopie mit dem Hero in
- * voller Größe (HeroFull, Variante A). Alle anderen Sektionen sind gleich.
- */
+/** Startseite: Vollbild-Hero (Flug-Video), Willkommen-Szene, Leistungen, Fachsektion, Partner, Projekte, FAQ. */
 import PageLayout from '../../layouts/PageLayout.astro';
-import Hero from '../sections/Hero.astro';
 import HeroFull from '../sections/HeroFull.astro';
 import WelcomeScroll from '../sections/WelcomeScroll.astro';
 import Services from '../sections/Services.astro';
@@ -28,11 +24,6 @@ const welcome = {
   ],
 };
 
-interface Props {
-  /** Hero: Original (ohne Angabe) oder Vollbild-Variante A */
-  hero?: 'a';
-}
-const { hero } = Astro.props;
 ---
 
 <PageLayout
@@ -40,7 +31,7 @@ const { hero } = Astro.props;
   title="Meisterwerk Malermanufaktur | Ihr Maler in Ludwigsburg & Stuttgart"
   description="Exklusive Malerarbeiten & fugenlose Oberflächen in Ludwigsburg & Stuttgart. Ihr meistergeführter Fachbetrieb für puristische Ästhetik und höchste Qualität."
 >
-  {hero ? <HeroFull /> : <Hero />}
+  <HeroFull />
   <WelcomeScroll heading={welcome.heading} paragraphs={welcome.paragraphs} />
   <Services />
   <Skills />
