@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Setzt den Hero aus dem Astro-Build in die handbearbeitete Startseite (`index.html`) der Auswahl-Vorschau und legt die
-Kopie `startseite-a/index.html` an (gleiche Startseite mit dem Vollbild-Hero, Variante A).
+"""Setzt den Hero aus dem Astro-Build in die handbearbeitete Startseite (`index.html`) der Auswahl-Vorschau.
+(Der Vollbild-Hero ist seit der Entscheidung des Kunden der Hero der Startseite, `/startseite-a/` entfällt.)
 
 Alles außer dem Hero-Abschnitt bleibt, wie es in der handbearbeiteten Startseite steht (`data-header-lock` am Hero
 bleibt erhalten). Das Skript des Heros wird ausgetauscht, nötige JS-Module aus dem Build werden ergänzt (nie überschrieben),
@@ -296,7 +296,6 @@ def patch(base, built, target):
 base = re.sub(r'<style data-(?:hero|shell)-patch>[\s\S]*?</style>', '', (D / 'index.html').read_text())
 base = shell(base, (B / 'index.html').read_text())
 patch(base, (B / 'index.html').read_text(), D / 'index.html')
-patch(base, (B / 'startseite-a/index.html').read_text(), D / 'startseite-a/index.html')
 # Bildfolge des Videos (alle Dateien des Builds, vorhandene gleichnamige werden ersetzt, die Bilder sind eine Einheit)
 src, dst = B / 'hero-flug', D / 'hero-flug'
 n = 0
