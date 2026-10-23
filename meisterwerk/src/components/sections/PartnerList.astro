@@ -27,20 +27,20 @@ const { id = 'ce0397d', groups } = Astro.props;
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="group/p flex items-center justify-between border-b border-[#eee] py-3.75 text-[13.6px] text-ink transition-all duration-300 ease-[ease] hover:border-black hover:pl-2 hover:text-black"
+                  class="group/p flex items-center justify-between border-b border-[#eee] py-3.75 text-small text-ink transition-all duration-300 ease-[ease] hover:border-black hover:pl-2 hover:text-black"
                 >
-                  <span class="block text-[13.6px]/[19.04px] tracking-[1px] uppercase">
+                  <span class="block text-label tracking-[1px] uppercase">
                     {link.name}
                     {link.sub && (
                       <>
                         <br />
-                        <small class="mt-1 block text-[10.4px]/[13.52px] tracking-normal text-[#999] normal-case">
+                        <small class="mt-1 block text-small tracking-normal text-[#999] normal-case">
                           {link.sub}
                         </small>
                       </>
                     )}
                   </span>
-                  <span class="ml-2.5 text-[19.2px]/6 md:leading-[22.5px] font-extralight text-[#bbb] transition-all duration-300 group-hover/p:scale-120 group-hover/p:text-black">
+                  <span class="ml-2.5 text-h4 font-extralight text-[#bbb] transition-all duration-300 group-hover/p:scale-120 group-hover/p:text-black">
                     +
                   </span>
                 </a>

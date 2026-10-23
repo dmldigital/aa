@@ -11,23 +11,23 @@ interface Props {
 }
 const { site = 'main' } = Astro.props;
 const exk = site === 'exklusive';
-const label = 'font-display text-[11px] tracking-[0.12em] text-gold uppercase';
-const value = 'group/ul inline-block font-display text-[16px]/[1.4] tracking-[0.01em] text-ink';
+const label = 'font-display text-label tracking-[0.12em] text-gold uppercase';
+const value = 'group/ul inline-block font-display text-body tracking-[0.01em] text-ink';
 const field =
-  'w-full border-0 border-b border-black/15 bg-transparent py-2 font-display text-[15px] text-ink outline-none transition-colors duration-300 placeholder:text-black/40 focus:border-ink';
+  'w-full border-0 border-b border-black/15 bg-transparent py-2 font-display text-body text-ink outline-none transition-colors duration-300 placeholder:text-black/40 focus:border-ink';
 ---
 
 <div class="flex flex-col gap-9">
   <div class="flex flex-col gap-3">
     <p class={label}>Kontakt</p>
-    <p class="font-display text-[28px]/[1.15] font-normal tracking-[-0.02em] text-ink">
+    <p class="font-display text-h3 font-normal text-ink">
       Wie können wir Ihnen helfen?
     </p>
   </div>
 
   <dl class="grid gap-y-5 min-[1025px]:grid-cols-2 min-[1025px]:gap-x-8">
     <div class="flex flex-col gap-1.5">
-      <dt class="font-display text-[12px] text-muted">Telefon</dt>
+      <dt class="font-display text-small text-muted">Telefon</dt>
       <dd>
         <a href={`tel:${company.phoneHref}`} class={value}>
           <span class="underline-anim [--underline-gap:3px]">{company.phone}</span>
@@ -40,7 +40,7 @@ const field =
       </dd>
     </div>
     <div class="flex flex-col gap-1.5">
-      <dt class="font-display text-[12px] text-muted">E-Mail</dt>
+      <dt class="font-display text-small text-muted">E-Mail</dt>
       <dd>
         <a href={`mailto:${company.email}`} class={value}>
           <span class="underline-anim [--underline-gap:3px]">{company.email}</span>
@@ -48,13 +48,13 @@ const field =
       </dd>
     </div>
     <div class="flex flex-col gap-1.5">
-      <dt class="font-display text-[12px] text-muted">Showroom</dt>
+      <dt class="font-display text-small text-muted">Showroom</dt>
       <dd>
         <a
           href={company.mapsUrl}
           target="_blank"
           rel="noopener noreferrer"
-          class="font-display text-[16px]/[1.4] text-ink transition-colors duration-300 hover:text-gold"
+          class="font-display text-body text-ink transition-colors duration-300 hover:text-gold"
         >
           {company.street}, {company.postalCode} {company.city}
         </a>
@@ -62,8 +62,8 @@ const field =
     </div>
     {!exk && (
       <div class="flex flex-col gap-1.5">
-        <dt class="font-display text-[12px] text-muted">Folgen Sie uns</dt>
-        <dd class="flex gap-5 font-display text-[16px]/[1.4] text-ink">
+        <dt class="font-display text-small text-muted">Folgen Sie uns</dt>
+        <dd class="flex gap-5 font-display text-body text-ink">
           <a
             href="https://www.instagram.com/maler.meisterwerk/"
             target="_blank"
@@ -86,7 +86,7 @@ const field =
   </dl>
 
   <form data-menu-form class="flex flex-col gap-5 bg-white p-7" aria-label="Kurze Nachricht">
-    <p class="font-display text-[18px]/[1.3] tracking-[-0.01em] text-ink">
+    <p class="font-display text-h4 tracking-[-0.01em] text-ink">
       Oder schreiben Sie uns kurz
     </p>
     <div class="grid gap-x-6 min-[1025px]:grid-cols-2">
@@ -119,7 +119,7 @@ const field =
         Nachricht senden
       </Button>
       <p
-        class="font-display text-[13px]/[1.4] text-muted"
+        class="font-display text-small text-muted"
         role="status"
         aria-live="polite"
         data-form-message

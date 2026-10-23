@@ -19,11 +19,11 @@ export interface FooterData {
   logoHref: string;
 }
 
-const heading = 'text-[26px]/[28.6px] md:text-[34px]/[37.4px]';
+const heading = 'text-h2';
 
 export const footers: Record<Site, FooterData> = {
   main: {
-    headingClass: `${heading} lg:text-[40px]/[44px]`,
+    headingClass: heading,
     badge: true,
     contactHref: routes.contact,
     phone: company.phone,
@@ -34,7 +34,7 @@ export const footers: Record<Site, FooterData> = {
     logoHref: routes.home,
   },
   exklusive: {
-    headingClass: `${heading} lg:text-[60px]/[66px]`,
+    headingClass: heading,
     badge: false,
     contactHref: '/meisterwerk-exklusive/kontakt/',
     phone: '07 141 / 23982 90',

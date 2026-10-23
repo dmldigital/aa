@@ -40,9 +40,9 @@ import {
     imageAlt={welcome.imageAlt}
     heading={welcome.heading}
     headingTag="h2"
-    headingClass="text-[23px]/[27.6px] text-ink md:text-[29px]/[39.15px] lg:text-h2"
+    headingClass="text-h2 text-ink"
     paragraphs={welcome.paragraphs}
-    bodyClass="text-[14px]/[21px] md:text-[17px]/[25.5px] [&>p]:mb-3.5 md:[&>p]:mb-4.25 lg:[&>p]:mb-[25.5px]"
+    bodyClass="text-body [&>p]:mb-3.5 md:[&>p]:mb-4.25 lg:[&>p]:mb-[25.5px]"
     cta={{ label: welcome.cta.label, href: href(welcome.cta.href), tone: 'black' }}
   />
   <Partner
@@ -62,9 +62,9 @@ import {
     heading={leistungen.heading}
     cards={leistungen.cards}
     rootClass="mt-[10vh] md:mt-0 md:mb-15 lg:my-[10vh]"
-    headingClass="text-[21px]/[26.25px] text-ink md:text-[24px]/[30px] lg:text-[32px]/[40px]"
+    headingClass="text-h3 text-ink lg:text-h2"
     gridClass="lg:grid-cols-4"
-    titleClass="text-[19px]/[24.7px] md:text-h4 lg:text-h3"
+    titleClass="text-h4 lg:text-h3"
     titleBoxClass="w-[calc(100%-40px)]"
   >
     <Skills embedded class="md:my-15 lg:mt-33.75 lg:mb-0" />
@@ -99,7 +99,7 @@ import {
     id="b1f5cd6"
     heading={vorgehen.heading}
     headingTag="h3"
-    headingClass="text-[21px]/[26.25px] text-ink md:text-[24px]/[30px] lg:text-[32px]/[40px]"
+    headingClass="text-h3 text-ink lg:text-h2"
     intro={vorgehen.intro}
     faqs={vorgehen.faqs}
     image={vorgehen.image}
@@ -109,6 +109,6 @@ import {
     openFirst
     accordionClass=""
     buttonClass="border-b border-black/20 py-4 hover:text-gold md:py-3.75 lg:py-[22.5px]"
-    titleClass="text-[19px]/[24.7px] md:text-h4 lg:text-h3"
+    titleClass="text-h4 lg:text-h3"
   />
 </PageLayout>

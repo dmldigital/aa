@@ -35,18 +35,18 @@ const last = collection.rows.length - 1;
         <div class:list={['w-full px-5 lg:px-7.5', colWidth]}>
           <div data-acc class="group/acc mb-5">
             <div class="relative z-2 flex items-center justify-between border border-[#e5e5e5] bg-white px-6.25 py-5">
-              <h3 class="font-display text-[17.6px]/[22px] tracking-[1px] text-black uppercase">
+              <h3 class="font-display text-h4 tracking-[1px] text-black uppercase">
                 {card.title}
               </h3>
               <button
                 type="button"
                 aria-expanded="false"
-                class="flex cursor-pointer items-center gap-3 text-[12px] leading-6 text-[#888] md:leading-[22.5px] uppercase after:absolute after:inset-0 after:content-['']"
+                class="flex cursor-pointer items-center gap-3 text-label text-[#888] uppercase after:absolute after:inset-0 after:content-['']"
               >
                 <span data-acc-label>Mehr erfahren</span>
                 <span
                   aria-hidden="true"
-                  class="text-[20px] leading-6 transition md:leading-[22.5px]-transform duration-800 ease-[cubic-bezier(0.65,0,0.35,1)] group-data-[open]/acc:rotate-45"
+                  class="text-h4 transition-transform duration-800 ease-[cubic-bezier(0.65,0,0.35,1)] group-data-[open]/acc:rotate-45"
                 >
                   +
                 </span>

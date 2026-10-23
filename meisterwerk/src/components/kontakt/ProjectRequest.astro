@@ -706,27 +706,27 @@ const QUESTIONS = 9;
     margin: 0;
     color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 23px;
-    line-height: 27.6px;
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
     font-weight: 500;
     outline: none;
   }
   .pf-h--start {
     color: var(--ink);
-    font-size: 26px;
-    line-height: 28.6px;
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
   }
   .pf-hint {
     margin: 14px 0 0;
     color: var(--color-muted);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .pf-intro,
   .pf-intro :global(p) {
     margin: 0;
-    font-size: 16px;
-    line-height: 24px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .pf-intro {
     display: grid;
@@ -744,8 +744,8 @@ const QUESTIONS = 9;
   .pf-facts {
     margin: 0;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 12px;
-    line-height: 15.6px;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -785,8 +785,8 @@ const QUESTIONS = 9;
   }
   .pf-opt-text {
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 19px;
-    line-height: 24.7px;
+    font-size: var(--text-h4);
+    line-height: var(--text-h4--line-height);
     font-weight: 500;
   }
   .pf-opt:hover {
@@ -847,8 +847,8 @@ const QUESTIONS = 9;
     display: block;
     margin-bottom: 8px;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 12px;
-    line-height: 15.6px;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -866,8 +866,8 @@ const QUESTIONS = 9;
     background: #fff;
     color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 19px;
-    line-height: 26px;
+    font-size: var(--text-lead);
+    line-height: var(--text-lead--line-height);
     transition: border-color 0.4s var(--ease-css);
   }
   .pf-field textarea {
@@ -889,8 +889,8 @@ const QUESTIONS = 9;
     align-items: center;
     gap: 12px;
     margin-top: 14px;
-    font-size: 15px;
-    line-height: 22px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     cursor: pointer;
   }
   .pf-same input {
@@ -930,8 +930,8 @@ const QUESTIONS = 9;
   .pf-err {
     margin: 10px 0 0;
     text-align: left;
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     color: var(--ink);
   }
   .pf-err::before {
@@ -971,8 +971,8 @@ const QUESTIONS = 9;
     background: #fff;
     color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 40px;
-    line-height: 54px;
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
     font-weight: 500;
     text-align: center;
     transition: border-color 0.4s var(--ease-css);
@@ -983,8 +983,8 @@ const QUESTIONS = 9;
   }
   .pf-unit {
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 40px;
-    line-height: 54px;
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
     font-weight: 500;
     color: var(--color-gold);
   }
@@ -1036,8 +1036,8 @@ const QUESTIONS = 9;
     max-width: 480px;
     margin: 6px auto 0;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 12px;
-    line-height: 15.6px;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -1092,14 +1092,14 @@ const QUESTIONS = 9;
   }
   .pf-drop-text {
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 16px;
-    line-height: 24px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     font-weight: 500;
   }
   .pf-note {
     margin: 12px 0 0;
-    font-size: 14px;
-    line-height: 1.4;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .pf-note[hidden] {
     display: none;
@@ -1134,7 +1134,7 @@ const QUESTIONS = 9;
     border: 0;
     background: #090402;
     color: #fff;
-    font-size: 16px;
+    font-size: var(--text-body);
     line-height: 1;
     cursor: pointer;
     transition: background-color 0.3s var(--ease-css);
@@ -1163,8 +1163,8 @@ const QUESTIONS = 9;
   }
   .pf-sum :global(dt) {
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 12px;
-    line-height: 15.6px;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -1173,8 +1173,8 @@ const QUESTIONS = 9;
   .pf-sum :global(dd) {
     grid-column: 1;
     margin: 0;
-    font-size: 15px;
-    line-height: 22px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     white-space: pre-line;
     overflow-wrap: anywhere;
   }
@@ -1186,7 +1186,7 @@ const QUESTIONS = 9;
     border: 0;
     background: none;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 14px;
+    font-size: var(--text-button);
     font-weight: 600;
     letter-spacing: 0.5px;
     color: var(--color-gold);
@@ -1229,7 +1229,7 @@ const QUESTIONS = 9;
     background: none;
     color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 14px;
+    font-size: var(--text-button);
     font-weight: 600;
     letter-spacing: 0.5px;
     cursor: pointer;
@@ -1280,21 +1280,13 @@ const QUESTIONS = 9;
   .pf-mail {
     display: inline-block;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 14px;
+    font-size: var(--text-button);
     font-weight: 600;
     letter-spacing: 0.5px;
     color: var(--color-gold);
   }
 
   @media (min-width: 768px) {
-    .pf-h {
-      font-size: 29px;
-      line-height: 39.15px;
-    }
-    .pf-h--start {
-      font-size: 34px;
-      line-height: 37.4px;
-    }
     .pf-inner {
       min-height: 620px;
       padding-top: 36px;
@@ -1307,8 +1299,8 @@ const QUESTIONS = 9;
       grid-column: 1 / -1;
     }
     .pf-opt-text {
-      font-size: 21px;
-      line-height: 27px;
+      font-size: var(--text-h3);
+      line-height: var(--text-h3--line-height);
     }
     .pf-thumbs :global(li) {
       width: 110px;
@@ -1332,19 +1324,6 @@ const QUESTIONS = 9;
       min-height: max(640px, calc(100svh - 190px));
       padding-top: 40px;
       padding-bottom: 64px;
-    }
-    .pf-h {
-      font-size: var(--text-h2);
-      line-height: var(--text-h2--line-height);
-    }
-    .pf-h--start {
-      font-size: var(--text-h1);
-      line-height: var(--text-h1--line-height);
-    }
-    .pf-big,
-    .pf-unit {
-      font-size: var(--text-h1);
-      line-height: var(--text-h1--line-height);
     }
   }
 </style>

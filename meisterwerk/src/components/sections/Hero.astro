@@ -63,12 +63,12 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
         ></canvas>
       </div>
       <div class="absolute inset-0 bg-[linear-gradient(transparent_55%,rgb(0_0_0/0.35))] hero-m:bg-[linear-gradient(transparent_45%,rgb(0_0_0/0.4))]"></div>
-      <p class="absolute right-6 bottom-6 font-display text-[9px] tracking-[0.17em] text-white uppercase min-[701px]:right-[clamp(24px,4.4vw,88px)] min-[701px]:bottom-8 min-[701px]:text-[10px] hero-m:hidden">
+      <p class="absolute right-6 bottom-6 font-display text-label tracking-[0.17em] text-white uppercase min-[701px]:right-[clamp(24px,4.4vw,88px)] min-[701px]:bottom-8 hero-m:hidden">
         Streichen. Lackieren. Tapezieren.
       </p>
       <p
         aria-hidden="true"
-        class="absolute inset-x-5.5 bottom-6.5 hidden items-center gap-4 font-display text-[8px] tracking-[0.12em] text-white uppercase hero-m:flex"
+        class="absolute inset-x-5.5 bottom-6.5 hidden items-center gap-4 font-display text-label tracking-[0.12em] text-white uppercase hero-m:flex"
       >
         <span>Weiter scrollen</span>
         <i class="block h-px flex-1 bg-white/45"></i>
@@ -108,7 +108,7 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
               <figcaption
                 data-hero-caption
                 class:list={[
-                  'font-display text-[clamp(14px,1.2vw,19px)]/[1.2] tracking-[-0.01em] text-ink',
+                  'font-display text-body tracking-[-0.01em] text-ink',
                   i > 0 && 'opacity-35',
                 ]}
               >
@@ -123,13 +123,13 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
         data-hero-content
         class="relative px-6 pt-52.5 pb-6 min-[701px]:absolute min-[701px]:inset-x-6 min-[701px]:bottom-6 min-[701px]:p-0 hero-m:absolute hero-m:inset-[92px_22px_20px] hero-m:flex hero-m:flex-col hero-m:justify-between hero-m:gap-4 hero-m:p-0 hero-m:pt-[clamp(150px,24svh,200px)]"
       >
-        <h1 class="mb-5.5 font-display text-[11.5vw]/[0.92] font-semibold tracking-[-0.045em] text-ink min-[701px]:mb-5.5 min-[701px]:text-[clamp(38px,4.4vw,80px)]/[0.94] hero-m:order-0 hero-m:m-0 hero-m:text-[11.5vw]/[0.94]">
-          <span class="mb-3.5 block font-display text-[12px]/[1] font-normal tracking-[0.2em] text-ink uppercase hero-m:mb-2.5 hero-m:text-[9px]">
+        <h1 class="mb-5.5 font-display text-display text-ink min-[701px]:mb-5.5 min-[701px]:max-[1023px]:text-h1 hero-m:order-0 hero-m:m-0">
+          <span class="mb-3.5 block font-display text-label font-normal tracking-[0.2em] text-ink uppercase hero-m:mb-2.5">
             Meisterwerk Malermanufaktur
           </span>
           Malerarbeiten in Ludwigsburg, Freiberg und Umgebung
         </h1>
-        <p class="mb-7.5 max-w-full font-display text-[18px]/[1.35] tracking-[-0.02em] text-ink min-[701px]:max-w-[88%] min-[701px]:text-[clamp(16px,1.4vw,26px)]/[1.35] hero-m:order-1 hero-m:m-0 hero-m:max-w-80 hero-m:text-[14px]/[1.4]">
+        <p class="mb-7.5 max-w-full font-display text-lead text-ink min-[701px]:max-w-[88%] hero-m:order-1 hero-m:m-0 hero-m:max-w-80 hero-m:text-body">
           Ihr Meisterbetrieb für Streichen, Lackieren, Tapezieren und glatte Oberflächen.{' '}
           <span class="text-muted hero-m:hidden">
             Persönlich beraten, sauber ausgeführt, mit über 22 Jahren Erfahrung.

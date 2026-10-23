@@ -30,7 +30,7 @@ const { items, title, member, label, class: className = '' } = Astro.props;
             {member}
             widths={[112, 176, 224, 352]}
             sizes="144px"
-            textClass="text-[12px]/[17px] md:text-[14px]/[20px]"
+            textClass="text-small md:text-body"
           />
         </div>
       )}
@@ -71,8 +71,8 @@ const { items, title, member, label, class: className = '' } = Astro.props;
   .tlm-title {
     margin: 0;
     font-family: var(--font-display);
-    font-size: 19px;
-    line-height: 24.7px;
+    font-size: var(--text-h4);
+    line-height: var(--text-h4--line-height);
     font-weight: 500;
     color: var(--color-ink);
   }
@@ -134,8 +134,8 @@ const { items, title, member, label, class: className = '' } = Astro.props;
   }
   .tlm-date {
     display: block;
-    font-size: 12px;
-    line-height: 17.4px;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
     font-weight: 700;
     letter-spacing: 0.02em;
     text-transform: uppercase;
@@ -153,8 +153,8 @@ const { items, title, member, label, class: className = '' } = Astro.props;
     min-height: 0;
     margin: 6px 0 0;
     overflow: hidden;
-    font-size: 14px;
-    line-height: 20.3px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     color: #000;
   }
 

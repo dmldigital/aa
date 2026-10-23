@@ -76,7 +76,7 @@ const {
           case 'html':
             return (
               <div
-                class:list={['text-body', smallText && '[&_p]:text-15', rich]}
+                class:list={['text-body', smallText && '[&_p]:text-body', rich]}
                 set:html={p.html}
               />
             );
@@ -104,7 +104,7 @@ const {
                 <div
                   class:list={[
                     'w-full text-body',
-                    smallText && '[&_p]:text-15',
+                    smallText && '[&_p]:text-body',
                     rich,
                   ]}
                   set:html={p.html}

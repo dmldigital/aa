@@ -253,7 +253,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     margin: 0;
     color: var(--color-gold);
     font-family: var(--font-display);
-    font-size: 12px;
+    font-size: var(--text-label);
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -314,7 +314,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     margin: 0;
     color: var(--color-gold);
     font-family: var(--font-display);
-    font-size: 12px;
+    font-size: var(--text-label);
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -323,8 +323,8 @@ const timelineTitle = profile.timeline?.heading ?? '';
     margin: 0;
     color: var(--color-ink);
     font-family: var(--font-display);
-    font-size: clamp(44px, 13vw, 64px);
-    line-height: 0.98;
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
     font-weight: 500;
     letter-spacing: -0.01em;
   }
@@ -340,15 +340,15 @@ const timelineTitle = profile.timeline?.heading ?? '';
     margin: 0;
     color: var(--color-gold);
     font-family: var(--font-display);
-    font-size: 18px;
+    font-size: var(--text-h4);
     letter-spacing: 0.16em;
   }
   .ph-role {
     max-width: 22em;
     margin: 0;
     color: var(--color-muted);
-    font-size: 19px;
-    line-height: 29px;
+    font-size: var(--text-lead);
+    line-height: var(--text-lead--line-height);
   }
   .ph-cue {
     display: inline-flex;
@@ -359,7 +359,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     border-bottom: 1px solid var(--color-gold);
     color: var(--color-ink);
     font-family: var(--font-display);
-    font-size: 13px;
+    font-size: var(--text-label);
     font-weight: 600;
     letter-spacing: 0.06em;
     text-decoration: none;
@@ -391,9 +391,6 @@ const timelineTitle = profile.timeline?.heading ?? '';
     .ph {
       padding: 12px 20px 0;
     }
-    .ph-name {
-      font-size: clamp(56px, 8vw, 88px);
-    }
   }
   @media (min-width: 1025px) {
     .ph {
@@ -409,12 +406,9 @@ const timelineTitle = profile.timeline?.heading ?? '';
     .ph-copy {
       gap: 26px;
     }
-    .ph-name {
-      font-size: clamp(64px, 6.9vw, 104px);
-    }
     .ph-role {
-      font-size: 21px;
-      line-height: 32px;
+      font-size: var(--text-lead);
+      line-height: var(--text-lead--line-height);
     }
     .ph-photo {
       aspect-ratio: auto;
@@ -447,8 +441,8 @@ const timelineTitle = profile.timeline?.heading ?? '';
     max-width: 22em;
     margin: 16px 0 0;
     color: var(--color-muted);
-    font-size: 15px;
-    line-height: 24px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .pb-rows {
     margin: 0;
@@ -474,21 +468,21 @@ const timelineTitle = profile.timeline?.heading ?? '';
   .pb-row dt {
     color: var(--color-gold);
     font-family: var(--font-display);
-    font-size: 12px;
+    font-size: var(--text-label);
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
   .pb-row dd {
     margin: 0;
-    font-size: 17px;
-    line-height: 27px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     color: var(--color-ink);
   }
   .pb-prose {
     padding-top: 28px;
-    font-size: 17px;
-    line-height: 27px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     color: var(--color-muted);
   }
   .pb-prose p + p {
@@ -500,16 +494,16 @@ const timelineTitle = profile.timeline?.heading ?? '';
   .pb-lead {
     margin: 12px 0 0;
     font-family: var(--font-display);
-    font-size: clamp(26px, 6vw, 40px);
-    line-height: 1.25;
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
     font-weight: 400;
     color: var(--color-ink);
   }
   .pb-cols {
     display: grid;
     gap: 18px 56px;
-    font-size: 17px;
-    line-height: 28px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     color: var(--color-muted);
   }
   @media (min-width: 768px) {
@@ -563,8 +557,8 @@ const timelineTitle = profile.timeline?.heading ?? '';
     margin: 0;
     color: var(--color-ink);
     font-family: var(--font-display);
-    font-size: 24px;
-    line-height: 31.2px;
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
     font-weight: 500;
   }
   .pt-line {
@@ -612,8 +606,8 @@ const timelineTitle = profile.timeline?.heading ?? '';
     margin: 18px 0 0;
     color: var(--color-ink);
     font-family: var(--font-display);
-    font-size: clamp(30px, 7.6vw, 62px);
-    line-height: 1.12;
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
     font-weight: 400;
     letter-spacing: -0.01em;
   }
@@ -630,8 +624,8 @@ const timelineTitle = profile.timeline?.heading ?? '';
     max-width: 30em;
     margin: 22px 0 0;
     color: var(--color-muted);
-    font-size: 17px;
-    line-height: 27px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .pm-grid {
     display: grid;
@@ -663,23 +657,23 @@ const timelineTitle = profile.timeline?.heading ?? '';
     margin: 0 0 12px;
     color: var(--color-gold);
     font-family: var(--font-display);
-    font-size: 12px;
+    font-size: var(--text-label);
     font-weight: 500;
     letter-spacing: 0.14em;
     text-transform: uppercase;
   }
   .pm-card p {
     margin: 0;
-    font-size: 16px;
-    line-height: 26px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
     color: var(--color-ink);
   }
   .pm-prose {
     max-width: 760px;
     margin-top: 44px;
     color: var(--color-muted);
-    font-size: 17px;
-    line-height: 28px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .pm-prose p + p {
     margin-top: 14px;
@@ -765,7 +759,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     border-bottom: 1px solid var(--color-gold);
     color: var(--color-ink);
     font-family: var(--font-display);
-    font-size: 13px;
+    font-size: var(--text-button);
     font-weight: 600;
     letter-spacing: 0.06em;
     text-decoration: none;
@@ -823,7 +817,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     border-bottom: 1px solid var(--color-gold);
     color: #fff;
     font-family: var(--font-display);
-    font-size: 11px;
+    font-size: var(--text-label);
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
@@ -840,15 +834,15 @@ const timelineTitle = profile.timeline?.heading ?? '';
   }
   .pn-name {
     font-family: var(--font-display);
-    font-size: 18px;
-    line-height: 24px;
+    font-size: var(--text-h4);
+    line-height: var(--text-h4--line-height);
     font-weight: 500;
     transition: color 0.4s ease;
   }
   .pn-role {
     color: var(--color-muted);
-    font-size: 14px;
-    line-height: 20px;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .pn-card:hover .pn-img,
   .pn-card:focus-visible .pn-img {

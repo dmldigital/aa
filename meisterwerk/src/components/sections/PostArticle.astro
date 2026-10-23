@@ -31,7 +31,7 @@ const {
   columns = post.gallery.length <= 3 ? [3, 3, 1] : [2, 2, 1],
   galleryLayout = 'masonry',
   servicesClass = 'md:-ml-6.25',
-  labelClass = 'text-[19px]/[24.7px] md:text-xs/[15.6px] lg:text-[18px]/[23.4px]',
+  labelClass = 'text-label',
 } = Astro.props;
 
 const label = ['font-display font-medium tracking-label text-ink uppercase', labelClass].join(' ');
@@ -94,10 +94,10 @@ const info = [
       <div class="mx-auto flex max-w-wide flex-col gap-3.75 md:gap-5">
         {post.sections.map((section) => (
           <>
-            <h3 class="font-display text-[21px]/[26.25px] text-ink md:text-[24px]/[30px] lg:text-[32px]/[40px]">
+            <h3 class="font-display text-h3 text-ink lg:text-h2">
               {section.heading}
             </h3>
-            <div class:list={post.largeText ? 'text-[17px]/[25.5px]' : 'text-body'}>
+            <div class:list={post.largeText ? 'text-lead' : 'text-body'}>
               {section.text}
             </div>
           </>

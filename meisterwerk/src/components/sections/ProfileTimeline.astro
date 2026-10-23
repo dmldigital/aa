@@ -27,7 +27,7 @@ const { id = '31de600', heading, items } = Astro.props;
                 <div class="relative">
                   <div
                     class:list={[
-                      'absolute left-1/2 mb-2 -translate-x-1/2 text-xs/[17.4px] font-bold whitespace-nowrap uppercase',
+                      'absolute left-1/2 mb-2 -translate-x-1/2 text-label font-bold whitespace-nowrap uppercase',
                       i % 2 === 0 ? 'top-6.25' : 'bottom-6.25',
                     ]}
                   >
@@ -35,7 +35,7 @@ const { id = '31de600', heading, items } = Astro.props;
                   </div>
                   <div
                     class:list={[
-                      'absolute left-1/2 w-45 -translate-x-1/2 text-center text-sm/[20.3px]',
+                      'absolute left-1/2 w-45 -translate-x-1/2 text-center text-body',
                       i % 2 === 0 ? 'bottom-6.25' : 'top-6.25',
                     ]}
                   >

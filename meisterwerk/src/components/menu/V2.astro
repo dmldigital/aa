@@ -21,12 +21,12 @@ const menu: Item[] = exk ? exklusiveItems : items;
 const panelOf = (item: Item, i: number) => (item.children ? `sub-${i}` : 'contact');
 
 const row =
-  'flex w-full cursor-pointer items-center justify-between gap-4 py-2 text-left font-display text-[clamp(22px,2vw,30px)]/[1.2] font-normal tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold data-[active]:text-gold';
+  'flex w-full cursor-pointer items-center justify-between gap-4 py-2 text-left font-display text-h3 font-normal tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold data-[active]:text-gold';
 // Rechte Seite: alle Flächen liegen übereinander (die Höhe bleibt gleich), die gewählte blendet ein, die vorige gleichzeitig aus. Nur Deckkraft, keine Bewegung
 const panel =
   'pointer-events-none invisible col-start-1 row-start-1 opacity-0 transition-[opacity,visibility] duration-500 ease-in-out data-[show]:pointer-events-auto data-[show]:visible data-[show]:opacity-100';
 const sub =
-  'font-display text-[17px]/[1.3] tracking-[-0.01em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
+  'font-display text-h4 tracking-[-0.01em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
 ---
 
 <dialog
@@ -37,7 +37,7 @@ const sub =
   aria-label="Hauptmenü"
   class="fixed inset-2.5 m-0 hidden h-[calc(100dvh-20px)] max-h-none w-[calc(100%-20px)] max-w-none overflow-y-auto overscroll-contain rounded-[24px] border-0 bg-soft p-4.5 text-ink backdrop:bg-ink/50 backdrop:opacity-[var(--bd,1)] backdrop:backdrop-blur-xs open:flex open:flex-col min-[701px]:inset-6 min-[701px]:h-[calc(100dvh-48px)] min-[701px]:w-[calc(100%-48px)] min-[701px]:px-10 min-[701px]:py-7"
 >
-  <div class="flex items-center justify-between gap-6 font-display text-[10px] tracking-[0.09em] uppercase">
+  <div class="flex items-center justify-between gap-6 font-display text-label tracking-[0.09em] uppercase">
     <span>{exk ? 'Meisterwerke Exklusive' : 'Meisterwerk Malermanufaktur'}</span>
     <button
       type="button"
@@ -97,7 +97,7 @@ const sub =
       {menu.map((item, i) =>
         item.children ? (
           <div data-split-panel={`sub-${i}`} class={panel}>
-            <p class="mb-5 font-display text-[11px] tracking-[0.12em] text-gold uppercase">
+            <p class="mb-5 font-display text-label tracking-[0.12em] text-gold uppercase">
               {item.label}
             </p>
             <ul class="flex flex-col gap-3.5">
@@ -128,7 +128,7 @@ const sub =
                 <div class="mt-9">
                   <a
                     href={href(group.href)}
-                    class="font-display text-[11px] tracking-[0.12em] text-gold uppercase transition-colors duration-300 hover:text-ink"
+                    class="font-display text-label tracking-[0.12em] text-gold uppercase transition-colors duration-300 hover:text-ink"
                   >
                     {group.label}
                   </a>

@@ -12,7 +12,7 @@ interface Props {
 const { site: siteKey = 'main', copyright = true, class: className = '' } = Astro.props;
 const f = footers[siteKey];
 const small =
-  'font-display text-[8px]/[10.4px] font-medium tracking-label text-ink uppercase hover:text-black';
+  'font-display text-label font-medium tracking-label text-ink uppercase hover:text-black';
 const links = [
   { label: 'Partnernetzwerk', href: href(f.partnersHref) },
   { label: 'Impressum', href: href(f.imprintHref) },

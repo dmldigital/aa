@@ -12,12 +12,12 @@ interface Props {
 const { variant } = Astro.props;
 
 const group = 'mb-7.5 flex w-full flex-wrap items-center px-2.5';
-const label = 'cursor-pointer pb-2.5 font-display text-[13px]/[22.1px] text-white';
+const label = 'cursor-pointer pb-2.5 font-display text-small text-white';
 const box = 'flex max-w-full basis-full';
 const field =
-  'min-h-10 max-w-full flex-1 basis-full border border-black/20 bg-white p-3.75 text-[15px]/[21px] text-[inherit]';
+  'min-h-10 max-w-full flex-1 basis-full border border-black/20 bg-white p-3.75 text-body text-[inherit]';
 const textField = `${field} font-[Arial]`;
-const selectField = `${field} appearance-none py-3.75 pr-10 pl-3.75 text-15 leading-[inherit] font-[inherit]`;
+const selectField = `${field} appearance-none py-3.75 pr-10 pl-3.75 text-body leading-[inherit] font-[inherit]`;
 
 const exklusive = variant === 'exklusive';
 // Exklusive: andere Leistungen und „Haus oder Wohnung?“ statt „Art der Arbeiten“
@@ -89,7 +89,7 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
                     value={a}
                   />
                   <label
-                    class="inline cursor-pointer font-display text-xs/[20.4px] text-white"
+                    class="inline cursor-pointer font-display text-small text-white"
                     for={`kf-leistung-${i}`}
                   >
                     {a}
@@ -138,7 +138,7 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
           </label>
           <div class={box}>
             <input
-              class={`${field} text-[13.3333px] font-[Arial]`}
+              class={`${field} text-small font-[Arial]`}
               type="file"
               id="kf-bilder"
               name="bilder[]"

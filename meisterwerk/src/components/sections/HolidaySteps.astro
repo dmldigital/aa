@@ -98,8 +98,7 @@ const bg = boxed
       >
         <h5
           class:list={[
-            'font-display font-medium text-ink md:text-[18px]/[23.4px]',
-            boxed ? 'text-[18px]/[23.4px]' : 'text-[19px]/[24.7px]',
+            'font-display text-h4 text-ink',
           ]}
         >
           {col.title}
@@ -114,7 +113,7 @@ const bg = boxed
             {col.items.map((item) => (
               <li>
                 <p
-                  class:list={[boxed ? 'mb-4 md:mb-3.75 md:text-15' : 'mb-3.75 text-15']}
+                  class:list={[boxed ? 'mb-4 md:mb-3.75 md:text-body' : 'mb-3.75 text-body']}
                   set:html={item}
                 />
               </li>

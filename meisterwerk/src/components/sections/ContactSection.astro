@@ -25,11 +25,9 @@ const quick = page.form === 'quick';
 // Exklusive: Überschrift wie beim Schnellkontakt, Formularkopf wie bei der Projektanfrage
 const exk = page.form === 'exklusive';
 const quickHeading = quick || page.form === 'exklusive';
-const heading = quickHeading
-  ? 'text-[28px]/[30.8px] md:text-[50px]/[55px]'
-  : 'text-[23px]/[25.3px] md:text-[50px]/[55px] lg:text-[40px]/[44px]';
+const heading = 'text-h1';
 const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
-const contactLink = 'group/ul inline-block text-[17px]/[25.5px] tracking-button text-black';
+const contactLink = 'group/ul inline-block text-body tracking-button text-black';
 const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
 ---
 
@@ -38,13 +36,13 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
     <!-- Linke Spalte -->
     <div class="z-1 mt-17.5 flex flex-col items-start justify-center gap-3.75 pt-5 md:mt-0 md:w-[calc((100%-30px)*0.3)] md:gap-5 md:py-5 lg:py-27">
       <h1 class:list={['font-display font-medium text-ink lg:mb-5', heading]}>{page.heading}</h1>
-      <div class="w-full text-[17px]/[25.5px] md:w-auto lg:w-95">
+      <div class="w-full text-body md:w-auto lg:w-95">
         <div class="-mb-[25.5px]">
           {page.intro.map((lines) => (
             <p
               class:list={[
                 exk ? 'mb-4.25 lg:mb-[25.5px]' : 'mb-3.75 lg:mb-para',
-                exk ? 'text-[17px]/[25.5px]' : 'text-[15px]/[25.5px]',
+                'text-body',
               ]}
             >
               {lines.map((line, i) => (
@@ -96,7 +94,7 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
         </div>
         <div class="h-2.5 md:h-1.25 lg:h-5"></div>
         <h6 class={eyebrow}>Studio di Stile / Showroom</h6>
-        <div class="w-57.5 max-w-full text-[17px]/[25.5px] text-ink">
+        <div class="w-57.5 max-w-full text-body text-ink">
           <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer nofollow">
             {(exk
               ? [
@@ -163,7 +161,7 @@ const shadow = '[text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]';
                 >
                   {page.formIntro.heading}
                 </h2>
-                <div class={`${exk ? '' : 'text-15'} text-white ${shadow}`}>
+                <div class={`text-body text-white ${shadow}`}>
                   <p class:list={[!exk && 'mb-3.75 lg:mb-para']}>{page.formIntro.text}</p>
                 </div>
               </>

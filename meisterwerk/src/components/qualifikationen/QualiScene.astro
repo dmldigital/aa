@@ -229,18 +229,18 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   .qs-eyebrow {
     margin: 0 0 20px;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 12px;
-    line-height: 1.5;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
   }
-  /* Überschrift der Unterseiten (wie TextPage, PostHead): font-medium, 26/34 px, ab Desktop text-h1 */
+  /* Überschrift der Unterseiten (wie TextPage, PostHead): font-medium, text-h1 */
   .qs-title {
     margin: 0;
     font-family: var(--font-urbanist), sans-serif;
-    font-size: 26px;
-    line-height: 28.6px;
+    font-size: var(--text-h1);
+    line-height: var(--text-h1--line-height);
     font-weight: 500;
   }
   .qs-w {
@@ -374,14 +374,14 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     margin: 0 0 14px;
     color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: clamp(28px, 3.2vw, 40px);
-    line-height: 1.25;
+    font-size: var(--text-h2);
+    line-height: var(--text-h2--line-height);
     font-weight: 500;
   }
   .qs-text {
     color: var(--color-muted);
-    font-size: 15px;
-    line-height: 1.5;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .qs-text :global(p) {
     margin: 0;
@@ -423,13 +423,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     .qs-open {
       padding: 40px 0 44px;
     }
-    .qs-title {
-      font-size: 34px;
-      line-height: 37.4px;
-    }
-    .qs-text {
-      font-size: 16px;
-    }
     .qs-wall {
       gap: 20px;
     }
@@ -450,8 +443,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     }
     .qs-title {
       max-width: 640px;
-      font-size: var(--text-h1);
-      line-height: var(--text-h1--line-height);
     }
     .qs-rule {
       margin-top: 32px;
@@ -509,8 +500,8 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     .qs-nav-label {
       display: block;
       font-family: var(--font-urbanist), sans-serif;
-      font-size: 12px;
-      line-height: 1.3;
+      font-size: var(--text-label);
+      line-height: var(--text-label--line-height);
       letter-spacing: 2px;
       text-transform: uppercase;
       color: rgb(9 4 2 / 0.4);

@@ -17,7 +17,7 @@ const { items } = Astro.props;
           <div
             data-tl-text
             class:list={[
-              'mb-1 text-[12px] font-bold uppercase lg:absolute lg:left-1/2 lg:mb-2 lg:-translate-x-1/2 lg:whitespace-nowrap',
+              'mb-1 text-label font-bold uppercase lg:absolute lg:left-1/2 lg:mb-2 lg:-translate-x-1/2 lg:whitespace-nowrap',
               i % 2 === 0 ? 'lg:top-6.25' : 'lg:bottom-6.25',
             ]}
           >
@@ -26,7 +26,7 @@ const { items } = Astro.props;
           <div
             data-tl-text
             class:list={[
-              'text-14 leading-[1.45] lg:absolute lg:left-1/2 lg:w-45 lg:-translate-x-1/2 lg:text-center',
+              'text-body lg:absolute lg:left-1/2 lg:w-45 lg:-translate-x-1/2 lg:text-center',
               i % 2 === 0 ? 'lg:bottom-6.25' : 'lg:top-6.25',
             ]}
           >
