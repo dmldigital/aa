@@ -34,20 +34,20 @@
   --text-h3--line-height: 1.25;
   --text-h3--letter-spacing: -0.01em;
   --text-h3--font-weight: 500;
-  --text-h4: clamp(19px, calc(19px + 1 * (100vw - 390px) / 1050), 20px);
+  --text-h4: 20px;
   --text-h4--line-height: 1.35;
   --text-h4--letter-spacing: 0;
   --text-h4--font-weight: 500;
-  --text-lead: clamp(19px, calc(19px + 1 * (100vw - 390px) / 1050), 20px);
+  --text-lead: 20px;
   --text-lead--line-height: 1.5;
   --text-lead--letter-spacing: -0.01em;
   --text-body: 16px;
   --text-body--line-height: 1.6;
   --text-small: 13px;
   --text-small--line-height: 1.45;
-  --text-label: 12px;
+  --text-label: 13px;
   --text-label--line-height: 1.3;
-  --text-button: 14px;
+  --text-button: 13px;
   --text-button--line-height: 1.1;
 
   --tracking-label: 0.16em;

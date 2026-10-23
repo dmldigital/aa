@@ -41,18 +41,11 @@ const type = [
     was: 'text-h3 (24), 23, 21, 20, 19.2 px',
   },
   {
-    name: 'H4',
-    use: 'Kleine Überschriften, Akkordeon, Listen-Titel',
-    min: 19, max: 20, lh: 1.35, track: '0', weight: 500, font: 'display',
+    name: '20',
+    use: 'H4 (kleine Überschriften, Akkordeon) und Einleitung (erster Absatz unter einem Titel), gleiche Größe',
+    min: 20, max: 20, lh: 1.35, track: '0', weight: 500, font: 'display',
     sample: 'Welche Leistungen bieten Sie an?',
-    was: 'text-h4 (20), 19, 18, 17.6, 17 px',
-  },
-  {
-    name: 'Einleitung',
-    use: 'Erster Absatz unter einem Titel',
-    min: 19, max: 20, lh: 1.5, track: '-0.01em', weight: 400, font: 'display',
-    sample: 'Ihr Meisterbetrieb für Streichen, Lackieren, Tapezieren und glatte Oberflächen.',
-    was: '18, 17, 16.5 px (verstreut)',
+    was: 'H4 (20), Einleitung (20), 19, 18, 17.6, 17 px',
   },
   {
     name: 'Text',
@@ -64,24 +57,10 @@ const type = [
   },
   {
     name: 'Klein',
-    use: 'Bildunterschriften, Hinweise, Daten',
+    use: 'Bildunterschriften, Daten, Überzeilen (Großbuchstaben, gesperrt), Buttons, Footer-Links',
     min: 13, max: 13, lh: 1.45, track: '0', weight: 400, font: 'body',
     sample: 'Jahr 2019 · Ludwigsburg · 6 Monate · 150 m²',
-    was: '14, 13.6, 13.3, 13 px',
-  },
-  {
-    name: 'Überzeile',
-    use: 'Kleine Zeile über Titeln, Großbuchstaben',
-    min: 12, max: 12, lh: 1.3, track: '0.16em', weight: 500, font: 'display', upper: true,
-    sample: 'Unsere Leistungen',
-    was: 'text-label (12), 11.5, 11, 10.4, 10, 9, 8 px',
-  },
-  {
-    name: 'Button',
-    use: 'Nur im Button (fest)',
-    min: 14, max: 14, lh: 1.1, track: '0.5px', weight: 600, font: 'display', upper: true,
-    sample: 'Projekt starten',
-    was: 'unverändert',
+    was: 'Klein (13), Überzeile (12), Button (14), 11.5, 11, 10, 9, 8 px',
   },
 ];
 
@@ -100,7 +79,7 @@ const space = [
 ];
 
 const rules = [
-  'Nur die Größen dieser Skala. Keine Einzelwerte in Pixeln (text-[23px] usw.) mehr in Komponenten.',
+  'Nur die 7 Größen dieser Skala. Keine Einzelwerte in Pixeln (text-[23px] usw.) mehr in Komponenten. Ausnahmen: Menü-Pille, Google-Siegel, rein dekorative Riesenziffern.',
   'Eine H1 pro Seite. Überschriften-Stufen nicht überspringen, die Optik folgt der Stufe.',
   'Urbanist für Titel, Einleitung, Überzeilen und Buttons, DM Sans für Fließtext und Kleines (fest eingebunden, auf jedem Gerät gleich).',
   'Bilder, Karten und Flächen sind eckig, Bedienelemente (Buttons, Menü-Pille, Fenster) sind rund.',
@@ -117,13 +96,13 @@ const rules = [
 <PageLayout title="Stil-Referenz - Meisterwerk Malermanufaktur" current="/stil/">
   <div data-no-autolink class="px-5 pt-16 pb-32 md:px-8">
     <div class="mx-auto max-w-[1100px]">
-      <p class="font-display text-[12px] font-medium tracking-[0.16em] text-ink uppercase">Stil-Referenz Meisterwerk</p>
+      <p class="font-display text-[13px] font-medium tracking-[0.16em] text-ink uppercase">Stil-Referenz Meisterwerk</p>
       <h1 class="mt-3 font-display font-medium text-ink" style={`font-size:${fluid(33, 61)};line-height:1.05;letter-spacing:-0.03em`}>
         Stil-Referenz
       </h1>
       <p class="mt-6 max-w-[65ch] text-[16px]/[1.6] text-muted">
         Die Schriftstufen folgen einem festen Verhältnis: Faktor 1,25 am Desktop und 1,2 am Handy, Grundgröße 16 px. Fließtext in
-        DM Sans, Überschriften und Bedienelemente in Urbanist. Bisher nutzte die Seite rund 45 verschiedene Schriftgrößen. Die Größen gleiten zwischen Handy
+        DM Sans, Überschriften und Bedienelemente in Urbanist. Bisher nutzte die Seite rund 45 verschiedene Schriftgrößen, jetzt sind es 7. Die Größen gleiten zwischen Handy
         (390 px) und Desktop (1440 px) stufenlos mit, zum Vergleich einfach das Fenster schmaler ziehen.
       </p>
 
@@ -172,7 +151,7 @@ const rules = [
         Beispiel einer Sektion
       </h2>
       <div class="mt-8 rounded-[24px] bg-soft px-5 py-16 md:px-8">
-        <p class="font-display text-[12px] font-medium tracking-[0.16em] text-ink uppercase">Unsere Leistungen</p>
+        <p class="font-display text-[13px] font-medium tracking-[0.16em] text-ink uppercase">Unsere Leistungen</p>
         <h3 class="mt-3 font-display font-medium text-ink" style={`font-size:${fluid(28, 39)};line-height:1.15;letter-spacing:-0.02em`}>
           Ihr Malerbetrieb für Ludwigsburg
         </h3>
