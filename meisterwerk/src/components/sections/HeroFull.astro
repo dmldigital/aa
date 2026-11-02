@@ -6,7 +6,9 @@
  * Beim Scrollen (Einzelbilder, scrollgesteuert wie beim Original-Hero): Kopfzeile und Text blenden aus und fahren nach oben,
  * das Video läuft über die ganze Länge des Hero-Scrollwegs mit (`flug.seek`, scripts/flug.ts). Man kann jederzeit anhalten,
  * vor und zurück scrollen. Danach scrollt die Seite normal weiter. Reduzierte Bewegung: nur das Standbild.
- * Länge und Tempo: die Höhe des Abschnitts (`h-[250svh]`, wie beim Original-Hero).
+ * Länge und Tempo: die Höhe des Abschnitts (`h-[250svh]`, wie beim Original-Hero; Handy `h-[420svh]`, ruhiger, `scrub: 1`).
+ * Handy: Die stehende Bühne ist `100lvh` hoch (größte Fensterhöhe), damit beim Ein- und Ausblenden der Browserleiste
+ * unten kein schwarzer Streifen entsteht; der Text sitzt über der Leiste (`100lvh - 100svh` Abstand).
  */
 import Button from '../ui/Button.astro';
 import Header from './Header.astro';
@@ -21,9 +23,9 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
   data-hero-full
   data-section="hero-a"
   aria-label="Willkommen bei Meisterwerk Malermanufaktur"
-  class="relative bg-ink hero-d:h-[250svh] hero-m:h-[240svh]"
+  class="relative bg-ink hero-d:h-[250svh] hero-m:h-[420svh]"
 >
-  <div class="relative h-svh min-h-150 overflow-clip hero-d:sticky hero-d:top-0 hero-m:sticky hero-m:top-0 hero-m:min-h-0">
+  <div class="relative h-svh min-h-150 overflow-clip hero-d:sticky hero-d:top-0 hero-m:sticky hero-m:top-0 hero-m:h-lvh hero-m:min-h-0">
     <div data-hero-picture class="absolute inset-0 overflow-hidden">
       <div data-hero-media class="absolute inset-0">
         <picture>
@@ -53,7 +55,7 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
 
     <div
       data-hero-content
-      class="absolute inset-x-5.5 bottom-7 z-[2] flex flex-col text-white min-[701px]:inset-x-7.5 min-[701px]:bottom-10"
+      class="absolute inset-x-5.5 bottom-7 z-[2] flex flex-col text-white min-[701px]:inset-x-7.5 min-[701px]:bottom-10 hero-m:bottom-[calc(100lvh-100svh+28px)]"
     >
       <div class="max-w-[min(1180px,100%)]">
         <h1
@@ -121,7 +123,7 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
 
     const mm = gsap.matchMedia();
     mm.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => run(1));
-    mm.add('(max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)', () => run(0.45));
+    mm.add('(max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)', () => run(1));
     document.fonts.ready.then(() => ScrollTrigger.refresh());
   }
 </script>
