@@ -70,7 +70,7 @@ export const founder: Member = {
   alt: 'In Erinnerung an Vincenzo Fortino – Meisterwerk Ludwigsburg.',
 };
 
-export const memorial = 'In gedenken an:';
+export const memorial = 'In Gedenken an:';
 
 // Weiche Trennstriche (U+00AD) wie im Original
 export const timeline = [

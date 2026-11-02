@@ -236,6 +236,16 @@ def shell(base, built):
         h = re.sub(pat + r'(?!\?v=)', new, h)
         copy_modules(new.split('/')[-1])
 
+    # Skripte von Bausteinen der Hülle, die die Startseite noch nicht kennt (z. B. Auftritt der Fuß-Überschrift `Frage`)
+    for name in ['Frage']:
+        pat = r'_astro/%s\.astro_astro_type_script_index_0_lang\.([\w-]+)\.js' % name
+        m = re.search(pat, built)
+        if not m:
+            continue
+        h = re.sub(r'<script[^>]*' + pat + r'[^>]*></script>', '', h)
+        h = h.replace('</body>', '<script type="module" src="%s/%s"></script></body>' % (PREFIX, m.group(0)), 1)
+        copy_modules(m.group(0).split('/')[-1])
+
     # Schaltflächen wie in der Quelle: ein einziger Button, eigene Buttons und Pfeil-Links der Startseite werden ersetzt
     def btn(label, href=None, tag='a', extra=''):
         cls = BTN_BASE + ' ' + BTN_OUT + ' transition-colors duration-300'

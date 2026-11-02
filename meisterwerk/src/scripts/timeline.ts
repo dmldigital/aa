@@ -8,10 +8,10 @@ import { gsap, ScrollTrigger } from './motion';
  * ihre Plätze, und ihr Text blendet aus der Linie auf. Läuft einmal, sobald die Zeitleiste im Bild ist. Danach gelten
  * die Hover-Effekte (Klasse `is-ready`, Regeln in global.css).
  *
- * Handy und Tablet (initTimelinePin, Szene `[data-tlm]`): Pin-and-Scroll. Die Zeitleiste bleibt zwischen den Texten
- * stehen, das Foto (optional) gleitet sanft von links herein, die Jahre fahren gestaffelt ein. Beim Scrollen wandert
- * der Fokus durch die Jahre: Das aktuelle Jahr klappt seinen Text auf, die Linie füllt sich golden. Ohne Pin
- * (reduzierte Bewegung): einfache Liste mit allen Texten.
+ * Handy und Tablet (initTimelinePin, Szene `[data-tlm]`): Pin-and-Scroll. Die Bühne bleibt stehen, zeigt groß einen
+ * Meilenstein (Jahr in Gold, Text) und darunter Punkte für alle Jahre. Beim Scrollen gleitet der Meilenstein nach oben
+ * weg und der nächste steigt auf (Klassen `is-active`/`is-past`, Übergänge per Tailwind in TimelinePin.astro).
+ * Ohne Pin (reduzierte Bewegung): einfache Liste mit allen Texten.
  */
 
 export function initTimelineDesktop() {
@@ -92,25 +92,32 @@ export function initTimelinePin() {
   document.querySelectorAll<HTMLElement>('[data-tlm]').forEach((tlm) => {
     const mm = gsap.matchMedia();
     mm.add('(max-width: 1024.98px) and (prefers-reduced-motion: no-preference)', () => {
-      const founder = tlm.querySelector<HTMLElement>('[data-tlm-founder]');
       const items = [...tlm.querySelectorAll<HTMLElement>('[data-tlm-item]')];
+      const dots = [...tlm.querySelectorAll<HTMLElement>('[data-tlm-dots] > span')];
       if (!items.length) return;
       const n = items.length;
 
+      // Auftritt: Gedenk-Zeile, Titel, Meilenstein und Punkte steigen nacheinander weich auf
+      const parts = ['[data-tlm-founder]', '[data-tlm-title]', '[data-tlm-list]', '[data-tlm-dots]']
+        .map((s) => tlm.querySelector<HTMLElement>(s))
+        .filter((el): el is HTMLElement => !!el);
       tlm.setAttribute('data-tlm-on', '');
-      if (founder) gsap.set(founder, { x: -140, autoAlpha: 0 });
-      gsap.set(items, { x: -28, autoAlpha: 0 });
+      gsap.set(parts, { y: 24, autoAlpha: 0 });
       tlm.removeAttribute('data-tlm-pend');
-
       const intro = gsap.timeline({ paused: true });
-      if (founder) intro.to(founder, { x: 0, autoAlpha: 1, duration: 1.8, ease: 'power2.out' }, 0);
-      intro.to(items, { x: 0, autoAlpha: 1, duration: 1.1, ease: 'power3.out', stagger: 0.14 }, founder ? 0.8 : 0.1);
+      intro.to(parts, { y: 0, autoAlpha: 1, duration: 1.2, ease: 'power3.out', stagger: 0.14 }, 0);
 
-      const focus = (idx: number) =>
+      // Fokus: genau ein Meilenstein sichtbar, frühere gleiten nach oben weg, spätere warten unten
+      const focus = (idx: number) => {
         items.forEach((it, i) => {
           it.classList.toggle('is-active', i === idx);
           it.classList.toggle('is-past', i < idx);
         });
+        dots.forEach((d, i) => {
+          d.classList.toggle('is-active', i === idx);
+          d.classList.toggle('is-past', i < idx);
+        });
+      };
       focus(0);
 
       const pin = ScrollTrigger.create({
@@ -134,8 +141,8 @@ export function initTimelinePin() {
         pin.kill();
         enter.kill();
         intro.kill();
-        gsap.set([...(founder ? [founder] : []), ...items], { clearProps: 'transform,opacity,visibility' });
-        items.forEach((it) => it.classList.remove('is-active', 'is-past'));
+        gsap.set(parts, { clearProps: 'transform,opacity,visibility' });
+        [...items, ...dots].forEach((it) => it.classList.remove('is-active', 'is-past'));
         tlm.removeAttribute('data-tlm-on');
         ScrollTrigger.refresh();
       };

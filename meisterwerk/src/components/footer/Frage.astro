@@ -3,7 +3,11 @@ import Button from '../ui/Button.astro';
 import { href } from '../../data/links';
 import { footers } from '../../data/footer';
 import type { Site } from '../../data/nav';
-/** Überschrift „Sie haben Fragen? Lassen Sie uns reden.“ und Button „Schreiben Sie uns“. */
+/**
+ * Überschrift „Sie haben Fragen? Lassen Sie uns reden.“ und Button „Schreiben Sie uns“.
+ * Auftritt (sobald der Fuß ins Bild kommt): Die beiden Zeilen steigen nacheinander aus einer Maske auf, danach blendet der
+ * Button weich von unten ein. Reduzierte Bewegung: alles steht sofort.
+ */
 interface Props {
   site?: Site;
   class?: string;
@@ -12,10 +16,33 @@ const { site: siteKey = 'main', class: className = '' } = Astro.props;
 const f = footers[siteKey];
 ---
 
-<div class:list={['flex flex-col items-start gap-5', className]}>
+<div data-frage class:list={['flex flex-col items-start gap-5', className]}>
   <p class="font-display text-h2 font-medium text-ink">
-    <span class="block">Sie haben Fragen?</span>
-    <span class="block">Lassen Sie uns reden.</span>
+    <span class="block overflow-hidden pb-[0.08em]"><span data-frage-line class="block">Sie haben Fragen?</span></span>
+    <span class="-mt-[0.08em] block overflow-hidden pb-[0.08em]"><span data-frage-line class="block">Lassen Sie uns reden.</span></span>
   </p>
-  <Button href={href(f.contactHref)}>Schreiben Sie uns</Button>
+  <Button href={href(f.contactHref)} data-frage-btn>Schreiben Sie uns</Button>
 </div>
+
+<script>
+  import { gsap, ScrollTrigger } from '../../scripts/motion';
+
+  document.querySelectorAll<HTMLElement>('[data-frage]').forEach((box) => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      const lines = box.querySelectorAll<HTMLElement>('[data-frage-line]');
+      const btn = box.querySelector<HTMLElement>('[data-frage-btn]');
+      gsap.set(lines, { yPercent: 110 });
+      if (btn) gsap.set(btn, { y: 18, autoAlpha: 0 });
+      const tl = gsap.timeline({ paused: true });
+      tl.to(lines, { yPercent: 0, duration: 1.15, ease: 'power3.out', stagger: 0.14 }, 0);
+      if (btn) tl.to(btn, { y: 0, autoAlpha: 1, duration: 0.9, ease: 'power2.out' }, 0.45);
+      const st = ScrollTrigger.create({ trigger: box, start: 'top 88%', once: true, onEnter: () => tl.play() });
+      return () => {
+        st.kill();
+        tl.kill();
+        gsap.set([...lines, ...(btn ? [btn] : [])], { clearProps: 'transform,opacity,visibility' });
+      };
+    });
+  });
+</script>

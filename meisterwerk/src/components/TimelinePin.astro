@@ -1,50 +1,81 @@
 ---
-import TeamCard from './TeamCard.astro';
+import { Picture } from 'astro:assets';
+import { href } from '../data/links';
 
 /**
- * Zeitleiste als Pin-and-Scroll für Handy und Tablet (bis 1024 px): Sie bleibt beim Scrollen stehen, der Fokus wandert
- * durch die Jahre. Optional mit Foto (Über uns: Gründer). Ablauf und Skript: scripts/timeline.ts.
- * Ohne Pin (reduzierte Bewegung) ist es eine einfache Liste mit allen Texten.
+ * Zeitleiste als Pin-and-Scroll für Handy und Tablet (bis 1024 px). Ablauf und Skript: scripts/timeline.ts.
+ * Aufbau der stehenden Bühne (100svh): oben optional die Gedenk-Zeile (Foto, „In Gedenken an“, Name, Rolle, führt zum
+ * Profil), darunter der Titel, dann groß der aktuelle Meilenstein (Jahr in Gold, Text darunter) und darunter Punkte für
+ * alle Jahre. Beim Scrollen wechselt der Meilenstein: der alte gleitet nach oben weg, der neue steigt von unten auf.
+ * Keine Linien. Ohne Pin (reduzierte Bewegung): einfache Liste mit allen Jahren und Texten untereinander.
  */
 interface Props {
   items: { date: string; text: string }[];
   title: string;
-  /** Optional: Foto-Karte, die sanft von links hereingleitet. */
+  /** Optional: Gedenk-Zeile mit Foto (Über uns: Gründer). */
   member?: { name: string; role: string; href: string; img: ImageMetadata; alt: string };
-  /** Beschriftung über dem Foto, z. B. „In gedenken an:“ */
+  /** Beschriftung der Gedenk-Zeile, z. B. „In Gedenken an“ */
   label?: string;
   class?: string;
 }
 const { items, title, member, label, class: className = '' } = Astro.props;
+const memo = label?.replace(/:\s*$/, '');
 ---
 
-<div data-tlm data-tlm-pend class:list={['tlm', className]}>
-  <div class="tlm-stage">
-    <div class="tlm-top">
-      {member && (
-        <div data-tlm-founder class="tlm-founder">
-          {label && (
-            <p class="font-display text-label font-medium tracking-label text-ink uppercase">{label}</p>
-          )}
-          <TeamCard
-            {member}
-            widths={[112, 176, 224, 352]}
-            sizes="144px"
-            textClass="text-small md:text-body"
+<div data-tlm data-tlm-pend class:list={['tlm group/tlm', className]}>
+  <div
+    class="tlm-stage pt-1 group-data-tlm-on/tlm:sticky group-data-tlm-on/tlm:top-0 group-data-tlm-on/tlm:flex group-data-tlm-on/tlm:h-svh group-data-tlm-on/tlm:flex-col group-data-tlm-on/tlm:justify-center group-data-tlm-on/tlm:pt-[clamp(76px,11svh,96px)] group-data-tlm-on/tlm:pb-[clamp(24px,5svh,48px)]"
+  >
+    {member && (
+      <a
+        data-tlm-founder
+        href={href(member.href)}
+        class="group/f mb-[clamp(24px,5svh,44px)] flex items-center gap-4 text-ink no-underline"
+      >
+        <span class="block w-[clamp(72px,11svh,96px)] shrink-0 overflow-hidden rounded-[2px] bg-soft">
+          <Picture
+            formats={['avif']}
+            fallbackFormat="webp"
+            src={member.img}
+            alt={member.alt}
+            widths={[96, 192, 288]}
+            sizes="96px"
+            loading="lazy"
+            class="block aspect-[3/4] w-full object-cover grayscale transition-[filter] duration-500 group-hover/f:grayscale-0"
           />
-        </div>
-      )}
-      <h2 class="tlm-title" set:html={title} />
-    </div>
-    <ol class="tlm-list">
+        </span>
+        <span class="flex min-w-0 flex-col">
+          {memo && <span class="font-display text-label tracking-label text-gold uppercase">{memo}</span>}
+          <span class="mt-1.5 font-display text-h4 font-medium">{member.name}</span>
+          <span class="mt-0.5 text-small text-ink/60">{member.role}</span>
+        </span>
+      </a>
+    )}
+
+    <h2 data-tlm-title class="m-0 font-display text-h3 font-medium text-ink" set:html={title} />
+
+    <ol
+      data-tlm-list
+      class="mt-6 flex list-none flex-col gap-7 p-0 group-data-tlm-on/tlm:mt-[clamp(20px,4svh,36px)] group-data-tlm-on/tlm:grid group-data-tlm-on/tlm:gap-0"
+    >
       {items.map((item) => (
-        <li data-tlm-item class="tlm-item">
-          <i class="tlm-seg" aria-hidden="true"></i>
-          <span class="tlm-date">{item.date}</span>
-          <div class="tlm-body"><p class="tlm-text">{item.text}</p></div>
+        <li
+          data-tlm-item
+          class="group-data-tlm-on/tlm:pointer-events-none group-data-tlm-on/tlm:col-start-1 group-data-tlm-on/tlm:row-start-1 group-data-tlm-on/tlm:translate-y-6 group-data-tlm-on/tlm:opacity-0 group-data-tlm-on/tlm:transition-[translate,opacity] group-data-tlm-on/tlm:duration-700 group-data-tlm-on/tlm:ease-[cubic-bezier(0.22,1,0.36,1)] group-data-tlm-on/tlm:[&.is-active]:pointer-events-auto group-data-tlm-on/tlm:[&.is-active]:translate-y-0 group-data-tlm-on/tlm:[&.is-active]:opacity-100 group-data-tlm-on/tlm:[&.is-active]:delay-150 group-data-tlm-on/tlm:[&.is-past]:-translate-y-6"
+        >
+          <span class="block font-display text-label tracking-label text-gold uppercase group-data-tlm-on/tlm:text-h2 group-data-tlm-on/tlm:tracking-normal group-data-tlm-on/tlm:normal-case">
+            {item.date}
+          </span>
+          <p class="mt-2 mb-0 max-w-[36rem] text-body text-ink group-data-tlm-on/tlm:mt-3">{item.text}</p>
         </li>
       ))}
     </ol>
+
+    <div data-tlm-dots aria-hidden="true" class="mt-[clamp(20px,4svh,36px)] hidden gap-2 group-data-tlm-on/tlm:flex">
+      {items.map(() => (
+        <span class="block h-1.5 w-1.5 rounded-full bg-ink/15 transition-[width,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [&.is-past]:bg-gold/50 [&.is-active]:w-6 [&.is-active]:bg-gold"></span>
+      ))}
+    </div>
   </div>
 </div>
 
@@ -55,164 +86,8 @@ const { items, title, member, label, class: className = '' } = Astro.props;
 </script>
 
 <style>
-  /* Ruhezustand (ohne Pin): einfache Liste mit allen Texten, senkrechte goldene Linie links */
-  .tlm-stage {
-    padding: 4px 0 0;
-  }
-  .tlm-top {
-    display: flex;
-    align-items: flex-end;
-    gap: 20px;
-  }
-  .tlm-founder {
-    width: clamp(96px, 14svh, 144px);
-    flex-shrink: 0;
-  }
-  .tlm-title {
-    margin: 0;
-    font-family: var(--font-display);
-    font-size: var(--text-h4);
-    line-height: var(--text-h4--line-height);
-    font-weight: 500;
-    color: var(--color-ink);
-  }
-  .tlm-list {
-    position: relative;
-    margin: 28px 0 0;
-    padding: 0;
-    list-style: none;
-  }
-  .tlm-item {
-    position: relative;
-    padding: 0 0 22px 52px;
-  }
-  .tlm-item:last-child {
-    padding-bottom: 0;
-  }
-  /* Tick auf der Linie */
-  .tlm-item::before {
-    content: '';
-    position: absolute;
-    top: 8px;
-    left: 20px;
-    width: 14px;
-    height: 2px;
-    margin-left: -7px;
-    background: var(--color-gold);
-    transition:
-      width 0.6s cubic-bezier(0.22, 1, 0.36, 1),
-      margin-left 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  /* Linienstück bis zum nächsten Tick: blasse Grundlinie, golden gefüllt, sobald das Jahr erreicht ist */
-  .tlm-item::after {
-    content: '';
-    position: absolute;
-    top: 9px;
-    bottom: -9px;
-    left: 20px;
-    width: 1px;
-    background: var(--color-gold);
-    opacity: 0.35;
-  }
-  .tlm-item:last-child::after {
-    display: none;
-  }
-  .tlm-seg {
-    position: absolute;
-    top: 9px;
-    bottom: -9px;
-    left: 19.5px;
-    z-index: 1;
-    width: 2px;
-    background: var(--color-gold);
-    transform: scaleY(0);
-    transform-origin: 50% 0;
-    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .tlm-item:last-child .tlm-seg {
-    display: none;
-  }
-  .tlm-date {
-    display: block;
-    font-size: var(--text-label);
-    line-height: var(--text-label--line-height);
-    font-weight: 700;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    color: #000;
-    transition:
-      color 0.5s ease,
-      opacity 0.5s ease,
-      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .tlm-body {
-    display: grid;
-    grid-template-rows: 1fr;
-  }
-  .tlm-text {
-    min-height: 0;
-    margin: 6px 0 0;
-    overflow: hidden;
-    font-size: var(--text-body);
-    line-height: var(--text-body--line-height);
-    color: #000;
-  }
-
-  /* Pin-and-Scroll */
+  /* Länge des Pins: Bühne plus Scrollweg durch die Jahre */
   .tlm[data-tlm-on] {
     height: calc(100svh + 190svh);
-  }
-  .tlm[data-tlm-on] .tlm-stage {
-    position: sticky;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100svh;
-    padding: 84px 0 24px;
-  }
-  .tlm[data-tlm-on] .tlm-list {
-    margin-top: clamp(20px, 4.5svh, 44px);
-  }
-  .tlm[data-tlm-on] .tlm-item {
-    padding-bottom: clamp(12px, 2.4svh, 22px);
-  }
-  .tlm[data-tlm-on] .tlm-item:last-child {
-    padding-bottom: 0;
-  }
-  .tlm[data-tlm-on] .tlm-body {
-    grid-template-rows: 0fr;
-    opacity: 0;
-    transition:
-      grid-template-rows 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-      opacity 0.5s ease;
-  }
-  .tlm[data-tlm-on] .tlm-date {
-    color: rgb(0 0 0 / 0.4);
-  }
-  .tlm[data-tlm-on] .tlm-item.is-past .tlm-date {
-    color: rgb(0 0 0 / 0.65);
-  }
-  .tlm[data-tlm-on] .tlm-item.is-past .tlm-seg {
-    transform: scaleY(1);
-  }
-  .tlm[data-tlm-on] .tlm-item.is-active::before {
-    width: 30px;
-    margin-left: -15px;
-  }
-  .tlm[data-tlm-on] .tlm-item.is-active .tlm-date {
-    color: var(--color-gold);
-    transform: translateX(6px);
-  }
-  .tlm[data-tlm-on] .tlm-item.is-active .tlm-body {
-    grid-template-rows: 1fr;
-    opacity: 1;
-    transition-delay: 0.12s;
-  }
-  .tlm[data-tlm-on] .tlm-item.is-active .tlm-text {
-    transform: translateX(6px);
-  }
-  .tlm[data-tlm-on] .tlm-text {
-    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
 </style>
