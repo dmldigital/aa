@@ -1,32 +1,36 @@
 ---
-import { href } from '../../data/links';
 import { site } from '../../data/site';
 import { footers } from '../../data/footer';
 import type { Site } from '../../data/nav';
-/** E-Mail, Telefon und Adresse (Original: Button-Widgets mit Unterstrich-Animation). */
+/**
+ * E-Mail, Telefon und Adresse. Ab Tablet wie im Original in Großbuchstaben untereinander; auf dem Handy mit kleinem
+ * goldenem Label über jedem Wert und der Wert in normaler Schrift (ruhiger lesbar). Keine Unterstriche.
+ */
 interface Props {
   site?: Site;
   class?: string;
 }
 const { site: siteKey = 'main', class: className = '' } = Astro.props;
 const f = footers[siteKey];
-const link =
-  'group/ul inline-block font-display text-label font-medium tracking-label text-black uppercase';
+const value =
+  'inline-block font-display text-label font-medium tracking-label text-black uppercase transition-colors duration-300 hover:text-gold max-md:text-body max-md:font-normal max-md:tracking-normal max-md:normal-case';
+const label = 'font-display text-label tracking-label text-gold uppercase md:hidden';
+const row = 'flex flex-col items-start gap-1 md:contents';
 ---
 
 <div class:list={['flex flex-col', className]}>
-  <a href={`mailto:${site.email}`} class={link}>
-    <span class="underline-anim [--underline-gap:3px]">{site.email}</span>
-  </a>
-  <a href={`tel:${site.phoneHref}`} class={link}>
-    <span class="underline-anim [--underline-gap:3px]">{f.phone}</span>
-  </a>
-  <a
-    href={site.mapsUrl}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="font-display text-label font-medium tracking-label text-ink uppercase hover:text-black"
-  >
-    {site.street}, {site.postalCode} {site.city}
-  </a>
+  <div class={row}>
+    <span class={label}>E-Mail</span>
+    <a href={`mailto:${site.email}`} class={value}>{site.email}</a>
+  </div>
+  <div class={row}>
+    <span class={label}>Telefon</span>
+    <a href={`tel:${site.phoneHref}`} class={value}>{f.phone}</a>
+  </div>
+  <div class={row}>
+    <span class={label}>Showroom</span>
+    <a href={site.mapsUrl} target="_blank" rel="noopener noreferrer" class={value}>
+      {site.street}, {site.postalCode} {site.city}
+    </a>
+  </div>
 </div>
