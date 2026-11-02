@@ -30,12 +30,12 @@ const field =
       <dt class="font-display text-small text-muted">Telefon</dt>
       <dd>
         <a href={`tel:${company.phoneHref}`} class={value}>
-          <span class="underline-anim [--underline-gap:3px]">{company.phone}</span>
+          {company.phone}
         </a>
       </dd>
       <dd>
         <a href={company.whatsappHref} target="_blank" rel="noopener noreferrer" class={value}>
-          <span class="underline-anim [--underline-gap:3px]">WhatsApp schreiben</span>
+          WhatsApp schreiben
         </a>
       </dd>
     </div>
@@ -43,7 +43,7 @@ const field =
       <dt class="font-display text-small text-muted">E-Mail</dt>
       <dd>
         <a href={`mailto:${company.email}`} class={value}>
-          <span class="underline-anim [--underline-gap:3px]">{company.email}</span>
+          {company.email}
         </a>
       </dd>
     </div>
