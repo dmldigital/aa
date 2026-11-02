@@ -1,14 +1,13 @@
 ---
-/** Startseite: Vollbild-Hero (Flug-Video), Willkommen-Szene, Leistungen, Fachsektion, Partner, Projekte, FAQ. */
+/** Startseite (Stand der Auswahl-Vorschau): Vollbild-Hero (Flug-Video), Willkommen-Szene, Leistungen, Fachsektion,
+ * „Jede Oberfläche ist einzigartig“ mit Projekten, FAQ. */
 import PageLayout from '../../layouts/PageLayout.astro';
 import HeroFull from '../sections/HeroFull.astro';
 import WelcomeScroll from '../sections/WelcomeScroll.astro';
 import LeistungenStack from '../sections/LeistungenStack.astro';
-import Skills from '../sections/Skills.astro';
-import Masterly from '../sections/Masterly.astro';
-import Surface from '../sections/Surface.astro';
-import Projects from '../sections/Projects.astro';
-import Faq from '../sections/Faq.astro';
+import Fachsektion from '../home/Fachsektion.astro';
+import OberflaecheProjekte from '../home/OberflaecheProjekte.astro';
+import FaqTabs from '../home/FaqTabs.astro';
 import { href } from '../../data/links';
 
 // Willkommen-Text: Originaltext mit lokaler Optimierung (Freiberg a. N., Ludwigsburg, Marbach, Bietigheim-Bissingen)
@@ -34,9 +33,7 @@ const welcome = {
   <HeroFull />
   <WelcomeScroll heading={welcome.heading} paragraphs={welcome.paragraphs} />
   <LeistungenStack />
-  <Skills />
-  <Masterly />
-  <Surface />
-  <Projects />
-  <Faq />
+  <Fachsektion />
+  <OberflaecheProjekte />
+  <FaqTabs />
 </PageLayout>

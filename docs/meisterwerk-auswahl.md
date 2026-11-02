@@ -197,3 +197,14 @@ Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = E
 - Seite `meisterwerk/src/pages/stil/index.astro`, Vorschau `/stil/` (über `add-pages.py stil`, mit `data-no-autolink`). Bestand vorher: rund 45 verschiedene Schriftgrößen in Komponenten (viele Einzelwerte wie `text-[23px]`, `text-[29px]`), Abstände ohne feste Skala.
 - Vorschlag: zehn Schriftstufen, stufenlos zwischen 390 und 1440 px (clamp): Display 44→96, H1 36→60, H2 28→40, H3 21→24, H4 17→18, Einleitung 17→19, Text 16, Klein 13→14, Überzeile 11→12 (0,16em, Großbuchstaben), Button 14. Abstände: 4, 8, 12, 16, 20, 24, 32, 48, 64, 96, 128 px mit festen Rollen (Überzeile → Titel 12, Titel → Text 24, Text → Button 32, Sektionen 64/96/128, Seitenrand 20/32, Kartenraster 20). Zehn Regeln stehen auf der Seite.
 - Nach der Abnahme: Werte als Tokens in `global.css` (@theme), alle Komponenten umstellen, Einzelwerte entfernen, handbearbeitete Startseite nachziehen.
+
+## Quelle statt Handdateien (Stand 02.11.2026)
+- Fachsektion, „Jede Oberfläche ist einzigartig“ mit Projekten und FAQ kommen jetzt aus dem Astro-Quellcode:
+  `meisterwerk/src/components/home/` (`Fachsektion.astro`, `OberflaecheProjekte.astro`, `FaqTabs.astro`), Skripte
+  `src/scripts/home/` (`tabs.js`, `cta.js`, `faq-cover.js`), Gestaltung `src/styles/home/` (`tabs.css`, `cta.css`, 1:1 aus
+  TabsFade.css/CtaReveal.css, noch nicht in Tailwind). Eingespielt mit `tools/meisterwerk-auswahl/home-patch.py` nach dem Build.
+- Behoben: Die Skripte bauten ihre Sektion bei jeder Größenänderung neu auf (auch beim Ein- und Ausfahren der Browserleiste
+  auf dem Handy, also beim Hochscrollen): Inhalte und Scrollposition sprangen. Neu aufgebaut wird nur noch bei einer echten
+  Breitenänderung. Alle drei nutzen jetzt dieselbe GSAP-/ScrollTrigger-Instanz wie die übrigen Quell-Komponenten.
+- Noch auf der alten Instanz (motion.B5Hf7): WelcomeChain.js, WelcomeZoom.js, WelcomeScroll-Chunk n8bjhO38 (nur in der Vorschau).
+- Die früheren Dateien TabsFade.css/js, CtaReveal.css/js, FaqCover.js bindet die Startseite nicht mehr ein (nur noch `kreise/`).

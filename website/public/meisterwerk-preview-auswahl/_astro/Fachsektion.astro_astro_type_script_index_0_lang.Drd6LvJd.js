@@ -1,0 +1,1 @@
+import"./tabs.OQbvVucz.js";
