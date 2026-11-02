@@ -25,7 +25,7 @@ Werkzeuge und Tests: `tools/meisterwerk-auswahl/` (siehe dort README).
 |---|---|
 | `LeistungenStack.css/js` | **Streifenabstand wird in `u()` berechnet**, damit die letzte Karte rechts denselben Randabstand hat wie die Überschrift links (Desktop/Tablet). Leistungen als gestapelte weiße Karten (1 px Rahmen, kein Schatten), Hover-Zoom 1,05, Link-Icon-Kreis. Letzte Karte = Logo-Box „Meisterwerk Exklusive“ |
 | `TabsFade.css/js` | **Zwei Sektionen mit `[data-tb]`:** (1) „Meisterliche Malerarbeiten“ (Pin, Slides), (2) FAQ (`data-tb-accordion`, aufklappbare Tabs) |
-| `MenuFit.css` | Handy-Menü (Variante 3, bis 700 px) passt immer in 100dvh: Schrift/Abstände skalieren mit der Fensterhöhe, Bewertungs-Siegel links neben dem Kontaktblock, bei offenem Untermenü weichen Siegel und Kontakt. In allen Seiten verlinkt (bust.py aktualisiert alle) |
+| `Clean.css` | Sauberkeit ohne Zierlinien (Unterstriche nur beim Überfahren, Trennstriche/Rahmen/Gitterlinien transparent, Formularfelder als weiche Fläche, Fließtext-Links gold) und Handy-Menü (Variante 3, bis 700 px) passt immer in 100dvh: Schrift/Abstände skalieren mit der Fensterhöhe, Bewertungs-Siegel links neben dem Kontaktblock, bei offenem Untermenü weichen Siegel und Kontakt. In allen Seiten verlinkt (bust.py aktualisiert alle) |
 | `HeaderLock.css/js` | Sperrt den Sticky-Header in Zonen mit `data-header-lock` (Hero, Willkommen, Leistungen, Fachsektion, Bild/CTA, Projekte-Überlagerung) |
 | `CtaReveal.css/js` | „Jede Oberfläche ist einzigartig“: Parallax, Pin, CTA-Box + Kontaktformular-Box, Projekte schieben sich darüber |
 | `FaqCover.js` | FAQ schiebt sich von unten über „Unsere Exklusive Projekte“ (Sticky + Wrapper-Höhe), FAQ hat Mindesthöhe der Projekte |
