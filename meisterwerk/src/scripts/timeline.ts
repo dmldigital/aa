@@ -8,10 +8,8 @@ import { gsap, ScrollTrigger } from './motion';
  * ihre Plätze, und ihr Text blendet aus der Linie auf. Läuft einmal, sobald die Zeitleiste im Bild ist. Danach gelten
  * die Hover-Effekte (Klasse `is-ready`, Regeln in global.css).
  *
- * Handy und Tablet (initTimelinePin, Szene `[data-tlm]`): Pin-and-Scroll. Die Bühne bleibt stehen, zeigt groß einen
- * Meilenstein (Jahr in Gold, Text) und darunter Punkte für alle Jahre. Beim Scrollen gleitet der Meilenstein nach oben
- * weg und der nächste steigt auf (Klassen `is-active`/`is-past`, Übergänge per Tailwind in TimelinePin.astro).
- * Ohne Pin (reduzierte Bewegung): einfache Liste mit allen Texten.
+ * Handy und Tablet (initTimelinePin, Liste `[data-tlm]`): kein Pin. Titel und Jahre steigen beim Hereinscrollen
+ * nacheinander weich auf. Reduzierte Bewegung: alles steht sofort.
  */
 
 export function initTimelineDesktop() {
@@ -92,59 +90,17 @@ export function initTimelinePin() {
   document.querySelectorAll<HTMLElement>('[data-tlm]').forEach((tlm) => {
     const mm = gsap.matchMedia();
     mm.add('(max-width: 1024.98px) and (prefers-reduced-motion: no-preference)', () => {
-      const items = [...tlm.querySelectorAll<HTMLElement>('[data-tlm-item]')];
-      const dots = [...tlm.querySelectorAll<HTMLElement>('[data-tlm-dots] > span')];
-      if (!items.length) return;
-      const n = items.length;
-
-      // Auftritt: Gedenk-Zeile, Titel, Meilenstein und Punkte steigen nacheinander weich auf
-      const parts = ['[data-tlm-founder]', '[data-tlm-title]', '[data-tlm-list]', '[data-tlm-dots]']
-        .map((s) => tlm.querySelector<HTMLElement>(s))
-        .filter((el): el is HTMLElement => !!el);
-      tlm.setAttribute('data-tlm-on', '');
-      gsap.set(parts, { y: 24, autoAlpha: 0 });
-      tlm.removeAttribute('data-tlm-pend');
-      const intro = gsap.timeline({ paused: true });
-      intro.to(parts, { y: 0, autoAlpha: 1, duration: 1.2, ease: 'power3.out', stagger: 0.14 }, 0);
-
-      // Fokus: genau ein Meilenstein sichtbar, frühere gleiten nach oben weg, spätere warten unten
-      const focus = (idx: number) => {
-        items.forEach((it, i) => {
-          it.classList.toggle('is-active', i === idx);
-          it.classList.toggle('is-past', i < idx);
-        });
-        dots.forEach((d, i) => {
-          d.classList.toggle('is-active', i === idx);
-          d.classList.toggle('is-past', i < idx);
-        });
-      };
-      focus(0);
-
-      const pin = ScrollTrigger.create({
-        trigger: tlm,
-        start: 'top top',
-        end: 'bottom bottom',
-        onUpdate: (self) => {
-          const idx = Math.floor(((self.progress - 0.04) / 0.92) * n);
-          focus(Math.max(0, Math.min(n - 1, idx)));
-        },
-      });
-      const enter = ScrollTrigger.create({
-        trigger: tlm,
-        start: 'top 65%',
+      const steps = [...tlm.querySelectorAll<HTMLElement>('[data-tlm-step]')];
+      gsap.set(steps, { y: 28, autoAlpha: 0 });
+      const batch = ScrollTrigger.batch(steps, {
+        start: 'top 88%',
         once: true,
-        onEnter: () => intro.play(),
+        onEnter: (els) =>
+          gsap.to(els, { y: 0, autoAlpha: 1, duration: 1.1, ease: 'power3.out', stagger: 0.12, overwrite: true }),
       });
-      ScrollTrigger.refresh();
-
       return () => {
-        pin.kill();
-        enter.kill();
-        intro.kill();
-        gsap.set(parts, { clearProps: 'transform,opacity,visibility' });
-        [...items, ...dots].forEach((it) => it.classList.remove('is-active', 'is-past'));
-        tlm.removeAttribute('data-tlm-on');
-        ScrollTrigger.refresh();
+        batch.forEach((t) => t.kill());
+        gsap.set(steps, { clearProps: 'transform,opacity,visibility' });
       };
     });
   });

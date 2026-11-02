@@ -7,12 +7,14 @@ Zwei Dinge der Vorschau bleiben erhalten:
 - Schriften: Der Build in der Cloud-Umgebung kann Google Fonts nicht laden (Proxy 403), dann fehlen im Build die
   @font-face-Regeln. Die Schrift-Blöcke (`<style>@font-face…`, Preload) der bisherigen Seite werden übernommen.
 - Ein vorhandener Verweis auf `_astro/Clean.css` bleibt.
-Dateien aus `_astro/` kopiert vorher `add-pages.py` (nie überschreibend).
+Dateien aus `_astro/` kopiert vorher `add-pages.py` (Dateien nie überschreibend, die Seite selbst kopiert es aber mit;
+fehlen dann die Schrift-Blöcke, nimmt dieses Skript sie aus dem letzten Commit).
 
 Vorbereitung: Build wie bei add-pages.py, dann  python3 tools/meisterwerk-auswahl/add-pages.py <seiten…>
 Aufruf:  python3 tools/meisterwerk-auswahl/refresh-pages.py <seiten…>   (oder --alle für alle Unterseiten des Builds)
 """
 import re
+import subprocess
 import sys
 from pathlib import Path
 
@@ -29,6 +31,10 @@ if not args:
 for pg in args:
     old_p, new_p = D / pg / 'index.html', B / pg / 'index.html'
     old, new = old_p.read_text(), new_p.read_text()
+    if '<style>@font-face' not in old:
+        # add-pages.py kopiert die Seite selbst immer mit; dann die Schrift-Blöcke aus dem letzten Commit nehmen
+        rel = old_p.relative_to(D.parents[2]).as_posix()
+        old = subprocess.run(['git', 'show', f'HEAD:{rel}'], cwd=D.parents[2], capture_output=True, text=True).stdout
     # Schriften: Platzhalter des Builds durch die vollständigen Blöcke der bisherigen Seite ersetzen
     for var in ('--font-urbanist', '--font-dm-sans'):
         ph = re.search(r'<style>:root\{%s:[^}]*\}</style>' % re.escape(var), new)

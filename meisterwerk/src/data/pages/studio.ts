@@ -72,6 +72,13 @@ export const founder: Member = {
 
 export const memorial = 'In Gedenken an:';
 
+/** Gedenk-Block auf „Über uns“ (Handy und Tablet): Lebensdaten und Leitsatz wie auf der Gedenkseite */
+export const founderMemorial = {
+  dates: '*1963 †2020',
+  line: 'Familienvater. Handwerker. Herzensmensch.',
+  cta: 'Zur Gedenkseite',
+};
+
 // Weiche Trennstriche (U+00AD) wie im Original
 export const timeline = [
   {

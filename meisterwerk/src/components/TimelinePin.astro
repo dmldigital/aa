@@ -1,82 +1,28 @@
 ---
-import { Picture } from 'astro:assets';
-import { href } from '../data/links';
-
 /**
- * Zeitleiste als Pin-and-Scroll für Handy und Tablet (bis 1024 px). Ablauf und Skript: scripts/timeline.ts.
- * Aufbau der stehenden Bühne (100svh): oben optional die Gedenk-Zeile (Foto, „In Gedenken an“, Name, Rolle, führt zum
- * Profil), darunter der Titel, dann groß der aktuelle Meilenstein (Jahr in Gold, Text darunter) und darunter Punkte für
- * alle Jahre. Beim Scrollen wechselt der Meilenstein: der alte gleitet nach oben weg, der neue steigt von unten auf.
- * Keine Linien. Ohne Pin (reduzierte Bewegung): einfache Liste mit allen Jahren und Texten untereinander.
+ * Zeitleiste für Handy und Tablet (bis 1024 px), auf „Über uns“ und den Teammitglieder-Seiten.
+ * Ruhige Liste ohne Pin: jedes Jahr groß in Gold, der Text darunter, viel Luft dazwischen, keine Linien.
+ * Beim Hereinscrollen steigen die Jahre nacheinander weich auf (scripts/timeline.ts, `initTimelinePin`).
+ * Reduzierte Bewegung: alles steht sofort.
  */
 interface Props {
   items: { date: string; text: string }[];
   title: string;
-  /** Optional: Gedenk-Zeile mit Foto (Über uns: Gründer). */
-  member?: { name: string; role: string; href: string; img: ImageMetadata; alt: string };
-  /** Beschriftung der Gedenk-Zeile, z. B. „In Gedenken an“ */
-  label?: string;
   class?: string;
 }
-const { items, title, member, label, class: className = '' } = Astro.props;
-const memo = label?.replace(/:\s*$/, '');
+const { items, title, class: className = '' } = Astro.props;
 ---
 
-<div data-tlm data-tlm-pend class:list={['tlm group/tlm', className]}>
-  <div
-    class="tlm-stage pt-1 group-data-tlm-on/tlm:sticky group-data-tlm-on/tlm:top-0 group-data-tlm-on/tlm:flex group-data-tlm-on/tlm:h-svh group-data-tlm-on/tlm:flex-col group-data-tlm-on/tlm:justify-center group-data-tlm-on/tlm:pt-[clamp(76px,11svh,96px)] group-data-tlm-on/tlm:pb-[clamp(24px,5svh,48px)]"
-  >
-    {member && (
-      <a
-        data-tlm-founder
-        href={href(member.href)}
-        class="group/f mb-[clamp(24px,5svh,44px)] flex items-center gap-4 text-ink no-underline"
-      >
-        <span class="block w-[clamp(72px,11svh,96px)] shrink-0 overflow-hidden rounded-[2px] bg-soft">
-          <Picture
-            formats={['avif']}
-            fallbackFormat="webp"
-            src={member.img}
-            alt={member.alt}
-            widths={[96, 192, 288]}
-            sizes="96px"
-            loading="lazy"
-            class="block aspect-[3/4] w-full object-cover grayscale transition-[filter] duration-500 group-hover/f:grayscale-0"
-          />
-        </span>
-        <span class="flex min-w-0 flex-col">
-          {memo && <span class="font-display text-label tracking-label text-gold uppercase">{memo}</span>}
-          <span class="mt-1.5 font-display text-h4 font-medium">{member.name}</span>
-          <span class="mt-0.5 text-small text-ink/60">{member.role}</span>
-        </span>
-      </a>
-    )}
-
-    <h2 data-tlm-title class="m-0 font-display text-h3 font-medium text-ink" set:html={title} />
-
-    <ol
-      data-tlm-list
-      class="mt-6 flex list-none flex-col gap-7 p-0 group-data-tlm-on/tlm:mt-[clamp(20px,4svh,36px)] group-data-tlm-on/tlm:grid group-data-tlm-on/tlm:gap-0"
-    >
-      {items.map((item) => (
-        <li
-          data-tlm-item
-          class="group-data-tlm-on/tlm:pointer-events-none group-data-tlm-on/tlm:col-start-1 group-data-tlm-on/tlm:row-start-1 group-data-tlm-on/tlm:translate-y-6 group-data-tlm-on/tlm:opacity-0 group-data-tlm-on/tlm:transition-[translate,opacity] group-data-tlm-on/tlm:duration-700 group-data-tlm-on/tlm:ease-[cubic-bezier(0.22,1,0.36,1)] group-data-tlm-on/tlm:[&.is-active]:pointer-events-auto group-data-tlm-on/tlm:[&.is-active]:translate-y-0 group-data-tlm-on/tlm:[&.is-active]:opacity-100 group-data-tlm-on/tlm:[&.is-active]:delay-150 group-data-tlm-on/tlm:[&.is-past]:-translate-y-6"
-        >
-          <span class="block font-display text-label tracking-label text-gold uppercase group-data-tlm-on/tlm:text-h2 group-data-tlm-on/tlm:tracking-normal group-data-tlm-on/tlm:normal-case">
-            {item.date}
-          </span>
-          <p class="mt-2 mb-0 max-w-[36rem] text-body text-ink group-data-tlm-on/tlm:mt-3">{item.text}</p>
-        </li>
-      ))}
-    </ol>
-
-    <div data-tlm-dots aria-hidden="true" class="mt-[clamp(20px,4svh,36px)] hidden gap-2 group-data-tlm-on/tlm:flex">
-      {items.map(() => (
-        <span class="block h-1.5 w-1.5 rounded-full bg-ink/15 transition-[width,background-color] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [&.is-past]:bg-gold/50 [&.is-active]:w-6 [&.is-active]:bg-gold"></span>
-      ))}
-    </div>
-  </div>
+<div data-tlm class:list={['tlm', className]}>
+  <h2 data-tlm-step class="m-0 font-display text-h3 font-medium text-ink" set:html={title} />
+  <ol class="mt-8 flex list-none flex-col gap-9 p-0 md:mt-10 md:gap-11">
+    {items.map((item) => (
+      <li data-tlm-step>
+        <span class="block font-display text-h2 font-medium text-gold">{item.date}</span>
+        <p class="mt-2.5 mb-0 max-w-[36rem] text-body text-ink">{item.text}</p>
+      </li>
+    ))}
+  </ol>
 </div>
 
 <script>
@@ -84,10 +30,3 @@ const memo = label?.replace(/:\s*$/, '');
 
   initTimelinePin();
 </script>
-
-<style>
-  /* Länge des Pins: Bühne plus Scrollweg durch die Jahre */
-  .tlm[data-tlm-on] {
-    height: calc(100svh + 190svh);
-  }
-</style>

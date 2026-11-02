@@ -1,0 +1,48 @@
+---
+import { Picture } from 'astro:assets';
+import { href } from '../data/links';
+import Button from './ui/Button.astro';
+
+/**
+ * Gedenk-Block für den Gründer auf „Über uns“ (Handy und Tablet, eigener Abschnitt vor „Unsere Geschichte“):
+ * großes Foto in Schwarz-Weiß, darunter „In Gedenken an“, Name, Lebensdaten, Leitsatz und der Weg zur Gedenkseite.
+ * Auftritt: das Foto wächst von unten auf (`data-grow`), die Texte steigen nacheinander auf (`data-anim`).
+ */
+interface Props {
+  member: { name: string; role: string; href: string; img: ImageMetadata; alt: string };
+  label: string;
+  dates: string;
+  line: string;
+  cta: string;
+  class?: string;
+}
+const { member, label, dates, line, cta, class: className = '' } = Astro.props;
+---
+
+<section aria-label={`${label.replace(/:\s*$/, '')} ${member.name}`} class:list={['flex flex-col', className]}>
+  <div data-grow="bottom" class="overflow-hidden">
+    <Picture
+      formats={['avif']}
+      fallbackFormat="webp"
+      src={member.img}
+      alt={member.alt}
+      widths={[390, 700, 1024]}
+      sizes="(min-width: 768px) 700px, 100vw"
+      loading="lazy"
+      class="block aspect-[4/5] w-full object-cover object-[50%_15%] grayscale"
+    />
+  </div>
+  <p data-anim="fadeIn" class="mt-6 font-display text-label tracking-label text-gold uppercase">
+    {label.replace(/:\s*$/, '')}
+  </p>
+  <h2 data-anim="fadeIn" data-anim-delay="100" class="mt-2 font-display text-h2 font-medium text-ink">
+    {member.name}
+  </h2>
+  <p data-anim="fadeIn" data-anim-delay="200" class="mt-1 font-display text-body tracking-[0.12em] text-ink/60">
+    {dates}
+  </p>
+  <p data-anim="fadeIn" data-anim-delay="300" class="mt-5 font-display text-lead text-ink italic">{line}</p>
+  <div data-anim="fadeIn" data-anim-delay="400" class="mt-6">
+    <Button href={href(member.href)}>{cta}</Button>
+  </div>
+</section>

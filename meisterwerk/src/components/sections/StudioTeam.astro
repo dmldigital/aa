@@ -4,10 +4,12 @@ import TeamCard from '../TeamCard.astro';
 import { href } from '../../data/links';
 import Timeline from '../Timeline.astro';
 import TimelinePin from '../TimelinePin.astro';
+import GedenkBlock from '../GedenkBlock.astro';
 import {
   team,
   founder,
   memorial,
+  founderMemorial,
   timeline,
   haltung,
   exklusiveTeam,
@@ -267,14 +269,14 @@ const teamText = teamMatch?.[2] ?? '';
           </div>
         </div>
 
-        <!-- Zeitleiste: Pin-and-Scroll, läuft beim Scrollen durch die Jahre (Handy und Tablet) -->
-        <TimelinePin
-          class="order-2 md:order-3 md:w-full"
-          title={haltung.toggle}
-          items={timeline}
+        <!-- Gedenken an den Gründer: eigener Abschnitt, danach die Zeitleiste als ruhige Liste (Handy und Tablet) -->
+        <GedenkBlock
+          class="order-2 mt-10 md:order-3 md:mt-12 md:w-full md:max-w-[700px]"
           member={founder}
           label={memorial}
+          {...founderMemorial}
         />
+        <TimelinePin class="order-2 mt-14 md:order-3 md:mt-16 md:w-full" title={haltung.toggle} items={timeline} />
         <div class="order-3 grid auto-rows-fr grid-cols-2 content-start gap-x-5 gap-y-6.25 md:order-1 md:max-w-119.25 md:min-w-0 md:flex-1 md:basis-0 md:gap-y-7.5">
           {team.map((m) => (
             <TeamCard member={m} />
