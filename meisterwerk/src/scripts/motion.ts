@@ -38,13 +38,18 @@ const DURATION: Record<string, number> = { slow: 2, fast: 0.75 };
 export function playAnim(el: HTMLElement, name: string) {
   const from = PRESETS[name];
   const delay = Number(el.dataset.animDelay || 0) / 1000;
-  const duration = DURATION[el.dataset.animDur || ''] ?? 1.25;
+  // Handy: Einblenden mit kleinem Weg und etwas länger, damit es ruhig wirkt (Vollmaße wie 100 % springen auf kleinen Bildschirmen)
+  const soft = isMobile() && name.startsWith('fadeIn');
+  const duration = (DURATION[el.dataset.animDur || ''] ?? 1.25) * (soft ? 1.2 : 1);
   if (!from) {
     el.style.visibility = 'visible';
     return;
   }
+  const start: gsap.TweenVars = soft
+    ? { ...from, xPercent: ((from.xPercent as number) ?? 0) * 0.2, yPercent: ((from.yPercent as number) ?? 0) * 0.2 }
+    : from;
   const to: gsap.TweenVars = { opacity: 1, xPercent: 0, yPercent: 0 };
-  gsap.fromTo(el, from, {
+  gsap.fromTo(el, start, {
     ...to,
     duration,
     delay,

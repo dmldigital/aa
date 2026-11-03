@@ -1,0 +1,1 @@
+import{t as e}from"./lightbox.DCQJEOJL.js";var t=document.querySelector(`[data-sg]`);t&&e(t,[...t.querySelectorAll(`[data-sg-item]`)]);

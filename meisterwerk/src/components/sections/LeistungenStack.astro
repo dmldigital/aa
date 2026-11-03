@@ -220,7 +220,7 @@ const arrow =
       // Laden) als `y`, darum `y: 0` und die Lage nur über `yPercent`.
       gsap.set(cards.slice(1), { y: 0, yPercent: 125 });
       const tl = gsap.timeline({
-        scrollTrigger: { trigger: sec, start: 'top top', end: 'bottom bottom', scrub: 0.35, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: sec, start: 'top top', end: 'bottom bottom', scrub: 0.9, invalidateOnRefresh: true },
       });
       cards.slice(1).forEach((c, i) => tl.to(c, { yPercent: 0, duration: 0.75, ease: 'power1.inOut' }, 0.35 + i));
       tl.to({}, { duration: last + 0.5 }, 0);

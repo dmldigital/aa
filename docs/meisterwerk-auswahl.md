@@ -208,3 +208,13 @@ Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = E
   Breitenänderung. Alle drei nutzen jetzt dieselbe GSAP-/ScrollTrigger-Instanz wie die übrigen Quell-Komponenten.
 - Noch auf der alten Instanz (motion.B5Hf7): WelcomeChain.js, WelcomeZoom.js, WelcomeScroll-Chunk n8bjhO38 (nur in der Vorschau).
 - Die früheren Dateien TabsFade.css/js, CtaReveal.css/js, FaqCover.js bindet die Startseite nicht mehr ein (nur noch `kreise/`).
+
+## Handy ruhiger (Stand 03.11.2026)
+- Schriftskala mobil kleiner (Quelle `meisterwerk/src/styles/global.css`, `@theme`): Display 40, H1 28, H2 24, H3 20, H4/Lead 17, Body 15, Small 12, Label 11,5 px bei 390 px;
+  die Werte bleiben stufenlos bis 1440 px, dort unverändert (95/61/39/25/20/20/16/13/13).
+- Gewichte nur auf dem Handy (< 768 px) leichter: `font-medium` 400, `font-semibold` 500, `font-bold` 600, `strong`/`b` 500
+  (Variablen `--font-weight-*` in einer Medienregel in `global.css`; Tablet/Desktop unverändert).
+- Textlinks der internen Verlinkung (`.inline-link`) gold ohne Unterstrich. Einblenden (`data-anim`) auf dem Handy mit kleinerem Weg (20 %) und 20 % länger.
+- Die Startseite (`index.html`) bekommt die Token mit `tools/meisterwerk-auswahl/tokens-patch.py` (nach jedem Build mit ausführen, sonst bleiben alte Größen).
+  Reihenfolge nach einem Build: `add-pages.py` (alle Seiten) → `refresh-pages.py --alle` → `hero-patch.py` → `lk-patch.py` → `home-patch.py` → `tokens-patch.py` → `bust.py`.
+
