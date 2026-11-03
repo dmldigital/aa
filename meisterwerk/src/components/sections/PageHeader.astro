@@ -25,7 +25,7 @@ interface Props {
 const { label, title, lead, paragraphs = [], button, image, imageAlt = '', eager = true, class: className = '' } = Astro.props;
 ---
 
-<section data-section="seitenkopf" class:list={['px-page pt-16 pb-12 md:pt-24 md:pb-16', className]}>
+<section data-section="seitenkopf" class:list={['px-page pt-section pb-group', className]}>
   <div
     class:list={[
       'mx-auto grid w-full max-w-page items-center gap-10',

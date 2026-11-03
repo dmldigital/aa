@@ -25,8 +25,10 @@ const f = footers[siteKey];
 </div>
 
 <script>
-  import { gsap, ScrollTrigger } from '../../scripts/motion';
+  import { gsap } from '../../scripts/motion';
 
+  // Auftritt über IntersectionObserver statt ScrollTrigger: feuert zuverlässig, auch wenn sich die Seitenlänge (Browserleiste,
+  // Akkordeons, andere Pins) nach der Messung ändert. Sicherheitsnetz: nach 6 s ist alles sichtbar, was im Bild steht.
   document.querySelectorAll<HTMLElement>('[data-frage]').forEach((box) => {
     const mm = gsap.matchMedia();
     mm.add('(prefers-reduced-motion: no-preference)', () => {
@@ -37,9 +39,17 @@ const f = footers[siteKey];
       const tl = gsap.timeline({ paused: true });
       tl.to(lines, { yPercent: 0, duration: 1.15, ease: 'power3.out', stagger: 0.14 }, 0);
       if (btn) tl.to(btn, { y: 0, autoAlpha: 1, duration: 0.9, ease: 'power2.out' }, 0.45);
-      const st = ScrollTrigger.create({ trigger: box, start: 'top 88%', once: true, onEnter: () => tl.play() });
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((e) => e.isIntersecting)) return;
+          io.disconnect();
+          tl.play();
+        },
+        { rootMargin: '0px 0px -8% 0px' },
+      );
+      io.observe(box);
       return () => {
-        st.kill();
+        io.disconnect();
         tl.kill();
         gsap.set([...lines, ...(btn ? [btn] : [])], { clearProps: 'transform,opacity,visibility' });
       };

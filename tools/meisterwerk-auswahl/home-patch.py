@@ -35,6 +35,24 @@ m = re.search(r'(<link rel="stylesheet" href="[^"]*_astro/tabs\.[^"]*">)?<sectio
 p0 = m.start()
 page = page[:p0] + new + page[page.index('</main>', p0):]
 
+# Willkommen-Szene (WelcomeScroll mit `home`): Abschnitt samt Stylesheet aus dem Build, Skript mit Kette, Zoom und Handy-Wachstum
+w0 = built.index('<section data-section="53bda50"')
+wl = built.rfind('<link rel="stylesheet"', 0, w0)
+if wl >= 0 and built[wl:w0].count('<') == 1:
+    w0 = wl
+w1 = built.index('</section>', w0) + len('</section>')
+wnew = built[w0:w1]
+pm = re.search(r'(<link rel="stylesheet" href="[^"]*_astro/welcome\.[^"]*">)?<section data-section="53bda50"[\s\S]*?</section>', page)
+page = page[:pm.start()] + wnew + page[pm.end():]
+for name in ('WelcomeChain', 'WelcomeZoom'):
+    page = re.sub(r'<link[^>]*_astro/%s\.css[^>]*>' % name, '', page)
+    page = re.sub(r'<script[^>]*_astro/%s\.js[^>]*></script>' % name, '', page)
+page = re.sub(r'<script[^>]*_astro/WelcomeScroll\.astro_astro_type_script[^>]*></script>', '', page)
+wchunk = re.search(r'_astro/(WelcomeScroll\.astro_astro_type_script_index_0_lang\.[\w-]+\.js)', built).group(1)
+page = page.replace('</body>', '<script type="module" src="%s/_astro/%s"></script></body>' % (PREFIX, wchunk), 1)
+ns['copy_modules'](wchunk)
+new_w = wnew
+
 # Frühere Handdateien nicht mehr einbinden
 for name in ('TabsFade', 'CtaReveal', 'FaqCover'):
     page = re.sub(r'<link[^>]*_astro/%s\.css[^>]*>' % name, '', page)
@@ -51,14 +69,14 @@ for c in dict.fromkeys(chunks):
 
 # Dateien des Bereichs (Bilder, Stylesheets)
 n = 0
-for f in sorted(set(re.findall(r'%s/(_astro/[\w./@%%-]+)' % re.escape(PREFIX), new))):
+for f in sorted(set(re.findall(r'%s/(_astro/[\w./@%%-]+)' % re.escape(PREFIX), new + new_w))):
     s, t = B / f, D / f
     if s.is_file() and not t.exists():
         shutil.copy(s, t)
         n += 1
 
 page = re.sub(r'<style data-home-patch>[\s\S]*?</style>', '', page)
-need, css = ns['missing_rules'](new, page, built)
+need, css = ns['missing_rules'](new + new_w, page, built)
 page = page.replace('</head>', '<style data-home-patch>' + css + '</style></head>', 1)
 (D / 'index.html').write_text(page)
 print(f'Startseite: Bereich ab Fachsektion ersetzt, Skripte {len(set(chunks))}, {len(need)} Klassen ergänzt, {n} Dateien kopiert')

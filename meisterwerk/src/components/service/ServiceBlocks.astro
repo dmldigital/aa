@@ -28,7 +28,7 @@ const { blocks, cta, class: className = '' } = Astro.props;
     ))}
   </div>
   {cta && (
-    <div class="mx-auto mt-8 w-full max-w-page" data-anim="fadeIn">
+    <div class="mx-auto mt-group w-full max-w-page" data-anim="fadeIn">
       <Button href={cta.href}>
         {cta.label}
       </Button>

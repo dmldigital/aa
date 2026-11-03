@@ -79,6 +79,50 @@
   }
 }
 
+/* ==========================================================================
+   Abstandssystem (ein System für alle Seiten, Handy bis Desktop)
+   Fünf Stufen, ein Wert je Stufe und Breite; Seiten und Komponenten benutzen nur diese Utilities, keine eigenen Zahlen:
+   section  Abstand zwischen Abschnitten (py-section, pt-section, pb-section, mt-section, gap-section)
+   group    Überschriftengruppe zu Inhalt, große Blöcke in einem Abschnitt (mt-group, gap-group)
+   stack    Karten und Listeneinträge untereinander (gap-stack)
+   inner    Innenabstand von Karten und Flächen (p-inner)
+   text     Überschrift zu Text, Absätze (mt-text, gap-text)
+   gutter   seitlicher Rand (px-page = padding-inline: gutter)
+   Umschaltung wie überall: ab 768 px (md) und ab 1025 px (lg).
+   ========================================================================== */
+:root {
+  --space-section: 4rem;
+  --space-group: 2rem;
+  --space-stack: 1.25rem;
+  --space-inner: 1.5rem;
+  --space-text: 0.75rem;
+  --space-gutter: 1.25rem;
+}
+@media (width >= 48rem) {
+  :root {
+    --space-section: 6rem;
+    --space-group: 2.5rem;
+    --space-stack: 1.5rem;
+    --space-inner: 2rem;
+    --space-text: 1rem;
+    --space-gutter: 2rem;
+  }
+}
+@media (width >= 64.0625rem) {
+  :root {
+    --space-section: 8rem;
+    --space-group: 3.5rem;
+  }
+}
+@theme inline {
+  --spacing-section: var(--space-section);
+  --spacing-group: var(--space-group);
+  --spacing-stack: var(--space-stack);
+  --spacing-inner: var(--space-inner);
+  --spacing-text: var(--space-text);
+  --spacing-gutter: var(--space-gutter);
+}
+
 /* Hero mit Scroll-Animation: Desktop (ab 701 px) und Handy (bis 700 px, Höhe ab 650 px), jeweils nur ohne reduzierte Bewegung */
 @custom-variant hero-d (@media (min-width: 701px) and (prefers-reduced-motion: no-preference));
 @custom-variant hero-m (@media (max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference));
@@ -292,18 +336,6 @@ html.menu-open {
 }
 
 /* Abstände der Stil-Referenz: Sektion oben und unten 64 / 96 / 128 px, Seitenrand 20 / 32 px */
-@utility py-section {
-  padding-block: 4rem;
-  @media (width >= 48rem) {
-    padding-block: 6rem;
-  }
-  @media (width >= 64.0625rem) {
-    padding-block: 8rem;
-  }
-}
 @utility px-page {
-  padding-inline: 1.25rem;
-  @media (width >= 48rem) {
-    padding-inline: 2rem;
-  }
+  padding-inline: var(--space-gutter);
 }

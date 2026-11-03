@@ -32,7 +32,7 @@ const { member, label, dates, line, cta, class: className = '' } = Astro.props;
       class="block aspect-[4/5] w-full object-cover object-[50%_15%] grayscale"
     />
   </div>
-  <p data-anim="fadeIn" class="mt-6 font-display text-label tracking-label text-gold uppercase">
+  <p data-anim="fadeIn" class="mt-stack font-display text-label tracking-label text-gold uppercase">
     {label.replace(/:\s*$/, '')}
   </p>
   <h2 data-anim="fadeIn" data-anim-delay="100" class="mt-2 font-display text-h2 font-medium text-ink">
@@ -42,7 +42,7 @@ const { member, label, dates, line, cta, class: className = '' } = Astro.props;
     {dates}
   </p>
   <p data-anim="fadeIn" data-anim-delay="300" class="mt-5 font-display text-lead text-ink italic">{line}</p>
-  <div data-anim="fadeIn" data-anim-delay="400" class="mt-6">
+  <div data-anim="fadeIn" data-anim-delay="400" class="mt-stack">
     <Button href={href(member.href)}>{cta}</Button>
   </div>
 </section>

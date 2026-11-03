@@ -39,8 +39,8 @@ const f = footers[site];
     </Button>
   </div>
 
-  <div class="px-5 pt-12 pb-6 md:pt-8 md:pb-5 lg:px-7.5">
-    <div class="mx-auto grid w-full max-w-[min(100%,767px)] grid-cols-2 gap-x-5 gap-y-10 md:max-w-[min(100%,1024px)] md:grid-cols-6 md:gap-x-5 md:gap-y-8 lg:max-w-[min(100%,1700px)] lg:grid-cols-12">
+  <div class="px-page pt-section pb-stack md:pt-group lg:px-7.5">
+    <div class="mx-auto grid w-full max-w-[min(100%,767px)] grid-cols-2 gap-x-stack gap-y-group md:max-w-[min(100%,1024px)] md:grid-cols-6 lg:max-w-[min(100%,1700px)] lg:grid-cols-12">
       <div class="order-1 col-span-2 md:order-none md:col-span-3 lg:col-span-4 min-[1300px]:col-span-5">
         <Frage {site} />
       </div>
@@ -53,7 +53,7 @@ const f = footers[site];
         {f.badge && <Badge />}
       </div>
       <div
-        class="order-2 col-span-2 flex flex-col gap-6 bg-soft p-6 md:order-none md:col-span-3 md:gap-3 md:bg-transparent md:p-0 lg:col-span-3"
+        class="order-2 col-span-2 flex flex-col gap-stack bg-soft p-inner md:order-none md:col-span-3 md:gap-3 md:bg-transparent md:p-0 lg:col-span-3"
         data-anim="fadeInUp"
         data-anim-delay="240"
         data-anim-mobile="fadeInUp"

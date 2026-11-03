@@ -7,10 +7,10 @@
    Schrift: nur die Stufen der Website-Skala (--text-h2/h3/h4/body/small/label). Die Fachsektion passt in 100vh, indem das
    Skript nur die Abstände (--tb-s) und notfalls die Stufe (.tb--compact) verkleinert, nie freie Zwischengrößen. */
 
-.tb{--tb-ink:#090402;--tb-gold:#a59371;--tb-hair:#0904021f;margin:0;padding:0 20px;color:var(--tb-ink)}
+.tb{--tb-ink:#090402;--tb-gold:#a59371;--tb-hair:#0904021f;margin:0;padding:var(--space-section) var(--space-gutter);color:var(--tb-ink)}
 .tb-eyebrow,.tb h2,.tb-tabs li,.tb-h3,.tb-grp h4,.tb-note,.tb-cmp th{font-family:var(--font-urbanist),sans-serif}
 
-.tb-grid{display:grid;grid-template-columns:1fr;gap:20px;width:100%;max-width:var(--container-page,1700px);margin:0 auto}
+.tb-grid{display:grid;grid-template-columns:1fr;gap:var(--space-stack);width:100%;max-width:var(--container-page,1700px);margin:0 auto}
 .tb-left{display:flex;flex-direction:column;gap:15px}
 .tb-eyebrow{font-size:var(--text-label);line-height:var(--text-label--line-height);font-weight:500;letter-spacing:var(--tracking-label);text-transform:uppercase}
 .tb h2{margin:0;color:var(--tb-gold);font-size:var(--text-h2);line-height:var(--text-h2--line-height);letter-spacing:var(--text-h2--letter-spacing);font-weight:500}
@@ -74,7 +74,6 @@
 }
 
 @media (width>=768px){
-  .tb{margin:60px 0 40px;padding:0 20px}
   .tb-grid{grid-template-columns:1fr 1fr;gap:20px 30px;align-items:center}
   .tb-left{grid-column:1}
   .tb-media{grid-column:2;grid-row:1}
@@ -88,7 +87,7 @@
 }
 
 /* ---------- Pin: Bühne steht, rechts blenden Bild und Tabs nacheinander ein und aus ---------- */
-.tb--pin{height:420vh}
+.tb--pin{height:420vh;margin-top:var(--space-section);padding-block:0}
 .tb--pin .tb-sticky{position:sticky;top:0;display:flex;align-items:center;height:100svh;min-height:600px;overflow:clip}
 .tb--pin .tb-grid{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:0 20px}
 .tb--pin .tb-right{display:block;position:relative}
@@ -143,10 +142,11 @@
 /* ---------- FAQ ---------- */
 /* Fragen auf dem Handy mit etwas weniger Abstand: zehn Fragen untereinander sollen ruhig wirken, nicht erschlagen */
 @media (width<768px){.tb--faq.tb--ui .tb-tab{padding:15px 0}}
-.tb.tb--faq{margin:10vh 0 0;background:#f7f7f7}
-@media (width>=768px){.tb.tb--faq{margin:20vh 0 0}}
-.tb--faq .tb-grid{grid-template-columns:minmax(0,1fr);padding:40px 0 48px}
-.tb--faq .tb-left{gap:20px}
+.tb.tb--faq{margin:0;background:#f7f7f7}
+/* Das FAQ überdeckt die Projekte vollständig (Mindesthöhe per Skript): Der Inhalt steht mittig, der Überstand verteilt sich oben und unten */
+.tb--faq.faq--cover{display:flex;flex-direction:column;justify-content:center}
+.tb--faq .tb-grid{grid-template-columns:minmax(0,1fr)}
+.tb--faq .tb-left{gap:var(--space-stack)}
 .tb--faq .tb-lead{max-width:640px}
 .tb--faq .tb-faqcols{display:none}
 .tb--faq.tb--ui .tb-faqcols{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;order:5}
@@ -155,10 +155,10 @@
 .tb--faq .tb-faqcols>.tb-tabs+.tb-tabs>li:first-child{border-top-color:transparent}
 .tb--faq .tb-faqcols>.tb-tabs+.tb-tabs>li:first-child::before{display:none}
 @media (width>=768px){
-  .tb--faq .tb-grid{gap:0;padding:60px 0 72px}
+  .tb--faq .tb-grid{gap:0}
   .tb--faq.tb--ui h2{grid-column:1;grid-row:1}
-  .tb--faq.tb--ui .tb-lead{grid-column:1;grid-row:2;margin-top:18px}
-  .tb--faq.tb--ui .tb-faqcols{grid-column:1;grid-row:3;margin-top:40px}
+  .tb--faq.tb--ui .tb-lead{grid-column:1;grid-row:2;margin-top:var(--space-text)}
+  .tb--faq.tb--ui .tb-faqcols{grid-column:1;grid-row:3;margin-top:var(--space-group)}
   .tb--faq.tb--ui .tb-faqcols{grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(32px,5vw,90px)}
   .tb--faq .tb-faqcols>.tb-tabs{margin-top:0}
   .tb--faq .tb-faqcols>.tb-tabs+.tb-tabs>li:first-child{border-top-color:var(--tb-hair)}

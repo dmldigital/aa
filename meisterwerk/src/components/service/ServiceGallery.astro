@@ -72,7 +72,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
 <style>
   .sg {
     --ink: #090402;
-    padding: 64px 20px;
+    padding: var(--space-section) var(--space-gutter);
     color: var(--ink);
   }
   .sg--soft {
@@ -80,7 +80,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
   }
   .sg-inner {
     display: grid;
-    gap: 32px;
+    gap: var(--space-group);
     max-width: var(--container-page);
     margin: 0 auto;
   }
@@ -94,7 +94,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
     text-transform: uppercase;
   }
   .sg-heading h2 {
-    margin: 12px 0 0;
+    margin: var(--space-text) 0 0;
     color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
     font-size: var(--text-h2);
@@ -106,7 +106,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
   .sg-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+    gap: var(--space-stack);
     margin: 0;
     padding: 0;
     list-style: none;
@@ -175,14 +175,8 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
   }
 
   @media (min-width: 768px) {
-    .sg {
-      padding: 96px 32px;
-    }
   }
   @media (min-width: 1025px) {
-    .sg {
-      padding: 128px 32px;
-    }
     .sg-inner {
       grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
       gap: 0 6vw;
@@ -194,7 +188,7 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
     }
     .sg-grid {
       grid-template-columns: repeat(var(--cols, 2), minmax(0, 1fr));
-      gap: 20px;
+      gap: var(--space-stack);
     }
   }
 </style>

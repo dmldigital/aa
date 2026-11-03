@@ -218,3 +218,22 @@ Alle laden `gsap.CvDoa17S.js` und `motion.B5Hf7-lS.js` (ScrollTrigger-Klasse = E
 - Die Startseite (`index.html`) bekommt die Token mit `tools/meisterwerk-auswahl/tokens-patch.py` (nach jedem Build mit ausführen, sonst bleiben alte Größen).
   Reihenfolge nach einem Build: `add-pages.py` (alle Seiten) → `refresh-pages.py --alle` → `hero-patch.py` → `lk-patch.py` → `home-patch.py` → `tokens-patch.py` → `bust.py`.
 
+## Abstandssystem (Stand 03.11.2026)
+Ein System für alle Seiten, definiert in `meisterwerk/src/styles/global.css` (Block „Abstandssystem“, Variablen `--space-*`, Utilities über `@theme inline`):
+
+| Stufe | Utility | Handy | ab 768 px | ab 1025 px | Wofür |
+|---|---|---|---|---|---|
+| section | `py-section`, `pt-/pb-/mt-/gap-section` | 64 | 96 | 128 | Abstand zwischen Abschnitten, Innenabstand jedes Abschnitts |
+| group | `mt-/gap-/pt-/pb-group` | 32 | 40 | 56 | Überschriftengruppe zu Inhalt, große Blöcke im Abschnitt, Seitenkopf unten |
+| stack | `gap-stack`, `mt-stack` | 20 | 24 | 24 | Karten und Listeneinträge untereinander |
+| inner | `p-inner` | 24 | 32 | 32 | Innenabstand von Karten und Flächen |
+| text | `mt-/gap-text` | 12 | 16 | 16 | Überschrift zu Text |
+| gutter | `px-page` | 20 | 32 | 32 | seitlicher Rand |
+
+- Keine `vh`-Abstände mehr zwischen Sektionen (früher 8/10/14/20 vh), keine freien Zahlen in Sektions-Paddings. In eigenen CSS-Blöcken: `var(--space-section)` usw.
+- Pin-Sektionen (Leistungen, Fachsektion, „Jede Oberfläche“) haben keinen Innenabstand, ihr Abstand nach oben ist `mt-section`.
+- Umgestellt: Seitenköpfe, Seitenenden, Footer, Startseite (Willkommen, Leistungen, Fachsektion, CTA, Projekte, FAQ), Über uns, Profile, Qualifikationen, Leistungs- und Exklusiv-Seiten, Mini-Formular.
+- Die Willkommen-Szene der Startseite kommt jetzt auch aus der Quelle (`WelcomeScroll.astro` mit `home`, Skripte `scripts/home/welcome-*.js`, Gestaltung `styles/home/welcome.css`). Die alten Handdateien WelcomeChain/WelcomeZoom und der handbearbeitete Welcome-Chunk sind nicht mehr eingebunden.
+- Fuß: Die Überschrift „Sie haben Fragen?“ erscheint per IntersectionObserver (nicht mehr ScrollTrigger), weil sie auf echten Handys unsichtbar bleiben konnte.
+- `home-patch.py` ersetzt jetzt Willkommen und alles ab der Fachsektion; `tokens-patch.py` übernimmt zusätzlich die Abstands-Variablen.
+

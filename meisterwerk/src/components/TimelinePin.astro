@@ -15,7 +15,7 @@ const { items, title, class: className = '' } = Astro.props;
 
 <div data-tlm class:list={['tlm', className]}>
   <h2 data-tlm-step class="m-0 font-display text-h3 font-medium text-ink" set:html={title} />
-  <ol class="mt-8 flex list-none flex-col gap-9 p-0 md:mt-10 md:gap-11">
+  <ol class="mt-group flex list-none flex-col gap-group p-0">
     {items.map((item) => (
       <li data-tlm-step>
         <span class="block font-display text-h2 font-medium text-gold">{item.date}</span>

@@ -242,7 +242,7 @@ const teamText = teamMatch?.[2] ?? '';
       data-section="1eb1fb2"
       class:list={['flex flex-col px-page py-section lg:hidden', first]}
     >
-      <div class="mx-auto flex w-full max-w-tablet flex-col justify-between gap-y-6.25 md:flex-row md:flex-wrap md:gap-x-7.5">
+      <div class="mx-auto flex w-full max-w-tablet flex-col justify-between gap-y-section md:flex-row md:flex-wrap md:gap-x-group">
         <div class="order-1 flex flex-col gap-3.75 md:order-2 md:mt-5 md:w-119.25 md:shrink-0">
           {!hideHead && (
             <>
@@ -271,13 +271,13 @@ const teamText = teamMatch?.[2] ?? '';
 
         <!-- Gedenken an den Gründer: eigener Abschnitt, danach die Zeitleiste als ruhige Liste (Handy und Tablet) -->
         <GedenkBlock
-          class="order-2 mt-10 md:order-3 md:mt-12 md:w-full md:max-w-[700px]"
+          class="order-2 md:order-3 md:w-full md:max-w-[700px]"
           member={founder}
           label={memorial}
           {...founderMemorial}
         />
-        <TimelinePin class="order-2 mt-14 md:order-3 md:mt-16 md:w-full" title={haltung.toggle} items={timeline} />
-        <div class="order-3 grid auto-rows-fr grid-cols-2 content-start gap-x-5 gap-y-6.25 md:order-1 md:max-w-119.25 md:min-w-0 md:flex-1 md:basis-0 md:gap-y-7.5">
+        <TimelinePin class="order-2 md:order-3 md:w-full" title={haltung.toggle} items={timeline} />
+        <div class="order-3 grid auto-rows-fr grid-cols-2 content-start gap-x-stack gap-y-group md:order-1 md:max-w-119.25 md:min-w-0 md:flex-1 md:basis-0">
           {team.map((m) => (
             <TeamCard member={m} />
           ))}

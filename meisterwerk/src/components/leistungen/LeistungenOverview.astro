@@ -190,13 +190,13 @@ const exklusivLinks = [
   .ls {
     --ink: #090402;
     --hair: #0904021f;
-    padding: 64px 20px;
+    padding: var(--space-section) var(--space-gutter);
     background: var(--color-soft);
     color: var(--ink);
   }
   .ls-inner {
     display: grid;
-    gap: 32px;
+    gap: var(--space-group);
     max-width: var(--container-page);
     margin: 0 auto;
   }
@@ -232,7 +232,7 @@ const exklusivLinks = [
 
   .ls-grid {
     display: grid;
-    gap: 20px;
+    gap: var(--space-stack);
   }
   .ls-card {
     position: relative;
@@ -294,8 +294,8 @@ const exklusivLinks = [
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 20px;
-    padding: 24px;
+    gap: var(--space-stack);
+    padding: var(--space-inner);
   }
   .ls-text h2,
   .ls-card--wide h2 {
@@ -414,9 +414,6 @@ const exklusivLinks = [
   }
 
   @media (min-width: 768px) {
-    .ls {
-      padding: 96px 32px;
-    }
     .ls-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -440,14 +437,8 @@ const exklusivLinks = [
       order: 2;
       aspect-ratio: auto;
     }
-    .ls-wide-body {
-      padding: 32px;
-    }
   }
   @media (min-width: 1025px) {
-    .ls {
-      padding: 128px 32px;
-    }
     .ls-inner {
       grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
       gap: 0 6vw;

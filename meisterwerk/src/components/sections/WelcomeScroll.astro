@@ -5,6 +5,7 @@ import { href, routes } from '../../data/links';
 import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
 import kueche from '../../assets/img/2014-meisterwerk-20230524-Bearbeitet-1-scaled.jpg';
 import wohnbereich from '../../assets/img/205-meisterwerk-20230120-Bearbeitet-scaled.jpg';
+import welcomeCss from '../../styles/home/welcome.css?url';
 
 /**
  * Willkommen-Szene der Startseite (Original 53bda50 und 3c77667): Text und drei Bilder. Desktop: Der Text bleibt
@@ -26,6 +27,8 @@ interface Props {
   cta?: { label: string; href: string };
   /** Abstände der Sektion (Standard: `py-section`) */
   rootClass?: string;
+  /** Startseite: Text kommt wie an einer Kette nacheinander hoch (`data-wc`), Schlusssatz als Zitat, Handy: Bildstapel wächst zum Vollbild, Desktop: letztes Bild zoomt (Skripte scripts/home/welcome-*.js) */
+  home?: boolean;
 }
 const {
   heading,
@@ -35,7 +38,9 @@ const {
   headingTag: Heading = 'h2',
   cta = { label: 'Projekt starten', href: href(routes.contact) },
   rootClass = 'py-section',
+  home = false,
 } = Astro.props;
+const wc = home ? { 'data-wc': '' } : {};
 
 const defaultImages = [
   {
@@ -54,10 +59,12 @@ const defaultImages = [
 const images = customImages ?? defaultImages;
 ---
 
+{home && <link rel="stylesheet" href={welcomeCss} />}
 <section
   data-section="53bda50"
   data-welcome-scene
   data-cta-off
+  data-ws-home={home ? '' : undefined}
   class:list={['overflow-x-clip bg-white px-page', rootClass]}
 >
   <div class="mx-auto w-full max-w-page lg:flex lg:flex-row-reverse lg:gap-x-5">
@@ -67,9 +74,10 @@ const images = customImages ?? defaultImages;
         <div class="flex flex-col gap-3.75 lg:sticky lg:top-[14vh] lg:gap-5">
           <div
             class="lg:mb-5 lg:max-w-[690px]"
-            data-anim="fadeInUp"
-            data-anim-delay="280"
-            data-anim-dur="slow"
+            {...wc}
+            data-anim={home ? undefined : 'fadeInUp'}
+            data-anim-delay={home ? undefined : '280'}
+            data-anim-dur={home ? undefined : 'slow'}
           >
             <Heading
               class="font-display text-h2 font-medium text-gold"
@@ -78,14 +86,15 @@ const images = customImages ?? defaultImages;
           </div>
           <div class="[&>p]:mb-3.75 [&>p]:text-body lg:[&>p]:mb-para">
             {paragraphs.map((p) => (
-              <p set:html={p} />
+              <p {...wc} set:html={p} />
             ))}
           </div>
           <div
-            data-anim="fadeIn"
-            data-anim-mobile="slideInRight"
-            data-anim-delay="500"
-            data-anim-dur="slow"
+            {...wc}
+            data-anim={home ? undefined : 'fadeIn'}
+            data-anim-mobile={home ? undefined : 'slideInRight'}
+            data-anim-delay={home ? undefined : '500'}
+            data-anim-dur={home ? undefined : 'slow'}
           >
             <div>
               <Button href={cta.href}>
@@ -95,10 +104,17 @@ const images = customImages ?? defaultImages;
           </div>
           <!-- Kommt nach den Bildern an der Textstelle hereingeglitten (Skript unten) -->
           {closing && (
-            <div data-ws-closing data-section="3c77667" class="mt-5 max-w-[660px] lg:mt-12">
-              <h2 class="font-display text-h2 font-medium text-gold">
-                {closing}
-              </h2>
+            <div
+              data-ws-closing
+              {...wc}
+              data-section="3c77667"
+              class:list={home ? 'wc-quote-wrap' : 'mt-stack max-w-[660px] lg:mt-group'}
+            >
+              {home ? (
+                <p class="wc-quote">„{closing}“</p>
+              ) : (
+                <h2 class="font-display text-h2 font-medium text-gold">{closing}</h2>
+              )}
             </div>
           )}
         </div>
@@ -131,7 +147,10 @@ const images = customImages ?? defaultImages;
 </section>
 
 <script>
-  import { gsap, ScrollTrigger } from '../../scripts/motion';
+  import { gsap } from '../../scripts/motion';
+  import '../../scripts/home/welcome-chain.js';
+  import '../../scripts/home/welcome-zoom.js';
+  import '../../scripts/home/welcome-grow.js';
 
   const scene = document.querySelector<HTMLElement>('[data-welcome-scene]');
   if (scene) {
@@ -143,8 +162,8 @@ const images = customImages ?? defaultImages;
 
     // Desktop: Die Bilder haben keine Eingangsanimation, sie laufen nur beim Scrollen mit
     mm.add('(min-width: 1025px) and (prefers-reduced-motion: no-preference)', () => {
-      // Schlussüberschrift gleitet unter dem Text herein, sobald das letzte Bild ankommt
-      if (!closing) return;
+      // Schlussüberschrift gleitet unter dem Text herein, sobald das letzte Bild ankommt (Startseite: kommt mit der Kette)
+      if (!closing || scene.hasAttribute('data-ws-home')) return;
       gsap.set(closing, { opacity: 0, x: -60 });
       gsap.to(closing, {
         opacity: 1,
@@ -158,7 +177,8 @@ const images = customImages ?? defaultImages;
     // Tablet und Handy: Sobald das Ende des Blocks den unteren Bildschirmrand erreicht, hält die Seite an: oben bleibt das
     // Textende stehen, unten schieben sich das zweite und dritte Bild von rechts über das erste
     mm.add('(max-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-      if (imgs.length < 2) return;
+      // Startseite: eigener Ablauf in scripts/home/welcome-grow.js
+      if (imgs.length < 2 || scene.hasAttribute('data-ws-home')) return;
       gsap.set(imgs.slice(1), { xPercent: 100 });
       if (closing) gsap.set(closing, { opacity: 0, x: -40 });
       const tl = gsap.timeline({

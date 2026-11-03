@@ -208,7 +208,7 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
 <style>
   .qs {
     --ink: #090402;
-    padding: 0 20px;
+    padding: 0 var(--space-gutter);
     color: var(--ink);
   }
 
@@ -216,7 +216,7 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   .qs-open {
     max-width: var(--container-page);
     margin: 0 auto;
-    padding: 32px 0 36px;
+    padding: var(--space-group) 0;
   }
   /* Label wie „Die Vorteile auf einen Blick“ */
   .qs-eyebrow {
@@ -251,10 +251,10 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   .qs-inner {
     display: flex;
     flex-direction: column;
-    gap: 56px;
+    gap: var(--space-section);
     max-width: var(--container-page);
     margin: 0 auto;
-    padding-bottom: 64px;
+    padding-bottom: var(--space-section);
   }
   .qs-side {
     order: 1;
@@ -343,7 +343,7 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   /* Versprechen */
   .qs-steps {
     display: grid;
-    gap: 48px;
+    gap: var(--space-group);
   }
   .qs-step h2 {
     margin: 0 0 14px;
@@ -389,12 +389,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   }
 
   @media (min-width: 768px) {
-    .qs {
-      padding: 0 20px;
-    }
-    .qs-open {
-      padding: 40px 0 44px;
-    }
     .qs-wall {
       gap: 20px;
     }
@@ -407,12 +401,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   }
 
   @media (min-width: 1025px) {
-    .qs {
-      padding: 0 30px;
-    }
-    .qs-open {
-      padding: 7vh 0 8vh;
-    }
     .qs-title {
       max-width: 640px;
     }
@@ -421,7 +409,7 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
       grid-template-columns: minmax(0, 0.56fr) minmax(0, 0.44fr);
       gap: 0 6vw;
       align-items: start;
-      padding-bottom: 14vh;
+      padding-bottom: var(--space-section);
     }
     .qs-wall {
       order: 1;

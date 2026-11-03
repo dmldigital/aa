@@ -33,7 +33,9 @@ page = re.sub(r'(--(?:text|tracking)-[\w-]+):([^;}]+);', put, page)
 
 page = re.sub(r'<style data-tokens-patch>[\s\S]*?</style>', '', page)
 media = re.findall(r'@media[^{]*\{:root\{[^}]*--font-weight[^}]*\}(?:strong,b\{[^}]*\})?\}', css)
+space = re.findall(r'(?::root\{--space-section:[^}]*\}|@media[^{]*\{:root\{--space-[^}]*\}\})', css)
+assert space, 'Abstands-Variablen im Build nicht gefunden'
 assert media, 'Gewichts-Variablen des Handys im Build nicht gefunden'
-page = page.replace('</head>', '<style data-tokens-patch>' + ''.join(media) + '</style></head>', 1)
+page = page.replace('</head>', '<style data-tokens-patch>' + ''.join(space) + ''.join(media) + '</style></head>', 1)
 (D / 'index.html').write_text(page)
-print(f'Token: {n} Werte angeglichen, {len(media)} Medienregel(n) für Gewichte')
+print(f'Token: {n} Werte angeglichen, {len(media)} Medienregel(n) für Gewichte, {len(space)} Abstands-Regeln')
