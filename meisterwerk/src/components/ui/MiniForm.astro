@@ -24,7 +24,7 @@ const options = [...(exklusive ? exk : [...main, ...exk]), 'Etwas anderes'];
 const field = 'flex min-w-0 flex-col gap-0.5';
 const label = 'font-display text-label tracking-label text-muted uppercase';
 const input =
-  'w-full border-0 border-b border-black/25 bg-transparent pt-1.5 pb-2 font-display text-body text-ink outline-none transition-colors duration-300 focus:border-ink';
+  'field w-full py-3 font-display text-body text-ink';
 ---
 
 <form data-menu-form aria-label="Kurze Nachricht" class:list={['flex w-full flex-col gap-5', className]}>
@@ -62,8 +62,8 @@ const input =
   </div>
   <p class="text-small text-muted">
     Direkt erreichen Sie uns unter{' '}
-    <a href={`tel:${site.phoneHref}`} class="text-ink underline underline-offset-3">{site.phone}</a>
+    <a href={`tel:${site.phoneHref}`} class="text-gold transition-colors duration-300 hover:text-ink">{site.phone}</a>
     {' '}oder{' '}
-    <a href={`mailto:${site.email}`} class="text-ink underline underline-offset-3">{site.email}</a>
+    <a href={`mailto:${site.email}`} class="text-gold transition-colors duration-300 hover:text-ink">{site.email}</a>
   </p>
 </form>

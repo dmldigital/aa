@@ -25,7 +25,6 @@ Werkzeuge und Tests: `tools/meisterwerk-auswahl/` (siehe dort README).
 |---|---|
 | `LeistungenStack.css/js` | **Abgelöst (Startseite):** Die Sektion kommt jetzt aus der Quelle `meisterwerk/src/components/sections/LeistungenStack.astro` (Tailwind, Varianten `lk-*` in `global.css`), eingespielt mit `tools/meisterwerk-auswahl/lk-patch.py` nach einem Astro-Build (wie `hero-patch.py`). Handy-Karten neu: Zähler 01 / 06 in der Karte, runder Pfeil-Knopf, Karte endet über „Projekt starten“, Exklusive-Karte mit Logo auf Goldfläche. Die alten Dateien nutzt nur noch `kreise/`. Früherer Stand: | **Streifenabstand wird in `u()` berechnet**, damit die letzte Karte rechts denselben Randabstand hat wie die Überschrift links (Desktop/Tablet). Leistungen als gestapelte weiße Karten (1 px Rahmen, kein Schatten), Hover-Zoom 1,05, Link-Icon-Kreis. Letzte Karte = Logo-Box „Meisterwerk Exklusive“ |
 | `TabsFade.css/js` | **Zwei Sektionen mit `[data-tb]`:** (1) „Meisterliche Malerarbeiten“ (Pin, Slides), (2) FAQ (`data-tb-accordion`, aufklappbare Tabs) |
-| `Clean.css` | Sauberkeit ohne Zierlinien (Unterstriche nur beim Überfahren, Trennstriche/Rahmen/Gitterlinien transparent, Formularfelder als weiche Fläche, Fließtext-Links gold) und Handy-Menü (Variante 3, bis 700 px) passt immer in 100dvh: Schrift/Abstände skalieren mit der Fensterhöhe, Bewertungs-Siegel links neben dem Kontaktblock, bei offenem Untermenü weichen Siegel und Kontakt. In allen Seiten verlinkt (bust.py aktualisiert alle) |
 | `HeaderLock.css/js` | Sperrt den Sticky-Header in Zonen mit `data-header-lock` (Hero, Willkommen, Leistungen, Fachsektion, Bild/CTA, Projekte-Überlagerung) |
 | `CtaReveal.css/js` | „Jede Oberfläche ist einzigartig“: Parallax, Pin, CTA-Box + Kontaktformular-Box, Projekte schieben sich darüber |
 | `FaqCover.js` | FAQ schiebt sich von unten über „Unsere Exklusive Projekte“ (Sticky + Wrapper-Höhe), FAQ hat Mindesthöhe der Projekte |
@@ -236,4 +235,17 @@ Ein System für alle Seiten, definiert in `meisterwerk/src/styles/global.css` (B
 - Die Willkommen-Szene der Startseite kommt jetzt auch aus der Quelle (`WelcomeScroll.astro` mit `home`, Skripte `scripts/home/welcome-*.js`, Gestaltung `styles/home/welcome.css`). Die alten Handdateien WelcomeChain/WelcomeZoom und der handbearbeitete Welcome-Chunk sind nicht mehr eingebunden.
 - Fuß: Die Überschrift „Sie haben Fragen?“ erscheint per IntersectionObserver (nicht mehr ScrollTrigger), weil sie auf echten Handys unsichtbar bleiben konnte.
 - `home-patch.py` ersetzt jetzt Willkommen und alles ab der Fachsektion; `tokens-patch.py` übernimmt zusätzlich die Abstands-Variablen.
+
+## Clean.css entfällt (03.11.2026)
+- Die Zusatzdatei `_astro/Clean.css` (Überschreibungen für Linien, Unterstriche, Formularfelder) ist entfernt. Alles steht jetzt im Quellcode:
+  Unterstriche (`underline-anim`) erscheinen nur beim Überfahren (`global.css`), Textlinks sind gold ohne Unterstrich, Rahmen und Trennlinien in
+  Kopfzeile, Menü, Footer, Tabs/FAQ und CTA-Bühne sind aus den Klassen entfernt, Felder aller Formulare nutzen das Utility `field`
+  (weiche Fläche, goldener Ring beim Eingeben; `global.css`), Button `outline` ohne Rahmen, neu: `ghost`.
+
+## Projektanfrage neu (03.11.2026, `/kontakt/`, Quelle `components/kontakt/ProjectRequest.astro`)
+- Ein ruhiger Assistent, eine Frage pro Schritt, gleiche Feldnamen und Logik wie vorher (Skript im Component, Hilfen in `scripts/anfrage.ts`).
+- Desktop (ab 1025 px): links bleibt die Orientierung stehen (Projektanfrage, „Frage x von 9“, sechs Schritte mit Punkt, erledigte Schritte anwählbar, „Lieber persönlich? Telefon“), rechts Frage und Antwortkarten. Handy: oben eine Fortschrittsleiste mit Zähler, darunter Frage und Karten, unten klebt die Leiste mit Zurück und Weiter (ab 768 px im Fluss).
+- Start: Überschrift, Text, drei Eckpunkte (9 kurze Fragen, Antwort innerhalb von 24 Stunden, persönlich aus Freiberg am Neckar), Button „Anfrage starten“.
+- Antwortkarten weiß auf Hellgrau ohne Rahmen; gewählt = goldener Ring, goldener Haken (Kreis bei Einzelauswahl, abgerundetes Quadrat bei Mehrfachauswahl). Fläche: große Zahl mit „m²“, Regler mit goldenem Griff. Bilder: weiße Karte mit goldenem Plus. Felder: weiß, goldener Ring beim Eingeben. Überblick: ein weißer Block je Angabe mit „Ändern“ in Gold. Abschluss: goldener Haken, Text, Buttons „E-Mail mit Ihren Angaben öffnen“ und „07141 …“ (neuer Button `ghost`).
+- Abstände nur aus dem Abstandssystem, Schrift aus der Skala, keine Linien und keine Unterstriche.
 

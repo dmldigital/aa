@@ -1,11 +1,13 @@
 ---
 /**
- * Projektanfrage (Seite /kontakt/): eine Frage pro Bildschirm auf grauem Grund wie die Vorteile der Leistungsseiten.
- * Antworten sind weiße Kacheln (gewählt = schwarz mit Haken), Einzelauswahl geht nach kurzer Pause von selbst weiter,
- * Mehrfachauswahl (Art der Arbeiten, Leistungen) mit „Weiter“. Eine Linie oben füllt sich mit dem Fortschritt, die Frage
- * fährt wortweise aus einer Maske hoch. Fehler stehen als Zeile unter dem Feld (kein Browser-Fenster). Am Ende ein
- * Überblick mit „Ändern“ je Block. Gleiche Feldnamen wie `ContactForm`. Ohne Skript stehen alle Fragen untereinander.
+ * Projektanfrage (Seite /kontakt/): ein ruhiger Assistent mit einer Frage pro Schritt.
+ * Desktop: links bleibt die Orientierung stehen (Schritte, „Frage x von 9“, Telefon), rechts steht die Frage mit weißen
+ * Antwortkarten auf hellgrauem Grund. Handy: oben nur Fortschritt, Frage und Karten untereinander, unten klebt die Leiste mit
+ * Zurück und Weiter. Gewählt = goldener Rahmen und goldener Haken. Einzelauswahl geht nach kurzer Pause von selbst weiter,
+ * Mehrfachauswahl mit „Weiter“. Die Frage fährt wortweise aus einer Maske hoch. Fehler stehen als Zeile unter dem Feld.
+ * Am Ende ein Überblick mit „Ändern“ je Block. Gleiche Feldnamen wie `ContactForm`. Ohne Skript stehen alle Fragen untereinander.
  * Das Absenden ist noch nicht angebunden: Am Ende die bekannte Meldung und eine vorbereitete E-Mail.
+ * Abstände nur aus dem Abstandssystem (`--space-*`).
  */
 import Button from '../ui/Button.astro';
 import Icon from '../Icon.astro';
@@ -28,21 +30,42 @@ const zeit: Opt[] = [
   { v: '-', l: 'Noch offen' },
 ];
 
-const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
+const steps = [
+  { l: 'Projekt', from: 1, to: 3 },
+  { l: 'Umfang', from: 4, to: 5 },
+  { l: 'Bilder', from: 6, to: 6 },
+  { l: 'Kontakt', from: 7, to: 8 },
+  { l: 'Nachricht', from: 9, to: 9 },
+  { l: 'Überblick', from: 10, to: 10 },
+];
+const facts = ['9 kurze Fragen', 'Antwort innerhalb von 24 Stunden', 'Persönlich aus Freiberg am Neckar'];
 const tick = 'M4 10.5l4 4 8-9';
 const QUESTIONS = 9;
 ---
 
 <section class="pf" data-pf data-cta-off>
-  <div class="pf-bar" aria-hidden="true"><span data-pf-fill></span></div>
-
   <form data-pf-form data-pf-mail={site.email} name="Projektanfrage" aria-label="Projektanfrage" novalidate>
-    <div class="pf-inner">
-      <div class="pf-meta">
-        <p class={eyebrow}>Projektanfrage</p>
-        <p class={eyebrow} aria-live="polite" data-pf-count hidden></p>
-      </div>
+    <div class="pf-shell">
+      <aside class="pf-aside" aria-label="Fortschritt">
+        <div class="pf-aside-top">
+          <p class="pf-eyebrow">Projektanfrage</p>
+          <p class="pf-count" aria-live="polite" data-pf-count hidden></p>
+        </div>
+        <div class="pf-bar" aria-hidden="true"><span data-pf-fill></span></div>
+        <ol class="pf-steps">
+          {steps.map((st) => (
+            <li class="pf-step" data-pf-step data-from={st.from} data-to={st.to}>
+              <button type="button" tabindex="-1" data-pf-step-go disabled>{st.l}</button>
+            </li>
+          ))}
+        </ol>
+        <p class="pf-note-call">
+          Lieber persönlich?
+          <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
+        </p>
+      </aside>
 
+      <div class="pf-stage">
       <div class="pf-host" data-pf-host>
         <!-- Start -->
         <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-start">
@@ -53,9 +76,16 @@ const QUESTIONS = 9;
             <div class="pf-intro" data-pf-item>
               {intro.map((p) => <p>{p}</p>)}
             </div>
+            <ul class="pf-facts" data-pf-item>
+              {facts.map((f) => (
+                <li>
+                  <span class="pf-facts-mark" aria-hidden="true"><svg viewBox="0 0 20 20"><path d={tick} /></svg></span>
+                  {f}
+                </li>
+              ))}
+            </ul>
             <div class="pf-start" data-pf-item data-pf-startbox>
               <div data-pf-start><Button type="button">Anfrage starten</Button></div>
-              <p class="pf-facts">{QUESTIONS} kurze Fragen</p>
             </div>
           </div>
         </section>
@@ -246,26 +276,28 @@ const QUESTIONS = 9;
             <path d="M18 33l10 10 18-21" data-done-check />
           </svg>
           <h2 class="pf-h" data-done-in>Ihre Anfrage ist vorbereitet</h2>
-          <p class="pf-intro" data-done-in>
+          <p class="pf-done-text" data-done-in>
             Das Formular wird in Kürze freigeschaltet. Bis dahin erreichen Sie uns gern telefonisch oder per E-Mail.
           </p>
           <div class="pf-done-links" data-done-in>
-            <a class="pf-mail" data-pf-mail-link href={`mailto:${site.email}`}>
-              <span class="underline-anim relative [--underline-gap:3px]">E-Mail mit Ihren Angaben öffnen</span>
-            </a>
-            <a class="pf-mail" href={`tel:${site.phoneHref}`}>
-              <span class="underline-anim relative [--underline-gap:3px]">{site.phone}</span>
-            </a>
+            <Button href={`mailto:${site.email}`} data-pf-mail-link>E-Mail mit Ihren Angaben öffnen</Button>
+            <Button href={`tel:${site.phoneHref}`} variant="ghost">{site.phone}</Button>
           </div>
         </div>
       </div>
 
       <div class="pf-nav" data-pf-nav>
-        <div data-pf-back hidden><button type="button" class="pf-back"><span class="pf-back-arrow" aria-hidden="true"><Icon name="arrow-left" class="size-3.5" /></span><span class="underline-anim relative [--underline-gap:0px]">Zurück</span></button></div>
+        <div data-pf-back hidden>
+          <button type="button" class="pf-back" aria-label="Zurück">
+            <Icon name="arrow-left" class="size-4" />
+            <span>Zurück</span>
+          </button>
+        </div>
         <div class="pf-nav-r">
           <div data-pf-next hidden><Button type="button">Weiter</Button></div>
           <div data-pf-send hidden><Button type="submit">Anfrage senden</Button></div>
         </div>
+      </div>
       </div>
     </div>
   </form>
@@ -297,6 +329,7 @@ const QUESTIONS = 9;
     const done = form.querySelector<HTMLElement>('[data-pf-done]')!;
     const summary = form.querySelector<HTMLElement>('[data-pf-summary]')!;
     const nextBtn = next.querySelector('button')!;
+    const stepEls = [...root.querySelectorAll<HTMLElement>('[data-pf-step]')];
     const last = screens.length - 1;
     const questions = last - 1; // ohne Start und Überblick
     let cur = 0;
@@ -423,7 +456,7 @@ const QUESTIONS = 9;
         edit.type = 'button';
         edit.className = 'pf-edit';
         edit.setAttribute('aria-label', `${b.label} ändern`);
-        edit.innerHTML = '<span class="underline-anim relative [--underline-gap:3px]">Ändern</span>';
+        edit.textContent = 'Ändern';
         edit.addEventListener('click', () => go(b.at));
         row.append(dt, dd, edit);
         summary.append(row);
@@ -470,6 +503,17 @@ const QUESTIONS = 9;
     const chrome = () => {
       count.hidden = cur === 0;
       count.textContent = cur === last ? 'Überblick' : `Frage ${cur} von ${questions}`;
+      // Orientierung links: aktueller Schritt, erledigte Schritte sind anwählbar
+      stepEls.forEach((el) => {
+        const from = Number(el.dataset.from);
+        const to = Number(el.dataset.to);
+        const btn = el.querySelector<HTMLButtonElement>('button')!;
+        const isDone = cur > to;
+        el.classList.toggle('is-on', cur >= from && cur <= to);
+        el.classList.toggle('is-done', isDone);
+        btn.disabled = !isDone;
+        btn.tabIndex = isDone ? 0 : -1;
+      });
       back.hidden = cur === 0;
       next.hidden = cur === 0 || cur === last;
       send.hidden = cur !== last;
@@ -556,6 +600,9 @@ const QUESTIONS = 9;
       if (report(cur)) go(cur + 1);
     };
     form.querySelector('[data-pf-start] button')!.addEventListener('click', () => go(1));
+    stepEls.forEach((el) =>
+      el.querySelector('button')!.addEventListener('click', () => go(Number(el.dataset.from))),
+    );
     nextBtn.addEventListener('click', advance);
     back.querySelector('button')!.addEventListener('click', () => go(cur - 1));
 
@@ -620,20 +667,57 @@ const QUESTIONS = 9;
 </script>
 
 <style>
+  /* ---------- Rahmen: Orientierung links, Frage rechts (Desktop); Handy: eine Spalte ---------- */
   .pf {
     --ink: #090402;
-    --hair: rgb(0 0 0 / 0.2);
+    --card: #fff;
+    --ring: var(--color-gold);
+    --soft-shadow: 0 10px 28px -16px rgb(9 4 2 / 0.22);
     margin: 0;
-    padding: 0 20px;
+    padding: var(--space-group) var(--space-gutter) var(--space-section);
     background: var(--color-soft);
     color: var(--ink);
   }
+  .pf-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-group);
+    max-width: var(--container-wide, 1120px);
+    margin: 0 auto;
+  }
+  .pf-aside {
+    display: grid;
+    gap: var(--space-text);
+    align-content: start;
+  }
+  .pf-aside-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-stack);
+  }
+  .pf-eyebrow,
+  .pf-count {
+    margin: 0;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
+    font-weight: var(--font-weight-medium, 500);
+    letter-spacing: var(--tracking-label);
+    text-transform: uppercase;
+  }
+  .pf-eyebrow {
+    color: var(--color-gold);
+  }
+  .pf-count {
+    color: var(--color-muted);
+  }
+  /* Fortschritt: eine feine Fläche, die sich füllt (Handy); am Desktop übernehmen die Schritte */
   .pf-bar {
     display: none;
-    max-width: var(--container-page);
-    height: 1px;
-    margin: 0 auto;
-    background: var(--hair);
+    height: 3px;
+    background: rgb(9 4 2 / 0.08);
+    overflow: hidden;
   }
   .pf-bar span {
     display: block;
@@ -645,43 +729,26 @@ const QUESTIONS = 9;
   .is-focus .pf-bar {
     display: block;
   }
-  .pf-inner {
+  .pf-steps,
+  .pf-note-call {
+    display: none;
+  }
+
+  .pf-stage {
     display: flex;
     flex-direction: column;
-    max-width: var(--container-page);
-    min-height: 560px;
-    margin: 0 auto;
-    padding: 28px 0 48px;
-  }
-  .pf-meta {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    margin-bottom: 40px;
-  }
-  .pf-meta p {
-    margin: 0;
+    min-height: min(68svh, 640px);
   }
   .pf-host {
     position: relative;
-  }
-  /* Mit Skript: Frage und Antworten stehen mittig im Abschnitt, die Leiste unten */
-  .is-focus .pf-host {
-    display: flex;
     flex: 1;
-    flex-direction: column;
-    justify-content: center;
   }
-
-  /* Eine Frage: Frage oben mittig, Antworten darunter */
   .pf-screen {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: 32px;
+    gap: var(--space-group);
     margin: 0;
     padding: 0;
-    text-align: center;
   }
   .pf-screen[hidden] {
     display: none;
@@ -692,85 +759,121 @@ const QUESTIONS = 9;
   }
   /* Ohne Skript stehen die Fragen untereinander */
   .pf:not(.is-focus) .pf-screen + .pf-screen {
-    margin-top: 64px;
+    margin-top: var(--space-section);
   }
   .pf-q,
   .pf-a {
     width: 100%;
     min-width: 0;
-    max-width: 760px;
+    max-width: 640px;
+  }
+  .pf-q {
+    display: grid;
+    gap: var(--space-text);
   }
   .pf-h {
     margin: 0;
-    color: var(--color-gold);
+    color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
     font-size: var(--text-h2);
     line-height: var(--text-h2--line-height);
-    font-weight: 500;
+    letter-spacing: var(--text-h2--letter-spacing);
+    font-weight: var(--font-weight-medium, 500);
     outline: none;
   }
   .pf-h--start {
-    color: var(--ink);
     font-size: var(--text-h1);
     line-height: var(--text-h1--line-height);
+    letter-spacing: var(--text-h1--letter-spacing);
   }
   .pf-hint {
-    margin: 14px 0 0;
+    margin: 0;
     color: var(--color-muted);
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
   }
-  .pf-intro,
+
+  /* ---------- Start ---------- */
+  .pf-intro {
+    display: grid;
+    gap: var(--space-text);
+    color: var(--color-muted);
+  }
   .pf-intro :global(p) {
     margin: 0;
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
   }
-  .pf-intro {
+  .pf-facts {
     display: grid;
-    gap: 14px;
-    max-width: 620px;
-    margin-inline: auto;
+    gap: var(--space-text);
+    margin: var(--space-group) 0 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: var(--text-h4);
+    line-height: var(--text-h4--line-height);
+  }
+  .pf-facts li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-text);
+  }
+  .pf-facts-mark {
+    display: grid;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--color-gold);
+  }
+  .pf-facts-mark svg {
+    width: 13px;
+    height: 13px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
   .pf-start {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 14px;
-    margin-top: 32px;
-  }
-  .pf-facts {
-    margin: 0;
-    font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-label);
-    line-height: var(--text-label--line-height);
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    opacity: 0.6;
+    margin-top: var(--space-group);
   }
 
-  /* Antworten als Kacheln */
+  /* ---------- Antwortkarten ---------- */
   .pf-list {
     display: grid;
-    gap: 12px;
+    gap: var(--space-text);
   }
   .pf-opt {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    min-height: 76px;
-    padding: 20px 24px;
-    border: 1px solid var(--hair);
-    background: #fff;
+    gap: var(--space-stack);
+    min-height: 68px;
+    padding: var(--space-text) var(--space-inner);
+    background: var(--card);
+    box-shadow: inset 0 0 0 1.5px transparent;
     text-align: left;
     cursor: pointer;
     transition:
-      background-color 0.45s var(--ease-css),
-      border-color 0.45s var(--ease-css),
-      color 0.45s var(--ease-css);
+      box-shadow 0.45s var(--ease-css),
+      transform 0.45s var(--ease-css);
+  }
+  @media (hover: hover) {
+    .pf-opt:hover {
+      box-shadow: inset 0 0 0 1.5px transparent, var(--soft-shadow);
+      transform: translateY(-2px);
+    }
+  }
+  .pf-opt:has(input:checked) {
+    box-shadow: inset 0 0 0 1.5px var(--ring), var(--soft-shadow);
+  }
+  .pf-opt:has(input:focus-visible) {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
   }
   .pf-opt input {
     position: absolute;
@@ -785,32 +888,20 @@ const QUESTIONS = 9;
     font-family: var(--font-urbanist), sans-serif;
     font-size: var(--text-h4);
     line-height: var(--text-h4--line-height);
-    font-weight: 500;
-  }
-  .pf-opt:hover {
-    border-color: var(--ink);
-  }
-  .pf-opt:has(input:checked) {
-    border-color: var(--ink);
-    background: var(--ink);
-    color: #fff;
-  }
-  .pf-opt:has(input:focus-visible) {
-    outline: 2px solid var(--color-gold);
-    outline-offset: 3px;
+    font-weight: var(--font-weight-medium, 500);
   }
   .pf-ind {
     flex: none;
     display: grid;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     place-items: center;
-    border: 1px solid rgb(0 0 0 / 0.4);
     border-radius: 50%;
-    transition: border-color 0.45s var(--ease-css);
+    background: rgb(9 4 2 / 0.06);
+    transition: background-color 0.45s var(--ease-css);
   }
   .pf-opt--check .pf-ind {
-    border-radius: 0;
+    border-radius: 8px;
   }
   .pf-ind svg,
   .pf-same-box svg {
@@ -818,24 +909,24 @@ const QUESTIONS = 9;
     height: 14px;
     fill: none;
     stroke: #fff;
-    stroke-width: 1.8;
-    stroke-linecap: square;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
     stroke-dasharray: 20;
     stroke-dashoffset: 20;
     transition: stroke-dashoffset 0.45s var(--ease-grow);
   }
   .pf-opt input:checked ~ .pf-ind {
-    border-color: #fff;
+    background: var(--color-gold);
   }
   .pf-opt input:checked ~ .pf-ind svg {
     stroke-dashoffset: 0;
   }
 
-  /* Felder */
+  /* ---------- Felder ---------- */
   .pf-fields {
     display: grid;
-    gap: 24px;
-    text-align: left;
+    gap: var(--space-stack);
   }
   .pf-field {
     min-width: 0;
@@ -844,13 +935,13 @@ const QUESTIONS = 9;
   .pf-fl-label {
     display: block;
     margin-bottom: 8px;
+    color: var(--color-muted);
     font-family: var(--font-urbanist), sans-serif;
     font-size: var(--text-label);
     line-height: var(--text-label--line-height);
-    font-weight: 500;
-    letter-spacing: 2px;
+    font-weight: var(--font-weight-medium, 500);
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
-    opacity: 0.6;
   }
   .pf-field input[type='text'],
   .pf-field input[type='tel'],
@@ -858,35 +949,37 @@ const QUESTIONS = 9;
   .pf-field textarea {
     display: block;
     width: 100%;
-    padding: 14px 18px;
-    border: 1px solid var(--hair);
+    padding: 16px var(--space-inner);
+    border: 0;
     border-radius: 0;
-    background: #fff;
+    background: var(--card);
+    box-shadow: inset 0 0 0 1.5px transparent;
     color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
     font-size: var(--text-lead);
     line-height: var(--text-lead--line-height);
-    transition: border-color 0.4s var(--ease-css);
+    transition: box-shadow 0.4s var(--ease-css);
   }
   .pf-field textarea {
-    min-height: 150px;
+    min-height: 168px;
     resize: vertical;
   }
   .pf-field input:focus,
   .pf-field textarea:focus {
-    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1.5px var(--ring);
     outline: none;
   }
   .pf-field input.is-same {
-    background: var(--color-soft);
+    background: rgb(255 255 255 / 0.55);
     color: var(--color-muted);
   }
   .pf-same {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-top: 14px;
+    gap: var(--space-text);
+    margin-top: var(--space-text);
+    color: var(--color-muted);
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
     cursor: pointer;
@@ -903,166 +996,156 @@ const QUESTIONS = 9;
   .pf-same-box {
     flex: none;
     display: grid;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     place-items: center;
-    border: 1px solid rgb(0 0 0 / 0.4);
-    background: #fff;
-    transition:
-      background-color 0.4s var(--ease-css),
-      border-color 0.4s var(--ease-css);
+    border-radius: 8px;
+    background: rgb(9 4 2 / 0.06);
+    transition: background-color 0.4s var(--ease-css);
   }
   .pf-same input:checked ~ .pf-same-box {
-    border-color: var(--ink);
-    background: var(--ink);
+    background: var(--color-gold);
   }
   .pf-same input:checked ~ .pf-same-box svg {
     stroke-dashoffset: 0;
   }
   .pf-same input:focus-visible ~ .pf-same-box {
-    outline: 2px solid var(--color-gold);
+    outline: 2px solid var(--ink);
     outline-offset: 3px;
   }
-
-  /* Fehler: eine Zeile unter dem Feld */
+  /* Fehler: eine ruhige Zeile unter dem Feld */
   .pf-err {
-    margin: 10px 0 0;
-    text-align: left;
+    margin: var(--space-text) 0 0;
+    color: var(--ink);
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
-    color: var(--ink);
   }
   .pf-err::before {
     content: '';
     display: inline-block;
-    width: 18px;
-    height: 1px;
+    width: 8px;
+    height: 8px;
     margin-right: 10px;
+    border-radius: 50%;
     vertical-align: middle;
     background: var(--color-gold);
   }
   .pf-field.is-invalid input,
   .pf-field.is-invalid textarea,
-  .pf-area.is-invalid .pf-big {
-    border-color: var(--ink);
+  .pf-area.is-invalid {
+    box-shadow: inset 0 0 0 1.5px var(--ink);
   }
   .pf-list.is-invalid .pf-opt {
-    border-color: rgb(0 0 0 / 0.5);
+    box-shadow: inset 0 0 0 1.5px rgb(9 4 2 / 0.4);
   }
 
-  /* Fläche */
+  /* ---------- Fläche ---------- */
   .pf-area {
-    text-align: center;
+    padding: var(--space-inner);
+    background: var(--card);
+    box-shadow: inset 0 0 0 1.5px transparent;
   }
   .pf-area-row {
     display: flex;
     align-items: baseline;
-    justify-content: center;
-    gap: 14px;
+    gap: var(--space-text);
+    margin-top: var(--space-text);
   }
   .pf-big {
-    width: 4.2em;
+    width: 4ch;
     max-width: 100%;
-    padding: 6px 12px;
-    border: 1px solid var(--hair);
+    padding: 0;
+    border: 0;
     border-radius: 0;
-    background: #fff;
+    background: transparent;
     color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-h1);
-    line-height: var(--text-h1--line-height);
-    font-weight: 500;
-    text-align: center;
-    transition: border-color 0.4s var(--ease-css);
-  }
-  .pf-big:focus {
-    border-color: var(--ink);
+    font-size: var(--text-display);
+    line-height: 1;
+    font-weight: var(--font-weight-medium, 500);
+    letter-spacing: var(--text-display--letter-spacing);
     outline: none;
   }
   .pf-unit {
-    font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-h1);
-    line-height: var(--text-h1--line-height);
-    font-weight: 500;
     color: var(--color-gold);
+    font-family: var(--font-urbanist), sans-serif;
+    font-size: var(--text-h2);
+    line-height: 1;
+    font-weight: var(--font-weight-medium, 500);
   }
   .pf-range {
     --p: 20%;
     display: block;
     width: 100%;
-    max-width: 480px;
-    height: 24px;
-    margin: 28px auto 0;
+    height: 28px;
+    margin: var(--space-stack) 0 0;
     background: transparent;
     cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
   }
   .pf-range::-webkit-slider-runnable-track {
-    height: 1px;
-    background: linear-gradient(to right, var(--ink) var(--p), var(--hair) var(--p));
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, var(--color-gold) var(--p), rgb(9 4 2 / 0.1) var(--p));
   }
   .pf-range::-moz-range-track {
-    height: 1px;
-    background: linear-gradient(to right, var(--ink) var(--p), var(--hair) var(--p));
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(to right, var(--color-gold) var(--p), rgb(9 4 2 / 0.1) var(--p));
   }
   .pf-range::-webkit-slider-thumb {
-    width: 16px;
-    height: 16px;
-    margin-top: -7.5px;
-    border: 0;
+    width: 24px;
+    height: 24px;
+    margin-top: -10px;
+    border: 3px solid #fff;
     border-radius: 50%;
-    background: var(--ink);
+    background: var(--color-gold);
+    box-shadow: 0 2px 8px rgb(9 4 2 / 0.25);
     -webkit-appearance: none;
     appearance: none;
-    transition: background-color 0.3s var(--ease-css);
   }
   .pf-range::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    border: 0;
+    width: 18px;
+    height: 18px;
+    border: 3px solid #fff;
     border-radius: 50%;
-    background: var(--ink);
-  }
-  .pf-range:hover::-webkit-slider-thumb,
-  .pf-range:focus-visible::-webkit-slider-thumb {
     background: var(--color-gold);
+    box-shadow: 0 2px 8px rgb(9 4 2 / 0.25);
+  }
+  .pf-range:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
   }
   .pf-scale {
     display: flex;
     justify-content: space-between;
-    max-width: 480px;
-    margin: 6px auto 0;
+    margin-top: 4px;
+    color: var(--color-muted);
     font-family: var(--font-urbanist), sans-serif;
     font-size: var(--text-label);
     line-height: var(--text-label--line-height);
-    font-weight: 500;
-    letter-spacing: 2px;
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
-    opacity: 0.5;
   }
 
-  /* Bilder */
+  /* ---------- Bilder ---------- */
   .pf-drop {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 14px;
-    min-height: 170px;
-    padding: 24px;
-    border: 1px dashed rgb(0 0 0 / 0.4);
-    background: #fff;
+    gap: var(--space-text);
+    min-height: 200px;
+    padding: var(--space-inner);
+    background: var(--card);
     cursor: pointer;
-    transition:
-      border-color 0.4s var(--ease-css),
-      background-color 0.4s var(--ease-css);
+    transition: box-shadow 0.45s var(--ease-css);
   }
   .pf-drop:hover,
   [data-pf-drop].is-over .pf-drop {
-    border-color: var(--ink);
-    border-style: solid;
+    box-shadow: inset 0 0 0 1.5px var(--ring), var(--soft-shadow);
   }
   .pf-drop input {
     position: absolute;
@@ -1074,28 +1157,23 @@ const QUESTIONS = 9;
   }
   .pf-drop-plus {
     display: grid;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     place-items: center;
-    border: 1px solid var(--hair);
     border-radius: 50%;
-    transition:
-      background-color 0.4s var(--ease-css),
-      color 0.4s var(--ease-css);
-  }
-  .pf-drop:hover .pf-drop-plus,
-  [data-pf-drop].is-over .pf-drop-plus {
-    background: var(--ink);
+    background: var(--color-gold);
     color: #fff;
   }
   .pf-drop-text {
     font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-body);
-    line-height: var(--text-body--line-height);
-    font-weight: 500;
+    font-size: var(--text-h4);
+    line-height: var(--text-h4--line-height);
+    font-weight: var(--font-weight-medium, 500);
+    text-align: center;
   }
   .pf-note {
-    margin: 12px 0 0;
+    margin: var(--space-text) 0 0;
+    color: var(--color-muted);
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
   }
@@ -1103,19 +1181,18 @@ const QUESTIONS = 9;
     display: none;
   }
   .pf-thumbs {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin: 16px 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+    gap: var(--space-text);
+    margin: var(--space-stack) 0 0;
     padding: 0;
     list-style: none;
   }
   .pf-thumbs :global(li) {
     position: relative;
-    width: 84px;
-    height: 84px;
+    aspect-ratio: 1;
     overflow: hidden;
+    background: var(--card);
   }
   .pf-thumbs :global(img) {
     display: block;
@@ -1125,12 +1202,13 @@ const QUESTIONS = 9;
   }
   .pf-thumbs :global(button) {
     position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 24px;
-    height: 24px;
+    top: 6px;
+    right: 6px;
+    width: 26px;
+    height: 26px;
     border: 0;
-    background: #090402;
+    border-radius: 50%;
+    background: rgb(9 4 2 / 0.78);
     color: #fff;
     font-size: var(--text-body);
     line-height: 1;
@@ -1141,32 +1219,27 @@ const QUESTIONS = 9;
     background: var(--color-gold);
   }
 
-  /* Überblick */
+  /* ---------- Überblick ---------- */
   .pf-sum {
+    display: grid;
+    gap: var(--space-text);
     margin: 0;
-    padding: 4px 24px;
-    border: 1px solid var(--hair);
-    background: #fff;
-    text-align: left;
   }
   .pf-sum :global(.pf-sum-row) {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 4px 16px;
-    padding: 14px 0;
-    border-top: 1px solid var(--hair);
-  }
-  .pf-sum :global(.pf-sum-row:first-child) {
-    border-top: 0;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px var(--space-stack);
+    padding: var(--space-text) var(--space-inner);
+    background: var(--card);
   }
   .pf-sum :global(dt) {
+    color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
     font-size: var(--text-label);
     line-height: var(--text-label--line-height);
-    font-weight: 500;
-    letter-spacing: 2px;
+    font-weight: var(--font-weight-medium, 500);
+    letter-spacing: var(--tracking-label);
     text-transform: uppercase;
-    opacity: 0.6;
   }
   .pf-sum :global(dd) {
     grid-column: 1;
@@ -1180,27 +1253,33 @@ const QUESTIONS = 9;
     grid-column: 2;
     grid-row: 1 / span 2;
     align-self: center;
-    padding: 0;
+    padding: 8px 0 8px 8px;
     border: 0;
     background: none;
+    color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
     font-size: var(--text-button);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: var(--color-gold);
+    font-weight: var(--font-weight-semibold, 600);
+    letter-spacing: var(--tracking-button);
     cursor: pointer;
+    transition: color 0.3s var(--ease-css);
+  }
+  .pf-sum :global(.pf-edit:hover) {
+    color: var(--ink);
   }
 
-  /* Navigation */
+  /* ---------- Navigation: Handy klebt unten ---------- */
   .pf-nav {
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 20px;
-    width: 100%;
-    max-width: 760px;
-    margin: auto auto 0;
-    padding-top: 40px;
+    gap: var(--space-stack);
+    margin: var(--space-group) calc(var(--space-gutter) * -1) calc(var(--space-section) * -1);
+    padding: var(--space-text) var(--space-gutter) calc(var(--space-text) + env(safe-area-inset-bottom, 0px));
+    background: linear-gradient(to top, var(--color-soft) 62%, rgb(247 247 247 / 0));
   }
   .pf-nav[hidden],
   .pf-nav [hidden] {
@@ -1221,35 +1300,28 @@ const QUESTIONS = 9;
   .pf-back {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 0;
+    gap: var(--space-text);
+    min-height: 44px;
+    padding: 0 var(--space-stack) 0 var(--space-text);
     border: 0;
-    background: none;
+    border-radius: 999px;
+    background: transparent;
     color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
     font-size: var(--text-button);
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-weight: var(--font-weight-semibold, 600);
+    letter-spacing: var(--tracking-button);
     cursor: pointer;
+    transition: background-color 0.3s var(--ease-css);
   }
-  .pf-back-arrow {
-    display: flex;
-    width: 15px;
-    align-items: center;
-  }
-  .pf-back:hover .underline-anim::before {
-    animation: underline-in 0.65s ease forwards;
-  }
-  .pf-back:hover .underline-anim::after {
-    animation: underline-out 0.5s ease forwards;
+  .pf-back:hover {
+    background: rgb(9 4 2 / 0.05);
   }
 
-  /* Fertig */
+  /* ---------- Fertig ---------- */
   .pf-done {
-    max-width: 720px;
-    margin-inline: auto;
-    padding: 12px 0 8px;
-    text-align: center;
+    max-width: 640px;
+    padding: var(--space-text) 0;
     outline: none;
   }
   .pf-done[hidden] {
@@ -1259,69 +1331,134 @@ const QUESTIONS = 9;
     display: block;
     width: 64px;
     height: 64px;
-    margin: 0 auto 24px;
+    margin: 0 0 var(--space-stack);
     fill: none;
     stroke: var(--color-gold);
     stroke-width: 1.5;
-    stroke-linecap: square;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .pf-done .pf-h {
-    margin-bottom: 14px;
+  .pf-done-text {
+    margin: var(--space-text) 0 0;
+    color: var(--color-muted);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
   }
   .pf-done-links {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 14px 30px;
-    margin-top: 24px;
-  }
-  .pf-mail {
-    display: inline-block;
-    font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-button);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    color: var(--color-gold);
+    gap: var(--space-text);
+    margin-top: var(--space-group);
   }
 
+  /* ---------- Tablet ---------- */
   @media (min-width: 768px) {
-    .pf-inner {
-      min-height: 620px;
-      padding-top: 36px;
-    }
     .pf-list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    /* Eine einzelne letzte Kachel (fünf Leistungen) geht über die ganze Breite */
+    /* Eine einzelne letzte Karte (fünf Leistungen) geht über die ganze Breite */
     .pf-list .pf-opt:last-child:nth-child(odd) {
       grid-column: 1 / -1;
     }
-    .pf-opt-text {
-      font-size: var(--text-h3);
-      line-height: var(--text-h3--line-height);
-    }
-    .pf-thumbs :global(li) {
-      width: 110px;
-      height: 110px;
-    }
-    /* Überblick auf zwei Spalten, damit „Anfrage senden“ im Bild bleibt */
-    .pf-sum {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: 40px;
-    }
-    .pf-sum :global(.pf-sum-row:nth-child(2)) {
-      border-top: 0;
-    }
-    .pf-sum :global(.pf-sum-row:last-child:nth-child(odd)) {
-      grid-column: 1 / -1;
+    .pf-nav {
+      position: static;
+      margin: var(--space-group) 0 0;
+      padding: 0;
+      background: none;
     }
   }
+
+  /* ---------- Desktop: Orientierung links bleibt stehen ---------- */
   @media (min-width: 1025px) {
-    .pf-inner {
-      min-height: max(640px, calc(100svh - 190px));
-      padding-top: 40px;
-      padding-bottom: 64px;
+    .pf-shell {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      gap: 0 var(--space-section);
+    }
+    .pf-aside {
+      position: sticky;
+      top: 140px;
+      align-self: start;
+      gap: var(--space-group);
+    }
+    .pf-aside-top {
+      flex-direction: column;
+      gap: 6px;
+    }
+    .pf-bar {
+      display: none !important;
+    }
+    .pf-steps {
+      display: grid;
+      gap: 2px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .pf-step button {
+      display: flex;
+      align-items: center;
+      gap: var(--space-stack);
+      width: 100%;
+      padding: 10px 0;
+      border: 0;
+      background: none;
+      color: rgb(9 4 2 / 0.32);
+      font-family: var(--font-urbanist), sans-serif;
+      font-size: var(--text-h4);
+      line-height: var(--text-h4--line-height);
+      font-weight: var(--font-weight-medium, 500);
+      text-align: left;
+      cursor: default;
+      transition: color 0.5s var(--ease-css);
+    }
+    .pf-step button::before {
+      content: '';
+      flex: none;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgb(9 4 2 / 0.14);
+      transition:
+        background-color 0.5s var(--ease-css),
+        box-shadow 0.5s var(--ease-css);
+    }
+    .pf-step.is-on button {
+      color: var(--ink);
+    }
+    .pf-step.is-on button::before {
+      background: var(--color-gold);
+      box-shadow: 0 0 0 5px rgb(165 147 113 / 0.22);
+    }
+    .pf-step.is-done button {
+      color: rgb(9 4 2 / 0.7);
+      cursor: pointer;
+    }
+    .pf-step.is-done button::before {
+      background: var(--color-gold);
+    }
+    .pf-step.is-done button:hover {
+      color: var(--ink);
+    }
+    .pf-note-call {
+      display: grid;
+      gap: 2px;
+      margin: 0;
+      color: var(--color-muted);
+      font-size: var(--text-body);
+      line-height: var(--text-body--line-height);
+    }
+    .pf-note-call a {
+      color: var(--ink);
+      font-family: var(--font-urbanist), sans-serif;
+      font-size: var(--text-h4);
+      font-weight: var(--font-weight-medium, 500);
+      transition: color 0.3s var(--ease-css);
+    }
+    .pf-note-call a:hover {
+      color: var(--color-gold);
+    }
+    .pf-stage {
+      min-height: max(560px, calc(100svh - 280px));
     }
   }
 </style>

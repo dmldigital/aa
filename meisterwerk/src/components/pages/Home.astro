@@ -13,7 +13,7 @@ import { href } from '../../data/links';
 // Willkommen-Text: Originaltext mit lokaler Optimierung (Freiberg a. N., Ludwigsburg, Marbach, Bietigheim-Bissingen)
 // und internen Textlinks auf Leistung, Showroom und Anfrage
 const link = (label: string, path: string) =>
-  `<a href="${href(path)}" class="text-ink underline decoration-gold underline-offset-[3px] transition-colors duration-300 hover:text-gold">${label}</a>`;
+  `<a href="${href(path)}" class="text-gold transition-colors duration-300 hover:text-ink">${label}</a>`;
 const welcome = {
   heading: 'Meisterwerk Malermanufaktur: Ihr Malerbetrieb in Freiberg am Neckar',
   paragraphs: [

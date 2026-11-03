@@ -6,7 +6,6 @@ Vorher prüfen, dass die Seite keine Handarbeit enthält (Vergleich mit dem Buil
 Zwei Dinge der Vorschau bleiben erhalten:
 - Schriften: Der Build in der Cloud-Umgebung kann Google Fonts nicht laden (Proxy 403), dann fehlen im Build die
   @font-face-Regeln. Die Schrift-Blöcke (`<style>@font-face…`, Preload) der bisherigen Seite werden übernommen.
-- Ein vorhandener Verweis auf `_astro/Clean.css` bleibt.
 Dateien aus `_astro/` kopiert vorher `add-pages.py` (Dateien nie überschreibend, die Seite selbst kopiert es aber mit;
 fehlen dann die Schrift-Blöcke, nimmt dieses Skript sie aus dem letzten Commit).
 
@@ -44,9 +43,6 @@ for pg in args:
     for link in re.findall(r'<link rel="preload"[^>]*/fonts/[^>]*>', old):
         if link not in new:
             new = new.replace('</head>', link + '</head>', 1)
-    clean = re.search(r'<link[^>]*_astro/Clean\.css[^>]*>', old)
-    if clean and 'Clean.css' not in new:
-        new = new.replace('</head>', clean.group(0) + '</head>', 1)
     assert not re.search(r'<style>:root\{--font-(urbanist|dm-sans):', new), f'{pg}: Schrift-Blöcke fehlen (Seite schon aktualisiert? Stand aus git wiederherstellen)'
     old_p.write_text(new)
     print(f'{pg}: aktualisiert')

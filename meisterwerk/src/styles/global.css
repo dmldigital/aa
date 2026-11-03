@@ -280,7 +280,7 @@
   }
 }
 
-/* Unterstrich-Animation der Text-Links und Buttons (Original: vamtam-underline-anim) */
+/* Unterstrich-Animation der Text-Links (Original: vamtam-underline-anim): Die Linie erscheint nur beim Überfahren mit der Maus, nie dauerhaft */
 @utility underline-anim {
   position: relative;
   &::before,
@@ -295,6 +295,7 @@
     background: currentColor;
   }
   &::before {
+    transform: scaleX(0);
     transform-origin: left;
   }
   &::after {
@@ -336,6 +337,21 @@ html.menu-open {
 }
 
 /* Abstände der Stil-Referenz: Sektion oben und unten 64 / 96 / 128 px, Seitenrand 20 / 32 px */
+/* Formularfelder: weiche Fläche statt Rahmen oder Unterstrich, goldener Ring beim Eingeben */
+@utility field {
+  border: 0;
+  border-radius: 0;
+  background-color: rgb(9 4 2 / 0.045);
+  padding-inline: 1rem;
+  box-shadow: inset 0 0 0 1.5px transparent;
+  outline: none;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  &:focus {
+    background-color: rgb(9 4 2 / 0.06);
+    box-shadow: inset 0 0 0 1.5px var(--color-gold);
+  }
+}
+
 @utility px-page {
   padding-inline: var(--space-gutter);
 }

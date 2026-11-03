@@ -3,7 +3,7 @@
  * Der Button der Website: ein einziger, überall gleich großer Button. Pille (rund wie die Menü-Pille), Höhe 48 px (Handy 44 px,
  * wie die Menü-Pille, bei sehr langem Text umbricht er und wächst nur dann), Rahmen 1 px, Schrift Urbanist 14 px halbfett in Großbuchstaben, seitlich großzügig gepolstert, kein
  * Unterstrich. Beim Überfahren bekommt er den weichen grauen Grund wie die Felder der Menü-Pille. Es gibt ihn nur in zwei Farben
- * nach Untergrund: `outline` (weiß mit heller Haarlinie und weichem Schatten) auf hellen Flächen, `light` (durchsichtig mit weißem
+ * nach Untergrund: `outline` (weiß mit weichem Schatten, ohne Rahmen) auf hellen Flächen, `ghost` (ohne Fläche, für zweite Wege neben einem Hauptbutton), `light` (durchsichtig mit weißem
  * Rand und weißer Schrift) auf Fotos. Auch Sticker, Footer, Menü und frühere Pfeil-Links („Projekt starten“, „Unser Portfolio“, …)
  * sind dieser Button. Labels ohne Pfeil-Zeichen, die Großschreibung übernimmt der Button. Weitere Attribute (z. B. `data-…`) und
  * `class` gehen an das Element (Position, Animation); eigene `transition-…`-Klassen ersetzen die Farbüberblendung des Buttons.
@@ -11,7 +11,7 @@
 interface Props extends astroHTML.JSX.HTMLAttributes {
   /** Ohne `href` entsteht ein `<button>` (z. B. Senden-Button im Formular). */
   href?: string;
-  variant?: 'light' | 'outline';
+  variant?: 'light' | 'outline' | 'ghost';
   type?: 'submit' | 'button';
 }
 const { href, variant = 'outline', type = 'submit', class: className, ...rest } = Astro.props;
@@ -19,7 +19,8 @@ const Tag = href ? 'a' : 'button';
 const variants = {
   light: 'border-white text-white hover:bg-white/15',
   outline:
-    'border-black/10 bg-white text-black shadow-[0_1px_2px_rgb(21_24_27/0.06),0_8px_20px_-8px_rgb(21_24_27/0.22)] hover:bg-[#f1f1f1]',
+    'border-transparent bg-white text-black shadow-[0_1px_2px_rgb(21_24_27/0.06),0_8px_20px_-8px_rgb(21_24_27/0.22)] hover:bg-[#f1f1f1]',
+  ghost: 'border-transparent bg-transparent text-black hover:bg-black/5',
 };
 // Höhe wie die Menü-Pille (Mindesthöhe, damit ein sehr langer Text umbrechen kann statt über den Rand zu laufen): Handy und Desktop
 // getrennt geschrieben (nie Grundwert plus Überschreibung)

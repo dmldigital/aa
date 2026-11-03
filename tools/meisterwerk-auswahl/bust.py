@@ -27,12 +27,3 @@ for name in FILES:
     print(f"{name:70s} {v}  Verweise: {n}")
 (ROOT / "index.html").write_text(html, encoding="utf-8")
 
-# Clean.css (Handy-Menü in 100dvh und Sauberkeit ohne Zierlinien) ist in ALLEN Seiten verlinkt, nicht nur in der Startseite
-v = hashlib.sha1((ROOT / "_astro" / "Clean.css").read_bytes()).hexdigest()[:8]
-cnt = 0
-for page in ROOT.rglob("index.html"):
-    t = page.read_text(encoding="utf-8")
-    t2, n = re.subn(r"(_astro/Clean\.css)(\?v=[0-9a-f]+)?\"", r"\1?v=" + v + '"', t)
-    if n and t2 != t:
-        page.write_text(t2, encoding="utf-8"); cnt += 1
-print(f"Clean.css {v}  Seiten aktualisiert: {cnt}")
