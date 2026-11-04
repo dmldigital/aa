@@ -1,0 +1,29 @@
+---
+/**
+ * „Unsere Geschichte“: links bleibt die Überschrift stehen, rechts stehen die Stationen untereinander, das Jahr in Gold, darunter
+ * der Text. Auf allen Bildschirmen derselbe ruhige Aufbau, ohne Pin und ohne Linien. Die Stationen steigen gestaffelt auf.
+ */
+interface Props {
+  eyebrow: string;
+  heading: string;
+  items: { date: string; text: string }[];
+}
+const { eyebrow, heading, items } = Astro.props;
+---
+
+<section data-section="geschichte" class="bg-soft px-page py-section">
+  <div class="mx-auto grid w-full max-w-page gap-group lg:grid-cols-12 lg:gap-x-stack">
+    <div class="flex flex-col gap-text lg:sticky lg:top-35 lg:col-span-5 lg:self-start">
+      <p class="font-display text-label font-medium tracking-label text-ink uppercase" data-rv>{eyebrow}</p>
+      <h2 class="font-display text-h1 font-medium text-gold" data-rv>{heading}</h2>
+    </div>
+    <ol class="grid gap-group lg:col-span-6 lg:col-start-7">
+      {items.map((it) => (
+        <li data-rv>
+          <p class="font-display text-h2 font-medium text-ink">{it.date}</p>
+          <p class="mt-text max-w-[34rem] text-body text-muted">{it.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

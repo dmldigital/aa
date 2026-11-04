@@ -249,3 +249,10 @@ Ein System für alle Seiten, definiert in `meisterwerk/src/styles/global.css` (B
 - Antwortkarten weiß auf Hellgrau ohne Rahmen; gewählt = goldener Ring, goldener Haken (Kreis bei Einzelauswahl, abgerundetes Quadrat bei Mehrfachauswahl). Fläche: große Zahl mit „m²“, Regler mit goldenem Griff. Bilder: weiße Karte mit goldenem Plus. Felder: weiß, goldener Ring beim Eingeben. Überblick: ein weißer Block je Angabe mit „Ändern“ in Gold. Abschluss: goldener Haken, Text, Buttons „E-Mail mit Ihren Angaben öffnen“ und „07141 …“ (neuer Button `ghost`).
 - Abstände nur aus dem Abstandssystem, Schrift aus der Skala, keine Linien und keine Unterstriche.
 
+## Über uns neu (04.11.2026, `/studio/`)
+- Ruhige, redaktionelle Seite aus den Bausteinen `components/studio/` (`StudioHead`, `StudioHaltung`, `StudioTeamGrid`, `StudioStory`) plus `GedenkBlock`; Seite `pages/studio/index.astro`. Inhalte weiter aus `data/pages/studio.ts`.
+- Reihenfolge auf allen Bildschirmen gleich: Kopf (Überschrift steigt wortweise auf) → Haltung (links bleibt die Überschrift stehen, rechts die vier Grundsätze, darunter das Schlusswort als große Aussage) → Team (Porträt-Raster 2/3/5 Spalten, Schwarz-Weiß, beim Überfahren Farbe und leichter Zoom, ohne Foto Monogramm) → Geschichte (links Überschrift, rechts die Stationen) → Gedenken (Foto links, Text rechts, Handy untereinander) → Mini-Kontakt → Footer.
+- Keine Linien, keine Pins, keine Symbole; Animation nur das gestaffelte Aufsteigen (`data-rv`) und die Wörter der Überschrift. Abstände aus dem Abstandssystem, Gold für die Überschriften der Abschnitte wie auf der Startseite.
+- Die Seite von Meisterwerke Exklusive (`/meisterwerk-exklusive/studio/`) nutzt weiter `StudioTeam.astro` (altes Akkordeon, eigene Texte); die alten Bausteine `StudioTeam`, `TimelinePin` bleiben dafür und für die Profilseiten.
+- Inspiration: Standard bei Team-Seiten sind enge Porträt-Raster mit Schwarz-Weiß zu Farbe beim Überfahren und knappen Bildunterschriften.
+

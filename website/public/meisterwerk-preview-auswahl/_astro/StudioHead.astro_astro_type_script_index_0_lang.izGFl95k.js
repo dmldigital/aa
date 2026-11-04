@@ -1,0 +1,1 @@
+import{i as e}from"./motion.BQLxvynY.js";import{a as t,o as n}from"./anfrage.Dv5CVQXf.js";import{t as r}from"./reveal.CXU_G35T.js";r();var i=document.querySelector(`[data-st-h1]`);if(i){let r=n(i);i.classList.add(`is-split`),t()||(e.set(r,{yPercent:115}),e.to(r,{yPercent:0,duration:1.2,ease:`css`,stagger:.07,delay:.1}))}

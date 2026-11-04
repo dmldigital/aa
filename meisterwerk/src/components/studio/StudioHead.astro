@@ -1,0 +1,51 @@
+---
+/**
+ * Kopf der Seite „Über uns“: eine große Überschrift, die wortweise aus einer Maske aufsteigt, daneben ein kurzer Satz.
+ * Nur Typografie auf Weiß, viel Luft. Abstände aus dem Abstandssystem.
+ */
+interface Props {
+  label: string;
+  title: string;
+  text: string;
+}
+const { label, title, text } = Astro.props;
+---
+
+<section data-section="seitenkopf" data-no-autolink class="bg-white px-page pt-section pb-section">
+  <div class="mx-auto grid w-full max-w-page gap-group lg:grid-cols-12 lg:items-end lg:gap-x-stack">
+    <div class="lg:col-span-8">
+      <p class="mb-stack font-display text-label font-medium tracking-label text-ink uppercase" data-rv>{label}</p>
+      <h1 data-st-h1 class="max-w-[18ch] font-display text-h1 font-medium text-ink">{title}</h1>
+    </div>
+    <p class="max-w-[28rem] text-lead text-muted lg:col-span-4 lg:col-start-9" data-rv>{text}</p>
+  </div>
+</section>
+
+<script>
+  import { gsap } from '../../scripts/motion';
+  import { initReveal } from '../../scripts/reveal';
+  import { splitWords, reducedMotion } from '../../scripts/anfrage';
+
+  initReveal();
+  const h1 = document.querySelector<HTMLElement>('[data-st-h1]');
+  if (h1) {
+    const words = splitWords(h1);
+    h1.classList.add('is-split');
+    if (!reducedMotion()) {
+      gsap.set(words, { yPercent: 115 });
+      gsap.to(words, { yPercent: 0, duration: 1.2, ease: 'css', stagger: 0.07, delay: 0.1 });
+    }
+  }
+</script>
+
+<style>
+  /* Bis die Wörter zerlegt sind, bleibt die Überschrift unsichtbar (kein Aufblitzen) */
+  :global(.js) [data-st-h1]:not(.is-split) {
+    visibility: hidden;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js) [data-st-h1]:not(.is-split) {
+      visibility: visible;
+    }
+  }
+</style>

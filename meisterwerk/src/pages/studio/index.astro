@@ -1,16 +1,54 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import StudioTeam from '../../components/sections/StudioTeam.astro';
 import MiniFormSection from '../../components/sections/MiniFormSection.astro';
-import PageHeader from '../../components/sections/PageHeader.astro';
-import { meta } from '../../data/pages/studio';
+import StudioHead from '../../components/studio/StudioHead.astro';
+import StudioHaltung from '../../components/studio/StudioHaltung.astro';
+import StudioTeamGrid from '../../components/studio/StudioTeamGrid.astro';
+import StudioStory from '../../components/studio/StudioStory.astro';
+import GedenkBlock from '../../components/GedenkBlock.astro';
+import { meta, haltung, team, founder, memorial, founderMemorial, timeline } from '../../data/pages/studio';
+
+/** Der Haltungs-Text der Seite in Bausteine zerlegt, damit er gestaltet statt als Fließtext gesetzt werden kann. */
+const [lead, , meansList, statement, teamBlock, closing] = haltung.html as [
+  string,
+  string,
+  { list: string[] },
+  string,
+  string,
+  string,
+];
+const strip = (html: string) => html.replace(/<[^>]+>/g, '').trim();
+const splitDash = (text: string): [string, string] => {
+  const i = text.indexOf(' – ');
+  return i < 0 ? [text, ''] : [text.slice(0, i), text.slice(i + 3)];
+};
+const up = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
+const points = meansList.list.map((p) => {
+  const [title, text] = splitDash(p);
+  return { title, text: up(text) };
+});
+const tb = teamBlock.match(/<strong>([^<]*)<\/strong>\s*<br\s*\/?>\s*([\s\S]*)/);
+const [teamEyebrow, teamHeading] = splitDash(strip(tb?.[1] ?? 'Unser Team'));
+const teamText = strip(tb?.[2] ?? '');
 ---
 
 <PageLayout title={meta.title} description={meta.description} current="/studio/">
-  <PageHeader label="Studio" title="Studio und Team in Freiberg am Neckar" />
-  <StudioTeam tone="soft" />
+  <StudioHead label="Studio" title="Studio und Team in Freiberg am Neckar" text={closing} />
+  <StudioHaltung
+    eyebrow={haltung.eyebrow}
+    heading={haltung.heading}
+    lead={lead}
+    points={points}
+    statement={statement}
+  />
+  <StudioTeamGrid eyebrow={teamEyebrow} heading={teamHeading} text={teamText} people={team} />
+  <StudioStory eyebrow="Seit 2014" heading={haltung.toggle} items={timeline} />
+  <section data-section="gedenken" class="bg-white px-page py-section">
+    <div class="mx-auto w-full max-w-page">
+      <GedenkBlock member={founder} label={memorial} {...founderMemorial} />
+    </div>
+  </section>
   <MiniFormSection
-    class="bg-white! lg:bg-soft!"
     title="Ihr Projekt in Ludwigsburg besprechen"
     text="Lernen Sie uns kennen: Schreiben Sie uns kurz, worum es geht. Wir melden uns persönlich bei Ihnen und besprechen Ihr Vorhaben, auf Wunsch im Showroom in Freiberg am Neckar."
   />

@@ -1,0 +1,71 @@
+---
+import { Picture } from 'astro:assets';
+import { href } from '../../data/links';
+import type { Member } from '../../data/pages/studio';
+
+/**
+ * Team als ruhiges Porträt-Raster: Handy zwei, Tablet drei, Desktop fünf Spalten. Schwarz-Weiß, beim Überfahren Farbe und ein
+ * leichter Zoom, darunter Name und Rolle. Die ganze Karte führt zum Profil. Ohne Foto steht ein Monogramm auf dunklem Grund.
+ */
+interface Props {
+  eyebrow: string;
+  heading: string;
+  text: string;
+  people: Member[];
+}
+const { eyebrow, heading, text, people } = Astro.props;
+const initials = (name: string) =>
+  name
+    .split(' ')
+    .map((w) => w[0])
+    .join('')
+    .slice(0, 2);
+---
+
+<section data-section="team" class="bg-white px-page py-section">
+  <div class="mx-auto w-full max-w-page">
+    <div class="grid gap-group lg:grid-cols-12 lg:items-end lg:gap-x-stack">
+      <div class="flex flex-col gap-text lg:col-span-6">
+        <p class="font-display text-label font-medium tracking-label text-ink uppercase" data-rv>{eyebrow}</p>
+        <h2 class="font-display text-h1 font-medium text-gold" data-rv>{heading}</h2>
+      </div>
+      <p class="max-w-[34rem] text-lead text-muted lg:col-span-5 lg:col-start-8" data-rv>{text}</p>
+    </div>
+
+    <ul class="mt-section grid grid-cols-2 gap-x-stack gap-y-group md:grid-cols-3 lg:grid-cols-5">
+      {people.map((m) => (
+        <li data-rv>
+          <a href={href(m.href)} class="group/card block text-ink">
+            <div class="relative aspect-[3/4] overflow-hidden bg-ink">
+              {m.noPhoto ? (
+                <div class="grid size-full place-items-center bg-[#1a1511]">
+                  <span
+                    aria-hidden="true"
+                    class="font-display text-display font-light text-transparent [-webkit-text-stroke:1px_var(--color-gold)]"
+                  >
+                    {initials(m.name)}
+                  </span>
+                </div>
+              ) : (
+                <Picture
+                  formats={['avif']}
+                  fallbackFormat="webp"
+                  src={m.img}
+                  alt={m.alt}
+                  widths={[320, 480, 640, 960]}
+                  sizes="(min-width: 1025px) 20vw, (min-width: 768px) 30vw, 46vw"
+                  loading="lazy"
+                  class="block size-full object-cover grayscale transition-[filter,scale] duration-700 ease-out group-hover/card:scale-[1.03] group-hover/card:grayscale-0"
+                />
+              )}
+            </div>
+            <p class="mt-text font-display text-h4 font-medium transition-colors duration-300 group-hover/card:text-gold">
+              {m.name}
+            </p>
+            <p class="text-small text-muted">{m.role}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

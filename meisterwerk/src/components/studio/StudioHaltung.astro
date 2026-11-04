@@ -1,0 +1,38 @@
+---
+/**
+ * „Unsere Haltung“: links bleibt die Überschrift mit dem Leitsatz stehen, rechts stehen die vier Grundsätze ruhig untereinander,
+ * darunter das Schlusswort als große Aussage. Keine Linien, keine Symbole. Die Grundsätze steigen beim Scrollen gestaffelt auf.
+ */
+interface Props {
+  eyebrow: string;
+  heading: string;
+  lead: string;
+  points: { title: string; text: string }[];
+  statement: string;
+}
+const { eyebrow, heading, lead, points, statement } = Astro.props;
+---
+
+<section data-section="haltung" class="bg-soft px-page py-section">
+  <div class="mx-auto grid w-full max-w-page gap-group lg:grid-cols-12 lg:gap-x-stack">
+    <div class="flex flex-col gap-text lg:sticky lg:top-35 lg:col-span-5 lg:self-start">
+      <p class="font-display text-label font-medium tracking-label text-ink uppercase" data-rv>{eyebrow}</p>
+      <h2 class="font-display text-h1 font-medium text-gold" data-rv>{heading}</h2>
+      <p class="max-w-[30rem] text-lead text-muted" data-rv>{lead}</p>
+    </div>
+    <ul class="grid gap-group lg:col-span-6 lg:col-start-7">
+      {points.map((p) => (
+        <li data-rv>
+          <h3 class="font-display text-h3 font-medium text-ink">{p.title}</h3>
+          <p class="mt-text max-w-[34rem] text-body text-muted">{p.text}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+  <p
+    class="mx-auto mt-section w-full max-w-page font-display text-h2 font-medium text-balance text-ink lg:max-w-[40ch] lg:text-center"
+    data-rv
+  >
+    {statement}
+  </p>
+</section>
