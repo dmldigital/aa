@@ -270,3 +270,6 @@ Ein System für alle Seiten, definiert in `meisterwerk/src/styles/global.css` (B
 - Die große Überschrift scrollt vor dem Pin weg, im gepinnten Teil stehen nur „Leistungen“ und der Zähler, damit die Karten fast die ganze Fensterhöhe nutzen.
 - Regel für neue Karten mit Bild und Text: Bildhöhe immer aus Breite und festem Seitenverhältnis, nie als „Rest der Höhe“ (`flex-1`).
 
+## Fachsektion zum Aufklappen (06.11.2026, Handy, Tablet, flache Fenster)
+- Alle Tabs sind zu Beginn geschlossen (vorher war „Unsere Firmenskills“ offen). Jeder Tab ist eine hellgraue Karte mit rundem goldenem Plus; offen = weiße Karte mit goldenem Ring, das Plus wird zum Minus. Ohne Linien. Quelle: `styles/home/tabs.css` (Block „Fachsektion zum Aufklappen“), `scripts/home/tabs.js` (`toggle(-1)`). Der Desktop-Pin (ab 1200 px Breite und 600 px Höhe) ist unverändert; das FAQ hat sein eigenes, unverändertes Aussehen.
+
