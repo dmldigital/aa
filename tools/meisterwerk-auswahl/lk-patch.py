@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Setzt die Leistungen-Sektion (`LeistungenStack.astro`) aus dem Astro-Build in die handbearbeitete Startseite der Auswahl-Vorschau.
+"""Setzt die Leistungen-Sektion (`LeistungenScroll.astro`) aus dem Astro-Build in die handbearbeitete Startseite der Auswahl-Vorschau.
 
 Vorgehen wie `hero-patch.py`: Nur der Abschnitt `<section data-lk …>` wird gegen die Fassung aus dem Build getauscht, das Skript
 der Komponente (Chunk samt importierten Modulen, nie überschreibend) eingebunden, und Tailwind-Regeln für Klassen, die das
@@ -21,7 +21,7 @@ exec(compile(helpers, 'hero-patch.py', 'exec'), ns)
 D, B = ns['D'], ns['B']
 
 SECTION = re.compile(r'<section[^>]*\bdata-lk[\s>][\s\S]*?</section>')
-CHUNK = re.compile(r'LeistungenStack\.astro_astro_type_script_index_0_lang\.[\w-]+\.js')
+CHUNK = re.compile(r'LeistungenScroll\.astro_astro_type_script_index_0_lang\.[\w-]+\.js')
 
 built = (B / 'index.html').read_text()
 page = (D / 'index.html').read_text()
@@ -32,7 +32,7 @@ page = SECTION.sub(lambda m: new, page, count=1)
 chunk = CHUNK.search(built).group(0)
 ns['copy_modules'](chunk)
 tag = '<script type="module" src="%s/_astro/%s"></script>' % (ns['PREFIX'], chunk)
-page = re.sub(r'<script[^>]*_astro/LeistungenStack\.astro_astro_type_script[^>]*></script>', '', page)
+page = re.sub(r'<script[^>]*_astro/Leistungen(?:Stack|Scroll)\.astro_astro_type_script[^>]*></script>', '', page)
 old_js = re.compile(r'<script[^>]*_astro/LeistungenStack\.js[^>]*></script>')
 if old_js.search(page):
     page = old_js.sub(tag, page, count=1)

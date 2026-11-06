@@ -1,0 +1,205 @@
+---
+/**
+ * Leistungen der Startseite: Pin- und Scroll-Sektion von rechts nach links.
+ * Die Sektion bleibt stehen (Pin), Überschrift und Zähler bleiben oben, die Karten ziehen beim Scrollen als eine Reihe von rechts
+ * nach links durchs Bild, die Bilder gleiten dabei ganz leicht gegenläufig. Die letzte Karte (Meisterwerke Exklusive) endet mit
+ * demselben Randabstand wie die Überschrift. Jede Karte ist ein Link: Bild, Titel, ein Satz, runder Pfeil.
+ * Gleicher Ablauf auf Handy und Desktop. Reduzierte Bewegung oder sehr flache Fenster: kein Pin, die Reihe lässt sich wischen.
+ * Skript unten (GSAP-Pin, `scrub`), Abstände aus dem Abstandssystem.
+ */
+import { Picture } from 'astro:assets';
+import { href } from '../../data/links';
+import { cards } from '../../data/services';
+import logo from '../../assets/img/logo_exklusive.png';
+
+// Titel, Satz und Alt-Text wie in der Auswahl-Vorschau (lokale Texte der Startseite)
+const copy: Record<string, [string, string, string]> = {
+  '/services/glatte-waende/': [
+    'Glatte Wände & Q4-⁠Spachtelung',
+    'Perfekt glatte Oberflächen in Q3 und Q4, modern und sauber',
+    'Glatte Wände im Treppenhaus: helle Treppe mit Holzstufen und weiß gestrichenen Wänden',
+  ],
+  '/services/lackierarbeiten/': [
+    'Lackierarbeiten',
+    'Türen, Fenster und Treppen, innen wie außen, mit dauerhaftem Schutz',
+    'Lackierarbeiten: weiß lackiertes Treppengeländer mit Holzhandlauf vor einem Fenster',
+  ],
+  '/services/malerarbeiten/': [
+    'Malerarbeiten',
+    'Innen- und Außenanstrich mit Farbberatung, präzise und sauber',
+    'Malerarbeiten im Wohnzimmer: frisch gestrichene Wände, graues Sofa und Vorhänge',
+  ],
+  '/services/tapezieren/': [
+    'Tapezierarbeiten',
+    'Tapeten an Wand und Decke, mit Fachberatung zur Auswahl',
+    'Tapezierarbeiten: Wand mit hellem Ornamentmuster und indirekter Beleuchtung',
+  ],
+  '/services/verputzen/': [
+    'Verputzarbeiten',
+    'Innen- und Außenputz und dekorative Oberflächen, langlebig ausgeführt',
+    'Verputzarbeiten: Flur mit fein verputzten Wänden und Decke',
+  ],
+};
+const items = cards.map((c) => ({
+  href: c.href,
+  title: copy[c.href]?.[0] ?? c.title,
+  sub: copy[c.href]?.[1] ?? c.subtitle ?? '',
+  alt: copy[c.href]?.[2] ?? c.alt,
+  img: c.img,
+}));
+const total = String(items.length + 1).padStart(2, '0');
+const sizes = '(min-width: 1025px) 28vw, 80vw';
+const widths = [252, 350, 477, 700, 954];
+
+const card =
+  'group/card flex h-full flex-col bg-white text-ink no-underline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink';
+const arrow =
+  'grid size-11 shrink-0 place-items-center rounded-full bg-soft text-ink transition-colors duration-300 group-hover/card:bg-gold group-hover/card:text-white';
+const media = 'relative min-h-0 flex-1 overflow-hidden';
+const body = 'flex items-end justify-between gap-stack p-inner';
+---
+
+<section
+  data-lk
+  data-no-autolink
+  aria-labelledby="lk-title"
+  class="relative bg-soft py-section text-ink lk-p:py-0"
+>
+  <div
+    data-lk-stage
+    class="flex flex-col lk-p:h-svh lk-p:overflow-clip lk-p:pt-[clamp(88px,12svh,128px)] lk-p:pb-[clamp(96px,13svh,128px)]"
+  >
+    <div class="mx-auto grid w-full max-w-page shrink-0 gap-text px-page lg:grid-cols-12 lg:items-end lg:gap-x-stack">
+      <div class="flex flex-col gap-text lg:col-span-7">
+        <p class="font-display text-label font-medium tracking-label text-ink uppercase">Unsere Leistungen</p>
+        <h2 id="lk-title" class="font-display text-h2 font-medium text-balance text-gold">
+          Ihr Malerbetrieb für Ludwigsburg, Marbach und Bietigheim-Bissingen
+        </h2>
+      </div>
+      <div class="flex items-end justify-between gap-stack lg:col-span-4 lg:col-start-9 lg:flex-col lg:items-start lg:gap-text">
+        <p class="max-w-[28rem] text-body text-muted max-lg:hidden">
+          Meisterbetrieb aus Freiberg am Neckar für Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart.
+        </p>
+        <p aria-hidden="true" class="font-display text-label tracking-label text-muted uppercase lk-p:block hidden">
+          <b data-lk-count class="font-medium text-ink">01</b> / {total}
+        </p>
+      </div>
+    </div>
+
+    <div
+      data-lk-window
+      class="relative mt-group h-[30rem] snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] md:h-[34rem] lk-p:h-auto lk-p:min-h-0 lk-p:flex-1 lk-p:snap-none lk-p:overflow-clip [&::-webkit-scrollbar]:hidden"
+    >
+      <ul
+        data-lk-track
+        class="flex h-full w-max gap-stack px-[max(var(--space-gutter),calc((100vw-var(--container-page))/2+var(--space-gutter)))] will-change-transform"
+      >
+        {items.map((it) => (
+          <li data-lk-card class="h-full w-[min(80vw,340px)] shrink-0 snap-start md:w-[clamp(300px,28vw,440px)]">
+            <a href={href(it.href)} class={card}>
+              <div class={media}>
+                <Picture
+                  formats={['avif']}
+                  fallbackFormat="webp"
+                  src={it.img}
+                  alt={it.alt}
+                  {widths}
+                  {sizes}
+                  loading="lazy"
+                  pictureAttributes={{ class: 'contents' }}
+                  class="absolute inset-0 size-full scale-[1.12] object-cover transition-[scale] duration-700 ease-out group-hover/card:scale-[1.17]"
+                  data-lk-img
+                />
+              </div>
+              <div class={body}>
+                <div>
+                  <h3 class="font-display text-h3 font-medium">{it.title}</h3>
+                  <p class="mt-text text-body text-muted">{it.sub}</p>
+                </div>
+                <span class={arrow} aria-hidden="true">
+                  <svg class="size-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M2 8h11" /><path d="m9 4 4 4-4 4" /></svg>
+                </span>
+              </div>
+            </a>
+          </li>
+        ))}
+        <li data-lk-card class="h-full w-[min(80vw,340px)] shrink-0 snap-start md:w-[clamp(300px,28vw,440px)]">
+          <a href={href('/meisterwerk-exklusive/')} class={card}>
+            <div class={`${media} grid place-items-center bg-gold/10`}>
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={logo}
+                alt="Meisterwerke Exklusive by Baldassarre Fortino"
+                sizes="240px"
+                widths={[240, 480]}
+                loading="lazy"
+                pictureAttributes={{ class: 'block w-[55%] max-w-[240px]' }}
+                class="block h-auto w-full"
+              />
+            </div>
+            <div class={body}>
+              <div>
+                <h3 class="font-display text-h3 font-medium">Fugenlose Bäder und Böden, Spachteltechniken und Stuckleisten</h3>
+                <p class="mt-text text-body text-muted">
+                  Unsere Spezialleistungen als Meisterbetrieb. Im Showroom in Freiberg am Neckar sehen Sie die Oberflächen persönlich.
+                </p>
+              </div>
+              <span class={arrow} aria-hidden="true">
+                <svg class="size-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M2 8h11" /><path d="m9 4 4 4-4 4" /></svg>
+              </span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from '../../scripts/motion';
+
+  const sec = document.querySelector<HTMLElement>('[data-lk]');
+  if (sec) {
+    const stage = sec.querySelector<HTMLElement>('[data-lk-stage]')!;
+    const win = sec.querySelector<HTMLElement>('[data-lk-window]')!;
+    const track = sec.querySelector<HTMLElement>('[data-lk-track]')!;
+    const count = sec.querySelector<HTMLElement>('[data-lk-count]');
+    const imgs = [...track.querySelectorAll<HTMLElement>('[data-lk-img]')];
+    const n = track.querySelectorAll('[data-lk-card]').length;
+    const pad = (v: number) => String(v).padStart(2, '0');
+    const mm = gsap.matchMedia();
+
+    // Pin und Scroll von rechts nach links: Die Sektion bleibt stehen, die Kartenreihe wandert mit dem Scrollen nach links.
+    // Reduzierte Bewegung oder sehr flache Fenster: kein Pin, die Reihe lässt sich wischen (CSS).
+    mm.add('(min-height: 560px) and (prefers-reduced-motion: no-preference)', () => {
+      const travel = () => Math.max(0, track.scrollWidth - win.clientWidth);
+      // Scrollweg etwas länger als die Strecke der Karten: ruhiger, jede Karte steht einen Moment im Bild
+      const ratio = () => (window.innerWidth < 768 ? 1.15 : 1.5);
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: {
+          trigger: sec,
+          start: 'top top',
+          end: () => `+=${Math.round(travel() * ratio())}`,
+          pin: stage,
+          scrub: 0.8,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          refreshPriority: 5, // nach den Pins weiter oben (Willkommen: 10) messen, damit der Start stimmt
+          onUpdate: (self) => {
+            if (count) count.textContent = pad(1 + Math.round(self.progress * (n - 1)));
+          },
+        },
+      });
+      tl.to(track, { x: () => -travel() }, 0);
+      tl.fromTo(imgs, { xPercent: 4 }, { xPercent: -4 }, 0);
+      return () => {
+        tl.scrollTrigger?.kill();
+        tl.kill();
+        gsap.set([track, ...imgs], { clearProps: 'transform' });
+        if (count) count.textContent = '01';
+      };
+    });
+  }
+</script>

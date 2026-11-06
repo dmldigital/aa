@@ -130,13 +130,8 @@
 /* Willkommen-Szene: bis 1024 px stapeln sich die Bilder und schieben sich beim Scrollen von rechts herein */
 @custom-variant ws-m (@media (max-width: 1024px) and (prefers-reduced-motion: no-preference));
 
-/* Leistungen der Startseite (LeistungenStack.astro): Desktop/Tablet ab 701 px Karten fahren von rechts übereinander,
-   Handy (bis 700 px, Höhe ab 650 px) Karten stapeln sich von unten; schmales Tablet, sehr breite Fenster, flaches Handy */
-@custom-variant lk-d (@media (min-width: 701px) and (prefers-reduced-motion: no-preference));
-@custom-variant lk-t (@media (min-width: 701px) and (max-width: 1100px) and (prefers-reduced-motion: no-preference));
-@custom-variant lk-xl (@media (min-width: 1800px) and (prefers-reduced-motion: no-preference));
-@custom-variant lk-m (@media (max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference));
-@custom-variant lk-ms (@media (max-width: 700px) and (min-height: 650px) and (max-height: 740px) and (prefers-reduced-motion: no-preference));
+/* Leistungen der Startseite (LeistungenScroll.astro): Pin- und Scroll-Sektion, nur ohne reduzierte Bewegung und bei Fensterhöhe ab 560 px */
+@custom-variant lk-p (@media (min-height: 560px) and (prefers-reduced-motion: no-preference));
 
 @theme inline {
   --font-display: var(--font-urbanist), sans-serif;

@@ -256,3 +256,11 @@ Ein System für alle Seiten, definiert in `meisterwerk/src/styles/global.css` (B
 - Die Seite von Meisterwerke Exklusive (`/meisterwerk-exklusive/studio/`) nutzt weiter `StudioTeam.astro` (altes Akkordeon, eigene Texte); die alten Bausteine `StudioTeam`, `TimelinePin` bleiben dafür und für die Profilseiten.
 - Inspiration: Standard bei Team-Seiten sind enge Porträt-Raster mit Schwarz-Weiß zu Farbe beim Überfahren und knappen Bildunterschriften.
 
+## Leistungen: Pin und Scroll von rechts nach links (06.11.2026)
+- `meisterwerk/src/components/sections/LeistungenScroll.astro` (vorher `LeistungenStack`, die übereinandergestapelten Karten sind weg). Die Sektion wird gepinnt, Überschrift und Zähler „01 / 06“ bleiben oben, die Kartenreihe wandert beim Scrollen von rechts nach links durchs Bild, die Bilder gleiten ganz leicht gegenläufig (±4 %). Die letzte Karte (Meisterwerke Exklusive) endet mit dem Randabstand der Überschrift. Gleicher Ablauf auf Handy und Desktop.
+- Scrollweg = Strecke der Karten × 1,5 (Desktop) bzw. × 1,15 (Handy), `scrub: 0.8`. Reduzierte Bewegung oder Fensterhöhe unter 560 px: kein Pin, die Reihe lässt sich wischen (Scroll-Snap). Variante `lk-p` in `global.css`.
+- Karten sind ganze Links: Bild, Titel, ein Satz, runder Pfeil. Kein Button mehr in der Exklusive-Karte.
+- `ScrollTrigger.config({ ignoreMobileResize: true })` in `scripts/motion.ts`: Die Browserleiste auf dem Handy löst keine Neuberechnung der Pins mehr aus.
+- Pins weiter oben auf der Seite brauchen `refreshPriority` (Willkommen 10, Leistungen 5), sonst misst ein später erzeugter Trigger ohne deren Abstand und der Pin greift nicht (Handy: Kartenreihe stand am Ende, bevor man scrollte).
+- Der Layout-Shift-Test (`jump.cjs`) meldet an Pins Treffer (Wechsel in `position: fixed`); in kleinen Scrollschritten gemessen springt nichts (30 px je Schritt bis zum Einrasten, danach 0).
+

@@ -1,0 +1,1 @@
+import"./tabs.CL7djOOJ.js";

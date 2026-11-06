@@ -4,6 +4,8 @@ import { CustomEase } from 'gsap/CustomEase';
 import Lenis from 'lenis';
 
 gsap.registerPlugin(ScrollTrigger, CustomEase);
+// Handy: Das Ein- und Ausfahren der Browserleiste ändert nur die Höhe und soll keine Neuberechnung der Pins auslösen (Sprünge)
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 // Kurven wie im Original: CSS "ease" (Elementor-Animationen) und VamTam-Bildreveal
 CustomEase.create('css', '0.25,0.1,0.25,1');

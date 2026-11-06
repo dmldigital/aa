@@ -21,7 +21,7 @@ if (scene) {
     gsap.set(stack, { zIndex: 6 });
     gsap
       .timeline({
-        scrollTrigger: { trigger: wrap, start: "bottom bottom", end: "+=340%", pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true },
+        scrollTrigger: { trigger: wrap, start: "bottom bottom", end: "+=340%", pin: true, scrub: 1, anticipatePin: 1, invalidateOnRefresh: true, refreshPriority: 10 },
       })
       .to(imgs[1], { xPercent: 0, duration: 1, ease: "power2.inOut" })
       .to(imgs[2], { xPercent: 0, duration: 1, ease: "power2.inOut" }, "+=0.15")
