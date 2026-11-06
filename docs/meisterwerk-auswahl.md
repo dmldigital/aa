@@ -264,3 +264,9 @@ Ein System für alle Seiten, definiert in `meisterwerk/src/styles/global.css` (B
 - Pins weiter oben auf der Seite brauchen `refreshPriority` (Willkommen 10, Leistungen 5), sonst misst ein später erzeugter Trigger ohne deren Abstand und der Pin greift nicht (Handy: Kartenreihe stand am Ende, bevor man scrollte).
 - Der Layout-Shift-Test (`jump.cjs`) meldet an Pins Treffer (Wechsel in `position: fixed`); in kleinen Scrollschritten gemessen springt nichts (30 px je Schritt bis zum Einrasten, danach 0).
 
+## Leistungen: Bild und Text im festen Verhältnis (06.11.2026)
+- Die Kartenhöhe darf nicht vom Fenster abhängen, sonst frisst das Bild den Unterschied (hohe Handys: sehr hohe Bilder, flache: schmale Streifen), weil der Text gleich groß bleibt. Jetzt: Karte = Bild 4:5 plus Textfläche (`--lk-tp` für die Fotokarten, `--lk-te` für die längere Karte „Exklusive“, dort ist die Logo-Fläche niedriger). Ist das Fenster flacher, wird das Bild niedriger und die Karte schmaler, nie flacher als 4:3. Alle Fotokarten haben gleich große Bilder und Textflächen.
+- Umgesetzt mit Container-Einheiten (`cqh`) im `<style>` der Komponente; das Patch-Skript übernimmt dafür jetzt auch `@container`-Regeln (`hero-patch.py`, `parse_css`).
+- Die große Überschrift scrollt vor dem Pin weg, im gepinnten Teil stehen nur „Leistungen“ und der Zähler, damit die Karten fast die ganze Fensterhöhe nutzen.
+- Regel für neue Karten mit Bild und Text: Bildhöhe immer aus Breite und festem Seitenverhältnis, nie als „Rest der Höhe“ (`flex-1`).
+

@@ -54,50 +54,48 @@ const widths = [252, 350, 477, 700, 954];
 const card =
   'group/card flex h-full flex-col bg-white text-ink no-underline focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink';
 const arrow =
-  'grid size-11 shrink-0 place-items-center rounded-full bg-soft text-ink transition-colors duration-300 group-hover/card:bg-gold group-hover/card:text-white';
-const media = 'relative min-h-0 flex-1 overflow-hidden';
-const body = 'flex items-end justify-between gap-stack p-inner';
+  'grid size-11 shrink-0 self-end place-items-center rounded-full bg-soft text-ink transition-colors duration-300 group-hover/card:bg-gold group-hover/card:text-white';
+const body = 'lk-text flex flex-none items-start justify-between gap-stack p-inner';
 ---
 
-<section
-  data-lk
-  data-no-autolink
-  aria-labelledby="lk-title"
-  class="relative bg-soft py-section text-ink lk-p:py-0"
->
+<section data-lk data-no-autolink aria-labelledby="lk-title" class="bg-soft text-ink">
+  <div class="mx-auto grid w-full max-w-page gap-text px-page pt-section pb-group lg:grid-cols-12 lg:items-end lg:gap-x-stack">
+    <div class="flex flex-col gap-text lg:col-span-7">
+      <p class="font-display text-label font-medium tracking-label text-ink uppercase">Unsere Leistungen</p>
+      <h2 id="lk-title" class="font-display text-h2 font-medium text-balance text-gold">
+        Ihr Malerbetrieb für Ludwigsburg, Marbach und Bietigheim-Bissingen
+      </h2>
+    </div>
+    <p class="max-w-[28rem] text-body text-muted max-lg:hidden lg:col-span-4 lg:col-start-9">
+      Meisterbetrieb aus Freiberg am Neckar für Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart.
+    </p>
+  </div>
+
   <div
     data-lk-stage
-    class="flex flex-col lk-p:h-svh lk-p:overflow-clip lk-p:pt-[clamp(88px,12svh,128px)] lk-p:pb-[clamp(96px,13svh,128px)]"
+    class="flex flex-col pb-section lk-p:h-svh lk-p:overflow-clip lk-p:pt-[clamp(72px,10svh,104px)] lk-p:pb-[clamp(96px,13svh,120px)]"
   >
-    <div class="mx-auto grid w-full max-w-page shrink-0 gap-text px-page lg:grid-cols-12 lg:items-end lg:gap-x-stack">
-      <div class="flex flex-col gap-text lg:col-span-7">
-        <p class="font-display text-label font-medium tracking-label text-ink uppercase">Unsere Leistungen</p>
-        <h2 id="lk-title" class="font-display text-h2 font-medium text-balance text-gold">
-          Ihr Malerbetrieb für Ludwigsburg, Marbach und Bietigheim-Bissingen
-        </h2>
-      </div>
-      <div class="flex items-end justify-between gap-stack lg:col-span-4 lg:col-start-9 lg:flex-col lg:items-start lg:gap-text">
-        <p class="max-w-[28rem] text-body text-muted max-lg:hidden">
-          Meisterbetrieb aus Freiberg am Neckar für Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart.
-        </p>
-        <p aria-hidden="true" class="font-display text-label tracking-label text-muted uppercase lk-p:block hidden">
-          <b data-lk-count class="font-medium text-ink">01</b> / {total}
-        </p>
-      </div>
+    <div
+      aria-hidden="true"
+      class="mx-auto mb-stack hidden w-full max-w-page shrink-0 items-baseline justify-between px-page font-display text-label tracking-label text-muted uppercase lk-p:flex"
+    >
+      <span>Leistungen</span>
+      <span><b data-lk-count class="font-medium text-ink">01</b> / {total}</span>
     </div>
 
+    <!-- Fenster: Der Container misst seine Höhe, daraus ergeben sich Kartenbreite und Bildhöhe (Bild und Text bleiben im Verhältnis) -->
     <div
       data-lk-window
-      class="relative mt-group h-[30rem] snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] md:h-[34rem] lk-p:h-auto lk-p:min-h-0 lk-p:flex-1 lk-p:snap-none lk-p:overflow-clip [&::-webkit-scrollbar]:hidden"
+      class="lk-win relative flex h-[34rem] snap-x snap-mandatory items-center overflow-x-auto overscroll-x-contain [scrollbar-width:none] lk-p:h-auto lk-p:min-h-0 lk-p:flex-1 lk-p:snap-none lk-p:overflow-clip [&::-webkit-scrollbar]:hidden"
     >
       <ul
         data-lk-track
-        class="flex h-full w-max gap-stack px-[max(var(--space-gutter),calc((100vw-var(--container-page))/2+var(--space-gutter)))] will-change-transform"
+        class="flex w-max items-stretch gap-stack px-[max(var(--space-gutter),calc((100vw-var(--container-page))/2+var(--space-gutter)))] will-change-transform"
       >
         {items.map((it) => (
-          <li data-lk-card class="h-full w-[min(80vw,340px)] shrink-0 snap-start md:w-[clamp(300px,28vw,440px)]">
+          <li data-lk-card class="lk-card shrink-0 snap-start">
             <a href={href(it.href)} class={card}>
-              <div class={media}>
+              <div class="lk-media relative overflow-hidden">
                 <Picture
                   formats={['avif']}
                   fallbackFormat="webp"
@@ -123,9 +121,9 @@ const body = 'flex items-end justify-between gap-stack p-inner';
             </a>
           </li>
         ))}
-        <li data-lk-card class="h-full w-[min(80vw,340px)] shrink-0 snap-start md:w-[clamp(300px,28vw,440px)]">
+        <li data-lk-card class="lk-card lk-card--ex shrink-0 snap-start">
           <a href={href('/meisterwerk-exklusive/')} class={card}>
-            <div class={`${media} grid place-items-center bg-gold/10`}>
+            <div class="lk-media relative grid place-items-center overflow-hidden bg-gold/10">
               <Picture
                 formats={['avif']}
                 fallbackFormat="webp"
@@ -156,6 +154,46 @@ const body = 'flex items-end justify-between gap-stack p-inner';
   </div>
 </section>
 
+<style>
+  /* Bild und Text im festen Verhältnis, auf jedem Gerät gleich: Die Karte ist so hoch wie das Bild (4:5) plus der Text. Ist das
+     Fenster flacher, wird das Bild niedriger und die Karte zugleich schmaler, sodass das Bild nie flacher als 4:3 wird.
+     --lk-tp = Platz für den Text der Fotokarten, --lk-te = Platz für den längeren Text der Karte „Meisterwerke Exklusive“
+     (dort ist die Logo-Fläche entsprechend niedriger). Alle Fotokarten haben so gleich große Bilder und gleich hohe Textflächen. */
+  .lk-win {
+    container-type: size;
+  }
+  .lk-card {
+    --lk-tp: 12rem;
+    --lk-te: 17.5rem;
+    --lk-w: min(80vw, 340px, max(200px, calc((100cqh - var(--lk-tp)) / 0.75)));
+    width: var(--lk-w);
+    height: min(100cqh, calc(var(--lk-w) * 1.25 + var(--lk-tp)));
+  }
+  .lk-media {
+    flex: 1 1 0;
+    min-height: 6rem;
+  }
+  .lk-text {
+    min-height: var(--lk-tp);
+  }
+  .lk-card--ex .lk-text {
+    min-height: var(--lk-te);
+  }
+  @media (min-width: 768px) {
+    .lk-card {
+      --lk-tp: 13rem;
+      --lk-te: 21rem;
+      --lk-w: min(clamp(300px, 28vw, 440px), max(220px, calc((100cqh - var(--lk-tp)) / 0.75)));
+    }
+  }
+  @media (min-width: 1025px) {
+    .lk-card {
+      --lk-tp: 12.5rem;
+      --lk-te: 19.5rem;
+    }
+  }
+</style>
+
 <script>
   import { gsap } from '../../scripts/motion';
 
@@ -179,7 +217,7 @@ const body = 'flex items-end justify-between gap-stack p-inner';
       const tl = gsap.timeline({
         defaults: { ease: 'none' },
         scrollTrigger: {
-          trigger: sec,
+          trigger: stage,
           start: 'top top',
           end: () => `+=${Math.round(travel() * ratio())}`,
           pin: stage,

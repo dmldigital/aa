@@ -49,7 +49,7 @@ def parse_css(css):
             body = text[j + 1:k - 1]
             if head.startswith('@layer'):
                 walk(body, wrappers)
-            elif head.startswith(('@media', '@supports')):
+            elif head.startswith(('@media', '@supports', '@container')):
                 walk(body, wrappers + [head])
             elif head.startswith('@'):
                 pass
