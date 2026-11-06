@@ -271,5 +271,6 @@ Ein System für alle Seiten, definiert in `meisterwerk/src/styles/global.css` (B
 - Regel für neue Karten mit Bild und Text: Bildhöhe immer aus Breite und festem Seitenverhältnis, nie als „Rest der Höhe“ (`flex-1`).
 
 ## Fachsektion zum Aufklappen (06.11.2026, Handy, Tablet, flache Fenster)
-- Alle Tabs sind zu Beginn geschlossen (vorher war „Unsere Firmenskills“ offen). Jeder Tab ist eine hellgraue Karte mit rundem goldenem Plus; offen = weiße Karte mit goldenem Ring, das Plus wird zum Minus. Ohne Linien. Quelle: `styles/home/tabs.css` (Block „Fachsektion zum Aufklappen“), `scripts/home/tabs.js` (`toggle(-1)`). Der Desktop-Pin (ab 1200 px Breite und 600 px Höhe) ist unverändert; das FAQ hat sein eigenes, unverändertes Aussehen.
+- Alle Tabs sind zu Beginn geschlossen. Gleiche Sprache wie die Leistungen-Karten und die Antwortkarten der Projektanfrage: weiße Karten auf hellgrauem Grund (die Sektion bekommt in diesem Modus den hellgrauen Grund), rechts der runde hellgraue Knopf (44 px) mit Plus; offen = goldener Ring um die Karte, der Knopf wird gold, das Plus zum Minus. Keine Schatten, keine Linien. Erster Entwurf (graue Karten, goldene Vollkreise, Ring plus Schatten) war zu viel und nicht unsere Sprache, deshalb ersetzt.
+- Quelle: `styles/home/tabs.css` (Block „Fachsektion zum Aufklappen“), `scripts/home/tabs.js` (`toggle(-1)`). Der Desktop-Pin (ab 1200 px Breite und 600 px Höhe) und das FAQ sind unverändert.
 
