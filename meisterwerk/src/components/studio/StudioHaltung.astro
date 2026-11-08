@@ -8,9 +8,11 @@ interface Props {
   heading: string;
   lead: string;
   points: { title: string; text: string }[];
+  /** Überbegriff über den Grundsätzen (z. B. „Unsere vier Werte“) */
+  listLabel?: string;
   statement: string;
 }
-const { eyebrow, heading, lead, points, statement } = Astro.props;
+const { eyebrow, heading, lead, points, statement, listLabel } = Astro.props;
 ---
 
 <section data-section="haltung" class="bg-soft px-page py-section">
@@ -20,14 +22,19 @@ const { eyebrow, heading, lead, points, statement } = Astro.props;
       <h2 class="font-display text-h1 font-medium text-gold" data-rv>{heading}</h2>
       <p class="max-w-[30rem] text-lead text-muted" data-rv>{lead}</p>
     </div>
-    <ul class="grid gap-group lg:col-span-6 lg:col-start-7">
-      {points.map((p) => (
-        <li data-rv>
-          <h3 class="font-display text-h3 font-medium text-ink">{p.title}</h3>
-          <p class="mt-text max-w-[34rem] text-body text-muted">{p.text}</p>
-        </li>
-      ))}
-    </ul>
+    <div class="lg:col-span-6 lg:col-start-7">
+      {listLabel && (
+        <p class="mb-group font-display text-label font-medium tracking-label text-gold uppercase" data-rv>{listLabel}</p>
+      )}
+      <ul class="grid gap-group">
+        {points.map((p) => (
+          <li data-rv>
+            <h3 class="font-display text-h3 font-medium text-ink">{p.title}</h3>
+            <p class="mt-text max-w-[34rem] text-body text-muted">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
   </div>
   <p
     class="mx-auto mt-section w-full max-w-page font-display text-h2 font-medium text-balance text-ink lg:max-w-[40ch] lg:text-center"

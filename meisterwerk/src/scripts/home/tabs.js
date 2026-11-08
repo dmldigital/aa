@@ -6,7 +6,7 @@
 // Passt es so nicht (sehr niedrige Fenster), gibt es statt des Pins die aufklappbaren Tabs.
 // FAQ (data-tb-accordion), Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt
 // direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere), auch über beide FAQ-Spalten.
-import { gsap, ScrollTrigger } from "../motion";
+import { gsap, ScrollTrigger, lenis } from "../motion";
 
 document.querySelectorAll("[data-tb]").forEach(initTabs);
 
@@ -72,8 +72,23 @@ function initTabs(sec) {
     controller = new AbortController();
 
     let current = -1;
-    const toggle = (index) => {
+    let settle = null;
+    // Öffnet sich ein Tab, während ein anderer offen war, schiebt das Zuklappen den Inhalt: Der neue Tab würde mitten
+    // im Feld beginnen. Nach dem Zuklappen wird deshalb seine Kopfzeile unter die schwebende Menü-Pille gerückt.
+    const alignTo = (i, wasOpen) => {
+      clearTimeout(settle);
+      settle = setTimeout(() => {
+        const top = buttons[i].getBoundingClientRect().top;
+        if (!wasOpen && top >= 90 && top < innerHeight * 0.55) return;
+        const y = top + window.scrollY - 96;
+        if (lenis) lenis.scrollTo(y, { duration: 0.9 });
+        else window.scrollTo({ top: y, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      }, wasOpen ? 640 : 120);
+    };
+    const toggle = (index, user = false) => {
+      const was = current;
       current = current === index ? -1 : index;
+      if (user && current >= 0) alignTo(current, was >= 0);
       tabs.forEach((li, k) => {
         const open = k === current;
         const collapse = li.querySelector(".tb-collapse");
@@ -94,7 +109,7 @@ function initTabs(sec) {
       li.appendChild(collapse);
       panels[i].setAttribute("role", "region");
       buttons[i].removeAttribute("tabindex");
-      buttons[i].addEventListener("click", () => toggle(i), { signal: controller.signal });
+      buttons[i].addEventListener("click", () => toggle(i, true), { signal: controller.signal });
     });
     toggle(-1); // zu Beginn sind alle Tabs geschlossen (Fachsektion und FAQ), geöffnet wird per Antippen
   };

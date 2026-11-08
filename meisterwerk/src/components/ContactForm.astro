@@ -12,10 +12,10 @@ interface Props {
 const { variant } = Astro.props;
 
 const group = 'mb-7.5 flex w-full flex-wrap items-center px-2.5';
-const label = 'cursor-pointer pb-2.5 font-display text-small text-white';
+const label = 'cursor-pointer pb-2.5 font-display text-small text-ink';
 const box = 'flex max-w-full basis-full';
 const field =
-  'field min-h-10 max-w-full flex-1 basis-full bg-white p-3.75 text-body text-[inherit]';
+  'field min-h-10 max-w-full flex-1 basis-full p-3.75 text-body text-ink';
 const textField = `${field} font-[Arial]`;
 const selectField = `${field} appearance-none py-3.75 pr-10 pl-3.75 text-body leading-[inherit] font-[inherit]`;
 
@@ -89,7 +89,7 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
                     value={a}
                   />
                   <label
-                    class="inline cursor-pointer font-display text-small text-white"
+                    class="inline cursor-pointer font-display text-small text-ink"
                     for={`kf-leistung-${i}`}
                   >
                     {a}
@@ -101,7 +101,7 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
         </div>
         <div class={`${group} md:w-1/3`}>
           <label class={label} for="kf-flaeche">
-            ca. Fläche in m2
+            ca. Fläche in m²
           </label>
           <div class={box}>
             <input
@@ -240,11 +240,11 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
       </div>
     </div>
     <div class={`${group}`}>
-      <Button>Senden</Button>
+      <Button variant="dark">Senden</Button>
     </div>
   </div>
   <p
-    class="mt-5 text-white [text-shadow:2px_1px_10px_rgb(0_0_0/0.3)]"
+    class="mt-5 text-body text-muted"
     role="status"
     aria-live="polite"
     data-form-message

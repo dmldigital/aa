@@ -37,7 +37,7 @@ export const footers: Record<Site, FooterData> = {
     headingClass: heading,
     badge: false,
     contactHref: '/meisterwerk-exklusive/kontakt/',
-    phone: '07 141 / 23982 90',
+    phone: '07141 / 23 982 90',
     partnersHref: '/meisterwerk-exklusive/partner-sponsoring/',
     imprintHref: '/meisterwerk-exklusive/impressum/',
     privacyHref: '/meisterwerk-exklusive/datenschutzerklaerung/',

@@ -11,6 +11,11 @@ import { Picture } from 'astro:assets';
 import { href } from '../../data/links';
 import { cards } from '../../data/services';
 import logo from '../../assets/img/logo_exklusive.png';
+import raum from '../../assets/img/239-meisterwerk-20230120-1-scaled.jpg';
+import treppe from '../../assets/img/2018-meisterwerk-20230524-Bearbeitet-scaled.jpg';
+import tapete from '../../assets/img/4-bf-20241206-Bearbeitet-1-scaled.jpg';
+import fassade from '../../assets/img/2079-meisterwerk-20230524-Bearbeitet-scaled.jpg';
+import dunkleWand from '../../assets/img/188-mw-20241125-scaled.jpg';
 
 // Titel, Satz und Alt-Text wie in der Auswahl-Vorschau (lokale Texte der Startseite)
 const copy: Record<string, [string, string, string]> = {
@@ -40,12 +45,20 @@ const copy: Record<string, [string, string, string]> = {
     'Verputzarbeiten: Flur mit fein verputzten Wänden und Decke',
   ],
 };
+// Bilder der Startseite (Kundenwunsch): Raum statt Treppe, Treppe ganz sichtbar, ganze Tapetenwand, Fassade des Titelbild-Hauses
+const photo: Record<string, { img: ImageMetadata; pos: string }> = {
+  '/services/glatte-waende/': { img: raum, pos: '35% 50%' },
+  '/services/lackierarbeiten/': { img: treppe, pos: '60% 50%' },
+  '/services/tapezieren/': { img: tapete, pos: '35% 50%' },
+  '/services/verputzen/': { img: fassade, pos: '75% 50%' },
+};
 const items = cards.map((c) => ({
   href: c.href,
   title: copy[c.href]?.[0] ?? c.title,
   sub: copy[c.href]?.[1] ?? c.subtitle ?? '',
   alt: copy[c.href]?.[2] ?? c.alt,
-  img: c.img,
+  img: photo[c.href]?.img ?? c.img,
+  pos: photo[c.href]?.pos ?? '50% 50%',
 }));
 const total = String(items.length + 1).padStart(2, '0');
 const sizes = '(min-width: 1025px) 28vw, 80vw';
@@ -106,6 +119,7 @@ const body = 'lk-text flex flex-none items-start justify-between gap-stack p-inn
                   loading="lazy"
                   pictureAttributes={{ class: 'contents' }}
                   class="absolute inset-0 size-full scale-[1.12] object-cover transition-[scale] duration-700 ease-out group-hover/card:scale-[1.17]"
+                  style={`object-position: ${it.pos}`}
                   data-lk-img
                 />
               </div>
@@ -123,7 +137,19 @@ const body = 'lk-text flex flex-none items-start justify-between gap-stack p-inn
         ))}
         <li data-lk-card class="lk-card lk-card--ex shrink-0 snap-start">
           <a href={href('/meisterwerk-exklusive/')} class={card}>
-            <div class="lk-media relative grid place-items-center overflow-hidden bg-gold/10">
+            <div class="lk-media relative grid place-items-center overflow-hidden bg-ink">
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={dunkleWand}
+                alt=""
+                {widths}
+                {sizes}
+                loading="lazy"
+                pictureAttributes={{ class: 'contents' }}
+                class="absolute inset-0 size-full scale-[1.12] object-cover transition-[scale] duration-700 ease-out group-hover/card:scale-[1.17]"
+                data-lk-img
+              />
               <Picture
                 formats={['avif']}
                 fallbackFormat="webp"
@@ -132,8 +158,8 @@ const body = 'lk-text flex flex-none items-start justify-between gap-stack p-inn
                 sizes="240px"
                 widths={[240, 480]}
                 loading="lazy"
-                pictureAttributes={{ class: 'block w-[55%] max-w-[240px]' }}
-                class="block h-auto w-full"
+                pictureAttributes={{ class: 'relative block w-[58%] max-w-[250px]' }}
+                class="block h-auto w-full brightness-0 invert"
               />
             </div>
             <div class={body}>

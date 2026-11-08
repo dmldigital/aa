@@ -155,7 +155,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
         </div>
       </div>
     </section>
-    <TimelinePin class="lg:hidden" title={timelineTitle} items={profile.timeline.items} />
+    <TimelinePin class="mx-auto w-full max-w-page px-page pt-section lg:hidden" title={timelineTitle} items={profile.timeline.items} />
   </>
 )}
 
@@ -178,6 +178,11 @@ const timelineTitle = profile.timeline?.heading ?? '';
           {quoteNote && <p data-rv class="pm-note" set:html={quoteNote} />}
         </div>
       )}
+      {motto.prose.length > 0 && (
+        <div class="pm-prose" data-rv>
+          {motto.prose.map((p) => <p set:html={p} />)}
+        </div>
+      )}
       {extras.length > 0 && (
         <div class="pm-grid" style={`--n:${Math.min(3, extras.length)}`}>
           {extras.map((f) => (
@@ -186,11 +191,6 @@ const timelineTitle = profile.timeline?.heading ?? '';
               <p set:html={f.value} />
             </article>
           ))}
-        </div>
-      )}
-      {motto.prose.length > 0 && (
-        <div class="pm-prose" data-rv>
-          {motto.prose.map((p) => <p set:html={p} />)}
         </div>
       )}
     </div>
@@ -645,7 +645,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
   }
   .pm-prose {
     max-width: 760px;
-    margin-top: 44px;
+    margin-top: var(--space-stack);
     color: var(--color-muted);
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);

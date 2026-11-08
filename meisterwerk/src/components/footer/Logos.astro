@@ -20,6 +20,9 @@ interface Props {
 const { site: siteKey = 'main', which, wrapperClass = '', class: className = '' } = Astro.props;
 const exk = siteKey === 'exklusive';
 const f = footers[siteKey];
+// Das schwarze Exklusive-Logo wird als Maske gezeichnet: Die Farbe kommt von `bg-ink` und passt sich damit der Anzeige an,
+// auch wenn ein Handy die Seite abdunkelt (ein Bild bliebe schwarz auf dunklem Grund).
+const mask = `-webkit-mask:url(${exklusive.src}) center/contain no-repeat;mask:url(${exklusive.src}) center/contain no-repeat`;
 ---
 
 <div class={wrapperClass}>
@@ -33,15 +36,19 @@ const f = footers[siteKey];
           : 'Meisterwerk Malermanufaktur, zur Startseite'
       }
     >
-      <Picture
-        formats={['avif']}
-        fallbackFormat="webp"
-        src={exk ? exklusive : logo}
-        alt={exk ? 'Meisterwerke Exklusive' : 'Meisterwerk Malermanufaktur'}
-        widths={[228, 456]}
-        sizes="178px"
-        class:list={['h-auto', className]}
-      />
+      {exk ? (
+        <span role="img" aria-label="Meisterwerke Exklusive" class:list={['block aspect-[831/325] bg-ink', className]} style={mask}></span>
+      ) : (
+        <Picture
+          formats={['avif']}
+          fallbackFormat="webp"
+          src={logo}
+          alt="Meisterwerk Malermanufaktur"
+          widths={[228, 456]}
+          sizes="178px"
+          class:list={['h-auto', className]}
+        />
+      )}
     </a>
   ) : exk ? (
     <Picture
@@ -55,15 +62,7 @@ const f = footers[siteKey];
     />
   ) : (
     <a href="https://meisterwerk-exklusive.de/" class="block" aria-label="Meisterwerk Exklusive">
-      <Picture
-        formats={['avif']}
-        fallbackFormat="webp"
-        src={exklusive}
-        alt="Meisterwerke Exklusive"
-        widths={[228, 456]}
-        sizes="178px"
-        class:list={['h-auto', className]}
-      />
+      <span role="img" aria-label="Meisterwerke Exklusive" class:list={['block aspect-[831/325] bg-ink', className]} style={mask}></span>
     </a>
   )}
 </div>

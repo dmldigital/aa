@@ -1,0 +1,1 @@
+import"./tabs.L3N7cOCS.js";

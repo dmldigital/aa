@@ -85,7 +85,7 @@ const QUESTIONS = 9;
               ))}
             </ul>
             <div class="pf-start" data-pf-item data-pf-startbox>
-              <div data-pf-start><Button type="button">Anfrage starten</Button></div>
+              <div data-pf-start><Button type="button" variant="dark">Anfrage starten</Button></div>
             </div>
           </div>
         </section>
@@ -146,7 +146,7 @@ const QUESTIONS = 9;
           </div>
           <div class="pf-a">
             <div class="pf-area" data-pf-item data-pf-group>
-              <label class="pf-fl-label" for="pf-flaeche">ca. Fläche in m2</label>
+              <label class="pf-fl-label" for="pf-flaeche">ca. Fläche in m²</label>
               <div class="pf-area-row">
                 <input
                   class="pf-big"
@@ -242,8 +242,8 @@ const QUESTIONS = 9;
         <!-- 9 Nachricht -->
         <section class="pf-screen" data-pf-screen aria-labelledby="pf-h-nachricht">
           <div class="pf-q">
-            <h2 class="pf-h" id="pf-h-nachricht" tabindex="-1" data-pf-q>Was sollen wir noch wissen?</h2>
-            <p class="pf-hint" data-pf-item>Zum Beispiel Wünsche, Besonderheiten oder Terminvorstellungen.</p>
+            <h2 class="pf-h" id="pf-h-nachricht" tabindex="-1" data-pf-q>Was ist Ihnen besonders wichtig, auf was sollen wir achten?</h2>
+            <p class="pf-hint" data-pf-item>Zum Beispiel Ausführungszeitpunkt, Flexibilität, keine Parkplätze vor der Tür oder nur ein Stellplatz, Wohnung im siebten Stock.</p>
           </div>
           <div class="pf-a pf-fields">
             <div class="pf-field" data-pf-item>
@@ -294,8 +294,8 @@ const QUESTIONS = 9;
           </button>
         </div>
         <div class="pf-nav-r">
-          <div data-pf-next hidden><Button type="button">Weiter</Button></div>
-          <div data-pf-send hidden><Button type="submit">Anfrage senden</Button></div>
+          <div data-pf-next hidden><Button type="button" variant="dark">Weiter</Button></div>
+          <div data-pf-send hidden><Button type="submit" variant="dark">Anfrage senden</Button></div>
         </div>
       </div>
       </div>
@@ -1052,7 +1052,7 @@ const QUESTIONS = 9;
     margin-top: var(--space-text);
   }
   .pf-big {
-    width: 4ch;
+    width: 3.6ch;
     max-width: 100%;
     padding: 0;
     border: 0;
@@ -1060,24 +1060,24 @@ const QUESTIONS = 9;
     background: transparent;
     color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-display);
+    font-size: clamp(3.5rem, 18vw, 5.5rem);
     line-height: 1;
-    font-weight: var(--font-weight-medium, 500);
+    font-weight: var(--font-weight-bold, 700);
     letter-spacing: var(--text-display--letter-spacing);
     outline: none;
   }
   .pf-unit {
     color: var(--color-gold);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-h2);
+    font-size: var(--text-h1);
     line-height: 1;
-    font-weight: var(--font-weight-medium, 500);
+    font-weight: var(--font-weight-semibold, 600);
   }
   .pf-range {
     --p: 20%;
     display: block;
     width: 100%;
-    height: 28px;
+    height: 40px;
     margin: var(--space-stack) 0 0;
     background: transparent;
     cursor: pointer;
@@ -1085,19 +1085,19 @@ const QUESTIONS = 9;
     appearance: none;
   }
   .pf-range::-webkit-slider-runnable-track {
-    height: 4px;
-    border-radius: 2px;
+    height: 8px;
+    border-radius: 4px;
     background: linear-gradient(to right, var(--color-gold) var(--p), rgb(9 4 2 / 0.1) var(--p));
   }
   .pf-range::-moz-range-track {
-    height: 4px;
-    border-radius: 2px;
+    height: 8px;
+    border-radius: 4px;
     background: linear-gradient(to right, var(--color-gold) var(--p), rgb(9 4 2 / 0.1) var(--p));
   }
   .pf-range::-webkit-slider-thumb {
-    width: 24px;
-    height: 24px;
-    margin-top: -10px;
+    width: 36px;
+    height: 36px;
+    margin-top: -14px;
     border: 3px solid #fff;
     border-radius: 50%;
     background: var(--color-gold);
@@ -1106,8 +1106,8 @@ const QUESTIONS = 9;
     appearance: none;
   }
   .pf-range::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
+    width: 30px;
+    height: 30px;
     border: 3px solid #fff;
     border-radius: 50%;
     background: var(--color-gold);
@@ -1120,13 +1120,12 @@ const QUESTIONS = 9;
   .pf-scale {
     display: flex;
     justify-content: space-between;
-    margin-top: 4px;
-    color: var(--color-muted);
+    margin-top: var(--space-text);
+    color: var(--ink);
     font-family: var(--font-urbanist), sans-serif;
-    font-size: var(--text-label);
-    line-height: var(--text-label--line-height);
-    letter-spacing: var(--tracking-label);
-    text-transform: uppercase;
+    font-size: var(--text-lead);
+    line-height: var(--text-lead--line-height);
+    font-weight: var(--font-weight-semibold, 600);
   }
 
   /* ---------- Bilder ---------- */

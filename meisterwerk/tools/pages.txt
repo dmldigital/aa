@@ -29,7 +29,6 @@
 /meisterwerk-exklusive/samet-erenuglu/
 /meisterwerk-exklusive/spachteltechnik-oberflaechen/
 /meisterwerk-exklusive/spachteltechniken/
-/meisterwerk-exklusive/stefano-pulia/
 /meisterwerk-exklusive/stuckleisten/
 /meisterwerk-exklusive/studio/
 /meisterwerk-exklusive/unsere-leistungen/
@@ -45,7 +44,6 @@
 /services/malerarbeiten/
 /services/tapezieren/
 /services/verputzen/
-/stefano-pulia/
 /studio/
 /urlaubsservice/
 /vincenzo-fortino/

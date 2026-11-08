@@ -2,8 +2,7 @@
 import baldassarre from '../../assets/img/baldassare_fortino.jpg';
 import lorenzo from '../../assets/img/Fliesenleger-Vorarbeiter-Lorenzo-Fortino--scaled.jpg';
 import fabio from '../../assets/img/Maler-u.-Lackierer-Gesele-Fabio-Fortino-scaled-e1753863865243.jpg';
-import stefano from '../../assets/img/Maler-u.-Lackierer-Azubi-Stefano-Pulia-scaled.jpg';
-import samet from '../../assets/img/platzhalter.jpg';
+import samet from '../../assets/img/Maler-u.-Lackierer-Azubi-Samet-Erenuglu.jpg';
 import baldassarreExklusive from '../../assets/img/Maler-u.-Lackierer-Meister-Baldassarre-Fortino-scaled.jpg';
 import vincenzo from '../../assets/img/Papa-Vincenzo-Fortino-e1753863670297.png';
 
@@ -46,19 +45,11 @@ export const team: Member[] = [
     alt: 'Maler- und Lackierergeselle Fabio Fortino vom Malerbetrieb Meisterwerk Ludwigsburg',
   },
   {
-    name: 'Stefano Pulia',
-    role: 'Auzubi im 3. Lehrjahr',
-    href: '/stefano-pulia/',
-    img: stefano,
-    alt: 'Maler Stefano Pulia vom Fachbetrieb Meisterwerk Ludwigsburg & Stuttgart.',
-  },
-  {
     name: 'Samet Erenuglu',
     role: 'Auszubildender im 1. Lehrjahr',
     href: '/samet-erenuglu/',
     img: samet,
     alt: 'Auszubildender Maler Samet Erenuglu vom Malerbetrieb Meisterwerk Ludwigsburg & Stuttgart.',
-    noPhoto: true,
   },
 ];
 
@@ -111,7 +102,7 @@ export const haltung = {
     '<strong>Meisterwerk bedeutet:</strong>',
     {
       list: [
-        'Handwerk ohne Kompromisse – präzise und von Fachkräften ausgeführt.',
+        'Handwerk mit Anspruch – präzise, von Fachkräften ausgeführt und mit dem Ziel, aus jedem Objekt das Beste herauszuholen.',
         'Puristische Ästhetik – fugenlose Systeme, edle Spachtelmassen und ehrliche Materialien verleihen Räumen Charakter.',
         'Nachhaltigkeit – langlebige Lösungen mit bewusstem Materialeinsatz.',
         'Innovation & Technik – moderne Verfahren verbinden Design und Funktion auf hohem Niveau.',
