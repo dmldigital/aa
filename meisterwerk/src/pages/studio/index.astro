@@ -4,7 +4,7 @@ import MiniFormSection from '../../components/sections/MiniFormSection.astro';
 import StudioHead from '../../components/studio/StudioHead.astro';
 import StudioHaltung from '../../components/studio/StudioHaltung.astro';
 import StudioTeamGrid from '../../components/studio/StudioTeamGrid.astro';
-import StudioStory from '../../components/studio/StudioStory.astro';
+import TimelineStrip from '../../components/TimelineStrip.astro';
 import TimelinePin from '../../components/TimelinePin.astro';
 import GedenkBlock from '../../components/GedenkBlock.astro';
 import { meta, haltung, team, founder, memorial, founderMemorial, timeline } from '../../data/pages/studio';
@@ -45,9 +45,7 @@ const teamText = strip(tb?.[2] ?? '');
     statement={statement}
   />
   <StudioTeamGrid eyebrow={teamEyebrow} heading={teamHeading} text={teamText} people={team} />
-  <div class="max-lg:hidden">
-    <StudioStory eyebrow="Seit 2014" heading={haltung.toggle} items={timeline} />
-  </div>
+  <TimelineStrip class="bg-soft pb-section" title={haltung.toggle} items={timeline} />
   <TimelinePin class="bg-soft lg:hidden" eyebrow="Seit 2014" title={haltung.toggle} lead="Von den ersten Projekten im Elternhaus bis zum gemeinsamen Standort in Freiberg." items={timeline}>
     <div slot="after" class="bg-white px-page pt-group pb-stack">
       <div class="mx-auto w-full max-w-page">

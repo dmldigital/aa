@@ -18,6 +18,12 @@ const menu: Item[] = exk ? exklusiveItems : items;
 
 const row =
   'group/acc flex w-full cursor-pointer items-center justify-between gap-4 py-3 text-left font-display text-h3 font-normal max-[700px]:py-[clamp(4px,calc(1.8dvh-4px),14px)] max-[700px]:text-[clamp(17px,2.8dvh,22px)]/[1.2] tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
+// Hauptliste und Untermenü-Ansichten liegen übereinander, die gewählte blendet ein, die andere aus
+const view =
+  'col-start-1 row-start-1 transition-[opacity,translate,visibility] duration-500 ease-in-out motion-reduce:transition-none data-[off]:pointer-events-none data-[off]:invisible data-[off]:opacity-0';
+// Untermenü: große Zeilen wie die Hauptpunkte, Platz ist da, weil nur diese Ansicht sichtbar ist
+const subRow =
+  'block py-[clamp(7px,1.5dvh,12px)] font-display text-[clamp(19px,3dvh,24px)] leading-[1.2] font-normal tracking-[-0.01em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
 const sub =
   'block font-display text-body tracking-[-0.01em] max-[700px]:text-[clamp(12.5px,1.8dvh,14px)] max-[700px]:leading-[1.25] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
 ---
@@ -47,90 +53,101 @@ const sub =
     </button>
   </div>
 
-  <nav aria-label="Hauptmenü" class="col-span-2 my-[clamp(6px,1.6dvh,16px)] flex min-h-0 grow flex-col justify-start">
-    <ul data-accordion data-accordion-exclusive data-accordion-ease="power1.inOut">
+  <nav
+    aria-label="Hauptmenü"
+    data-drill
+    class="col-span-2 my-[clamp(6px,1.6dvh,16px)] grid min-h-0 grow grid-cols-1 content-start"
+  >
+    <!-- Hauptliste: Ein Punkt mit Untermenü öffnet dessen Ansicht (Hauptliste, Siegel und Kontakt treten zurück), „Zurück“ führt wieder hierher -->
+    <ul data-drill-main class={`${view} data-[off]:-translate-x-6`}>
       {menu.map((item, i) => (
         <li data-menu-item>
           {item.children ? (
-            <>
-              <button
-                type="button"
-                aria-expanded="false"
-                aria-controls={`menu3-sub-${i}`}
-                aria-current={
-                  current.startsWith(item.href) && item.href !== '/' ? 'page' : undefined
-                }
-                class={row}
-              >
-                {item.label}
-                <svg
-                  viewBox="0 0 12 8"
-                  aria-hidden="true"
-                  class="size-3 shrink-0 transition-transform duration-300 group-aria-expanded/acc:rotate-180"
-                >
-                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="1.2" />
-                </svg>
-              </button>
-              <div id={`menu3-sub-${i}`} hidden class="py-2">
-                <ul class="flex flex-col gap-[clamp(2px,0.8dvh,6px)] pl-1">
-                  <li>
-                    <a href={href(item.href)} class={sub}>
-                      Übersicht
-                    </a>
-                  </li>
-                  {item.children
-                    .filter((c) => !c.children)
-                    .map((child) => (
-                      <li>
-                        <a
-                          href={href(child.href)}
-                          aria-current={current === child.href ? 'page' : undefined}
-                          class={sub}
-                        >
-                          {child.label}
-                        </a>
-                      </li>
-                    ))}
-                  {item.children
-                    .filter((c) => c.children)
-                    .map((group) => (
-                      <li class="mt-2">
-                        <a
-                          href={href(group.href)}
-                          class="font-display text-label tracking-[0.12em] text-gold uppercase transition-colors duration-300 hover:text-ink"
-                        >
-                          {group.label}
-                        </a>
-                        <ul class="mt-2 flex flex-col gap-[clamp(2px,0.8dvh,6px)] pl-3">
-                          {group.children!.map((child) => (
-                            <li>
-                              <a
-                                href={href(child.href)}
-                                aria-current={current === child.href ? 'page' : undefined}
-                                class={sub}
-                              >
-                                {child.label}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            </>
+            <button
+              type="button"
+              data-drill-open={i}
+              aria-expanded="false"
+              aria-controls={`menu3-sub-${i}`}
+              aria-current={
+                current.startsWith(item.href) && item.href !== '/' ? 'page' : undefined
+              }
+              class={row}
+            >
+              {item.label}
+              <svg viewBox="0 0 8 12" aria-hidden="true" class="size-3 shrink-0 opacity-60">
+                <path d="m1.5 1 5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.2" />
+              </svg>
+            </button>
           ) : (
             <a
               href={href(item.href)}
               aria-current={current === item.href ? 'page' : undefined}
               class={row}
             >
-              {item.label}
+              {item.back && (
+                <svg viewBox="0 0 12 8" aria-hidden="true" class="mr-3 size-3 shrink-0 rotate-90 opacity-60">
+                  <path d="M1 1.5 6 6.5l5-5" fill="none" stroke="currentColor" stroke-width="1.2" />
+                </svg>
+              )}
+              <span class="grow">{item.label}</span>
             </a>
           )}
         </li>
       ))}
     </ul>
+
+    {menu.map((item, i) =>
+      item.children ? (
+        <div id={`menu3-sub-${i}`} data-drill-panel={i} data-off inert class={`${view} data-[off]:translate-x-6`}>
+          <button
+            type="button"
+            data-drill-back
+            class="group/back flex cursor-pointer items-center gap-3 py-2 font-display text-label tracking-[0.09em] uppercase"
+          >
+            <span class="grid size-9 place-items-center rounded-full bg-white transition-colors duration-300 group-hover/back:bg-gold group-hover/back:text-white">
+              <svg viewBox="0 0 16 16" aria-hidden="true" class="size-4" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M14 8H3" /><path d="m7 4-4 4 4 4" /></svg>
+            </span>
+            Zurück
+          </button>
+          <p class="mt-[clamp(10px,2.4dvh,22px)] font-display text-label tracking-[0.12em] text-gold uppercase">{item.label}</p>
+          <ul class="mt-[clamp(4px,1dvh,10px)]">
+            <li>
+              <a href={href(item.href)} class={subRow}>Übersicht</a>
+            </li>
+            {item.children
+              .filter((c) => !c.children)
+              .map((child) => (
+                <li>
+                  <a href={href(child.href)} aria-current={current === child.href ? 'page' : undefined} class={subRow}>
+                    {child.label}
+                  </a>
+                </li>
+              ))}
+          </ul>
+          {item.children
+            .filter((c) => c.children)
+            .map((group) => (
+              <div class="mt-[clamp(10px,2.4dvh,22px)]">
+                <a
+                  href={href(group.href)}
+                  class="font-display text-label tracking-[0.12em] text-gold uppercase transition-colors duration-300 hover:text-ink"
+                >
+                  {group.label}
+                </a>
+                <ul class="mt-[clamp(2px,0.8dvh,8px)]">
+                  {group.children!.map((child) => (
+                    <li>
+                      <a href={href(child.href)} aria-current={current === child.href ? 'page' : undefined} class={subRow}>
+                        {child.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+        </div>
+      ) : null,
+    )}
   </nav>
 
   {!exk && <Badge class="col-start-1 row-start-3 [zoom:.62] max-[700px]:self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:hidden" />}

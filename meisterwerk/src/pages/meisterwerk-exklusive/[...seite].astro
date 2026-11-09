@@ -1,28 +1,19 @@
 ---
 /**
  * Seiten der Teil-Website /meisterwerk-exklusive/, die nicht zu `[slug].astro` (Leistungsseiten) gehören:
- * die sechs Mitarbeiterprofile (Collection `profile`, wie die Hauptprofile) und die zwei Kollektionsseiten
- * (Collection `kollektionen`). Die Catch-all-Route gilt nur, wo `[slug].astro` keinen Treffer hat, die Adressen
- * überschneiden sich nicht.
+ * die zwei Kollektionsseiten (Collection `kollektionen`). Über uns und die Mitarbeiterprofile gibt es nur auf der
+ * Hauptseite (Nutzerentscheidung), die alten Adressen leitet `public/_redirects` dorthin. Die Catch-all-Route gilt
+ * nur, wo `[slug].astro` keinen Treffer hat, die Adressen überschneiden sich nicht.
  */
 import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
-import ProfileHero from '../../components/sections/ProfileHero.astro';
-import ProfileTimeline from '../../components/sections/ProfileTimeline.astro';
-import ProfileBio from '../../components/sections/ProfileBio.astro';
 import Collection from '../../components/sections/Collection.astro';
 import PageHeader from '../../components/sections/PageHeader.astro';
 import MiniFormSection from '../../components/sections/MiniFormSection.astro';
-import { exklusivProfile } from '../../data/pages/profiles';
 
 export async function getStaticPaths() {
-  const profiles = await getCollection('profile');
   const kollektionenSeiten = await getCollection('kollektionen');
   return [
-    ...profiles.map(({ data }) => ({
-      params: { seite: data.slug },
-      props: { profile: exklusivProfile(data) },
-    })),
     ...kollektionenSeiten.map(({ data }) => ({
       params: { seite: data.slug },
       props: { kollektionen: data },
@@ -30,39 +21,18 @@ export async function getStaticPaths() {
   ];
 }
 
-const { profile, kollektionen } = Astro.props;
-// Elementor-Kennungen der Steckbrief-Sektionen im Original
-const bioIds: Record<string, string> = {
-  'baldassarre-fortino': '3a18279d',
-  'fabio-fortino': '76976f7a',
-  'lorenzo-fortino': '14d6e0c0',
-  'samet-erenuglu': 'e579377',
-  'vincenzo-fortino': '4cc74a75',
-};
+const { kollektionen } = Astro.props;
 // Mini-Formular: Leistung vorwählen, wo sie eindeutig ist
 const formService: Record<string, string> = { 'spachteltechnik-oberflaechen': 'Spachteltechniken' };
-const path = `/meisterwerk-exklusive/${(profile ?? kollektionen).slug}/`;
+const path = `/meisterwerk-exklusive/${kollektionen.slug}/`;
 ---
 
 <PageLayout
-  title={(profile ?? kollektionen).title}
-  description={(profile ?? kollektionen).description}
+  title={kollektionen.title}
+  description={kollektionen.description}
   current={path}
   site="exklusive"
 >
-  {profile && (
-    <>
-      <ProfileHero name={profile.name} photo={profile.photo} />
-      {profile.timeline && (
-        <ProfileTimeline
-          id="0411fde"
-          heading={profile.timeline.heading}
-          items={profile.timeline.items}
-        />
-      )}
-      <ProfileBio id={bioIds[profile.slug]} {profile} exklusive />
-    </>
-  )}
   {kollektionen && (
     <>
       <PageHeader label="Meisterwerke Exklusive" title={kollektionen.headline} />

@@ -41,8 +41,8 @@ const TARGETS: Target[] = [
   { path: { main: '/qualifikationen/' }, re: word('Meisterbriefe?|Meisterbetrieb|Qualifikationen|Zertifikate') },
   { path: { main: '/meisterwerk-exklusive/' }, re: word('Meisterwerke? Exklusive') },
   { path: { main: '/projekte/', exklusive: '/meisterwerk-exklusive/projekte/' }, re: word('Referenzen|[Uu]nsere Projekte|Projektübersicht') },
-  { path: { main: '/studio/', exklusive: '/meisterwerk-exklusive/studio/' }, re: word('[Uu]nser Team|[Uu]nserem Team') },
-  { path: { main: '/baldassarre-fortino/', exklusive: '/meisterwerk-exklusive/baldassarre-fortino/' }, re: word('(?:Malermeister |Meister )?Baldassarre Fortino') },
+  { path: { main: '/studio/', exklusive: '/studio/' }, re: word('[Uu]nser Team|[Uu]nserem Team') },
+  { path: { main: '/baldassarre-fortino/', exklusive: '/baldassarre-fortino/' }, re: word('(?:Malermeister |Meister )?Baldassarre Fortino') },
   { path: { main: '/kontakt/', exklusive: '/meisterwerk-exklusive/kontakt/' }, re: word('persönliche[nr]? Beratung|kostenlose[nr]? Beratung|Beratungsgespräch|Beratung vor Ort') },
 ];
 

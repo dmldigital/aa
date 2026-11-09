@@ -1,0 +1,30 @@
+---
+/**
+ * Zeitstrahl für Desktop (ab 1025 px): links die Überschrift, rechts der waagerechte Strahl mit Linie und Strichen, der Text steht
+ * abwechselnd oben und unten (`Timeline.astro`). Beim Hereinscrollen fahren die Stationen nacheinander aus dem Anfang der Linie
+ * an ihre Plätze (`initTimelineDesktop`). Bis 1024 px zeigt `TimelinePin.astro` dieselben Stationen als Pin und Scroll.
+ */
+import Timeline from './Timeline.astro';
+
+interface Props {
+  items: { date: string; text: string }[];
+  title: string;
+  class?: string;
+}
+const { items, title, class: className = '' } = Astro.props;
+---
+
+<section data-tl-scene class:list={['hidden px-page pt-section lg:block', className]}>
+  <div class="mx-auto flex w-full max-w-page">
+    <h2 class="m-0 w-[14%] self-center font-display text-h3 font-medium text-ink" set:html={title} />
+    <div class="w-[86%] py-10 font-[-apple-system,BlinkMacSystemFont,'Segoe_UI',system-ui,sans-serif]">
+      <Timeline items={items} />
+    </div>
+  </div>
+</section>
+
+<script>
+  import { initTimelineDesktop } from '../scripts/timeline';
+
+  initTimelineDesktop();
+</script>

@@ -21,6 +21,7 @@ const { site = 'main', current = '/' } = Astro.props;
 <script>
   import { gsap } from 'gsap';
   import { lenis } from '../../scripts/motion';
+  import '../../scripts/menu-drill';
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const dialogs = [...document.querySelectorAll<HTMLDialogElement>('[data-menu-dialog]')];

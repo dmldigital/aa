@@ -2,6 +2,8 @@ export interface Item {
   label: string;
   href: string;
   children?: Item[];
+  /** Weg zurück zur Hauptseite (Pfeil nach links davor) */
+  back?: boolean;
 }
 
 export const items: Item[] = [
@@ -40,8 +42,8 @@ export type Site = 'main' | 'exklusive';
 
 /** Menü der Teil-Website Exklusive (Original: Menü „Exklusive“ im Kopf der Multisite). */
 export const exklusiveItems: Item[] = [
+  { label: 'Meisterwerk Malermanufaktur', href: '/', back: true },
   { label: 'Startseite', href: '/meisterwerk-exklusive/' },
-  { label: 'Über uns', href: '/meisterwerk-exklusive/studio/' },
   {
     label: 'Unsere Leistungen',
     href: '/meisterwerk-exklusive/unsere-leistungen/',
