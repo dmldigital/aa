@@ -41,6 +41,6 @@ export const footers: Record<Site, FooterData> = {
     partnersHref: '/meisterwerk-exklusive/partner-sponsoring/',
     imprintHref: '/meisterwerk-exklusive/impressum/',
     privacyHref: '/meisterwerk-exklusive/datenschutzerklaerung/',
-    logoHref: '/meisterwerk-exklusive/',
+    logoHref: routes.home, // auch das Exklusive-Logo führt zur Startseite der Hauptseite (Nutzerwunsch)
   },
 };

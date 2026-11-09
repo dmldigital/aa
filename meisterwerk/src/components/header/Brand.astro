@@ -5,7 +5,8 @@ import type { Site } from '../../data/nav';
 import mainLogo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
 import exklusiveLogo from '../../assets/img/logo_exklusive.png';
 import heroLogo from '../../assets/img/logo_meisterwerk_hero.png';
-/** Logo der Kopfzeile (Hauptseite: Meisterwerk Malermanufaktur, Teil-Website: Meisterwerke Exklusive). */
+/** Logo der Kopfzeile (Hauptseite: Meisterwerk Malermanufaktur, Teil-Website: Meisterwerke Exklusive).
+ *  Auch das Exklusive-Logo führt zur Startseite der Hauptseite (Nutzerwunsch), nicht zur Exklusive-Startseite. */
 interface Props {
   site?: Site;
   class?: string;
@@ -17,10 +18,10 @@ const exk = site === 'exklusive';
 ---
 
 <a
-  href={href(exk ? '/meisterwerk-exklusive/' : routes.home)}
+  href={href(routes.home)}
   class="block shrink-0"
   aria-label={
-    exk ? 'Meisterwerke Exklusive, zur Startseite' : 'Meisterwerk Malermanufaktur, zur Startseite'
+    exk ? 'Meisterwerke Exklusive, zur Startseite von Meisterwerk Malermanufaktur' : 'Meisterwerk Malermanufaktur, zur Startseite'
   }
 >
   <Picture
