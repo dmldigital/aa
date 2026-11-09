@@ -39,7 +39,7 @@
         "t": "block",
         "no": "02",
         "title": "Anwendungsbereiche",
-        "html": "<p>Die Einsatzmöglichkeiten fugenloser Böden sind nahezu unbegrenzt:</p><ul><li><p><strong>Wohnräume:</strong>&nbsp;Wohnzimmer, Küche, Bad, Flur – für ein einheitliches, stilvolles Wohngefühl.</p></li><li><p><strong>Gewerbliche Flächen:</strong>&nbsp;Büros, Praxen, Showrooms oder Verkaufsräume profitieren von der modernen Optik und der einfachen Pflege.</p></li><li><p><strong>Industrie:</strong>&nbsp;Produktionshallen, Lager oder Werkstätten – fugenlose Böden halten höchsten Belastungen stand und sind besonders hygienisch.</p></li></ul>"
+        "html": "<p>Die Einsatzmöglichkeiten fugenloser Böden sind nahezu unbegrenzt:</p><ul><li><p><strong>Wohnräume:</strong>&nbsp;Wohnzimmer, Küche, Bad, Flur, für ein einheitliches, stilvolles Wohngefühl.</p></li><li><p><strong>Gewerbliche Flächen:</strong>&nbsp;Büros, Praxen, Showrooms oder Verkaufsräume profitieren von der modernen Optik und der einfachen Pflege.</p></li><li><p><strong>Industrie:</strong>&nbsp;Produktionshallen, Lager oder Werkstätten, fugenlose Böden halten höchsten Belastungen stand und sind besonders hygienisch.</p></li></ul>"
       },
       {
         "t": "spacer"
@@ -62,7 +62,7 @@
       },
       {
         "t": "button",
-        "label": "Lassen Sie sich inspirieren – und Ihren Preis berechnen",
+        "label": "Lassen Sie sich inspirieren und Ihren Preis berechnen",
         "href": "/kontakt/"
       }
     ]
@@ -79,7 +79,7 @@
     },
     {
       "title": "Hochwertige Materialien & Ausstattung",
-      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller – langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
+      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller, langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
       "bullets": [
         "Exklusive Auswahl an Oberflächen, Farben und Strukturen",
         "Investition in Qualität und Wertbeständigkeit",
@@ -88,7 +88,7 @@
     },
     {
       "title": "Investment Value",
-      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design – für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
+      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design, für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
       "bullets": [
         "Zeitloses Design und dauerhafte Wertschöpfung",
         "Fokus auf nachhaltige, pflegeleichte Lösungen",

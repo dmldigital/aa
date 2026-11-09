@@ -19,9 +19,10 @@ const [lead, , meansList, statement, teamBlock, closing] = haltung.html as [
   string,
 ];
 const strip = (html: string) => html.replace(/<[^>]+>/g, '').trim();
+// Titel und Text stehen in den Daten als „Titel: Text“
 const splitDash = (text: string): [string, string] => {
-  const i = text.indexOf(' – ');
-  return i < 0 ? [text, ''] : [text.slice(0, i), text.slice(i + 3)];
+  const i = text.indexOf(': ');
+  return i < 0 ? [text, ''] : [text.slice(0, i), text.slice(i + 2)];
 };
 const up = (t: string) => t.charAt(0).toUpperCase() + t.slice(1);
 const points = meansList.list.map((p) => {

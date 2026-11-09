@@ -69,16 +69,16 @@ export const welcome = {
   image: bad,
   imageAlt:
     'Exklusive Bad-Ausstellung mit mineralischer Wandspachteltechnik, Ornament-Prägung und Altholz-Waschtischen in Ludwigsburg.',
-  heading: 'Willkommen bei Meisterwerke — <br /> Exklusive Oberflächen',
+  heading: 'Willkommen bei Meisterwerke <br /> Exklusive Oberflächen',
   paragraphs: [
-    'Tauchen Sie ein in die Welt hochwertiger Oberflächen und moderner Badgestaltung: Bei Meisterwerk steht Ihr persönlicher Wohlfühlraum im Mittelpunkt. Wir sind spezialisiert auf exklusive, fugenlose Bäder und innovative Spachteltechniken, die Ihrem Bad einen unverwechselbaren Look verleihen. Unsere individuellen Lösungen werden mit größter Sorgfalt und handwerklichem Können umgesetzt – ganz nach Ihren Vorstellungen.',
-    'Ob Sie Wert auf Nachhaltigkeit, zeitlose Eleganz oder eine moderne Ästhetik legen: Mit unseren maßgeschneiderten Oberflächen verwandeln wir Ihr Bad in ein echtes Highlight. Entdecken Sie unsere Vielfalt an Gestaltungsmöglichkeiten und lassen Sie sich inspirieren, wie aus Ihren Ideen ein echtes Meisterwerk entsteht. Wir begleiten Sie von der ersten Beratung bis zur professionellen Umsetzung – für ein Ergebnis, das überzeugt.',
+    'Tauchen Sie ein in die Welt hochwertiger Oberflächen und moderner Badgestaltung: Bei Meisterwerk steht Ihr persönlicher Wohlfühlraum im Mittelpunkt. Wir sind spezialisiert auf exklusive, fugenlose Bäder und innovative Spachteltechniken, die Ihrem Bad einen unverwechselbaren Look verleihen. Unsere individuellen Lösungen werden mit größter Sorgfalt und handwerklichem Können umgesetzt, ganz nach Ihren Vorstellungen.',
+    'Ob Sie Wert auf Nachhaltigkeit, zeitlose Eleganz oder eine moderne Ästhetik legen: Mit unseren maßgeschneiderten Oberflächen verwandeln wir Ihr Bad in ein echtes Highlight. Entdecken Sie unsere Vielfalt an Gestaltungsmöglichkeiten und lassen Sie sich inspirieren, wie aus Ihren Ideen ein echtes Meisterwerk entsteht. Wir begleiten Sie von der ersten Beratung bis zur professionellen Umsetzung, für ein Ergebnis, das überzeugt.',
   ],
   cta: { label: 'Preis berechnen', href: KONTAKT },
 };
 
 export const intro = {
-  heading: 'Meisterwerke — <br /> Individuelle Oberflächen &amp; Spachteltechniken',
+  heading: 'Meisterwerke <br /> Individuelle Oberflächen &amp; Spachteltechniken',
   images: [
     {
       src: badUnten,
@@ -94,7 +94,7 @@ export const intro = {
 export const leistungen = {
   eyebrow: 'Unsere Leistungen',
   heading:
-    'Planen, gestalten, verwirklichen — <br /> Bäder und Oberflächen, die zu Ihrem Lebensstil passen',
+    'Planen, gestalten, verwirklichen <br /> Bäder und Oberflächen, die zu Ihrem Lebensstil passen',
   cards: [
     {
       href: '/meisterwerk-exklusive/fugenlose-baeder/',
@@ -132,22 +132,22 @@ export const philosophie = {
 
 export const prinzipien = [
   {
-    title: 'Individuelle Gestaltung als Grundprinzip – Räume, die Persönlichkeit widerspiegeln',
-    text: 'Bei Meisterwerk verstehen wir uns als Gestalter von Lebensräumen, die mehr bieten als nur Funktionalität – sie sollen inspirieren, entspannen und begeistern. Unsere Philosophie basiert auf dem Anspruch, für jeden Kunden maßgeschneiderte Lösungen zu entwickeln, die genau zu seinem persönlichen Stil und seinen Bedürfnissen passen. Wir sind überzeugt, dass ein Bad oder ein Wohnraum nicht nur schön, sondern auch ein Spiegel der Persönlichkeit sein sollte.',
+    title: 'Individuelle Gestaltung als Grundprinzip: Räume, die Persönlichkeit widerspiegeln',
+    text: 'Bei Meisterwerk verstehen wir uns als Gestalter von Lebensräumen, die mehr bieten als nur Funktionalität, sie sollen inspirieren, entspannen und begeistern. Unsere Philosophie basiert auf dem Anspruch, für jeden Kunden maßgeschneiderte Lösungen zu entwickeln, die genau zu seinem persönlichen Stil und seinen Bedürfnissen passen. Wir sind überzeugt, dass ein Bad oder ein Wohnraum nicht nur schön, sondern auch ein Spiegel der Persönlichkeit sein sollte.',
   },
   {
-    title: 'Von der Idee bis zur Umsetzung – Handwerk mit Leidenschaft',
+    title: 'Von der Idee bis zur Umsetzung: Handwerk mit Leidenschaft',
     text: 'Jedes Projekt beginnt für uns mit einem intensiven Austausch: Wir hören genau zu, welche Wünsche und Vorstellungen unsere Kunden haben, und entwickeln gemeinsam Ideen, die über Standardlösungen hinausgehen. Unsere langjährige Erfahrung und unser handwerkliches Können ermöglichen es uns, auch ungewöhnliche oder besonders anspruchsvolle Vorhaben zu realisieren. Dabei legen wir größten Wert auf höchste Qualität, nachhaltige Materialien und eine sorgfältige Ausführung.',
   },
   {
     title: 'Partnerschaftliche Begleitung für nachhaltige Ergebnisse',
-    text: 'Wir verstehen unsere Arbeit als Partnerschaft – vom ersten Gespräch bis zur Fertigstellung begleiten wir unsere Kunden eng und transparent. Unser Ziel ist es, Räume zu schaffen, in denen sich Menschen rundum wohlfühlen und die sie mit Stolz zeigen. Für uns ist jedes Bad, jede Oberfläche ein Meisterwerk, das wir mit Leidenschaft und Präzision gestalten. So entstehen Wohlfühlräume, die überzeugen und lange Freude bereiten.',
+    text: 'Wir verstehen unsere Arbeit als Partnerschaft, vom ersten Gespräch bis zur Fertigstellung begleiten wir unsere Kunden eng und transparent. Unser Ziel ist es, Räume zu schaffen, in denen sich Menschen rundum wohlfühlen und die sie mit Stolz zeigen. Für uns ist jedes Bad, jede Oberfläche ein Meisterwerk, das wir mit Leidenschaft und Präzision gestalten. So entstehen Wohlfühlräume, die überzeugen und lange Freude bereiten.',
   },
 ];
 
 export const banner = {
   image: concrete,
-  lead: 'Lassen Sie uns etwas Einzigartiges schaffen — gemeinsam.',
+  lead: 'Lassen Sie uns etwas Einzigartiges schaffen, gemeinsam.',
   button: { label: 'Preis berechnen', href: KONTAKT },
   heading: 'Jede Oberfläche ist einzigartig. <br /> Genauso wie unser Ansatz.',
 };
@@ -181,7 +181,7 @@ export const vorgehen = {
   heading:
     'Unser Vorgehen: Klarheit, Individualität und Partnerschaft für außergewöhnliche Oberflächen',
   intro:
-    'Damit aus Ihren Ideen ein echtes Meisterwerk wird, begleiten wir Sie Schritt für Schritt – klar, individuell und im engen Austausch mit Ihnen.',
+    'Damit aus Ihren Ideen ein echtes Meisterwerk wird, begleiten wir Sie Schritt für Schritt, klar, individuell und im engen Austausch mit Ihnen.',
   image: sketch,
   alt: '',
   faqs: [
@@ -191,7 +191,7 @@ export const vorgehen = {
     },
     {
       q: 'Individueller Rhythmus',
-      a: 'Jedes Projekt hat seinen eigenen Charakter – daher passen wir unser Vorgehen flexibel an Ihre Wünsche und zeitlichen Vorgaben an. Wir nehmen uns die Zeit, Ihre Vorstellungen genau zu verstehen und setzen diese mit viel Sorgfalt und Liebe zum Detail um. Dabei achten wir stets darauf, dass Qualität und Nachhaltigkeit im Mittelpunkt stehen.',
+      a: 'Jedes Projekt hat seinen eigenen Charakter, daher passen wir unser Vorgehen flexibel an Ihre Wünsche und zeitlichen Vorgaben an. Wir nehmen uns die Zeit, Ihre Vorstellungen genau zu verstehen und setzen diese mit viel Sorgfalt und Liebe zum Detail um. Dabei achten wir stets darauf, dass Qualität und Nachhaltigkeit im Mittelpunkt stehen.',
     },
     {
       q: 'Gemeinsamer Arbeitsfluss',

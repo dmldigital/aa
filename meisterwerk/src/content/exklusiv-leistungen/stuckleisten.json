@@ -11,7 +11,7 @@
       },
       {
         "t": "html",
-        "html": "<h2>Das Besondere an Stuckleisten</h2><div><div><div><div><div id=\"markdown-content-7\" dir=\"auto\"><div><div><div><p>Stuckleisten sind weit mehr als nur dekorative Zierleisten. Sie setzen architektonische Akzente, kaschieren Vorhangschienen, verbessern die Raumakustik und bieten raffinierte Lösungen für indirekte oder direkte Beleuchtung. Durch die große Auswahl an Designs und Materialien lassen sich Stuckleisten perfekt an jeden Einrichtungsstil anpassen – von klassisch bis modern.</p></div></div></div></div></div></div></div></div>"
+        "html": "<h2>Das Besondere an Stuckleisten</h2><div><div><div><div><div id=\"markdown-content-7\" dir=\"auto\"><div><div><div><p>Stuckleisten sind weit mehr als nur dekorative Zierleisten. Sie setzen architektonische Akzente, kaschieren Vorhangschienen, verbessern die Raumakustik und bieten raffinierte Lösungen für indirekte oder direkte Beleuchtung. Durch die große Auswahl an Designs und Materialien lassen sich Stuckleisten perfekt an jeden Einrichtungsstil anpassen, von klassisch bis modern.</p></div></div></div></div></div></div></div></div>"
       },
       {
         "t": "spacer",
@@ -68,7 +68,7 @@
       },
       {
         "t": "button",
-        "label": "Lassen Sie sich inspirieren – und Ihren Preis berechnen",
+        "label": "Lassen Sie sich inspirieren und Ihren Preis berechnen",
         "href": "/kontakt/"
       }
     ]
@@ -85,7 +85,7 @@
     },
     {
       "title": "Hochwertige Materialien & Ausstattung",
-      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller – langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
+      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller, langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
       "bullets": [
         "Exklusive Auswahl an Oberflächen, Farben und Strukturen",
         "Investition in Qualität und Wertbeständigkeit",
@@ -94,7 +94,7 @@
     },
     {
       "title": "Investment Value",
-      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design – für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
+      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design, für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
       "bullets": [
         "Zeitloses Design und dauerhafte Wertschöpfung",
         "Fokus auf nachhaltige, pflegeleichte Lösungen",
@@ -105,8 +105,8 @@
   "feature": {
     "accordion": [
       {
-        "title": "Unser Service – Ihr Vorteil",
-        "html": "<p> Unser erfahrenes Team berät Sie umfassend zu aktuellen Trends und technischen Möglichkeiten. Wir arbeiten eng mit Ihnen zusammen, um Ihre Wünsche und Vorstellungen optimal umzusetzen – von der Auswahl des passenden Designs bis zur fachgerechten Montage. So entsteht ein Ergebnis, das nicht nur optisch überzeugt, sondern auch funktional und langlebig ist. </p>",
+        "title": "Unser Service: Ihr Vorteil",
+        "html": "<p> Unser erfahrenes Team berät Sie umfassend zu aktuellen Trends und technischen Möglichkeiten. Wir arbeiten eng mit Ihnen zusammen, um Ihre Wünsche und Vorstellungen optimal umzusetzen, von der Auswahl des passenden Designs bis zur fachgerechten Montage. So entsteht ein Ergebnis, das nicht nur optisch überzeugt, sondern auch funktional und langlebig ist. </p>",
         "open": true
       },
       {
@@ -116,7 +116,7 @@
       },
       {
         "title": "Lassen Sie sich inspirieren!",
-        "html": "<p> Entdecken Sie die vielfältigen Möglichkeiten moderner Stuckleisten für Ihr Zuhause oder Ihr Objekt. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch – wir freuen uns darauf, gemeinsam mit Ihnen Ihr Meisterwerk zu realisieren! </p>",
+        "html": "<p> Entdecken Sie die vielfältigen Möglichkeiten moderner Stuckleisten für Ihr Zuhause oder Ihr Objekt. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch, wir freuen uns darauf, gemeinsam mit Ihnen Ihr Meisterwerk zu realisieren! </p>",
         "open": false
       }
     ],

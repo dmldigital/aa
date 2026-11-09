@@ -29,7 +29,7 @@ export const faqs: Faq[] = [
       {
         type: 'p',
         parts: [
-          'Eine pauschale Antwort ist nicht möglich – der Preis hängt immer vom jeweiligen Objekt ab. Wir berücksichtigen unter anderem: Lage, Parkmöglichkeiten, Zugang, Transportwege für Material und Werkzeug, Beschaffenheit des Untergrunds, Anzahl der erforderlichen Anstriche, ob der Raum leer oder möbliert ist, welche Farben verwendet werden dürfen oder müssen und ob Allergien zu beachten sind. Daher erstellen wir für jede Anfrage ein individuelles und faires Angebot.',
+          'Eine pauschale Antwort ist nicht möglich, der Preis hängt immer vom jeweiligen Objekt ab. Wir berücksichtigen unter anderem: Lage, Parkmöglichkeiten, Zugang, Transportwege für Material und Werkzeug, Beschaffenheit des Untergrunds, Anzahl der erforderlichen Anstriche, ob der Raum leer oder möbliert ist, welche Farben verwendet werden dürfen oder müssen und ob Allergien zu beachten sind. Daher erstellen wir für jede Anfrage ein individuelles und faires Angebot.',
         ],
       },
     ],
@@ -40,7 +40,7 @@ export const faqs: Faq[] = [
       {
         type: 'p',
         parts: [
-          'Wir sind nicht teurer, sondern bieten ein faires Preis-Leistungs-Verhältnis. Als Meisterbetrieb kalkulieren wir transparent: Zeit, Materialkosten, Betriebsmittel und den Einsatz von Fachpersonal mit abgeschlossener Ausbildung. Unser Ziel ist stets ein optimales Ergebnis – deshalb arbeiten wir ausschließlich mit hochwertigen Produkten, z. B. von Brillux und Sto.',
+          'Wir sind nicht teurer, sondern bieten ein faires Preis-Leistungs-Verhältnis. Als Meisterbetrieb kalkulieren wir transparent: Zeit, Materialkosten, Betriebsmittel und den Einsatz von Fachpersonal mit abgeschlossener Ausbildung. Unser Ziel ist stets ein optimales Ergebnis, deshalb arbeiten wir ausschließlich mit hochwertigen Produkten, z. B. von Brillux und Sto.',
         ],
       },
     ],
@@ -66,7 +66,7 @@ export const faqs: Faq[] = [
           { text: 'Brillux', href: 'https://www.brillux.de/' },
           ' und ',
           { text: 'Sto', href: 'https://www.sto.de/s/' },
-          ' – zwei deutsche Premium-Hersteller aus der Region. Mit dieser Auswahl können wir für jedes Objekt und jede Anforderung das passende Produkt anbieten, inklusive Service und Produktgarantie.',
+          ', zwei deutsche Premium-Hersteller aus der Region. Mit dieser Auswahl können wir für jedes Objekt und jede Anforderung das passende Produkt anbieten, inklusive Service und Produktgarantie.',
         ],
       },
     ],

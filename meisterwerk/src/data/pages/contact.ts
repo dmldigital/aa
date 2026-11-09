@@ -32,7 +32,7 @@ export const contactPages: Record<'kontakt' | 'schnellkontakt' | 'exklusive', Co
         'Über dieses Formular können Sie uns alle relevanten Informationen zu Ihrem Vorhaben übermitteln. Je genauer Ihre Angaben, desto präziser können wir Ihr Projekt einschätzen und vorbereiten. Wir sind Ihr Malerbetrieb in Freiberg am Neckar und arbeiten in Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart.',
       ],
       [
-        'Ob private Wohnräume, Gewerbeflächen oder exklusive Oberflächenlösungen – wir begleiten Ihr Projekt von der ersten Idee bis zur fertigen Umsetzung.',
+        'Ob private Wohnräume, Gewerbeflächen oder exklusive Oberflächenlösungen, wir begleiten Ihr Projekt von der ersten Idee bis zur fertigen Umsetzung.',
       ],
       [
         'Nach Eingang Ihrer Anfrage prüfen wir die Angaben persönlich und melden uns zeitnah bei Ihnen zur weiteren Abstimmung.',
@@ -42,7 +42,7 @@ export const contactPages: Record<'kontakt' | 'schnellkontakt' | 'exklusive', Co
     form: 'project',
     formIntro: {
       heading: 'Jetzt Projekt starten',
-      text: 'Sie haben eine klare Vorstellung oder nur eine grobe Idee? Kein Problem – wir begleiten Sie vom ersten Entwurf bis zum fertigen Meisterwerk. Nutzen Sie das Formular, um uns Ihr Projekt zu schildern. Ob exklusive Möbel, Innenausbau oder individuelle Sonderanfertigung: Wir melden uns zeitnah bei Ihnen zurück – persönlich, transparent und professionell.',
+      text: 'Sie haben eine klare Vorstellung oder nur eine grobe Idee? Kein Problem, wir begleiten Sie vom ersten Entwurf bis zum fertigen Meisterwerk. Nutzen Sie das Formular, um uns Ihr Projekt zu schildern. Ob exklusive Möbel, Innenausbau oder individuelle Sonderanfertigung: Wir melden uns zeitnah bei Ihnen zurück, persönlich, transparent und professionell.',
     },
   },
   schnellkontakt: {
@@ -79,7 +79,7 @@ export const contactPages: Record<'kontakt' | 'schnellkontakt' | 'exklusive', Co
     form: 'exklusive',
     formIntro: {
       heading: 'Jetzt Projekt starten',
-      text: 'Sie haben eine klare Vorstellung oder nur eine grobe Idee? Kein Problem – wir begleiten Sie vom ersten Entwurf bis zum fertigen Meisterwerk. Nutzen Sie das Formular, um uns Ihr Projekt zu schildern. Ob exklusive Möbel, Innenausbau oder individuelle Sonderanfertigung: Wir melden uns zeitnah bei Ihnen zurück – persönlich, transparent und professionell.',
+      text: 'Sie haben eine klare Vorstellung oder nur eine grobe Idee? Kein Problem, wir begleiten Sie vom ersten Entwurf bis zum fertigen Meisterwerk. Nutzen Sie das Formular, um uns Ihr Projekt zu schildern. Ob exklusive Möbel, Innenausbau oder individuelle Sonderanfertigung: Wir melden uns zeitnah bei Ihnen zurück, persönlich, transparent und professionell.',
     },
   },
 };

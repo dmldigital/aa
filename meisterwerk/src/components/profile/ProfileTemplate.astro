@@ -30,8 +30,9 @@ const parse = (html: string) => {
 };
 const strip = (html: string) => html.replace(/<[^>]+>/g, '');
 const splitDash = (text: string): [string, string] => {
-  const i = text.indexOf(' – ');
-  return i < 0 ? [text, ''] : [text.slice(0, i), text.slice(i + 3)];
+  // Zitat und Übersetzung: „Zitat“: <em>„Übersetzung“</em>
+  const i = text.indexOf(': <em>');
+  return i < 0 ? [text, ''] : [text.slice(0, i), text.slice(i + 2)];
 };
 
 const intro = parse(profile.intro);
@@ -40,7 +41,7 @@ const position = intro.facts.find((f) => /^Position$/i.test(f.label));
 const born = intro.facts.find((f) => /^Baujahr$/i.test(f.label));
 const rows = intro.facts.filter((f) => f !== position && f !== born);
 const [year, bornRest] = born ? (() => {
-  const m = born.value.match(/^(\d{4})\s*(?:–\s*)?([\s\S]*)$/);
+  const m = born.value.match(/^(\d{4})\s*(?:[–.,:]\s*)?([\s\S]*)$/);
   return m ? [m[1], m[2].charAt(0).toUpperCase() + m[2].slice(1)] : [born.value, ''];
 })() : ['', ''];
 

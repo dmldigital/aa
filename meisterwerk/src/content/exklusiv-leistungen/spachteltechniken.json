@@ -11,7 +11,7 @@
       },
       {
         "t": "html",
-        "html": "<h2>Das Besondere an Spachteltechniken</h2><div><div><div><div><div id=\"markdown-content-7\" dir=\"auto\"><div><div><div><p>Spachteltechniken verleihen Wänden und Decken eine einzigartige, individuelle Optik, die mit klassischen Anstrichmethoden nicht erreichbar ist. Durch die spezielle Verarbeitung entstehen faszinierende Strukturen, Licht- und Schattenspiele sowie besondere Oberflächen, die jedem Raum Charakter und Exklusivität verleihen. Jede Fläche wird zum Unikat – von elegant-glatt bis lebendig-strukturiert. Zudem sind Spachteltechniken langlebig, pflegeleicht und bieten vielfältige Gestaltungsmöglichkeiten, die sich flexibel an persönliche Stilwünsche anpassen lassen.</p></div></div></div></div></div></div><div><div><div><div>&nbsp;</div></div><div>&nbsp;</div></div><div><div>&nbsp;</div><div>&nbsp;</div></div></div></div></div><div><div><div><div><div><div><div><div><div>&nbsp;</div></div></div></div></div></div></div></div></div>"
+        "html": "<h2>Das Besondere an Spachteltechniken</h2><div><div><div><div><div id=\"markdown-content-7\" dir=\"auto\"><div><div><div><p>Spachteltechniken verleihen Wänden und Decken eine einzigartige, individuelle Optik, die mit klassischen Anstrichmethoden nicht erreichbar ist. Durch die spezielle Verarbeitung entstehen faszinierende Strukturen, Licht- und Schattenspiele sowie besondere Oberflächen, die jedem Raum Charakter und Exklusivität verleihen. Jede Fläche wird zum Unikat, von elegant-glatt bis lebendig-strukturiert. Zudem sind Spachteltechniken langlebig, pflegeleicht und bieten vielfältige Gestaltungsmöglichkeiten, die sich flexibel an persönliche Stilwünsche anpassen lassen.</p></div></div></div></div></div></div><div><div><div><div>&nbsp;</div></div><div>&nbsp;</div></div><div><div>&nbsp;</div><div>&nbsp;</div></div></div></div></div><div><div><div><div><div><div><div><div><div>&nbsp;</div></div></div></div></div></div></div></div></div>"
       },
       {
         "t": "spacer",
@@ -62,7 +62,7 @@
       },
       {
         "t": "button",
-        "label": "Lassen Sie sich inspirieren – und Ihren Preis berechnen",
+        "label": "Lassen Sie sich inspirieren und Ihren Preis berechnen",
         "href": "/kontakt/"
       }
     ]
@@ -79,7 +79,7 @@
     },
     {
       "title": "Hochwertige Materialien & Ausstattung",
-      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller – langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
+      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller, langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
       "bullets": [
         "Exklusive Auswahl an Oberflächen, Farben und Strukturen",
         "Investition in Qualität und Wertbeständigkeit",
@@ -88,7 +88,7 @@
     },
     {
       "title": "Investment Value",
-      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design – für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
+      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design, für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
       "bullets": [
         "Zeitloses Design und dauerhafte Wertschöpfung",
         "Fokus auf nachhaltige, pflegeleichte Lösungen",
@@ -105,7 +105,7 @@
       },
       {
         "title": "Lassen Sie sich inspirieren!",
-        "html": "<p> Entdecken Sie die Möglichkeiten exklusiver Spachteltechniken für Ihr Zuhause oder Ihr Unternehmen. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch – wir freuen uns darauf, gemeinsam mit Ihnen einzigartige Räume zu gestalten! </p>",
+        "html": "<p> Entdecken Sie die Möglichkeiten exklusiver Spachteltechniken für Ihr Zuhause oder Ihr Unternehmen. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch, wir freuen uns darauf, gemeinsam mit Ihnen einzigartige Räume zu gestalten! </p>",
         "open": false
       }
     ],

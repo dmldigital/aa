@@ -8,12 +8,12 @@ import Surface from '../../components/sections/Surface.astro';
 import { href, routes } from '../../data/links';
 import { meta, intro, columns } from '../../data/pages/urlaubsservice';
 
-// Zweite Spalte der Daten („Warum unser Urlaubsservice?“) wird zu Vorteile-Karten: `Titel – Text`
+// Zweite Spalte der Daten („Warum unser Urlaubsservice?“) wird zu Vorteile-Karten: `Titel: Text`
 const [flow, why] = columns;
 const capital = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 const benefits = `<ul>${why.items
   .map((i) => {
-    const m = i.match(/^<strong>([\s\S]*?)<\/strong>\s*[–-]\s*([\s\S]*)$/);
+    const m = i.match(/^<strong>([\s\S]*?)<\/strong>\s*[:–-]\s*([\s\S]*)$/);
     return m ? `<li><p><strong>${m[1].trim()}</strong>: ${capital(m[2].trim())}</p></li>` : '';
   })
   .join('')}</ul>`;

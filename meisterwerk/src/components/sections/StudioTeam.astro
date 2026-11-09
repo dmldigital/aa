@@ -45,8 +45,8 @@ const [lead, meansLabel, meansList, statement, teamBlock, closing] = haltung.htm
 ];
 const strip = (html: string) => html.replace(/<[^>]+>/g, '');
 const splitDash = (text: string): [string, string] => {
-  const i = text.indexOf(' – ');
-  return i < 0 ? [text, ''] : [text.slice(0, i), text.slice(i + 3)];
+  const i = text.indexOf(': ');
+  return i < 0 ? [text, ''] : [text.slice(0, i), text.slice(i + 2)];
 };
 const points = meansList.list.map(splitDash);
 const initials = (name: string) =>

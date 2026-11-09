@@ -17,12 +17,12 @@ export const pillars = [
     html: '<p>Qualität ist für uns nicht nur ein Anspruch, sondern eine Verpflichtung. Durch kontinuierliche Weiterbildung und den Einsatz innovativer Techniken stellen wir sicher, dass unser Wissen stets auf dem neuesten Stand ist. So können wir Ihnen immer die besten Lösungen für Ihre Wünsche bieten.</p><h3 aria-hidden="true">&nbsp;</h3>',
   },
   {
-    title: 'Unser Team –<br> Ihre Experten',
+    title: 'Unser Team:<br> Ihre Experten',
     html: '<p>Unser Team besteht aus erfahrenen Fachkräften, die ihr Handwerk verstehen und mit Leidenschaft ausüben. Unter der Leitung von <strong>Meister Baldassarre Fortino</strong> arbeiten wir Hand in Hand, um Ihre Vorstellungen Wirklichkeit werden zu lassen.</p>',
   },
   {
     title: 'Vertrauen Sie auf unsere Expertise',
-    html: '<p>Ob es um die Gestaltung glatter Wände, die Umsetzung fugenloser Bäder oder kreative Lackierarbeiten geht – wir bieten Ihnen maßgeschneiderte Lösungen, die sowohl funktional als auch ästhetisch überzeugen. Lassen Sie uns gemeinsam Ihre Raumträume verwirklichen.</p>',
+    html: '<p>Ob es um die Gestaltung glatter Wände, die Umsetzung fugenloser Bäder oder kreative Lackierarbeiten geht, wir bieten Ihnen maßgeschneiderte Lösungen, die sowohl funktional als auch ästhetisch überzeugen. Lassen Sie uns gemeinsam Ihre Raumträume verwirklichen.</p>',
   },
 ];
 

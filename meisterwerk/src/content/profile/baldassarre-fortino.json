@@ -5,8 +5,8 @@
   "name": "Baldassarre Fortino",
   "tagline": "Meister der Farben",
   "photo": "../../assets/img/baldassare_fortino.jpg",
-  "intro": "<p><strong>Position:</strong> Betriebsinhaber &amp; Maler- und Lackierermeister</p><p><strong>Baujahr:</strong> 1988 – mit der Zeit gereift wie guter Wein, bringt er heute mehr als 24 Jahre Erfahrung im Handwerk mit.</p><p><strong>Beruflicher Hintergrund:</strong> Hat sein Handwerk von der Pike auf gelernt – heute leitet er als Inhaber das Unternehmen mit Weitsicht und Wertebewusstsein.</p><p><strong>Erfahrung:</strong> Seit über 11 Jahren führt er den Betrieb Meisterwerk mit höchstem Anspruch an Qualität und Verlässlichkeit.</p><p><strong>Special Skills:</strong> „In der Imperfektion liegt die Schönheit.“ – Als Familienvater und Führungskraft weiß er, worauf es im Leben ankommt.</p><p>Sein klares Ziel: Räume schaffen, die nicht nur gut aussehen, sondern wirken.<br>Zwischen Bauplan und Farbrolle fühlt er sich zuhause – solange niemand das Wort „Standard“ in den Mund nimmt.</p>",
-  "motto": "<p><strong>Lebensmotto:</strong> „In der Imperfektion liegt die Schönheit.“</p><p>Als Familienvater, Fußballfan, Musikliebhaber und ästhetischer Freigeist bringt er auch menschlich Tiefe in jedes Projekt ein.</p><p><strong>Fun Fact:</strong> Er hat mehr Baustellen vollendet, als Netflix Serien im Programm hat – und das will etwas heißen.</p>",
+  "intro": "<p><strong>Position:</strong> Betriebsinhaber &amp; Maler- und Lackierermeister</p><p><strong>Baujahr:</strong> 1988. Mit der Zeit gereift wie guter Wein, bringt er heute mehr als 24 Jahre Erfahrung im Handwerk mit.</p><p><strong>Beruflicher Hintergrund:</strong> Hat sein Handwerk von der Pike auf gelernt, heute leitet er als Inhaber das Unternehmen mit Weitsicht und Wertebewusstsein.</p><p><strong>Erfahrung:</strong> Seit über 11 Jahren führt er den Betrieb Meisterwerk mit höchstem Anspruch an Qualität und Verlässlichkeit.</p><p><strong>Special Skills:</strong> „In der Imperfektion liegt die Schönheit.“ Als Familienvater und Führungskraft weiß er, worauf es im Leben ankommt.</p><p>Sein klares Ziel: Räume schaffen, die nicht nur gut aussehen, sondern wirken.<br>Zwischen Bauplan und Farbrolle fühlt er sich zuhause, solange niemand das Wort „Standard“ in den Mund nimmt.</p>",
+  "motto": "<p><strong>Lebensmotto:</strong> „In der Imperfektion liegt die Schönheit.“</p><p>Als Familienvater, Fußballfan, Musikliebhaber und ästhetischer Freigeist bringt er auch menschlich Tiefe in jedes Projekt ein.</p><p><strong>Fun Fact:</strong> Er hat mehr Baustellen vollendet, als Netflix Serien im Programm hat, und das will etwas heißen.</p>",
   "timeline": {
     "heading": "Stationen von<br>Baldassarre Fortino",
     "items": [
@@ -20,7 +20,7 @@
       },
       {
         "date": "2009 – 2012",
-        "text": "Maler- und Stuckateurgeselle bei Loths und Bauer – erste Erfahrungen mit Stuckarbeiten."
+        "text": "Maler- und Stuckateurgeselle bei Loths und Bauer, erste Erfahrungen mit Stuckarbeiten."
       },
       {
         "date": "2012 – 2013",
@@ -32,14 +32,14 @@
       },
       {
         "date": "JANUAR 2014",
-        "text": "Meisterprüfung mit Belobigung bestanden. Gründung von Meisterwerk – Start in die Selbständigkeit."
+        "text": "Meisterprüfung mit Belobigung bestanden. Gründung von Meisterwerk. Start in die Selbständigkeit."
       }
     ]
   },
   "exklusiv": {
     "photo": "../../assets/img/Maler-u.-Lackierer-Meister-Baldassarre-Fortino-scaled.jpg",
     "werdegangList": {
-      "heading": "Der Weg zum Meister – Stationen von Baldassarre Fortino",
+      "heading": "Der Weg zum Meister: Stationen von Baldassarre Fortino",
       "items": [
         {
           "date": "2003 – 2006",
@@ -51,11 +51,11 @@
         },
         {
           "date": "2009 – 2012",
-          "text": "Tätigkeit als Maler- und Stuckateurgeselle bei Loths und Bauer in Ludwigsburg – erste Erfahrungen mit Stuckarbeiten und erweiterten Techniken."
+          "text": "Tätigkeit als Maler- und Stuckateurgeselle bei Loths und Bauer in Ludwigsburg, erste Erfahrungen mit Stuckarbeiten und erweiterten Techniken."
         },
         {
           "date": "2012",
-          "text": "Teilnahme an der Vorarbeiterschulung an der Schule für Farbe und Gestaltung in Stuttgart – gezielte Weiterentwicklung in Teamführung und Baustellenkoordination."
+          "text": "Teilnahme an der Vorarbeiterschulung an der Schule für Farbe und Gestaltung in Stuttgart, gezielte Weiterentwicklung in Teamführung und Baustellenkoordination."
         },
         {
           "date": "2012 – 2013",
@@ -67,7 +67,7 @@
         },
         {
           "date": "Januar 2014",
-          "text": "Erfolgreicher Abschluss der Meisterprüfung mit Belobigung. Offizieller Titel: Maler- und Lackierermeister – Start in eine neue Phase handwerklicher Selbstverwirklichung durch die Gründung von Meisterwerk."
+          "text": "Erfolgreicher Abschluss der Meisterprüfung mit Belobigung. Offizieller Titel: Maler- und Lackierermeister. Start in eine neue Phase handwerklicher Selbstverwirklichung durch die Gründung von Meisterwerk."
         }
       ]
     }

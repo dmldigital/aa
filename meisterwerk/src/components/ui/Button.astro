@@ -7,6 +7,9 @@
  * Rand und weißer Schrift) auf Fotos. Auch Sticker, Footer, Menü und frühere Pfeil-Links („Projekt starten“, „Unser Portfolio“, …)
  * sind dieser Button. Labels ohne Pfeil-Zeichen, die Großschreibung übernimmt der Button. Weitere Attribute (z. B. `data-…`) und
  * `class` gehen an das Element (Position, Animation); eigene `transition-…`-Klassen ersetzen die Farbüberblendung des Buttons.
+ *
+ * Lange Beschriftungen (ein ganzer Satz, ab sechs Wörtern) und `href` ergeben keinen Button, sondern einen Textlink: goldene Schrift in
+ * normaler Schreibweise mit kleinem Pfeil, beim Überfahren dunkel (auf Fotos: weiß). So wirken ganze Sätze nicht wie eine Schaltfläche.
  */
 interface Props extends astroHTML.JSX.HTMLAttributes {
   /** Ohne `href` entsteht ein `<button>` (z. B. Senden-Button im Formular). */
@@ -29,12 +32,26 @@ const variants = {
 const base =
   'group/ul inline-flex cursor-pointer items-center justify-center rounded-full border px-7 text-center font-display text-button font-semibold tracking-button uppercase max-[700px]:min-h-11 min-[701px]:min-h-12 py-2 md:px-8.5 lg:px-10';
 const own = String(className ?? '').includes('transition-');
+// Beschriftung als Text lesen: Bei einem ganzen Satz wird aus dem Button ein Link
+const content = await Astro.slots.render('default');
+const words = content.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+const asLink = Boolean(href) && words >= 6;
+const linkBase =
+  'group/lk inline-flex max-w-[36rem] items-start gap-2.5 text-left font-display text-body font-medium transition-colors duration-300';
+const linkTone = variant === 'light' ? 'text-white hover:text-white/70' : 'text-gold hover:text-ink';
 ---
 
-<Tag
-  {...rest}
-  {...(href ? { href } : { type })}
-  class:list={[base, !own && 'transition-colors duration-300', variants[variant], className]}
->
-  <slot />
-</Tag>
+{asLink ? (
+  <a {...rest} href={href} class:list={[linkBase, linkTone, className]}>
+    <span set:html={content} />
+    <svg class="mt-[0.45em] size-4 shrink-0 transition-transform duration-300 group-hover/lk:translate-x-1" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true" focusable="false"><path d="M2 8h11" /><path d="m9 4 4 4-4 4" /></svg>
+  </a>
+) : (
+  <Tag
+    {...rest}
+    {...(href ? { href } : { type })}
+    class:list={[base, !own && 'transition-colors duration-300', variants[variant], className]}
+  >
+    <Fragment set:html={content} />
+  </Tag>
+)}

@@ -12,29 +12,29 @@ export const accordions: Accordion[] = [
   {
     title: 'Unsere Firmenskills',
     intro:
-      'Hinter Meisterwerk steht ein starkes Team – bestens ausgebildet, modern ausgestattet und motiviert.',
+      'Hinter Meisterwerk steht ein starkes Team, bestens ausgebildet, modern ausgestattet und motiviert.',
     groups: [
       {
         heading: 'Räumlichkeiten &amp; Ausstattung',
         items: list([
-          '<strong>250 m² große Werkstatt</strong> – mit modernster Ausstattung für jede Art von Projekt',
-          '<strong>100 m² Showroom</strong> – mit echten Mustern, Farben und Oberflächen',
-          '<strong>Spezialräume</strong> – Maschinenraum, Lackierraum, Materiallager, Außenlager – alles geordnet und effizient',
+          '<strong>250 m² große Werkstatt</strong> mit modernster Ausstattung für jede Art von Projekt',
+          '<strong>100 m² Showroom</strong> mit echten Mustern, Farben und Oberflächen',
+          '<strong>Spezialräume</strong>: Maschinenraum, Lackierraum, Materiallager, Außenlager, alles geordnet und effizient',
         ]),
       },
       {
         heading: 'Organisation &amp; Struktur',
         items: list([
-          '<strong>Eigene Büros</strong> – für eine klare Organisation, Planung und professionelle Kundenberatung',
-          '<strong>Struktur &amp; Effizienz</strong> – garantieren einen reibungslosen Ablauf ohne Verzögerungen',
-          '<strong>Gerätewaschplatz mit Filteranlage</strong> – für sauberes und umweltfreundliches Arbeiten',
+          '<strong>Eigene Büros</strong> für eine klare Organisation, Planung und professionelle Kundenberatung',
+          '<strong>Struktur &amp; Effizienz</strong> garantieren einen reibungslosen Ablauf ohne Verzögerungen',
+          '<strong>Gerätewaschplatz mit Filteranlage</strong> für sauberes und umweltfreundliches Arbeiten',
         ]),
       },
       {
         heading: 'Fahrzeuge &amp; Maschinen',
         items: list([
-          '<strong>4 neue Firmenfahrzeuge</strong> – voll ausgestattet mit Regalen, Werkzeugen und Maschinen für Flexibilität',
-          '<strong>Über 60 moderne Maschinen &amp; Geräte</strong> – vom Airless-Spritzgerät bis zur PFT-Putzmaschine',
+          '<strong>4 neue Firmenfahrzeuge</strong> voll ausgestattet mit Regalen, Werkzeugen und Maschinen für Flexibilität',
+          '<strong>Über 60 moderne Maschinen &amp; Geräte</strong> vom Airless-Spritzgerät bis zur PFT-Putzmaschine',
         ]),
       },
     ],
@@ -44,15 +44,15 @@ export const accordions: Accordion[] = [
   {
     title: 'Unsere Mitarbeiter &amp; Team-Skills',
     intro:
-      'Wir sind mehr als ein gewöhnlicher Malerbetrieb – wir sind perfekt organisiert, top ausgestattet und professionell aufgestellt.',
+      'Wir sind mehr als ein gewöhnlicher Malerbetrieb, wir sind perfekt organisiert, top ausgestattet und professionell aufgestellt.',
     groups: [
       {
         heading: 'Unser Team im Überblick:',
         items: list([
-          '<strong>1 Meister</strong> – garantiert höchste Qualitätsstandards und Arbeiten nach dem aktuellen Stand der Technik',
-          '<strong>1 Projektleiter</strong> – begleitet die Baustellen, optimiert Abläufe und ist Ansprechpartner für Mitarbeiter &amp; Kunden',
-          '<strong>1 Vorarbeiter</strong> – verantwortlich für die Organisation und Qualität direkt auf der Baustelle',
-          '<strong>1 Geselle &amp; 2 Auszubildende</strong> – bringen Fachwissen, Leidenschaft und Motivation in jedes Projekt',
+          '<strong>1 Meister</strong> garantiert höchste Qualitätsstandards und Arbeiten nach dem aktuellen Stand der Technik',
+          '<strong>1 Projektleiter</strong> begleitet die Baustellen, optimiert Abläufe und ist Ansprechpartner für Mitarbeiter &amp; Kunden',
+          '<strong>1 Vorarbeiter</strong> verantwortlich für die Organisation und Qualität direkt auf der Baustelle',
+          '<strong>1 Geselle &amp; 2 Auszubildende</strong> bringen Fachwissen, Leidenschaft und Motivation in jedes Projekt',
         ]),
       },
       {
@@ -60,17 +60,17 @@ export const accordions: Accordion[] = [
         items: list([
           '<strong>Top-Arbeitskleidung</strong> von Schöffel Pro',
           '<strong>Kostenlose Getränke</strong> (Wasser, Kaffee, Cola, etc.)',
-          '<strong>Neue Maschinen &amp; Fahrzeuge</strong> – modernste Ausstattung für effizientes Arbeiten',
-          'Eigene <strong>Firmen-App</strong> – digitale Organisation über Handy &amp; Tablets für maximale Transparenz',
+          '<strong>Neue Maschinen &amp; Fahrzeuge</strong> modernste Ausstattung für effizientes Arbeiten',
+          'Eigene <strong>Firmen-App</strong> digitale Organisation über Handy &amp; Tablets für maximale Transparenz',
         ]),
       },
       {
         heading: 'Qualität durch Weiterbildung &amp; Teamgeist:',
         items: list([
           'Mindestens <strong>3 Schulungen pro Jahr</strong> für alle Mitarbeiter',
-          '<strong>2 Firmenausflüge jährlich</strong> – für Motivation &amp; Zusammenhalt',
-          '<strong>2 Grillfeste im Jahr</strong> mit Kollegen &amp; Partnerbetrieben – wir sind ein Team, das zusammenhält',
-          'Eigene <strong>Firmen-App</strong> – digitale Organisation über Handy &amp; Tablets für maximale Transparenz',
+          '<strong>2 Firmenausflüge jährlich</strong> für Motivation &amp; Zusammenhalt',
+          '<strong>2 Grillfeste im Jahr</strong> mit Kollegen &amp; Partnerbetrieben, wir sind ein Team, das zusammenhält',
+          'Eigene <strong>Firmen-App</strong> digitale Organisation über Handy &amp; Tablets für maximale Transparenz',
         ]),
       },
     ],
@@ -91,8 +91,8 @@ export const accordions: Accordion[] = [
       {
         heading: 'Ausstattung',
         items: compare(
-          'Mehr als 60 moderne Maschinen &amp; Geräte. Dank neuester Technik verkürzen wir die Baustellendauer um bis zu 70 % – das bedeutet: schnellere Fertigstellung, weniger Belastung für Sie und ein rascherer Rückkehr in den Alltag.',
-          'Oft veraltete oder wenige Geräte – dadurch längere Baustellenzeiten',
+          'Mehr als 60 moderne Maschinen &amp; Geräte. Dank neuester Technik verkürzen wir die Baustellendauer um bis zu 70 %, das bedeutet: schnellere Fertigstellung, weniger Belastung für Sie und ein rascherer Rückkehr in den Alltag.',
+          'Oft veraltete oder wenige Geräte, dadurch längere Baustellenzeiten',
         ),
       },
       {
@@ -129,6 +129,6 @@ export const accordions: Accordion[] = [
       },
     ],
     closing:
-      '<strong>Ihr Vorteil:</strong> Beste Ergebnisse in kürzester Zeit – zuverlässig, sauber und nachhaltig.',
+      '<strong>Ihr Vorteil:</strong> Beste Ergebnisse in kürzester Zeit, zuverlässig, sauber und nachhaltig.',
   },
 ];

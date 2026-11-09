@@ -24,7 +24,7 @@ const exklusive = variant === 'exklusive';
 const arbeiten = exklusive
   ? ['Fugenloses Bad', 'Fugenloser Boden', 'Spachteltechnik']
   : ['Spachteltechnik', 'Streichen', 'Lackieren', 'Tapezieren', 'Verputzen'];
-const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12 Monaten', '-'];
+const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12 Monaten', 'Noch offen'];
 ---
 
 <form method="post" data-form="kontakt" name="Kontaktformular" aria-label="Kontaktformular">
@@ -43,7 +43,7 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
               <span class="border-x-[5.5px] border-t-[6px] border-x-transparent border-t-black/70" />
             </span>
             <select class={selectField} id="kf-art" name="privat_gewerbe" required>
-              <option value="">--</option>
+              <option value="">Bitte wählen</option>
               <option>Privat</option>
               <option>Gewerbe</option>
             </select>
@@ -66,7 +66,7 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
               name={exklusive ? 'haus_wohnung' : 'art_der_arbeiten'}
               required
             >
-              <option value="">--</option>
+              <option value="">Bitte wählen</option>
               {(exklusive ? ['Wohnung', 'Haus'] : ['Außenarbeiten', 'Innenarbeiten']).map((o) => (
                 <option>{o}</option>
               ))}

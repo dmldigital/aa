@@ -30,7 +30,7 @@
         "t": "block",
         "no": "01",
         "title": "Vorteile fugenloser Bäder",
-        "html": "<ul><li><p><strong>Robust wie Fliesen:</strong>&nbsp;Fugenlose Oberflächen sind widerstandsfähig und langlebig.</p></li><li><p><strong>Wasserabweisend:</strong>&nbsp;Kein Eindringen von Feuchtigkeit, keine Schimmelbildung.</p></li><li><p><strong>Hygienisch und pflegeleicht:</strong>&nbsp;Die glatte Oberfläche lässt sich einfach reinigen, Schmutz und Bakterien haben keine Chance.</p></li><li><p><strong>Individuelle Gestaltung:</strong>&nbsp;Ob minimalistisch oder verspielt – die Optik kann flexibel an Ihre Wünsche angepasst werden.</p></li><li><p><strong>Alltagstauglich:</strong>&nbsp;Fugenlose Bäder sind strapazierfähig und behalten auch bei intensiver Nutzung ihre Schönheit.</p></li></ul>"
+        "html": "<ul><li><p><strong>Robust wie Fliesen:</strong>&nbsp;Fugenlose Oberflächen sind widerstandsfähig und langlebig.</p></li><li><p><strong>Wasserabweisend:</strong>&nbsp;Kein Eindringen von Feuchtigkeit, keine Schimmelbildung.</p></li><li><p><strong>Hygienisch und pflegeleicht:</strong>&nbsp;Die glatte Oberfläche lässt sich einfach reinigen, Schmutz und Bakterien haben keine Chance.</p></li><li><p><strong>Individuelle Gestaltung:</strong>&nbsp;Ob minimalistisch oder verspielt, die Optik kann flexibel an Ihre Wünsche angepasst werden.</p></li><li><p><strong>Alltagstauglich:</strong>&nbsp;Fugenlose Bäder sind strapazierfähig und behalten auch bei intensiver Nutzung ihre Schönheit.</p></li></ul>"
       },
       {
         "t": "spacer"
@@ -48,7 +48,7 @@
         "t": "block",
         "no": "03",
         "title": "Technische Vorteile & Innovationen",
-        "html": "<ul><li><p><strong>Gleichmäßiges Erscheinungsbild:</strong>&nbsp;Ein fugenloses Bad wirkt großzügig und modern.</p></li><li><p><strong>Unkomplizierte Pflege:</strong>&nbsp;Die Reinigung ist schnell und einfach erledigt.</p></li><li><p><strong>Minimaler Aufbau:</strong>&nbsp;Mit nur 5 mm Aufbauhöhe können wir direkt über bestehende Fliesen arbeiten – ohne Lärm, Schmutz oder aufwendige Demontage.</p></li><li><p><strong>Nachhaltigkeit:</strong>&nbsp;Langlebige Materialien und einfache Pflege sorgen für dauerhafte Freude an Ihrem Bad.</p></li></ul>"
+        "html": "<ul><li><p><strong>Gleichmäßiges Erscheinungsbild:</strong>&nbsp;Ein fugenloses Bad wirkt großzügig und modern.</p></li><li><p><strong>Unkomplizierte Pflege:</strong>&nbsp;Die Reinigung ist schnell und einfach erledigt.</p></li><li><p><strong>Minimaler Aufbau:</strong>&nbsp;Mit nur 5 mm Aufbauhöhe können wir direkt über bestehende Fliesen arbeiten, ohne Lärm, Schmutz oder aufwendige Demontage.</p></li><li><p><strong>Nachhaltigkeit:</strong>&nbsp;Langlebige Materialien und einfache Pflege sorgen für dauerhafte Freude an Ihrem Bad.</p></li></ul>"
       },
       {
         "t": "spacer"
@@ -62,7 +62,7 @@
       },
       {
         "t": "button",
-        "label": "Lassen Sie sich inspirieren – und Ihren Preis berechnen",
+        "label": "Lassen Sie sich inspirieren und Ihren Preis berechnen",
         "href": "/kontakt/"
       }
     ]
@@ -79,7 +79,7 @@
     },
     {
       "title": "Hochwertige Materialien & Ausstattung",
-      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller – langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
+      "html": "<p>Für unsere Oberflächen und Bäder verwenden wir ausschließlich ausgewählte Produkte führender Hersteller, langlebig, modern und ästhetisch. Unser Anspruch ist es, für Sie ein Umfeld zu schaffen, das Design und Funktionalität auf höchstem Niveau vereint.</p>",
       "bullets": [
         "Exklusive Auswahl an Oberflächen, Farben und Strukturen",
         "Investition in Qualität und Wertbeständigkeit",
@@ -88,7 +88,7 @@
     },
     {
       "title": "Investment Value",
-      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design – für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
+      "html": "<p>Unsere Lösungen sind darauf ausgelegt, den Wert Ihrer Immobilie langfristig zu erhalten und zu steigern. Wir verbinden zeitlose Eleganz mit durchdachtem Design, für Räume, die begeistern und bleiben. So schaffen wir Wohlfühlräume, die Sie über viele Jahre hinweg genießen können.</p>",
       "bullets": [
         "Zeitloses Design und dauerhafte Wertschöpfung",
         "Fokus auf nachhaltige, pflegeleichte Lösungen",
@@ -105,7 +105,7 @@
       },
       {
         "title": "Ihr Weg zum Traumbad",
-        "html": "<p>Wir begleiten Sie von der ersten Idee bis zur finalen Umsetzung:</p><ul><li><p>Persönliche Beratung und individuelle Planung</p></li><li><p>Auswahl der passenden Materialien und Oberflächen</p></li><li><p>Fachgerechte Ausführung durch erfahrene Spezialisten</p></li><li><p>Betreuung und Service auch nach Projektabschluss</p></li></ul><p>Entdecken Sie die Möglichkeiten eines fugenlosen Badezimmers – exklusiv, modern und ganz nach Ihren Vorstellungen. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch. Wir freuen uns auf Ihre Anfrage!</p>",
+        "html": "<p>Wir begleiten Sie von der ersten Idee bis zur finalen Umsetzung:</p><ul><li><p>Persönliche Beratung und individuelle Planung</p></li><li><p>Auswahl der passenden Materialien und Oberflächen</p></li><li><p>Fachgerechte Ausführung durch erfahrene Spezialisten</p></li><li><p>Betreuung und Service auch nach Projektabschluss</p></li></ul><p>Entdecken Sie die Möglichkeiten eines fugenlosen Badezimmers, exklusiv, modern und ganz nach Ihren Vorstellungen. Kontaktieren Sie uns für ein unverbindliches Beratungsgespräch. Wir freuen uns auf Ihre Anfrage!</p>",
         "open": false
       }
     ],
