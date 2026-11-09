@@ -11,10 +11,10 @@ import { Picture } from 'astro:assets';
 import { href } from '../../data/links';
 import { cards } from '../../data/services';
 import logo from '../../assets/img/logo_exklusive.png';
-import raum from '../../assets/img/239-meisterwerk-20230120-1-scaled.jpg';
+import raum from '../../assets/img/2026-04-14-glatte-waende-kinderzimmer.jpg';
 import treppe from '../../assets/img/2018-meisterwerk-20230524-Bearbeitet-scaled.jpg';
-import tapete from '../../assets/img/4-bf-20241206-Bearbeitet-1-scaled.jpg';
-import fassade from '../../assets/img/2079-meisterwerk-20230524-Bearbeitet-scaled.jpg';
+import tapete from '../../assets/img/2026-04-14-tapete-schlafzimmer.jpg';
+import fassade from '../../assets/img/2026-05-28-fassade-verputzt.jpg';
 import dunkleWand from '../../assets/img/188-mw-20241125-scaled.jpg';
 
 // Titel, Satz und Alt-Text wie in der Auswahl-Vorschau (lokale Texte der Startseite)
@@ -22,7 +22,7 @@ const copy: Record<string, [string, string, string]> = {
   '/services/glatte-waende/': [
     'Glatte Wände & Q4-⁠Spachtelung',
     'Perfekt glatte Oberflächen in Q3 und Q4, modern und sauber',
-    'Glatte Wände im Treppenhaus: helle Treppe mit Holzstufen und weiß gestrichenen Wänden',
+    'Glatte Wände: Kinderzimmer mit perfekt glatter, tiefblau gestrichener Wand',
   ],
   '/services/lackierarbeiten/': [
     'Lackierarbeiten',
@@ -37,20 +37,21 @@ const copy: Record<string, [string, string, string]> = {
   '/services/tapezieren/': [
     'Tapezierarbeiten',
     'Tapeten an Wand und Decke, mit Fachberatung zur Auswahl',
-    'Tapezierarbeiten: Wand mit hellem Ornamentmuster und indirekter Beleuchtung',
+    'Tapezierarbeiten: Schlafzimmer mit Wandbild-Tapete über die ganze Wand',
   ],
   '/services/verputzen/': [
     'Verputzarbeiten',
     'Innen- und Außenputz und dekorative Oberflächen, langlebig ausgeführt',
-    'Verputzarbeiten: Flur mit fein verputzten Wänden und Decke',
+    'Verputzarbeiten: frisch verputzte Fassade eines Hauses mit weißem Putz und rotem Ziegeldach',
   ],
 };
-// Bilder der Startseite (Kundenwunsch): Raum statt Treppe, Treppe ganz sichtbar, ganze Tapetenwand, Fassade des Titelbild-Hauses
+// Bilder der Startseite (Kundenwunsch vom 07.11.): Raum statt Treppe, Treppe ganz sichtbar, ganze Tapetenwand, Fassade. Glatte Wände, Tapeten und Fassade
+// stammen aus den neuen Shootings 2026 (Drive des Fotografen), die Treppe aus dem Projekt von 2023.
 const photo: Record<string, { img: ImageMetadata; pos: string }> = {
-  '/services/glatte-waende/': { img: raum, pos: '35% 50%' },
+  '/services/glatte-waende/': { img: raum, pos: '50% 50%' },
   '/services/lackierarbeiten/': { img: treppe, pos: '60% 50%' },
-  '/services/tapezieren/': { img: tapete, pos: '35% 50%' },
-  '/services/verputzen/': { img: fassade, pos: '75% 50%' },
+  '/services/tapezieren/': { img: tapete, pos: '50% 50%' },
+  '/services/verputzen/': { img: fassade, pos: '45% 50%' },
 };
 const items = cards.map((c) => ({
   href: c.href,
