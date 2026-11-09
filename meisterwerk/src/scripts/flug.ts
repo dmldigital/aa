@@ -1,5 +1,5 @@
 /**
- * Video als Bildfolge auf einem Canvas (Hero-Flug: Terrasse des Altbaus, durch das Fenster ins Wohnzimmer).
+ * Video als Bildfolge auf einem Canvas (Hero-Flug: Haus des Kunden, durch das Fenster im Untergeschoss ins Wohnzimmer).
  * Die 97 Bilder liegen in `public/hero-flug/` (Desktop `d/`, Handy `m/` als Hochformat-Ausschnitt).
  * Es gibt kein eigenes Abspielen: `seek(p)` stellt das Video auf 0 bis 1, wer es aufruft (die Scroll-Zeitleiste des Heros),
  * bestimmt Tempo und Richtung, Anhalten und Zurückscrollen gehen damit von selbst. Zwischen zwei Bildern wird
@@ -17,7 +17,8 @@ export function createFlug(canvas: HTMLCanvasElement): Flug {
   const N = Number(canvas.dataset.frames);
   const END = N - 1;
   const set = window.matchMedia('(max-aspect-ratio: 4/5)').matches ? 'm' : 'd';
-  const src = (i: number) => `${canvas.dataset.base}${set}/${String(i).padStart(3, '0')}.webp`;
+  // `?v=` ändert sich mit jedem neuen Flug, damit Browser keine alten Bilder mit gleichem Namen zeigen
+  const src = (i: number) => `${canvas.dataset.base}${set}/${String(i).padStart(3, '0')}.webp?v=${canvas.dataset.v ?? ''}`;
   const frames: (HTMLImageElement | null)[] = new Array(N).fill(null);
   let pos = 0; // in Bildern, 0 bis END
 

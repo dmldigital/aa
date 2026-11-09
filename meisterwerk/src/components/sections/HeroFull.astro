@@ -1,7 +1,7 @@
 ---
 /**
  * Hero der Startseite (vom Kunden gewählt): Hero in voller Größe mit dem Flug-Video, Logo mit goldenem „MEISTERWERK“.
- * Das Video (Terrasse des Altbaus, durch das Fenster ins Wohnzimmer) füllt den ganzen Hero bis an den Rand, die Kopfzeile
+ * Das Video (Haus des Kunden mit weißer Fassade und rotem Ziegeldach, Flug durch das Fenster im Untergeschoss ins Wohnzimmer) füllt den ganzen Hero bis an den Rand, die Kopfzeile
  * liegt durchsichtig mit weißem Logo darüber, die große weiße Überschrift steht unten links.
  * Beim Scrollen (Einzelbilder, scrollgesteuert wie beim Original-Hero): Kopfzeile und Text blenden aus und fahren nach oben,
  * das Video läuft über die ganze Länge des Hero-Scrollwegs mit (`flug.seek`, scripts/flug.ts). Man kann jederzeit anhalten,
@@ -15,6 +15,8 @@ import Header from './Header.astro';
 import { href, routes } from '../../data/links';
 
 const FRAMES = 193;
+// Version der Bildfolge: bei jedem neuen Flug erhöhen (Browser-Cache)
+const FLUG_V = '2026-11-09';
 const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
 ---
 
@@ -29,10 +31,10 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
     <div data-hero-picture class="absolute inset-0 overflow-hidden">
       <div data-hero-media class="absolute inset-0">
         <picture>
-          <source media="(max-aspect-ratio: 4/5)" srcset={`${flug}m/000.webp`} />
+          <source media="(max-aspect-ratio: 4/5)" srcset={`${flug}m/000.webp?v=${FLUG_V}`} />
           <img
-            src={`${flug}d/000.webp`}
-            alt="Sanierter Altbau mit grauer Fassade, Terrasse und bodentiefen Fenstern"
+            src={`${flug}d/000.webp?v=${FLUG_V}`}
+            alt="Haus mit weißer Fassade und rotem Ziegeldach, die Kamera fliegt durch ein Fenster im Untergeschoss in ein helles Wohnzimmer"
             fetchpriority="high"
             class="absolute inset-0 size-full max-w-none object-cover object-[42%_50%]"
           />
@@ -41,6 +43,7 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
           data-hero-canvas
           data-frames={FRAMES}
           data-base={flug}
+          data-v={FLUG_V}
           aria-hidden="true"
           class="absolute inset-0 size-full object-cover object-[42%_50%] opacity-0 [&.is-ready]:opacity-100"
         ></canvas>
