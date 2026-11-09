@@ -287,3 +287,10 @@ Quelle: Chat mit dem Kunden ab 30.10. (Sprachnachrichten mit Whisper turbo über
 - **Profil Baldassarre:** „den Betrieb Meisterwerk“ statt „MEISTERWERK EXKLUSIVE“, „Imperfektion“ (vorher „Inperfektion“), Station 2003 bis 2006 „beim damaligen Innungsobermeister“, Abstand vor „Stationen“, der Text „Als Familienvater …“ steht jetzt direkt unter dem Lebensmotto (`ProfileTemplate.astro`).
 - **Offen:** Titelbild mit dem eigenen Haus des Kunden (neues Video, Higgsfield), Original-Foto von Samet, Antwort des Kunden zu den Stationen.
 - **Beobachtung:** Das Handy des Kunden zeigt die Seite abgedunkelt (Dunkelmodus der Browser-App). Elemente aus Bildern mit festen dunklen Farben (Logos) bleiben dort unlesbar, daher Masken bzw. weiße Logos.
+
+## Zeitstrahl mobil als Pin und Scroll (Stand 09.11.2026)
+- **Wunsch:** Der Zeitstrahl vom Desktop (Linie mit Strichen, Text abwechselnd oben und unten) soll auf Handy und Tablet laufen: Anfang pinnen, beim Weiterscrollen läuft er durch.
+- **Umsetzung:** `components/TimelinePin.astro` (Tailwind, Breite einer Station `--tlm-w: min(72vw, 300px)`), Skript `initTimelinePin` in `scripts/timeline.ts`. Die Sektion bleibt stehen (`pin`, `scrub: 0.8`, Scrollweg = Strecke × 1,15, `refreshPriority: 4`), der Strahl wandert von rechts nach links, die erste und die letzte Station stehen mittig. Die Station in der Mitte ist hell und größer (Deckkraft 0,18 bis 1, Skalierung 0,92 bis 1, Strich wächst), die goldene Linie füllt sich mit dem Scrollen, am Ende bleibt die letzte Station einen Moment stehen.
+- **Wo:** Profil Baldassarre und die anderen Profilseiten (ab 1025 px weiter der waagerechte Strahl, `Timeline.astro`), „Über uns“ (Unsere Geschichte, Handy und Tablet). Am Desktop zeigt „Über uns“ weiterhin die Liste `StudioStory.astro`, dort gab es seit dem Umbau (fb317d6) keinen Strahl.
+- **Ohne Pin:** reduzierte Bewegung oder Fenster niedriger als 560 px: Der Strahl lässt sich wischen (Scroll-Snap), ohne Hervorhebung.
+- Geprüft in Chromium (Handy 412×892 und 390×700, Tablet 820×1180): Pin-Anfang und -Ende ohne Sprung, keine Skriptfehler, kein Überlauf.

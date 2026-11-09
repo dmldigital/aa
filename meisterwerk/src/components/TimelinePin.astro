@@ -1,29 +1,90 @@
 ---
 /**
- * Zeitleiste für Handy und Tablet (bis 1024 px), auf „Über uns“ und den Teammitglieder-Seiten.
- * Ruhige Liste ohne Pin: jedes Jahr groß in Gold, der Text darunter, viel Luft dazwischen, keine Linien.
- * Beim Hereinscrollen steigen die Jahre nacheinander weich auf (scripts/timeline.ts, `initTimelinePin`).
- * Reduzierte Bewegung: alles steht sofort.
+ * Zeitstrahl für Handy und Tablet (bis 1024 px), auf „Über uns“ und den Teammitglieder-Seiten: derselbe Strahl wie am Desktop
+ * (Linie, kurze Striche, Text abwechselnd oben und unten), aber als Pin und Scroll: Die Sektion bleibt stehen, der Strahl läuft
+ * mit dem Scrollen von rechts nach links durch. Die Station in der Bildmitte ist hell und etwas größer, die übrigen treten zurück,
+ * die goldene Linie füllt sich mit. Reduzierte Bewegung oder sehr flache Fenster: kein Pin, der Strahl lässt sich wischen.
+ * Skript: scripts/timeline.ts (`initTimelinePin`), Abstände aus dem Abstandssystem.
  */
 interface Props {
   items: { date: string; text: string }[];
   title: string;
+  eyebrow?: string;
   class?: string;
 }
-const { items, title, class: className = '' } = Astro.props;
+const { items, title, eyebrow, class: className = '' } = Astro.props;
+
+// Datum und Text stehen abwechselnd oben und unten an der Linie (wie am Desktop: erste Station Text oben, Datum unten)
+const above = 'bottom-[calc(50%+1.75rem)]';
+const below = 'top-[calc(50%+1.75rem)]';
+const slot = 'pointer-events-none absolute inset-x-0 flex justify-center px-5';
 ---
 
-<div data-tlm class:list={['tlm', className]}>
-  <h2 data-tlm-step class="m-0 font-display text-h3 font-medium text-ink" set:html={title} />
-  <ol class="mt-group flex list-none flex-col gap-group p-0">
-    {items.map((item) => (
-      <li data-tlm-step>
-        <span class="block font-display text-h2 font-medium text-gold">{item.date}</span>
-        <p class="mt-2.5 mb-0 max-w-[36rem] text-body text-ink">{item.text}</p>
-      </li>
-    ))}
-  </ol>
-</div>
+<section data-tlm class:list={['tlm text-ink', className]} aria-label={title.replace(/<[^>]+>/g, ' ')}>
+  <div
+    data-tlm-stage
+    class="flex flex-col py-section lk-p:h-svh lk-p:overflow-clip lk-p:pt-[clamp(72px,11svh,110px)] lk-p:pb-[clamp(32px,6svh,64px)]"
+  >
+    <div class="mx-auto w-full max-w-page px-page">
+      {eyebrow && (
+        <p class="mb-text font-display text-label font-medium tracking-label text-gold uppercase" data-rv>{eyebrow}</p>
+      )}
+      <h2 class="m-0 font-display text-h2 font-medium text-ink" data-rv set:html={title} />
+    </div>
+
+    <div
+      data-tlm-win
+      class="tlm-win relative mt-group min-h-[30rem] flex-1 snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] lk-p:snap-none lk-p:overflow-clip [&::-webkit-scrollbar]:hidden"
+    >
+      <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-gold/25"></span>
+      <div data-tlm-track class="tlm-track relative flex h-full w-max will-change-transform" style={`--tlm-n:${items.length}`}>
+        <span aria-hidden="true" data-tlm-fill class="tlm-fill pointer-events-none absolute top-1/2 h-px origin-left bg-gold"></span>
+        <ol class="contents">
+          {items.map((item, i) => (
+            <li data-tlm-item class="tlm-item relative h-full shrink-0 snap-center">
+              <span class="pointer-events-none absolute inset-x-0 top-[calc(50%-0.625rem)] flex h-5 justify-center" aria-hidden="true">
+                <span data-tlm-tick class="block h-5 w-px bg-gold"></span>
+              </span>
+              <span class:list={[slot, i % 2 === 0 ? below : above]}>
+                <span data-tlm-date class="block text-center font-display text-h3 font-medium text-gold">{item.date}</span>
+              </span>
+              <span class:list={[slot, i % 2 === 0 ? above : below]}>
+                <span data-tlm-text class="block max-w-[34ch] text-center text-body text-ink">{item.text}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Breite einer Station; Anfang und Ende der Reihe lassen so viel Platz, dass die erste und die letzte Station mittig stehen können */
+  .tlm {
+    --tlm-w: min(72vw, 300px);
+  }
+  .tlm-win {
+    container-type: inline-size;
+  }
+  .tlm-track {
+    padding-inline: calc((100cqw - var(--tlm-w)) / 2);
+  }
+  .tlm-item {
+    width: var(--tlm-w);
+  }
+  /* Die goldene Linie läuft von der Mitte der ersten bis zur Mitte der letzten Station, das Skript füllt sie mit dem Scrollen */
+  .tlm-fill {
+    left: calc((100cqw - var(--tlm-w)) / 2 + var(--tlm-w) / 2);
+    width: calc((var(--tlm-n) - 1) * var(--tlm-w));
+    transform: scaleX(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tlm-fill {
+      transform: scaleX(1);
+    }
+  }
+</style>
 
 <script>
   import { initTimelinePin } from '../scripts/timeline';

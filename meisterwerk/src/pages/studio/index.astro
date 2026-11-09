@@ -5,6 +5,7 @@ import StudioHead from '../../components/studio/StudioHead.astro';
 import StudioHaltung from '../../components/studio/StudioHaltung.astro';
 import StudioTeamGrid from '../../components/studio/StudioTeamGrid.astro';
 import StudioStory from '../../components/studio/StudioStory.astro';
+import TimelinePin from '../../components/TimelinePin.astro';
 import GedenkBlock from '../../components/GedenkBlock.astro';
 import { meta, haltung, team, founder, memorial, founderMemorial, timeline } from '../../data/pages/studio';
 
@@ -43,7 +44,10 @@ const teamText = strip(tb?.[2] ?? '');
     statement={statement}
   />
   <StudioTeamGrid eyebrow={teamEyebrow} heading={teamHeading} text={teamText} people={team} />
-  <StudioStory eyebrow="Seit 2014" heading={haltung.toggle} items={timeline} />
+  <div class="max-lg:hidden">
+    <StudioStory eyebrow="Seit 2014" heading={haltung.toggle} items={timeline} />
+  </div>
+  <TimelinePin class="bg-soft lg:hidden" eyebrow="Seit 2014" title={haltung.toggle} items={timeline} />
   <section data-section="gedenken" class="bg-white px-page py-section">
     <div class="mx-auto w-full max-w-page">
       <GedenkBlock member={founder} label={memorial} {...founderMemorial} />
