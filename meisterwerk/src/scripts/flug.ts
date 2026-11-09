@@ -1,9 +1,8 @@
 /**
  * Video als Bildfolge auf einem Canvas (Hero-Flug: Haus des Kunden, durch das Fenster im Untergeschoss ins Wohnzimmer).
- * Die 97 Bilder liegen in `public/hero-flug/` (Desktop `d/`, Handy `m/` als Hochformat-Ausschnitt).
- * Es gibt kein eigenes Abspielen: `seek(p)` stellt das Video auf 0 bis 1, wer es aufruft (die Scroll-Zeitleiste des Heros),
- * bestimmt Tempo und Richtung, Anhalten und Zurückscrollen gehen damit von selbst. Zwischen zwei Bildern wird
- * überblendet. Den Ausschnitt macht CSS (object-fit), das Standbild darunter ist das erste Bild.
+ * Die Bilder (Anzahl `data-frames`, derzeit 177) liegen in `public/hero-flug/` (Desktop `d/`, Handy `m/` als Hochformat-Ausschnitt).
+ * Es gibt kein eigenes Abspielen: `seek(p)` stellt das Video auf 0 bis 1, wer es aufruft (das Abspielen im Hero,
+ * `HeroFull.astro`), bestimmt Tempo und Richtung. Zwischen zwei Bildern wird überblendet. Den Ausschnitt macht CSS (object-fit), das Standbild darunter ist das erste Bild.
  */
 export interface Flug {
   /** Video auf Stand 0 bis 1 stellen */

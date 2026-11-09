@@ -3,10 +3,10 @@
  * Hero der Startseite (vom Kunden gewählt): Hero in voller Größe mit dem Flug-Video, Logo mit goldenem „MEISTERWERK“.
  * Das Video (Haus des Kunden mit weißer Fassade und rotem Ziegeldach, Flug durch das Fenster im Untergeschoss ins Wohnzimmer) füllt den ganzen Hero bis an den Rand, die Kopfzeile
  * liegt durchsichtig mit weißem Logo darüber, die große weiße Überschrift steht unten links.
- * Beim Scrollen (Einzelbilder, scrollgesteuert wie beim Original-Hero): Kopfzeile und Text blenden aus und fahren nach oben,
- * das Video läuft über die ganze Länge des Hero-Scrollwegs mit (`flug.seek`, scripts/flug.ts). Man kann jederzeit anhalten,
- * vor und zurück scrollen. Danach scrollt die Seite normal weiter. Reduzierte Bewegung: nur das Standbild.
- * Länge und Tempo: die Höhe des Abschnitts (`h-[250svh]`, wie beim Original-Hero; Handy `h-[420svh]`, ruhiger, `scrub: 1`).
+ * Abspielen wie beim Pool-Hero (Poolbau Koch): Oben steht das Standbild. Beim ersten Losscrollen (Rad, Wischen, Pfeiltaste)
+ * läuft das Video von selbst durch (`DURATION`, die Seite steht so lange), danach scrollt die Seite selbst zum nächsten
+ * Abschnitt. Zurück ganz oben läuft das Video genauso rückwärts. Kopfzeile und Text blenden mit dem Video aus und ein.
+ * Kein Anhalten durch Scrollen (nicht scrollgesteuert). Reduzierte Bewegung und kurze Handys: nur das Standbild.
  * Handy: Die stehende Bühne ist `100lvh` hoch (größte Fensterhöhe), damit beim Ein- und Ausblenden der Browserleiste
  * unten kein schwarzer Streifen entsteht; der Text sitzt über der Leiste (`100lvh - 100svh` Abstand).
  */
@@ -14,9 +14,9 @@ import Button from '../ui/Button.astro';
 import Header from './Header.astro';
 import { href, routes } from '../../data/links';
 
-const FRAMES = 193;
+const FRAMES = 177;
 // Version der Bildfolge: bei jedem neuen Flug erhöhen (Browser-Cache)
-const FLUG_V = '2026-11-09';
+const FLUG_V = '2026-11-09b';
 const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
 ---
 
@@ -25,9 +25,9 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
   data-hero-full
   data-section="hero-a"
   aria-label="Willkommen bei Meisterwerk Malermanufaktur"
-  class="relative bg-ink hero-d:h-[250svh] hero-m:h-[420svh]"
+  class="relative bg-ink"
 >
-  <div class="relative h-svh min-h-150 overflow-clip hero-d:sticky hero-d:top-0 hero-m:sticky hero-m:top-0 hero-m:h-lvh hero-m:min-h-0">
+  <div class="relative h-svh min-h-150 overflow-clip hero-m:h-lvh hero-m:min-h-0">
     <div data-hero-picture class="absolute inset-0 overflow-hidden">
       <div data-hero-media class="absolute inset-0">
         <picture>
@@ -91,42 +91,160 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
 </section>
 
 <script>
-  import { gsap, ScrollTrigger } from '../../scripts/motion';
+  import { lenis } from '../../scripts/motion';
   import { createFlug } from '../../scripts/flug';
 
   const hero = document.querySelector<HTMLElement>('[data-hero-full]');
-  if (hero) {
-    const q = <T extends Element = HTMLElement>(s: string) => hero.querySelector<T>(s)!;
-    const flug = createFlug(q<HTMLCanvasElement>('[data-hero-canvas]'));
-    let loaded = false;
+  // Reduzierte Bewegung und kurze Handys (wie `hero-m:` im Markup): nur das Standbild, normales Scrollen
+  const active =
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+    (window.innerWidth > 700 || window.innerHeight >= 650);
 
-    // Eine Zeitleiste am Scrollstand (scrub): Kopfzeile und Text blenden gleich zu Beginn aus und fahren nach oben,
-    // das Video läuft über die ganze Länge mit. Anhalten, Vor und Zurück gehen von selbst.
-    const run = (scrub: number) => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: hero,
-          start: 'top top',
-          end: 'bottom bottom',
-          scrub,
-          invalidateOnRefresh: true,
-        },
-        onUpdate: () => flug.seek(tl.progress()),
-      });
-      // Leere Strecke über die ganze Länge, damit die Zeitleiste 1 lang ist und Ausblenden und Video ihre eigenen Anteile haben
-      tl.to({}, { duration: 1 }, 0)
-        .to(q('[data-site-header]'), { autoAlpha: 0, y: -16, duration: 0.1, ease: 'none' }, 0)
-        .to(q('[data-hero-content]'), { autoAlpha: 0, y: -40, duration: 0.2, ease: 'power1.in' }, 0.02)
-        .to(q('[data-hero-caption]'), { autoAlpha: 0, duration: 0.08, ease: 'none' }, 0);
-      if (!loaded) {
-        loaded = true;
-        flug.load().then(() => flug.seek(tl.progress()));
-      }
+  if (hero && active) {
+    const q = <T extends Element = HTMLElement>(s: string) => hero.querySelector<T>(s)!;
+    const header = document.querySelector<HTMLElement>('[data-site-header]');
+    const content = q('[data-hero-content]');
+    const caption = q('[data-hero-caption]');
+    const flug = createFlug(q<HTMLCanvasElement>('[data-hero-canvas]'));
+    const END = Number(q<HTMLCanvasElement>('[data-hero-canvas]').dataset.frames) - 1;
+    const DURATION = 5000; // ms für den ganzen Durchlauf, vorwärts wie rückwärts
+    const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+
+    // Abspielen: pos (in Bildern) läuft mit konstantem Tempo auf target zu, ein Richtungswechsel mitten drin ist weich
+    let pos = 0;
+    let target = 0;
+    let locked = false; // Seite steht, solange das Video vorwärts läuft
+    let leftTop = false; // erst nach echtem Wegscrollen löst „ganz oben“ das Rückwärtslaufen aus
+    let raf = 0;
+    let last = 0;
+
+    const fade = (el: HTMLElement | null, k: number, y = 0) => {
+      if (!el) return;
+      el.style.opacity = String(1 - k);
+      el.style.visibility = k >= 1 ? 'hidden' : '';
+      el.style.transform = y ? `translateY(${(y * k).toFixed(1)}px)` : '';
+    };
+    const render = () => {
+      const p = pos / END;
+      fade(header, clamp(p / 0.06), -16);
+      fade(content, clamp(p / 0.14), -40);
+      fade(caption, clamp(p / 0.06));
+      content.style.pointerEvents = p > 0.02 ? 'none' : '';
+      flug.seek(p);
     };
 
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 701px) and (prefers-reduced-motion: no-preference)', () => run(1));
-    mm.add('(max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)', () => run(1));
-    document.fonts.ready.then(() => ScrollTrigger.refresh());
+    const scrollToNext = () => {
+      const y = hero.getBoundingClientRect().bottom + window.scrollY; // Beginn des nächsten Abschnitts
+      if (lenis) lenis.scrollTo(y, { duration: 1.4 });
+      else window.scrollTo({ top: y, behavior: 'smooth' });
+    };
+    const tick = (t: number) => {
+      const dt = last ? t - last : 16;
+      last = t;
+      const step = (dt / DURATION) * END;
+      pos = target > pos ? Math.min(target, pos + step) : Math.max(target, pos - step);
+      render();
+      if (pos !== target) {
+        raf = requestAnimationFrame(tick);
+        return;
+      }
+      raf = 0;
+      last = 0;
+      if (locked) {
+        locked = false; // Ende der Fahrt: weiter zum nächsten Abschnitt
+        scrollToNext();
+      }
+    };
+    const play = (to: number) => {
+      target = to;
+      locked = to === END;
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    const forward = () => {
+      if (target !== END) {
+        leftTop = false;
+        play(END);
+      }
+    };
+    const backward = () => {
+      if (target !== 0) play(0);
+    };
+    const atTop = () => window.scrollY <= 2;
+
+    // Scroll-Absicht abfangen (vor Lenis, daher Capture-Phase); solange das Video vorwärts läuft, steht die Seite
+    const block = (e: Event) => {
+      if (e.cancelable) e.preventDefault();
+      (e as Event & { lenisStopPropagation?: boolean }).lenisStopPropagation = true;
+    };
+    window.addEventListener(
+      'wheel',
+      (e) => {
+        if (e.deltaY > 0 && atTop()) forward();
+        else if (e.deltaY < 0 && atTop() && target === END && !locked) backward();
+        if (locked) block(e);
+      },
+      { capture: true, passive: false },
+    );
+    let touchY = 0;
+    window.addEventListener('touchstart', (e) => (touchY = e.touches[0].clientY), { capture: true, passive: true });
+    window.addEventListener(
+      'touchmove',
+      (e) => {
+        const dy = touchY - e.touches[0].clientY; // > 0 = nach unten scrollen
+        if (dy > 8 && atTop()) forward();
+        else if (dy < -8 && atTop() && target === END && !locked) backward();
+        if (locked) block(e);
+      },
+      { capture: true, passive: false },
+    );
+    window.addEventListener(
+      'keydown',
+      (e) => {
+        const down = ['ArrowDown', 'PageDown', 'End', ' '].includes(e.key);
+        if (down && atTop() && !(e.target as HTMLElement).closest?.('input, textarea, select, button, a')) forward();
+        if (locked && down) e.preventDefault();
+      },
+      { capture: true },
+    );
+    // Anker-Links auf dieser Seite (Menü, Buttons): Fahrt überspringen und direkt zum Ziel scrollen,
+    // sonst würde die automatische Fahrt die Anker-Fahrt überlagern
+    const hashTarget = (h: string) => {
+      try {
+        return h && h !== '#' ? document.querySelector(h) : null;
+      } catch {
+        return null;
+      }
+    };
+    document.addEventListener(
+      'click',
+      (e) => {
+        const a = (e.target as Element).closest?.('a[href*="#"]') as HTMLAnchorElement | null;
+        if (!a || (pos >= END && !locked)) return;
+        const u = new URL(a.href, location.href);
+        if (u.pathname !== location.pathname || !hashTarget(u.hash)) return;
+        locked = false;
+        leftTop = true;
+        pos = target = END;
+        render();
+      },
+      true,
+    );
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (window.scrollY > 40) leftTop = true;
+        if (window.scrollY > 10 && target === 0) forward(); // z. B. Scrollleiste gezogen
+        else if (atTop() && leftTop && !locked) backward(); // zurück ganz oben: rückwärts
+      },
+      { passive: true },
+    );
+
+    // Seite schon weiter unten geladen (Neuladen, Anker): gleich das Endbild zeigen
+    if (window.scrollY > 10 || hashTarget(location.hash)) {
+      pos = target = END;
+      leftTop = true;
+    }
+    flug.load().then(render);
+    render();
   }
 </script>
