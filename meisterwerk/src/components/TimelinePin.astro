@@ -4,15 +4,21 @@
  * (Linie, kurze Striche, Text abwechselnd oben und unten), aber als Pin und Scroll: Die Sektion bleibt stehen, der Strahl läuft
  * mit dem Scrollen von rechts nach links durch. Die Station in der Bildmitte ist hell und etwas größer, die übrigen treten zurück,
  * die goldene Linie füllt sich mit. Reduzierte Bewegung oder sehr flache Fenster: kein Pin, der Strahl lässt sich wischen.
+ * Oben und unten stehen die Nachbarn der Seite mit im festgehaltenen Bild (Slots `before` und `after`): Der Text davor und der Anfang
+ * des nächsten Abschnitts wandern dafür aus ihrer Stelle im Fluss in die Bühne (am Desktop bleiben sie dort, wo sie sind).
  * Skript: scripts/timeline.ts (`initTimelinePin`), Abstände aus dem Abstandssystem.
  */
 interface Props {
   items: { date: string; text: string }[];
   title: string;
   eyebrow?: string;
+  /** Kurzer Text unter der Überschrift */
+  lead?: string;
   class?: string;
 }
-const { items, title, eyebrow, class: className = '' } = Astro.props;
+const { items, title, eyebrow, lead, class: className = '' } = Astro.props;
+const hasBefore = Astro.slots.has('before');
+const hasAfter = Astro.slots.has('after');
 
 // Datum und Text stehen abwechselnd oben und unten an der Linie (wie am Desktop: erste Station Text oben, Datum unten)
 const above = 'bottom-[calc(50%+1.75rem)]';
@@ -20,21 +26,27 @@ const below = 'top-[calc(50%+1.75rem)]';
 const slot = 'pointer-events-none absolute inset-x-0 flex justify-center px-5';
 ---
 
-<section data-tlm class:list={['tlm text-ink', className]} aria-label={title.replace(/<[^>]+>/g, ' ')}>
+<section data-tlm data-cta-off class:list={['tlm text-ink', className]} aria-label={title.replace(/<[^>]+>/g, ' ')}>
   <div
     data-tlm-stage
-    class="flex flex-col py-section lk-p:h-svh lk-p:overflow-clip lk-p:pt-[clamp(72px,11svh,110px)] lk-p:pb-[clamp(32px,6svh,64px)]"
+    class:list={['flex flex-col pt-section tl-p:h-svh tl-p:overflow-clip tl-p:pt-[clamp(64px,9svh,92px)]', !hasAfter && 'pb-section tl-p:pb-[clamp(32px,6svh,64px)]']}
   >
-    <div class="mx-auto w-full max-w-page px-page">
+    {hasBefore && (
+      <div class="mx-auto w-full max-w-page px-page text-body text-muted [&>*]:max-w-[40rem] [&>*+*]:mt-text">
+        <slot name="before" />
+      </div>
+    )}
+    <div class:list={['mx-auto w-full max-w-page px-page', hasBefore && 'mt-stack']}>
       {eyebrow && (
         <p class="mb-text font-display text-label font-medium tracking-label text-gold uppercase" data-rv>{eyebrow}</p>
       )}
       <h2 class="m-0 font-display text-h2 font-medium text-ink" data-rv set:html={title} />
+      {lead && <p class="mt-text max-w-[40rem] text-body text-muted" data-rv>{lead}</p>}
     </div>
 
     <div
       data-tlm-win
-      class="tlm-win relative mt-group min-h-[30rem] flex-1 snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] lk-p:snap-none lk-p:overflow-clip [&::-webkit-scrollbar]:hidden"
+      class="tlm-win relative mt-stack min-h-[17rem] flex-1 snap-x snap-mandatory overflow-x-auto overscroll-x-contain [scrollbar-width:none] tl-p:snap-none tl-p:overflow-clip [&::-webkit-scrollbar]:hidden"
     >
       <span aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-1/2 h-px bg-gold/25"></span>
       <div data-tlm-track class="tlm-track relative flex h-full w-max will-change-transform" style={`--tlm-n:${items.length}`}>
@@ -49,20 +61,25 @@ const slot = 'pointer-events-none absolute inset-x-0 flex justify-center px-5';
                 <span data-tlm-date class="block text-center font-display text-h3 font-medium text-gold">{item.date}</span>
               </span>
               <span class:list={[slot, i % 2 === 0 ? above : below]}>
-                <span data-tlm-text class="block max-w-[34ch] text-center text-body text-ink">{item.text}</span>
+                <span data-tlm-text class="block max-w-[36ch] text-center text-body text-ink">{item.text}</span>
               </span>
             </li>
           ))}
         </ol>
       </div>
     </div>
+    {hasAfter && (
+      <div class="mt-group tl-p:mt-0">
+        <slot name="after" />
+      </div>
+    )}
   </div>
 </section>
 
 <style>
   /* Breite einer Station; Anfang und Ende der Reihe lassen so viel Platz, dass die erste und die letzte Station mittig stehen können */
   .tlm {
-    --tlm-w: min(72vw, 300px);
+    --tlm-w: min(78vw, 320px);
   }
   .tlm-win {
     container-type: inline-size;

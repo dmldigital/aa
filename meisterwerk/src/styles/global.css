@@ -132,6 +132,8 @@
 
 /* Leistungen der Startseite (LeistungenScroll.astro): Pin- und Scroll-Sektion, nur ohne reduzierte Bewegung und bei Fensterhöhe ab 560 px */
 @custom-variant lk-p (@media (min-height: 560px) and (prefers-reduced-motion: no-preference));
+/* Zeitstrahl (Pin mit Text davor und Anfang des Nächsten im Bild): braucht mehr Höhe */
+@custom-variant tl-p (@media (min-height: 680px) and (prefers-reduced-motion: no-preference));
 
 @theme inline {
   --font-display: var(--font-urbanist), sans-serif;

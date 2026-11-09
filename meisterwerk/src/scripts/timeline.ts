@@ -100,7 +100,7 @@ export function initTimelinePin() {
 
     // Pin und Scroll: Die Sektion bleibt stehen, der Strahl läuft von rechts nach links durch. Station in der Mitte hell und groß,
     // die übrigen treten zurück. Reduzierte Bewegung oder sehr flache Fenster: kein Pin, der Strahl lässt sich wischen (CSS).
-    mm.add('(max-width: 1024.98px) and (min-height: 560px) and (prefers-reduced-motion: no-preference)', () => {
+    mm.add('(max-width: 1024.98px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)', () => {
       const travel = () => (n - 1) * items[0].getBoundingClientRect().width;
       const focus = (p: number) => {
         const pos = p * (n - 1);

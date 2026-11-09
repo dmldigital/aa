@@ -47,10 +47,18 @@ const teamText = strip(tb?.[2] ?? '');
   <div class="max-lg:hidden">
     <StudioStory eyebrow="Seit 2014" heading={haltung.toggle} items={timeline} />
   </div>
-  <TimelinePin class="bg-soft lg:hidden" eyebrow="Seit 2014" title={haltung.toggle} items={timeline} />
-  <section data-section="gedenken" class="bg-white px-page py-section">
+  <TimelinePin class="bg-soft lg:hidden" eyebrow="Seit 2014" title={haltung.toggle} lead="Von den ersten Projekten im Elternhaus bis zum gemeinsamen Standort in Freiberg." items={timeline}>
+    <div slot="after" class="bg-white px-page pt-group pb-stack">
+      <div class="mx-auto w-full max-w-page">
+        <p class="font-display text-label tracking-label text-gold uppercase">{memorial.replace(/:\s*$/, '')}</p>
+        <p class="mt-text font-display text-h2 font-medium text-ink">{founder.name}</p>
+        <p class="mt-text font-display text-body tracking-[0.12em] text-muted">{founderMemorial.dates}</p>
+      </div>
+    </div>
+  </TimelinePin>
+  <section data-section="gedenken" class="bg-white px-page py-section max-lg:pt-0">
     <div class="mx-auto w-full max-w-page">
-      <GedenkBlock member={founder} label={memorial} {...founderMemorial} />
+      <GedenkBlock member={founder} label={memorial} {...founderMemorial} headInStage />
     </div>
   </section>
   <MiniFormSection

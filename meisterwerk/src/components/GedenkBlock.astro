@@ -15,8 +15,11 @@ interface Props {
   line: string;
   cta: string;
   class?: string;
+  /** Bis 1024 px stehen „In Gedenken an“, Name und Lebensdaten in der festgehaltenen Bühne des Zeitstrahls davor (nicht doppelt zeigen) */
+  headInStage?: boolean;
 }
-const { member, label, dates, line, cta, class: className = '' } = Astro.props;
+const { member, label, dates, line, cta, class: className = '', headInStage = false } = Astro.props;
+const hide = headInStage ? 'max-lg:hidden' : '';
 ---
 
 <section
@@ -36,13 +39,13 @@ const { member, label, dates, line, cta, class: className = '' } = Astro.props;
     />
   </div>
   <div class="flex flex-col md:col-span-6 md:col-start-7">
-    <p data-anim="fadeIn" class="font-display text-label tracking-label text-gold uppercase">
+    <p data-anim="fadeIn" class:list={['font-display text-label tracking-label text-gold uppercase', hide]}>
       {label.replace(/:\s*$/, '')}
     </p>
-    <h2 data-anim="fadeIn" data-anim-delay="100" class="mt-text font-display text-h1 font-medium text-ink">
+    <h2 data-anim="fadeIn" data-anim-delay="100" class:list={['mt-text font-display text-h1 font-medium text-ink', hide]}>
       {member.name}
     </h2>
-    <p data-anim="fadeIn" data-anim-delay="200" class="mt-text font-display text-body tracking-[0.12em] text-muted">
+    <p data-anim="fadeIn" data-anim-delay="200" class:list={['mt-text font-display text-body tracking-[0.12em] text-muted', hide]}>
       {dates}
     </p>
     <p data-anim="fadeIn" data-anim-delay="300" class="mt-group font-display text-lead text-ink italic">{line}</p>

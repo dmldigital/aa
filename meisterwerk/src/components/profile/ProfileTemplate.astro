@@ -135,7 +135,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
           ))}
         </dl>
         {intro.prose.length > 0 && (
-          <div class="pb-prose" data-rv>
+          <div class:list={['pb-prose', profile.timeline && 'pb-prose--moved']} data-rv>
             {intro.prose.map((p) => <p set:html={p} />)}
           </div>
         )}
@@ -155,13 +155,28 @@ const timelineTitle = profile.timeline?.heading ?? '';
         </div>
       </div>
     </section>
-    <TimelinePin class="bg-white lg:hidden" title={timelineTitle} items={profile.timeline.items} />
+    <TimelinePin class="bg-white lg:hidden" title={timelineTitle} items={profile.timeline.items}>
+      {intro.prose.length > 0 && (
+        <div slot="before">
+          {intro.prose.map((p) => <p set:html={p} />)}
+        </div>
+      )}
+      {mottoFact && (
+        <div slot="after" class="bg-soft px-page pt-group pb-stack">
+          <div class="mx-auto w-full max-w-page">
+            <p class="eyebrow">{mottoFact.label}</p>
+            <p class="mt-text font-display text-h2 font-medium text-ink" set:html={quoteHtml} />
+            {quoteNote && <p class="mt-text text-body text-muted" set:html={quoteNote} />}
+          </div>
+        </div>
+      )}
+    </TimelinePin>
   </>
 )}
 
 <!-- Lebensmotto -->
 {(mottoFact || extras.length > 0 || motto.prose.length > 0) && (
-  <section class="pm">
+  <section class:list={['pm', profile.timeline && mottoFact && 'pm--moved']}>
     <div class="pm-wrap">
       {mottoFact && (
         <div class="pm-head">
@@ -556,6 +571,22 @@ const timelineTitle = profile.timeline?.heading ?? '';
   .pm-wrap {
     max-width: var(--container-page);
     margin: 0 auto;
+  }
+  /* Bis 1024 px stehen Text davor und der Kopf des Lebensmottos in der festgehaltenen Bühne des Zeitstrahls (TimelinePin) */
+  @media (max-width: 1024.98px) {
+    .pb-prose--moved {
+      display: none;
+    }
+    .pm--moved {
+      margin-top: 0;
+      padding-top: var(--space-stack);
+    }
+    .pm--moved .pm-head {
+      display: none;
+    }
+    .pm--moved .pm-prose {
+      margin-top: 0;
+    }
   }
   .pm-head {
     position: relative;
