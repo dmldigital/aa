@@ -109,9 +109,11 @@ const subRow =
           </button>
           <p class="mt-[clamp(10px,2.4dvh,22px)] font-display text-label tracking-[0.12em] text-gold uppercase">{item.label}</p>
           <ul class="mt-[clamp(4px,1dvh,10px)]">
-            <li>
-              <a href={href(item.href)} class={subRow}>Übersicht</a>
-            </li>
+            {item.href !== '#' && (
+              <li>
+                <a href={href(item.href)} class={subRow}>Übersicht</a>
+              </li>
+            )}
             {item.children
               .filter((c) => !c.children)
               .map((child) => (

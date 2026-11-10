@@ -20,7 +20,7 @@ export interface ContactPage {
 
 export const contactPages: Record<'kontakt' | 'schnellkontakt' | 'exklusive', ContactPage> = {
   kontakt: {
-    title: 'Projektanfrage stellen',
+    title: 'Projektanfrage Maler Freiberg',
     description:
       'Schildern Sie uns Ihr Projekt: Die Meisterwerk Malermanufaktur prüft Ihre Anfrage persönlich und meldet sich zeitnah. Ludwigsburg, Stuttgart und Umgebung.',
     heading: 'Projektanfrage stellen',
@@ -63,7 +63,7 @@ export const contactPages: Record<'kontakt' | 'schnellkontakt' | 'exklusive', Co
   },
   // /meisterwerk-exklusive/kontakt/: Text wie Schnellkontakt, Formular mit Projektfeldern für Exklusiv-Leistungen
   exklusive: {
-    title: 'Kontakt',
+    title: 'Kontakt Freiberg am Neckar',
     description:
       'Kontakt zu Meisterwerke Exklusive: Schildern Sie uns Ihr Projekt für fugenlose Bäder, Böden oder Spachteltechniken in Ludwigsburg und Stuttgart.',
     heading: 'Kontaktieren Sie uns',

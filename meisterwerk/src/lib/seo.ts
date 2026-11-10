@@ -80,6 +80,21 @@ export function siteIndexable(value: string | undefined): boolean {
 const TARGET_PLACES = ['Ludwigsburg', 'Freiberg am Neckar', 'Marbach am Neckar', 'Bietigheim-Bissingen', 'Stuttgart'];
 
 /**
+ * Seitentitel (title-Tag) mit Ortsbezug, so weit er in die Länge passt (`max` Zeichen für das Thema, den Rest füllt das Layout
+ * mit der Marke). Reihenfolge: „Thema in Ort“, „Thema Ort“, ohne „Unser/Unsere“ davor, sonst unverändert. Orte außerhalb der
+ * Zielregion werden nie genannt.
+ */
+export function placeTitle(title: string, place: string, max: number): string {
+  const ort = place.replace(/^Freiberg a\. Neckar$/, 'Freiberg am Neckar');
+  if (!TARGET_PLACES.includes(ort)) return title;
+  const bare = title.replace(/^Unse(r|re) /, '');
+  for (const t of [title, bare]) {
+    for (const c of [`${t} in ${ort}`, `${t} ${ort}`]) if (c.length <= max) return c;
+  }
+  return title;
+}
+
+/**
  * Überschrift (H1) einer Projektseite mit Ortsbezug, nur aus vorhandenen Daten: „Titel: Leistung in Ort“. Steht die Leistung
  * schon im Titel, entfällt sie („Spachteltechnik für Lotter Bäderausstellung in Ludwigsburg“). Liegt der Ort außerhalb der
  * Zielregion, bleibt der Titel unverändert.

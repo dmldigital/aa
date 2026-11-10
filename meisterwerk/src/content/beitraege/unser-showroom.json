@@ -16,7 +16,7 @@
   "sections": [
     {
       "heading": "Vielfalt im Showroom",
-      "text": "In unserem Showroom präsentieren wir Ihnen eine breit gefächerte Auswahl an Farben, Strukturen und Oberflächen. Von glatten Wänden über dekorative Stuckleisten bis hin zu fugenlosen, spachteltechnisch bearbeiteten Oberflächen und hochwertigen Tapeten, hier finden Sie alles, was zur Gestaltung einzigartiger Räume beiträgt. Unser erfahrenes Team unterstützt Sie kompetent bei der Planung und Umsetzung Ihrer individuellen Ideen. Gemeinsam entwickeln wir ein maßgeschneidertes Farb- und Materialkonzept, das perfekt auf Ihre Wünsche und Bedürfnisse abgestimmt ist. Auch die Bauplanung gehört zu unserem Service, um ein Ergebnis zu sichern, das Ihre Erwartungen vollständig erfüllt."
+      "text": "In unserem Showroom präsentieren wir Ihnen eine breit gefächerte Auswahl an Farben, Strukturen und Oberflächen. Von glatten Wänden über dekorative Stuckleisten bis hin zu fugenlosen, spachteltechnisch bearbeiteten Oberflächen und hochwertigen Tapeten, hier finden Sie alles für die Gestaltung Ihrer Räume. Unser erfahrenes Team unterstützt Sie kompetent bei der Planung und Umsetzung Ihrer individuellen Ideen. Gemeinsam entwickeln wir ein Farb- und Materialkonzept, das zu Ihren Wünschen und Bedürfnissen passt. Auch die Bauplanung gehört zu unserem Service."
     },
     {
       "heading": "Inspiration und Qualität erleben",
@@ -37,6 +37,17 @@
     "../../assets/img/104-meisterwerk-20230120-Bearbeitet-scaled-1.jpg",
     "../../assets/img/116-mw-20241125-1-scaled.jpg",
     "../../assets/img/107-meisterwerk-20230120-Bearbeitet-1-scaled.jpg"
+  ],
+  "galleryAlts": [
+    "Wandfläche mit Stuckleisten und glatter Spachteloberfläche im Showroom",
+    "Spachteloberfläche mit Stuckleistenrahmen im Showroom Freiberg am Neckar",
+    "Stuckleistenrahmen an einer Spachtelwand im Showroom",
+    "Schwarz gespachteltes Musterbad mit beleuchteter Holzablage im Showroom",
+    "Beratungstisch im Showroom mit Stuckleisten an den Wänden",
+    "Sitzbereich im Showroom mit Sesseln und Stuckleisten",
+    "Showroom der Meisterwerk Malermanufaktur in Freiberg am Neckar mit Beratungstisch und Sitzgruppe",
+    "Musterfläche in feiner Spachteltechnik",
+    "Sitzecke im Showroom mit bunten Sesseln und Wandfernseher"
   ],
   "largeText": true
 }

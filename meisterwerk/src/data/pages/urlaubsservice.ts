@@ -4,9 +4,9 @@ import palm from '../../assets/img/black-white-palm-landscape-scaled.jpg';
 import concrete from '../../assets/img/249-mw-20241125-scaled.jpg';
 
 export const meta = {
-  title: 'Maler Urlaubsservice',
+  title: 'Maler-Urlaubsservice Freiberg',
   description:
-    'Renovieren ohne Stress: Unser exklusiver Urlaubsservice für Ludwigsburg & Stuttgart. Während Sie entspannen, verschönern wir Ihr Zuhause.',
+    'Maler-Urlaubsservice in Ludwigsburg und Stuttgart: Wir renovieren, während Sie im Urlaub sind, und übergeben Ihnen ein fertiges Zuhause.',
 };
 
 export const intro = {

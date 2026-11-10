@@ -29,7 +29,7 @@ export const cards = [
   {
     href: '/services/tapezieren/',
     title: 'Tapezierarbeiten',
-    subtitle: 'Verwandeln Sie Ihre Wände in echte Blickfänge!',
+    subtitle: 'Tapeten für Wand und Decke, sauber verarbeitet',
     img: tapezieren,
     alt: 'Tapezierte Wand mit hellem Ornamentmuster und indirekter Beleuchtung.',
   },

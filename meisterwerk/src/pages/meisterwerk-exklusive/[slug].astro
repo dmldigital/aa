@@ -10,6 +10,7 @@ import Projects from '../../components/sections/Projects.astro';
 import MoreServices from '../../components/service/MoreServices.astro';
 import MiniFormSection from '../../components/sections/MiniFormSection.astro';
 import { href } from '../../data/links';
+import { placeTitle } from '../../lib/seo';
 import { EXCELLENCE, projects } from '../../data/pages/exklusive';
 
 export async function getStaticPaths() {
@@ -97,7 +98,7 @@ const cta = buttons[0];
 const closing = buttons[1];
 ---
 
-<PageLayout site="exklusive" title={page.title} description={page.description} current={`/meisterwerk-exklusive/${page.slug}/`}>
+<PageLayout site="exklusive" title={placeTitle(page.title, 'Ludwigsburg', 35)} description={page.description} current={`/meisterwerk-exklusive/${page.slug}/`}>
   <WelcomeScroll
     heading={heading}
     paragraphs={paragraphs}

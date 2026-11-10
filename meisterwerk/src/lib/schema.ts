@@ -105,6 +105,7 @@ export interface Crumb {
 export function breadcrumbList(crumbs: Crumb[], ctx: SchemaContext, currentPath: string): Json {
   return {
     '@type': 'BreadcrumbList',
+    '@id': `${ctx.abs(currentPath)}#brotkrumen`,
     itemListElement: crumbs.map((c, i) => ({
       '@type': 'ListItem',
       position: i + 1,
@@ -216,6 +217,57 @@ export function breadcrumbs(path: string, topic: string, siteKind: Site): Crumb[
   return [...root, { name: topic }];
 }
 
+/** Seitentypen mit eigenem schema.org-Typ (alle übrigen Seiten sind `WebPage`). */
+const CONTACT_PATHS = ['/kontakt/', '/schnellkontakt/', '/meisterwerk-exklusive/kontakt/'];
+const ABOUT_PATHS = ['/studio/', '/qualifikationen/'];
+const COLLECTION_PATHS = ['/projekte/', '/leistungen/', '/meisterwerk-exklusive/projekte/', '/meisterwerk-exklusive/unsere-leistungen/'];
+const PROFILE_PATHS = ['/baldassarre-fortino/', '/fabio-fortino/', '/lorenzo-fortino/', '/samet-erenuglu/', '/vincenzo-fortino/'];
+
+/**
+ * Knoten der Seite selbst: gehört zur Website, handelt vom Betrieb und verweist auf die Brotkrumen. Profilseiten sind `ProfilePage`
+ * mit der Person als Hauptinhalt (Name aus dem Seitentitel, Arbeitgeber der Betrieb), Projektbeiträge sind `Article` mit Datum aus
+ * der Adresse. Es werden nur Angaben verwendet, die auch auf der Seite stehen.
+ */
+function pageNode(path: string, topic: string, description: string | undefined, ctx: SchemaContext): Json {
+  const url = ctx.abs(path);
+  const node: Json = {
+    '@type': 'WebPage',
+    '@id': `${url}#seite`,
+    url,
+    name: topic,
+    inLanguage: 'de-DE',
+    isPartOf: { '@id': websiteId(ctx) },
+    about: { '@id': businessId(ctx) },
+    breadcrumb: { '@id': `${url}#brotkrumen` },
+  };
+  if (description) node.description = description;
+  if (CONTACT_PATHS.includes(path)) node['@type'] = 'ContactPage';
+  else if (ABOUT_PATHS.includes(path)) node['@type'] = 'AboutPage';
+  else if (COLLECTION_PATHS.includes(path)) node['@type'] = 'CollectionPage';
+  else if (PROFILE_PATHS.includes(path)) {
+    node['@type'] = 'ProfilePage';
+    node.mainEntity = {
+      '@type': 'Person',
+      '@id': `${url}#person`,
+      name: topic.replace(/^Gedenken an /, ''),
+      worksFor: { '@id': businessId(ctx) },
+    };
+  } else {
+    const post = path.match(/^(?:\/meisterwerk-exklusive)?\/(\d{4})\/(\d{2})\/(\d{2})\/[^/]+\/$/);
+    if (post) {
+      node['@type'] = 'Article';
+      node.headline = topic;
+      node.datePublished = `${post[1]}-${post[2]}-${post[3]}`;
+      node.mainEntityOfPage = url;
+      node.author = { '@id': businessId(ctx) };
+      node.publisher = { '@id': businessId(ctx) };
+      delete node.name;
+      delete node.about;
+    }
+  }
+  return node;
+}
+
 export interface PageSchemaInput {
   /** Pfad relativ zur Basis, mit Schrägstrich am Ende */
   path: string;
@@ -234,6 +286,7 @@ export function pageSchema({ path, topic, description, site: siteKind }: PageSch
   }
   // Betrieb mit @id steht nur auf der Startseite, alle anderen Seiten verweisen darauf
   const crumbs = breadcrumbs(path, topic, siteKind);
+  nodes.push(pageNode(path, topic, description, ctx));
   nodes.push(breadcrumbList(crumbs, ctx, path));
   if (SERVICE_PATHS.some((re) => re.test(path))) {
     const last = crumbs[crumbs.length - 1];

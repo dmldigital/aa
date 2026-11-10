@@ -1,8 +1,8 @@
 // Inhalte der Seite /qualifikationen/ (Texte wie im Original, live ausgelesen)
 export const meta = {
-  title: 'Qualifikationen & Meisterbrief',
+  title: 'Malermeister in Freiberg',
   description:
-    'Geprüfte Qualität für Ihr Zuhause. Entdecken Sie unsere Qualifikationen als Malermeister & Experten für fugenlose Systeme in Ludwigsburg & Stuttgart.',
+    'Qualifikationen und Meisterbrief: Malermeister und Experten für fugenlose Systeme in Freiberg am Neckar, Ludwigsburg und Stuttgart.',
 };
 
 export const heading = 'Unser Versprechen an höchste Qualität';
@@ -22,7 +22,7 @@ export const pillars = [
   },
   {
     title: 'Vertrauen Sie auf unsere Expertise',
-    html: '<p>Ob es um die Gestaltung glatter Wände, die Umsetzung fugenloser Bäder oder kreative Lackierarbeiten geht, wir bieten Ihnen maßgeschneiderte Lösungen, die sowohl funktional als auch ästhetisch überzeugen. Lassen Sie uns gemeinsam Ihre Raumträume verwirklichen.</p>',
+    html: '<p>Ob es um die Gestaltung glatter Wände, die Umsetzung fugenloser Bäder oder kreative Lackierarbeiten geht, wir bieten Ihnen Lösungen, die funktional und ästhetisch überzeugen. Sprechen Sie uns an, wir beraten Sie in Freiberg am Neckar, Ludwigsburg und Umgebung.</p>',
   },
 ];
 

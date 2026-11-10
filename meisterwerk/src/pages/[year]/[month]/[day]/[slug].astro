@@ -3,6 +3,7 @@
 import { getCollection } from 'astro:content';
 import PageLayout from '../../../../layouts/PageLayout.astro';
 import ProjectPage from '../../../../components/projekte/ProjectPage.astro';
+import { placeTitle } from '../../../../lib/seo';
 
 export async function getStaticPaths() {
   const posts = await getCollection('beitraege');
@@ -16,7 +17,7 @@ const { post } = Astro.props;
 ---
 
 <PageLayout
-  title={post.title}
+  title={placeTitle(post.title, post.info.place, 30)}
   description={post.description}
   current={`/${post.year}/${post.month}/${post.day}/${post.slug}/`}
 >

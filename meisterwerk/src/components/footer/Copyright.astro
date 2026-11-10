@@ -1,17 +1,16 @@
 ---
-/** Copyright-Zeile (Original: Link auf `#`). */
+/** Copyright-Zeile als reiner Text (im Original ein Link auf `#`, der nirgends hinführte). */
 interface Props {
   class?: string;
 }
 const { class: className = '' } = Astro.props;
 ---
 
-<a
-  href="#"
+<p
   class:list={[
-    'font-display text-label font-medium tracking-label text-ink uppercase hover:text-black max-md:text-small max-md:font-normal max-md:tracking-normal max-md:normal-case max-md:text-ink/70',
+    'font-display text-label font-medium tracking-label text-ink uppercase max-md:text-small max-md:font-normal max-md:tracking-normal max-md:normal-case max-md:text-ink/70',
     className,
   ]}
 >
   © 2026 Meisterwerke
-</a>
+</p>

@@ -22,7 +22,7 @@ import type { Part, Faq } from '../faq';
 export const meta = {
   title: 'Spachteltechnik & Fugenloses Design',
   description:
-    'Exklusive fugenlose Bäder & Böden vom Experten. Edle Spachteltechniken für Ihr Zuhause. Langlebig, modern & pflegeleicht. Jetzt Beratung vereinbaren!',
+    'Fugenlose Bäder und Böden sowie Spachteltechniken von Meisterwerke Exklusive in Ludwigsburg, Freiberg am Neckar und Stuttgart. Langlebig, modern, pflegeleicht.',
 };
 
 const KONTAKT = '/meisterwerk-exklusive/kontakt/';
@@ -71,8 +71,8 @@ export const welcome = {
     'Exklusive Bad-Ausstellung mit mineralischer Wandspachteltechnik, Ornament-Prägung und Altholz-Waschtischen in Ludwigsburg.',
   heading: 'Willkommen bei Meisterwerke <br /> Exklusive Oberflächen',
   paragraphs: [
-    'Tauchen Sie ein in die Welt hochwertiger Oberflächen und moderner Badgestaltung: Bei Meisterwerk steht Ihr persönlicher Wohlfühlraum im Mittelpunkt. Wir sind spezialisiert auf exklusive, fugenlose Bäder und innovative Spachteltechniken, die Ihrem Bad einen unverwechselbaren Look verleihen. Unsere individuellen Lösungen werden mit größter Sorgfalt und handwerklichem Können umgesetzt, ganz nach Ihren Vorstellungen.',
-    'Ob Sie Wert auf Nachhaltigkeit, zeitlose Eleganz oder eine moderne Ästhetik legen: Mit unseren maßgeschneiderten Oberflächen verwandeln wir Ihr Bad in ein echtes Highlight. Entdecken Sie unsere Vielfalt an Gestaltungsmöglichkeiten und lassen Sie sich inspirieren, wie aus Ihren Ideen ein echtes Meisterwerk entsteht. Wir begleiten Sie von der ersten Beratung bis zur professionellen Umsetzung, für ein Ergebnis, das überzeugt.',
+    'Bei Meisterwerk steht Ihr persönlicher Wohlfühlraum im Mittelpunkt. Wir sind spezialisiert auf fugenlose Bäder und Spachteltechniken in Ludwigsburg, Freiberg am Neckar und Stuttgart. Jedes Bad wird individuell geplant und mit handwerklichem Können nach Ihren Vorstellungen umgesetzt.',
+    'Ob Sie Wert auf Nachhaltigkeit, zeitlose Eleganz oder eine moderne Ästhetik legen: Im Showroom zeigen wir Ihnen, welche Oberflächen und Gestaltungsmöglichkeiten es gibt, und setzen Ihre Auswahl um. Wir begleiten Sie von der ersten Beratung bis zur Übergabe.',
   ],
   cta: { label: 'Preis berechnen', href: KONTAKT },
 };
@@ -133,7 +133,7 @@ export const philosophie = {
 export const prinzipien = [
   {
     title: 'Individuelle Gestaltung als Grundprinzip: Räume, die Persönlichkeit widerspiegeln',
-    text: 'Bei Meisterwerk verstehen wir uns als Gestalter von Lebensräumen, die mehr bieten als nur Funktionalität, sie sollen inspirieren, entspannen und begeistern. Unsere Philosophie basiert auf dem Anspruch, für jeden Kunden maßgeschneiderte Lösungen zu entwickeln, die genau zu seinem persönlichen Stil und seinen Bedürfnissen passen. Wir sind überzeugt, dass ein Bad oder ein Wohnraum nicht nur schön, sondern auch ein Spiegel der Persönlichkeit sein sollte.',
+    text: 'Wir gestalten Räume, in denen man sich wohlfühlt. Für jeden Kunden entwickeln wir eine Lösung, die zu seinem Stil und seinen Bedürfnissen passt. Ein Bad oder Wohnraum soll nicht nur schön sein, sondern zu den Menschen passen, die darin leben.',
   },
   {
     title: 'Von der Idee bis zur Umsetzung: Handwerk mit Leidenschaft',

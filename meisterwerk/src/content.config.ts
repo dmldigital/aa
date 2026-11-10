@@ -30,6 +30,8 @@ const beitragFelder = (image: ImageFunction) => ({
   info: z.object({ year: z.string(), place: z.string(), duration: z.string(), area: z.string() }),
   sections: z.array(z.object({ heading: z.string(), text: z.string() })),
   gallery: z.array(image()),
+  /** Beschreibung je Galeriebild (gleiche Reihenfolge wie `gallery`) */
+  galleryAlts: z.array(z.string()).optional(),
   /** Fließtext in 17/25,5 statt 15/22,5 (so im Original, nur „Altbau WDVS“ ist kleiner) */
   largeText: z.boolean().optional(),
 });

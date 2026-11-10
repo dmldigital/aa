@@ -76,15 +76,15 @@ export const timeline = [
     text: 'Gründung des Malerei­betriebs durch Baldassarre Fortino, der erste Schritt in die Selbständig­keit.',
   },
   {
-    date: '2014 – 2015',
+    date: '2014–2015',
     text: 'Start im Elternhaus in Ludwigs­burg, erste Projekte, erste Kunden und eine wachsende Vision.',
   },
   {
-    date: '2015 – 2017',
+    date: '2015–2017',
     text: 'Umzug in eine eigene Werk­statt in Aldingen, während das Büro zu Hause blieb.',
   },
   {
-    date: '2017 – 2024',
+    date: '2017–2024',
     text: 'Dritter Standort in Bitten­feld mit Show­room eröffnet und neue Werk­statt in Freiberg etabliert.',
   },
   {

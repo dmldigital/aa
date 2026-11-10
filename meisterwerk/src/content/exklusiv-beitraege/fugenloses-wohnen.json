@@ -10,7 +10,7 @@
   "categoryHref": "/meisterwerk-exklusive/fugenloser-boden/",
   "date": "Mai / 2025",
   "image": "../../assets/img/Image-21.jpg",
-  "imageAlt": "Modernes Wohnkonzept mit fugenlosem mineralischem Boden, Sichtbeton-Säule und glatten weißen Wänden in Stuttgart.",
+  "imageAlt": "Modernes Wohnkonzept mit fugenlosem mineralischem Boden, Sichtbeton-Säule und glatten weißen Wänden in Karlsruhe.",
   "services": ["Fugenlose Böden", "Malerarbeiten"],
   "info": {
     "year": "2018",
@@ -25,7 +25,7 @@
     },
     {
       "heading": "Planung mit Blick fürs Detail",
-      "text": "Um diesem Anspruch gerecht zu werden, mussten zahlreiche bauliche Feinheiten von Anfang an berücksichtigt werden. Dazu zählten unter anderem Setzungsspuren durch das Bauwerk, die Integration einer Fußbodenheizung sowie die großflächigen Fensterfronten, die besondere Anforderungen an den Wand- und Bodenanschluss stellten. Nur durch die ganzheitliche Betrachtung aller technischen und gestalterischen Aspekte konnte das gewünschte, nahezu makellose Ergebnis erzielt werden."
+      "text": "Um diesem Anspruch gerecht zu werden, mussten zahlreiche bauliche Feinheiten von Anfang an berücksichtigt werden. Dazu zählten unter anderem Setzungsspuren durch das Bauwerk, die Integration einer Fußbodenheizung sowie die großflächigen Fensterfronten, die besondere Anforderungen an den Wand- und Bodenanschluss stellten. Nur weil alle technischen und gestalterischen Aspekte gemeinsam betrachtet wurden, konnte das gewünschte Ergebnis erreicht werden."
     },
     {
       "heading": "Funktion trifft auf individuelle Gestaltung",
@@ -37,6 +37,12 @@
     "../../assets/img/Image-20.jpg",
     "../../assets/img/Image-14-e1672912602625.jpg",
     "../../assets/img/Image-21.jpg"
+  ],
+  "galleryAlts": [
+    "Esszimmer mit offener Küche und fugenlosem mineralischem Boden",
+    "Esstisch mit Stühlen und Pendelleuchten vor bodentiefen Fenstern, fugenloser Boden",
+    "Flur mit indirekter Beleuchtung an der Decke und glatten weißen Wänden",
+    "Wohnzimmer mit Sofa, Wandfernseher und fugenlosem Boden, indirektes Licht an der Decke"
   ],
   "largeText": true,
   "galleryColumns": [3, 3, 1]

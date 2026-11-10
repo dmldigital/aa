@@ -2,9 +2,9 @@
 import image from '../../assets/img/117-meisterwerk-20230120-Bearbeitet-scaled.jpg';
 
 export const meta = {
-  title: 'Referenzen & Projekte',
+  title: 'Maler-Referenzen Ludwigsburg',
   description:
-    'Lassen Sie sich inspirieren: Entdecken Sie unsere exklusiven Projekte in Ludwigsburg & Stuttgart. Von fugenlosen Bädern bis hin zu puristischen Fassaden.',
+    'Referenzen der Meisterwerk Malermanufaktur in Ludwigsburg und Stuttgart: fugenlose Bäder, Malerarbeiten, Spachteltechniken und Fassaden.',
 };
 
 export const intro = {
