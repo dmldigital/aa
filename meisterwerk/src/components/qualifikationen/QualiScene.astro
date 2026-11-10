@@ -280,8 +280,8 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   .qs-card {
     position: relative;
     overflow: hidden;
-    background: #fff;
-    box-shadow: 0 18px 40px -22px rgb(9 4 2 / 0.35);
+    background: var(--color-white);
+    box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--color-ink) 35%, transparent);
   }
   .qs-btn {
     position: absolute;
@@ -323,8 +323,8 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: #000000b3;
-    color: #fff;
+    background: var(--color-muted);
+    color: var(--color-white);
     font-size: 40px;
     line-height: 22.5px;
     opacity: 0;
@@ -460,7 +460,7 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
       line-height: var(--text-label--line-height);
       letter-spacing: 2px;
       text-transform: uppercase;
-      color: rgb(9 4 2 / 0.4);
+      color: color-mix(in srgb, var(--color-ink) 40%, transparent);
       transition: color 0.4s var(--ease-css);
     }
     .qs-nav button[aria-current='true'] .qs-nav-label,

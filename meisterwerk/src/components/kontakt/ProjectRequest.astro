@@ -670,9 +670,9 @@ const tick = 'M4 10.5l4 4 8-9';
   /* ---------- Rahmen: Orientierung links, Frage rechts (Desktop); Handy: eine Spalte ---------- */
   .pf {
     --ink: var(--color-ink);
-    --card: #fff;
+    --card: var(--color-white);
     --ring: var(--color-gold);
-    --soft-shadow: 0 10px 28px -16px rgb(9 4 2 / 0.22);
+    --soft-shadow: 0 10px 28px -16px color-mix(in srgb, var(--color-ink) 22%, transparent);
     margin: 0;
     padding: var(--space-group) var(--space-gutter) var(--space-section);
     background: var(--color-soft);
@@ -716,7 +716,7 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf-bar {
     display: none;
     height: 3px;
-    background: rgb(9 4 2 / 0.08);
+    background: color-mix(in srgb, var(--color-ink) 8%, transparent);
     overflow: hidden;
   }
   .pf-bar span {
@@ -832,7 +832,7 @@ const tick = 'M4 10.5l4 4 8-9';
     width: 13px;
     height: 13px;
     fill: none;
-    stroke: #fff;
+    stroke: var(--color-white);
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -897,7 +897,7 @@ const tick = 'M4 10.5l4 4 8-9';
     height: 26px;
     place-items: center;
     border-radius: 50%;
-    background: rgb(9 4 2 / 0.06);
+    background: color-mix(in srgb, var(--color-ink) 6%, transparent);
     transition: background-color 0.45s var(--ease-css);
   }
   .pf-opt--check .pf-ind {
@@ -908,7 +908,7 @@ const tick = 'M4 10.5l4 4 8-9';
     width: 14px;
     height: 14px;
     fill: none;
-    stroke: #fff;
+    stroke: var(--color-white);
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -1000,7 +1000,7 @@ const tick = 'M4 10.5l4 4 8-9';
     height: 26px;
     place-items: center;
     border-radius: 8px;
-    background: rgb(9 4 2 / 0.06);
+    background: color-mix(in srgb, var(--color-ink) 6%, transparent);
     transition: background-color 0.4s var(--ease-css);
   }
   .pf-same input:checked ~ .pf-same-box {
@@ -1036,7 +1036,7 @@ const tick = 'M4 10.5l4 4 8-9';
     box-shadow: inset 0 0 0 1.5px var(--ink);
   }
   .pf-list.is-invalid .pf-opt {
-    box-shadow: inset 0 0 0 1.5px rgb(9 4 2 / 0.4);
+    box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--color-ink) 40%, transparent);
   }
 
   /* ---------- Fläche ---------- */
@@ -1087,31 +1087,31 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf-range::-webkit-slider-runnable-track {
     height: 8px;
     border-radius: 4px;
-    background: linear-gradient(to right, var(--color-gold) var(--p), rgb(9 4 2 / 0.1) var(--p));
+    background: linear-gradient(to right, var(--color-gold) var(--p), color-mix(in srgb, var(--color-ink) 10%, transparent) var(--p));
   }
   .pf-range::-moz-range-track {
     height: 8px;
     border-radius: 4px;
-    background: linear-gradient(to right, var(--color-gold) var(--p), rgb(9 4 2 / 0.1) var(--p));
+    background: linear-gradient(to right, var(--color-gold) var(--p), color-mix(in srgb, var(--color-ink) 10%, transparent) var(--p));
   }
   .pf-range::-webkit-slider-thumb {
     width: 36px;
     height: 36px;
     margin-top: -14px;
-    border: 3px solid #fff;
+    border: 3px solid var(--color-white);
     border-radius: 50%;
     background: var(--color-gold);
-    box-shadow: 0 2px 8px rgb(9 4 2 / 0.25);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--color-ink) 25%, transparent);
     -webkit-appearance: none;
     appearance: none;
   }
   .pf-range::-moz-range-thumb {
     width: 30px;
     height: 30px;
-    border: 3px solid #fff;
+    border: 3px solid var(--color-white);
     border-radius: 50%;
     background: var(--color-gold);
-    box-shadow: 0 2px 8px rgb(9 4 2 / 0.25);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--color-ink) 25%, transparent);
   }
   .pf-range:focus-visible {
     outline: 2px solid var(--ink);
@@ -1161,7 +1161,7 @@ const tick = 'M4 10.5l4 4 8-9';
     place-items: center;
     border-radius: 50%;
     background: var(--color-gold);
-    color: #fff;
+    color: var(--color-white);
   }
   .pf-drop-text {
     font-family: var(--font-urbanist), sans-serif;
@@ -1207,8 +1207,8 @@ const tick = 'M4 10.5l4 4 8-9';
     height: 26px;
     border: 0;
     border-radius: 50%;
-    background: rgb(9 4 2 / 0.78);
-    color: #fff;
+    background: color-mix(in srgb, var(--color-ink) 78%, transparent);
+    color: var(--color-white);
     font-size: var(--text-body);
     line-height: 1;
     cursor: pointer;
@@ -1314,7 +1314,7 @@ const tick = 'M4 10.5l4 4 8-9';
     transition: background-color 0.3s var(--ease-css);
   }
   .pf-back:hover {
-    background: rgb(9 4 2 / 0.05);
+    background: color-mix(in srgb, var(--color-ink) 5%, transparent);
   }
 
   /* ---------- Fertig ---------- */
@@ -1401,7 +1401,7 @@ const tick = 'M4 10.5l4 4 8-9';
       padding: 10px 0;
       border: 0;
       background: none;
-      color: rgb(9 4 2 / 0.32);
+      color: color-mix(in srgb, var(--color-ink) 32%, transparent);
       font-family: var(--font-urbanist), sans-serif;
       font-size: var(--text-h4);
       line-height: var(--text-h4--line-height);
@@ -1416,7 +1416,7 @@ const tick = 'M4 10.5l4 4 8-9';
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      background: rgb(9 4 2 / 0.14);
+      background: color-mix(in srgb, var(--color-ink) 14%, transparent);
       transition:
         background-color 0.5s var(--ease-css),
         box-shadow 0.5s var(--ease-css);
@@ -1429,7 +1429,7 @@ const tick = 'M4 10.5l4 4 8-9';
       box-shadow: 0 0 0 5px rgb(165 147 113 / 0.22);
     }
     .pf-step.is-done button {
-      color: rgb(9 4 2 / 0.7);
+      color: color-mix(in srgb, var(--color-ink) 70%, transparent);
       cursor: pointer;
     }
     .pf-step.is-done button::before {

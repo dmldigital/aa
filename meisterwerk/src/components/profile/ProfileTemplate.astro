@@ -602,7 +602,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
   .pm-card {
     position: relative;
     padding: 26px 26px 28px;
-    background: #fff;
+    background: var(--color-white);
     overflow: hidden;
   }
   .pm-card::after {
@@ -764,7 +764,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgb(9 4 2 / 0.6) 0%, rgb(9 4 2 / 0) 50%);
+    background: linear-gradient(to top, color-mix(in srgb, var(--color-ink) 60%, transparent) 0%, color-mix(in srgb, var(--color-ink) 0%, transparent) 50%);
     opacity: 0;
     transition: opacity 0.6s ease;
   }
@@ -775,7 +775,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     z-index: 1;
     padding-bottom: 3px;
     border-bottom: 1px solid var(--color-gold);
-    color: #fff;
+    color: var(--color-white);
     font-family: var(--font-display);
     font-size: var(--text-label);
     font-weight: 600;
