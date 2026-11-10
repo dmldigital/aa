@@ -3,7 +3,7 @@ import baldassarre from '../../assets/img/baldassare_fortino.jpg';
 import lorenzo from '../../assets/img/Fliesenleger-Vorarbeiter-Lorenzo-Fortino--scaled.jpg';
 import fabio from '../../assets/img/Maler-u.-Lackierer-Gesele-Fabio-Fortino-scaled-e1753863865243.jpg';
 import samet from '../../assets/img/Maler-u.-Lackierer-Azubi-Samet-Erenuglu.jpg';
-import vincenzo from '../../assets/img/Papa-Vincenzo-Fortino-e1753863670297.png';
+import vincenzo from '../../assets/img/Papa-Vincenzo-Fortino.jpg';
 
 export const meta = {
   title: 'Studio und Team in Freiberg',

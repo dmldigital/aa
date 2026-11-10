@@ -7,6 +7,7 @@
   - **Sonnet** für mittlere Aufgaben: Umsetzen klar spezifizierter Änderungen, Zusammenfassungen, Auswertungen.
   - Das Hauptmodell nur für Planung, Architekturentscheidungen und die finale Prüfung.
 - Keine eigenen Tools/Skills bauen, wenn es etablierte, gut bewertete Lösungen gibt (z. B. auf GitHub) – erst danach suchen.
+- **Browser zum Zeigen:** Ergebnisse dem Nutzer immer in Edge oder Chrome zeigen (Claude in Chrome, falls verbunden, sonst Link zum Öffnen), nie im eingebauten Browser der App. Vom Nutzer so festgelegt.
 - **Keine Nummerierung in Menüs** (kein „01, 02, 03 …“ neben Navigationspunkten, Desktop wie Handy-Menü), in allen Projekten dieses Repos. Vom Nutzer mehrfach ausdrücklich abgelehnt: veraltet, wirkt wie KI-Slop.
 
 ## Nachbau nach Vorlage (Design-Referenz, Animations-Beispiele)

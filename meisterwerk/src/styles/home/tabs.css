@@ -37,6 +37,15 @@
 .tb-grp li{position:relative;margin-top:calc(6px*var(--s));padding-left:24px}
 .tb-grp li:first-child{margin-top:0}
 .tb-grp li::before{content:"";position:absolute;left:0;top:.42em;width:.6em;height:.95em;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 -448 256 512'%3E%3Cpath transform='scale(1 -1)' fill='%23a59371' d='M224.3 175l-136 -136c-9.39941 -9.40039 -24.5996 -9.40039 -33.8994 0l-22.6006 22.5996c-9.39941 9.40039 -9.39941 24.6006 0 33.9004l96.4004 96.4004l-96.4004 96.3994c-9.39941 9.40039 -9.39941 24.6006 0 33.9004l22.5 22.7998c9.40039 9.40039 24.6006 9.40039 33.9004 0l136 -136c9.5 -9.40039 9.5 -24.5996 0.0996094 -34z'/%3E%3C/svg%3E") no-repeat center/contain}
+/* Kennzahlen: große goldene Zahl, kurze Beschriftung darunter (ruhiger als Listen mit Hervorhebungen) */
+.tb-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:calc(20px*var(--s)) calc(32px*var(--s));max-width:44em;margin:0 0 calc(32px*var(--s));padding:0}
+.tb-facts:has(> :nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr));max-width:34em}
+.tb-facts:has(> :only-child){grid-template-columns:minmax(0,22em)}
+.tb-facts div{margin:0}
+.tb-facts dt{font-family:var(--font-urbanist),sans-serif;color:var(--tb-gold);font-size:var(--text-h2);line-height:1.05;letter-spacing:var(--text-h2--letter-spacing);font-weight:400;white-space:nowrap}
+.tb-facts dd{margin:calc(8px*var(--s)) 0 0;font-size:var(--text-small);line-height:var(--text-small--line-height);color:#00000099}
+.tb-list{margin:0}
+.tb-cmp{margin-top:calc(4px*var(--s))}
 .tb-note{max-width:34em;margin:calc(24px*var(--s)) 0 0;color:#000000b3;font-weight:400}
 .tb-note strong{color:var(--tb-gold);font-weight:500}
 .tb-groups+.tb-note{margin-top:calc(24px*var(--s))}
@@ -62,6 +71,8 @@
 
 @media (width<=700px){
   .tb-groups{column-count:1}
+  .tb-facts,.tb-facts:has(> :nth-child(3):last-child){grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 20px}
+  .tb-facts:has(> :only-child){grid-template-columns:1fr}
   .tb-cmp,.tb-cmp tbody,.tb-cmp tr,.tb-cmp th,.tb-cmp td{display:block}
   .tb-cmp thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
   .tb-cmp colgroup{display:none}
