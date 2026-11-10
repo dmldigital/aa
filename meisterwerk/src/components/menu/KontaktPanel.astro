@@ -1,15 +1,10 @@
 ---
 import Button from '../ui/Button.astro';
 import { site as company } from '../../data/site';
-import type { Site } from '../../data/nav';
 /**
  * Rechte Seite des Desktop-Menüs (Standard): Überschrift, Kontaktdaten und ein kurzes Formular auf weißer Fläche.
  * Das Absenden ist wie beim Kontaktformular noch nicht angebunden (Meldung, Skript in Menu.astro).
  */
-interface Props {
-  site?: Site;
-}
-const { site = 'main' } = Astro.props;
 const label = 'font-display text-label tracking-[0.12em] text-gold uppercase';
 const value = 'group/ul inline-block font-display text-body tracking-[0.01em] text-ink';
 const soc = 'group/soc inline-flex items-center gap-2.5 transition-colors duration-300 hover:text-gold';

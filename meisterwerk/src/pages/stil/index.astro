@@ -11,7 +11,8 @@ import Button from '../../components/ui/Button.astro';
 const fluid = (min: number, max: number) =>
   min === max ? `${min}px` : `clamp(${min}px, calc(${min}px + ${max - min} * (100vw - 390px) / 1050), ${max}px)`;
 
-const type = [
+type TypeRow = { name: string; use: string; min: number; max: number; lh: number; track: string; weight: number; font: string; sample: string; was: string; upper?: boolean };
+const type: TypeRow[] = [
   {
     name: 'Display',
     use: 'Nur Hero der Startseite',

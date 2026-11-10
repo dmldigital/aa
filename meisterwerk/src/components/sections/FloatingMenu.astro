@@ -19,7 +19,8 @@ interface Props {
 }
 const { site = 'main' } = Astro.props;
 const exk = site === 'exklusive';
-const items = [
+type Item = { icon: 'whatsapp' | 'phone' | 'mail' | 'roller'; label: string; sub: string; href: string; ext: boolean };
+const items: Item[] = [
   { icon: 'whatsapp', label: 'WhatsApp', sub: 'Nachricht schreiben', href: company.whatsappHref, ext: true },
   { icon: 'phone', label: 'Telefon', sub: company.phone, href: `tel:${company.phoneHref}`, ext: false },
   {
@@ -31,8 +32,8 @@ const items = [
   },
   ...(exk
     ? []
-    : [{ icon: 'roller', label: 'Projektanfrage', sub: 'Projekt starten', href: href('/kontakt/'), ext: false }]),
-] as const;
+    : ([{ icon: 'roller', label: 'Projektanfrage', sub: 'Projekt starten', href: href('/kontakt/'), ext: false }] satisfies Item[])),
+];
 const ext = (on: boolean) => (on ? { target: '_blank', rel: 'noopener noreferrer' } : {});
 const n = items.length;
 // Breite der Symbol-Reihe fest berechnet (Symbole 2,25 rem, Abstand 0,375 rem, seitlich 0,75 rem): kein Verlass auf die Breitenermittlung des Browsers

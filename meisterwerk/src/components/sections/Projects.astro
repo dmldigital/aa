@@ -23,7 +23,6 @@ interface Props {
   /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
   tone?: 'white' | 'soft';
   headingClass?: string;
-  linkTone?: 'gold' | 'black';
 }
 const {
   id = '3472c30',
@@ -36,7 +35,6 @@ const {
   tone = 'white',
   headingTag: Heading = 'h2',
   headingClass = 'text-h2 text-gold',
-  linkTone = 'gold',
 } = Astro.props;
 const CardTitle = Heading === 'h2' ? 'h3' : 'h4';
 ---
