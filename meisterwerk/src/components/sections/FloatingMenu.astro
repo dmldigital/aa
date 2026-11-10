@@ -41,7 +41,7 @@ const rowWidth = `${n * 2.25 + (n - 1) * 0.375 + 1.5}rem`;
 
 const shadow =
   'shadow-[0_1px_1px_rgb(21_24_27/0.04),0_6px_16px_-4px_rgb(21_24_27/0.1),0_18px_40px_-14px_rgb(21_24_27/0.2)]';
-// Handy und Desktop sind getrennt mit `max-[700px]:` und `min-[701px]:` geschrieben, nie als Grundwert plus Überschreibung: So hängt das Ergebnis
+// Handy und Desktop sind getrennt mit `max-sm:` und `sm:` geschrieben, nie als Grundwert plus Überschreibung: So hängt das Ergebnis
 // nicht von der Reihenfolge der CSS-Regeln ab (in der handbearbeiteten Vorschau-Startseite stimmte sie nicht).
 // Tailwind 4: translate und scale sind eigene CSS-Eigenschaften, `transition-[transform]` würde sie nicht animieren.
 // Einblenden weich auslaufend und etwas länger, Ausblenden kürzer und gleichmäßig.
@@ -49,28 +49,28 @@ const shadow =
 // um `--fm-dx`/`--fm-dy`), ohne `data-top` schwebt sie. `data-init` schaltet die Übergänge kurz ab (erstes Platzieren, Fenstergröße ändern).
 // Verschiebung 700 ms weich auslaufend, Ein- und Ausblenden 450 ms. `data-open` bei geöffneten Kontaktwegen.
 const wrap =
-  'group/fm invisible fixed z-[45] opacity-0 transition-[translate,opacity,visibility] duration-[700ms,450ms,450ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:opacity-100 data-[top]:translate-x-[var(--fm-dx,0px)] data-[top]:translate-y-[var(--fm-dy,0px)] data-[init]:transition-none in-data-[menu-morph]:opacity-0! max-[700px]:top-3.75 max-[700px]:right-5 min-[701px]:top-6 min-[701px]:right-7.5'; // oben 24 px wie der Rand des Menüfensters: Die Pille liegt ganz innerhalb des Fensters, das aus ihr wächst
-const pill = `relative flex items-stretch rounded-full border border-black/[0.08] bg-white text-ink ${shadow} max-[700px]:h-11 min-[701px]:h-12`;
+  'group/fm invisible fixed z-[45] opacity-0 transition-[translate,opacity,visibility] duration-[700ms,450ms,450ms] ease-[cubic-bezier(0.22,1,0.36,1)] data-[show]:visible data-[show]:opacity-100 data-[top]:translate-x-[var(--fm-dx,0px)] data-[top]:translate-y-[var(--fm-dy,0px)] data-[init]:transition-none in-data-[menu-morph]:opacity-0! max-sm:top-3.75 max-sm:right-5 sm:top-6 sm:right-7.5'; // oben 24 px wie der Rand des Menüfensters: Die Pille liegt ganz innerhalb des Fensters, das aus ihr wächst
+const pill = `relative flex items-stretch rounded-full border border-black/[0.08] bg-white text-ink ${shadow} max-sm:h-11 sm:h-12`;
 // Felder der Pille: weicher Grund beim Überfahren und solange die Kontaktwege offen sind, kein Unterstrich
 const seg =
   'group/ul my-1 flex cursor-pointer items-center rounded-full text-ink transition-colors duration-300 hover:bg-black/[0.055]';
 const text =
-  'font-display font-medium tracking-[0.07em] uppercase max-[700px]:text-[11px]/none min-[701px]:text-[11.5px]/none';
+  'font-display font-medium tracking-[0.07em] uppercase max-sm:text-[11px]/none sm:text-[11.5px]/none';
 const bar = 'block h-px w-full bg-current';
 // Kontaktwege: Handy unter der Pille als Liste, ab 701 px links neben der Pille als Reihe von Symbolen. Der Grund (Pille mit
 // Rand und Schatten) wächst dort von der Kontakt-Taste nach links, die Symbole blenden nacheinander von der Pille aus ein.
 const panel =
-  'invisible absolute transition-[visibility] duration-[420ms] group-data-[open]/fm:visible group-data-[open]/fm:duration-0 max-[700px]:top-full max-[700px]:right-0 max-[700px]:pt-2.5 min-[701px]:-top-px min-[701px]:right-full min-[701px]:h-[calc(100%+2px)] min-[701px]:w-[calc(var(--w)+0.625rem)] min-[701px]:pr-2.5';
-const ground = `pointer-events-none absolute top-0 right-0 bottom-0 origin-top-right border border-black/[0.08] bg-white opacity-0 ${shadow} transition-[width,scale,opacity] duration-[320ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-data-[open]/fm:opacity-100 group-data-[open]/fm:duration-[720ms] group-data-[open]/fm:ease-[cubic-bezier(0.32,0.72,0,1)] max-[700px]:left-0 max-[700px]:scale-90 max-[700px]:rounded-[22px] max-[700px]:group-data-[open]/fm:scale-100 min-[701px]:w-9 min-[701px]:rounded-full min-[701px]:group-data-[open]/fm:w-full`;
+  'invisible absolute transition-[visibility] duration-[420ms] group-data-[open]/fm:visible group-data-[open]/fm:duration-0 max-sm:top-full max-sm:right-0 max-sm:pt-2.5 sm:-top-px sm:right-full sm:h-[calc(100%+2px)] sm:w-[calc(var(--w)+0.625rem)] sm:pr-2.5';
+const ground = `pointer-events-none absolute top-0 right-0 bottom-0 origin-top-right border border-black/[0.08] bg-white opacity-0 ${shadow} transition-[width,scale,opacity] duration-[320ms] ease-[cubic-bezier(0.4,0,0.2,1)] group-data-[open]/fm:opacity-100 group-data-[open]/fm:duration-[720ms] group-data-[open]/fm:ease-[cubic-bezier(0.32,0.72,0,1)] max-sm:left-0 max-sm:scale-90 max-sm:rounded-[22px] max-sm:group-data-[open]/fm:scale-100 sm:w-9 sm:rounded-full sm:group-data-[open]/fm:w-full`;
 const box =
-  'relative flex max-[700px]:flex-col max-[700px]:gap-0.5 max-[700px]:p-2 min-[701px]:h-full min-[701px]:w-[var(--w)] min-[701px]:shrink-0 min-[701px]:items-center min-[701px]:gap-1.5 min-[701px]:px-3';
+  'relative flex max-sm:flex-col max-sm:gap-0.5 max-sm:p-2 sm:h-full sm:w-[var(--w)] sm:shrink-0 sm:items-center sm:gap-1.5 sm:px-3';
 const item =
   'relative flex translate-x-3 opacity-0 blur-[2px] transition-[translate,opacity,filter] duration-[220ms] ease-out group-data-[open]/fm:translate-x-0 group-data-[open]/fm:opacity-100 group-data-[open]/fm:blur-none group-data-[open]/fm:duration-[640ms] group-data-[open]/fm:ease-[cubic-bezier(0.32,0.72,0,1)] group-data-[open]/fm:[transition-delay:var(--d)]';
 const link =
-  'group/it relative rounded-full text-ink transition-colors duration-300 hover:bg-black/[0.055] focus-visible:bg-black/[0.055] max-[700px]:flex max-[700px]:h-11 max-[700px]:w-full max-[700px]:items-center max-[700px]:gap-3 max-[700px]:pr-5 max-[700px]:pl-2.5 min-[701px]:grid min-[701px]:size-9 min-[701px]:place-items-center';
+  'group/it relative rounded-full text-ink transition-colors duration-300 hover:bg-black/[0.055] focus-visible:bg-black/[0.055] max-sm:flex max-sm:h-11 max-sm:w-full max-sm:items-center max-sm:gap-3 max-sm:pr-5 max-sm:pl-2.5 sm:grid sm:size-9 sm:place-items-center';
 // Name: Handy neben dem Symbol, ab 701 px als Schild unter dem Symbol beim Überfahren oder Fokus
 const label =
-  'font-display uppercase max-[700px]:text-[11px]/none max-[700px]:tracking-[0.07em] min-[701px]:pointer-events-none min-[701px]:absolute min-[701px]:top-full min-[701px]:left-1/2 min-[701px]:mt-3.5 min-[701px]:-translate-x-1/2 min-[701px]:translate-y-1 min-[701px]:rounded-full min-[701px]:border min-[701px]:border-black/[0.08] min-[701px]:bg-white min-[701px]:px-3 min-[701px]:py-1.5 min-[701px]:text-[10px]/none min-[701px]:tracking-[0.08em] min-[701px]:whitespace-nowrap min-[701px]:text-ink min-[701px]:shadow-[0_1px_1px_rgb(21_24_27/0.04),0_6px_16px_-4px_rgb(21_24_27/0.1)] min-[701px]:opacity-0 min-[701px]:transition-[translate,opacity] min-[701px]:duration-300 min-[701px]:ease-out min-[701px]:group-hover/it:translate-y-0 min-[701px]:group-hover/it:opacity-100 min-[701px]:group-focus-visible/it:translate-y-0 min-[701px]:group-focus-visible/it:opacity-100';
+  'font-display uppercase max-sm:text-[11px]/none max-sm:tracking-[0.07em] sm:pointer-events-none sm:absolute sm:top-full sm:left-1/2 sm:mt-3.5 sm:-translate-x-1/2 sm:translate-y-1 sm:rounded-full sm:border sm:border-black/[0.08] sm:bg-white sm:px-3 sm:py-1.5 sm:text-[10px]/none sm:tracking-[0.08em] sm:whitespace-nowrap sm:text-ink sm:shadow-[0_1px_1px_rgb(21_24_27/0.04),0_6px_16px_-4px_rgb(21_24_27/0.1)] sm:opacity-0 sm:transition-[translate,opacity] sm:duration-300 sm:ease-out sm:group-hover/it:translate-y-0 sm:group-hover/it:opacity-100 sm:group-focus-visible/it:translate-y-0 sm:group-focus-visible/it:opacity-100';
 ---
 
 <div data-fm-root class="contents">
@@ -82,7 +82,7 @@ const label =
           data-fm-contact
           aria-expanded="false"
           aria-controls="fm-contact"
-          class={`${seg} ml-1 max-[700px]:px-3.5 min-[701px]:px-4.5 group-data-[open]/fm:bg-black/[0.055]`}
+          class={`${seg} ml-1 max-sm:px-3.5 sm:px-4.5 group-data-[open]/fm:bg-black/[0.055]`}
         >
           <span class={text}>Kontakt</span>
         </button>
@@ -93,7 +93,7 @@ const label =
               items.map((it, i) => (
                 <li class={item} style={`--d:${170 + (n - 1 - i) * 70}ms`}>
                   <a href={it.href} {...ext(it.ext)} aria-label={`${it.label}: ${it.sub}`} class={link}>
-                    <span class="grid shrink-0 place-items-center max-[700px]:size-6">
+                    <span class="grid shrink-0 place-items-center max-sm:size-6">
                       <ContactIcon name={it.icon} class={it.icon === 'whatsapp' ? 'size-4' : 'size-4.5'} />
                     </span>
                     <span class={label}>{it.label}</span>
@@ -112,10 +112,10 @@ const label =
         aria-haspopup="dialog"
         aria-expanded="false"
         aria-label="Menü öffnen"
-        class={`${seg} mr-1 max-[700px]:gap-2.5 max-[700px]:pr-4 max-[700px]:pl-3.5 min-[701px]:gap-3.5 min-[701px]:pr-5 min-[701px]:pl-4.5`}
+        class={`${seg} mr-1 max-sm:gap-2.5 max-sm:pr-4 max-sm:pl-3.5 sm:gap-3.5 sm:pr-5 sm:pl-4.5`}
       >
         <span class={text}>Menü</span>
-        <span aria-hidden="true" class="flex flex-col gap-1.5 max-[700px]:w-4 min-[701px]:w-5.5">
+        <span aria-hidden="true" class="flex flex-col gap-1.5 max-sm:w-4 sm:w-5.5">
           <i class={bar}></i>
           <i class={`${bar} transition-[width] duration-300 group-hover/ul:w-[65%]`}></i>
         </span>

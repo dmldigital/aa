@@ -5,7 +5,7 @@ import { href, routes } from '../../data/links';
 import wohnzimmer from '../../assets/img/209-meisterwerk-20230120-scaled.jpg';
 import kueche from '../../assets/img/2014-meisterwerk-20230524-Bearbeitet-1-scaled.jpg';
 import wohnbereich from '../../assets/img/205-meisterwerk-20230120-Bearbeitet-scaled.jpg';
-import welcomeCss from '../../styles/home/welcome.css?url';
+import '../../styles/home/welcome.css';
 
 /**
  * Willkommen-Szene der Startseite (Original 53bda50 und 3c77667): Text und drei Bilder. Desktop: Der Text bleibt
@@ -59,7 +59,6 @@ const defaultImages = [
 const images = customImages ?? defaultImages;
 ---
 
-{home && <link rel="stylesheet" href={welcomeCss} />}
 <section
   data-section="53bda50"
   data-welcome-scene

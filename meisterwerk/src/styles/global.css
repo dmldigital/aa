@@ -1,14 +1,16 @@
 @import 'tailwindcss';
 
-/* Breakpoints wie im Original (Elementor): Tablet ab 768px, Desktop ab 1025px */
+/* Breakpoints wie im Original (Elementor): Handy bis 700px, ab 701px (`sm`), Tablet ab 768px, Desktop ab 1025px */
 @theme {
   --breakpoint-*: initial;
+  --breakpoint-sm: 43.8125rem;
   --breakpoint-md: 48rem;
   --breakpoint-lg: 64.0625rem;
 
   --color-gold: #a59371;
   --color-ink: #090402;
   --color-soft: #f7f7f7;
+  --color-fog: #f1f1f1;
   --color-muted: rgb(0 0 0 / 0.7);
   --color-line: rgb(255 255 255 / 0.3);
 
@@ -67,7 +69,7 @@
 
 /* Handy (bis 767 px): leichtere Schriftgewichte (auch fetter Text im Fließtext), ruhiger und weniger erschlagend. Die Utilities font-medium/-semibold/-bold greifen
    auf diese Variablen zu, so bleiben alle Stellen im Quellcode unverändert und Tablet/Desktop behalten ihre Gewichte. */
-@media (width < 768px) {
+@media (width < theme(--breakpoint-md)) {
   :root {
     --font-weight-medium: 400;
     --font-weight-semibold: 500;
@@ -98,7 +100,7 @@
   --space-text: 0.75rem;
   --space-gutter: 1.25rem;
 }
-@media (width >= 48rem) {
+@media (width >= theme(--breakpoint-md)) {
   :root {
     --space-section: 6rem;
     --space-group: 2.5rem;
@@ -108,7 +110,7 @@
     --space-gutter: 2rem;
   }
 }
-@media (width >= 64.0625rem) {
+@media (width >= theme(--breakpoint-lg)) {
   :root {
     --space-section: 8rem;
     --space-group: 3.5rem;
@@ -124,11 +126,11 @@
 }
 
 /* Hero mit Scroll-Animation: Desktop (ab 701 px) und Handy (bis 700 px, Höhe ab 650 px), jeweils nur ohne reduzierte Bewegung */
-@custom-variant hero-d (@media (min-width: 701px) and (prefers-reduced-motion: no-preference));
-@custom-variant hero-m (@media (max-width: 700px) and (min-height: 650px) and (prefers-reduced-motion: no-preference));
+@custom-variant hero-d (@media (width >= theme(--breakpoint-sm)) and (prefers-reduced-motion: no-preference));
+@custom-variant hero-m (@media (width < theme(--breakpoint-sm)) and (min-height: 650px) and (prefers-reduced-motion: no-preference));
 
 /* Willkommen-Szene: bis 1024 px stapeln sich die Bilder und schieben sich beim Scrollen von rechts herein */
-@custom-variant ws-m (@media (max-width: 1024px) and (prefers-reduced-motion: no-preference));
+@custom-variant ws-m (@media (width < theme(--breakpoint-lg)) and (prefers-reduced-motion: no-preference));
 
 /* Leistungen der Startseite (LeistungenScroll.astro): Pin- und Scroll-Sektion, nur ohne reduzierte Bewegung und bei Fensterhöhe ab 560 px */
 @custom-variant lk-p (@media (min-height: 560px) and (prefers-reduced-motion: no-preference));
@@ -179,7 +181,7 @@
   .js [data-anim]:not([data-anim='none']) {
     visibility: hidden;
   }
-  @media (max-width: 47.99rem) {
+  @media (width < theme(--breakpoint-md)) {
     .js [data-anim-mobile]:not([data-anim-mobile='none']) {
       visibility: hidden;
     }
@@ -191,13 +193,13 @@
     clip-path: inset(0 0 100% 0);
   }
   /* Über uns, Zeitleiste: Foto und Meilensteine warten auf ihren Auftritt (nur Desktop) */
-  @media (min-width: 64.0625rem) and (prefers-reduced-motion: no-preference) {
+  @media (width >= theme(--breakpoint-lg)) and (prefers-reduced-motion: no-preference) {
     .js [data-tl-pending] {
       visibility: hidden;
     }
   }
   /* Über uns, Zeitleiste auf Handy und Tablet: Foto und Jahre warten auf ihren Auftritt */
-  @media (max-width: 1024.98px) and (prefers-reduced-motion: no-preference) {
+  @media (width < theme(--breakpoint-lg)) and (prefers-reduced-motion: no-preference) {
     .js [data-tlm-pend] [data-tlm-founder],
     .js [data-tlm-pend] [data-tlm-item] {
       visibility: hidden;
@@ -228,13 +230,13 @@
     }
   }
   /* Über uns, Team-Akkordeon (nur Desktop): Bilder warten auf ihren Auftritt */
-  @media (min-width: 64.0625rem) and (prefers-reduced-motion: no-preference) {
+  @media (width >= theme(--breakpoint-lg)) and (prefers-reduced-motion: no-preference) {
     .js [data-ta-pend] .ta-item {
       visibility: hidden;
     }
   }
   /* Über uns, Zeitleiste am Desktop: feine Hover-Effekte, erst nach dem Einfahren (sonst stören sie GSAP) */
-  @media (min-width: 64.0625rem) and (hover: hover) {
+  @media (width >= theme(--breakpoint-lg)) and (hover: hover) {
     [data-tl-scene].is-ready [data-tl-item] {
       transition: opacity 0.5s ease;
     }

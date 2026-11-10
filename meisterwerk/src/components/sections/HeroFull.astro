@@ -58,11 +58,11 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
 
     <div
       data-hero-content
-      class="absolute inset-x-5.5 bottom-7 z-[2] flex flex-col text-white min-[701px]:inset-x-7.5 min-[701px]:bottom-10 hero-m:bottom-[calc(100lvh-100svh+28px)]"
+      class="absolute inset-x-5.5 bottom-7 z-[2] flex flex-col text-white sm:inset-x-7.5 sm:bottom-10 hero-m:bottom-[calc(100lvh-100svh+28px)]"
     >
       <div class="max-w-[min(1180px,100%)]">
         <h1
-          class="mb-5 font-display text-display text-white min-[701px]:mb-6"
+          class="mb-5 font-display text-display text-white sm:mb-6"
         >
           <span
             class="mb-3.5 block font-display text-label font-normal tracking-[0.2em] text-white uppercase"
@@ -72,10 +72,10 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
           Malerarbeiten in Ludwigsburg und Freiberg am Neckar
         </h1>
         <p
-          class="mb-7 max-w-[34rem] font-display text-lead text-white/90 min-[701px]:mb-8"
+          class="mb-7 max-w-[34rem] font-display text-lead text-white/90 sm:mb-8"
         >
           Ihr Meisterbetrieb für Streichen, Lackieren, Tapezieren und glatte Oberflächen.{' '}
-          <span class="max-[700px]:hidden">Persönlich beraten, sauber ausgeführt, mit über 24 Jahren Erfahrung.</span>
+          <span class="max-sm:hidden">Persönlich beraten, sauber ausgeführt, mit über 24 Jahren Erfahrung.</span>
         </p>
         <Button href={href(routes.contact)} variant="light">Projekt anfragen</Button>
       </div>
@@ -83,7 +83,7 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
 
     <p
       data-hero-caption
-      class="absolute right-[clamp(24px,4.4vw,88px)] bottom-10 z-[2] hidden font-display text-label tracking-[0.17em] text-white uppercase min-[701px]:block"
+      class="absolute right-[clamp(24px,4.4vw,88px)] bottom-10 z-[2] hidden font-display text-label tracking-[0.17em] text-white uppercase sm:block"
     >
       Streichen. Lackieren. Tapezieren.
     </p>

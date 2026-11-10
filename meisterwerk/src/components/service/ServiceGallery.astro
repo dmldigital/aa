@@ -70,8 +70,9 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
 </script>
 
 <style>
+  @reference "../../styles/global.css";
   .sg {
-    --ink: #090402;
+    --ink: var(--color-ink);
     padding: var(--space-section) var(--space-gutter);
     color: var(--ink);
   }
@@ -174,9 +175,9 @@ const full = await Promise.all(images.map((src) => getImage({ src, width: 1800, 
     outline-offset: -4px;
   }
 
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
   }
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .sg-inner {
       grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
       gap: 0 6vw;

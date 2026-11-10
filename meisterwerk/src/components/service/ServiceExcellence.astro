@@ -35,9 +35,10 @@ const { title, items } = Astro.props;
 </section>
 
 <style>
+  @reference "../../styles/global.css";
   .se {
-    --ink: #090402;
-    --hair: #0904021f;
+    --ink: var(--color-ink);
+    --hair: color-mix(in srgb, var(--color-ink) 12.2%, transparent);
     padding: var(--space-section) var(--space-gutter);
     background: var(--color-soft);
     color: var(--ink);
@@ -103,9 +104,9 @@ const { title, items } = Astro.props;
   .se-text :global(li p) {
     margin: 0;
   }
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
   }
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .se-inner {
       grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
       gap: 0 6vw;

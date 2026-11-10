@@ -17,7 +17,7 @@ const exk = site === 'exklusive';
 const menu: Item[] = exk ? exklusiveItems : items;
 
 const row =
-  'group/acc flex w-full cursor-pointer items-center justify-between gap-4 py-3 text-left font-display text-h3 font-normal max-[700px]:py-[clamp(4px,calc(1.8dvh-4px),14px)] max-[700px]:text-[clamp(17px,2.8dvh,22px)]/[1.2] tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
+  'group/acc flex w-full cursor-pointer items-center justify-between gap-4 py-3 text-left font-display text-h3 font-normal max-sm:py-[clamp(4px,calc(1.8dvh-4px),14px)] max-sm:text-[clamp(17px,2.8dvh,22px)]/[1.2] tracking-[-0.02em] text-ink transition-colors duration-300 hover:text-gold aria-[current=page]:text-gold';
 // Hauptliste und Untermenü-Ansichten liegen übereinander, die gewählte blendet ein, die andere aus
 const view =
   'col-start-1 row-start-1 transition-[opacity,translate,visibility] duration-500 ease-in-out motion-reduce:transition-none data-[off]:pointer-events-none data-[off]:invisible data-[off]:opacity-0';
@@ -32,7 +32,7 @@ const subRow =
   data-menu-from="right"
   id="main-menu-3"
   aria-label="Hauptmenü"
-  class="fixed inset-y-2.5 right-2.5 left-auto m-0 hidden h-[calc(100dvh-20px)] max-h-none w-[min(460px,calc(100%-20px))] max-w-none overflow-y-auto overscroll-contain rounded-[24px] border-0 bg-soft px-6 py-[clamp(12px,2.2dvh,20px)] text-ink shadow-[-12px_0_40px_rgb(0_0_0/0.12)] backdrop:bg-ink/50 backdrop:opacity-[var(--bd,1)] backdrop:backdrop-blur-xs group/m open:grid open:grid-cols-[auto_minmax(0,1fr)] open:grid-rows-[auto_minmax(0,1fr)_auto] open:gap-x-3.5 min-[701px]:px-9 min-[701px]:py-7"
+  class="fixed inset-y-2.5 right-2.5 left-auto m-0 hidden h-[calc(100dvh-20px)] max-h-none w-[min(460px,calc(100%-20px))] max-w-none overflow-y-auto overscroll-contain rounded-[24px] border-0 bg-soft px-6 py-[clamp(12px,2.2dvh,20px)] text-ink shadow-[-12px_0_40px_rgb(0_0_0/0.12)] backdrop:bg-ink/50 backdrop:opacity-[var(--bd,1)] backdrop:backdrop-blur-xs group/m open:grid open:grid-cols-[auto_minmax(0,1fr)] open:grid-rows-[auto_minmax(0,1fr)_auto] open:gap-x-3.5 sm:px-9 sm:py-7"
 >
   <div class="col-span-2 flex items-center justify-between gap-6 font-display text-label tracking-[0.09em] uppercase">
     <span>Menü</span>
@@ -148,7 +148,7 @@ const subRow =
     )}
   </nav>
 
-  {!exk && <Badge class="col-start-1 row-start-3 [zoom:.62] max-[700px]:self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:hidden" />}
+  {!exk && <Badge class="col-start-1 row-start-3 [zoom:.62] max-sm:self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:hidden" />}
 
   <Kontakt {site} class="col-start-2 row-start-3 min-w-0 self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:col-span-2 [@media(max-height:640px)]:col-start-1" />
 </dialog>

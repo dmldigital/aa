@@ -1,3 +1,4 @@
+@reference "../global.css";
 /* Sektion mit Hintergrundbild, Linien und CTA-Box ("Jede Oberfläche ist einzigartig"):
    Bild kommt per Parallax hoch, Sektion wird gepinnt, senkrechte Linien und CTA-Box gleiten von links
    herein, kurzer Stopp, gleiten nach links wieder hinaus. Danach schiebt sich "Unsere Exklusive Projekte"
@@ -22,41 +23,41 @@
    Rechts derselbe Randabstand wie die CTA-Box links (Zeile bekommt links und rechts gleich viel Abstand). */
 .mz-mid{position:relative;flex-wrap:wrap}
 .mz-row--mid{padding-right:5%}
-@media (width>=768px){.mz-row--mid{padding-right:10%}}
-.mz-contact{flex:1 1 100%;display:flex;flex-direction:column;justify-content:center;box-sizing:border-box;min-width:0;padding:var(--space-inner);background:#fff;color:#090402}
-@media (width>=1025px){
+@media (width >= theme(--breakpoint-md)){.mz-row--mid{padding-right:10%}}
+.mz-contact{flex:1 1 100%;display:flex;flex-direction:column;justify-content:center;box-sizing:border-box;min-width:0;padding:var(--space-inner);background:#fff;color:var(--color-ink)}
+@media (width >= theme(--breakpoint-lg)){
   .mz-mid{flex-wrap:nowrap}
   .mz-contact{flex:1 1 0}
 }
 .mz--on .mz-col{position:relative;z-index:2}
 .mz--on .mz-contact{position:relative;z-index:1;will-change:transform}
-@media (width<1025px){
+@media (width < theme(--breakpoint-lg)){
   .mz--on .mz-contact{position:absolute;inset:0;z-index:3;flex:none}
   .mz--on .mz-row--mid{min-height:460px}
 }
-@media (width<768px){
+@media (width < theme(--breakpoint-md)){
   .mz--on .mz-row--mid{min-height:max(100vw,600px)}
 }
 
 /* Mini-Kontaktformular, Optik und Schrift wie meisterwerk/src/components/ui/MiniForm.astro: Linienfelder ohne Kasten,
    Beschriftung (label) über dem Feld, Eingabe body, Hinweise small, runde Senden-Pille (Standard-Button). */
 .mz-form{display:flex;flex-direction:column;gap:var(--space-stack);width:100%}
-.mz-form-title{margin:0;color:#090402;font-family:var(--font-urbanist),sans-serif;font-size:var(--text-h3);line-height:var(--text-h3--line-height);letter-spacing:var(--text-h3--letter-spacing);font-weight:500}
+.mz-form-title{margin:0;color:var(--color-ink);font-family:var(--font-urbanist),sans-serif;font-size:var(--text-h3);line-height:var(--text-h3--line-height);letter-spacing:var(--text-h3--letter-spacing);font-weight:500}
 .mz-fields{display:grid;grid-template-columns:1fr 1fr;gap:16px 32px}
 .mz-field{display:flex;flex-direction:column;gap:2px;min-width:0}
 .mz-field--wide{grid-column:1/-1}
 .mz-field span{color:#000000b3;font-family:var(--font-urbanist),sans-serif;font-size:var(--text-label);line-height:var(--text-label--line-height);font-weight:500;letter-spacing:var(--tracking-label);text-transform:uppercase}
-.mz-field input,.mz-field select,.mz-field textarea{width:100%;padding:10px 14px;border:0;border-radius:0;background:#0904020b;box-shadow:inset 0 0 0 1.5px transparent;color:#090402;font-family:var(--font-urbanist),sans-serif;font-size:var(--text-body);line-height:var(--text-body--line-height);font-weight:400;outline:none;transition:box-shadow .3s ease,background-color .3s ease}
+.mz-field input,.mz-field select,.mz-field textarea{width:100%;padding:10px 14px;border:0;border-radius:0;background:color-mix(in srgb, var(--color-ink) 4.3%, transparent);box-shadow:inset 0 0 0 1.5px transparent;color:var(--color-ink);font-family:var(--font-urbanist),sans-serif;font-size:var(--text-body);line-height:var(--text-body--line-height);font-weight:400;outline:none;transition:box-shadow .3s ease,background-color .3s ease}
 .mz-field textarea{min-height:48px;resize:none}
-.mz-field select{padding-right:36px;appearance:none;-webkit-appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23090402' stroke-width='1.3'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 14px center/12px #0904020b}
-.mz-field select option{color:#090402}
-.mz-field input:focus,.mz-field select:focus,.mz-field textarea:focus{background-color:#09040210;box-shadow:inset 0 0 0 1.5px #a59371}
+.mz-field select{padding-right:36px;appearance:none;-webkit-appearance:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23090402' stroke-width='1.3'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 14px center/12px color-mix(in srgb, var(--color-ink) 4.3%, transparent)}
+.mz-field select option{color:var(--color-ink)}
+.mz-field input:focus,.mz-field select:focus,.mz-field textarea:focus{background-color:color-mix(in srgb, var(--color-ink) 6.3%, transparent);box-shadow:inset 0 0 0 1.5px var(--color-gold)}
 .mz-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
 .mz-msg{flex:1 1 220px;margin:0;color:#000000b3;font-size:var(--text-small);line-height:var(--text-small--line-height)}
 .mz-direct{margin:0;color:#000000b3;font-size:var(--text-small);line-height:var(--text-small--line-height)}
-.mz-direct a{color:#a59371;text-decoration:none;transition:color .3s ease}
-.mz-direct a:hover{color:#090402}
-@media (width<768px){
+.mz-direct a{color:var(--color-gold);text-decoration:none;transition:color .3s ease}
+.mz-direct a:hover{color:var(--color-ink)}
+@media (width < theme(--breakpoint-md)){
   .mz-fields{grid-template-columns:1fr}
   .mz-direct{display:none}
 }

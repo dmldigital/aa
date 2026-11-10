@@ -20,6 +20,7 @@ import Icon from '../Icon.astro';
 </div>
 
 <style>
+  @reference "../../styles/global.css";
   .lb {
     position: fixed;
     inset: 0;
@@ -92,12 +93,12 @@ import Icon from '../Icon.astro';
   .lb-next {
     right: 20px;
   }
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
     .lb-fig {
       padding: 80px 90px;
     }
   }
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .lb-fig {
       padding: 60px 120px;
     }

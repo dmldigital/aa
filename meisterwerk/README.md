@@ -18,10 +18,11 @@ Astro 7, Tailwind 4, GSAP und Lenis. Aktuell nur die Startseite (Design 1:1 nach
 - `src/content` und `src/content.config.ts`: Content Collections für Einträge mit eigener Adresse (`beitraege`, `exklusiv-beitraege`, `profile`, `leistungen`, `exklusiv-leistungen`, `kollektionen`): eine JSON-Datei pro Eintrag, Zod-Schema in `content.config.ts`, Bilder als relativer Pfad nach `src/assets/img` (`image()`). Neue Seite dieser Art = neue JSON-Datei, die Route (`getCollection` + `getStaticPaths`) bleibt unverändert; Adresse bei Bedarf in `ASTRO_PAGES` eintragen.
 - `src/data` und `src/data/pages`: übrige Inhalte, Firmendaten (`site.ts`) und Links (`links.ts`, Liste `ASTRO_PAGES`). `src/lib`: kleine Helfer (`img.ts` holt Bilder per Dateiname).
 - `src/scripts`: `motion.ts` (Lenis, GSAP, Einblenden per `data-anim`) und `accordion.ts` (alle Akkordeons per `data-accordion`).
-- `src/styles/global.css`: Tailwind-Theme mit Farben, Typografie-Skala (`text-h2`, `text-button`, `text-15` …), Container (`max-w-page`, `max-w-tablet`), Absatzabstand (`mb-para`) und Breakpoints (`md` ab 768 px, `lg` ab 1025 px, wie im Original).
+- `src/styles/global.css`: Tailwind-Theme mit Farben, Typografie-Skala (`text-h2`, `text-button`, `text-15` …), Container (`max-w-page`, `max-w-tablet`), Absatzabstand (`mb-para`) und Breakpoints (`sm` ab 701 px, `md` ab 768 px, `lg` ab 1025 px, wie im Original).
 
 ## Konventionen
 
+- Farben, Abstände und Breakpoints nur über die Tokens aus `@theme` (`bg-ink`, `text-gold`, `sm:`/`md:`/`lg:`), keine festen Hexwerte und keine eigenen `min-[701px]`. In eigenem CSS (scoped `<style>` oder `styles/home/*.css`) gilt dasselbe: `@reference "…/global.css";` als erste Zeile, dann `var(--color-ink)`, `color-mix(in srgb, var(--color-ink) 12%, transparent)` und `@media (width >= theme(--breakpoint-lg))`. CSS-Dateien mit normalem `import '…css'` einbinden, nicht per `?url` (Astro rät ab).
 - Nur Tailwind-Klassen im Markup. Abstände in der Skala (`gap-5` statt `gap-[20px]`), wiederkehrende Werte als Token in `@theme`, Pixelwerte in Klammern nur für einmalige Sonderfälle.
 - Beim Dev-Server nach neuen Klassen in neuen Dateien einmal `touch src/styles/global.css` ausführen, sonst fehlt das CSS.
 - Rohe `<img>` nur, wo `<Picture>` nicht geht: SVG in `Faq.astro`, Lightbox-Bild in `Gallery.astro` (Quelle wird per Skript gesetzt). `alt` ohne Wert bedeutet bewusst dekorativ.

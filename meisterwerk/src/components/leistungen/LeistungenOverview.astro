@@ -187,9 +187,10 @@ const exklusivLinks = [
 </script>
 
 <style>
+  @reference "../../styles/global.css";
   .ls {
-    --ink: #090402;
-    --hair: #0904021f;
+    --ink: var(--color-ink);
+    --hair: color-mix(in srgb, var(--color-ink) 12.2%, transparent);
     padding: var(--space-section) var(--space-gutter);
     background: var(--color-soft);
     color: var(--ink);
@@ -309,7 +310,7 @@ const exklusivLinks = [
     display: block;
     min-height: 2.8em;
     margin-top: 4px;
-    color: #090402b3;
+    color: color-mix(in srgb, var(--color-ink) 70.2%, transparent);
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
     font-weight: 400;
@@ -413,7 +414,7 @@ const exklusivLinks = [
     line-height: var(--text-body--line-height);
   }
 
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
     .ls-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -438,7 +439,7 @@ const exklusivLinks = [
       aspect-ratio: auto;
     }
   }
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .ls-inner {
       grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
       gap: 0 6vw;

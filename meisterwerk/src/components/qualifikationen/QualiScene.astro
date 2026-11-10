@@ -206,8 +206,9 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
 </script>
 
 <style>
+  @reference "../../styles/global.css";
   .qs {
-    --ink: #090402;
+    --ink: var(--color-ink);
     padding: 0 var(--space-gutter);
     color: var(--ink);
   }
@@ -382,13 +383,13 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
       opacity: 0;
     }
   }
-  @media (min-width: 1025px) and (prefers-reduced-motion: no-preference) {
+  @media (width >= theme(--breakpoint-lg)) and (prefers-reduced-motion: no-preference) {
     :global(.js) .qs-side {
       visibility: hidden;
     }
   }
 
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
     .qs-wall {
       gap: 20px;
     }
@@ -400,7 +401,7 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
     }
   }
 
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .qs-title {
       max-width: 640px;
     }

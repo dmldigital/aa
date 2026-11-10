@@ -254,6 +254,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
 </script>
 
 <style is:global>
+  @reference "../../styles/global.css";
   /* ---------- Gemeinsame Bausteine ---------- */
   .eyebrow {
     margin: 0;
@@ -393,9 +394,9 @@ const timelineTitle = profile.timeline?.heading ?? '';
     object-fit: cover;
     object-position: 50% 12%;
   }
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
   }
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .ph-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
@@ -494,7 +495,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
     line-height: var(--text-body--line-height);
     color: var(--color-muted);
   }
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
     .pb-row {
       grid-template-columns: 200px 1fr;
       align-items: baseline;
@@ -503,7 +504,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
       grid-template-columns: 1fr 1fr;
     }
   }
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .pb-wrap {
       grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
       gap: 0 96px;
@@ -526,14 +527,14 @@ const timelineTitle = profile.timeline?.heading ?? '';
   .pm {
     margin-top: var(--space-section);
     padding: var(--space-section) var(--space-gutter);
-    background: var(--color-soft, #f7f7f7);
+    background: var(--color-soft);
   }
   .pm-wrap {
     max-width: var(--container-page);
     margin: 0 auto;
   }
   /* Bis 1024 px stehen Text davor und der Kopf des Lebensmottos in der festgehaltenen Bühne des Zeitstrahls (TimelinePin) */
-  @media (max-width: 1024.98px) {
+  @media (width < theme(--breakpoint-lg)) {
     .pb-prose--moved {
       display: none;
     }
@@ -644,12 +645,12 @@ const timelineTitle = profile.timeline?.heading ?? '';
   .pm-prose p + p {
     margin-top: 14px;
   }
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
     .pm-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .pm-grid {
       grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr));
       max-width: calc(var(--n, 3) * 33.34%);
@@ -820,13 +821,13 @@ const timelineTitle = profile.timeline?.heading ?? '';
   .pn-card:focus-visible .pn-name {
     color: var(--color-gold);
   }
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
     .pn-list {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 32px 20px;
     }
   }
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .pn-list {
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 0 24px;

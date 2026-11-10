@@ -10,10 +10,10 @@ interface Props {
 }
 const { site = 'main', class: className = '' } = Astro.props;
 const link =
-  'inline-block font-display text-body tracking-[0.02em] text-ink transition-colors duration-300 hover:text-gold max-[700px]:text-[14px]';
+  'inline-block font-display text-body tracking-[0.02em] text-ink transition-colors duration-300 hover:text-gold max-sm:text-[14px]';
 ---
 
-<div class:list={['flex flex-col items-start gap-3 max-[700px]:gap-1', className]}>
+<div class:list={['flex flex-col items-start gap-3 max-sm:gap-1', className]}>
   <p class="font-display text-label tracking-[0.12em] text-gold uppercase">Direkt anfragen</p>
   <a href={`tel:${company.phoneHref}`} class={link}>
     {company.phone}
@@ -24,10 +24,10 @@ const link =
   <a href={`mailto:${company.email}`} class={link}>
     {company.email}
   </a>
-  <p class="font-display text-label tracking-[0.04em] text-muted uppercase max-[700px]:text-[11px]/[1.35]">
+  <p class="font-display text-label tracking-[0.04em] text-muted uppercase max-sm:text-[11px]/[1.35]">
     {company.street}, {company.postalCode} {company.city}
   </p>
-  <div class="mt-2 max-[700px]:mt-1">
+  <div class="mt-2 max-sm:mt-1">
     <Button
       href={href(site === 'exklusive' ? '/meisterwerk-exklusive/kontakt/' : '/kontakt/')}
     >

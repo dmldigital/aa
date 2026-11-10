@@ -44,9 +44,10 @@ const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)
 </section>
 
 <style>
+  @reference "../../styles/global.css";
   .sb {
-    --ink: #090402;
-    --hair: #0904021f;
+    --ink: var(--color-ink);
+    --hair: color-mix(in srgb, var(--color-ink) 12.2%, transparent);
     padding: var(--space-section) var(--space-gutter);
     background: var(--color-soft);
     color: var(--ink);
@@ -109,12 +110,12 @@ const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)
     font-size: var(--text-body);
     line-height: var(--text-body--line-height);
   }
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
     .sb-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .sb-inner {
       grid-template-columns: minmax(0, 0.34fr) minmax(0, 0.66fr);
       gap: 0 6vw;

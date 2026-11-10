@@ -1,8 +1,9 @@
+@reference "../global.css";
 /* Willkommens-Sektion direkt unter dem Hero: Der Schlusssatz ist keine Überschrift mehr, sondern eine Aussage in
    Anführungszeichen, kleiner als die H2. Das Hochkommen übernimmt WelcomeChain.js. */
 .wc-quote-wrap{max-width:660px;margin-top:var(--space-stack)}
-.wc-quote{margin:0;color:var(--color-gold,#a59371);font-family:var(--font-urbanist),sans-serif;font-size:var(--text-h3);line-height:var(--text-h3--line-height);letter-spacing:var(--text-h3--letter-spacing);font-weight:var(--font-weight-medium,500);text-indent:-.45em;text-wrap:balance}
-@media (width>=1025px){.wc-quote-wrap{margin-top:var(--space-group)}}
+.wc-quote{margin:0;color:var(--color-gold);font-family:var(--font-urbanist),sans-serif;font-size:var(--text-h3);line-height:var(--text-h3--line-height);letter-spacing:var(--text-h3--letter-spacing);font-weight:var(--font-weight-medium,500);text-indent:-.45em;text-wrap:balance}
+@media (width >= theme(--breakpoint-lg)){.wc-quote-wrap{margin-top:var(--space-group)}}
 /* Willkommens-Sektion, Desktop: Das letzte Bild wächst nach den Bildwechseln auf Vollbild mit 24 px Rand
    (wie das Hero-Bild) und bleibt dabei stehen. Der Rahmen (Pin) wird von WelcomeZoom.js angelegt. */
 .wz-pin{position:relative;z-index:6;width:100%}

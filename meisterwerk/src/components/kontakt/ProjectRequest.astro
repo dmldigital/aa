@@ -666,9 +666,10 @@ const tick = 'M4 10.5l4 4 8-9';
 </script>
 
 <style>
+  @reference "../../styles/global.css";
   /* ---------- Rahmen: Orientierung links, Frage rechts (Desktop); Handy: eine Spalte ---------- */
   .pf {
-    --ink: #090402;
+    --ink: var(--color-ink);
     --card: #fff;
     --ring: var(--color-gold);
     --soft-shadow: 0 10px 28px -16px rgb(9 4 2 / 0.22);
@@ -1350,7 +1351,7 @@ const tick = 'M4 10.5l4 4 8-9';
   }
 
   /* ---------- Tablet ---------- */
-  @media (min-width: 768px) {
+  @media (width >= theme(--breakpoint-md)) {
     .pf-list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1367,7 +1368,7 @@ const tick = 'M4 10.5l4 4 8-9';
   }
 
   /* ---------- Desktop: Orientierung links bleibt stehen ---------- */
-  @media (min-width: 1025px) {
+  @media (width >= theme(--breakpoint-lg)) {
     .pf-shell {
       grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
       gap: 0 var(--space-section);

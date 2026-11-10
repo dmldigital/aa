@@ -17,17 +17,17 @@ const { class: className = '' } = Astro.props;
 
 <div
   data-rating="5"
-  class:list={['relative flex items-center gap-4 pl-1 min-[701px]:gap-5 min-[701px]:pl-3', className]}
+  class:list={['relative flex items-center gap-4 pl-1 sm:gap-5 sm:pl-3', className]}
 >
   <div class="flex flex-col items-center gap-1">
-    <span data-rating-num class="font-display text-[28px]/[1] font-semibold text-ink tabular-nums min-[701px]:text-[34px]/[1]">5.0</span>
+    <span data-rating-num class="font-display text-[28px]/[1] font-semibold text-ink tabular-nums sm:text-[34px]/[1]">5.0</span>
     <Stars size={14} />
   </div>
   <i class="h-10 w-px shrink-0 bg-black/15"></i>
   <div class="flex min-w-0 flex-col gap-1.5">
     <GoogleLogo class="w-14" />
     <span class="font-display text-[12px]/[1.25] font-semibold text-ink">Bestbewerteter Anbieter 2026</span>
-    <span class="font-display text-[9px]/[1] whitespace-nowrap text-black/55 max-[700px]:hidden">
+    <span class="font-display text-[9px]/[1] whitespace-nowrap text-black/55 max-sm:hidden">
       verifiziert von: Trustindex
       <svg
           viewBox="0 0 512 512"

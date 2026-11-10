@@ -25,7 +25,7 @@ const Tag = href ? 'a' : 'button';
 const variants = {
   light: 'border-white text-white hover:bg-white/15',
   outline:
-    'border-transparent bg-white text-black shadow-[0_1px_2px_rgb(21_24_27/0.06),0_8px_20px_-8px_rgb(21_24_27/0.22)] hover:bg-[#f1f1f1]',
+    'border-transparent bg-white text-black shadow-[0_1px_2px_rgb(21_24_27/0.06),0_8px_20px_-8px_rgb(21_24_27/0.22)] hover:bg-fog',
   ghost: 'border-transparent bg-transparent text-black hover:bg-black/5',
   // Hauptweg in Abläufen auf hellgrauem Grund (Projektanfrage: Weiter, Senden): dunkle Fläche, gut erkennbar auch für Brillenträger
   dark: 'border-transparent bg-ink text-white hover:bg-gold',
@@ -33,7 +33,7 @@ const variants = {
 // Höhe wie die Menü-Pille (Mindesthöhe, damit ein sehr langer Text umbrechen kann statt über den Rand zu laufen): Handy und Desktop
 // getrennt geschrieben (nie Grundwert plus Überschreibung)
 const base =
-  'group/ul inline-flex cursor-pointer items-center justify-center rounded-full border px-7 text-center font-display text-button font-semibold tracking-button uppercase max-[700px]:min-h-11 min-[701px]:min-h-12 py-2 md:px-8.5 lg:px-10';
+  'group/ul inline-flex cursor-pointer items-center justify-center rounded-full border px-7 text-center font-display text-button font-semibold tracking-button uppercase max-sm:min-h-11 sm:min-h-12 py-2 md:px-8.5 lg:px-10';
 const own = String(className ?? '').includes('transition-');
 // Beschriftung als Text lesen: Bei einem ganzen Satz wird aus dem Button ein Link
 const content = await Astro.slots.render('default');
