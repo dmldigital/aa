@@ -141,7 +141,7 @@ export const prinzipien = [
   },
   {
     title: 'Partnerschaftliche Begleitung für nachhaltige Ergebnisse',
-    text: 'Wir verstehen unsere Arbeit als Partnerschaft, vom ersten Gespräch bis zur Fertigstellung begleiten wir unsere Kunden eng und transparent. Unser Ziel ist es, Räume zu schaffen, in denen sich Menschen rundum wohlfühlen und die sie mit Stolz zeigen. Für uns ist jedes Bad, jede Oberfläche ein Meisterwerk, das wir mit Leidenschaft und Präzision gestalten. So entstehen Wohlfühlräume, die überzeugen und lange Freude bereiten.',
+    text: 'Wir verstehen unsere Arbeit als Partnerschaft, vom ersten Gespräch bis zur Fertigstellung begleiten wir unsere Kunden eng und transparent. Unser Ziel sind Räume, in denen sich Menschen wohlfühlen und die sie gern zeigen. Für uns ist jedes Bad, jede Oberfläche ein Meisterwerk, das wir mit Leidenschaft und Präzision gestalten. So entstehen Wohlfühlräume, die überzeugen und lange Freude bereiten.',
   },
 ];
 
@@ -181,7 +181,7 @@ export const vorgehen = {
   heading:
     'Unser Vorgehen: Klarheit, Individualität und Partnerschaft für außergewöhnliche Oberflächen',
   intro:
-    'Damit aus Ihren Ideen ein echtes Meisterwerk wird, begleiten wir Sie Schritt für Schritt, klar, individuell und im engen Austausch mit Ihnen.',
+    'Wir begleiten Sie Schritt für Schritt, klar und im engen Austausch mit Ihnen.',
   image: sketch,
   alt: '',
   faqs: [

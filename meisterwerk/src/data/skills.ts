@@ -39,12 +39,12 @@ export const accordions: Accordion[] = [
       },
     ],
     closing:
-      '<strong>Ihr Vorteil:</strong> Mit dieser Ausstattung setzen wir jedes Projekt professionell, schnell und zuverlässig um.',
+      '<strong>Ihr Vorteil:</strong> Mit dieser Ausstattung setzen wir jedes Projekt schnell und zuverlässig um.',
   },
   {
     title: 'Unsere Mitarbeiter &amp; Team-Skills',
     intro:
-      'Wir sind mehr als ein gewöhnlicher Malerbetrieb, wir sind perfekt organisiert, top ausgestattet und professionell aufgestellt.',
+      'Wir sind gut organisiert, modern ausgestattet und professionell aufgestellt.',
     groups: [
       {
         heading: 'Unser Team im Überblick:',
@@ -75,7 +75,7 @@ export const accordions: Accordion[] = [
       },
     ],
     closing:
-      '<strong>Ein eingespieltes, motiviertes Team</strong> sorgt dafür, dass Ihr Projekt professionell, effizient und mit Leidenschaft umgesetzt wird.',
+      '<strong>Ein eingespieltes, motiviertes Team</strong> sorgt dafür, dass Ihr Projekt effizient und sorgfältig umgesetzt wird.',
   },
   {
     title: 'Ihr Mehrwert als Kunde',
@@ -123,7 +123,7 @@ export const accordions: Accordion[] = [
       {
         heading: 'Sicherheit &amp; Nachhaltigkeit',
         items: compare(
-          'Eigene Parkplätze für Kunden &amp; Mitarbeiter (alles ebenerdig), 3 Feuerlöscher, komplette LED-Beleuchtung, Wasseraufbereitungsanlage. Zusätzlich setzen wir auf ökologische Produkte und nachhaltige Lösungen, die nicht nur die Umwelt schonen, sondern auch helfen, Kosten langfristig zu senken.',
+          'Eigene Parkplätze für Kunden &amp; Mitarbeiter (alles ebenerdig), 3 Feuerlöscher, komplette LED-Beleuchtung, Wasseraufbereitungsanlage. Zusätzlich setzen wir auf ökologische Produkte und nachhaltige Lösungen, die die Umwelt schonen und langfristig Kosten senken.',
           'Eher einfach gehaltenWiederholen',
         ),
       },

@@ -107,7 +107,7 @@ export const haltung = {
         'Innovation & Technik: moderne Verfahren verbinden Design und Funktion auf hohem Niveau.',
       ],
     },
-    'So schaffen wir Räume, die nicht nur schön aussehen, sondern auch wirken, minimalistisch, exklusiv, zeitlos.',
+    'So schaffen wir minimalistische, zeitlose Räume, die gut aussehen und wirken.',
     '<strong>Unser Team: Leidenschaft trifft Präzision</strong><br />Ein eingespieltes Team aus Handwerkern, Oberflächenspezialisten und Designern. Gemeinsam setzen wir Kreativität, Erfahrung und Präzision ein, um einzigartige Lebens- und Arbeitswelten zu schaffen.',
     'Wir arbeiten leise, sauber und zuverlässig. Jedes Projekt ist ein Unikat mit Charakter.',
   ] as (string | { list: string[] })[],

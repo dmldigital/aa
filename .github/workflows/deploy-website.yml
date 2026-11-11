@@ -3,7 +3,7 @@ name: Website-Vorschau (GitHub Pages)
 on:
   push:
     branches: [claude/poolbau-koch-website-408frj]
-    paths: ['website/**', 'seite-a/**', 'seite-b/**', '.github/workflows/deploy-website.yml']
+    paths: ['website/**', 'seite-a/**', 'seite-b/**', 'meisterwerk/**', '.github/workflows/deploy-website.yml']
   workflow_dispatch:
 
 permissions:
@@ -43,9 +43,28 @@ jobs:
         env:
           BASE_PATH: /aa/seite-b/
 
+      # Meisterwerk Malermanufaktur: echte Astro-Seite als Vorschau unter /aa/meisterwerk-astro/ (noindex, Schriften kommen im Build
+      # von Google Fonts). Schlägt dieser Schritt fehl, laufen die anderen Vorschauen unverändert weiter.
+      - name: Meisterwerk bauen
+        id: meisterwerk
+        continue-on-error: true
+        working-directory: meisterwerk
+        env:
+          SITE_URL: https://dmldigital.github.io
+          BASE_PATH: /aa/meisterwerk-astro/
+        run: |
+          npm ci
+          npm run build
+
       - name: Vorschau zusammenstellen
+        env:
+          MEISTERWERK_OK: ${{ steps.meisterwerk.outcome }}
         run: |
           set -e
+          if [ "$MEISTERWERK_OK" = "success" ] && [ -d meisterwerk/dist ]; then
+            mkdir -p website/dist/meisterwerk-astro
+            cp -r meisterwerk/dist/. website/dist/meisterwerk-astro/
+          fi
           # Seite B lädt ihre Videos sonst von der alten Seite: hier die komprimierten Fassungen aus Seite A verwenden
           mkdir -p seite-b/dist/videos
           cp seite-a/public/media/video/DJI_*.mp4 seite-a/public/media/video/DJI_*.webp seite-b/dist/videos/ || true
