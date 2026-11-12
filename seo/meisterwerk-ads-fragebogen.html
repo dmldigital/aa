@@ -4,167 +4,118 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Ads-Fragebogen | Meisterwerk Malermanufaktur</title>
+<title>Google Ads: Leistungen und Budget | Meisterwerk Malermanufaktur</title>
 <style>
-:root{--ink:#090402;--gold:#a59371;--soft:#f7f7f7;--line:#0904021f;--muted:#000000b3}
+:root{--ink:#090402;--gold:#a59371;--soft:#f7f7f7;--line:#0904021f;--muted:#000000b3;--warn:#f6ede0;--ok:#eef3e9}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{margin:0;background:var(--soft);color:var(--ink);font:16px/1.6 Urbanist,system-ui,-apple-system,"Segoe UI",sans-serif}
-header{background:#fff;border-bottom:1px solid var(--line)}
 .wrap{max-width:760px;margin:0 auto;padding:0 20px}
-header .wrap{padding:28px 20px}
+header{background:#fff;border-bottom:1px solid var(--line)}
+header .wrap{padding:30px 20px}
 .eyebrow{margin:0 0 6px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
 h1{margin:0 0 10px;font-size:clamp(26px,5vw,38px);line-height:1.15;font-weight:500}
 header p{margin:0;color:var(--muted)}
-.bar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--line)}
-.bar .wrap{display:flex;align-items:center;gap:14px;padding:12px 20px}
-.bar span{font-size:14px;color:var(--muted);white-space:nowrap}
-.track{flex:1;height:4px;background:var(--line);border-radius:4px;overflow:hidden}
-.track i{display:block;height:100%;width:0;background:var(--gold);transition:width .3s}
-section{margin:28px 0;background:#fff;border-radius:8px;padding:26px 22px}
-h2{margin:0 0 4px;font-size:20px;font-weight:500;color:var(--gold)}
-.intro{margin:0 0 18px;color:var(--muted);font-size:15px}
-.q{margin:0 0 22px}
-label,.lab{display:block;margin:0 0 6px;font-weight:500}
-.hint{display:block;margin:-2px 0 8px;font-size:14px;color:var(--muted);font-weight:400}
-.web{display:inline-block;margin-left:8px;padding:1px 8px;border:1px solid var(--gold);border-radius:20px;font-size:12px;color:var(--gold);font-weight:400}
-input[type=text],input[type=email],input[type=tel],textarea,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:var(--soft);font:inherit;color:inherit}
-textarea{min-height:92px;resize:vertical}
-input:focus,textarea:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px;background:#fff}
-.opts{display:grid;gap:8px}
-.opts label{display:flex;gap:10px;align-items:flex-start;margin:0;padding:10px 12px;border:1px solid var(--line);border-radius:6px;background:var(--soft);font-weight:400;cursor:pointer}
+section{margin:24px 0;background:#fff;border-radius:8px;padding:26px 22px}
+h2{margin:0 0 6px;font-size:20px;font-weight:500;color:var(--gold)}
+p{margin:0 0 12px}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.opts{display:grid;gap:8px;margin-top:12px}
+@media (min-width:640px){.opts{grid-template-columns:1fr 1fr}}
+.opts label{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:6px;background:var(--soft);cursor:pointer}
+.opts label.on{border-color:var(--gold);background:#fff}
 .opts input{margin-top:5px;accent-color:var(--gold)}
-.consent{display:flex;gap:10px;align-items:flex-start;font-weight:400}
+.opts small{display:block;color:var(--muted);font-size:13px;line-height:1.4}
+.budget{display:flex;align-items:baseline;gap:10px;margin:8px 0 4px}
+.budget b{font-size:40px;font-weight:500;line-height:1}
+input[type=range]{width:100%;accent-color:var(--gold)}
+.scale{display:flex;justify-content:space-between;font-size:13px;color:var(--muted)}
+.result{margin-top:18px;padding:16px 18px;border-radius:6px;background:var(--soft)}
+.result.warn{background:var(--warn)}
+.result.ok{background:var(--ok)}
+.result p:last-child{margin:0}
+table{width:100%;border-collapse:collapse;margin:6px 0 0;font-size:15px}
+th,td{padding:9px 6px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:500}
+td.n{white-space:nowrap}
+@media (max-width:520px){section{padding:22px 16px}.result{padding:14px 12px}table{font-size:13.5px;table-layout:fixed}th,td{padding:8px 3px}th:first-child,td:first-child{width:38%}td.n{white-space:normal}}
+select,input[type=text],input[type=email],input[type=tel],textarea{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:6px;background:var(--soft);font:inherit;color:inherit}
+textarea{min-height:90px;resize:vertical}
+.field{margin:0 0 16px}
+.field label{display:block;margin:0 0 6px;font-weight:500}
+.consent{display:flex;gap:10px;align-items:flex-start}
 .consent input{margin-top:6px;accent-color:var(--gold)}
 button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 34px;border:0;border-radius:999px;background:var(--ink);color:#fff;font:600 14px/1 inherit;letter-spacing:.06em;text-transform:uppercase;cursor:pointer}
 button:hover{background:var(--gold)}
 button[disabled]{opacity:.5;cursor:default}
-.note{margin:14px 0 0;font-size:14px;color:var(--muted)}
-.msg{display:none;margin:18px 0 0;padding:14px 16px;border-radius:6px}
-.msg.ok{display:block;background:#eef3e9}
+.msg{display:none;margin:16px 0 0;padding:14px 16px;border-radius:6px}
+.msg.ok{display:block;background:var(--ok)}
 .msg.err{display:block;background:#f6e7e4}
 .hp{position:absolute;left:-9999px}
-footer{padding:10px 0 60px;color:var(--muted);font-size:14px}
+ul{margin:0 0 12px;padding-left:20px}
+li{margin:0 0 6px}
+footer{padding:6px 0 60px;color:var(--muted);font-size:14px}
 </style>
 </head>
 <body>
 <header><div class="wrap">
 <p class="eyebrow">Meisterwerk Malermanufaktur</p>
-<h1>Ads-Fragebogen</h1>
-<p>Mit Ihren Antworten planen wir die Google-Ads-Kampagne für Ihre Leistungen und Orte. Das Ausfüllen dauert etwa 15 Minuten. Was Sie noch nicht wissen, lassen Sie einfach leer, es wird als „Noch offen“ übermittelt. Ihr Zwischenstand bleibt in diesem Browser gespeichert.</p>
+<h1>Google Ads: Ihre Leistungen und Ihr Budget</h1>
+<p>Wählen Sie unten, welche Leistungen beworben werden sollen und wie viel Sie im Monat ausgeben möchten. Die Seite zeigt Ihnen sofort, wie sich das Budget verteilt und was realistisch ist. Danach senden Sie uns Ihre Auswahl mit einem Klick.</p>
 </div></header>
-
-<div class="bar"><div class="wrap"><span id="count">0 von 0 beantwortet</span><div class="track"><i id="fill"></i></div></div></div>
 
 <main class="wrap">
 <form id="f" novalidate>
 <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
-<section data-s="KONTAKT ZUR AUSWERTUNG">
-<h2>Ihre Angaben</h2>
-<div class="q"><label for="firma">Firma</label><input id="firma" type="text" data-q="Firma" value="Meisterwerk Malermanufaktur"></div>
-<div class="q"><label for="name">Ansprechpartner</label><input id="name" type="text" data-q="Ansprechpartner" autocomplete="name"></div>
-<div class="q"><label for="tel">Telefon für Rückfragen</label><input id="tel" type="tel" data-q="Telefon für Rückfragen" autocomplete="tel"></div>
-<div class="q"><label for="mail">E-Mail</label><input id="mail" type="email" data-q="E-Mail" autocomplete="email"></div>
-</section>
-
-<section data-s="ZIELE & LEISTUNGEN">
-<h2>Ziele und Leistungen</h2>
-<p class="intro">Wofür sollen die Anzeigen zuerst Anfragen bringen?</p>
-<div class="q"><span class="lab">Welche Leistung hat für die Werbung oberste Priorität?</span>
-<div class="opts" data-q="Welche Leistung hat für die Werbung oberste Priorität?">
-<label><input type="radio" name="prio" value="Malerarbeiten innen"> Malerarbeiten innen</label>
-<label><input type="radio" name="prio" value="Fassade und Außenanstrich"> Fassade und Außenanstrich</label>
-<label><input type="radio" name="prio" value="Lackierarbeiten"> Lackierarbeiten</label>
-<label><input type="radio" name="prio" value="Tapezieren"> Tapezieren</label>
-<label><input type="radio" name="prio" value="Glatte Wände (Q3, Q4)"> Glatte Wände (Q3, Q4)</label>
-<label><input type="radio" name="prio" value="Verputzarbeiten"> Verputzarbeiten</label>
-<label><input type="radio" name="prio" value="Fugenlose Bäder und Böden"> Fugenlose Bäder und Böden</label>
-<label><input type="radio" name="prio" value="Spachteltechniken und Stuckleisten"> Spachteltechniken und Stuckleisten</label>
-</div></div>
-<div class="q"><label for="q2">Was möchten Sie zusätzlich bewerben?</label><textarea id="q2" data-q="Was möchten Sie zusätzlich bewerben?"></textarea></div>
-<div class="q"><label for="q3">Wie viele zusätzliche Aufträge wünschen Sie sich monatlich?</label><input id="q3" type="text" data-q="Wie viele zusätzliche Aufträge wünschen Sie sich monatlich?"></div>
-<div class="q"><label for="q4">Welche Aufträge möchten Sie nicht erhalten?</label><span class="hint">Zum Beispiel Kleinstaufträge, einzelne Räume oder Mietwohnungen unter einem bestimmten Wert.</span><textarea id="q4" data-q="Welche Aufträge möchten Sie nicht erhalten?"></textarea></div>
-<div class="q"><label for="q5">Was soll die Werbung in den ersten drei Monaten erreichen?</label><textarea id="q5" data-q="Was soll die Werbung in den ersten drei Monaten erreichen?"></textarea></div>
-</section>
-
-<section data-s="KUNDEN & REGION">
-<h2>Kunden und Region</h2>
-<p class="intro">Damit das Budget nur bei passenden Suchen ausgegeben wird.</p>
-<div class="q"><label for="q6">Welche Kunden passen zu Ihnen?</label><span class="hint">Privatkunden, Hausverwaltungen, Bauträger, Gewerbe, Architekten.</span><textarea id="q6" data-q="Welche Kunden passen zu Ihnen?"></textarea></div>
-<div class="q"><label for="q7">Welche Objekte bevorzugen Sie?</label><span class="hint">Einfamilienhaus, Eigentumswohnung, Altbau, Neubau, Gewerbeobjekt.</span><textarea id="q7" data-q="Welche Objekte bevorzugen Sie?"></textarea></div>
-<div class="q"><label for="q8">Welche Städte sollen wir bewerben?</label><span class="hint">Bisher vorgesehen: Freiberg am Neckar, Ludwigsburg, Marbach am Neckar, Bietigheim-Bissingen, Stuttgart. Bitte ergänzen oder streichen. <span class="web">auch für die Ortsseiten der Website</span></span><textarea id="q8" data-q="Welche Städte sollen wir bewerben?"></textarea></div>
-<div class="q"><label for="q9">Weitere Orte, Ausschlüsse oder maximale Anfahrt</label><textarea id="q9" data-q="Weitere Orte, Ausschlüsse oder maximale Anfahrt"></textarea></div>
-<div class="q"><span class="lab">Welche Ausführung passt am besten zu Ihren Wunschkunden?</span>
-<div class="opts" data-q="Welche Ausführung passt am besten zu Ihren Wunschkunden?">
-<label><input type="radio" name="aus" value="Solide Standardausführung"> Solide Standardausführung</label>
-<label><input type="radio" name="aus" value="Gehobene Ausführung"> Gehobene Ausführung</label>
-<label><input type="radio" name="aus" value="Exklusive Oberflächen und Sonderlösungen"> Exklusive Oberflächen und Sonderlösungen</label>
-</div></div>
-<div class="q"><label for="q11">Was zeichnet Ihre bisher besten Kunden und Projekte aus?</label><textarea id="q11" data-q="Was zeichnet Ihre bisher besten Kunden und Projekte aus?"></textarea></div>
-</section>
-
-<section data-s="KAPAZITÄT & TERMINE">
-<h2>Kapazität und Termine</h2>
-<p class="intro">Anzeigen bringen nur dann etwas, wenn Sie die Aufträge auch zeitnah ausführen können.</p>
-<div class="q"><label for="q12">Ab wann können Sie neue Projekte beginnen?</label><input id="q12" type="text" data-q="Ab wann können Sie neue Projekte beginnen?"></div>
-<div class="q"><label for="q13">Wie viele zusätzliche Projekte können Sie gleichzeitig übernehmen?</label><input id="q13" type="text" data-q="Wie viele zusätzliche Projekte können Sie gleichzeitig übernehmen?"></div>
-<div class="q"><label for="q14">Gibt es Engpässe oder bereits ausgebuchte Monate?</label><textarea id="q14" data-q="Gibt es Engpässe oder bereits ausgebuchte Monate?"></textarea></div>
-<div class="q"><label for="q15">Wann soll die Werbung möglichst starten?</label><input id="q15" type="text" data-q="Wann soll die Werbung möglichst starten?"></div>
-</section>
-
-<section data-s="BUDGET & AUFTRAGSWERTE">
-<h2>Budget und Auftragswerte</h2>
-<p class="intro">Das Werbebudget zahlen Sie direkt an Google, die Höhe legen Sie fest.</p>
-<div class="q"><span class="lab">Monatliches Budget für die Anzeigen</span>
-<div class="opts" data-q="Monatliches Budget für die Anzeigen">
-<label><input type="radio" name="bud" value="Unter 500 €"> Unter 500 €</label>
-<label><input type="radio" name="bud" value="500 bis 1.000 €"> 500 bis 1.000 €</label>
-<label><input type="radio" name="bud" value="1.000 bis 2.000 €"> 1.000 bis 2.000 €</label>
-<label><input type="radio" name="bud" value="Über 2.000 €"> Über 2.000 €</label>
-</div></div>
-<div class="q"><label for="q17">Ab welchem Auftragswert lohnt sich ein Projekt?</label><input id="q17" type="text" data-q="Ab welchem Auftragswert lohnt sich ein Projekt?"></div>
-<div class="q"><label for="q18">Wie hoch sind Ihre durchschnittlichen Auftragswerte?</label><span class="hint">Am besten je Leistung, etwa Innenanstrich, Fassade, fugenloses Bad.</span><textarea id="q18" data-q="Wie hoch sind Ihre durchschnittlichen Auftragswerte?"></textarea></div>
-<div class="q"><label for="q19">Welcher Betrag oder Anteil bleibt nach direkten Projektkosten ungefähr übrig?</label><input id="q19" type="text" data-q="Welcher Betrag oder Anteil bleibt nach direkten Projektkosten ungefähr übrig?"></div>
-<div class="q"><label for="q20">Aus 10 passenden Anfragen entstehen ungefähr wie viele Aufträge?</label><input id="q20" type="text" data-q="Aus 10 passenden Anfragen entstehen ungefähr wie viele Aufträge?"></div>
-<div class="q"><label for="q21">Wie lange dauert es vom Erstkontakt bis zur Beauftragung?</label><input id="q21" type="text" data-q="Wie lange dauert es vom Erstkontakt bis zur Beauftragung?"></div>
-</section>
-
-<section data-s="ANGEBOT & VERTRAUEN">
-<h2>Angebot und Vertrauen</h2>
-<p class="intro">Das fließt in Anzeigentexte und Landingpages ein.</p>
-<div class="q"><label for="q22">Welche Schritte sind kostenlos, wann fallen Gebühren an?</label><span class="hint">Zum Beispiel Besichtigung, Beratung im Showroom, Angebot, Farbberatung.</span><textarea id="q22" data-q="Welche Schritte sind kostenlos, wann fallen Gebühren an?"></textarea></div>
-<div class="q"><label for="q23">Warum entscheiden sich Kunden für Sie?</label><span class="hint">Zum Beispiel Meisterbetrieb, Showroom, Erfahrung, Termintreue, Sauberkeit.</span><textarea id="q23" data-q="Warum entscheiden sich Kunden für Sie?"></textarea></div>
-<div class="q"><label for="q24">Welche Gewerke führen Sie selbst aus, welche übernehmen Partner?</label><textarea id="q24" data-q="Welche Gewerke führen Sie selbst aus, welche übernehmen Partner?"></textarea></div>
-<div class="q"><label for="q25">Welche Spezialleistungen möchten Sie bewerben?</label><span class="hint">Fugenlose Bäder und Böden, Spachteltechniken, Stuckleisten, Urlaubsservice.</span><textarea id="q25" data-q="Welche Spezialleistungen möchten Sie bewerben?"></textarea></div>
-<div class="q"><label for="q26">Welche Materialien und Hersteller können Sie bereitstellen?</label><textarea id="q26" data-q="Welche Materialien und Hersteller können Sie bereitstellen?"></textarea></div>
-<div class="q"><label for="q27">Referenzen, Google-Profil und Freigaben</label><span class="hint">Welche Projekte und Bilder dürfen wir zeigen, welche Bewertungen dürfen wir nennen?</span><textarea id="q27" data-q="Referenzen, Google-Profil und Freigaben"></textarea></div>
-</section>
-
-<section data-s="KONTAKT & ZUSAMMENARBEIT">
-<h2>Kontakt und Zusammenarbeit</h2>
-<p class="intro">Schnelle Antworten entscheiden darüber, ob aus einer Anfrage ein Auftrag wird.</p>
-<div class="q"><label for="q28">Wer bearbeitet Anfragen und vertritt bei Abwesenheit?</label><input id="q28" type="text" data-q="Wer bearbeitet Anfragen und vertritt bei Abwesenheit?"></div>
-<div class="q"><label for="q29">Wann sind Sie erreichbar und wie schnell können Sie antworten?</label><span class="hint">Bitte mit Öffnungs- und Telefonzeiten. <span class="web">auch für die Website</span></span><textarea id="q29" data-q="Wann sind Sie erreichbar und wie schnell können Sie antworten?"></textarea></div>
-<div class="q"><span class="lab">Welche Kontaktwege möchten Sie anbieten?</span>
-<div class="opts" data-q="Welche Kontaktwege möchten Sie anbieten?" data-multi>
-<label><input type="checkbox" value="Telefon"> Telefon</label>
-<label><input type="checkbox" value="WhatsApp"> WhatsApp</label>
-<label><input type="checkbox" value="Kontaktformular"> Kontaktformular</label>
-<label><input type="checkbox" value="E-Mail"> E-Mail</label>
-<label><input type="checkbox" value="Rückruf"> Rückruf</label>
-</div></div>
-<div class="q"><label for="q31">WhatsApp-Nummer für Kunden</label><span class="hint">Falls abweichend von der Telefonnummer. <span class="web">für die Website</span></span><input id="q31" type="tel" data-q="WhatsApp-Nummer für Kunden"></div>
-<div class="q"><label for="q32">Welche Angaben brauchen Sie vor einem Erstgespräch?</label><span class="hint">Zum Beispiel Fotos, Maße, Wunschtermin, Art des Objekts.</span><textarea id="q32" data-q="Welche Angaben brauchen Sie vor einem Erstgespräch?"></textarea></div>
-<div class="q"><label for="q33">Wie verfolgen Sie Anfragen, Angebote und Abschlüsse?</label><textarea id="q33" data-q="Wie verfolgen Sie Anfragen, Angebote und Abschlüsse?"></textarea></div>
-<div class="q"><label for="q34">Welche Werbekonten und Zugänge sind bereits vorhanden?</label><span class="hint">Google Ads, Google-Unternehmensprofil, Analytics, Search Console, Domain.</span><textarea id="q34" data-q="Welche Werbekonten und Zugänge sind bereits vorhanden?"></textarea></div>
-<div class="q"><label for="q35">Bisherige Werbung, Freigaben und weitere Wünsche</label><textarea id="q35" data-q="Bisherige Werbung, Freigaben und weitere Wünsche"></textarea></div>
+<section>
+<h2>So funktioniert das Budget</h2>
+<p>Bei Google Ads zahlen Sie nur, wenn jemand auf Ihre Anzeige klickt. Jeder Klick kostet einen Betrag, den Google je nach Suchbegriff und Wettbewerb festlegt. Das Budget zahlen Sie direkt an Google, unsere Einrichtung und Betreuung ist davon getrennt.</p>
+<p>Wichtig ist: <b>Das Budget teilt sich auf alle beworbenen Leistungen auf.</b> Wer mit 200 € im Monat fünf Leistungen bewirbt, hat pro Leistung nur 40 €. Das reicht für eine Handvoll Klicks und meist für keine einzige Anfrage. Google braucht pro Leistung genug Klicks, um zu lernen, welche Suchen zu Aufträgen führen.</p>
+<p>Unsere Empfehlung deshalb: <b>pro Leistung mindestens etwa 100 € im Monat.</b> Lieber eine Leistung richtig als fünf nur halb. Weitere Leistungen nehmen wir dazu, sobald die erste läuft oder das Budget steigt.</p>
+<p class="muted small">Unsere Annahmen für die Rechnung unten: Ein Klick kostet im Raum Ludwigsburg und Stuttgart für Malerleistungen etwa 2 bis 4 €, bei Spezialleistungen wie fugenlosen Bädern eher mehr. Von 100 Besuchern auf der Seite stellen etwa 5 bis 10 eine Anfrage. Das sind grobe Erfahrungswerte, keine Zusage. Die echten Klickpreise zeigt Google erst nach dem Start, danach rechnen wir mit Ihren Zahlen weiter.</p>
 </section>
 
 <section>
-<label class="consent"><input type="checkbox" id="ok"> <span>Ich bestätige die Übermittlung zur Werbeplanung.</span></label>
-<p style="margin:18px 0 0"><button type="submit" id="send">Antworten senden</button></p>
-<p class="note">Ihre Angaben werden nur zur Planung der Werbung verwendet.</p>
+<h2>1. Ihr monatliches Budget</h2>
+<p class="muted">Zwischen 100 und 500 € im Monat.</p>
+<div class="budget"><b id="bval">250</b><span>€ im Monat</span></div>
+<input type="range" id="budget" min="100" max="500" step="50" value="250" aria-label="Monatliches Budget in Euro">
+<div class="scale"><span>100 €</span><span>300 €</span><span>500 €</span></div>
+<p class="small muted" style="margin-top:10px">Das sind etwa <b id="day">8</b> € am Tag. Empfohlen für dieses Budget: <b id="rec">2 Leistungen</b>.</p>
+</section>
+
+<section>
+<h2>2. Welche Leistungen sollen beworben werden?</h2>
+<p class="muted">Kreuzen Sie alles an, was für Sie in Frage kommt. Die Rechnung unten zeigt, wie viel davon mit Ihrem Budget sinnvoll ist.</p>
+<div class="opts" id="svc">
+<label><input type="checkbox" value="Malerarbeiten innen" data-cpc="2"> <span>Malerarbeiten innen<small>Wohnungen und Häuser streichen</small></span></label>
+<label><input type="checkbox" value="Fassade und Außenanstrich" data-cpc="2.5"> <span>Fassade und Außenanstrich<small>Größere Aufträge, eher saisonal</small></span></label>
+<label><input type="checkbox" value="Lackierarbeiten" data-cpc="2"> <span>Lackierarbeiten<small>Türen, Fenster, Treppen</small></span></label>
+<label><input type="checkbox" value="Tapezieren" data-cpc="2"> <span>Tapezieren<small>Wand und Decke</small></span></label>
+<label><input type="checkbox" value="Glatte Wände (Q3, Q4)" data-cpc="2.5"> <span>Glatte Wände (Q3, Q4)<small>Spachtelung für ebene Flächen</small></span></label>
+<label><input type="checkbox" value="Verputzarbeiten" data-cpc="2.5"> <span>Verputzarbeiten<small>Innen- und Außenputz</small></span></label>
+<label><input type="checkbox" value="Fugenlose Bäder und Böden" data-cpc="3.5"> <span>Fugenlose Bäder und Böden<small>Hohe Auftragswerte, teurere Klicks</small></span></label>
+<label><input type="checkbox" value="Spachteltechniken und Stuckleisten" data-cpc="3"> <span>Spachteltechniken und Stuckleisten<small>Besondere Oberflächen, kleinere Zielgruppe</small></span></label>
+</div>
+<div class="field" style="margin-top:18px">
+<label for="first">Womit sollen wir anfangen?</label>
+<select id="first"><option value="">Bitte zuerst Leistungen ankreuzen</option></select>
+</div>
+</section>
+
+<section>
+<h2>3. So verteilt sich Ihr Budget</h2>
+<div id="out" class="result"><p>Bitte wählen Sie mindestens eine Leistung.</p></div>
+</section>
+
+<section>
+<h2>4. Absenden</h2>
+<div class="field"><label for="name">Ihr Name</label><input id="name" type="text" autocomplete="name"></div>
+<div class="field"><label for="tel">Telefon für Rückfragen</label><input id="tel" type="tel" autocomplete="tel"></div>
+<div class="field"><label for="note">Anmerkungen</label><textarea id="note" placeholder="Zum Beispiel Orte, die besonders wichtig sind, oder Aufträge, die Sie nicht möchten."></textarea></div>
+<label class="consent"><input type="checkbox" id="ok"> <span>Ich bin mit der Übermittlung meiner Auswahl zur Werbeplanung einverstanden.</span></label>
+<p style="margin:18px 0 0"><button type="submit" id="send">Auswahl senden</button></p>
 <div class="msg" id="msg" role="status"></div>
 </section>
 </form>
@@ -174,86 +125,84 @@ footer{padding:10px 0 60px;color:var(--muted);font-size:14px}
 <script>
 // Versand über web3forms: Schlüssel unter https://web3forms.com anlegen (E-Mail-Adresse, an die die Antworten gehen) und hier eintragen.
 var ACCESS_KEY = 'WEB3FORMS_SCHLUESSEL_HIER_EINTRAGEN';
-var STORE = 'meisterwerk-ads-fragebogen';
-var f = document.getElementById('f');
-var fields = [].slice.call(document.querySelectorAll('[data-q]'));
+var CVR = [0.05, 0.10];        // Anteil der Besucher, die anfragen (5 bis 10 von 100)
+var CPC_SPAN = [1, 1.6];       // Klickpreis: Grundwert der Leistung bis 1,6-fach
+var MIN_PER = 100;             // Empfehlung: mindestens 100 € je Leistung
+var $ = function (id) { return document.getElementById(id); };
+var boxes = [].slice.call(document.querySelectorAll('#svc input'));
+var eur = function (n) { return n.toLocaleString('de-DE', { maximumFractionDigits: 0 }) + ' €'; };
+var rec = function (b) { return Math.max(1, Math.floor(b / MIN_PER) > 3 ? 3 : Math.floor(b / MIN_PER)); };
+// höchstens 3 Leistungen auch bei 500 €: der Rest des Budgets stärkt die gewählten Leistungen
+function plural(n) { return n + (n === 1 ? ' Leistung' : ' Leistungen'); }
 
-function val(el) {
-  if (el.classList.contains('opts')) {
-    var on = [].slice.call(el.querySelectorAll('input:checked')).map(function (i) { return i.value; });
-    return on.join(', ');
+function render() {
+  var b = +$('budget').value;
+  $('bval').textContent = b;
+  $('day').textContent = (b / 30.4).toLocaleString('de-DE', { maximumFractionDigits: 1 });
+  $('rec').textContent = plural(rec(b));
+  boxes.forEach(function (x) { x.parentNode.classList.toggle('on', x.checked); });
+  var sel = boxes.filter(function (x) { return x.checked; });
+
+  // Auswahl „Womit anfangen?“
+  var first = $('first'), keep = first.value;
+  first.innerHTML = sel.length ? '' : '<option value="">Bitte zuerst Leistungen ankreuzen</option>';
+  sel.forEach(function (x) { var o = document.createElement('option'); o.value = o.textContent = x.value; first.appendChild(o); });
+  if (sel.some(function (x) { return x.value === keep; })) first.value = keep;
+
+  var out = $('out');
+  if (!sel.length) { out.className = 'result'; out.innerHTML = '<p>Bitte wählen Sie mindestens eine Leistung.</p>'; return; }
+  var r = rec(b), n = sel.length, per = b / n;
+  var rows = sel.map(function (x) {
+    var cpc = +x.getAttribute('data-cpc');
+    var cMin = Math.floor(per / (cpc * CPC_SPAN[1])), cMax = Math.floor(per / cpc);
+    var aMin = Math.floor(cMin * CVR[0]), aMax = Math.round(cMax * CVR[1]);
+    return '<tr><td>' + x.value + '</td><td class="n">' + eur(per) + '</td><td class="n">' + cMin + ' bis ' + cMax + '</td><td class="n">' + (aMax === 0 ? 'kaum' : aMin + ' bis ' + aMax) + '</td></tr>';
+  }).join('');
+  var table = '<table><thead><tr><th>Leistung</th><th>Budget</th><th>Klicks</th><th>Anfragen</th></tr></thead><tbody>' + rows + '</tbody></table>';
+  var text;
+  if (n > r) {
+    out.className = 'result warn';
+    text = '<p><b>Mit ' + eur(b) + ' im Monat empfehlen wir höchstens ' + plural(r) + '.</b> Bei ' + plural(n) + ' bleiben pro Leistung nur ' + eur(per) + ', das ist zu wenig, damit Google lernt und regelmäßig Anfragen kommen. Unser Vorschlag: Wir starten mit der Leistung, die Sie oben unter „Womit sollen wir anfangen?“ wählen' + (r > 1 ? ', und nehmen bis zu ' + (r - 1) + ' weitere dazu' : '') + '. Die übrigen Leistungen bleiben vorgemerkt.</p>';
+  } else {
+    out.className = 'result ok';
+    text = '<p><b>Das passt.</b> Mit ' + eur(b) + ' im Monat hat jede der ' + plural(n) + ' etwa ' + eur(per) + ' zur Verfügung.' + (per >= 2 * MIN_PER ? ' Das ist genug, um auch mehrere Orte gut abzudecken.' : '') + '</p>';
   }
-  return (el.value || '').trim();
+  out.innerHTML = text + table + '<p class="small muted" style="margin-top:10px">Werte je Monat, gerundet, nach den Annahmen oben. Ein einziger Auftrag für ein fugenloses Bad oder eine Fassade kann das Budget mehrerer Monate wieder einbringen.</p>';
 }
-function progress() {
-  var done = fields.filter(function (el) { return val(el) !== '' && el.id !== 'firma'; }).length;
-  var total = fields.length - 1;
-  document.getElementById('count').textContent = done + ' von ' + total + ' beantwortet';
-  document.getElementById('fill').style.width = Math.round(done / total * 100) + '%';
-}
-function save() {
-  try {
-    var d = {};
-    fields.forEach(function (el, i) { d[i] = el.classList.contains('opts') ? [].slice.call(el.querySelectorAll('input:checked')).map(function (x) { return x.value; }) : el.value; });
-    localStorage.setItem(STORE, JSON.stringify(d));
-  } catch (e) {}
-}
-function load() {
-  try {
-    var d = JSON.parse(localStorage.getItem(STORE) || '{}');
-    fields.forEach(function (el, i) {
-      if (d[i] === undefined) return;
-      if (el.classList.contains('opts')) {
-        [].slice.call(el.querySelectorAll('input')).forEach(function (inp) { inp.checked = d[i].indexOf(inp.value) > -1; });
-      } else el.value = d[i];
-    });
-  } catch (e) {}
-}
-f.addEventListener('input', function () { progress(); save(); });
-f.addEventListener('change', function () { progress(); save(); });
-load(); progress();
+$('budget').addEventListener('input', render);
+boxes.forEach(function (x) { x.addEventListener('change', render); });
+$('first').addEventListener('change', render);
+render();
 
-f.addEventListener('submit', function (e) {
+$('f').addEventListener('submit', function (e) {
   e.preventDefault();
-  var msg = document.getElementById('msg');
-  var btn = document.getElementById('send');
+  var msg = $('msg'), btn = $('send');
   msg.className = 'msg';
-  if (!document.getElementById('ok').checked) {
-    msg.textContent = 'Bitte bestätigen Sie die Übermittlung.'; msg.className = 'msg err'; return;
-  }
-  if (f.botcheck.checked) return;
-  var out = [];
-  [].slice.call(document.querySelectorAll('section[data-s]')).forEach(function (s, n) {
-    if (n) out.push('────────────────────', '');
-    out.push(s.getAttribute('data-s'));
-    [].slice.call(s.querySelectorAll('[data-q]')).forEach(function (el) {
-      out.push(el.getAttribute('data-q'), val(el) || 'Noch offen', '');
-    });
-  });
-  out.push('Übermittlung zur Werbeplanung bestätigt: Ja');
-  var body = {
-    access_key: ACCESS_KEY,
-    subject: 'Meisterwerk Malermanufaktur: Antworten zum Ads-Fragebogen',
-    from_name: 'Meisterwerk Ads-Fragebogen',
-    replyto: document.getElementById('mail').value || undefined,
-    botcheck: '',
-    message: out.join('\n')
-  };
-  if (ACCESS_KEY.indexOf('HIER_EINTRAGEN') > -1) {
-    msg.textContent = 'Der Versand ist noch nicht eingerichtet (Schlüssel fehlt).'; msg.className = 'msg err'; return;
-  }
+  var sel = boxes.filter(function (x) { return x.checked; }).map(function (x) { return x.value; });
+  if (!sel.length) { msg.textContent = 'Bitte wählen Sie mindestens eine Leistung.'; msg.className = 'msg err'; return; }
+  if (!$('ok').checked) { msg.textContent = 'Bitte bestätigen Sie die Übermittlung.'; msg.className = 'msg err'; return; }
+  if (this.botcheck.checked) return;
+  var b = +$('budget').value;
+  var message = [
+    'Monatliches Budget: ' + b + ' €',
+    'Gewählte Leistungen: ' + sel.join(', '),
+    'Anfangen mit: ' + ($('first').value || 'Noch offen'),
+    'Empfehlung für dieses Budget: höchstens ' + plural(rec(b)) + (sel.length > rec(b) ? ' (Kunde hat mehr gewählt)' : ''),
+    'Name: ' + ($('name').value || 'Noch offen'),
+    'Telefon: ' + ($('tel').value || 'Noch offen'),
+    'Anmerkungen: ' + ($('note').value.trim() || 'Keine')
+  ].join('\n');
+  if (ACCESS_KEY.indexOf('HIER_EINTRAGEN') > -1) { msg.textContent = 'Der Versand ist noch nicht eingerichtet (Schlüssel fehlt).'; msg.className = 'msg err'; return; }
   btn.disabled = true;
-  fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(body) })
-    .then(function (r) { return r.json(); })
-    .then(function (j) {
-      if (j.success) {
-        msg.textContent = 'Vielen Dank, Ihre Antworten sind angekommen. Wir melden uns bei Ihnen.'; msg.className = 'msg ok';
-        try { localStorage.removeItem(STORE); } catch (x) {}
-      } else throw new Error(j.message || 'Fehler');
-    })
-    .catch(function () {
-      msg.textContent = 'Das Senden hat nicht geklappt. Bitte versuchen Sie es noch einmal oder rufen Sie uns an.'; msg.className = 'msg err'; btn.disabled = false;
-    });
+  fetch('https://api.web3forms.com/submit', {
+    method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+    body: JSON.stringify({ access_key: ACCESS_KEY, subject: 'Meisterwerk Malermanufaktur: Leistungen und Budget für Google Ads', from_name: 'Meisterwerk Google Ads', botcheck: '', message: message })
+  }).then(function (r) { return r.json(); }).then(function (j) {
+    if (!j.success) throw new Error();
+    msg.textContent = 'Vielen Dank, Ihre Auswahl ist angekommen. Wir melden uns mit dem Kampagnenplan.'; msg.className = 'msg ok';
+  }).catch(function () {
+    msg.textContent = 'Das Senden hat nicht geklappt. Bitte versuchen Sie es noch einmal oder rufen Sie uns an.'; msg.className = 'msg err'; btn.disabled = false;
+  });
 });
 </script>
 </body>
