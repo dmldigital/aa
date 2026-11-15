@@ -4,6 +4,7 @@
   Jeder Screen: Desktop (1440 × 900, skaliert) + Handy (390 × 844, skaliert) + Notizen zu Animationen.
 */
 import '../styles/global.css';
+import AiNotice from '../components/AiNotice.astro';
 
 const steps = ['Hersteller', 'Becken', 'Farbe & LED', 'Abdeckung', 'Technik', 'Wärme & Licht', 'Kontakt'];
 
@@ -62,6 +63,7 @@ const optionCount: Record<number, number> = { 1: 3, 2: 6, 3: 6, 4: 6, 5: 3, 6: 3
 <!doctype html>
 <html lang="de">
 <head>
+  <AiNotice />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex" />

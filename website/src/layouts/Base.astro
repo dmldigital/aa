@@ -1,6 +1,8 @@
 ---
 import 'lenis/dist/lenis.css';
 import '../styles/global.css';
+import AiNotice from '../components/AiNotice.astro';
+import { AI_NOTICE } from '../lib/ai-notice';
 import satoshi300 from '../assets/fonts/satoshi-300.woff2?url';
 import satoshi400 from '../assets/fonts/satoshi-400.woff2?url';
 import satoshi500 from '../assets/fonts/satoshi-500.woff2?url';
@@ -27,6 +29,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:locale" content="de_DE" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <AiNotice />
     <link rel="preload" href={satoshi300} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={satoshi400} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={satoshi500} as="font" type="font/woff2" crossorigin />
@@ -69,7 +72,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
       }
     </script>
 
+    <p class="ai-notice" lang="en">{AI_NOTICE}</p>
+
     <style is:global>
+      .ai-notice { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
       .skip-link {
         position: absolute; left: 1rem; top: -4rem; z-index: 200;
         background: var(--pk-navy); color: #fff; padding: 0.75rem 1rem; border-radius: var(--radius-sm);
