@@ -91,6 +91,29 @@ jobs:
           <a href="seite-b/"><b>Seite B</b><small>Bestehende Seite, überarbeitet</small></a></main></html>
           HTML
 
+      # Poolbau Koch vorübergehend deaktiviert (Wunsch des Nutzers, 15.11.2026). Zum Reaktivieren auf 'true' setzen.
+      # Entfernt alles von Poolbau Koch aus der Vorschau, die übrigen Projekte bleiben unverändert erreichbar.
+      - name: Poolbau Koch deaktivieren
+        env:
+          POOLBAU_AKTIV: 'false'
+        run: |
+          set -e
+          [ "$POOLBAU_AKTIV" = "true" ] && exit 0
+          cd website/dist
+          for f in * .[!.]*; do
+            [ -e "$f" ] || continue
+            case "$f" in
+              meisterwerk-astro|meisterwerk-preview|meisterwerk-preview-auswahl|ads-meisterwerk|angebot-meisterwerk|seite-a|seite-b|vergleich.html) ;;
+              *) rm -rf "$f" ;;
+            esac
+          done
+          cat > index.html <<'HTML'
+          <!doctype html><html lang="de"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow,noarchive,noimageindex"><title>Nicht verfügbar</title>
+          <style>body{font:16px/1.6 system-ui,sans-serif;margin:0;min-height:100vh;display:grid;place-items:center;background:#f4f2ee;color:#1a1b1e}</style>
+          <p>Diese Seite ist nicht verfügbar.</p></html>
+          HTML
+          cp index.html 404.html
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: website/dist
