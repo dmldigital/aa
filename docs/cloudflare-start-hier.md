@@ -25,7 +25,8 @@ Meisterwerk-Website einzurichten und die Domain `meisterwerk-lb.de` von IONOS na
 ## So geht es los
 1. Das Paket entpacken und in dem Ordner eine lokale Claude-Code-Sitzung starten (Cloudflare-Zugriff vorhanden).
    Alternativ das Repository klonen: `https://github.com/dmldigital/aa`, Branch `claude/poolbau-koch-website-408frj`.
-2. Die DNS-Einträge von IONOS in `docs/dns-eintraege-ionos.md` eintragen (oder per Foto in der Cloud-Sitzung übertragen lassen).
+2. Die DNS-Einträge von IONOS stehen schon in `docs/dns-eintraege-ionos.md` (16 Einträge aus dem Screenshot). Vier Werte darin sind
+   abgeschnitten und müssen vor dem Anlegen vollständig abgelesen werden (siehe Datei, oberster Abschnitt).
 3. Den **Auftrag** unten in die lokale Sitzung kopieren.
 
 ## Auftrag für die lokale Sitzung (zum Hineinkopieren)

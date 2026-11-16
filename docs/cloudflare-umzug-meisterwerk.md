@@ -92,8 +92,8 @@ Die Namen unten sind genau die, die der Code erwartet. Prüfen vorher: `cd meist
    Der Absender `formular@` braucht kein Postfach bei Microsoft.
 6. **Formular-Mails testen**, sobald Variablen und Bindings gesetzt sind (Pages-Projekt neu bereitstellen): Anfrage über
    `meisterwerk.pages.dev/kontakt/` absenden. Es kommen zwei Mails: an `info@` (Antworten gehen an den Kunden, Bilder im Anhang) und die
-   Bestätigung an den Kunden. Die Mail an `info@` darf in Outlook nicht im Junk landen. In den Nachrichtenkopfzeilen müssen `dkim=pass` mit
-   `d=meisterwerk-lb.de` und `dmarc=pass` stehen. Landet sie im Junk: nicht den Absender pauschal freigeben, sondern erst DKIM und DMARC prüfen.
+   Bestätigung an den Kunden. Die Mail an `info@` darf in Outlook nicht im Junk landen. In den Nachrichtenkopfzeilen muss `dkim=pass` mit
+   `d=meisterwerk-lb.de` stehen. Ein `dmarc`-Ergebnis erscheint nur, wenn es einen `_dmarc`-Eintrag gibt, bei IONOS gibt es derzeit keinen. Landet sie im Junk: nicht den Absender pauschal freigeben, sondern erst DKIM und DMARC prüfen.
    Danach in der Cloudflare-D1-Tabelle `anfragen` nachsehen, dass der Vorgang gespeichert wurde.
 7. **Datenschutzerklärung**: Muss vor dem Livegang um Cloudflare (Hosting, Turnstile), Resend (Mail-Versand) und die Speicherung der
    Formular-Anfragen ergänzt werden. Die Formulare verlinken bereits auf `/datenschutzerklaerung/`.

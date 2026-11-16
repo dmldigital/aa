@@ -14,7 +14,7 @@ command -v dig >/dev/null || { echo "dig fehlt (macOS: vorhanden, Linux: dnsutil
 # Namen, die bei Microsoft 365, Resend und der Website üblich sind. Weitere Namen aus dem IONOS-Export unten anhängen.
 NAMES="@ www autodiscover _dmarc selector1._domainkey selector2._domainkey sip lyncdiscover enterpriseregistration
 enterpriseenrollment msoid _sip._tls _sipfederationtls._tcp _autodiscover._tcp mail ftp send resend._domainkey
-formular _domainconnect"
+formular _domainconnect _dep_ws_mutex"
 NAMES="$NAMES ${EXTRA_NAMES:-}"
 TYPES="A AAAA CNAME MX TXT SRV CAA"
 
