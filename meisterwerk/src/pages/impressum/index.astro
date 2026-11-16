@@ -1,14 +1,14 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import TextPage from '../../components/sections/TextPage.astro';
-import html from '../../data/pages/impressum.html?raw';
+import LegalPage from '../../components/legal/LegalPage.astro';
+import { imprintSections } from '../../data/legal/impressum';
 import { routes } from '../../data/links';
 ---
 
 <PageLayout
   title="Impressum"
-  description="Impressum der Meisterwerk Malermanufaktur in Freiberg am Neckar: Anbieter, Kontakt und zuständige Handwerkskammer."
+  description="Impressum der Meisterwerk Malermanufaktur in Freiberg am Neckar: Anbieter, Kontakt, Umsatzsteuer-ID und zuständige Handwerkskammer."
   current={routes.imprint}
 >
-  <TextPage title="Impressum" {html} />
+  <LegalPage title="Impressum" sections={imprintSections} variant="cards" />
 </PageLayout>

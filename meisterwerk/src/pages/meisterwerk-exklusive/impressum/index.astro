@@ -1,8 +1,8 @@
 ---
 import PageLayout from '../../../layouts/PageLayout.astro';
-import TextPage from '../../../components/sections/TextPage.astro';
-// Text wie auf der Hauptseite (im Original identisch)
-import html from '../../../data/pages/impressum.html?raw';
+import LegalPage from '../../../components/legal/LegalPage.astro';
+// Gleiche Angaben wie auf der Hauptseite: Exklusive ist ein Angebot desselben Betriebs
+import { imprintSections } from '../../../data/legal/impressum';
 ---
 
 <PageLayout
@@ -11,5 +11,10 @@ import html from '../../../data/pages/impressum.html?raw';
   description="Impressum von Meisterwerke Exklusive, einem Angebot der Meisterwerk Malermanufaktur in Freiberg am Neckar: Anbieter, Kontakt und Handwerkskammer."
   current="/meisterwerk-exklusive/impressum/"
 >
-  <TextPage exklusive title="Impressum" {html} />
+  <LegalPage
+    title="Impressum"
+    lead="Meisterwerke Exklusive ist ein Angebot der Meisterwerk Malermanufaktur."
+    sections={imprintSections}
+    variant="cards"
+  />
 </PageLayout>

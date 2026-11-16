@@ -309,7 +309,7 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
       if (button) button.disabled = false;
       if (r.ok) {
         form.reset();
-        say(r.test ? 'Vorschau: Die Anfrage wurde nicht gesendet (Testmodus).' : 'Vielen Dank, Ihre Anfrage ist angekommen. Sie erhalten gleich eine Bestätigung per E-Mail.');
+        say(r.test ? 'Vorschau: Die Anfrage wurde nicht gesendet (Testmodus).' : 'Vielen Dank, Ihre Anfrage ist angekommen. Wir melden uns schnellstmöglich bei Ihnen.');
       } else say(r.error ?? 'Das Senden hat nicht geklappt.');
     });
   });

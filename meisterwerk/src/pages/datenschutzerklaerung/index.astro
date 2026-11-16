@@ -1,14 +1,20 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import TextPage from '../../components/sections/TextPage.astro';
-import html from '../../data/pages/datenschutz.html?raw';
+import LegalPage from '../../components/legal/LegalPage.astro';
+import { privacySections, privacyUpdated } from '../../data/legal/datenschutz';
 import { routes } from '../../data/links';
 ---
 
 <PageLayout
   title="Datenschutzerklärung"
-  description="Datenschutzerklärung der Meisterwerk Malermanufaktur: Verantwortlicher, Zwecke und Rechtsgrundlagen der Datenverarbeitung."
+  description="Datenschutzerklärung der Meisterwerk Malermanufaktur in Freiberg am Neckar: ohne Tracking-Cookies, Hosting bei Cloudflare, Formulare und Ihre Rechte."
   current={routes.privacy}
 >
-  <TextPage title="Datenschutzerklärung" {html} />
+  <LegalPage
+    title="Datenschutzerklärung"
+    lead="Welche Daten beim Besuch dieser Website und bei einer Anfrage anfallen, wofür wir sie verwenden und welche Rechte Sie haben."
+    meta={`Stand: ${privacyUpdated}`}
+    sections={privacySections}
+    highlight="kurz"
+  />
 </PageLayout>

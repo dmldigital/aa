@@ -17,9 +17,6 @@ const links = [
   { label: 'Partnernetzwerk', href: href(f.partnersHref) },
   { label: 'Impressum', href: href(f.imprintHref) },
   { label: 'Datenschutzerklärung', href: href(f.privacyHref) },
-  ...(siteKey === 'main'
-    ? [{ label: 'Cookie-Einstellungen', href: href(f.cookieHref ?? f.privacyHref) }]
-    : []),
 ];
 ---
 
@@ -31,6 +28,10 @@ const links = [
       </a>
     </li>
   ))}
+  <li>
+    <!-- Öffnet den Cookie-Banner (components/legal/CookieBanner.astro), ohne Skript Fallback auf die Datenschutzerklärung -->
+    <a href={href(f.cookieHref ?? f.privacyHref) + '#cookies'} data-consent-open class={small}>Cookie-Einstellungen</a>
+  </li>
   {copyright && (
     <li>
       <a

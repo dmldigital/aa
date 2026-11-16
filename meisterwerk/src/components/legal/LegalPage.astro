@@ -1,0 +1,108 @@
+---
+/**
+ * Rechtsseite (Impressum, Datenschutzerklärung) für Haupt- und Teil-Website. Seitenkopf wie alle Unterseiten (`PageHeader`),
+ * darunter zwei Darstellungen:
+ * - `document` (Datenschutz): links ein mitlaufendes Inhaltsverzeichnis ohne Nummern (aktueller Abschnitt markiert, Handy:
+ *   aufklappbar), rechts die Abschnitte. Der erste Abschnitt (`highlight`) steht als helle Karte oben.
+ * - `cards` (Impressum): Abschnitte als Karten im Raster.
+ * Karten mit der Rundung der Menü-Pille (24 px), Farben und Schriften nur aus den Tokens.
+ */
+import PageHeader from '../sections/PageHeader.astro';
+import type { LegalSection } from '../../data/legal/datenschutz';
+
+interface Props {
+  title: string;
+  lead?: string;
+  /** Zusatzzeile unter der Einleitung, z. B. „Stand: November 2026“ */
+  meta?: string;
+  sections: LegalSection[];
+  variant?: 'document' | 'cards';
+  /** id des Abschnitts, der als Karte über dem Text steht (nur `document`) */
+  highlight?: string;
+}
+const { title, lead, meta, sections, variant = 'document', highlight } = Astro.props;
+const top = variant === 'document' ? sections.find((s) => s.id === highlight) : undefined;
+const rest = sections.filter((s) => s !== top);
+
+// Fließtext: Abstände, Listen und Links wie auf der übrigen Seite
+const prose =
+  'text-body text-ink/80 [&_a]:text-ink [&_a]:underline [&_a]:decoration-black/25 [&_a]:underline-offset-[3px] [&_a]:transition-colors [&_a]:duration-300 [&_a:hover]:decoration-gold [&_code]:rounded-md [&_code]:bg-fog [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-small [&_h3]:mt-7 [&_h3]:mb-2 [&_h3]:font-display [&_h3]:text-h4 [&_h3]:text-ink [&_li]:pl-1 [&_li+li]:mt-2 [&_p+p]:mt-4 [&_p+ul]:mt-3 [&_strong]:font-semibold [&_strong]:text-ink [&_ul]:list-disc [&_ul]:pl-5 [&_ul+p]:mt-4 [&_li::marker]:text-gold';
+const tocLink =
+  'block border-l-2 border-transparent py-1.5 pl-4 text-small text-ink/60 transition-colors duration-300 hover:text-ink aria-[current=true]:border-gold aria-[current=true]:text-ink';
+---
+
+<PageHeader label="Rechtliches" {title} {lead} paragraphs={meta ? [meta] : []} />
+
+<section data-section="rechtliches" class="bg-white px-page pb-section">
+  {variant === 'cards' ? (
+    <div class="mx-auto grid w-full max-w-page gap-4 md:grid-cols-2 lg:grid-cols-3">
+      {sections.map((s, i) => (
+        <article
+          id={s.id}
+          class="flex flex-col rounded-[24px] bg-soft p-7 md:p-8"
+          data-anim="fadeInUp"
+          data-anim-delay={String(80 * (i % 3))}
+        >
+          <h2 class="font-display text-label font-medium tracking-label text-gold uppercase">{s.title}</h2>
+          <div class:list={['mt-4', prose]} set:html={s.html} />
+        </article>
+      ))}
+    </div>
+  ) : (
+    <div class="mx-auto grid w-full max-w-page gap-10 lg:grid-cols-12 lg:gap-x-[6vw]">
+      <aside class="lg:col-span-4 xl:col-span-3">
+        <!-- Handy und Tablet: aufklappbares Inhaltsverzeichnis -->
+        <details class="group rounded-[24px] bg-soft p-6 lg:hidden">
+          <summary class="flex cursor-pointer list-none items-center justify-between font-display text-label font-medium tracking-label text-ink uppercase [&::-webkit-details-marker]:hidden">
+            Inhalt
+            <svg class="size-4 transition-transform duration-300 group-open:rotate-180" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="m4 6 4 4 4-4" /></svg>
+          </summary>
+          <ul class="mt-4">
+            {rest.map((s) => <li><a href={`#${s.id}`} class={tocLink}>{s.title}</a></li>)}
+          </ul>
+        </details>
+        <!-- Desktop: läuft beim Lesen mit -->
+        <nav aria-label="Inhalt" class="sticky top-28 hidden lg:block">
+          <p class="mb-4 font-display text-label font-medium tracking-label text-ink uppercase">Inhalt</p>
+          <ul data-legal-toc>
+            {rest.map((s) => <li><a href={`#${s.id}`} class={tocLink}>{s.title}</a></li>)}
+          </ul>
+        </nav>
+      </aside>
+
+      <div class="max-w-[72ch] lg:col-span-8">
+        {top && (
+          <div id={top.id} class="mb-12 rounded-[24px] bg-soft p-7 md:p-9" data-anim="fadeInUp">
+            <h2 class="font-display text-h3 text-ink">{top.title}</h2>
+            <div class:list={['mt-4', prose]} set:html={top.html} />
+          </div>
+        )}
+        {rest.map((s) => (
+          <section id={s.id} data-legal-section class="scroll-mt-28 border-t border-black/10 py-10 first-of-type:border-t-0 first-of-type:pt-0">
+            <h2 class="font-display text-h3 text-ink">{s.title}</h2>
+            <div class:list={['mt-4', prose]} set:html={s.html} />
+          </section>
+        ))}
+      </div>
+    </div>
+  )}
+</section>
+
+<script>
+  // Inhaltsverzeichnis: markiert den Abschnitt, der gerade im oberen Drittel steht
+  const toc = document.querySelector('[data-legal-toc]');
+  const sections = [...document.querySelectorAll<HTMLElement>('[data-legal-section]')];
+  if (toc && sections.length && 'IntersectionObserver' in window) {
+    const links = new Map([...toc.querySelectorAll<HTMLAnchorElement>('a')].map((a) => [a.hash.slice(1), a]));
+    const mark = (id: string) => links.forEach((a, key) => a.setAttribute('aria-current', String(key === id)));
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (hit) mark(hit.target.id);
+      },
+      { rootMargin: '-20% 0px -65% 0px' },
+    );
+    sections.forEach((s) => io.observe(s));
+    mark(sections[0].id);
+  }
+</script>

@@ -4,6 +4,7 @@ import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import BaseHead from '../components/seo/BaseHead.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import CookieBanner from '../components/legal/CookieBanner.astro';
 import type { Site } from '../data/nav';
 import { TITLE_MAX, canonicalPath, isIndexablePage, pathFromUrl, siteIndexable } from '../lib/seo';
 
@@ -46,6 +47,7 @@ if (import.meta.env.DEV && title.length > TITLE_MAX) console.warn(`Titel zu lang
   </head>
   <body>
     <slot />
+    <CookieBanner />
     <script>
       import '../scripts/motion';
       import '../scripts/accordion';

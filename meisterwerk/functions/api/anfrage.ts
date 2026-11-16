@@ -1,8 +1,8 @@
 // Cloudflare Pages Function: POST /api/anfrage
 // Nimmt die Formulare der Website an (Projektanfrage und kurze Nachricht), prüft Turnstile und Honeypot, speichert die Anfrage
-// (D1, optional), legt Bilder ab (R2, optional) und verschickt über Resend eine Mail an den Betrieb (Bilder im Anhang)
-// und eine Bestätigung an den Kunden. Einrichtung: docs/cloudflare-umzug-meisterwerk.md (Phase 3)
-import { mailBetrieb, mailKunde, type Anfrage, type Art, type Zeile } from '../../src/lib/anfrage-mail';
+// (D1, optional), legt Bilder ab (R2, optional) und verschickt über Resend eine Mail an den Betrieb (Bilder im Anhang).
+// Keine Bestätigung an den Kunden. Einrichtung: docs/cloudflare-umzug-meisterwerk.md (Phase 3)
+import { mailBetrieb, type Anfrage, type Art, type Zeile } from '../../src/lib/anfrage-mail';
 
 type Env = {
   DB?: D1Database;              // Tabelle anfragen (functions/schema.sql)
@@ -126,10 +126,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     if (!r1 || !r1.ok) {
       return json({ ok: false, error: `Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns an oder versuchen Sie es später erneut.` }, 502);
     }
-    if (email) {
-      const kunde = mailKunde(anfrage, logo);
-      await send({ from: env.MAIL_FROM, to: [email], reply_to: env.MAIL_TEAM, subject: kunde.subject, html: kunde.html, text: kunde.text });
-    }
+    // Keine automatische Bestätigung an den Kunden (Nutzerwunsch 16.11.2026), der Betrieb antwortet direkt
   }
   return json({ ok: true, ref });
 };

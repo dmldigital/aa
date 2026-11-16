@@ -3,29 +3,21 @@
 Stand 16.11.2026. Quelle: Screenshot der IONOS-DNS-Verwaltung (16 Einträge, sortiert nach „Service“, die Liste endet unten mit dem Tabellenrand).
 Aus dieser Liste legt die lokale Sitzung die Zone in Cloudflare an. **Alle Mail-Einträge in Cloudflare auf „Nur DNS“ (graue Wolke).**
 
-## Noch offen, bevor Cloudflare angelegt wird
-Das Ablesen übernimmt die lokale Sitzung mit Claude in Chrome (nur lesen, Nutzer ist bei IONOS angemeldet), siehe Auftrag in `docs/cloudflare-start-hier.md`.
-1. **Vier Werte waren im Screenshot abgeschnitten** (in der Tabelle als ABGESCHNITTEN markiert). Sie dürfen nicht geraten werden. Vollständig ablesen:
-   in IONOS auf das Stift-Symbol der Zeile klicken (zeigt den ganzen Wert), oder die lokale Sitzung fragt sie ab:
-   ```bash
-   dig +short MX meisterwerk-lb.de
-   dig +short TXT meisterwerk-lb.de
-   dig +short TXT _dep_ws_mutex.meisterwerk-lb.de
-   dig +short SRV _sip._tls.meisterwerk-lb.de
-   dig +short SRV _sipfederationtls._tcp.meisterwerk-lb.de
-   ```
-2. **Spalten, die der Screenshot nicht zeigt:** Priorität des MX, Priorität der beiden SRV-Einträge, TTL. Ebenfalls aus dem Stift-Dialog oder aus `dig` übernehmen.
-3. **Nameserver bei IONOS und DNSSEC-Status:** stehen nicht in dieser Liste (IONOS, Domains, Nameserver bzw. DNSSEC). Vor dem Wechsel prüfen,
-   ist DNSSEC aktiv, muss es vorher bei IONOS aus (siehe Anleitung, Phase 0).
+## Ergänzt am 16.11.2026 (Abfrage über 1.1.1.1, nur lesend)
+Die vier im Screenshot abgeschnittenen Werte sowie Prioritäten und TTL stammen aus einer öffentlichen DNS-Abfrage (`Resolve-DnsName` gegen 1.1.1.1), nicht aus dem IONOS-Stift-Dialog.
+Die IONOS-Anmeldung in Chrome war in dieser Sitzung nicht verfügbar. Alle abgefragten Einträge haben **TTL 3600**.
+- **Nameserver bei IONOS:** `ns.ui-global-dns.de`, `ns.ui-global-dns.biz`, `ns.ui-global-dns.com`, `ns.ui-global-dns.org` (TTL 86400). Das ist der Rückweg: bei Problemen diese vier wieder eintragen.
+- **DNSSEC:** nach der Abfrage **nicht aktiv** (kein DS-Eintrag bei der .de-Registry, kein DNSKEY in der Zone). Noch in IONOS gegenprüfen, dann entfällt die Wartezeit von 24 Stunden.
+- **Noch nicht verglichen:** Die Tabelle enthält 16 Einträge aus dem Screenshot. Ob die Zone darüber hinaus weitere Einträge hat, zeigt erst der Vergleich mit `dns-vergleich.sh` (Namen über `EXTRA_NAMES` ergänzen).
 
 ## Einträge
 | # | Typ | Name (Host) | Wert | IONOS-Service | In Cloudflare |
 |---|---|---|---|---|---|
 | 1 | CNAME | `_domainconnect` | `_domainconnect.ionos.com` | Domain Connect | optional (IONOS-Einrichtungshilfe, ohne Funktion nach dem Wechsel), Nur DNS |
-| 2 | MX | `@` | `meisterwerklb-de02i.mail.protection.outlook.` ABGESCHNITTEN (Ende vermutlich `com`), Priorität unbekannt (bei Microsoft meist 0) | Microsoft Office | **Pflicht**, Nur DNS |
-| 3 | TXT | `@` | `"v=spf1 include:_spf-eu.ionos.com include:spf.protec` ABGESCHNITTEN (Rest und Schlussregel ablesen) | Microsoft Office | **Pflicht**, Nur DNS, 1:1 übernehmen, genau ein SPF-Eintrag |
-| 4 | SRV | `_sipfederationtls._tcp` | Gewicht 1, Port 5061, Ziel `sipfed.online.lync.com` (Priorität nicht sichtbar, bei Microsoft üblich 100) | Microsoft Office | **Pflicht**, Nur DNS |
-| 5 | SRV | `_sip._tls` | Gewicht 1, Port 443, Ziel `sipdir.online.lync.com` (Priorität nicht sichtbar, bei Microsoft üblich 100) | Microsoft Office | **Pflicht**, Nur DNS |
+| 2 | MX | `@` | Priorität **0**, `meisterwerklb-de02i.mail.protection.outlook.com` | Microsoft Office | **Pflicht**, Nur DNS |
+| 3 | TXT | `@` | `v=spf1 include:_spf-eu.ionos.com include:spf.protection.outlook.com ~all` | Microsoft Office | **Pflicht**, Nur DNS, 1:1 übernehmen, genau ein SPF-Eintrag |
+| 4 | SRV | `_sipfederationtls._tcp` | Priorität **100**, Gewicht 1, Port 5061, Ziel `sipfed.online.lync.com` | Microsoft Office | **Pflicht**, Nur DNS |
+| 5 | SRV | `_sip._tls` | Priorität **100**, Gewicht 1, Port 443, Ziel `sipdir.online.lync.com` | Microsoft Office | **Pflicht**, Nur DNS |
 | 6 | CNAME | `autodiscover` | `autodiscover.outlook.com` | Microsoft Office | **Pflicht**, Nur DNS |
 | 7 | CNAME | `enterpriseenrollment` | `enterpriseenrollment-s.manage.microsoft.com` | Microsoft Office | Pflicht, Nur DNS |
 | 8 | CNAME | `enterpriseregistration` | `enterpriseregistration.windows.net` | Microsoft Office | Pflicht, Nur DNS |
@@ -35,8 +27,8 @@ Das Ablesen übernimmt die lokale Sitzung mit Claude in Chrome (nur lesen, Nutze
 | 12 | AAAA | `@` | `2001:8d8:100f:f000:0:0:0:200` | WordPress | vorerst Nur DNS, beim Livegang ersetzt Pages diesen Eintrag |
 | 13 | A | `www` | `217.160.0.71` | WordPress | vorerst Nur DNS, beim Livegang ersetzt Pages diesen Eintrag |
 | 14 | AAAA | `www` | `2001:8d8:100f:f000:0:0:0:200` | WordPress | vorerst Nur DNS, beim Livegang ersetzt Pages diesen Eintrag |
-| 15 | TXT | `_dep_ws_mutex` | `"e1324301cb21fc959e09362a6987a07bcc567` ABGESCHNITTEN | WordPress (IONOS Webspace) | übernehmen, solange WordPress bei IONOS läuft, Nur DNS |
-| 16 | TXT | `@` | `"google-site-verification=hFYHuV7iX8jEllGMa` ABGESCHNITTEN | ohne Service | **übernehmen** (Nachweis für die Google Search Console, sonst geht der Zugang verloren), Nur DNS |
+| 15 | TXT | `_dep_ws_mutex` | `e1324301cb21fc959e09362a6987a07bcc56729834ff8a2452f98d4f7234166f_1758197687856` | WordPress (IONOS Webspace) | übernehmen, solange WordPress bei IONOS läuft, Nur DNS |
+| 16 | TXT | `@` | `google-site-verification=hFYHuV7iX8jEllGMaYRHCHBFNTR7qv6zaY2-ECr7Gpw` | ohne Service | **übernehmen** (Nachweis für die Google Search Console, sonst geht der Zugang verloren), Nur DNS |
 
 Zeilen 2 bis 10 sind Microsoft 365 (Exchange Online, Teams/Skype, Geräteverwaltung). Alles davon wird 1:1 übernommen, auch Teams und Geräteverwaltung.
 

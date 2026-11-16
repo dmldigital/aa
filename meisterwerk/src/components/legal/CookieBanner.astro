@@ -1,0 +1,205 @@
+---
+/**
+ * Cookie-Banner (alle Seiten, eingebunden in `layouts/Layout.astro`). Weiße Karte mit der Rundung der Menü-Pille (24 px),
+ * Desktop unten rechts (unten links schwebt „Projekt starten“), Handy unten über die ganze Breite. Erscheint beim ersten Besuch
+ * nach kurzer Pause weich von unten, „Einstellungen“ klappt die Kategorien in der Karte auf. Der Link „Cookie-Einstellungen“ im
+ * Fuß (`[data-consent-open]`) öffnet ihn jederzeit wieder.
+ * Kategorien und Versionsstand: `data/consent.ts`. Gespeichert wird nur die Auswahl im lokalen Speicher (`mw-consent`).
+ * Skripte mit `type="text/plain" data-consent="…"` werden erst nach Zustimmung geladen (`window.mwConsent`).
+ */
+import Button from '../ui/Button.astro';
+import { consentGroups } from '../../data/consent';
+import { href, routes } from '../../data/links';
+
+const optional = consentGroups.filter((g) => g.key !== 'necessary' && g.active);
+const hasOptional = optional.length > 0;
+const lead = hasOptional
+  ? 'Notwendige Funktionen sind immer aktiv. Statistik und Marketing nutzen wir nur mit Ihrer Zustimmung, die Sie jederzeit unter „Cookie-Einstellungen“ ändern können.'
+  : 'Diese Website verzichtet auf Cookies für Statistik und Werbung. Wir speichern nur Ihre Auswahl, damit dieser Hinweis nicht erneut erscheint. Den Spam-Schutz der Formulare laden wir erst, wenn Sie ein Formular nutzen.';
+const linkClass = 'underline decoration-black/25 underline-offset-[3px] transition-colors duration-300 hover:text-ink hover:decoration-gold';
+---
+
+<div
+  id="mw-consent"
+  data-consent-banner
+  hidden
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="mw-consent-title"
+  aria-describedby="mw-consent-text"
+  class="pointer-events-none fixed z-[9998] translate-y-4 opacity-0 transition-[translate,opacity] data-[open]:pointer-events-auto duration-[650ms] ease-grow data-[open]:translate-y-0 data-[open]:opacity-100 motion-reduce:translate-y-0 max-sm:inset-x-3 max-sm:bottom-3 sm:right-7.5 sm:bottom-7.5 sm:w-[26.5rem]"
+>
+  <div
+    class="max-h-[calc(100svh-1.5rem)] overflow-y-auto overscroll-contain rounded-[24px] bg-white p-6 text-ink shadow-[0_1px_2px_rgb(21_24_27/0.06),0_24px_60px_-20px_rgb(21_24_27/0.35)] ring-1 ring-black/5 sm:p-7"
+  >
+    <p class="font-display text-label font-medium tracking-label text-gold uppercase">Datenschutz</p>
+    <h2 id="mw-consent-title" class="mt-2 font-display text-h4 text-ink">
+      {hasOptional ? 'Ihre Auswahl' : 'Ohne Tracking-Cookies'}
+    </h2>
+    <p id="mw-consent-text" class="mt-2 text-small text-muted">{lead}</p>
+
+    <div data-consent-details class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-grow data-[expanded]:grid-rows-[1fr]">
+      <div class="min-h-0 overflow-hidden">
+        <ul class="mt-5 flex flex-col divide-y divide-black/8 border-y border-black/8">
+          {consentGroups.map((g) => (
+            <li class="py-4">
+              <div class="flex items-center justify-between gap-3">
+                <p class="font-display text-body font-medium text-ink">{g.title}</p>
+                {g.key === 'necessary' ? (
+                  <span class="shrink-0 rounded-full bg-fog px-2.5 py-0.5 font-display text-label font-medium tracking-label text-ink/70 uppercase">
+                    Immer aktiv
+                  </span>
+                ) : g.active ? (
+                  <label class="relative inline-flex h-6 w-10 shrink-0 cursor-pointer">
+                    <input type="checkbox" role="switch" data-consent-toggle={g.key} class="peer sr-only" aria-label={`${g.title} erlauben`} />
+                    <span class="absolute inset-0 rounded-full bg-black/15 transition-colors duration-300 peer-checked:bg-ink peer-focus-visible:ring-2 peer-focus-visible:ring-gold peer-focus-visible:ring-offset-2" />
+                    <span class="absolute top-0.5 left-0.5 size-5 rounded-full bg-white shadow-sm transition-transform duration-300 ease-grow peer-checked:translate-x-4" />
+                  </label>
+                ) : (
+                  <span class="shrink-0 rounded-full border border-black/10 px-2.5 py-0.5 font-display text-label font-medium tracking-label text-ink/50 uppercase">
+                    Nicht im Einsatz
+                  </span>
+                )}
+              </div>
+              <p class="mt-1 text-small text-muted">{g.text}</p>
+              {g.services.length > 0 && <p class="mt-1 text-small text-ink/45">{g.services.join(', ')}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-6 flex flex-wrap gap-2 [&>*]:flex-1 [&>*]:whitespace-nowrap">
+      {hasOptional ? (
+        <>
+          <Button type="button" variant="dark" data-consent-action="all">Alle akzeptieren</Button>
+          <Button type="button" variant="outline" data-consent-action="necessary">Nur notwendige</Button>
+          <Button type="button" variant="ghost" data-consent-action="save" hidden>Auswahl speichern</Button>
+        </>
+      ) : (
+        <Button type="button" variant="dark" data-consent-action="necessary">Verstanden</Button>
+      )}
+      <Button type="button" variant="ghost" data-consent-action="details" aria-expanded="false" aria-controls="mw-consent">Einstellungen</Button>
+    </div>
+
+    <p class="mt-4 text-small text-muted">
+      <a href={href(routes.privacy)} class={linkClass}>Datenschutzerklärung</a>
+      <span aria-hidden="true" class="mx-1.5 text-black/25">|</span>
+      <a href={href(routes.imprint)} class={linkClass}>Impressum</a>
+    </p>
+  </div>
+</div>
+
+<style is:global>
+  /* Auf dem Handy liegt der Banner über dem schwebenden „Projekt starten“: solange er offen ist, tritt der Button zurück */
+  @media (max-width: 768px) {
+    html[data-consent-open] [data-floating-cta] {
+      visibility: hidden !important;
+      opacity: 0 !important;
+    }
+  }
+</style>
+
+<script>
+  import { CONSENT_KEY, CONSENT_VERSION, consentGroups, type ConsentCategory } from '../../data/consent';
+
+  type State = { v: number; ts: string } & Record<ConsentCategory, boolean>;
+
+  const banner = document.querySelector<HTMLElement>('[data-consent-banner]');
+  const details = banner?.querySelector<HTMLElement>('[data-consent-details]');
+  const detailsBtn = banner?.querySelector<HTMLButtonElement>('[data-consent-action="details"]');
+  const saveBtn = banner?.querySelector<HTMLButtonElement>('[data-consent-action="save"]');
+  const toggles = [...(banner?.querySelectorAll<HTMLInputElement>('[data-consent-toggle]') ?? [])];
+
+  const read = (): State | null => {
+    try {
+      const s = JSON.parse(localStorage.getItem(CONSENT_KEY) ?? 'null') as State | null;
+      return s && s.v === CONSENT_VERSION ? s : null;
+    } catch {
+      return null;
+    }
+  };
+  let state = read();
+
+  /** Skripte mit `type="text/plain" data-consent="…"` erst nach Zustimmung ausführen */
+  const apply = () => {
+    document.querySelectorAll<HTMLScriptElement>('script[type="text/plain"][data-consent]').forEach((el) => {
+      const key = el.dataset.consent as ConsentCategory;
+      if (!state?.[key]) return;
+      const s = document.createElement('script');
+      if (el.dataset.src) s.src = el.dataset.src;
+      else s.textContent = el.textContent;
+      el.replaceWith(s);
+    });
+  };
+
+  const setExpanded = (open: boolean) => {
+    if (!details || !detailsBtn) return;
+    details.toggleAttribute('data-expanded', open);
+    detailsBtn.setAttribute('aria-expanded', String(open));
+    if (saveBtn) {
+      saveBtn.hidden = !open;
+      detailsBtn.hidden = open;
+    }
+  };
+
+  const show = (expand = false) => {
+    if (!banner) return;
+    toggles.forEach((t) => (t.checked = state?.[t.dataset.consentToggle as ConsentCategory] ?? false));
+    setExpanded(expand);
+    banner.hidden = false;
+    document.documentElement.dataset.consentOpen = '';
+    // Reflow statt requestAnimationFrame: läuft auch in Hintergrund-Tabs, der Übergang startet trotzdem vom Ausgangszustand
+    void banner.offsetWidth;
+    banner.setAttribute('data-open', '');
+  };
+
+  const hide = () => {
+    if (!banner) return;
+    banner.removeAttribute('data-open');
+    delete document.documentElement.dataset.consentOpen;
+    const done = () => {
+      if (!banner.hasAttribute('data-open')) banner.hidden = true;
+    };
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) done();
+    else setTimeout(done, 700); // Dauer des Übergangs, unabhängig von transitionend (Hintergrund-Tabs)
+  };
+
+  const save = (pick: (key: ConsentCategory) => boolean) => {
+    const next = { v: CONSENT_VERSION, ts: new Date().toISOString() } as State;
+    consentGroups.forEach((g) => (next[g.key] = g.key === 'necessary' || (g.active && pick(g.key))));
+    state = next;
+    try {
+      localStorage.setItem(CONSENT_KEY, JSON.stringify(next));
+    } catch {
+      /* privater Modus: Auswahl gilt nur für diesen Besuch */
+    }
+    apply();
+    window.dispatchEvent(new CustomEvent('mw-consent', { detail: next }));
+    hide();
+  };
+
+  banner?.addEventListener('click', (e) => {
+    const action = (e.target as HTMLElement).closest<HTMLElement>('[data-consent-action]')?.dataset.consentAction;
+    if (action === 'all') save(() => true);
+    else if (action === 'necessary') save(() => false);
+    else if (action === 'save') save((k) => toggles.some((t) => t.dataset.consentToggle === k && t.checked));
+    else if (action === 'details') setExpanded(!details?.hasAttribute('data-expanded'));
+  });
+
+  document.addEventListener('click', (e) => {
+    const opener = (e.target as HTMLElement).closest('[data-consent-open]');
+    if (!opener) return;
+    e.preventDefault();
+    show(true);
+    banner?.querySelector<HTMLElement>('button')?.focus({ preventScroll: true });
+  });
+
+  (window as unknown as { mwConsent: object }).mwConsent = {
+    get: (key: ConsentCategory) => state?.[key] === true,
+    open: () => show(true),
+  };
+
+  apply();
+  if (!state) setTimeout(() => show(false), 900);
+</script>
