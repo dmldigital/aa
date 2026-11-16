@@ -2,9 +2,11 @@
 /**
  * Kontaktformular (Original: Elementor-Formular auf /kontakt/ und /schnellkontakt/).
  * `project` = Projektanfrage mit Leistungsfeldern, `quick` = Schnellkontakt (Name, Rufnummer, E-Mail, Nachricht).
- * Das Absenden ist noch nicht angebunden: `ContactForm.astro` fängt es ab und zeigt eine Meldung.
+ * Versand über `scripts/senden.ts` an die Cloudflare Function (Turnstile, Resend), Bilder werden verkleinert mitgeschickt.
  */
 import Button from './ui/Button.astro';
+import Falle from './ui/Falle.astro';
+import { href } from '../data/links';
 
 interface Props {
   variant: 'project' | 'quick' | 'exklusive';
@@ -27,7 +29,8 @@ const arbeiten = exklusive
 const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12 Monaten', 'Noch offen'];
 ---
 
-<form method="post" data-form="kontakt" name="Kontaktformular" aria-label="Kontaktformular">
+<form method="post" data-form="kontakt" data-variant={variant} name="Kontaktformular" aria-label="Kontaktformular" class="relative">
+  <Falle />
   <div class="-mx-2.5 -mb-7.5 flex flex-wrap">
     {variant !== 'quick' && (
       <>
@@ -249,19 +252,65 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
     aria-live="polite"
     data-form-message
     hidden
-  >
-    Das Formular wird in Kürze freigeschaltet. Bis dahin erreichen Sie uns gern telefonisch oder per
-    E-Mail.
+  ></p>
+  <p class="mt-5 text-small text-muted">
+    Ihre Angaben verwenden wir nur zur Bearbeitung Ihrer Anfrage. Mehr dazu in der
+    <a href={href(exklusive ? '/meisterwerk-exklusive/datenschutzerklaerung/' : '/datenschutzerklaerung/')} class="text-gold transition-colors duration-300 hover:text-ink">Datenschutzerklärung</a>.
   </p>
+  <div data-turnstile-slot></div>
 </form>
 
 <script>
-  // Solange das Formular nicht angebunden ist: Absenden abfangen und freundliche Meldung zeigen.
+  import { senden, vorbereiten, zeilenAus } from '../scripts/senden';
+
+  // Kontaktformular (Projekt, Schnellkontakt, Exklusive): Versand über die Cloudflare Function
   document.querySelectorAll<HTMLFormElement>('form[data-form]').forEach((form) => {
-    form.addEventListener('submit', (event) => {
+    vorbereiten(form);
+    const exklusive = form.dataset.variant === 'exklusive';
+    const projekt = form.dataset.variant !== 'quick';
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const message = form.querySelector<HTMLElement>('[data-form-message]');
-      if (message) message.hidden = false;
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const say = (t: string) => {
+        if (message) {
+          message.textContent = t;
+          message.hidden = false;
+        }
+      };
+      if (!form.reportValidity()) return;
+      const fd = new FormData(form);
+      const files = fd.getAll('bilder[]').filter((f): f is File => f instanceof File && f.size > 0);
+      if (files.length > 12) return say('Bitte wählen Sie höchstens 12 Bilder.');
+      if (button) button.disabled = true;
+      say('Wird gesendet …');
+      const r = await senden({
+        form,
+        art: projekt ? 'projekt' : 'kurz',
+        name: String(fd.get('name') ?? '').trim(),
+        email: String(fd.get('email') ?? '').trim(),
+        telefon: String(fd.get('telefon') ?? '').trim(),
+        bilder: files,
+        zeilen: zeilenAus(form, {
+          privat_gewerbe: 'Privat oder Gewerbe',
+          [exklusive ? 'haus_wohnung' : 'art_der_arbeiten']: exklusive ? 'Haus oder Wohnung' : 'Art der Arbeiten',
+          'leistungen[]': 'Leistungen',
+          flaeche_qm: 'Fläche in m²',
+          zeitpunkt: 'Zeitpunkt der Ausführung',
+          berechneter_preis: 'Berechneter Preis',
+          name: 'Name',
+          telefon: 'Rufnummer',
+          email: 'E-Mail',
+          adresse: 'Adresse',
+          adresse_bauvorhaben: 'Adresse Bauvorhaben',
+          nachricht: 'Nachricht',
+        }),
+      });
+      if (button) button.disabled = false;
+      if (r.ok) {
+        form.reset();
+        say(r.test ? 'Vorschau: Die Anfrage wurde nicht gesendet (Testmodus).' : 'Vielen Dank, Ihre Anfrage ist angekommen. Sie erhalten gleich eine Bestätigung per E-Mail.');
+      } else say(r.error ?? 'Das Senden hat nicht geklappt.');
     });
   });
 </script>

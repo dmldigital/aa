@@ -22,6 +22,7 @@ const { site = 'main', current = '/' } = Astro.props;
   import { gsap } from 'gsap';
   import { lenis } from '../../scripts/motion';
   import '../../scripts/menu-drill';
+  import { senden, vorbereiten, zeilenAus } from '../../scripts/senden';
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const dialogs = [...document.querySelectorAll<HTMLDialogElement>('[data-menu-dialog]')];
@@ -268,12 +269,38 @@ const { site = 'main', current = '/' } = Astro.props;
     split.addEventListener('close', () => show('contact'));
   }
 
-  // Kurzes Formular im Menü: noch nicht angebunden, wie beim Kontaktformular nur eine Meldung
-  document.querySelectorAll<HTMLFormElement>('form[data-menu-form]').forEach((form) =>
-    form.addEventListener('submit', (e) => {
+  // Kurze Nachricht (Menü und MiniForm auf vielen Seiten): Versand über die Cloudflare Function (scripts/senden.ts)
+  document.querySelectorAll<HTMLFormElement>('form[data-menu-form]').forEach((form) => {
+    vorbereiten(form);
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const message = form.querySelector<HTMLElement>('[data-form-message]');
-      if (message) message.hidden = false;
-    }),
-  );
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"], button:not([type])');
+      const say = (t: string) => {
+        if (message) {
+          message.textContent = t;
+          message.hidden = false;
+        }
+      };
+      if (!form.reportValidity()) return;
+      const fd = new FormData(form);
+      const kontakt = String(fd.get('kontakt') ?? '').trim();
+      const istMail = kontakt.includes('@');
+      if (button) button.disabled = true;
+      say('Wird gesendet …');
+      const r = await senden({
+        form,
+        art: 'kurz',
+        name: String(fd.get('name') ?? '').trim(),
+        email: istMail ? kontakt : '',
+        telefon: istMail ? '' : kontakt,
+        zeilen: zeilenAus(form, { name: 'Name', kontakt: 'Telefon oder E-Mail', leistung: 'Leistung', ort: 'Ort', nachricht: 'Nachricht' }),
+      });
+      if (button) button.disabled = false;
+      if (r.ok) {
+        form.reset();
+        say(r.test ? 'Vorschau: Die Nachricht wurde nicht gesendet (Testmodus).' : 'Vielen Dank, Ihre Nachricht ist angekommen. Wir melden uns zeitnah bei Ihnen.');
+      } else say(r.error ?? 'Das Senden hat nicht geklappt.');
+    });
+  });
 </script>

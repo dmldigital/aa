@@ -62,24 +62,41 @@ nie „Proxied“ (orange). Die DNS-Zone bei IONOS **nicht löschen**, sie ist d
 5. **Zurück, falls etwas nicht stimmt:** bei IONOS wieder die IONOS-Standard-Nameserver einstellen. Die alte Zone bei IONOS ist noch da.
 
 ### Phase 3: Cloudflare-Dienste für die neue Website einrichten
-Namen und Variablen sind so gewählt, wie der Code sie erwartet (`meisterwerk/functions/`, in Arbeit in der Cloud-Sitzung).
+Der Code liegt fertig im Repo: Function `meisterwerk/functions/api/anfrage.ts` (POST `/api/anfrage`), Mail-Vorlagen
+`meisterwerk/src/lib/anfrage-mail.ts`, Versand im Browser `meisterwerk/src/scripts/senden.ts`, Tabelle `meisterwerk/functions/schema.sql`.
+Die Namen unten sind genau die, die der Code erwartet. Prüfen vorher: `cd meisterwerk && npm run test:functions` (22 Prüfungen, kein Konto nötig).
 1. **Pages-Projekt** `meisterwerk`: mit GitHub `dmldigital/aa` verbinden, Produktions-Branch `claude/poolbau-koch-website-408frj`,
-   Root-Verzeichnis `meisterwerk`, Build `npm ci && npm run build`, Ausgabe `dist`, Node 22.
-   Variablen (Produktion): `SITE_URL=https://meisterwerk-lb.de`, `PUBLIC_INDEXABLE` erst beim Livegang auf `true`, `BASE_PATH` leer.
+   Root-Verzeichnis `meisterwerk`, Build `npm ci && npm run build`, Ausgabe `dist`, Node 22. Der Ordner `meisterwerk/functions/` wird
+   automatisch als Pages Functions erkannt. Build-Variablen (Produktion): `SITE_URL=https://meisterwerk-lb.de`, `BASE_PATH` leer,
+   `PUBLIC_INDEXABLE` erst beim Livegang auf `true`.
 2. **Turnstile**: Widget „Meisterwerk Formulare“, Modus **Managed**, Hostnamen `meisterwerk-lb.de`, `www.meisterwerk-lb.de`
-   und `meisterwerk.pages.dev`. Site-Key als Build-Variable `PUBLIC_TURNSTILE_SITE_KEY`, Secret-Key als **Secret** `TURNSTILE_SECRET`.
-3. **D1**: Datenbank `meisterwerk`, Binding `DB` im Pages-Projekt (Tabellenschema liefert die Cloud-Sitzung mit dem Code).
-4. **R2**: Bucket `meisterwerk-anfragen` (privat), Binding `UPLOADS`. Bilder aus dem Formular landen hier, die Mail enthält Links.
+   und `meisterwerk.pages.dev`. Der **Site-Key** kommt als **Build-Variable** `PUBLIC_TURNSTILE_SITE_KEY` ins Pages-Projekt (er wird beim Bauen
+   in die Seite eingesetzt, danach neu bauen), der **Secret-Key** als **Secret** `TURNSTILE_SECRET`.
+   Ohne Site-Key läuft jedes Formular im **Testmodus**: Es meldet „Vorschau, nicht gesendet“ und verschickt nichts (so ist es auf GitHub Pages).
+3. **D1**: Datenbank `meisterwerk` anlegen, Tabelle erzeugen und als Binding **`DB`** verbinden:
+   ```bash
+   npx wrangler d1 create meisterwerk
+   ```
+   ```bash
+   cd meisterwerk && npx wrangler d1 execute meisterwerk --remote --file=functions/schema.sql
+   ```
+4. **R2**: Bucket `meisterwerk-anfragen` (privat), Binding **`UPLOADS`**. Jedes Bild liegt dort unter `<Vorgang>/<nr>-<name>.jpg`.
+   Bilder werden im Browser vor dem Senden auf höchstens 2000 px verkleinert. Bis 25 MB zusammen hängen sie an der Mail an den Betrieb,
+   darüber steht in der Mail nur der Hinweis auf die Ablage.
 5. **Resend** (resend.com, kostenlos bis 3.000 Mails im Monat): Domain `meisterwerk-lb.de` hinzufügen. Resend zeigt die nötigen Einträge an
    (in der Regel DKIM `resend._domainkey` sowie MX und SPF auf der Unterdomain `send`). **Diese Einträge berühren die Microsoft-Einträge
    auf `@` nicht** und werden in Cloudflare zusätzlich angelegt, alle **Nur DNS**. Verlangt Resend wider Erwarten einen SPF auf `@`,
    wird **kein zweiter** SPF angelegt, sondern der vorhandene ergänzt (ein Eintrag, beide `include:`). Danach in Resend „Verify“.
    API-Key erzeugen und im Pages-Projekt als **Secret** `RESEND_API_KEY` hinterlegen.
-   Weitere Variablen: `MAIL_FROM=Meisterwerk Malermanufaktur <formular@meisterwerk-lb.de>`, `MAIL_TEAM=info@meisterwerk-lb.de`.
-6. Formular-Mails testen, sobald der Code da ist: Anfrage über `meisterwerk.pages.dev` absenden. Die Mail an `info@` darf in Outlook
-   nicht im Junk landen. In den Nachrichtenkopfzeilen müssen `spf=pass` (für die Unterdomain) und `dkim=pass` mit `d=meisterwerk-lb.de`
-   stehen. Landet sie im Junk: in Microsoft 365 Defender den Absender `formular@meisterwerk-lb.de` nicht pauschal freigeben,
-   sondern erst DKIM und DMARC prüfen.
+   Weitere Variablen: `MAIL_FROM` = `Meisterwerk Malermanufaktur <formular@meisterwerk-lb.de>`, `MAIL_TEAM` = `info@meisterwerk-lb.de`.
+   Der Absender `formular@` braucht kein Postfach bei Microsoft.
+6. **Formular-Mails testen**, sobald Variablen und Bindings gesetzt sind (Pages-Projekt neu bereitstellen): Anfrage über
+   `meisterwerk.pages.dev/kontakt/` absenden. Es kommen zwei Mails: an `info@` (Antworten gehen an den Kunden, Bilder im Anhang) und die
+   Bestätigung an den Kunden. Die Mail an `info@` darf in Outlook nicht im Junk landen. In den Nachrichtenkopfzeilen müssen `dkim=pass` mit
+   `d=meisterwerk-lb.de` und `dmarc=pass` stehen. Landet sie im Junk: nicht den Absender pauschal freigeben, sondern erst DKIM und DMARC prüfen.
+   Danach in der Cloudflare-D1-Tabelle `anfragen` nachsehen, dass der Vorgang gespeichert wurde.
+7. **Datenschutzerklärung**: Muss vor dem Livegang um Cloudflare (Hosting, Turnstile), Resend (Mail-Versand) und die Speicherung der
+   Formular-Anfragen ergänzt werden. Die Formulare verlinken bereits auf `/datenschutzerklaerung/`.
 
 ### Phase 4: Livegang der Website (eigener Termin, Nutzer bestätigt)
 1. Pages-Projekt → Benutzerdefinierte Domains → `meisterwerk-lb.de` und `www.meisterwerk-lb.de` hinzufügen. Cloudflare ersetzt dabei
@@ -87,6 +104,7 @@ Namen und Variablen sind so gewählt, wie der Code sie erwartet (`meisterwerk/fu
 2. `PUBLIC_INDEXABLE=true` setzen und neu bauen. Prüfen: `python3 meisterwerk/tools/seo-check.py <dist> --indexable`.
 3. Weiterleitungen der alten WordPress-Adressen liegen in `meisterwerk/public/_redirects` und greifen automatisch.
 4. WordPress-Formulare sind ab jetzt aus. Vor diesem Schritt einmal in Elementor → Übermittlungen nachsehen, dass keine offene Anfrage verloren geht.
+   Die Bestätigungsmail an Kunden verlinkt auf die Terminbuchung `https://cal.com/meisterwerk`, dieser Link bleibt unverändert.
 5. WordPress bei IONOS noch einige Wochen als Sicherung behalten, erst danach kündigen.
 
 ## Auftrag für die lokale Sitzung (zum Hineinkopieren)

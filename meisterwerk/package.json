@@ -9,7 +9,9 @@
     "preview": "astro preview",
     "check": "astro check",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "check:functions": "tsc -p functions/tsconfig.json",
+    "test:functions": "esbuild functions/api/anfrage.ts --bundle --format=esm --platform=neutral --outfile=/tmp/meisterwerk-anfrage-test/anfrage.mjs --log-level=warning && node tools/test-anfrage.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
@@ -21,7 +23,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "^5.20261116.1",
     "@types/node": "^26.6.5",
+    "esbuild": "^0.28.2",
     "prettier": "^3.9.10",
     "prettier-plugin-astro": "^1.1.1",
     "prettier-plugin-tailwindcss": "^0.8.1",

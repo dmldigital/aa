@@ -1,12 +1,14 @@
 ---
 /**
  * Mini-Kontaktformular (wie auf der Startseite in „Jede Oberfläche ist einzigartig“): Name, Telefon oder E-Mail, Leistung,
- * Ort, Nachricht, Linienfelder ohne Kasten. Das Absenden ist noch nicht angebunden (Meldung, Skript in `Menu.astro` über
- * `form[data-menu-form]`; Hosting später Cloudflare Pages Functions mit Resend). `service` wählt die Leistung vor
+ * Ort, Nachricht, Linienfelder ohne Kasten. Versand über `scripts/senden.ts` (Skript in `Menu.astro` für alle
+ * `form[data-menu-form]`, Cloudflare Pages Function mit Turnstile und Resend). `service` wählt die Leistung vor
  * (z. B. auf einer Leistungsseite), `exklusive` tauscht die Leistungsliste gegen die Exklusiv-Leistungen.
  */
 import Button from './Button.astro';
+import Falle from './Falle.astro';
 import { site } from '../../data/site';
+import { href } from '../../data/links';
 
 interface Props {
   title?: string;
@@ -29,6 +31,7 @@ const input =
 
 <form data-menu-form aria-label="Kurze Nachricht" class:list={['flex w-full flex-col gap-5', className]}>
   <h3 class="font-display text-h3 text-ink">{title}</h3>
+  <Falle />
   <div class="grid gap-x-8 gap-y-4 md:grid-cols-2">
     <label class={field}>
       <span class={label}>Name</span>
@@ -56,10 +59,13 @@ const input =
   </div>
   <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
     <Button type="submit">Nachricht senden</Button>
-    <p role="status" aria-live="polite" data-form-message hidden class="min-w-55 flex-1 text-small text-muted">
-      Das Formular wird in Kürze freigeschaltet. Bis dahin erreichen Sie uns gern telefonisch oder per E-Mail.
-    </p>
+    <p role="status" aria-live="polite" data-form-message hidden class="min-w-55 flex-1 text-small text-muted"></p>
   </div>
+  <div data-turnstile-slot></div>
+  <p class="text-small text-muted">
+    Ihre Angaben verwenden wir nur zur Bearbeitung Ihrer Anfrage. Mehr dazu in der{' '}
+    <a href={href(exklusive ? '/meisterwerk-exklusive/datenschutzerklaerung/' : '/datenschutzerklaerung/')} class="text-gold transition-colors duration-300 hover:text-ink">Datenschutzerklärung</a>.
+  </p>
   <p class="text-small text-muted">
     Direkt erreichen Sie uns unter{' '}
     <a href={`tel:${site.phoneHref}`} class="text-gold transition-colors duration-300 hover:text-ink">{site.phone}</a>

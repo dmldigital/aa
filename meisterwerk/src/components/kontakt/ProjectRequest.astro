@@ -6,11 +6,13 @@
  * Zurück und Weiter. Gewählt = goldener Rahmen und goldener Haken. Einzelauswahl geht nach kurzer Pause von selbst weiter,
  * Mehrfachauswahl mit „Weiter“. Die Frage fährt wortweise aus einer Maske hoch. Fehler stehen als Zeile unter dem Feld.
  * Am Ende ein Überblick mit „Ändern“ je Block. Gleiche Feldnamen wie `ContactForm`. Ohne Skript stehen alle Fragen untereinander.
- * Das Absenden ist noch nicht angebunden: Am Ende die bekannte Meldung und eine vorbereitete E-Mail.
+ * Versand über `scripts/senden.ts` an die Cloudflare Function (Turnstile, Resend, Bilder verkleinert). Fehler stehen über der Leiste.
  * Abstände nur aus dem Abstandssystem (`--space-*`).
  */
 import Button from '../ui/Button.astro';
 import Icon from '../Icon.astro';
+import Falle from '../ui/Falle.astro';
+import { href } from '../../data/links';
 import { site } from '../../data/site';
 
 interface Props {
@@ -44,6 +46,7 @@ const tick = 'M4 10.5l4 4 8-9';
 
 <section class="pf" data-pf data-cta-off>
   <form data-pf-form data-pf-mail={site.email} name="Projektanfrage" aria-label="Projektanfrage" novalidate>
+    <Falle />
     <div class="pf-shell">
       <aside class="pf-aside" aria-label="Fortschritt">
         <div class="pf-aside-top">
@@ -274,17 +277,22 @@ const tick = 'M4 10.5l4 4 8-9';
             <circle cx="32" cy="32" r="30" data-done-circle />
             <path d="M18 33l10 10 18-21" data-done-check />
           </svg>
-          <h2 class="pf-h" data-done-in>Ihre Anfrage ist vorbereitet</h2>
-          <p class="pf-done-text" data-done-in>
-            Das Formular wird in Kürze freigeschaltet. Bis dahin erreichen Sie uns gern telefonisch oder per E-Mail.
+          <h2 class="pf-h" data-done-in>Vielen Dank, Ihre Anfrage ist angekommen</h2>
+          <p class="pf-done-text" data-done-in data-pf-done-text>
+            Sie erhalten gleich eine Bestätigung per E-Mail. Wir melden uns innerhalb von höchstens 2 Werktagen bei Ihnen.
           </p>
           <div class="pf-done-links" data-done-in>
-            <Button href={`mailto:${site.email}`} data-pf-mail-link>E-Mail mit Ihren Angaben öffnen</Button>
+            <Button href="https://cal.com/meisterwerk" target="_blank" rel="noopener noreferrer">Termin direkt wählen</Button>
             <Button href={`tel:${site.phoneHref}`} variant="ghost">{site.phone}</Button>
           </div>
         </div>
       </div>
 
+      <p class="pf-privacy" data-pf-privacy hidden>
+        Ihre Angaben verwenden wir nur zur Bearbeitung Ihrer Anfrage. Mehr dazu in der <a href={href('/datenschutzerklaerung/')}>Datenschutzerklärung</a>.
+      </p>
+      <p class="pf-err" data-pf-senderr role="alert" hidden></p>
+      <div data-turnstile-slot></div>
       <div class="pf-nav" data-pf-nav>
         <div data-pf-back hidden>
           <button type="button" class="pf-back" aria-label="Zurück">
@@ -304,6 +312,7 @@ const tick = 'M4 10.5l4 4 8-9';
 
 <script>
   import { gsap } from '../../scripts/motion';
+  import { senden, vorbereiten } from '../../scripts/senden';
   import {
     initFiles,
     mailto,
@@ -516,6 +525,7 @@ const tick = 'M4 10.5l4 4 8-9';
       back.hidden = cur === 0;
       next.hidden = cur === 0 || cur === last;
       send.hidden = cur !== last;
+      form.querySelector<HTMLElement>('[data-pf-privacy]')!.hidden = cur !== last;
       const navWasHidden = nav.hidden;
       nav.hidden = cur === 0;
       if (navWasHidden && !nav.hidden && !reduced)
@@ -630,15 +640,46 @@ const tick = 'M4 10.5l4 4 8-9';
       advance();
     });
 
-    // ---------- Absenden (noch nicht angebunden) ----------
-    form.addEventListener('submit', (e) => {
+    // ---------- Absenden: Cloudflare Function (Turnstile, Resend), bei Fehler bleibt alles stehen ----------
+    vorbereiten(form);
+    const sendErr = form.querySelector<HTMLElement>('[data-pf-senderr]')!;
+    const sendBtn = send.querySelector<HTMLButtonElement>('button')!;
+    let sending = false;
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (cur !== last) return;
-      form.querySelector<HTMLAnchorElement>('[data-pf-mail-link]')!.href = mailto(
-        form.dataset.pfMail ?? '',
-        'Projektanfrage',
-        rows(),
-      );
+      if (cur !== last || sending) return;
+      sending = true;
+      sendErr.hidden = true;
+      sendBtn.disabled = true;
+      const label = sendBtn.textContent;
+      sendBtn.textContent = 'Wird gesendet …';
+      const fileInput = form.querySelector<HTMLInputElement>('[data-pf-files]');
+      const r = await senden({
+        form,
+        art: 'projekt',
+        zeilen: rows(),
+        name: val('name'),
+        email: val('email'),
+        telefon: val('telefon'),
+        bilder: [...(fileInput?.files ?? [])],
+      });
+      sending = false;
+      sendBtn.disabled = false;
+      sendBtn.textContent = label;
+      if (!r.ok) {
+        const link = mailto(form.dataset.pfMail ?? '', 'Projektanfrage', rows());
+        sendErr.innerHTML = '';
+        sendErr.append(
+          `${r.error ?? 'Das Senden hat nicht geklappt.'} Alternativ: `,
+          Object.assign(document.createElement('a'), { href: link, textContent: 'Angaben per E-Mail senden' }),
+        );
+        sendErr.hidden = false;
+        return;
+      }
+      if (r.test) {
+        form.querySelector<HTMLElement>('[data-pf-done-text]')!.textContent =
+          'Vorschau: Die Anfrage wurde nicht gesendet (Testmodus). Auf der fertigen Website kommt sie direkt bei uns an, und Sie erhalten eine Bestätigung per E-Mail.';
+      }
       const finish = () => {
         screens[cur].hidden = true;
         nav.hidden = true;
@@ -1012,6 +1053,19 @@ const tick = 'M4 10.5l4 4 8-9';
   .pf-same input:focus-visible ~ .pf-same-box {
     outline: 2px solid var(--ink);
     outline-offset: 3px;
+  }
+  .pf-privacy {
+    margin: var(--space-text) 0 0;
+    color: var(--color-muted);
+    font-size: var(--text-small);
+    line-height: var(--text-small--line-height);
+  }
+  .pf-privacy a {
+    color: var(--color-gold);
+    transition: color 0.3s;
+  }
+  .pf-privacy a:hover {
+    color: var(--color-ink);
   }
   /* Fehler: eine ruhige Zeile unter dem Feld */
   .pf-err {
