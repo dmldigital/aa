@@ -24,7 +24,7 @@ nie „Proxied“ (orange). Die DNS-Zone bei IONOS **nicht löschen**, sie ist d
    (sonst ist die Domain nach dem Wechsel nicht erreichbar, auch die Mail). Nach erfolgreichem Umzug kann DNSSEC in Cloudflare neu aktiviert werden.
 3. **Kein Microsoft-Login nötig:** Die Mail funktioniert heute, also stehen alle Einträge, die Microsoft braucht, schon in der IONOS-Zone.
    Sie werden 1:1 übernommen. Beim Abgleich besonders auf diese Einträge achten (typisch für Exchange Online, maßgeblich ist, was bei IONOS steht):
-   - `MX @` → `meisterwerk-lb-de.mail.protection.outlook.com` (genauer Wert aus dem Admin Center)
+   - `MX @` → `meisterwerk-lb-de.mail.protection.outlook.com` (genauer Wert wie bei IONOS)
    - `TXT @` → `v=spf1 include:spf.protection.outlook.com -all` (eventuell mit weiteren `include:`)
    - `TXT @` → `MS=ms…` (Domänen-Nachweis)
    - `CNAME autodiscover` → `autodiscover.outlook.com`
