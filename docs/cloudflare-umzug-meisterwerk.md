@@ -114,6 +114,10 @@ Ziel heute: Phase 0 und Phase 1, danach anhalten. Phase 2 (Nameserver bei IONOS)
 meine ausdrückliche Freigabe im Chat. Phase 3 nur, soweit ich es dir sage.
 
 Wichtig: Die E-Mail von meisterwerk-lb.de läuft über Microsoft 365 und darf nicht ausfallen.
+- Hol dir die fehlenden Angaben aus der IONOS-Oberfläche mit Claude in Chrome. Ich bin dort in meinem Chrome schon angemeldet, ändere nichts
+  und gib kein Passwort aus. Nur lesen: Bei jedem der 16 Einträge in docs/dns-eintraege-ionos.md den Stift-Dialog öffnen und den ganzen Wert,
+  die Priorität (MX, SRV) und die TTL eintragen, dann den Dialog ohne Speichern schließen. Außerdem die Nameserver der Domain und den
+  DNSSEC-Status ablesen. Trage alles in die Datei ein und zeig mir die fertige Tabelle, bevor du Cloudflare anlegst.
 - Lege in Cloudflare die Zone meisterwerk-lb.de an (Free), ändere aber nichts bei IONOS.
 - Übernimm alle DNS-Einträge 1:1 aus der IONOS-Zone (ein Microsoft-Login ist nicht nötig, die Mail-Einträge stehen bei IONOS).
   Ich gebe dir die IONOS-Liste, falls du sie nicht selbst lesen kannst. Mail-Einträge und alle TXT immer "Nur DNS". @ und www vorerst mit den alten IONOS-Werten, "Nur DNS".

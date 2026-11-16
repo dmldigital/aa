@@ -4,6 +4,7 @@ Stand 16.11.2026. Quelle: Screenshot der IONOS-DNS-Verwaltung (16 Einträge, sor
 Aus dieser Liste legt die lokale Sitzung die Zone in Cloudflare an. **Alle Mail-Einträge in Cloudflare auf „Nur DNS“ (graue Wolke).**
 
 ## Noch offen, bevor Cloudflare angelegt wird
+Das Ablesen übernimmt die lokale Sitzung mit Claude in Chrome (nur lesen, Nutzer ist bei IONOS angemeldet), siehe Auftrag in `docs/cloudflare-start-hier.md`.
 1. **Vier Werte waren im Screenshot abgeschnitten** (in der Tabelle als ABGESCHNITTEN markiert). Sie dürfen nicht geraten werden. Vollständig ablesen:
    in IONOS auf das Stift-Symbol der Zeile klicken (zeigt den ganzen Wert), oder die lokale Sitzung fragt sie ab:
    ```bash
