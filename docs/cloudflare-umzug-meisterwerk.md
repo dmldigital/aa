@@ -22,8 +22,8 @@ nie „Proxied“ (orange). Die DNS-Zone bei IONOS **nicht löschen**, sie ist d
 1. IONOS: DNS-Einstellungen der Domain öffnen und **alle Einträge** notieren oder als Liste exportieren, auch Unterdomains.
 2. IONOS: prüfen, ob **DNSSEC** aktiv ist. Wenn ja: vor dem Nameserver-Wechsel bei IONOS deaktivieren und mindestens 24 Stunden warten
    (sonst ist die Domain nach dem Wechsel nicht erreichbar, auch die Mail). Nach erfolgreichem Umzug kann DNSSEC in Cloudflare neu aktiviert werden.
-3. Microsoft 365 Admin Center → Einstellungen → Domänen → `meisterwerk-lb.de` → **DNS-Einträge**: Liste der erwarteten Einträge sichern.
-   Typisch für Exchange Online:
+3. **Kein Microsoft-Login nötig:** Die Mail funktioniert heute, also stehen alle Einträge, die Microsoft braucht, schon in der IONOS-Zone.
+   Sie werden 1:1 übernommen. Beim Abgleich besonders auf diese Einträge achten (typisch für Exchange Online, maßgeblich ist, was bei IONOS steht):
    - `MX @` → `meisterwerk-lb-de.mail.protection.outlook.com` (genauer Wert aus dem Admin Center)
    - `TXT @` → `v=spf1 include:spf.protection.outlook.com -all` (eventuell mit weiteren `include:`)
    - `TXT @` → `MS=ms…` (Domänen-Nachweis)
@@ -35,7 +35,7 @@ nie „Proxied“ (orange). Die DNS-Zone bei IONOS **nicht löschen**, sie ist d
 
 ### Phase 1: Zone in Cloudflare vorbereiten (Nameserver noch NICHT ändern)
 1. Cloudflare → Website hinzufügen → `meisterwerk-lb.de`, Plan **Free**. Cloudflare liest vorhandene Einträge ein, das ist **unvollständig**.
-2. Jeden Eintrag aus Phase 0 abgleichen und fehlende ergänzen. Dabei:
+2. Jeden Eintrag aus der IONOS-Liste (Phase 0) übernehmen, Werte exakt gleich, fehlende ergänzen. Dabei:
    - MX, alle TXT, `autodiscover`, `_domainkey`-CNAMEs, `sip`, `lyncdiscover`, `enterprise…`: **Nur DNS (grau)**.
    - `@` und `www` (WordPress): vorerst **Nur DNS (grau)** mit denselben Werten wie bei IONOS. So ändert sich beim Wechsel nichts.
    - Es darf nur **einen** SPF-Eintrag (`v=spf1 …`) auf `@` geben.
@@ -58,7 +58,6 @@ nie „Proxied“ (orange). Die DNS-Zone bei IONOS **nicht löschen**, sie ist d
 4. Prüfen:
    - `dig MX meisterwerk-lb.de @1.1.1.1 +short` und `@8.8.8.8` liefern den Microsoft-MX.
    - Mail von außen (z. B. Gmail) an `info@meisterwerk-lb.de` kommt an, Antwort aus Outlook kommt beim Absender an.
-   - Microsoft 365 Admin Center → Domänen → `meisterwerk-lb.de` → Zustand ohne Fehler.
    - Website (noch WordPress) lädt unter `meisterwerk-lb.de` und `www.meisterwerk-lb.de`.
 5. **Zurück, falls etwas nicht stimmt:** bei IONOS wieder die IONOS-Standard-Nameserver einstellen. Die alte Zone bei IONOS ist noch da.
 
@@ -98,8 +97,8 @@ meine ausdrückliche Freigabe im Chat. Phase 3 nur, soweit ich es dir sage.
 
 Wichtig: Die E-Mail von meisterwerk-lb.de läuft über Microsoft 365 und darf nicht ausfallen.
 - Lege in Cloudflare die Zone meisterwerk-lb.de an (Free), ändere aber nichts bei IONOS.
-- Gleiche alle DNS-Einträge mit IONOS und mit der Liste im Microsoft 365 Admin Center ab. Ich gebe dir die IONOS-Liste, falls du sie
-  nicht selbst lesen kannst. Mail-Einträge und alle TXT immer "Nur DNS". @ und www vorerst mit den alten IONOS-Werten, "Nur DNS".
+- Übernimm alle DNS-Einträge 1:1 aus der IONOS-Zone (ein Microsoft-Login ist nicht nötig, die Mail-Einträge stehen bei IONOS).
+  Ich gebe dir die IONOS-Liste, falls du sie nicht selbst lesen kannst. Mail-Einträge und alle TXT immer "Nur DNS". @ und www vorerst mit den alten IONOS-Werten, "Nur DNS".
 - Lass meisterwerk/tools/dns-vergleich.sh mit einem IONOS- und einem Cloudflare-Nameserver laufen und zeig mir das Ergebnis.
 - Prüfe, ob DNSSEC bei IONOS aktiv ist, und sag es mir.
 - Lösche nichts bei IONOS. Proxy (orange Wolke) nur für Web-Einträge und erst beim Livegang.
