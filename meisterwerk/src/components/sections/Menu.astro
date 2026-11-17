@@ -290,7 +290,7 @@ const { site = 'main', current = '/' } = Astro.props;
       say('Wird gesendet …');
       const r = await senden({
         form,
-        art: 'kurz',
+        art: 'schnell',
         name: String(fd.get('name') ?? '').trim(),
         email: istMail ? kontakt : '',
         telefon: istMail ? '' : kontakt,
@@ -299,7 +299,7 @@ const { site = 'main', current = '/' } = Astro.props;
       if (button) button.disabled = false;
       if (r.ok) {
         form.reset();
-        say(r.test ? 'Vorschau: Die Nachricht wurde nicht gesendet (Testmodus).' : 'Vielen Dank, Ihre Nachricht ist angekommen. Wir melden uns zeitnah bei Ihnen.');
+        say(r.test ? 'Vorschau: Die Nachricht wurde nicht gesendet (Testmodus).' : istMail ? 'Vielen Dank, Ihre Nachricht ist angekommen. Eine Bestätigung ist unterwegs an Ihre E-Mail-Adresse.' : 'Vielen Dank, Ihre Nachricht ist angekommen. Wir melden uns zeitnah bei Ihnen.');
       } else say(r.error ?? 'Das Senden hat nicht geklappt.');
     });
   });

@@ -279,7 +279,7 @@ const tick = 'M4 10.5l4 4 8-9';
           </svg>
           <h2 class="pf-h" data-done-in>Vielen Dank, Ihre Anfrage ist angekommen</h2>
           <p class="pf-done-text" data-done-in data-pf-done-text>
-            Wir melden uns innerhalb von höchstens 2 Werktagen bei Ihnen.
+            Eine Bestätigung ist unterwegs an Ihre E-Mail-Adresse. Wir melden uns innerhalb von höchstens 2 Werktagen bei Ihnen.
           </p>
           <div class="pf-done-links" data-done-in>
             <Button href="https://cal.com/meisterwerk" target="_blank" rel="noopener noreferrer">Termin direkt wählen</Button>
@@ -678,7 +678,7 @@ const tick = 'M4 10.5l4 4 8-9';
       }
       if (r.test) {
         form.querySelector<HTMLElement>('[data-pf-done-text]')!.textContent =
-          'Vorschau: Die Anfrage wurde nicht gesendet (Testmodus). Auf der fertigen Website kommt sie direkt bei uns an.';
+          'Vorschau: Die Anfrage wurde nicht gesendet (Testmodus). Auf der fertigen Website kommt sie direkt bei uns an, und Sie erhalten eine Bestätigung per E-Mail.';
       }
       const finish = () => {
         screens[cur].hidden = true;

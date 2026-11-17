@@ -1,8 +1,8 @@
 // Cloudflare Pages Function: POST /api/anfrage
 // Nimmt die Formulare der Website an (Projektanfrage und kurze Nachricht), prüft Turnstile und Honeypot, speichert die Anfrage
-// (D1, optional), legt Bilder ab (R2, optional) und verschickt über Resend eine Mail an den Betrieb (Bilder im Anhang).
-// Keine Bestätigung an den Kunden. Einrichtung: docs/cloudflare-umzug-meisterwerk.md (Phase 3)
-import { mailBetrieb, type Anfrage, type Art, type Zeile } from '../../src/lib/anfrage-mail';
+// (D1, optional), legt Bilder ab (R2, optional) und verschickt über Resend eine Mail an den Betrieb (nur HTML, Bilder im
+// Anhang) und eine Eingangsbestätigung an den Kunden (HTML und Text). Einrichtung: docs/cloudflare-umzug-meisterwerk.md (Phase 3)
+import { mailBetrieb, mailKunde, type Anfrage, type Art, type Zeile } from '../../src/lib/anfrage-mail';
 
 type Env = {
   DB?: D1Database;              // Tabelle anfragen (functions/schema.sql)
@@ -67,7 +67,9 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env: roh }) =
     if (!ok) return json({ ok: false, error: 'Die Sicherheitsprüfung ist fehlgeschlagen. Bitte laden Sie die Seite neu und senden Sie erneut.' }, 403);
   }
 
-  const art: Art = form.get('art') === 'projekt' ? 'projekt' : 'kurz';
+  // projekt (Assistent), kontakt (Kontaktformular mit Leistungen), schnell (Kurzformular); alte Seiten senden noch „kurz“
+  const artRoh = String(form.get('art') ?? '');
+  const art: Art = artRoh === 'projekt' || artRoh === 'kontakt' ? artRoh : 'schnell';
   const name = clip(form.get('name'), 120);
   const email = clip(form.get('email'), 160).toLowerCase();
   const telefon = clip(form.get('telefon'), 40);
@@ -132,7 +134,6 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env: roh }) =
       ...(email ? { reply_to: email } : {}),
       subject: intern.subject,
       html: intern.html,
-      text: intern.text,
       ...(anhaengen ? { attachments: bilder.map((f, i) => ({ filename: ablageName('', i, f.name).slice(1), content: b64(daten[i]) })) } : {}),
     });
     if (!r1 || !r1.ok) {
@@ -140,7 +141,12 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env: roh }) =
       if (r1) console.error('Resend abgelehnt:', r1.status, (await r1.text().catch(() => '')).slice(0, 300), 'Vorgang', ref);
       return json({ ok: false, error: `Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns an oder versuchen Sie es später erneut.` }, 502);
     }
-    // Keine automatische Bestätigung an den Kunden (Nutzerwunsch 16.11.2026), der Betrieb antwortet direkt
+    // Eingangsbestätigung an den Kunden (HTML und Textfassung), nur mit E-Mail-Adresse. Antworten gehen an den Betrieb.
+    if (email) {
+      const kunde = mailKunde(anfrage, logo);
+      const r2 = await send({ from: env.MAIL_FROM, to: [email], reply_to: env.MAIL_TEAM, subject: kunde.subject, html: kunde.html, text: kunde.text });
+      if (r2 && !r2.ok) console.error('Resend Kundenmail abgelehnt:', r2.status, (await r2.text().catch(() => '')).slice(0, 300), 'Vorgang', ref);
+    }
   }
   return json({ ok: true, ref });
 };

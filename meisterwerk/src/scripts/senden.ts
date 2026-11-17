@@ -99,7 +99,8 @@ async function verkleinern(f: File): Promise<File> {
 
 export async function senden(o: {
   form: HTMLFormElement;
-  art: 'projekt' | 'kurz';
+  /** projekt: Assistent auf /kontakt/, kontakt: Kontaktformular mit Leistungen, schnell: Kurzformular (Menü, /schnellkontakt/) */
+  art: 'projekt' | 'kontakt' | 'schnell';
   zeilen: Zeile[];
   name: string;
   email?: string;

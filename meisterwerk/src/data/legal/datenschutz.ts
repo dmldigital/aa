@@ -76,7 +76,7 @@ export const privacySections: LegalSection[] = [
         <li>Anschließend erhalten wir Ihre Anfrage als E-Mail an unser Postfach. Für den Versand nutzen wir Resend (siehe unten).</li>
         <li>Fotos werden bereits in Ihrem Browser auf höchstens 2000 Pixel verkleinert, bevor sie übertragen werden.</li>
       </ul>
-      <p>Wir senden Ihnen keine automatische E-Mail. Wir melden uns persönlich bei Ihnen.</p>
+      <p>Haben Sie eine E-Mail-Adresse angegeben, erhalten Sie eine automatische Eingangsbestätigung mit Ihren Angaben und einem Link zu unserem Terminkalender. Weitere Werbung senden wir Ihnen nicht.</p>
       <h3>Rechtsgrundlage und Speicherdauer</h3>
       <p>Geht es um ein Angebot oder einen Auftrag, ist Rechtsgrundlage die Durchführung vorvertraglicher Maßnahmen (Art. 6 Abs. 1 lit. b DSGVO). Bei allgemeinen Anfragen ist es unser berechtigtes Interesse, Anfragen zu beantworten (Art. 6 Abs. 1 lit. f DSGVO).</p>
       <p>Wir löschen die Daten, sobald Ihre Anfrage abschließend bearbeitet ist und kein Auftrag zustande kommt. Kommt ein Auftrag zustande, bewahren wir die Unterlagen so lange auf, wie es handels- und steuerrechtliche Vorschriften verlangen (in der Regel sechs bis zehn Jahre).</p>`,
@@ -94,7 +94,7 @@ export const privacySections: LegalSection[] = [
     id: 'resend',
     title: 'E-Mail-Versand der Formulare über Resend',
     html: `
-      <p>Die E-Mail mit Ihrer Anfrage an unser Postfach verschicken wir über den Dienst Resend. Anbieter ist die Plus Five Five, Inc., USA. Der Versand läuft über Server in der EU (Irland). Resend verarbeitet den Inhalt der E-Mail, also Ihre Angaben aus dem Formular und gegebenenfalls Fotos als Anhang, ausschließlich für die Zustellung an uns.</p>
+      <p>Die E-Mail mit Ihrer Anfrage an unser Postfach und die Eingangsbestätigung an Sie verschicken wir über den Dienst Resend. Anbieter ist die Plus Five Five, Inc., USA. Der Versand läuft über Server in der EU (Irland). Resend verarbeitet den Inhalt der E-Mails, also Ihre Angaben aus dem Formular, Ihre E-Mail-Adresse und gegebenenfalls Fotos als Anhang, ausschließlich für die Zustellung.</p>
       <p>Rechtsgrundlage ist dieselbe wie beim Formular selbst (Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO). Mit Resend besteht ein Vertrag zur Auftragsverarbeitung. Für eine mögliche Übermittlung in die USA gelten die Standardvertragsklauseln der EU-Kommission.</p>
       <p>Weitere Informationen: <a href="https://resend.com/legal/privacy-policy" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Resend</a>.</p>`,
   },

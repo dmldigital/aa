@@ -30,16 +30,18 @@ const bild = (n, kb) => new File([new Uint8Array(kb * 1024)], n, { type: 'image/
 calls.length = 0; puts.length = 0; rows.length = 0;
 [s, j] = await run(fd(base, [bild('Küche Foto 1.JPG', 300), bild('flur.jpg', 200)]));
 ok(s === 200 && j.ok && /^MW-\d{6}-[0-9A-F]{6}$/.test(j.ref), 'Projektanfrage: ok, Referenz ' + j.ref);
-ok(calls.length === 1, 'nur eine Mail an Resend, keine Kundenbestätigung (' + calls.length + ')');
-const [team] = calls.map((c) => c.body);
+ok(calls.length === 2, 'zwei Mails an Resend: Betrieb und Kundenbestätigung (' + calls.length + ')');
+const [team, kunde] = calls.map((c) => c.body);
 ok(team.to[0] === 'info@meisterwerk-lb.de' && team.reply_to === 'erika@example.de', 'Mail an Betrieb, Antwort an Kunden (klein geschrieben)');
+ok(!team.text, 'Betrieb: nur HTML, keine Textfassung');
 ok(team.attachments?.length === 2, 'Betrieb: 2 Bilder im Anhang (' + team.attachments?.map((a) => a.filename).join(', ') + ')');
-ok(!calls.some((c) => c.body.to[0] === 'erika@example.de'), 'Keine Mail an den Kunden');
+ok(kunde.to[0] === 'erika@example.de' && kunde.reply_to === 'info@meisterwerk-lb.de' && !kunde.attachments, 'Kunde: Bestätigung, Antwort an Betrieb, ohne Anhang');
+ok(kunde.text && kunde.text.includes('cal.com/meisterwerk') && kunde.html.includes('cal.com/meisterwerk'), 'Kunde: HTML und Textfassung mit Terminlink');
 ok(puts.length === 2 && rows.length === 1, 'R2: 2 Bilder abgelegt, D1: 1 Zeile (' + puts.map((p) => p[0]).join(', ') + ')');
 ok(!/<b>und<\/b>/.test(team.html) && team.html.includes('&lt;b&gt;und&lt;/b&gt;'), 'HTML in der Nachricht wird maskiert');
-const alles = [team.subject, team.html, team.text].join('\n');
-ok(!/[–—\u{1F300}-\u{1FAFF}☀-➿]/u.test(alles), 'Mail ohne Gedankenstrich und ohne Emoji');
-ok(team.subject.includes('Erika Mustermann'), 'Betreffzeile: "' + team.subject + '"');
+const alles = [team.subject, team.html, kunde.subject, kunde.html, kunde.text].join('\n');
+ok(!/[–—\u{1F300}-\u{1FAFF}☀-➿]/u.test(alles), 'Mails ohne Gedankenstrich und ohne Emoji');
+ok(team.subject.startsWith('Projektanfrage: Erika Mustermann') && kunde.subject === 'Ihre Anfrage bei Meisterwerk Malermanufaktur', 'Betreffzeilen: "' + team.subject + '" / "' + kunde.subject + '"');
 
 calls.length = 0; [s, j] = await run(fd({ art: 'kurz', name: 'Hans', email: '', telefon: '0171 555', seite: '/meisterwerk-exklusive/', daten: JSON.stringify([{ label: 'Nachricht', value: 'Rückruf bitte' }]), 'cf-turnstile-response': 'tok' }));
 ok(s === 200 && calls.length === 1 && !calls[0].body.reply_to && calls[0].body.subject.startsWith('Exklusive:'), 'Kurznachricht nur mit Telefon: 1 Mail, kein Reply-To, Exklusive erkannt ("' + calls[0].body.subject + '")');
