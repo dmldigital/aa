@@ -1,6 +1,6 @@
 /**
  * Kategorien des Cookie-Banners (`components/legal/CookieBanner.astro`). Die Seite setzt heute keine optionalen Dienste ein,
- * deshalb sind Statistik und Marketing `active: false`: Der Banner zeigt sie als „nicht im Einsatz“ und bietet nur „Verstanden“.
+ * deshalb sind Statistik und Marketing `active: false`: Der Banner zeigt nur „Notwendig“ und bietet nur „Verstanden“.
  * Kommt ein Dienst hinzu (z. B. Google Ads Conversion Tracking), hier `active: true` setzen, den Dienst in `services` nennen und
  * das Skript als `<script type="text/plain" data-consent="marketing" data-src="…">` einbinden. Der Banner fragt dann
  * „Alle akzeptieren / Nur notwendige“ und lädt das Skript erst nach Zustimmung. Datenschutzerklärung ergänzen (`data/legal/datenschutz.ts`).

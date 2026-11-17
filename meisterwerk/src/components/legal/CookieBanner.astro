@@ -11,7 +11,9 @@ import Button from '../ui/Button.astro';
 import { consentGroups } from '../../data/consent';
 import { href, routes } from '../../data/links';
 
-const optional = consentGroups.filter((g) => g.key !== 'necessary' && g.active);
+// Nur Kategorien, die tatsächlich im Einsatz sind, erscheinen im Banner (inaktive bleiben in data/consent.ts als Vorlage)
+const visible = consentGroups.filter((g) => g.active);
+const optional = visible.filter((g) => g.key !== 'necessary');
 const hasOptional = optional.length > 0;
 const lead = hasOptional
   ? 'Notwendige Funktionen sind immer aktiv. Statistik und Marketing nutzen wir nur mit Ihrer Zustimmung, die Sie jederzeit unter „Cookie-Einstellungen“ ändern können.'
@@ -41,7 +43,7 @@ const linkClass = 'underline decoration-black/25 underline-offset-[3px] transiti
     <div data-consent-details class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-500 ease-grow data-[expanded]:grid-rows-[1fr]">
       <div class="min-h-0 overflow-hidden">
         <ul class="mt-5 flex flex-col divide-y divide-black/8 border-y border-black/8">
-          {consentGroups.map((g) => (
+          {visible.map((g) => (
             <li class="py-4">
               <div class="flex items-center justify-between gap-3">
                 <p class="font-display text-body font-medium text-ink">{g.title}</p>
