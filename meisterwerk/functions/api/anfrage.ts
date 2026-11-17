@@ -41,7 +41,16 @@ async function turnstileOk(secret: string, token: string, ip: string | null) {
   return j.success === true;
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPost: PagesFunction<Env> = async ({ request, env: roh }) => {
+  // Werte aus Variablen und Secrets trimmen: ein mitgespeicherter Zeilenumbruch macht den Authorization-Header ungültig,
+  // dann bricht fetch ab, bevor die Anfrage Resend erreicht (so beim ersten Test am 17.11.2026 geschehen)
+  const env: Env = {
+    ...roh,
+    RESEND_API_KEY: roh.RESEND_API_KEY?.trim(),
+    TURNSTILE_SECRET: roh.TURNSTILE_SECRET?.trim(),
+    MAIL_FROM: roh.MAIL_FROM?.trim(),
+    MAIL_TEAM: roh.MAIL_TEAM?.trim(),
+  };
   let form: FormData;
   try {
     form = await request.formData();
@@ -111,7 +120,10 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         method: 'POST',
         headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-      }).catch(() => null);
+      }).catch((e) => {
+        console.error('Resend nicht erreichbar:', e instanceof Error ? e.message : String(e));
+        return null;
+      });
 
     const intern = mailBetrieb(anfrage, logo);
     const r1 = await send({
@@ -124,6 +136,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
       ...(anhaengen ? { attachments: bilder.map((f, i) => ({ filename: ablageName('', i, f.name).slice(1), content: b64(daten[i]) })) } : {}),
     });
     if (!r1 || !r1.ok) {
+      // Fehler von Resend im Log der Pages Function sichtbar machen (Status und Meldung, kein Schlüssel)
+      if (r1) console.error('Resend abgelehnt:', r1.status, (await r1.text().catch(() => '')).slice(0, 300), 'Vorgang', ref);
       return json({ ok: false, error: `Ihre Anfrage konnte gerade nicht versendet werden. Bitte rufen Sie uns an oder versuchen Sie es später erneut.` }, 502);
     }
     // Keine automatische Bestätigung an den Kunden (Nutzerwunsch 16.11.2026), der Betrieb antwortet direkt
