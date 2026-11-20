@@ -39,8 +39,8 @@ if (import.meta.env.DEV && title.length > TITLE_MAX) console.warn(`Titel zu lang
     {description && <meta name="description" content={description} />}
     <BaseHead {title} {description} canonical={canonicalOf} {site} {image} {noindex} />
     {!noindex && <JsonLd {path} {title} {description} {site} />}
-    <Font cssVariable="--font-urbanist" preload />
-    <Font cssVariable="--font-dm-sans" preload />
+    <Font cssVariable="--font-urbanist" />
+    <Font cssVariable="--font-dm-sans" />
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
