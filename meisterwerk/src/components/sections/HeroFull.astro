@@ -235,6 +235,11 @@ const flug = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}hero-flug/`;
         if (window.scrollY > 40) leftTop = true;
         if (window.scrollY > 10 && target === 0) forward(); // z. B. Scrollleiste gezogen
         else if (atTop() && leftTop && !locked) backward(); // zurück ganz oben: rückwärts
+        // Solange die Fahrt läuft, steht die Seite: was trotzdem mitscrollt (Scrollleiste, Mittelklick, Touchpad-Nachlauf), sofort zurück nach oben
+        if (locked && window.scrollY > 0) {
+          if (lenis) lenis.scrollTo(0, { immediate: true, force: true });
+          else window.scrollTo(0, 0);
+        }
       },
       { passive: true },
     );

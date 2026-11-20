@@ -7,7 +7,7 @@
   --breakpoint-md: 48rem;
   --breakpoint-lg: 64.0625rem;
 
-  --color-gold: #a59371;
+  --color-gold: #7f6e4c; /* Vorschau: dunkler fuer Kontrast 4,5:1 auf #f7f7f7 (Original #a59371) */
   --color-ink: #090402;
   --color-soft: #f7f7f7;
   --color-fog: #f1f1f1;
