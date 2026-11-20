@@ -14,6 +14,8 @@ export default defineConfig({
   // Gleiche Adressen wie die alte WordPress-Seite (Slash am Ende), damit alle bestehenden Links und Google-Platzierungen gelten
   trailingSlash: 'always',
   base,
+  // Stile direkt in die Seite: sonst blockieren zwei CSS-Dateien den ersten Seitenaufbau (PageSpeed mobil: Rendering-Blockierung)
+  build: { inlineStylesheets: 'always' },
   fonts: [
     {
       name: 'Urbanist',
