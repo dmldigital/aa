@@ -24,16 +24,18 @@ if (lenis) {
 
 /* Einblend-Animationen (Elementor/animate.css nachgebaut) */
 type From = gsap.TweenVars;
+const SLIDE = 56; // px
 const PRESETS: Record<string, From> = {
   fadeIn: { opacity: 0 },
-  fadeInUp: { opacity: 0, yPercent: 100 },
-  fadeInDown: { opacity: 0, yPercent: -100 },
-  fadeInLeft: { opacity: 0, xPercent: -100 },
-  fadeInRight: { opacity: 0, xPercent: 100 },
-  slideInUp: { yPercent: 100 },
-  slideInDown: { yPercent: -100 },
-  slideInLeft: { xPercent: -100 },
-  slideInRight: { xPercent: 100 },
+  // Alles kommt als Ganzes ein kurzes Stück herein und blendet dabei ein, nie aus einer Maske oder von der Kante aufgezogen
+  fadeInUp: { opacity: 0, y: SLIDE },
+  fadeInDown: { opacity: 0, y: -SLIDE },
+  fadeInLeft: { opacity: 0, x: -SLIDE },
+  fadeInRight: { opacity: 0, x: SLIDE },
+  slideInUp: { opacity: 0, y: SLIDE },
+  slideInDown: { opacity: 0, y: -SLIDE },
+  slideInLeft: { opacity: 0, x: -SLIDE },
+  slideInRight: { opacity: 0, x: SLIDE },
 };
 const DURATION: Record<string, number> = { slow: 2, fast: 0.75 };
 
@@ -41,16 +43,16 @@ export function playAnim(el: HTMLElement, name: string) {
   const from = PRESETS[name];
   const delay = Number(el.dataset.animDelay || 0) / 1000;
   // Handy: Einblenden mit kleinem Weg und etwas länger, damit es ruhig wirkt (Vollmaße wie 100 % springen auf kleinen Bildschirmen)
-  const soft = isMobile() && name.startsWith('fadeIn');
+  const soft = isMobile();
   const duration = (DURATION[el.dataset.animDur || ''] ?? 1.25) * (soft ? 1.2 : 1);
   if (!from) {
     el.style.visibility = 'visible';
     return;
   }
   const start: gsap.TweenVars = soft
-    ? { ...from, xPercent: ((from.xPercent as number) ?? 0) * 0.2, yPercent: ((from.yPercent as number) ?? 0) * 0.2 }
+    ? { ...from, x: ((from.x as number) ?? 0) * 0.5, y: ((from.y as number) ?? 0) * 0.5 }
     : from;
-  const to: gsap.TweenVars = { opacity: 1, xPercent: 0, yPercent: 0 };
+  const to: gsap.TweenVars = { opacity: 1, x: 0, y: 0 };
   gsap.fromTo(el, start, {
     ...to,
     duration,
@@ -96,45 +98,19 @@ function initReveals() {
     });
   });
 
-  /* Bild wächst aus einer Kante und zoomt dabei von 1,4 auf 1 (VamTam imageGrowWithScale) */
-  const INSET: Record<string, string> = {
-    bottom: 'inset(0% 0% 100% 0%)',
-    top: 'inset(100% 0% 0% 0%)',
-    left: 'inset(0% 100% 0% 0%)',
-    right: 'inset(0% 0% 0% 100%)',
-  };
+  /* Bilder und Boxen kommen als Ganzes ein Stück hoch und blenden ein (kein Aufziehen aus einer Kante, kein Zoom) */
   document.querySelectorAll<HTMLElement>('[data-grow]').forEach((wrap) => {
-    const dir = wrap.dataset.grow || 'bottom';
-    const img = wrap.querySelector('img');
     if (reduced) {
-      wrap.style.clipPath = 'none';
+      wrap.style.opacity = '1';
       return;
     }
-    wrap.style.clipPath = INSET[dir];
+    gsap.set(wrap, { opacity: 0, y: SLIDE });
     let played = false;
     const play = () => {
       if (played) return;
       played = true;
       const delay = Number(wrap.dataset.animDelay || 0) / 1000;
-      gsap.fromTo(
-        wrap,
-        { clipPath: INSET[dir] },
-        {
-          clipPath: 'inset(0% 0% 0% 0%)',
-          duration: 1.25,
-          delay,
-          ease: 'grow',
-          onComplete: () => {
-            wrap.style.clipPath = 'none';
-          },
-        },
-      );
-      if (img)
-        gsap.fromTo(
-          img,
-          { scale: 1.4 },
-          { scale: 1, duration: 1.25, delay, ease: 'grow', clearProps: 'transform' },
-        );
+      gsap.to(wrap, { opacity: 1, y: 0, duration: 1.25, delay, ease: 'css', clearProps: 'transform' });
     };
     ScrollTrigger.create({
       trigger: wrap,

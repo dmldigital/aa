@@ -115,7 +115,7 @@ export function splitWords(el: HTMLElement): HTMLElement[] {
   text.split(/\s+/).forEach((w, i, all) => {
     const outer = document.createElement('span');
     outer.setAttribute('aria-hidden', 'true');
-    outer.style.cssText = 'display:inline-block;overflow:hidden;vertical-align:top;padding:0.04em 0.06em 0.16em 0;margin:-0.04em -0.06em -0.16em 0';
+    outer.style.cssText = 'display:inline-block;vertical-align:top';
     const word = document.createElement('span');
     word.style.display = 'inline-block';
     word.textContent = w;

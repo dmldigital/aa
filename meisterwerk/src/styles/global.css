@@ -190,7 +190,7 @@
     }
   }
   .js [data-grow] {
-    clip-path: inset(0 0 100% 0);
+    opacity: 0;
   }
   /* Über uns, Zeitleiste: Foto und Meilensteine warten auf ihren Auftritt (nur Desktop) */
   @media (width >= theme(--breakpoint-lg)) and (prefers-reduced-motion: no-preference) {
@@ -274,7 +274,7 @@
       visibility: visible !important;
     }
     .js [data-grow] {
-      clip-path: none !important;
+      opacity: 1 !important;
     }
   }
 }

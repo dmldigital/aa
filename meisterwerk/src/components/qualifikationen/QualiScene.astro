@@ -113,8 +113,8 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
 
         // Eröffnung: Wörter fahren aus ihrer Maske hoch, Label blendet ein
         const words = root.querySelectorAll('[data-qs-word]');
-        gsap.set(words, { yPercent: 115, visibility: 'visible' });
-        gsap.to(words, { yPercent: 0, duration: 1.25, ease: 'css', stagger: 0.09, delay: 0.1 });
+        gsap.set(words, { y: 36, opacity: 0, visibility: 'visible' });
+        gsap.to(words, { y: 0, opacity: 1, duration: 1.25, ease: 'css', stagger: 0.09, delay: 0.1 });
         gsap.fromTo(root.querySelector('[data-qs-fade]'), { opacity: 0 }, { opacity: 1, duration: 1, ease: 'css' });
 
         // Wand: jede Urkunde kommt gekippt von unten und richtet sich beim Scrollen auf (zweite Spalte gegenläufig)
@@ -239,7 +239,6 @@ const cols = [items.filter((i) => i.col === 0), items.filter((i) => i.col === 1)
   }
   .qs-w {
     display: inline-block;
-    overflow: hidden;
     vertical-align: top;
     padding: 0.04em 0.06em 0.16em 0;
     margin: -0.04em -0.06em -0.16em 0;

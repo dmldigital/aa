@@ -576,7 +576,7 @@ const tick = 'M4 10.5l4 4 8-9';
           to.hidden = false;
           const ws = words.get(to) ?? [];
           const items = to.querySelectorAll('[data-pf-item]');
-          gsap.set(ws, { yPercent: 115 });
+          gsap.set(ws, { y: 36, opacity: 0 });
           gsap.set(items, { autoAlpha: 0, y: 26 * dir });
           const h1 = host.offsetHeight;
           if (h1 !== h0)
@@ -587,7 +587,7 @@ const tick = 'M4 10.5l4 4 8-9';
                 { height: h1, duration: 0.8, ease: 'css', clearProps: 'height,overflow' },
               ),
             );
-          entering.push(gsap.to(ws, { yPercent: 0, duration: 1, ease: 'css', stagger: 0.06 }));
+          entering.push(gsap.to(ws, { y: 0, opacity: 1, duration: 1, ease: 'css', stagger: 0.06 }));
           entering.push(
             gsap.to(items, {
               autoAlpha: 1,

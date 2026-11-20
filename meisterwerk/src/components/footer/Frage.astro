@@ -18,8 +18,8 @@ const f = footers[siteKey];
 
 <div data-frage class:list={['flex flex-col items-start gap-5', className]}>
   <p class="font-display text-h2 font-medium text-ink">
-    <span class="block overflow-hidden pb-[0.08em]"><span data-frage-line class="block">Sie haben Fragen?</span></span>
-    <span class="-mt-[0.08em] block overflow-hidden pb-[0.08em]"><span data-frage-line class="block">Lassen Sie uns reden.</span></span>
+    <span class="block pb-[0.08em]"><span data-frage-line class="block">Sie haben Fragen?</span></span>
+    <span class="-mt-[0.08em] block pb-[0.08em]"><span data-frage-line class="block">Lassen Sie uns reden.</span></span>
   </p>
   <Button href={href(f.contactHref)} data-frage-btn>Schreiben Sie uns</Button>
 </div>
@@ -34,10 +34,10 @@ const f = footers[siteKey];
     mm.add('(prefers-reduced-motion: no-preference)', () => {
       const lines = box.querySelectorAll<HTMLElement>('[data-frage-line]');
       const btn = box.querySelector<HTMLElement>('[data-frage-btn]');
-      gsap.set(lines, { yPercent: 110 });
+      gsap.set(lines, { y: 36, opacity: 0 });
       if (btn) gsap.set(btn, { y: 18, autoAlpha: 0 });
       const tl = gsap.timeline({ paused: true });
-      tl.to(lines, { yPercent: 0, duration: 1.15, ease: 'power3.out', stagger: 0.14 }, 0);
+      tl.to(lines, { y: 0, opacity: 1, duration: 1.15, ease: 'power3.out', stagger: 0.14 }, 0);
       if (btn) tl.to(btn, { y: 0, autoAlpha: 1, duration: 0.9, ease: 'power2.out' }, 0.45);
       const io = new IntersectionObserver(
         (entries) => {

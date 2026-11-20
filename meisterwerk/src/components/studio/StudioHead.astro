@@ -32,8 +32,8 @@ const { label, title, text } = Astro.props;
     const words = splitWords(h1);
     h1.classList.add('is-split');
     if (!reducedMotion()) {
-      gsap.set(words, { yPercent: 115 });
-      gsap.to(words, { yPercent: 0, duration: 1.2, ease: 'css', stagger: 0.07, delay: 0.1 });
+      gsap.set(words, { y: 36, opacity: 0 });
+      gsap.to(words, { y: 0, opacity: 1, duration: 1.2, ease: 'css', stagger: 0.07, delay: 0.1 });
     }
   }
 </script>

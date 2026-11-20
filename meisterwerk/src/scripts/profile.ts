@@ -13,11 +13,11 @@ export function initProfile() {
   if (hero) {
     // Die Wörter warten per CSS unsichtbar, GSAP setzt erst den Startzustand und gibt sie dann frei
     const words = hero.querySelectorAll('.ph-word');
-    gsap.set(words, { yPercent: 110 });
+    gsap.set(words, { y: 36, opacity: 0 });
     hero.querySelector('.ph-name')?.classList.add('is-go');
     const tl = gsap.timeline({ delay: 0.15 });
     tl.to(hero.querySelector('.ph-rule'), { scaleX: 1, duration: 0.9, ease: 'power3.inOut' }, 0);
-    tl.to(words, { yPercent: 0, duration: 1.25, ease: 'power4.out', stagger: 0.14 }, 0.1);
+    tl.to(words, { y: 0, opacity: 1, duration: 1.25, ease: 'power4.out', stagger: 0.14 }, 0.1);
     tl.to(hero.querySelectorAll('[data-ph-fade]'), { opacity: 1, y: 0, duration: 1, ease: 'power3.out', stagger: 0.12 }, 0.6);
   }
 
