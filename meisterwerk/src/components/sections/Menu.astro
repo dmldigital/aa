@@ -112,6 +112,22 @@ const { site = 'main', current = '/' } = Astro.props;
     if (instant) requestAnimationFrame(() => requestAnimationFrame(() => pill?.removeAttribute('data-init')));
   };
 
+  // Desktop-Menü passt sich der Fensterhöhe an, es soll nie scrollen: Inhalt wird gerade so weit verkleinert, dass er ins Fenster passt
+  const fit = (menu: HTMLDialogElement) => {
+    if (menu.dataset.variant !== '2') return;
+    const kids = [...menu.children] as HTMLElement[];
+    kids.forEach((k) => (k.style.zoom = ''));
+    let f = 1;
+    for (let i = 0; i < 4 && menu.scrollHeight > menu.clientHeight; i++) {
+      f = Math.max(0.45, f * (menu.clientHeight / menu.scrollHeight) * 0.995);
+      kids.forEach((k) => (k.style.zoom = String(f)));
+    }
+  };
+  window.addEventListener('resize', () => {
+    const menu = dialogs.find((d) => d.open);
+    if (menu) fit(menu);
+  });
+
   const open = (from: HTMLElement) => {
     const menu = active();
     if (!menu || menu.open || busy) return;
@@ -119,6 +135,7 @@ const { site = 'main', current = '/' } = Astro.props;
     const pill = pillOf(from);
     const from0 = pill ? rectOf(pill) : null; // vor dem Öffnen gemessen, so wie der Nutzer die Pille gesehen hat
     menu.showModal();
+    fit(menu);
     lock(true);
     setExpanded(true);
     if (reduced) return;

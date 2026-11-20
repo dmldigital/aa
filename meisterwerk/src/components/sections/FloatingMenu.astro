@@ -37,7 +37,8 @@ const items: Item[] = [
 const ext = (on: boolean) => (on ? { target: '_blank', rel: 'noopener noreferrer' } : {});
 const n = items.length;
 // Breite der Symbol-Reihe fest berechnet (Symbole 2,25 rem, Abstand 0,375 rem, seitlich 0,75 rem): kein Verlass auf die Breitenermittlung des Browsers
-const rowWidth = `${n * 2.25 + (n - 1) * 0.375 + 1.5}rem`;
+const nDesk = items.filter((it) => it.icon !== 'whatsapp').length; // Desktop ohne WhatsApp (nur Handy)
+const rowWidth = `${nDesk * 2.25 + (nDesk - 1) * 0.375 + 1.5}rem`;
 
 const shadow =
   'shadow-[0_1px_1px_rgb(21_24_27/0.04),0_6px_16px_-4px_rgb(21_24_27/0.1),0_18px_40px_-14px_rgb(21_24_27/0.2)]';
@@ -91,7 +92,7 @@ const label =
             <li aria-hidden="true" class="contents"><span class={ground}></span></li>
             {
               items.map((it, i) => (
-                <li class={item} style={`--d:${170 + (n - 1 - i) * 70}ms`}>
+                <li class={`${item}${it.icon === 'whatsapp' ? ' sm:hidden' : ''}`} style={`--d:${170 + (n - 1 - i) * 70}ms`}>
                   <a href={it.href} {...ext(it.ext)} aria-label={`${it.label}: ${it.sub}`} class={link}>
                     <span class="grid shrink-0 place-items-center max-sm:size-6">
                       <ContactIcon name={it.icon} class={it.icon === 'whatsapp' ? 'size-4' : 'size-4.5'} />
