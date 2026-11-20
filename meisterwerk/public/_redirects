@@ -16,3 +16,8 @@
 /meisterwerk-exklusive/stefano-pulia/ /studio/ 301
 /meisterwerk-exklusive/vincenzo-fortino/ /vincenzo-fortino/ 301
 /stefano-pulia/ /studio/ 301
+
+# Üblicher Sitemap-Name und alte WordPress-Namen auf die neue Sitemap
+/sitemap.xml /sitemap-index.xml 301
+/sitemap_index.xml /sitemap-index.xml 301
+/wp-sitemap.xml /sitemap-index.xml 301

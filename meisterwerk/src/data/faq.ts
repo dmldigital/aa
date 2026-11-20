@@ -14,7 +14,7 @@ export const faqs: Faq[] = [
         type: 'p',
         parts: [
           'Wir führen sämtliche Maler- und Lackierarbeiten im Innen- und Außenbereich aus. Dazu gehören: Streichen, Lackieren, Tapezieren, Verputzen, Dämmen, Schimmelsanierung, Trockenbau und Bodenverlegung. Zudem haben wir eine eigene Abteilung, die auf Spachteltechniken und fugenlose Oberflächen spezialisiert ist. Mehr Informationen finden Sie unter ',
-          { text: 'www.meisterwerke-exklusive.de', href: 'http://www.meisterwerke-exklusive.de' },
+          { text: 'meisterwerk-exklusive.de', href: 'https://meisterwerk-exklusive.de/' },
           '.',
           { br: true },
           { br: true },
