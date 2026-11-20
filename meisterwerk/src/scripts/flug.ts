@@ -46,6 +46,22 @@ export function createFlug(canvas: HTMLCanvasElement): Flug {
     return -1;
   };
 
+  // Der Rest der Bildfolge (mobil ~4,5 MB) startet erst, wenn die Seite fertig geladen ist und der Browser Luft hat,
+  // oder sobald jemand scrollt oder tippt: so konkurrieren die Bilder nicht mit dem ersten Seitenaufbau
+  const whenIdle = () =>
+    new Promise<void>((resolve) => {
+      const inputs = ['wheel', 'touchstart', 'pointerdown', 'keydown', 'scroll'];
+      const go = () => {
+        inputs.forEach((t) => window.removeEventListener(t, go));
+        resolve();
+      };
+      inputs.forEach((t) => window.addEventListener(t, go, { passive: true }));
+      const later = () =>
+        'requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 2500 }) : setTimeout(go, 1500);
+      if (document.readyState === 'complete') later();
+      else window.addEventListener('load', later, { once: true });
+    });
+
   const draw = () => {
     const i = Math.floor(pos);
     const a = nearest(i);
@@ -74,6 +90,7 @@ export function createFlug(canvas: HTMLCanvasElement): Flug {
     async load() {
       await loadOne(0);
       draw();
+      await whenIdle();
       const queue = order.filter((i) => !frames[i]);
       const worker = async () => {
         while (queue.length) {
