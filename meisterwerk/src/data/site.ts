@@ -58,7 +58,7 @@ export const site: SiteData = {
   phoneHref: '+4971412398290',
   /** WhatsApp-Link (wa.me, Nummer ohne +). Vorläufig die Festnetznummer: muss eine WhatsApp-Nummer sein, offen beim Kunden. */
   whatsappHref: 'https://wa.me/4971412398290',
-  street: 'Einsteinstr. 10',
+  street: 'Einsteinstraße 10',
   postalCode: '71691',
   city: 'Freiberg am Neckar',
   cityFull: 'Freiberg am Neckar',
