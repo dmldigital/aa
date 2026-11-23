@@ -59,10 +59,18 @@ const local: Record<string, { h1: string; sentence: string; gallery: string }> =
   },
 };
 const loc = local[page.slug];
+const a = (to: string, text: string) => `<a href="${href(to)}" class="inline-link">${text}</a>`;
+const related: Record<string, string> = {
+  'fugenlose-baeder': `Dazu passen ${a('/meisterwerk-exklusive/fugenloser-boden/', 'fugenlose Böden in Ludwigsburg')} und ${a('/meisterwerk-exklusive/spachteltechniken/', 'Spachteltechniken in Ludwigsburg')}. Ein Beispiel ist unser ${a('/meisterwerk-exklusive/2021/05/01/masterbad-fugenlos/', 'fugenloses Badezimmer in Ludwigsburg')}.`,
+  'fugenloser-boden': `Dazu passen ${a('/meisterwerk-exklusive/fugenlose-baeder/', 'fugenlose Bäder in Ludwigsburg')} und ${a('/meisterwerk-exklusive/spachteltechniken/', 'Spachteltechniken in Ludwigsburg')}. Ein Projekt mit fugenlosem Boden ist ${a('/meisterwerk-exklusive/2025/05/22/fugenloses-wohnen/', 'fugenloses Wohnen in einem modernen Neubau')}.`,
+  spachteltechniken: `Dazu passen ${a('/meisterwerk-exklusive/stuckleisten/', 'Stuckleisten in Ludwigsburg')} und ${a('/meisterwerk-exklusive/fugenlose-baeder/', 'fugenlose Bäder in Ludwigsburg')}. Ein Beispiel ist die ${a('/meisterwerk-exklusive/2025/05/03/spachteltechnik-fuer-lotter-baederausstellung/', 'Spachtelarbeit für die Bäderausstellung Lotter in Ludwigsburg')}.`,
+  stuckleisten: `Dazu passen ${a('/meisterwerk-exklusive/spachteltechniken/', 'Spachteltechniken in Ludwigsburg')} und ${a('/meisterwerk-exklusive/fugenloser-boden/', 'fugenlose Böden in Ludwigsburg')}.`,
+};
 const heading = loc?.h1 ?? leadHtml.match(/<h2[^>]*>([\s\S]*?)<\/h2>/)?.[1].trim() ?? name;
 const paragraphs = [
   ...[...leadHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/g)].map((m) => m[1].replace(/^(?:&nbsp;|\s)+/, '').trim()).filter(Boolean),
   ...(loc ? [loc.sentence] : []),
+  ...(related[page.slug] ? [related[page.slug]] : []),
 ];
 
 const buttons = parts.flatMap((p) => (p.t === 'button' ? [p] : []));

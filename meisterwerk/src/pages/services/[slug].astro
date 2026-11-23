@@ -9,6 +9,7 @@ import ServiceExcellence from '../../components/service/ServiceExcellence.astro'
 import MoreServices from '../../components/service/MoreServices.astro';
 import MiniFormSection from '../../components/sections/MiniFormSection.astro';
 import { EXCELLENCE } from '../../data/pages/services';
+import { href } from '../../data/links';
 
 export async function getStaticPaths() {
   const services = await getCollection('leistungen');
@@ -47,6 +48,15 @@ const form: Record<string, { service: string; title: string }> = {
   'glatte-waende': { service: 'Glatte Oberflächen', title: 'Ihre glatten Wände in Ludwigsburg besprechen' },
 };
 const f = form[page.slug];
+// Querverweise im Text: andere Leistungen mit Ortsanker und ein passendes Projekt (alle Projekte stehen laut Eckdaten in Ludwigsburg)
+const a = (to: string, text: string) => `<a href="${href(to)}" class="inline-link">${text}</a>`;
+const related: Record<string, string> = {
+  malerarbeiten: `Dazu passen ${a('/services/tapezieren/', 'Tapezierarbeiten in Ludwigsburg')}, ${a('/services/lackierarbeiten/', 'Lackierarbeiten in Ludwigsburg')} und ${a('/services/glatte-waende/', 'glatte Wände')}. Ein Beispiel ist unser ${a('/2025/09/18/frisch-gestrichen/', 'Fassadenanstrich mit Silikatfarbe in Ludwigsburg')}.`,
+  tapezieren: `Auf Wunsch verbinden wir Tapeten mit ${a('/services/malerarbeiten/', 'Malerarbeiten in Ludwigsburg')} oder ${a('/services/glatte-waende/', 'glatten Wänden und Oberflächen')}. Die Vorarbeit mit Spachtelarbeiten und Malervlies zeigt unsere ${a('/2021/05/01/kernsanierung/', 'Kernsanierung eines Altbaus in Ludwigsburg')}.`,
+  lackierarbeiten: `Zum Lackieren gehört oft der passende Anstrich: Mehr dazu unter ${a('/services/malerarbeiten/', 'Malerarbeiten in Ludwigsburg')} und ${a('/services/tapezieren/', 'Tapezierarbeiten in Ludwigsburg')}. Eine restaurierte Holztreppe sehen Sie bei unserer ${a('/2021/05/01/kernsanierung/', 'Kernsanierung eines Altbaus in Ludwigsburg')}.`,
+  verputzen: `Nach dem Putz folgen oft ${a('/services/malerarbeiten/', 'Malerarbeiten in Ludwigsburg')} oder ${a('/services/glatte-waende/', 'glatte Wände')}. Ein Beispiel mit Kratzputz ist unsere ${a('/2025/05/22/altbau-wdvs/', 'Fassadendämmung eines Altbaus in Ludwigsburg')}.`,
+  'glatte-waende': `Für besondere Oberflächen setzen wir ${a('/meisterwerk-exklusive/spachteltechniken/', 'Spachteltechniken in Ludwigsburg')} ein, für den Untergrund ${a('/services/verputzen/', 'Verputzarbeiten in Ludwigsburg')}. Gespachtelte Oberflächen zeigt unsere ${a('/2025/09/18/traumhaus/', 'Kernsanierung eines Zweifamilienhauses in Ludwigsburg')}.`,
+};
 const intro2 =
   'Wir beraten Sie im Showroom in Freiberg am Neckar, zeigen Ihnen Muster zum Anfassen und setzen Ihr Projekt sauber und termingerecht um.';
 ---
@@ -54,7 +64,7 @@ const intro2 =
 <PageLayout title={page.title} description={page.description} current={`/services/${page.slug}/`}>
   <WelcomeScroll
     heading={page.hero.title}
-    paragraphs={[page.hero.text, ...(page.hero.local ? [page.hero.local] : []), intro2]}
+    paragraphs={[page.hero.text, ...(page.hero.local ? [page.hero.local] : []), intro2, ...(related[page.slug] ? [related[page.slug]] : [])]}
     images={images}
     closing={null}
     headingTag="h1"

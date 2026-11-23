@@ -25,18 +25,21 @@ interface Target {
 const L = '(?<![\\p{L}])';
 const R = '(?![\\p{L}])';
 const word = (src: string) => new RegExp(`${L}(?:${src})${R}`, 'u');
+/** Steht hinter dem Stichwort schon „in Ort“, wird der Ort Teil des Ankertexts („Malerarbeiten in Ludwigsburg“) */
+const ORT = '(?: in (?:Freiberg am Neckar|Ludwigsburg|Marbach am Neckar|Bietigheim-Bissingen|Stuttgart))?';
+const local = (src: string) => word(`(?:${src})${ORT}`);
 
 const TARGETS: Target[] = [
-  { path: { main: '/services/malerarbeiten/' }, re: word('Malerarbeiten|Malerarbeit') },
-  { path: { main: '/services/tapezieren/' }, re: word('Tapezierarbeiten|Tapezierarbeit|Tapezieren') },
-  { path: { main: '/services/lackierarbeiten/' }, re: word('Lackierarbeiten|Lackierarbeit|Lackieren') },
-  { path: { main: '/services/verputzen/' }, re: word('Verputzarbeiten|Verputzarbeit|Verputzen') },
-  { path: { main: '/services/glatte-waende/' }, re: word('[Gg]latte Wände|[Gg]latten Wänden|[Gg]latte Oberflächen|[Gg]latter Oberflächen') },
-  { path: { main: '/meisterwerk-exklusive/fugenlose-baeder/', exklusive: '/meisterwerk-exklusive/fugenlose-baeder/' }, re: word('[Ff]ugenlos(?:e|en|es) Bäder|[Ff]ugenlos(?:e|en|es) Bad') },
-  { path: { main: '/meisterwerk-exklusive/fugenloser-boden/', exklusive: '/meisterwerk-exklusive/fugenloser-boden/' }, re: word('[Ff]ugenlos(?:e|en) Böden|[Ff]ugenlos(?:er|en) Boden') },
-  { path: { main: '/meisterwerk-exklusive/spachteltechniken/', exklusive: '/meisterwerk-exklusive/spachteltechniken/' }, re: word('Spachteltechniken|Spachteltechnik') },
-  { path: { main: '/meisterwerk-exklusive/stuckleisten/', exklusive: '/meisterwerk-exklusive/stuckleisten/' }, re: word('Stuckleisten|Stuckarbeiten') },
-  { path: { main: '/2025/05/03/unser-showroom/', exklusive: '/2025/05/03/unser-showroom/' }, re: word('Showroom') },
+  { path: { main: '/services/malerarbeiten/' }, re: local('Malerarbeiten|Malerarbeit') },
+  { path: { main: '/services/tapezieren/' }, re: local('Tapezierarbeiten|Tapezierarbeit|Tapezieren') },
+  { path: { main: '/services/lackierarbeiten/' }, re: local('Lackierarbeiten|Lackierarbeit|Lackieren') },
+  { path: { main: '/services/verputzen/' }, re: local('Verputzarbeiten|Verputzarbeit|Verputzen') },
+  { path: { main: '/services/glatte-waende/' }, re: local('[Gg]latte Wände|[Gg]latten Wänden|[Gg]latte Oberflächen|[Gg]latter Oberflächen') },
+  { path: { main: '/meisterwerk-exklusive/fugenlose-baeder/', exklusive: '/meisterwerk-exklusive/fugenlose-baeder/' }, re: local('[Ff]ugenlos(?:e|en|es) Bäder|[Ff]ugenlos(?:e|en|es) Bad') },
+  { path: { main: '/meisterwerk-exklusive/fugenloser-boden/', exklusive: '/meisterwerk-exklusive/fugenloser-boden/' }, re: local('[Ff]ugenlos(?:e|en) Böden|[Ff]ugenlos(?:er|en) Boden') },
+  { path: { main: '/meisterwerk-exklusive/spachteltechniken/', exklusive: '/meisterwerk-exklusive/spachteltechniken/' }, re: local('Spachteltechniken|Spachteltechnik') },
+  { path: { main: '/meisterwerk-exklusive/stuckleisten/', exklusive: '/meisterwerk-exklusive/stuckleisten/' }, re: local('Stuckleisten|Stuckarbeiten') },
+  { path: { main: '/2025/05/03/unser-showroom/', exklusive: '/2025/05/03/unser-showroom/' }, re: local('Showroom') },
   { path: { main: '/urlaubsservice/', exklusive: '/meisterwerk-exklusive/urlaub/' }, re: word('Urlaubsservice') },
   { path: { main: '/qualifikationen/' }, re: word('Meisterbriefe?|Meisterbetrieb|Qualifikationen|Zertifikate') },
   { path: { main: '/meisterwerk-exklusive/' }, re: word('Meisterwerke? Exklusive') },
