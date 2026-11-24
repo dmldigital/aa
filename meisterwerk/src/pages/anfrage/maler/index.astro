@@ -1,7 +1,7 @@
 ---
 /**
  * Zielseite der Google-Ads-Anzeige „Maler, Streichen innen“ (/anfrage/maler/). noindex und nicht in der Sitemap (`NOINDEX_PATHS` in
- * `lib/seo.ts`), nicht im Menü, nicht im Fuß, ohne Links von anderen Seiten. Aufbau und Texte laut Bauauftrag; Bausteine der
+ * `lib/seo.ts`), nicht im Menü, nicht im Fuß, ohne Links von anderen Seiten. Führt mit „Weitere Leistungen“ und „Mehr über Meisterwerk“ auf die übrige Website. Aufbau und Texte laut Bauauftrag; Bausteine der
  * Leistungsseiten (Seitenkopf, Vorteile, Galerie, Mini-Formular), Bilder aus `content/leistungen/malerarbeiten.json`.
  */
 import { getEntry } from 'astro:content';
@@ -16,6 +16,8 @@ import Vertrauen from '../../../components/anfrage/Vertrauen.astro';
 import Ansprechpartner from '../../../components/anfrage/Ansprechpartner.astro';
 import Einsatzgebiet from '../../../components/anfrage/Einsatzgebiet.astro';
 import AnrufLeiste from '../../../components/ui/AnrufLeiste.astro';
+import MehrEntdecken from '../../../components/anfrage/MehrEntdecken.astro';
+import MoreServices from '../../../components/service/MoreServices.astro';
 import { faqs } from '../../../data/faq';
 import { site } from '../../../data/site';
 import { href } from '../../../data/links';
@@ -101,6 +103,8 @@ const ablauf = [
       tone="white"
       numbered={false}
     />
+    <MoreServices current="/services/malerarbeiten/" tone="soft" />
+    <MehrEntdecken tone="white" />
     <Einsatzgebiet
       text="Wir arbeiten in Ludwigsburg mit Neckarweihingen, Poppenweiler und Hoheneck, in Freiberg am Neckar mit Beihingen, Heutingsheim und Geisingen sowie in Pleidelsheim, Ingersheim, Murr, Steinheim an der Murr, Benningen am Neckar, Marbach am Neckar, Erdmannhausen, Asperg, Möglingen, Tamm, Bietigheim-Bissingen und Remseck am Neckar."
     />

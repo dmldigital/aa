@@ -5,6 +5,8 @@
  */
 import { getEntry } from 'astro:content';
 import { Picture } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
 
 interface Props {
   text: string;
@@ -21,6 +23,7 @@ const profile = (await getEntry('profile', 'baldassarre-fortino'))!.data;
       <p class="font-display text-label font-medium tracking-label text-ink uppercase">Ihr Ansprechpartner</p>
       <h2 class="font-display text-h2 text-balance text-gold">{profile.name}</h2>
       <p class="max-w-[65ch] text-body">{text}</p>
+      <div class="mt-4"><Button href={href('/baldassarre-fortino/')} variant="outline">Mehr über Baldassarre Fortino</Button></div>
     </div>
     <div class="max-w-md overflow-hidden lg:col-span-5 lg:max-w-none" data-grow="bottom">
       <Picture

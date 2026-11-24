@@ -1,7 +1,7 @@
 ---
 /**
  * Zielseite der Google-Ads-Anzeige „Spachteltechnik“ (/anfrage/spachteltechnik/). noindex und nicht in der Sitemap (`NOINDEX_PATHS`
- * in `lib/seo.ts`), nicht im Menü, nicht im Fuß, ohne Links von anderen Seiten. Aufbau und Texte laut Bauauftrag; Kopfbild aus
+ * in `lib/seo.ts`), nicht im Menü, nicht im Fuß, ohne Links von anderen Seiten. Führt mit „Weitere Leistungen“ und „Mehr über Meisterwerk“ auf die übrige Website. Aufbau und Texte laut Bauauftrag; Kopfbild aus
  * `content/exklusiv-leistungen/spachteltechniken.json`, Oberflächen aus `content/kollektionen/spachteltechnik-oberflaechen.json`.
  */
 import { getEntry } from 'astro:content';
@@ -10,7 +10,8 @@ import PageHeader from '../../../components/sections/PageHeader.astro';
 import MiniFormSection from '../../../components/sections/MiniFormSection.astro';
 import Vertrauen from '../../../components/anfrage/Vertrauen.astro';
 import Oberflaechen from '../../../components/anfrage/Oberflaechen.astro';
-import Referenz from '../../../components/anfrage/Referenz.astro';
+import MehrEntdecken from '../../../components/anfrage/MehrEntdecken.astro';
+import MoreServices from '../../../components/service/MoreServices.astro';
 import Ansprechpartner from '../../../components/anfrage/Ansprechpartner.astro';
 import Einsatzgebiet from '../../../components/anfrage/Einsatzgebiet.astro';
 import AnrufLeiste from '../../../components/ui/AnrufLeiste.astro';
@@ -49,7 +50,6 @@ const spachtel = (await getEntry('exklusiv-leistungen', 'spachteltechniken'))!.d
       ]}
     />
     <Oberflaechen pick={['Puro 01', 'Protetto 02', 'Roma 08', 'Latium 09', 'Cemento Calmo 14', 'Cemento Mosso 15']} />
-    <Referenz slug="spachteltechnik-fuer-lotter-baederausstellung" title="Spachteltechnik für die Bäderausstellung Lotter in Ludwigsburg" />
     <Ansprechpartner
       text="Malermeister Baldassarre Fortino hat 2014 die Meisterprüfung mit Belobigung bestanden und im selben Jahr den Betrieb gegründet."
     />
@@ -62,6 +62,8 @@ const spachtel = (await getEntry('exklusiv-leistungen', 'spachteltechniken'))!.d
       title="Muster ansehen und beraten lassen"
       text="Name, Telefon oder E-Mail und Ihr Ort genügen. Wir melden uns persönlich und vereinbaren einen Termin im Showroom."
     />
+    <MoreServices current="/meisterwerk-exklusive/spachteltechniken/" exklusive tone="white" />
+    <MehrEntdecken tone="soft" />
     <Einsatzgebiet
       tone="white"
       text="Wir arbeiten in Ludwigsburg mit Neckarweihingen, Poppenweiler und Hoheneck, in Freiberg am Neckar mit Beihingen, Heutingsheim und Geisingen sowie in Pleidelsheim, Ingersheim, Murr, Steinheim an der Murr, Benningen am Neckar, Marbach am Neckar, Erdmannhausen, Asperg, Möglingen, Tamm, Bietigheim-Bissingen und Remseck am Neckar."
