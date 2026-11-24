@@ -2,11 +2,14 @@
  * Datenschutzerklärung (Haupt- und Teil-Website Exklusive). Neu geschrieben am 16.11.2026 für die Astro-Seite auf
  * Cloudflare Pages: beschreibt nur, was die Seite tatsächlich tut (keine Cookies, keine Analyse, Schriften lokal,
  * Formulare über Cloudflare Functions, D1, R2, Turnstile und Resend, keine Bestätigungsmail an Kunden).
- * Kommt ein neuer Dienst hinzu (z. B. Google Ads Conversion Tracking), muss hier ein Abschnitt ergänzt und in
- * `data/consent.ts` die Kategorie aktiviert werden.
+ * Google Ads Conversion-Tracking: Abschnitt `google-ads` und die Hinweise oben erscheinen automatisch, sobald in
+ * `data/ads.ts` eine Tag-ID steht. Weitere Dienste hier ergänzen und in `data/consent.ts` die Kategorie aktivieren.
  * Darstellung: `components/legal/LegalPage.astro` (Inhaltsverzeichnis aus `title`, Anker aus `id`).
  */
 import { site } from '../site';
+import { googleAds } from '../ads';
+
+const ads = googleAds.id !== '';
 
 export interface LegalSection {
   id: string;
@@ -27,7 +30,7 @@ export const privacySections: LegalSection[] = [
     title: 'Das Wichtigste in Kürze',
     html: `
       <ul>
-        <li>Wir setzen <strong>keine Cookies</strong> für Statistik, Werbung oder Profilbildung und nutzen keine Analyse-Werkzeuge.</li>
+        ${ads ? '<li>Nur wenn Sie im Cookie-Hinweis zustimmen, messen wir mit <strong>Google Ads</strong>, ob eine Anfrage über eine unserer Anzeigen kam. Ohne Zustimmung setzen wir keine Cookies für Werbung oder Statistik und nutzen keine Analyse-Werkzeuge.</li>' : '<li>Wir setzen <strong>keine Cookies</strong> für Statistik, Werbung oder Profilbildung und nutzen keine Analyse-Werkzeuge.</li>'}
         <li>Die Schriften liegen auf unserem eigenen Server. Beim Aufruf der Seite wird keine Verbindung zu Google aufgebaut.</li>
         <li>Daten aus unseren Formularen verwenden wir nur, um Ihre Anfrage zu bearbeiten. Wir geben sie nicht für Werbung weiter.</li>
         <li>Links zu WhatsApp, Google Maps, Facebook, Instagram oder unserem Terminkalender übertragen erst dann Daten, wenn Sie sie anklicken.</li>
@@ -61,7 +64,7 @@ export const privacySections: LegalSection[] = [
     id: 'cookies',
     title: 'Cookies und Speicher im Browser',
     html: `
-      <p>Wir verwenden keine Cookies, die Ihr Verhalten auswerten oder Sie für Werbung wiedererkennen.</p>
+      <p>${ads ? 'Ohne Ihre Zustimmung verwenden wir keine Cookies, die Ihr Verhalten auswerten oder Sie für Werbung wiedererkennen. Stimmen Sie der Kategorie „Marketing“ zu, setzt Google Ads Cookies für die Conversion-Messung (siehe „Google Ads Conversion-Tracking“).' : 'Wir verwenden keine Cookies, die Ihr Verhalten auswerten oder Sie für Werbung wiedererkennen.'}</p>
       <p>Damit der Hinweis zum Datenschutz nicht bei jedem Seitenaufruf erneut erscheint, speichern wir Ihre Auswahl im lokalen Speicher Ihres Browsers (Eintrag <code>mw-consent</code>). Der Eintrag enthält nur Ihre Auswahl und das Datum, er wird nicht an uns übertragen. Diese Speicherung ist technisch erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG). Sie können sie jederzeit über die Einstellungen Ihres Browsers löschen oder Ihre Auswahl über den Link „Cookie-Einstellungen“ im Fußbereich ändern.</p>`,
   },
   {
@@ -105,6 +108,20 @@ export const privacySections: LegalSection[] = [
       <p>Wenn Sie uns per E-Mail oder Telefon kontaktieren, verarbeiten wir Ihre Angaben, um Ihr Anliegen zu bearbeiten (Art. 6 Abs. 1 lit. b bzw. lit. f DSGVO). Unser E-Mail-Postfach wird von Microsoft betrieben (Microsoft Ireland Operations Limited, One Microsoft Place, South County Business Park, Leopardstown, Dublin 18, Irland). Für die Speicherdauer gilt dasselbe wie bei den Formularen.</p>
       <p>Über den WhatsApp-Button können Sie uns eine Nachricht schreiben. WhatsApp wird von der WhatsApp Ireland Limited, Merrion Road, Dublin 4, Irland, betrieben. Erst mit dem Klick öffnet sich WhatsApp, und es gelten die Datenschutzbestimmungen von WhatsApp. Bitte nutzen Sie diesen Weg nur, wenn Sie damit einverstanden sind. Alternativ erreichen Sie uns jederzeit per Telefon oder E-Mail.</p>`,
   },
+  ...(ads
+    ? [
+        {
+          id: 'google-ads',
+          title: 'Google Ads Conversion-Tracking',
+          html: `
+      <p>Wir schalten Anzeigen bei Google. Um zu erfahren, ob eine Anfrage über eine dieser Anzeigen zustande kam, nutzen wir das Conversion-Tracking von Google Ads. Anbieter ist die Google Ireland Limited, Gordon House, Barrow Street, Dublin 4, Irland.</p>
+      <p>Das Tracking wird <strong>nur geladen, wenn Sie im Cookie-Hinweis der Kategorie „Marketing“ zustimmen</strong>. Ohne Zustimmung wird keine Verbindung zu Google aufgebaut. Mit Zustimmung lädt Ihr Browser den Google-Tag von Servern von Google. Sind Sie über eine Google-Anzeige auf unsere Seite gekommen, setzt Google ein Cookie, und wenn Sie anschließend ein Formular absenden, erfährt Google, dass die Anzeige zu einer Anfrage geführt hat. Wir erhalten davon nur zusammengefasste Zahlen, keine Angaben, die Sie persönlich erkennen lassen. Den Inhalt Ihrer Anfrage übermitteln wir nicht an Google. Für personalisierte Werbung verwenden wir die Daten nicht.</p>
+      <p>Dabei verarbeitet Google insbesondere Ihre IP-Adresse, Angaben zu Browser und Gerät, die aufgerufenen Seiten und den Zeitpunkt. Eine Übermittlung in die USA ist möglich. Google ist nach dem EU-US Data Privacy Framework zertifiziert.</p>
+      <p>Rechtsgrundlage ist Ihre Einwilligung (Art. 6 Abs. 1 lit. a DSGVO, § 25 Abs. 1 TDDDG). Sie können sie jederzeit mit Wirkung für die Zukunft über den Link „Cookie-Einstellungen“ im Fußbereich widerrufen.</p>
+      <p>Weitere Informationen: <a href="https://policies.google.com/privacy?hl=de" target="_blank" rel="noopener noreferrer">Datenschutzerklärung von Google</a> und <a href="https://business.safety.google/privacy/" target="_blank" rel="noopener noreferrer">Datenschutz bei Google-Werbediensten</a>.</p>`,
+        },
+      ]
+    : []),
   {
     id: 'links',
     title: 'Links zu anderen Anbietern',

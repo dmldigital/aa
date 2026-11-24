@@ -1,0 +1,37 @@
+---
+/**
+ * Google-Tag für die Conversion-Messung von Google Ads (`data/ads.ts`). Beide Skripte stehen als `type="text/plain"` mit
+ * `data-consent="marketing"` im Dokument; `CookieBanner.astro` führt sie erst nach Zustimmung aus (Basic Consent Mode).
+ * Conversion „Anfrage gesendet“:
+ * - auf der Dankeseite der Anzeigen-Zielseiten (/anfrage/danke/), einmal je Sitzung (Neuladen zählt nicht doppelt),
+ * - bei allen übrigen Formularen über das Ereignis `mw-lead` aus `scripts/senden.ts` (Formulare ohne Weiterleitung).
+ */
+import { googleAds } from '../../data/ads';
+
+const { id, leadLabel } = googleAds;
+const sendTo = `${id}/${leadLabel}`;
+const code = `
+window.dataLayer = window.dataLayer || [];
+function gtag(){ dataLayer.push(arguments); }
+window.gtag = gtag;
+gtag('consent', 'default', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'denied', analytics_storage: 'denied' });
+gtag('js', new Date());
+gtag('config', '${id}');
+var mwLead = function () { gtag('event', 'conversion', { send_to: '${sendTo}' }); };
+if (/\\/anfrage\\/danke\\/?$/.test(location.pathname)) {
+  try {
+    if (!sessionStorage.getItem('mw-lead-danke')) { sessionStorage.setItem('mw-lead-danke', '1'); mwLead(); }
+  } catch (e) { mwLead(); }
+}
+window.addEventListener('mw-lead', mwLead);
+`;
+---
+
+{
+  id && leadLabel && (
+    <>
+      <script type="text/plain" data-consent="marketing" set:html={code} />
+      <script type="text/plain" data-consent="marketing" data-src={`https://www.googletagmanager.com/gtag/js?id=${id}`} />
+    </>
+  )
+}

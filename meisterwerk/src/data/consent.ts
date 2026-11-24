@@ -5,6 +5,8 @@
  * das Skript als `<script type="text/plain" data-consent="marketing" data-src="…">` einbinden. Der Banner fragt dann
  * „Alle akzeptieren / Nur notwendige“ und lädt das Skript erst nach Zustimmung. Datenschutzerklärung ergänzen (`data/legal/datenschutz.ts`).
  */
+import { googleAds } from './ads';
+
 export type ConsentCategory = 'necessary' | 'statistics' | 'marketing';
 
 export interface ConsentGroup {
@@ -18,7 +20,7 @@ export interface ConsentGroup {
 }
 
 /** Version der Einwilligung: erhöhen, wenn neue Dienste dazukommen, damit der Banner erneut erscheint. */
-export const CONSENT_VERSION = 1;
+export const CONSENT_VERSION = 2;
 export const CONSENT_KEY = 'mw-consent';
 
 export const consentGroups: ConsentGroup[] = [
@@ -39,8 +41,8 @@ export const consentGroups: ConsentGroup[] = [
   {
     key: 'marketing',
     title: 'Marketing',
-    text: 'Messung des Erfolgs von Werbeanzeigen.',
-    active: false,
-    services: [],
+    text: 'Messung, ob eine Anfrage über eine unserer Google-Anzeigen zustande kam (Google Ads Conversion-Tracking). Ohne Zustimmung wird nichts an Google übertragen.',
+    active: googleAds.id !== '',
+    services: ['Google Ads'],
   },
 ];

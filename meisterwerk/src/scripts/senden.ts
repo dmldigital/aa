@@ -129,7 +129,11 @@ export async function senden(o: {
   try {
     const r = await fetch(ENDPOINT, { method: 'POST', body: fd });
     const j = (await r.json().catch(() => ({}))) as Ergebnis;
-    if (r.ok && j.ok) return { ok: true, ref: j.ref };
+    if (r.ok && j.ok) {
+      // Conversion-Messung (components/legal/GoogleAds.astro): Formulare mit Dankeseite zählen dort, alle anderen hier
+      if (!o.form.dataset.danke) window.dispatchEvent(new CustomEvent('mw-lead'));
+      return { ok: true, ref: j.ref };
+    }
     return { ok: false, error: j.error || 'Das Senden hat nicht geklappt. Bitte versuchen Sie es noch einmal oder rufen Sie uns an.' };
   } catch {
     return { ok: false, error: 'Keine Verbindung. Bitte prüfen Sie Ihre Internetverbindung und senden Sie erneut.' };
