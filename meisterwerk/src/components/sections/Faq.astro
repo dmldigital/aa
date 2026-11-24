@@ -24,6 +24,8 @@ interface Props {
   accordionClass?: string;
   /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
   tone?: 'white' | 'soft';
+  /** Schritte einer Antwort mit Zahlen im Kreis (Standard) oder als einfache Liste ohne Nummern */
+  numbered?: boolean;
 }
 const {
   id = 'b1f5cd6',
@@ -42,6 +44,7 @@ const {
   openFirst = false,
   accordionClass = 'md:pt-25',
   tone = 'soft',
+  numbered = true,
 } = Astro.props;
 ---
 
@@ -103,9 +106,13 @@ const {
                     <ul class="m-0 list-none p-0">
                       {block.items.map((step, n) => (
                         <li class="my-2 flex items-center">
-                          <span class="mr-2.5 inline-flex size-6.5 items-center justify-center rounded-full border border-[#333] text-body font-bold text-[#333]">
-                            {n + 1}
-                          </span>{' '}
+                          {numbered ? (
+                            <span class="mr-2.5 inline-flex size-6.5 items-center justify-center rounded-full border border-[#333] text-body font-bold text-[#333]">
+                              {n + 1}
+                            </span>
+                          ) : (
+                            <span aria-hidden="true" class="mr-2.5 size-1.5 shrink-0 rounded-full bg-gold"></span>
+                          )}{' '}
                           {step}
                         </li>
                       ))}

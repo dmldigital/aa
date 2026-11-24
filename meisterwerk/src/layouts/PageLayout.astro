@@ -18,17 +18,19 @@ interface Props {
   site?: Site;
   /** Seite mit eigenem Hero (Startseite): Der Hero bringt die Kopfzeile selbst mit. */
   hero?: boolean;
+  /** Bewertungs-Badge im Fuß zeigen (Standard); Anzeigen-Zielseiten schalten es ab */
+  rating?: boolean;
 }
 
-const { title, description, canonical, current = '/', site = 'main', hero = false } = Astro.props;
+const { title, description, canonical, current = '/', site = 'main', hero = false, rating = true } = Astro.props;
 ---
 
 <Layout title={composeTitle(title, site)} {description} {canonical} {site}>
   {!hero && <Header {site} />}
   <FloatingMenu {site} />
-  <Menu {site} {current} />
+  <Menu {site} {current} {rating} />
   <main>
     <slot />
   </main>
-  <Footer {site} />
+  <Footer {site} {rating} />
 </Layout>

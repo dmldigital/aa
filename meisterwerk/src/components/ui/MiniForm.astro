@@ -4,6 +4,9 @@
  * Ort, Nachricht, Linienfelder ohne Kasten. Versand über `scripts/senden.ts` (Skript in `Menu.astro` für alle
  * `form[data-menu-form]`, Cloudflare Pages Function mit Turnstile und Resend). `service` wählt die Leistung vor
  * (z. B. auf einer Leistungsseite), `exklusive` tauscht die Leistungsliste gegen die Exklusiv-Leistungen.
+ * Variante `anfrage` (Zielseiten der Anzeigen unter /anfrage/): „PLZ oder Ort“ ist Pflicht, die Nachricht ist freiwillig, der Knopf
+ * heißt „Anfrage senden“, der Titel entfällt (die Sektion hat ihn). `danke` ist die Adresse, auf die nach dem Absenden weitergeleitet
+ * wird (Attribut `data-danke`, ausgewertet im Skript von `sections/Menu.astro`).
  */
 import Button from './Button.astro';
 import Falle from './Falle.astro';
@@ -15,9 +18,14 @@ interface Props {
   /** Vorgewählte Leistung (muss in der Liste stehen) */
   service?: string;
   exklusive?: boolean;
+  variant?: 'standard' | 'anfrage';
+  /** Weiterleitung nach erfolgreichem Absenden (nur mit Skript aus `sections/Menu.astro`) */
+  danke?: string;
   class?: string;
 }
-const { title = 'Wie können wir Ihnen helfen?', service = '', exklusive = false, class: className = '' } = Astro.props;
+const { variant = 'standard', service = '', exklusive = false, danke, class: className = '' } = Astro.props;
+const anfrage = variant === 'anfrage';
+const { title = anfrage ? '' : 'Wie können wir Ihnen helfen?' } = Astro.props;
 
 const main = ['Malerarbeiten', 'Tapezierarbeiten', 'Lackierarbeiten', 'Verputzarbeiten', 'Glatte Oberflächen'];
 const exk = ['Fugenlose Bäder', 'Fugenlose Böden', 'Spachteltechniken', 'Stuckleisten'];
@@ -29,8 +37,8 @@ const input =
   'field w-full py-3 font-display text-body text-ink';
 ---
 
-<form data-menu-form aria-label="Kurze Nachricht" class:list={['flex w-full flex-col gap-5', className]}>
-  <h3 class="font-display text-h3 text-ink">{title}</h3>
+<form data-menu-form data-danke={danke} aria-label={anfrage ? 'Anfrage' : 'Kurze Nachricht'} class:list={['flex w-full flex-col gap-5', className]}>
+  {title && <h3 class="font-display text-h3 text-ink">{title}</h3>}
   <Falle />
   <div class="grid gap-x-8 gap-y-4 md:grid-cols-2">
     <label class={field}>
@@ -49,16 +57,18 @@ const input =
       </select>
     </label>
     <label class={field}>
-      <span class={label}>Ort</span>
-      <input type="text" name="ort" autocomplete="address-level2" class={input} />
+      <span class={label}>{anfrage ? 'PLZ oder Ort' : 'Ort'}</span>
+      {anfrage
+        ? <input type="text" name="ort" autocomplete="address-level2" required data-label="PLZ oder Ort" class={input} />
+        : <input type="text" name="ort" autocomplete="address-level2" class={input} />}
     </label>
     <label class={`${field} md:col-span-2`}>
-      <span class={label}>Ihre Nachricht</span>
-      <textarea name="nachricht" rows="2" required class={`${input} min-h-12 resize-none`}></textarea>
+      <span class={label}>{anfrage ? 'Was soll gemacht werden? (optional)' : 'Ihre Nachricht'}</span>
+      <textarea name="nachricht" rows="2" required={!anfrage} class={`${input} min-h-12 resize-none`}></textarea>
     </label>
   </div>
   <div class="flex flex-wrap items-center gap-x-5 gap-y-3">
-    <Button type="submit">Nachricht senden</Button>
+    <Button type="submit">{anfrage ? 'Anfrage senden' : 'Nachricht senden'}</Button>
     <p role="status" aria-live="polite" data-form-message hidden class="min-w-55 flex-1 text-small text-muted"></p>
   </div>
   <div data-turnstile-slot></div>

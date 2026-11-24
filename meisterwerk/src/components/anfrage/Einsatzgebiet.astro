@@ -1,0 +1,19 @@
+---
+/**
+ * „Einsatzgebiet“ der Anzeigen-Zielseiten: Überschrift und ein kurzer Text mit den Orten.
+ */
+interface Props {
+  text: string;
+  tone?: 'white' | 'soft';
+}
+const { text, tone = 'soft' } = Astro.props;
+---
+
+<section data-section="einsatzgebiet" class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
+  <div class="mx-auto grid w-full max-w-page gap-group lg:grid-cols-12 lg:gap-x-[6vw]">
+    <div class="lg:col-span-5" data-anim="fadeIn">
+      <h2 class="font-display text-h2 text-balance text-gold">Einsatzgebiet</h2>
+    </div>
+    <p class="max-w-[65ch] text-body lg:col-span-7" data-anim="fadeIn" data-anim-delay="100">{text}</p>
+  </div>
+</section>

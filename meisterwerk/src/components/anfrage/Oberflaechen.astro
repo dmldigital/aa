@@ -1,0 +1,56 @@
+---
+/**
+ * Auswahl der Oberflächen (Collection `kollektionen`, Eintrag `spachteltechnik-oberflaechen`) für die Zielseite
+ * /anfrage/spachteltechnik/: Name, Bild und Text wörtlich aus den Daten, dazu der Knopf auf die vollständige Seite.
+ * `pick` nennt die Namen der gezeigten Karten (höchstens sechs).
+ */
+import { getEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+
+interface Props {
+  pick: string[];
+  tone?: 'white' | 'soft';
+}
+const { pick, tone = 'soft' } = Astro.props;
+const entry = (await getEntry('kollektionen', 'spachteltechnik-oberflaechen'))!.data;
+const all = entry.collections.flatMap((c) => c.rows.flatMap((r) => r.cards.map((card) => ({ ...card, collection: c.title }))));
+const cards = pick.slice(0, 6).map((name) => {
+  const card = all.find((c) => c.title === name);
+  if (!card) throw new Error(`Oberfläche „${name}“ nicht in spachteltechnik-oberflaechen.json`);
+  return card;
+});
+---
+
+<section data-section="oberflaechen" class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
+  <div class="mx-auto flex w-full max-w-page flex-col gap-group">
+    <div class="flex max-w-[65ch] flex-col gap-text" data-anim="fadeIn">
+      <p class="font-display text-label font-medium tracking-label text-ink uppercase">Oberflächen</p>
+      <h2 class="font-display text-h2 text-balance text-gold">Collezioni Calce, Pietra und Urban</h2>
+    </div>
+    <ul class="grid grid-cols-1 gap-stack sm:grid-cols-2 lg:grid-cols-3">
+      {cards.map((card, i) => (
+        <li class:list={['flex flex-col', tone === 'soft' ? 'bg-white' : 'bg-soft']} data-anim="fadeInUp" data-anim-dur="fast" data-anim-delay={(i % 3) * 100}>
+          <Picture
+            formats={['avif']}
+            fallbackFormat="webp"
+            src={card.image}
+            alt={`Oberflächenmuster ${card.title}, ${card.collection}`}
+            widths={[310, 395, 790]}
+            sizes="(min-width: 1025px) 520px, (min-width: 701px) 45vw, calc(100vw - 40px)"
+            loading="lazy"
+            class="block aspect-square h-auto w-full object-cover"
+          />
+          <div class="flex flex-col gap-text p-inner">
+            <h3 class="font-display text-h3 text-ink">{card.title}</h3>
+            <p class="text-body text-muted" set:html={card.text} />
+          </div>
+        </li>
+      ))}
+    </ul>
+    <div>
+      <Button href={href('/meisterwerk-exklusive/spachteltechnik-oberflaechen/')}>Alle Oberflächen ansehen</Button>
+    </div>
+  </div>
+</section>

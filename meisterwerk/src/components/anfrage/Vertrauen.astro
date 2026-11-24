@@ -1,0 +1,18 @@
+---
+/**
+ * Vertrauenszeile der Anzeigen-Zielseiten (/anfrage/…): vier kurze Aussagen in einer Zeile, am Handy zwei mal zwei.
+ * Weißer Grund mit feiner Linie oben, Schrift der Zwischenüberschriften. Ohne Symbole und ohne Nummern.
+ */
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+---
+
+<section data-section="vertrauen" class="bg-white px-page pb-section">
+  <ul class="mx-auto grid w-full max-w-page grid-cols-2 gap-x-stack gap-y-group border-t border-black/10 pt-group lg:grid-cols-4">
+    {items.map((item, i) => (
+      <li class="font-display text-h4 text-balance text-ink" data-anim="fadeInUp" data-anim-dur="fast" data-anim-delay={i * 80}>{item}</li>
+    ))}
+  </ul>
+</section>

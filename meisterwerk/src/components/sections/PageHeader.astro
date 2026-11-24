@@ -16,13 +16,15 @@ interface Props {
   /** Weitere Absätze (Text darf Links enthalten) */
   paragraphs?: string[];
   button?: { label: string; href: string };
+  /** Mehrere Knöpfe nebeneinander (Zielseiten der Anzeigen); `variant` wie bei `ui/Button.astro` */
+  buttons?: { label: string; href: string; variant?: 'light' | 'outline' | 'ghost' | 'dark' }[];
   image?: ImageMetadata;
   imageAlt?: string;
   /** Bild lädt sofort (nur wenn es über der Falz liegt) */
   eager?: boolean;
   class?: string;
 }
-const { label, title, lead, paragraphs = [], button, image, imageAlt = '', eager = true, class: className = '' } = Astro.props;
+const { label, title, lead, paragraphs = [], button, buttons = [], image, imageAlt = '', eager = true, class: className = '' } = Astro.props;
 ---
 
 <section data-section="seitenkopf" class:list={['px-page pt-section pb-group', className]}>
@@ -46,6 +48,11 @@ const { label, title, lead, paragraphs = [], button, image, imageAlt = '', eager
       {button && (
         <div class="mt-8" data-anim="fadeInUp" data-anim-delay="250">
           <Button href={button.href}>{button.label}</Button>
+        </div>
+      )}
+      {buttons.length > 0 && (
+        <div class="mt-8 flex flex-wrap gap-3" data-anim="fadeInUp" data-anim-delay="250">
+          {buttons.map((b) => <Button href={b.href} variant={b.variant}>{b.label}</Button>)}
         </div>
       )}
     </div>

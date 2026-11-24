@@ -1,0 +1,38 @@
+---
+/**
+ * „Ihr Ansprechpartner“ der Anzeigen-Zielseiten: Überzeile, Name und Text links, Foto von Baldassarre Fortino (aus den
+ * Profildaten, Collection `profile`) rechts. Am Handy steht das Foto unter dem Text.
+ */
+import { getEntry } from 'astro:content';
+import { Picture } from 'astro:assets';
+
+interface Props {
+  text: string;
+  /** Hintergrund der Sektion (Weiß und Hellgrau wechseln sich ab) */
+  tone?: 'white' | 'soft';
+}
+const { text, tone = 'white' } = Astro.props;
+const profile = (await getEntry('profile', 'baldassarre-fortino'))!.data;
+---
+
+<section data-section="ansprechpartner" class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
+  <div class="mx-auto grid w-full max-w-page items-center gap-group lg:grid-cols-12 lg:gap-x-[6vw]">
+    <div class="flex flex-col gap-text lg:col-span-7" data-anim="fadeInUp" data-anim-dur="fast">
+      <p class="font-display text-label font-medium tracking-label text-ink uppercase">Ihr Ansprechpartner</p>
+      <h2 class="font-display text-h2 text-balance text-gold">{profile.name}</h2>
+      <p class="max-w-[65ch] text-body">{text}</p>
+    </div>
+    <div class="max-w-md overflow-hidden lg:col-span-5 lg:max-w-none" data-grow="bottom">
+      <Picture
+        formats={['avif']}
+        fallbackFormat="webp"
+        src={profile.photo}
+        alt={`${profile.name}, Malermeister und Inhaber der Meisterwerk Malermanufaktur in Freiberg am Neckar`}
+        widths={[350, 700, 1000]}
+        sizes="(min-width: 1025px) 600px, (min-width: 768px) 448px, calc(100vw - 40px)"
+        loading="lazy"
+        class="block aspect-[4/3] h-auto w-full object-cover object-top"
+      />
+    </div>
+  </div>
+</section>

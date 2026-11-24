@@ -24,8 +24,11 @@ export function composeTitle(topic: string, site: 'main' | 'exklusive' = 'main')
   return `${clean}${TITLE_SEPARATOR}${BRAND[site]}`;
 }
 
-/** Seiten, die nie in Suchmaschinen erscheinen sollen (auch in Produktion): Pfad relativ zur Site-Basis. */
-export const NOINDEX_PATHS = ['/stil/', '/404/', '/reviews/'];
+/**
+ * Seiten, die nie in Suchmaschinen erscheinen sollen (auch in Produktion): Pfad relativ zur Site-Basis.
+ * `/anfrage/…` sind die Zielseiten der Google-Ads-Anzeigen (nicht im Menü, nicht im Fuß, nicht in der Sitemap).
+ */
+export const NOINDEX_PATHS = ['/stil/', '/404/', '/reviews/', '/anfrage/maler/', '/anfrage/spachteltechnik/', '/anfrage/danke/'];
 
 const EXKLUSIVE = '/meisterwerk-exklusive/';
 /** Rechtstexte der Teil-Website, wortgleich zur Hauptseite: Canonical zeigt auf die Hauptseite. */

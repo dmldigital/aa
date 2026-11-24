@@ -1,0 +1,28 @@
+---
+/**
+ * Referenz der Zielseite /anfrage/spachteltechnik/: Projektkarte (Bild, Titel, Link) wie in den Projektreihen, Daten aus dem
+ * vorhandenen Projektbeitrag (Collection `exklusiv-beitraege`). Der Titel der Karte ist die Überschrift.
+ */
+import { getEntry } from 'astro:content';
+import ProjectCard from '../ui/ProjectCard.astro';
+
+interface Props {
+  /** Eintrag der Collection `exklusiv-beitraege` */
+  slug: string;
+  /** Überschrift der Karte (Wortlaut vom Auftraggeber) */
+  title: string;
+  tone?: 'white' | 'soft';
+}
+const { slug, title, tone = 'white' } = Astro.props;
+const post = (await getEntry('exklusiv-beitraege', slug))!.data;
+const path = `/meisterwerk-exklusive/${post.year}/${post.month}/${post.day}/${post.slug}/`;
+---
+
+<section data-section="referenz" class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
+  <div class="mx-auto flex w-full max-w-page flex-col gap-group">
+    <p class="font-display text-label font-medium tracking-label text-ink uppercase" data-anim="fadeIn">Referenz</p>
+    <div class="grid grid-cols-1 gap-x-stack md:grid-cols-3">
+      <ProjectCard project={{ title, href: path, img: post.image, alt: post.imageAlt }} titleTag="h2" lazy />
+    </div>
+  </div>
+</section>

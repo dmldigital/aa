@@ -1,0 +1,71 @@
+---
+/**
+ * Zielseite der Google-Ads-Anzeige „Spachteltechnik“ (/anfrage/spachteltechnik/). noindex und nicht in der Sitemap (`NOINDEX_PATHS`
+ * in `lib/seo.ts`), nicht im Menü, nicht im Fuß, ohne Links von anderen Seiten. Aufbau und Texte laut Bauauftrag; Kopfbild aus
+ * `content/exklusiv-leistungen/spachteltechniken.json`, Oberflächen aus `content/kollektionen/spachteltechnik-oberflaechen.json`.
+ */
+import { getEntry } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHeader from '../../../components/sections/PageHeader.astro';
+import MiniFormSection from '../../../components/sections/MiniFormSection.astro';
+import Vertrauen from '../../../components/anfrage/Vertrauen.astro';
+import Oberflaechen from '../../../components/anfrage/Oberflaechen.astro';
+import Referenz from '../../../components/anfrage/Referenz.astro';
+import Ansprechpartner from '../../../components/anfrage/Ansprechpartner.astro';
+import Einsatzgebiet from '../../../components/anfrage/Einsatzgebiet.astro';
+import AnrufLeiste from '../../../components/ui/AnrufLeiste.astro';
+import { site } from '../../../data/site';
+import { href } from '../../../data/links';
+
+const spachtel = (await getEntry('exklusiv-leistungen', 'spachteltechniken'))!.data;
+---
+
+<PageLayout
+  title="Spachteltechnik in Ludwigsburg vom Malermeister"
+  description="Spachteltechnik für Wände und Decken: Oberflächen der Collezioni Calce, Pietra und Urban. Muster im Showroom in Freiberg am Neckar ansehen."
+  current="/anfrage/spachteltechnik/"
+  rating={false}
+>
+  <div data-cta-off>
+    <PageHeader
+      label="Spachteltechnik vom Malermeister"
+      title="Spachteltechnik für Wände und Decken in Ludwigsburg und Umgebung"
+      paragraphs={[
+        'Oberflächen der Collezioni Calce, Pietra und Urban, von Hand ausgeführt. Im Showroom in Freiberg am Neckar sehen und fühlen Sie die Muster, bevor Sie sich entscheiden.',
+      ]}
+      buttons={[
+        { label: 'Termin im Showroom anfragen', href: '#anfrage', variant: 'dark' },
+        { label: site.phone, href: `tel:${site.phoneHref}`, variant: 'outline' },
+      ]}
+      image={spachtel.intro.img}
+      imageAlt="Badezimmer mit heller Wand in Kalkpresstechnik, beleuchtetem Spiegel und Waschtisch auf Eichenparkett"
+    />
+    <Vertrauen
+      items={[
+        'Meisterprüfung mit Belobigung',
+        'Muster zum Anfassen im Showroom',
+        'Über 24 Jahre Erfahrung im Spachtelhandwerk',
+        'Nur Ausführung, kein Materialverkauf',
+      ]}
+    />
+    <Oberflaechen pick={['Puro 01', 'Protetto 02', 'Roma 08', 'Latium 09', 'Cemento Calmo 14', 'Cemento Mosso 15']} />
+    <Referenz slug="spachteltechnik-fuer-lotter-baederausstellung" title="Spachteltechnik für die Bäderausstellung Lotter in Ludwigsburg" />
+    <Ansprechpartner
+      text="Malermeister Baldassarre Fortino hat die Meisterprüfung mit Belobigung bestanden und führt den Betrieb seit über 11 Jahren."
+    />
+    <MiniFormSection
+      id="anfrage"
+      variant="anfrage"
+      danke={`${href('/anfrage/danke/')}?von=spachteltechnik`}
+      service="Spachteltechniken"
+      label="Anfrage"
+      title="Muster ansehen und beraten lassen"
+      text="Name, Telefon oder E-Mail und Ihr Ort genügen. Wir melden uns persönlich und vereinbaren einen Termin im Showroom."
+    />
+    <Einsatzgebiet
+      tone="white"
+      text="Wir arbeiten in Ludwigsburg mit Neckarweihingen, Poppenweiler und Hoheneck, in Freiberg am Neckar mit Beihingen, Heutingsheim und Geisingen sowie in Pleidelsheim, Ingersheim, Murr, Steinheim an der Murr, Benningen am Neckar, Marbach am Neckar, Erdmannhausen, Asperg, Möglingen, Tamm, Bietigheim-Bissingen und Remseck am Neckar."
+    />
+  </div>
+  <AnrufLeiste />
+</PageLayout>

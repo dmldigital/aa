@@ -13,8 +13,10 @@ import Badge from '../footer/Badge.astro';
 interface Props {
   site?: Site;
   current?: string;
+  /** Bewertungs-Badge zeigen (Standard) */
+  rating?: boolean;
 }
-const { site = 'main', current = '/' } = Astro.props;
+const { site = 'main', current = '/', rating = true } = Astro.props;
 const exk = site === 'exklusive';
 const menu: Item[] = exk ? exklusiveItems : items;
 // Panel-Kennung je Menüpunkt: Untermenü bei Leistungen und Oberflächen, sonst der Kontaktbereich
@@ -92,7 +94,7 @@ const sub =
           </li>
         ))}
       </ul>
-      {!exk && <Badge class="shrink-0 self-start min-[1100px]:self-center" />}
+      {!exk && rating && <Badge class="shrink-0 self-start min-[1100px]:self-center" />}
     </nav>
 
     <div class="grid content-start items-start sm:pb-6 sm:pl-[clamp(32px,5vw,96px)]">

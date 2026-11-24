@@ -8,8 +8,12 @@ interface Props {
   label: string;
   heading: string;
   steps: string[];
+  /** Spalten ab Desktop (Standard 4) */
+  cols?: 3 | 4;
+  /** Hintergrund der Sektion (Standard Hellgrau, die Karten haben den jeweils anderen Ton) */
+  tone?: 'white' | 'soft';
 }
-const { label, heading, steps } = Astro.props;
+const { label, heading, steps, cols = 4, tone = 'soft' } = Astro.props;
 
 const items = steps.map((s) => {
   const m = s.match(/^<strong>([\s\S]*?)<\/strong>\s*<br\s*\/?>\s*([\s\S]*)$/);
@@ -17,15 +21,15 @@ const items = steps.map((s) => {
 });
 ---
 
-<section data-section="ablauf" class="bg-soft px-page py-section">
+<section data-section="ablauf" class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
   <div class="mx-auto flex w-full max-w-page flex-col gap-12">
     <div class="flex max-w-[65ch] flex-col gap-3">
       <p class="font-display text-label font-medium tracking-label text-ink uppercase" data-anim="fadeIn">{label}</p>
       <h2 class="font-display text-h2 text-balance text-gold" data-anim="fadeIn" data-anim-delay="100">{heading}</h2>
     </div>
-    <ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+    <ul class:list={['grid gap-5', cols === 3 ? 'md:grid-cols-3' : 'md:grid-cols-2 lg:grid-cols-4']}>
       {items.map((it, i) => (
-        <li class="flex flex-col gap-4 bg-white p-6 md:p-8" data-anim="fadeInUp" data-anim-dur="fast" data-anim-delay={i * 100}>
+        <li class:list={['flex flex-col gap-4 p-6 md:p-8', tone === 'soft' ? 'bg-white' : 'bg-soft']} data-anim="fadeInUp" data-anim-dur="fast" data-anim-delay={i * 100}>
           {it.title && <h3 class="font-display text-h4 text-ink" set:html={it.title} />}
           <p class="text-body text-muted" set:html={it.text} />
         </li>

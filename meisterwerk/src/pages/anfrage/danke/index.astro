@@ -1,0 +1,32 @@
+---
+/**
+ * Dankeseite nach dem Absenden der Anzeigen-Formulare (/anfrage/danke/?von=maler bzw. ?von=spachteltechnik). noindex und nicht in der
+ * Sitemap (`NOINDEX_PATHS` in `lib/seo.ts`), nicht im Menü und nicht im Fuß.
+ */
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHeader from '../../../components/sections/PageHeader.astro';
+import { site } from '../../../data/site';
+import { href, routes } from '../../../data/links';
+---
+
+<PageLayout
+  title="Danke, Ihre Anfrage ist angekommen"
+  description="Danke, Ihre Anfrage ist angekommen. Wir melden uns persönlich bei Ihnen. Wenn es eilt, erreichen Sie uns unter 07141 / 23 982 90."
+  current="/anfrage/danke/"
+  rating={false}
+>
+  <div data-cta-off class="pb-section">
+    <PageHeader
+      title="Danke, Ihre Anfrage ist angekommen"
+      paragraphs={[
+        `Wir melden uns persönlich bei Ihnen. Wenn es eilt, erreichen Sie uns unter <a href="tel:${site.phoneHref}" class="inline-link">${site.phone}</a>.`,
+      ]}
+      button={{ label: 'Unsere Projekte ansehen', href: href(routes.projects) }}
+    />
+  </div>
+  {/*
+    Conversion-Messung (Google Ads): Hier feuert später das Ereignis „Anfrage gesendet“ (noch kein Google-Tag eingebaut).
+    Die Quelle steht in der Adresse: ?von=maler oder ?von=spachteltechnik (Zuordnung zur Anzeigengruppe).
+    Erst nach Zustimmung zum Marketing-Cookie auslösen (window.mwConsent.get('marketing'), siehe data/consent.ts).
+  */}
+</PageLayout>

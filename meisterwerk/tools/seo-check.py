@@ -7,7 +7,9 @@ import html, json, os, re, sys
 
 root = sys.argv[1]
 indexable = '--indexable' in sys.argv
-NOINDEX = {'stil/index.html', '404.html', 'reviews/index.html'}
+# Zielseiten der Anzeigen (immer noindex, nicht in der Sitemap); der Titel darf länger als 60 Zeichen sein (Wortlaut vom Auftraggeber)
+ANFRAGE = {'anfrage/maler/index.html', 'anfrage/spachteltechnik/index.html', 'anfrage/danke/index.html'}
+NOINDEX = {'stil/index.html', '404.html', 'reviews/index.html'} | ANFRAGE
 BRANDS = ('Meisterwerk Malermanufaktur', 'Meisterwerke Exklusive')
 errors, titles, descs, pages = [], {}, {}, {}
 
@@ -18,7 +20,7 @@ for d, _, fs in os.walk(root):
     for f in fs:
         if not f.endswith('.html'):
             continue
-        rel = os.path.relpath(os.path.join(d, f), root)
+        rel = os.path.relpath(os.path.join(d, f), root).replace(os.sep, '/')
         s = open(os.path.join(d, f), encoding='utf8').read()
         pages[rel] = s
         t = re.search(r'<title>(.*?)</title>', s, re.S)
@@ -39,7 +41,7 @@ for d, _, fs in os.walk(root):
         if not s.startswith('<!DOCTYPE html><html lang="de"') and '<html lang="de"' not in s[:200]: err(rel, 'lang fehlt')
         if rel in ('404.html',):
             pass
-        if len(title) > 60: err(rel, f'Title {len(title)} Zeichen: {title}')
+        if len(title) > 60 and rel not in ANFRAGE: err(rel, f'Title {len(title)} Zeichen: {title}')
         if title.count(' | ') != 1 or not title.endswith(BRANDS) or re.search(r' [-–] ', title): err(rel, f'Trennzeichen/Marke: {title}')
         if not 110 <= len(desc) <= 160: err(rel, f'Description {len(desc)} Zeichen: {desc}')
         titles.setdefault(title, []).append(rel)
@@ -76,7 +78,7 @@ if indexable:
     urls = re.findall(r'<loc>(.*?)</loc>', sm)
     print(f'Sitemap: {len(urls)} URLs')
     for u in urls:
-        if any(x in u for x in ('/stil/', '/404', '/reviews/')): errors.append(f'Sitemap enthält {u}')
+        if any(x in u for x in ('/stil/', '/404', '/reviews/', '/anfrage/')): errors.append(f'Sitemap enthält {u}')
     exp = 0
     dup = []
     for rel, s in pages.items():

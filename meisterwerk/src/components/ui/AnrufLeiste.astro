@@ -1,0 +1,97 @@
+---
+/**
+ * Feste Leiste am unteren Rand für die Anzeigen-Zielseiten (/anfrage/…), nur unter `lg`: „Anrufen“ (tel:) und „Anfrage“ (Anker auf das
+ * Formular). Sie bleibt unter dem Cookie-Banner: solange er offen ist (`html[data-consent-open]`) und bis er beim ersten Besuch
+ * beantwortet ist, bleibt sie ausgeblendet und fährt danach von unten herein. Die Seite bekommt unten Abstand in der Höhe der Leiste
+ * (plus `env(safe-area-inset-bottom)`), damit der Fuß nicht verdeckt wird.
+ */
+import Button from './Button.astro';
+import { site } from '../../data/site';
+
+interface Props {
+  /** Anker des Formulars */
+  target?: string;
+}
+const { target = '#anfrage' } = Astro.props;
+---
+
+<div data-anruf-leiste class="anruf">
+  <div class="anruf-inner">
+    <Button href={`tel:${site.phoneHref}`} variant="dark" class="flex-1">Anrufen</Button>
+    <Button href={target} variant="outline" class="flex-1">Anfrage</Button>
+  </div>
+</div>
+
+<script>
+  import { CONSENT_KEY, CONSENT_VERSION } from '../../data/consent';
+
+  const bar = document.querySelector<HTMLElement>('[data-anruf-leiste]');
+  const root = document.documentElement;
+  if (bar) {
+    let entschieden = false;
+    try {
+      const s = JSON.parse(localStorage.getItem(CONSENT_KEY) ?? 'null') as { v?: number } | null;
+      entschieden = !!s && s.v === CONSENT_VERSION;
+    } catch {
+      /* ohne Speicher: der Banner erscheint, die Leiste wartet auf ihn */
+    }
+    const zeigen = () => bar.setAttribute('data-show', '');
+    const offen = () => root.hasAttribute('data-consent-open');
+    let gesehen = entschieden;
+    new MutationObserver(() => {
+      if (offen()) gesehen = true;
+      else if (gesehen) zeigen();
+    }).observe(root, { attributes: true, attributeFilter: ['data-consent-open'] });
+    if (entschieden) zeigen();
+    // Falls der Banner aus irgendeinem Grund nie erscheint, kommt die Leiste trotzdem
+    else setTimeout(() => !offen() && zeigen(), 2500);
+  }
+</script>
+
+<style is:global>
+  @reference "../../styles/global.css";
+  .anruf {
+    position: fixed;
+    inset: auto 0 0 0;
+    z-index: 30;
+    padding: var(--space-text) var(--space-gutter) calc(var(--space-text) + env(safe-area-inset-bottom));
+    background: var(--color-soft);
+    border-top: 1px solid color-mix(in srgb, var(--color-ink) 12%, transparent);
+    transition:
+      translate 0.5s var(--ease-grow),
+      visibility 0.5s;
+  }
+  .anruf-inner {
+    display: flex;
+    gap: var(--space-text);
+    margin: 0 auto;
+    max-width: var(--container-tablet);
+  }
+  /* Mit Skript: erst nach dem Cookie-Banner einblenden, bei offenem Banner (auch bei „Cookie-Einstellungen“) wieder weg */
+  html.js .anruf:not([data-show]),
+  html[data-consent-open] .anruf {
+    translate: 0 100%;
+    visibility: hidden;
+  }
+  @media (width >= theme(--breakpoint-lg)) {
+    .anruf {
+      display: none;
+    }
+  }
+  /* Abstand unten: Höhe der Leiste (Knopf 44 px, ab 701 px 48 px, dazu oben und unten der Abstand) */
+  @media (width < theme(--breakpoint-lg)) {
+    body:has([data-anruf-leiste]) {
+      padding-bottom: calc(2.75rem + 2 * var(--space-text) + env(safe-area-inset-bottom));
+    }
+  }
+  @media (width >= theme(--breakpoint-sm)) and (width < theme(--breakpoint-lg)) {
+    body:has([data-anruf-leiste]) {
+      padding-bottom: calc(3rem + 2 * var(--space-text) + env(safe-area-inset-bottom));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .anruf {
+      transition: none;
+    }
+  }
+</style>

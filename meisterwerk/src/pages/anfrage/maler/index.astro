@@ -1,0 +1,109 @@
+---
+/**
+ * Zielseite der Google-Ads-Anzeige „Maler, Streichen innen“ (/anfrage/maler/). noindex und nicht in der Sitemap (`NOINDEX_PATHS` in
+ * `lib/seo.ts`), nicht im Menü, nicht im Fuß, ohne Links von anderen Seiten. Aufbau und Texte laut Bauauftrag; Bausteine der
+ * Leistungsseiten (Seitenkopf, Vorteile, Galerie, Mini-Formular), Bilder aus `content/leistungen/malerarbeiten.json`.
+ */
+import { getEntry } from 'astro:content';
+import PageLayout from '../../../layouts/PageLayout.astro';
+import PageHeader from '../../../components/sections/PageHeader.astro';
+import ServiceBenefits from '../../../components/service/ServiceBenefits.astro';
+import ServiceGallery from '../../../components/service/ServiceGallery.astro';
+import HolidayFlow from '../../../components/urlaub/HolidayFlow.astro';
+import MiniFormSection from '../../../components/sections/MiniFormSection.astro';
+import Faq from '../../../components/sections/Faq.astro';
+import Vertrauen from '../../../components/anfrage/Vertrauen.astro';
+import Ansprechpartner from '../../../components/anfrage/Ansprechpartner.astro';
+import Einsatzgebiet from '../../../components/anfrage/Einsatzgebiet.astro';
+import AnrufLeiste from '../../../components/ui/AnrufLeiste.astro';
+import { faqs } from '../../../data/faq';
+import { site } from '../../../data/site';
+import { href } from '../../../data/links';
+
+const maler = (await getEntry('leistungen', 'malerarbeiten'))!.data;
+
+// Bilder der Galerie: alle Bilder der Leistungsseite außer dem Kopfbild (das steht oben), ohne Doppelte
+const pool = [maler.intro.img, ...(maler.showcase ?? []).flatMap((c) => c.images)];
+const seen = new Set<string>();
+const gallery = pool.filter((i) => !seen.has(i.src) && seen.add(i.src));
+
+const fragen = ['Was kostet es, eine Wohnung oder ein Zimmer zu streichen?', 'Muss ich während der Arbeiten zuhause sein?', 'Wie läuft ein Auftrag ab?'];
+const faqAuswahl = fragen.map((q) => faqs.find((f) => f.q === q)!);
+
+const leistungen = [
+  'Wohnungen und Häuser',
+  'Decken und Dachschrägen',
+  'Treppenhäuser',
+  'Akzentwände in Ihrer Wunschfarbe',
+  'Türen, Heizkörper und Geländer lackieren',
+];
+const list = `<ul>${leistungen.map((l) => `<li><p><strong>${l}</strong></p></li>`).join('')}</ul>`;
+
+const ablauf = [
+  '<strong>Anfrage</strong><br />Sie schreiben uns oder rufen an. Name, Kontakt und Ort genügen.',
+  '<strong>Beratung und Angebot</strong><br />Wir sehen uns die Räume an oder beraten Sie im Showroom. Danach erhalten Sie ein Angebot.',
+  '<strong>Ausführung</strong><br />Wir arbeiten sauber und termingerecht und achten auf Ihr Zuhause.',
+];
+---
+
+<PageLayout
+  title="Maler in Ludwigsburg und Freiberg: Streichen innen"
+  description="Wände und Decken streichen lassen vom Meisterbetrieb aus Freiberg am Neckar. Farbberatung inklusive, Muster im Showroom. Jetzt Anfrage senden."
+  current="/anfrage/maler/"
+  rating={false}
+>
+  <div data-cta-off>
+    <PageHeader
+      label="Malermeister aus Freiberg am Neckar"
+      title="Wände und Decken streichen lassen in Ludwigsburg und Umgebung"
+      paragraphs={[
+        'Wir streichen Wohnungen, Häuser und Treppenhäuser sauber und termingerecht. Malermeister Baldassarre Fortino berät Sie persönlich, auf Wunsch im Showroom mit Mustern zum Anfassen.',
+      ]}
+      buttons={[
+        { label: 'Angebot anfragen', href: '#anfrage', variant: 'dark' },
+        { label: site.phone, href: `tel:${site.phoneHref}`, variant: 'outline' },
+      ]}
+      image={maler.hero.img}
+      imageAlt={maler.hero.alt}
+    />
+    <Vertrauen
+      items={[
+        'Meisterprüfung mit Belobigung',
+        `Showroom in der ${site.street}`,
+        'Farbberatung inklusive',
+        'Über 24 Jahre Erfahrung',
+      ]}
+    />
+    <ServiceBenefits label="Malerarbeiten" title="Was wir streichen" {list} />
+    <HolidayFlow label="Ablauf" heading="So läuft es ab" steps={ablauf} cols={3} tone="white" />
+    <ServiceGallery
+      images={gallery}
+      alt="Malerarbeiten bei Meisterwerk"
+      heading="Einblicke: Malerarbeiten aus Ludwigsburg und Umgebung"
+      tone="soft"
+    />
+    <Ansprechpartner
+      text="Malermeister Baldassarre Fortino hat die Meisterprüfung mit Belobigung bestanden und führt den Betrieb seit über 11 Jahren."
+    />
+    <MiniFormSection
+      id="anfrage"
+      variant="anfrage"
+      danke={`${href('/anfrage/danke/')}?von=maler`}
+      service="Malerarbeiten"
+      label="Anfrage"
+      title="Erzählen Sie uns kurz von Ihren Räumen"
+      text="Name, Telefon oder E-Mail und Ihr Ort genügen. Wir melden uns persönlich bei Ihnen."
+    />
+    <Faq
+      id="haeufige-fragen"
+      heading="Häufige Fragen"
+      faqs={faqAuswahl}
+      tone="white"
+      numbered={false}
+    />
+    <Einsatzgebiet
+      text="Wir arbeiten in Ludwigsburg mit Neckarweihingen, Poppenweiler und Hoheneck, in Freiberg am Neckar mit Beihingen, Heutingsheim und Geisingen sowie in Pleidelsheim, Ingersheim, Murr, Steinheim an der Murr, Benningen am Neckar, Marbach am Neckar, Erdmannhausen, Asperg, Möglingen, Tamm, Bietigheim-Bissingen und Remseck am Neckar."
+    />
+  </div>
+  <AnrufLeiste />
+</PageLayout>

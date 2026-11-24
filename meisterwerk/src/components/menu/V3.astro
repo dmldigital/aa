@@ -11,8 +11,10 @@ import Badge from '../footer/Badge.astro';
 interface Props {
   site?: Site;
   current?: string;
+  /** Bewertungs-Badge zeigen (Standard) */
+  rating?: boolean;
 }
-const { site = 'main', current = '/' } = Astro.props;
+const { site = 'main', current = '/', rating = true } = Astro.props;
 const exk = site === 'exklusive';
 const menu: Item[] = exk ? exklusiveItems : items;
 
@@ -150,7 +152,7 @@ const subRow =
     )}
   </nav>
 
-  {!exk && <Badge class="col-start-1 row-start-3 [zoom:.62] max-sm:self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:hidden" />}
+  {!exk && rating && <Badge class="col-start-1 row-start-3 [zoom:.62] max-sm:self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:hidden" />}
 
   <Kontakt {site} class="col-start-2 row-start-3 min-w-0 self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:col-span-2 [@media(max-height:640px)]:col-start-1" />
 </dialog>

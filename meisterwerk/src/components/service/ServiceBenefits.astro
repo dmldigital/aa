@@ -36,7 +36,7 @@ const items = [...list.matchAll(/<li>\s*(?:<p>)?([\s\S]*?)(?:<\/p>)?\s*<\/li>/g)
       {items.map((it) => (
         <article class="sb-card">
           {it.title && <h3 set:html={it.title} />}
-          <p set:html={it.text} />
+          {it.text && <p set:html={it.text} />}
         </article>
       ))}
     </div>

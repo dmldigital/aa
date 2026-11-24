@@ -21,8 +21,10 @@ import ToTop from '../footer/ToTop.astro';
 interface Props {
   /** Auftritt: Hauptseite oder Teil-Website „Meisterwerke Exklusive“ (eigene Links, Logos, ohne Bewertungs-Badge). */
   site?: Site;
+  /** Bewertungs-Badge zeigen (Standard); die Anzeigen-Zielseiten zeigen keine Google-Bewertung */
+  rating?: boolean;
 }
-const { site = 'main' } = Astro.props;
+const { site = 'main', rating = true } = Astro.props;
 const f = footers[site];
 ---
 
@@ -50,7 +52,7 @@ const f = footers[site];
         data-anim-mobile="fadeInUp"
         class="order-3 col-span-1 self-center md:order-none md:col-span-3 md:self-auto lg:col-span-2"
       >
-        {f.badge && <Badge />}
+        {f.badge && rating && <Badge />}
       </div>
       <div
         class="order-2 col-span-2 flex flex-col gap-stack bg-soft p-inner md:order-none md:col-span-3 md:gap-3 md:bg-transparent md:p-0 lg:col-span-3"
