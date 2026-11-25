@@ -1,0 +1,33 @@
+---
+/**
+ * Siegel „Handwerksratgeber: Maler in Ludwigsburg“ (Kundenwunsch vom 25.11.2026). Das Bild liegt lokal
+ * (`assets/img/siegel/`), damit beim Seitenaufruf keine Verbindung zu handwerksratgeber.de entsteht (Datenschutz, kein
+ * Fremdinhalt ohne Einwilligung). Der Anbieter aktualisiert die Platzierung auf seinem Server; bei einem neuen Stand das
+ * Bild von https://handwerksratgeber.de/wp-content/uploads/ostend-siegel/maler-ludwigsburg-meisterwerk-lb.png neu laden.
+ */
+import { Picture } from 'astro:assets';
+import siegel from '../../assets/img/siegel/handwerksratgeber-maler-ludwigsburg.png';
+
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<a
+  href="https://handwerksratgeber.de/maler-ludwigsburg/"
+  target="_blank"
+  rel="noopener"
+  class:list={['inline-block self-start transition-opacity duration-300 hover:opacity-85', className]}
+>
+  <Picture
+    formats={['avif']}
+    fallbackFormat="webp"
+    src={siegel}
+    alt="Siegel Handwerksratgeber: Maler in Ludwigsburg, aktuelle Platzierung"
+    widths={[120, 240]}
+    sizes="120px"
+    loading="lazy"
+    class="block size-30"
+  />
+</a>

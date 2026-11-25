@@ -3,6 +3,7 @@ import { href } from '../../data/links';
 import { items, exklusiveItems, type Item, type Site } from '../../data/nav';
 import Kontakt from './Kontakt.astro';
 import Badge from '../footer/Badge.astro';
+import Siegel from '../footer/Siegel.astro';
 /**
  * Menü-Variante 3 „Seitenfläche“: schmale Fläche mit der Rundung der Buttons (24 px) und 10 px Rand, die von rechts hereinfährt (die Seite dahinter bleibt sichtbar,
  * abgedunkelt). Linksbündige Liste, Untermenüs als Akkordeon mit goldener Linie, darunter das Bewertungs-Badge aus dem Fuß
@@ -152,7 +153,12 @@ const subRow =
     )}
   </nav>
 
-  {!exk && rating && <Badge class="col-start-1 row-start-3 [zoom:.62] max-sm:self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:hidden" />}
+  {!exk && rating && (
+    <div class="col-start-1 row-start-3 flex items-end gap-4 [zoom:.62] max-sm:self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:hidden">
+      <Badge />
+      <Siegel />
+    </div>
+  )}
 
   <Kontakt {site} class="col-start-2 row-start-3 min-w-0 self-end group-has-[nav_button[aria-expanded=true]]/m:hidden [@media(max-height:640px)]:col-span-2 [@media(max-height:640px)]:col-start-1" />
 </dialog>
