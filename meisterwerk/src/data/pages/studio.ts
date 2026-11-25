@@ -1,7 +1,7 @@
 // Inhalte der Seite /studio/ (Texte wie im Original; Profilseiten baut Team C, hier nur Links)
 import baldassarre from '../../assets/img/baldassarre-fortino-2026-05-28.jpg';
-import lorenzo from '../../assets/img/Fliesenleger-Vorarbeiter-Lorenzo-Fortino--scaled.jpg';
-import fabio from '../../assets/img/Maler-u.-Lackierer-Gesele-Fabio-Fortino-scaled-e1753863865243.jpg';
+import lorenzo from '../../assets/img/lorenzo-fortino-2026-05-28.jpg';
+import fabio from '../../assets/img/fabio-fortino-2026-05-28.jpg';
 import samet from '../../assets/img/Maler-u.-Lackierer-Azubi-Samet-Erenuglu.jpg';
 import vincenzo from '../../assets/img/Papa-Vincenzo-Fortino.jpg';
 

@@ -231,7 +231,7 @@ const timelineTitle = profile.timeline?.heading ?? '';
                   widths={[165, 229, 330, 480]}
                   sizes="(min-width: 1025px) 240px, (min-width: 768px) 229px, 165px"
                   loading="lazy"
-                  class="pn-img"
+                  class:list={['pn-img', m === founder && 'pn-img--mono']}
                 />
               )}
               <span class="pn-go" aria-hidden="true">Zum Profil ↗</span>
@@ -756,8 +756,11 @@ const timelineTitle = profile.timeline?.heading ?? '';
     max-width: none;
     object-fit: cover;
     object-position: 50% 15%;
-    filter: grayscale(1);
     transition: filter 0.8s ease;
+  }
+  /* Gedenken an Vincenzo bleibt Schwarz-Weiß, das Team ist farbig */
+  .pn-photo .pn-img--mono {
+    filter: grayscale(1);
   }
   .pn-photo::after {
     content: '';
