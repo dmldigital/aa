@@ -28,9 +28,12 @@ interface Props {
 }
 const { site = 'main', rating = true } = Astro.props;
 const f = footers[site];
-// Gleiche Höhe für beide Logos (Tablet und Desktop): 56 px, das Exklusive-Logo ist ohne Rand zugeschnitten (801 × 267)
-const sizeMaler = 'md:h-14 md:w-auto';
-const sizeExk = 'md:h-14 md:w-[168px]';
+// Optisch gleich große Logos (Tablet und Desktop): Beim Malermanufaktur-Logo füllt „MEISTERWERK“ nur gut ein Drittel der
+// Höhe, beim Exklusive-Logo (ohne Rand zugeschnitten, 801 × 267) der Schriftzug fast alles. Daher 72 px gegen 58 px, beide
+// mittig in einem 72 px hohen Feld, damit die Texte darunter auf einer Linie beginnen.
+const sizeMaler = 'md:h-[72px] md:w-auto';
+const sizeExk = 'md:h-[58px] md:w-[174px]';
+const logoBox = 'md:flex md:h-[72px] md:items-center';
 const exkSite = site === 'exklusive';
 ---
 
@@ -59,26 +62,26 @@ const exkSite = site === 'exklusive';
         )}
       </div>
       <div
-        class="order-2 col-span-2 flex flex-col gap-stack bg-soft p-inner md:order-none md:col-span-3 md:gap-3 md:bg-transparent md:p-0 lg:col-span-3 lg:col-start-7 min-[1300px]:col-start-8"
+        class="order-2 col-span-2 flex flex-col gap-stack bg-soft p-inner md:order-none md:col-span-3 md:gap-3 md:bg-transparent md:p-0 lg:col-span-3 lg:col-start-7 lg:justify-self-end min-[1300px]:col-start-8"
         data-anim="fadeInUp"
         data-anim-delay="240"
         data-anim-mobile="fadeInUp"
       >
-        <Logos {site} which="main" class={`w-36 ${exkSite ? sizeExk : sizeMaler}`} />
-        <Contact {site} class="gap-4 md:gap-1.5" />
+        <Logos {site} which="main" wrapperClass={logoBox} class={`w-36 ${exkSite ? sizeExk : sizeMaler}`} />
+        <Contact {site} class="gap-4 md:mt-2 md:gap-1.5" />
         <Social class="-ml-2.5 -mt-2 md:mt-0" />
       </div>
       <div
-        class="contents md:col-span-3 md:flex md:flex-col md:gap-3 lg:col-span-3 min-[1300px]:col-span-2"
+        class="contents md:col-span-3 md:flex md:flex-col md:gap-3 lg:col-span-3 lg:justify-self-end min-[1300px]:col-span-2"
         data-anim="fadeInUp"
         data-anim-delay="360"
         data-anim-mobile="none"
       >
-        <Logos {site} which="other" wrapperClass="order-3 col-span-1 self-center justify-self-end md:order-none md:self-auto md:justify-self-auto" class={`w-32 ${exkSite ? sizeMaler : sizeExk}`} />
+        <Logos {site} which="other" wrapperClass={`order-3 col-span-1 self-center justify-self-end md:order-none md:self-auto md:justify-self-auto ${logoBox}`} class={`w-32 ${exkSite ? sizeMaler : sizeExk}`} />
         <Legal
           {site}
           copyright={false}
-          class="order-4 col-span-2 gap-x-5 gap-y-3 max-md:grid max-md:grid-cols-2 md:order-none md:flex-col md:gap-2.5"
+          class="order-4 col-span-2 gap-x-5 gap-y-3 max-md:grid max-md:grid-cols-2 md:order-none md:mt-2 md:flex-col md:gap-2.5"
         />
       </div>
       <div

@@ -9,9 +9,11 @@ import { Picture } from 'astro:assets';
 import siegel from '../../assets/img/siegel/handwerksratgeber-maler-ludwigsburg.png';
 
 interface Props {
+  /** Kantenlänge in px (Fuß neben dem Badge: 176, Menü unter dem Badge: 128) */
+  size?: number;
   class?: string;
 }
-const { class: className = '' } = Astro.props;
+const { size = 176, class: className = '' } = Astro.props;
 ---
 
 <a
@@ -25,9 +27,10 @@ const { class: className = '' } = Astro.props;
     fallbackFormat="webp"
     src={siegel}
     alt="Siegel Handwerksratgeber: Maler in Ludwigsburg, aktuelle Platzierung"
-    widths={[120, 240]}
-    sizes="120px"
+    widths={[size, size * 2]}
+    sizes={`${size}px`}
     loading="lazy"
-    class="block size-30"
+    class="block"
+    style={`width:${size}px;height:${size}px`}
   />
 </a>
