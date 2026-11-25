@@ -21,7 +21,7 @@ export const partnerGroups: PartnerGroup[] = [
     title: 'Sponsor',
     links: [
       {
-        name: 'FSV Ossweil 1924 e.V.',
+        name: 'FSV Oßweil 1924 e.V.',
         sub: 'Unterstützung des regionalen Sports & Vereinsarbeit',
         href: 'https://www.fsv-ossweil.de/partner/',
       },
@@ -32,7 +32,7 @@ export const partnerGroups: PartnerGroup[] = [
     links: [
       {
         name: 'Baby-Notarztwagen „Felix“',
-        sub: 'Sicherer Transport für Neugeborene (Björn Steiger Stiftung)',
+        sub: 'Sicherer Transport für Früh- und Neugeborene (Björn Steiger Stiftung)',
         href: 'https://www.steiger-stiftung.de/was-wir-tun/baby-notarztwagen/',
       },
     ],
@@ -42,53 +42,57 @@ export const partnerGroups: PartnerGroup[] = [
     links: [
       {
         name: 'Madera Bedachungen',
-        sub: 'Meisterbetrieb für Bedachungen & Sanierungen',
+        sub: 'Dachdecker in Remseck am Neckar',
         href: 'https://www.madera-bedachungen.de/',
       },
       {
-        name: 'Elektro Kiefler',
-        sub: 'Elektrotechnik & Gebäudeinstallation',
+        name: 'Elektro Kiefler GmbH',
+        sub: 'Elektroinstallation, Smart Home & Photovoltaik in Korntal-Münchingen',
         href: 'https://www.elektro-kiefler.de/',
       },
       {
         name: 'Münster Haustechnik',
-        sub: 'Sanitär, Heizung & Klimatechnik',
+        sub: 'Bäder, Heiztechnik & Photovoltaik seit 1966',
         href: 'https://www.muenstergmbh.de/',
       },
       {
         name: 'Johannes Haustechnik',
-        sub: 'Innovative Haustechnik-Lösungen',
+        sub: 'Sanitär, Heizung & Klima vom Meisterbetrieb',
         href: 'https://johannes-haustechnik.de/ueber-johannes-haustechnik/',
       },
       {
         name: 'Raummanufactur',
-        sub: 'Professionelle Bodenverlegung & Parkett',
+        sub: 'Bodenleger in Ludwigsburg: Parkett, Vinyl & Kork',
         href: 'https://raummanufactur.de/bodenverlegung.html',
       },
       {
-        name: 'Kälte-Technik Pleidelsheim',
-        sub: 'Klima- & Kältesysteme',
+        name: 'ColdArts',
+        sub: 'Kälte- & Klimatechnik aus Pleidelsheim',
         href: 'https://coldarts.eu/',
       },
-      { name: 'Nrebau', sub: 'Bauunternehmen für Neubau & Sanierung', href: 'https://nrebau.de/' },
       {
-        name: 'Engesa',
-        sub: 'Fliesenleger-Fachbetrieb & Sanierung',
+        name: 'NRE Bau GmbH',
+        sub: 'Stuckateur & Maler: Wärmedämmung, Putz und Trockenbau',
+        href: 'https://nrebau.de/',
+      },
+      {
+        name: 'ENGESA',
+        sub: 'Ingenieurbüro für energetische Gebäudesanierung & Baubetreuung',
         href: 'https://engesa.de/engesa',
       },
       {
-        name: 'Fendoor Fenster',
-        sub: 'Hochwertige Fenster- & Türsysteme',
+        name: 'FENDOOR GmbH',
+        sub: 'Fenster, Türen & Sonnenschutz',
         href: 'https://www.fendoor-fenster.de/home',
       },
       {
-        name: 'Laferla',
-        sub: 'Meisterbetrieb für Haustechnik & Fliesen',
+        name: 'E.G.I. Laferla Isolierungen',
+        sub: 'Wärme-, Kälte-, Schall- & Brandschutzisolierung in Ingersheim',
         href: 'https://www.laferla.de/',
       },
       {
         name: 'GH-Gerüstbau',
-        sub: 'FÜR JEDES PROJEKT DIE PERFEKTE STÜTZE',
+        sub: 'Gerüstbau für Neubau, Sanierung und Fassaden',
         href: 'https://gh-geruest.de/',
       },
     ],
