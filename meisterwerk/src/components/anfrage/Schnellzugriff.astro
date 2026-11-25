@@ -1,0 +1,98 @@
+---
+/**
+ * Schnellzugriff der Anzeigen-Zielseiten (/anfrage/…), an zweiter Stelle direkt unter dem Seitenkopf (Wunsch vom 25.11.):
+ * oben die Anfrage-Wege (Schnellanfrage = Formular unten auf der Seite, Angebot anfragen = ausführliche Projektanfrage, Anruf),
+ * darunter Bildkarten zu allen anderen Leistungen der Website und eine Reihe Knöpfe zu den übrigen Hauptseiten. Die eigene Leistung der Zielseite fällt weg.
+ */
+import { Picture } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+import { site } from '../../data/site';
+// Bilder wie auf den Übersichtskarten (Leistungen der Startseite, Leistungen von Meisterwerke Exklusive), Fugenlose Bäder mit dem
+// Hauptbild der Seite: so steht jede Leistung mit ihrem schönsten Bild da und kein Bild doppelt
+import maler from '../../assets/img/2026-04-14-malerarbeiten-flur.jpg';
+import glatt from '../../assets/img/2024-11-25-glatte-waende-wohnzimmer.jpg';
+import lack from '../../assets/img/2024-12-06-lackierarbeiten-wendeltreppe.jpg';
+import tapete from '../../assets/img/2026-04-14-tapezieren-wandbild.jpg';
+import putz from '../../assets/img/2023-05-24-verputzen-hauseingang.jpg';
+import baeder from '../../assets/img/2026-04-14-fugenlose-baeder-397.jpg';
+import boeden from '../../assets/img/2023-01-20-fugenloser-boden-karte.jpg';
+import spachtel from '../../assets/img/146-meisterwerk-20230120-scaled-e1751230173983.jpg';
+import stuck from '../../assets/img/2023-01-20-stuckleisten-karte.jpg';
+
+interface Props {
+  /** Adresse der Leistungsseite, zu der die Zielseite gehört (wird nicht als Karte gezeigt) */
+  current: string;
+  tone?: 'white' | 'soft';
+}
+const { current, tone = 'soft' } = Astro.props;
+
+const karten = [
+  { href: '/services/malerarbeiten/', title: 'Malerarbeiten', img: maler },
+  { href: '/services/glatte-waende/', title: 'Glatte Wände & Q3', img: glatt },
+  { href: '/services/lackierarbeiten/', title: 'Lackierarbeiten', img: lack },
+  { href: '/services/tapezieren/', title: 'Tapezierarbeiten', img: tapete },
+  { href: '/services/verputzen/', title: 'Verputzarbeiten', img: putz },
+  { href: '/meisterwerk-exklusive/fugenlose-baeder/', title: 'Fugenlose Bäder', img: baeder },
+  { href: '/meisterwerk-exklusive/fugenloser-boden/', title: 'Fugenlose Böden', img: boeden },
+  { href: '/meisterwerk-exklusive/spachteltechniken/', title: 'Spachteltechniken', img: spachtel },
+  { href: '/meisterwerk-exklusive/stuckleisten/', title: 'Stuckleisten', img: stuck },
+].filter((k) => k.href !== current);
+
+const seiten = [
+  { label: 'Startseite', href: '/' },
+  { label: 'Alle Leistungen', href: '/leistungen/' },
+  { label: 'Meisterwerk Exklusive', href: '/meisterwerk-exklusive/' },
+  { label: 'Projekte', href: '/projekte/' },
+  { label: 'Über uns', href: '/studio/' },
+  { label: 'Qualifikationen', href: '/qualifikationen/' },
+];
+const label = 'font-display text-label font-medium tracking-label text-ink uppercase';
+---
+
+<section data-section="schnellzugriff" class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
+  <div class="mx-auto flex w-full max-w-page flex-col gap-group">
+    <div class="flex flex-col gap-stack lg:flex-row lg:items-end lg:justify-between">
+      <div class="flex max-w-[44rem] flex-col gap-text" data-anim="fadeInUp" data-anim-dur="fast">
+        <p class={label}>Schnell zum Ziel</p>
+        <h2 class="font-display text-h2 text-balance text-gold">Anfrage stellen oder weiter umsehen</h2>
+      </div>
+      <div class="flex flex-wrap gap-3" data-anim="fadeInUp" data-anim-dur="fast" data-anim-delay="100">
+        <Button href="#anfrage" variant="dark">Schnellanfrage</Button>
+        <Button href={href('/kontakt/')}>Angebot anfragen</Button>
+        <Button href={`tel:${site.phoneHref}`}>{site.phone}</Button>
+      </div>
+    </div>
+
+    <ul class="grid grid-cols-2 gap-text md:grid-cols-3 lg:grid-cols-4 lg:gap-stack">
+      {karten.map((k, i) => (
+        <li data-anim="fadeInUp" data-anim-dur="fast" data-anim-delay={(i % 4) * 80}>
+          <a href={href(k.href)} class="group/card flex h-full flex-col bg-white text-ink">
+            <div class="overflow-hidden">
+              <Picture
+                formats={['avif']}
+                fallbackFormat="webp"
+                src={k.img}
+                alt=""
+                widths={[240, 360, 480, 720]}
+                sizes="(min-width: 1025px) 22vw, (min-width: 768px) 30vw, 45vw"
+                loading="lazy"
+                class="block aspect-[4/5] w-full object-cover transition-[scale] duration-700 ease-out group-hover/card:scale-[1.05]"
+              />
+            </div>
+            <span class="flex flex-1 items-center justify-between gap-text px-3 py-3 font-display text-body font-medium sm:px-5 sm:py-4 sm:text-h4">
+              {k.title}
+              <span class="grid size-9 shrink-0 place-items-center max-sm:hidden rounded-full bg-soft transition-colors duration-300 group-hover/card:bg-gold group-hover/card:text-white" aria-hidden="true">
+                <svg class="size-3.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" focusable="false"><path d="M2 8h11" /><path d="m9 4 4 4-4 4" /></svg>
+              </span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <nav aria-label="Weitere Seiten" class="flex flex-wrap gap-3" data-anim="fadeInUp" data-anim-dur="fast">
+      {seiten.map((s) => <Button href={href(s.href)} variant="ghost">{s.label}</Button>)}
+    </nav>
+  </div>
+</section>

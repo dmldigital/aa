@@ -1,0 +1,27 @@
+---
+/**
+ * Knopfreihe der Anzeigen-Zielseiten zwischen den Abschnitten (Wunsch vom 25.11.: mehr Wege zur Anfrage): Schnellanfrage
+ * (Formular unten auf der Seite), Angebot anfragen (ausführliche Projektanfrage) und Anruf, mittig.
+ */
+import Button from '../ui/Button.astro';
+import { href } from '../../data/links';
+import { site } from '../../data/site';
+
+interface Props {
+  tone?: 'white' | 'soft';
+  /** Kurzer Satz über den Knöpfen */
+  text?: string;
+}
+const { tone = 'white', text = 'Lust auf frische Räume? Schreiben Sie uns, wir melden uns persönlich.' } = Astro.props;
+---
+
+<section data-section="anfrage-knoepfe" class:list={['px-page pb-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
+  <div class="mx-auto flex w-full max-w-page flex-col items-center gap-stack text-center" data-anim="fadeInUp" data-anim-dur="fast">
+    <p class="max-w-[48ch] font-display text-h4 text-balance text-ink">{text}</p>
+    <div class="flex flex-wrap justify-center gap-3">
+      <Button href="#anfrage" variant="dark">Schnellanfrage</Button>
+      <Button href={href('/kontakt/')}>Angebot anfragen</Button>
+      <Button href={`tel:${site.phoneHref}`}>{site.phone}</Button>
+    </div>
+  </div>
+</section>

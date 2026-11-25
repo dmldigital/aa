@@ -1,10 +1,11 @@
 ---
 /**
- * „Ihr Ansprechpartner“ der Anzeigen-Zielseiten: Überzeile, Name und Text links, Foto von Baldassarre Fortino (aus den
- * Profildaten, Collection `profile`) rechts. Am Handy steht das Foto unter dem Text.
+ * „Ihr Ansprechpartner“ der Anzeigen-Zielseiten: Überzeile, Name und Text, davor ein kleines rundes Foto von Baldassarre Fortino
+ * (Gesichtsausschnitt aus dem Teamfoto), bewusst dezent statt eines großen Bildes.
  */
 import { getEntry } from 'astro:content';
 import { Picture } from 'astro:assets';
+import avatar from '../../assets/img/baldassarre-fortino-2026-05-28-klein.jpg';
 import Button from '../ui/Button.astro';
 import { href } from '../../data/links';
 
@@ -16,26 +17,24 @@ interface Props {
 const { text, tone = 'white' } = Astro.props;
 const profile = (await getEntry('profile', 'baldassarre-fortino'))!.data;
 ---
-
 <section data-section="ansprechpartner" class:list={['px-page py-section', tone === 'soft' ? 'bg-soft' : 'bg-white']}>
-  <div class="mx-auto grid w-full max-w-page items-center gap-group lg:grid-cols-12 lg:gap-x-[6vw]">
-    <div class="flex flex-col gap-text lg:col-span-7" data-anim="fadeInUp" data-anim-dur="fast">
+  <div class="mx-auto flex w-full max-w-page flex-col gap-text sm:flex-row sm:items-start sm:gap-stack" data-anim="fadeInUp" data-anim-dur="fast">
+    <Picture
+      formats={['avif']}
+      fallbackFormat="webp"
+      src={avatar}
+      alt={`${profile.name}, Malermeister und Inhaber der Meisterwerk Malermanufaktur in Freiberg am Neckar`}
+      widths={[160, 320]}
+      sizes="112px"
+      loading="lazy"
+      pictureAttributes={{ class: 'contents' }}
+      class="block size-20 shrink-0 rounded-full object-cover sm:size-28"
+    />
+    <div class="flex flex-col gap-text">
       <p class="font-display text-label font-medium tracking-label text-ink uppercase">Ihr Ansprechpartner</p>
       <h2 class="font-display text-h2 text-balance text-gold">{profile.name}</h2>
       <p class="max-w-[65ch] text-body">{text}</p>
       <div class="mt-4"><Button href={href('/baldassarre-fortino/')} variant="outline">Mehr über Baldassarre Fortino</Button></div>
-    </div>
-    <div class="max-w-md overflow-hidden lg:col-span-5 lg:max-w-none" data-grow="bottom">
-      <Picture
-        formats={['avif']}
-        fallbackFormat="webp"
-        src={profile.photo}
-        alt={`${profile.name}, Malermeister und Inhaber der Meisterwerk Malermanufaktur in Freiberg am Neckar`}
-        widths={[350, 700, 1000]}
-        sizes="(min-width: 1025px) 600px, (min-width: 768px) 448px, calc(100vw - 40px)"
-        loading="lazy"
-        class="block aspect-[4/3] h-auto w-full object-cover object-top"
-      />
     </div>
   </div>
 </section>

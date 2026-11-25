@@ -120,6 +120,8 @@ const leistungen = defineCollection({
           }),
         )
         .optional(),
+      /** Hero-Bild steht in der Szene als drittes Bild (statt als erstes) und in der Galerie ganz am Ende; die beiden Bilder davor rücken nach vorn */
+      heroUnten: z.boolean().optional(),
       /** … oder Galerie (Original aa57ee6, nur Glatte Wände) */
       gallery: z.array(image()).optional(),
       pillars: z.array(z.object({ title: z.string(), html: z.string() })),

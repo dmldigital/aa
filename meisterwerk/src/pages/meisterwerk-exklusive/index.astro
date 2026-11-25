@@ -1,6 +1,5 @@
 ---
 import PageLayout from '../../layouts/PageLayout.astro';
-import Hero from '../../components/sections/HeroSlider.astro';
 import Welcome from '../../components/sections/Welcome.astro';
 import Partner from '../../components/sections/Partner.astro';
 import Services from '../../components/sections/Services.astro';
@@ -13,7 +12,6 @@ import Faq from '../../components/sections/Faq.astro';
 import { href } from '../../data/links';
 import {
   meta,
-  hero,
   welcome,
   intro,
   leistungen,
@@ -31,7 +29,6 @@ import {
   description={meta.description}
   current="/meisterwerk-exklusive/"
 >
-  <Hero id="ca992c2" slides={hero} />
   <Welcome
     id="53bda50"
     textColClass="min-h-screen md:min-h-0"

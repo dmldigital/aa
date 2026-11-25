@@ -16,7 +16,8 @@ import Vertrauen from '../../../components/anfrage/Vertrauen.astro';
 import Ansprechpartner from '../../../components/anfrage/Ansprechpartner.astro';
 import Einsatzgebiet from '../../../components/anfrage/Einsatzgebiet.astro';
 import AnrufLeiste from '../../../components/ui/AnrufLeiste.astro';
-import MehrEntdecken from '../../../components/anfrage/MehrEntdecken.astro';
+import Schnellzugriff from '../../../components/anfrage/Schnellzugriff.astro';
+import AnfrageKnoepfe from '../../../components/anfrage/AnfrageKnoepfe.astro';
 import MoreServices from '../../../components/service/MoreServices.astro';
 import { faqs } from '../../../data/faq';
 import { site } from '../../../data/site';
@@ -63,13 +64,15 @@ const ablauf = [
         'Wir streichen Wohnungen, Häuser und Treppenhäuser sauber und termingerecht. Malermeister Baldassarre Fortino berät Sie persönlich, auf Wunsch im Showroom mit Mustern zum Anfassen.',
       ]}
       buttons={[
-        { label: 'Angebot anfragen', href: '#anfrage', variant: 'dark' },
+        { label: 'Schnellanfrage', href: '#anfrage', variant: 'dark' },
+        { label: 'Angebot anfragen', href: href('/kontakt/'), variant: 'outline' },
         { label: site.phone, href: `tel:${site.phoneHref}`, variant: 'outline' },
         { label: 'Zur Startseite', href: href('/'), variant: 'outline' },
       ]}
       image={maler.hero.img}
       imageAlt={maler.hero.alt}
     />
+    <Schnellzugriff current="/services/malerarbeiten/" />
     <Vertrauen
       items={[
         'Meisterprüfung mit Belobigung',
@@ -80,6 +83,7 @@ const ablauf = [
     />
     <ServiceBenefits label="Malerarbeiten" title="Was wir streichen" {list} />
     <HolidayFlow label="Ablauf" heading="So läuft es ab" steps={ablauf} cols={3} tone="white" />
+    <AnfrageKnoepfe text="Wände und Decken frisch streichen lassen? Wir beraten Sie persönlich." />
     <ServiceGallery
       images={gallery}
       alt="Malerarbeiten bei Meisterwerk"
@@ -105,8 +109,8 @@ const ablauf = [
       tone="white"
       numbered={false}
     />
+    <AnfrageKnoepfe text="Noch Fragen offen? Rufen Sie uns an oder schreiben Sie uns." />
     <MoreServices current="/services/malerarbeiten/" tone="soft" />
-    <MehrEntdecken tone="white" />
     <Einsatzgebiet
       text="Wir arbeiten in Ludwigsburg mit Neckarweihingen, Poppenweiler und Hoheneck, in Freiberg am Neckar mit Beihingen, Heutingsheim und Geisingen sowie in Pleidelsheim, Ingersheim, Murr, Steinheim an der Murr, Benningen am Neckar, Marbach am Neckar, Erdmannhausen, Asperg, Möglingen, Tamm, Bietigheim-Bissingen und Remseck am Neckar."
     />

@@ -35,9 +35,16 @@ const pool = [
 const seen = new Set<string>();
 const unique = pool.filter((i) => !seen.has(i.src.src) && seen.add(i.src.src));
 // Bilder ohne eigene Beschreibung: Leistung und Nummer, damit kein Alt-Text doppelt vorkommt
-const images = unique.slice(0, 3).map((i, n) => ({ src: i.src, alt: i.alt || `${name} bei Meisterwerk, Bild ${n + 1}` }));
+// `heroUnten`: Hero-Bild nach dem Einleitungsbild und dem ersten Bild der Gruppe (Szene: 2, 3, 1; Galerie: 2, 3, übrige, 1)
+const [uHero, uIntro, uFirst, ...uRest] = unique;
+const ordered = page.heroUnten && uFirst ? [uIntro, uFirst, uHero, ...uRest] : unique;
+const images = ordered.slice(0, 3).map((i, n) => ({ src: i.src, alt: i.alt || `${name} bei Meisterwerk, Bild ${n + 1}` }));
 // Karussell: erst die Bilder, die nicht in der Szene laufen, danach die der Szene (so gibt es auch bei wenigen Bildern eine Schleife)
-const gallery = [...unique.slice(3), ...unique.slice(0, 3)].map((i) => i.src);
+const gallery = (
+  page.heroUnten && uFirst
+    ? [...ordered.slice(0, 2), ...ordered.slice(3), ordered[2]]
+    : [...unique.slice(3), ...unique.slice(0, 3)]
+).map((i) => i.src);
 
 // Mini-Formular: Leistung vorwählen und Titel anpassen
 const form: Record<string, { service: string; title: string }> = {

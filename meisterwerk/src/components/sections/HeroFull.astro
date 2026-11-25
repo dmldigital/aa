@@ -150,11 +150,23 @@ const flug = flugBase();
       if (lenis) lenis.scrollTo(y, instant ? { immediate: true, force: true } : { duration: 1.4 });
       else window.scrollTo({ top: y, behavior: instant ? 'instant' : 'smooth' });
     };
+    let waitSince = 0;
+    const WAIT_MAX = 2500; // ms: fehlt ein Bild so lange, läuft das Video trotzdem weiter (kein Festhängen bei Ladefehlern)
     const tick = (t: number) => {
-      const dt = last ? t - last : 16;
+      const dt = last ? Math.min(50, t - last) : 16;
       last = t;
       const step = (dt / DURATION) * END;
-      pos = target > pos ? Math.min(target, pos + step) : Math.max(target, pos - step);
+      const next = target > pos ? Math.min(target, pos + step) : Math.max(target, pos - step);
+      // Die Bilder für die nächste Stelle sind noch nicht dekodiert: kurz warten statt zu springen
+      if (next !== pos && !flug.ready(next / END)) {
+        waitSince ||= t;
+        if (t - waitSince < WAIT_MAX) {
+          raf = requestAnimationFrame(tick);
+          return;
+        }
+      }
+      waitSince = 0;
+      pos = next;
       render();
       if (pos !== target) {
         raf = requestAnimationFrame(tick);

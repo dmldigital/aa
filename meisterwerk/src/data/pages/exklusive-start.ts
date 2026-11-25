@@ -8,9 +8,9 @@ import bad from '../../assets/img/079-meisterwerk-20230508-Bearbeitet-scaled.jpg
 import badUnten from '../../assets/img/237-meisterwerk-20230120-Bearbeitet-scaled-e1750844889342.jpg';
 import badRechts from '../../assets/img/258-meisterwerk-20230120-Bearbeitet-scaled-e1751019528712.jpg';
 import baeder from '../../assets/img/testets-e1751263512485.webp';
-import boeden from '../../assets/img/testetsgd-e1751263534354.webp';
+import boeden from '../../assets/img/2023-01-20-fugenloser-boden-karte.jpg';
 import spachtel from '../../assets/img/146-meisterwerk-20230120-scaled-e1751230173983.jpg';
-import stuck from '../../assets/img/285-meisterwerk-20230120-scaled-e1751230260731.jpg';
+import stuck from '../../assets/img/2023-01-20-stuckleisten-karte.jpg';
 import armatur from '../../assets/img/307-meisterwerk-20230120-scaled.jpg';
 import wohnen from '../../assets/img/Image-21.jpg';
 import lotter from '../../assets/img/069-meisterwerk-20230508-Bearbeitet.jpg';

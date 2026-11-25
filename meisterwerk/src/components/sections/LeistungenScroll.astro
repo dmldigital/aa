@@ -10,10 +10,11 @@
 import { Picture } from 'astro:assets';
 import { href } from '../../data/links';
 import { cards } from '../../data/services';
-import raum from '../../assets/img/2026-04-14-glatte-waende-kinderzimmer.jpg';
-import treppe from '../../assets/img/2018-meisterwerk-20230524-Bearbeitet-scaled.jpg';
-import tapete from '../../assets/img/4-bf-20241206-Bearbeitet-1-scaled.jpg';
-import fassade from '../../assets/img/2026-05-28-fassade-verputzt.jpg';
+import flur from '../../assets/img/2026-04-14-malerarbeiten-flur.jpg';
+import raum from '../../assets/img/2024-11-25-glatte-waende-wohnzimmer.jpg';
+import treppe from '../../assets/img/2024-12-06-lackierarbeiten-wendeltreppe.jpg';
+import tapete from '../../assets/img/2026-04-14-tapezieren-wandbild.jpg';
+import fassade from '../../assets/img/2023-05-24-verputzen-hauseingang.jpg';
 import bad from '../../assets/img/Exklusive-Spachteltechnik-Kalkpresstechnik-Badetimmer-Nero-scaled.jpg';
 
 // Titel, Satz und Alt-Text wie in der Auswahl-Vorschau (lokale Texte der Startseite)
@@ -21,27 +22,27 @@ const copy: Record<string, [string, string, string]> = {
   '/services/glatte-waende/': [
     'Glatte Wände & Q3-⁠Spachtelung',
     'Perfekt glatte Oberflächen in Q3, modern und sauber',
-    'Glatte Wände: Kinderzimmer mit perfekt glatter, tiefblau gestrichener Wand',
+    'Glatte Wände in Q3: Wohnzimmer mit fugenlos glatter Wand, indirekter Deckenbeleuchtung und grünem Sofa',
   ],
   '/services/lackierarbeiten/': [
     'Lackierarbeiten',
     'Türen, Fenster und Treppen, innen wie außen, mit dauerhaftem Schutz',
-    'Lackierarbeiten: weiß lackiertes Treppengeländer mit Holzhandlauf vor einem Fenster',
+    'Lackierarbeiten: schwarz lackierte Wendeltreppe in einem Schlafzimmer mit grauer Wand',
   ],
   '/services/malerarbeiten/': [
     'Malerarbeiten',
     'Innen- und Außenanstrich mit Farbberatung, präzise und sauber',
-    'Malerarbeiten im Wohnzimmer: frisch gestrichene Wände, graues Sofa und Vorhänge',
+    'Malerarbeiten: Flur mit grün gestrichenen Wänden und weißen Türrahmen, Blick bis ins Wohnzimmer',
   ],
   '/services/tapezieren/': [
     'Tapezierarbeiten',
     'Tapeten an Wand und Decke, mit Fachberatung zur Auswahl',
-    'Tapezierarbeiten: Kinderzimmer mit Weltkarten-Tapete über die ganze Wand',
+    'Tapezierarbeiten: Wohnzimmer mit Fototapete in Nebelwald-Optik über die ganze Rückwand, davor Stehlampe und braunes Sofa',
   ],
   '/services/verputzen/': [
     'Verputzarbeiten',
     'Innen- und Außenputz und dekorative Oberflächen, langlebig ausgeführt',
-    'Verputzarbeiten: frisch verputzte Fassade eines Hauses mit weißem Putz und rotem Ziegeldach',
+    'Verputzarbeiten: strukturiert verputzte Fassade in Braungrau und Anthrazit am Hauseingang mit Haustür',
   ],
 };
 // Bilder der Startseite (Kundenwunsch vom 07.11.): Raum statt Treppe, Treppe ganz sichtbar, ganze Tapetenwand, Fassade. Glatte Wände, Tapeten und Fassade
@@ -49,9 +50,10 @@ const copy: Record<string, [string, string, string]> = {
 // Kundenwunsch vom 10.11.: Tapezieren mit der Weltkarten-Tapete im Kinderzimmer statt Schlafzimmer.
 const photo: Record<string, { img: ImageMetadata; pos: string }> = {
   '/services/glatte-waende/': { img: raum, pos: '50% 50%' },
-  '/services/lackierarbeiten/': { img: treppe, pos: '60% 50%' },
-  '/services/tapezieren/': { img: tapete, pos: '42% 50%' },
-  '/services/verputzen/': { img: fassade, pos: '45% 50%' },
+  '/services/malerarbeiten/': { img: flur, pos: '50% 50%' },
+  '/services/lackierarbeiten/': { img: treppe, pos: '50% 50%' },
+  '/services/tapezieren/': { img: tapete, pos: '50% 50%' },
+  '/services/verputzen/': { img: fassade, pos: '50% 50%' },
 };
 const items = cards.map((c) => ({
   href: c.href,

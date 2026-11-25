@@ -89,7 +89,8 @@ if (endImg) {
       "position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgb(0 0 0/0.38),transparent 24%,transparent 38%,rgb(0 0 0/0.62))";
 
     ctx = gsap.context(() => {
-      gsap.set(first, { position: "relative", x: -left0, y: -top0, width: vw, height: vh });
+      // absolut: das große Bild darf die Spaltenbreiten nicht verschieben (sonst misst welcome-zoom.js das letzte Bild zu breit)
+      gsap.set(first, { position: "absolute", left: 0, top: 0, x: -left0, y: -top0, width: vw, height: vh });
       gsap.set(first.firstElementChild, { height: "100%" });
       first.appendChild(shade);
     }, scene);

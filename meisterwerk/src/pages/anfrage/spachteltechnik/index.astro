@@ -10,7 +10,8 @@ import PageHeader from '../../../components/sections/PageHeader.astro';
 import MiniFormSection from '../../../components/sections/MiniFormSection.astro';
 import Vertrauen from '../../../components/anfrage/Vertrauen.astro';
 import Oberflaechen from '../../../components/anfrage/Oberflaechen.astro';
-import MehrEntdecken from '../../../components/anfrage/MehrEntdecken.astro';
+import Schnellzugriff from '../../../components/anfrage/Schnellzugriff.astro';
+import AnfrageKnoepfe from '../../../components/anfrage/AnfrageKnoepfe.astro';
 import MoreServices from '../../../components/service/MoreServices.astro';
 import Ansprechpartner from '../../../components/anfrage/Ansprechpartner.astro';
 import Einsatzgebiet from '../../../components/anfrage/Einsatzgebiet.astro';
@@ -35,13 +36,15 @@ const spachtel = (await getEntry('exklusiv-leistungen', 'spachteltechniken'))!.d
         'Oberflächen der Collezioni Calce, Pietra und Urban, von Hand ausgeführt. Im Showroom in Freiberg am Neckar sehen und fühlen Sie die Muster, bevor Sie sich entscheiden.',
       ]}
       buttons={[
-        { label: 'Termin anfragen', href: '#anfrage', variant: 'dark' },
+        { label: 'Schnellanfrage', href: '#anfrage', variant: 'dark' },
+        { label: 'Angebot anfragen', href: href('/kontakt/'), variant: 'outline' },
         { label: site.phone, href: `tel:${site.phoneHref}`, variant: 'outline' },
         { label: 'Zur Startseite', href: href('/'), variant: 'outline' },
       ]}
       image={spachtel.intro.img}
       imageAlt="Badezimmer mit heller Wand in Kalkpresstechnik, beleuchtetem Spiegel und Waschtisch auf Eichenparkett"
     />
+    <Schnellzugriff current="/meisterwerk-exklusive/spachteltechniken/" />
     <Vertrauen
       items={[
         'Meisterprüfung mit Belobigung',
@@ -51,6 +54,7 @@ const spachtel = (await getEntry('exklusiv-leistungen', 'spachteltechniken'))!.d
       ]}
     />
     <Oberflaechen pick={['Puro 01', 'Protetto 02', 'Roma 08', 'Latium 09', 'Cemento Calmo 14', 'Cemento Mosso 15']} />
+    <AnfrageKnoepfe tone="soft" text="Ihre Lieblingsoberfläche gefunden? Wir zeigen Ihnen die Muster im Showroom." />
     <Ansprechpartner
       text="Malermeister Baldassarre Fortino hat 2014 die Meisterprüfung mit Belobigung bestanden und im selben Jahr den Betrieb gegründet."
     />
@@ -64,7 +68,6 @@ const spachtel = (await getEntry('exklusiv-leistungen', 'spachteltechniken'))!.d
       text="Name, Telefon oder E-Mail und Ihr Ort genügen. Wir melden uns persönlich und vereinbaren einen Termin im Showroom."
     />
     <MoreServices current="/meisterwerk-exklusive/spachteltechniken/" exklusive tone="white" />
-    <MehrEntdecken tone="soft" />
     <Einsatzgebiet
       tone="white"
       text="Wir arbeiten in Ludwigsburg mit Neckarweihingen, Poppenweiler und Hoheneck, in Freiberg am Neckar mit Beihingen, Heutingsheim und Geisingen sowie in Pleidelsheim, Ingersheim, Murr, Steinheim an der Murr, Benningen am Neckar, Marbach am Neckar, Erdmannhausen, Asperg, Möglingen, Tamm, Bietigheim-Bissingen und Remseck am Neckar."
