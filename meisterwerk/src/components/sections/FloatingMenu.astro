@@ -4,7 +4,7 @@ import { href } from '../../data/links';
 import { site as company } from '../../data/site';
 import type { Site } from '../../data/nav';
 /**
- * Die Pille „Kontakt | Menü“ ersetzt Menü-Knopf und Kontakt-Button der Kopfzeile (Header.astro, nur noch das Logo). Sie ist ein festes
+ * Die Pille „Kontakt | Menü“ (Desktop: „Kontakt | Startseite | Menü“) ersetzt Menü-Knopf und Kontakt-Button der Kopfzeile (Header.astro, nur noch das Logo). Sie ist ein festes
  * Element: Beim Laden liegt sie an der Stelle der Kopfzeile (rechts, mittig zum Logo), sobald man scrollt, gleitet sie weich an ihre
  * schwebende Position oben rechts, beim Zurückscrollen an den Anfang wieder in die Kopfzeile. Die Verschiebung misst das Skript unten
  * (`--fm-dx`, `--fm-dy`), sie hängt nur von der Kopfzeile der Seite ab. Zwei Felder:
@@ -12,6 +12,7 @@ import type { Site } from '../../data/nav';
  *            links neben der Pille, der Name als Schild unter dem Symbol. Touch: Antippen öffnet, die Box steht als Liste
  *            unter der Pille. Tastatur: Fokus öffnet. Antippen daneben oder Esc schließt.
  *   Menü     öffnet das Hauptmenü (Menu.astro).
+ * Am Desktop (ab 1025 px) steht zwischen Kontakt und Menü als drittes Feld „Startseite“ (Link zur Startseite der jeweiligen Website).
  * Kein Zoom und keine Schattenänderung beim Überfahren. Rund wie alle Buttons der Seite (Button.astro).
  */
 interface Props {
@@ -106,8 +107,9 @@ const label =
           </ul>
         </div>
       </div>
-
-
+      <a href={href(exk ? '/meisterwerk-exklusive/' : '/')} class={`${seg} px-4.5 max-lg:hidden`}>
+        <span class={text}>Startseite</span>
+      </a>
       <button
         type="button"
         data-menu-open
