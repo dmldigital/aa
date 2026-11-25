@@ -131,6 +131,8 @@
 
 /* Willkommen-Szene: bis 1024 px stapeln sich die Bilder und schieben sich beim Scrollen von rechts herein */
 @custom-variant ws-m (@media (width < theme(--breakpoint-lg)) and (prefers-reduced-motion: no-preference));
+/* Startseite Desktop mit Bewegung: erstes Willkommen-Bild ist das letzte Bild des Hero-Flugs (scripts/home/welcome-enter.js) */
+@custom-variant ws-end (@media (width >= theme(--breakpoint-lg)) and (prefers-reduced-motion: no-preference));
 
 /* Leistungen der Startseite (LeistungenScroll.astro): Pin- und Scroll-Sektion, nur ohne reduzierte Bewegung und bei Fensterhöhe ab 560 px */
 @custom-variant lk-p (@media (min-height: 560px) and (prefers-reduced-motion: no-preference));

@@ -3,10 +3,12 @@
  * Siegel „Handwerksratgeber: Maler in Ludwigsburg“ (Kundenwunsch vom 25.11.2026). Das Bild liegt lokal
  * (`assets/img/siegel/`), damit beim Seitenaufruf keine Verbindung zu handwerksratgeber.de entsteht (Datenschutz, kein
  * Fremdinhalt ohne Einwilligung). Der Anbieter aktualisiert die Platzierung auf seinem Server; bei einem neuen Stand das
- * Bild von https://handwerksratgeber.de/wp-content/uploads/ostend-siegel/maler-ludwigsburg-meisterwerk-lb.png neu laden.
+ * Bild von https://handwerksratgeber.de/wp-content/uploads/ostend-siegel/maler-ludwigsburg-meisterwerk-lb.png neu laden,
+ * als `siegel/handwerksratgeber-maler-ludwigsburg.png` speichern und mit `python tools/siegel-linie.py` in die Linienfassung umwandeln
+ * (durchsichtiger Grund, Zeichnung in warmem Grau; die Datei `…-linie.png` wird eingebunden).
  */
 import { Picture } from 'astro:assets';
-import siegel from '../../assets/img/siegel/handwerksratgeber-maler-ludwigsburg.png';
+import siegel from '../../assets/img/siegel/handwerksratgeber-maler-ludwigsburg-linie.png';
 
 interface Props {
   /** Kantenlänge in px (Fuß neben dem Badge: 176, Menü unter dem Badge: 128) */

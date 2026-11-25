@@ -4,7 +4,7 @@ import Hero from '../../components/sections/HeroSlider.astro';
 import Welcome from '../../components/sections/Welcome.astro';
 import Partner from '../../components/sections/Partner.astro';
 import Services from '../../components/sections/Services.astro';
-import Skills from '../../components/sections/Skills.astro';
+import SkillsTabs from '../../components/home/SkillsTabs.astro';
 import Masterly from '../../components/sections/Masterly.astro';
 import TextCards from '../../components/sections/TextCards.astro';
 import Surface from '../../components/sections/Surface.astro';
@@ -65,9 +65,8 @@ import {
     gridClass="lg:grid-cols-4"
     titleClass="text-h4 lg:text-h3"
     titleBoxClass="w-[calc(100%-40px)]"
-  >
-    <Skills embedded tone="white" />
-  </Services>
+  />
+  <SkillsTabs />
   <Masterly
     id="9e8e860"
     eyebrow={philosophie.eyebrow}

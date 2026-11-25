@@ -11,6 +11,7 @@
  */
 import Button from '../ui/Button.astro';
 import Icon from '../Icon.astro';
+import ContactIcon from '../ui/ContactIcon.astro';
 import Falle from '../ui/Falle.astro';
 import { href } from '../../data/links';
 import { site } from '../../data/site';
@@ -61,10 +62,13 @@ const tick = 'M4 10.5l4 4 8-9';
             </li>
           ))}
         </ol>
-        <p class="pf-note-call">
-          Lieber persönlich?
-          <a href={`tel:${site.phoneHref}`}>{site.phone}</a>
-        </p>
+        <a class="pf-note-call" href={`tel:${site.phoneHref}`}>
+          <span class="pf-note-ico" aria-hidden="true"><ContactIcon name="phone" class="size-5" /></span>
+          <span class="pf-note-txt">
+            <span class="pf-note-lbl">Lieber persönlich?</span>
+            <span class="pf-note-num">{site.phone}</span>
+          </span>
+        </a>
       </aside>
 
       <div class="pf-stage">
@@ -1493,21 +1497,47 @@ const tick = 'M4 10.5l4 4 8-9';
       color: var(--ink);
     }
     .pf-note-call {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .pf-note-ico {
+      display: grid;
+      flex: none;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--color-white);
+      color: var(--ink);
+      transition:
+        background-color 0.3s var(--ease-css),
+        color 0.3s var(--ease-css);
+    }
+    .pf-note-txt {
       display: grid;
       gap: 2px;
-      margin: 0;
-      color: var(--color-muted);
-      font-size: var(--text-body);
-      line-height: var(--text-body--line-height);
     }
-    .pf-note-call a {
-      color: var(--ink);
+    .pf-note-lbl {
+      color: var(--color-muted);
+      font-size: var(--text-small);
+      line-height: var(--text-small--line-height);
+    }
+    .pf-note-num {
       font-family: var(--font-urbanist), sans-serif;
       font-size: var(--text-h4);
       font-weight: var(--font-weight-medium, 500);
       transition: color 0.3s var(--ease-css);
     }
-    .pf-note-call a:hover {
+    .pf-note-call:hover .pf-note-ico,
+    .pf-note-call:focus-visible .pf-note-ico {
+      background: var(--color-gold);
+      color: var(--color-white);
+    }
+    .pf-note-call:hover .pf-note-num {
       color: var(--color-gold);
     }
     .pf-stage {

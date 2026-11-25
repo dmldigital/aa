@@ -35,7 +35,7 @@ export const footers: Record<Site, FooterData> = {
   },
   exklusive: {
     headingClass: heading,
-    badge: false,
+    badge: true, // wie die Hauptseite (Nutzerwunsch)
     contactHref: '/meisterwerk-exklusive/kontakt/',
     phone: '07141 / 23 982 90',
     partnersHref: '/meisterwerk-exklusive/partner-sponsoring/',

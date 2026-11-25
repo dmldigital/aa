@@ -38,6 +38,7 @@ const leistungen = [
   'Treppenhäuser',
   'Akzentwände in Ihrer Wunschfarbe',
   'Türen, Heizkörper und Geländer lackieren',
+  'Fenster lackieren und lasieren',
 ];
 const list = `<ul>${leistungen.map((l) => `<li><p><strong>${l}</strong></p></li>`).join('')}</ul>`;
 
@@ -64,6 +65,7 @@ const ablauf = [
       buttons={[
         { label: 'Angebot anfragen', href: '#anfrage', variant: 'dark' },
         { label: site.phone, href: `tel:${site.phoneHref}`, variant: 'outline' },
+        { label: 'Zur Startseite', href: href('/'), variant: 'outline' },
       ]}
       image={maler.hero.img}
       imageAlt={maler.hero.alt}

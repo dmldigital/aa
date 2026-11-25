@@ -124,7 +124,7 @@ export const accordions: Accordion[] = [
         heading: 'Sicherheit &amp; Nachhaltigkeit',
         items: compare(
           'Eigene Parkplätze für Kunden &amp; Mitarbeiter (alles ebenerdig), 3 Feuerlöscher, komplette LED-Beleuchtung, Wasseraufbereitungsanlage. Zusätzlich setzen wir auf ökologische Produkte und nachhaltige Lösungen, die die Umwelt schonen und langfristig Kosten senken.',
-          'Eher einfach gehaltenWiederholen',
+          'Eher einfach gehalten',
         ),
       },
     ],

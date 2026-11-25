@@ -1,0 +1,94 @@
+---
+/**
+ * Firmenskills bei Meisterwerke Exklusive im Aufbau der Startseite (`home/Fachsektion.astro`): Text links, rechts drei aufklappbare
+ * Tabs, am Desktop ist der erste offen. Die Inhalte kommen aus `data/skills.ts`; der dritte Tab (Vergleich) wird als Tabelle
+ * „Meisterwerk gegen Standard-Malerbetrieb“ gezeigt. Verhalten: scripts/home/tabs.js, Gestaltung: styles/home/tabs.css.
+ */
+import { accordions } from '../../data/skills';
+import '../../styles/home/tabs.css';
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  lead?: string;
+}
+const {
+  eyebrow = 'Meisterwerke Exklusive',
+  heading = 'Eigene Werkstatt, Showroom und ein eingespieltes Team',
+  lead = 'Werkstatt, Showroom, Fahrzeuge und Team: So setzen wir fugenlose Bäder und Böden, Spachteltechniken und Stuckleisten für Sie um.',
+} = Astro.props;
+
+// Vergleichstab: Einträge wie „<strong>Meisterwerk:</strong> …“ und „<strong>Standard-Malerbetrieb:</strong> …“
+const isCompare = (i: number) => accordions[i].groups[0]?.items[0]?.icon === 'smile';
+const text = (html: string) => html.replace(/^<strong>[^<]*<\/strong>\s*/, '');
+---
+
+<section data-no-autolink data-tb class="tb" aria-labelledby="sk-title">
+  <div class="tb-grid">
+    <div class="tb-left">
+      <span class="tb-eyebrow">{eyebrow}</span>
+      <h2 id="sk-title">{heading}</h2>
+      <p class="tb-lead" set:html={lead} />
+      <ol class="tb-tabs" data-tb-tabs aria-hidden="true">
+        {accordions.map((acc, i) => (
+          <li data-tb-tab>
+            <button type="button" class="tb-tab" id={`sk-t${i + 1}`} aria-controls={`sk-p${i + 1}`} tabindex="-1" set:html={acc.title} />
+          </li>
+        ))}
+      </ol>
+    </div>
+    <div class="tb-right">
+      <div class="tb-view">
+        {accordions.map((acc, i) => (
+          <article class="tb-panel" id={`sk-p${i + 1}`} data-tb-panel aria-labelledby={`sk-h${i + 1}`}>
+            <div class="tb-inner">
+              <h3 class="tb-h3" id={`sk-h${i + 1}`} set:html={acc.title} />
+              <p class="tb-lede" set:html={acc.intro} />
+              {isCompare(i) ? (
+                <table class="tb-cmp">
+                  <colgroup>
+                    <col style="width:23%" />
+                    <col style="width:45%" />
+                    <col style="width:32%" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <td></td>
+                      <th scope="col" class="is-m">Meisterwerk</th>
+                      <th scope="col" class="is-s">Standard-Malerbetrieb</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {acc.groups.map((g) => (
+                      <tr>
+                        <th scope="row" set:html={g.heading} />
+                        <td data-label="Meisterwerk" set:html={text(g.items[0].html)} />
+                        <td data-label="Standard-Malerbetrieb" set:html={text(g.items[1].html)} />
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ) : (
+                acc.groups.map((g) => (
+                  <div class="tb-grp">
+                    <h4 set:html={g.heading} />
+                    <ul>
+                      {g.items.map((item) => (
+                        <li set:html={item.html} />
+                      ))}
+                    </ul>
+                  </div>
+                ))
+              )}
+              <p class="tb-note" set:html={acc.closing} />
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../../scripts/home/tabs.js';
+</script>

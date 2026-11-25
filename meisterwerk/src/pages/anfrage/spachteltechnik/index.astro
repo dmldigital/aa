@@ -35,8 +35,9 @@ const spachtel = (await getEntry('exklusiv-leistungen', 'spachteltechniken'))!.d
         'Oberflächen der Collezioni Calce, Pietra und Urban, von Hand ausgeführt. Im Showroom in Freiberg am Neckar sehen und fühlen Sie die Muster, bevor Sie sich entscheiden.',
       ]}
       buttons={[
-        { label: 'Termin im Showroom anfragen', href: '#anfrage', variant: 'dark' },
+        { label: 'Termin anfragen', href: '#anfrage', variant: 'dark' },
         { label: site.phone, href: `tel:${site.phoneHref}`, variant: 'outline' },
+        { label: 'Zur Startseite', href: href('/'), variant: 'outline' },
       ]}
       image={spachtel.intro.img}
       imageAlt="Badezimmer mit heller Wand in Kalkpresstechnik, beleuchtetem Spiegel und Waschtisch auf Eichenparkett"

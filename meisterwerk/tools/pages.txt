@@ -40,4 +40,3 @@
 /services/verputzen/
 /studio/
 /urlaubsservice/
-/vincenzo-fortino/

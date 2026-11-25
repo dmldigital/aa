@@ -1,8 +1,9 @@
 ---
 /**
- * „Meisterliche Malerarbeiten“ der Startseite (aus der Auswahl-Vorschau übertragen, Markup 1:1).
- * Desktop (ab 1200 px Breite, 600 px Höhe): gepinnte Bühne, Tab-Texte gleiten unter dem Trennstrich durch;
- * darunter aufklappbare Tabs. Verhalten: scripts/home/tabs.js, Gestaltung: styles/home/tabs.css.
+ * „Meisterliche Malerarbeiten“ der Startseite: Text links, rechts drei aufklappbare Tabs (Firmenskills, Team, Mehrwert).
+ * Desktop (ab 1025 px): erster Tab offen, ein Klick tauscht den offenen Tab, keine Scroll-Animation. Handy und Tablet: drei Karten,
+ * alle zu Beginn geschlossen. Verhalten: scripts/home/tabs.js, Gestaltung: styles/home/tabs.css. Dieselbe Sektion bei Meisterwerke
+ * Exklusive: components/home/SkillsTabs.astro.
  */
 import { Picture } from 'astro:assets';
 import { href } from '../../data/links';

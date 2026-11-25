@@ -83,9 +83,10 @@ const label =
           data-fm-contact
           aria-expanded="false"
           aria-controls="fm-contact"
-          class={`${seg} ml-1 max-sm:px-3.5 sm:px-4.5 group-data-[open]/fm:bg-black/[0.055]`}
+          class={`${seg} ml-1 max-sm:gap-2 max-sm:px-3.5 sm:gap-2.5 sm:px-4.5 group-data-[open]/fm:bg-black/[0.055]`}
         >
           <span class={text}>Kontakt</span>
+          <ContactIcon name="chat" class="max-sm:size-3.5 sm:size-4" />
         </button>
         <div id="fm-contact" role="group" aria-label="Schnellkontakt" class={panel} style={`--w:${rowWidth}`}>
           <ul class={box}>

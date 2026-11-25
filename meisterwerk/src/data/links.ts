@@ -52,14 +52,15 @@ const ASTRO_PAGES: string[] = [
   '/services/verputzen/',
   '/studio/',
   '/urlaubsservice/',
-  '/vincenzo-fortino/',
 ];
 
 export function href(path: string): string {
   // Absolute Adressen, Anker und Mail/Telefon bleiben unverändert (macht href() auch mehrfach angewandt unschädlich)
   const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   if (/^(https?:|mailto:|tel:|#)/.test(path) || (base && path.startsWith(`${base}/`))) return path;
-  if (ASTRO_PAGES.includes(path)) return `${import.meta.env.BASE_URL.replace(/\/$/, '')}${path}`;
+  // Anker (z. B. /studio/#gedenken) gehören nicht zur Seitenadresse
+  const [page, anchor] = path.split('#');
+  if (ASTRO_PAGES.includes(page)) return `${import.meta.env.BASE_URL.replace(/\/$/, '')}${page}${anchor ? `#${anchor}` : ''}`;
   return `${ORIGIN}${path}`;
 }
 

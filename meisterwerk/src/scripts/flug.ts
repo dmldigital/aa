@@ -38,11 +38,10 @@ export function createFlug(canvas: HTMLCanvasElement): Flug {
     for (let i = 0; i < N; i += step) if (!order.includes(i)) order.push(i);
     if (step === 1) break;
   }
+  // Fehlt ein Bild noch, bleibt das letzte geladene davor stehen (nie abwechselnd vor und zurück springen)
   const nearest = (i: number) => {
-    for (let d = 0; d < N; d++) {
-      if (frames[i - d]) return i - d;
-      if (frames[i + d]) return i + d;
-    }
+    for (let j = i; j >= 0; j--) if (frames[j]) return j;
+    for (let j = i + 1; j < N; j++) if (frames[j]) return j;
     return -1;
   };
 

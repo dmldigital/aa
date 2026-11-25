@@ -2,11 +2,10 @@
 /* Meisterwerk Maler Manufaktur: Tab-Sektionen im Schriftsystem der Seite.
    Überschriften und Labels in Urbanist, Fließtext in der Seitenschrift (Stufe body, schwarz 70 %), goldene Chevrons,
    Links wie auf der Willkommens-Sektion. Keine Linien in den Tab-Texten.
-   "Meisterliche Malerarbeiten" (Pin, ab 1200 px): Rechts gleiten Bild und drei Tabs beim Scrollen nacheinander ein und aus,
-   alles passt in 100vh. FAQ und Handy/Tablet: aufklappbare Tabs, immer nur einer offen. Das FAQ steht ab 768 px
-   zweispaltig (50/50), je fünf Fragen pro Spalte.
-   Schrift: nur die Stufen der Website-Skala (--text-h2/h3/h4/body/small/label). Die Fachsektion passt in 100vh, indem das
-   Skript nur die Abstände (--tb-s) und notfalls die Stufe (.tb--compact) verkleinert, nie freie Zwischengrößen. */
+   Die Titel sind aufklappbare Tabs, immer nur einer offen. Desktop (ab 1025 px, Startseite und Meisterwerke Exklusive): Text links,
+   rechts die Tabs auf weißem Grund, der erste ist offen. Handy und Tablet: drei Karten, alle zu Beginn geschlossen. Das FAQ steht
+   ab 768 px zweispaltig (50/50), je fünf Fragen pro Spalte.
+   Schrift: nur die Stufen der Website-Skala (--text-h2/h3/h4/body/small/label). */
 
 .tb{--tb-ink:var(--color-ink);--tb-gold:var(--color-gold);--tb-hair:color-mix(in srgb, var(--color-ink) 12.2%, transparent);margin:0;padding:var(--space-section) var(--space-gutter);color:var(--tb-ink)}
 .tb-eyebrow,.tb h2,.tb-tabs li,.tb-h3,.tb-grp h4,.tb-note,.tb-cmp th{font-family:var(--font-urbanist),sans-serif}
@@ -23,11 +22,10 @@
 .tb-tabs{display:none}
 
 /* ---------- Tab-Texte (Fachsektion) ----------
-   Schrift fest in Stufen der Skala (Text body, Gruppentitel h4). Nur die Abstände skalieren per --tb-s (1 = Normalmaß),
-   damit der höchste Tab in 100vh passt. Reicht das nicht, schaltet das Skript .tb--compact ein (Lede, Listenpunkte, Hinweis und Tabellenzellen in small). */
+   Schrift fest in Stufen der Skala (Text body, Gruppentitel h4). Die Abstände laufen über --s (1 = Normalmaß). */
 .tb-panel{padding-top:28px}
 .tb-panel+.tb-panel{margin-top:28px}
-.tb-inner{--s:var(--tb-s,1);font-size:var(--text-body);line-height:var(--text-body--line-height);color:var(--color-muted)}
+.tb-inner{--s:1;font-size:var(--text-body);line-height:var(--text-body--line-height);color:var(--color-muted)}
 .tb-inner strong{color:var(--tb-ink);font-weight:500}
 .tb-h3{margin:0 0 calc(12px*var(--s));color:var(--tb-ink);font-size:var(--text-h3);line-height:var(--text-h3--line-height);letter-spacing:var(--text-h3--letter-spacing);font-weight:500}
 .tb-lede{max-width:42em;margin:0 0 calc(24px*var(--s))}
@@ -51,10 +49,6 @@
 .tb-note strong{color:var(--tb-gold);font-weight:500}
 .tb-groups+.tb-note{margin-top:calc(24px*var(--s))}
 .tb-groups .tb-note{break-inside:avoid;max-width:26em;margin:0}
-/* Notbehelf, wenn der höchste Tab auch mit kleinsten Abständen nicht in die Bühne passt: Lede, Listenpunkte, Hinweis und Tabellenzellen in small */
-.tb--compact .tb-lede,.tb--compact .tb-grp li,.tb--compact .tb-note,.tb--compact .tb-cmp td{font-size:var(--text-small);line-height:var(--text-small--line-height)}
-.tb--compact .tb-grp h4,.tb--compact .tb-cmp th{font-size:var(--text-body);line-height:var(--text-body--line-height)}
-
 /* Vergleich: Aspekt, Meisterwerk, Standard */
 .tb-cmp{width:100%;border-collapse:collapse;table-layout:fixed}
 .tb-cmp th,.tb-cmp td{padding:0 24px calc(16px*var(--s,1)) 0;text-align:left;vertical-align:top;font-weight:400}
@@ -95,25 +89,6 @@
   .tb-left{gap:20px}
   .tb h2{max-width:500px}
 }
-
-/* ---------- Pin: Bühne steht, rechts blenden Bild und Tabs nacheinander ein und aus ---------- */
-.tb--pin{height:420vh;margin-top:var(--space-section);padding-block:0}
-.tb--pin .tb-sticky{position:sticky;top:0;display:flex;align-items:center;height:100svh;min-height:600px;overflow:clip}
-.tb--pin .tb-grid{grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr);gap:0 20px}
-.tb--pin .tb-right{display:block;position:relative}
-.tb--pin .tb-view{display:block;position:relative;height:calc(100svh - 120px);min-height:400px;overflow:hidden}
-.tb--pin .tb-media,.tb--pin .tb-panel{position:absolute;inset:0;margin:0}
-.tb--pin .tb-media>div,.tb--pin .tb-media picture,.tb--pin .tb-media img{height:100%}
-.tb--pin .tb-media img{object-fit:cover}
-.tb--pin .tb-panel{display:flex;align-items:center;padding:0;opacity:0;visibility:hidden}
-.tb--pin .tb-inner{width:100%;padding-left:48px}
-.tb--pin .tb-h3{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.tb--pin .tb-tabs{display:block;max-width:500px;margin:14px 0 0;padding:0;list-style:none}
-.tb--pin .tb-tabs li{position:relative;padding:13px 0;color:var(--tb-ink);font-size:var(--text-h3);line-height:var(--text-h3--line-height);letter-spacing:var(--text-h3--letter-spacing);font-weight:500;transition:color .6s ease,opacity .6s ease,padding-left .6s cubic-bezier(.4,0,.2,1)}
-.tb--pin .tb-tabs li::before{content:"";position:absolute;left:0;top:50%;width:0;height:1px;background:var(--tb-gold);transition:width .6s cubic-bezier(.4,0,.2,1)}
-.tb--pin .tb-tabs.has-active li{opacity:.4}
-.tb--pin .tb-tabs.has-active li.is-on{padding-left:36px;color:var(--tb-gold);opacity:1}
-.tb--pin .tb-tabs.has-active li.is-on::before{width:22px}
 
 /* ---------- Aufklappbare Tabs (FAQ, Handy, Tablet, reduzierte Bewegung) ----------
    Die Titel sind Tabs, der Inhalt klappt direkt darunter auf, immer nur ein Tab offen: Öffnet sich einer, schließt der andere.
@@ -161,6 +136,23 @@
 @media (hover:hover){.tb:not(.tb--faq).tb--ui .tb-tab:hover::after{color:var(--color-white);background-color:var(--tb-gold)}}
 .tb:not(.tb--faq).tb--ui .tb-panel{padding:0 var(--space-inner) var(--space-inner)}
 
+/* ---------- Desktop (ab 1025 px): Text links, rechts die Tabs, der erste ist offen ----------
+   Weißer Grund, die Tabs sind hellgraue Karten (offen: goldener Ring), das Bild der Handy-Ansicht entfällt.
+   Die Sektion ist mindestens so hoch wie das Fenster (100svh), damit oben nichts von der vorigen Sektion durchscheint; der Inhalt
+   beginnt oben mit festem Abstand, beim Wechsel der Tabs springt nichts. */
+@media (width >= theme(--breakpoint-lg)){
+  .tb:not(.tb--faq).tb--ui{min-height:100svh;background:var(--color-white);padding:max(var(--space-section),12svh) 30px max(var(--space-section),8svh)}
+  .tb:not(.tb--faq).tb--ui .tb-grid{grid-template-columns:minmax(0,.78fr) minmax(0,1.22fr);grid-template-rows:auto auto auto 1fr;gap:20px clamp(48px,6vw,120px);align-items:start}
+  .tb:not(.tb--faq).tb--ui .tb-eyebrow{grid-column:1;grid-row:1}
+  .tb:not(.tb--faq).tb--ui h2{grid-column:1;grid-row:2}
+  .tb:not(.tb--faq).tb--ui .tb-lead{grid-column:1;grid-row:3}
+  .tb:not(.tb--faq).tb--ui .tb-media{display:none}
+  .tb:not(.tb--faq).tb--ui .tb-tabs{grid-column:2;grid-row:1/-1;margin:0}
+  .tb:not(.tb--faq).tb--ui .tb-tabs>li{background:var(--color-soft)}
+  .tb:not(.tb--faq).tb--ui .tb-tab::after{background-color:var(--color-white)}
+  .tb:not(.tb--faq).tb--ui .tb-facts{max-width:none}
+}
+
 /* ---------- FAQ ---------- */
 /* Fragen auf dem Handy mit etwas weniger Abstand: zehn Fragen untereinander sollen ruhig wirken, nicht erschlagen */
 @media (width < theme(--breakpoint-md)){.tb--faq.tb--ui .tb-tab{padding:15px 0}}
@@ -196,8 +188,3 @@
   .tb--ui *,.tb--ui *::before,.tb--ui *::after{transition-duration:.01s!important;transition-delay:0s!important}
 }
 
-.tb--pin .tb-media{display:none}
-.tb--pin .tb-line{position:absolute;left:0;top:6%;height:88%;z-index:3;width:1px;background:rgba(165,147,113,.6);pointer-events:none}
-.tb--pin .tb-line{-webkit-mask-image:linear-gradient(to bottom,transparent,var(--color-black) 3%,var(--color-black) 97%,transparent);mask-image:linear-gradient(to bottom,transparent,var(--color-black) 3%,var(--color-black) 97%,transparent)}
-.tb--pin .tb-line::after{content:"";position:absolute;top:0;bottom:0;left:1px;width:6px;background:linear-gradient(to right,rgba(60,45,25,.05),rgba(60,45,25,0));-webkit-mask-image:linear-gradient(to bottom,transparent,var(--color-black) 14%,var(--color-black) 86%,transparent);mask-image:linear-gradient(to bottom,transparent,var(--color-black) 14%,var(--color-black) 86%,transparent)}
-.tb--pin .tb-view{overflow:visible;clip-path:inset(-50% -100vw -50% 0)}

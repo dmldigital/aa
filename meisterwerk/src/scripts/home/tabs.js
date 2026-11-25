@@ -1,57 +1,35 @@
-// Tab-Sektionen ("Meisterliche Malerarbeiten" und FAQ).
-// Meisterliche Malerarbeiten, Desktop (ab 1200 px Breite und 600 px Höhe, volle Bewegung): Die Sektion wird gepinnt.
-// Rechts steht statt des Bildes ein feststehender Trennstrich. Die Tab-Texte gleiten von links unter ihm hindurch nach
-// rechts heraus und beim nächsten Tab nach rechts wieder weg. Danach löst sich der Pin.
-// Die Texte passen immer in 100vh: Abstände und notfalls die Stufe (small) werden verkleinert, die Schrift bleibt in der Skala.
-// Passt es so nicht (sehr niedrige Fenster), gibt es statt des Pins die aufklappbaren Tabs.
-// FAQ (data-tb-accordion), Handy, Tablet, reduzierte Bewegung: Die Titel sind echte Tabs zum Antippen. Der Inhalt klappt
-// direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere), auch über beide FAQ-Spalten.
-import { gsap, ScrollTrigger, lenis } from "../motion";
+// Tab-Sektionen: „Meisterliche Malerarbeiten“ (Startseite), die Firmenskills bei Meisterwerke Exklusive und das FAQ.
+// Die Titel sind echte Tabs, der Inhalt klappt direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere).
+// Desktop (ab 1025 px, Startseite und Exklusive): Text links, rechts die Tabs; der erste Tab ist offen, ein Klick auf einen anderen
+//   tauscht den offenen Tab, der offene bleibt immer offen (die rechte Seite ist nie leer). Keine Scroll-Animation, kein Pin.
+// Handy und Tablet sowie FAQ (data-tb-accordion): alle Tabs zu Beginn geschlossen, ein Klick auf den offenen Tab schließt ihn,
+//   beim FAQ über beide Spalten hinweg.
+import { ScrollTrigger, lenis } from "../motion";
 
 document.querySelectorAll("[data-tb]").forEach(initTabs);
 
 function initTabs(sec) {
   const view = sec.querySelector(".tb-view");
-  const right = sec.querySelector(".tb-right");
-  const stage = sec.querySelector(".tb-sticky");
-  const left = sec.querySelector(".tb-left");
   const panels = [...sec.querySelectorAll("[data-tb-panel]")];
   const tabs = [...sec.querySelectorAll("[data-tb-tab]")];
   const tabLists = [...sec.querySelectorAll("[data-tb-tabs]")];
-  const tabList = tabLists[0];
   const buttons = tabs.map((t) => t.querySelector(".tb-tab"));
-  const inners = panels.map((p) => p.querySelector(".tb-inner"));
-  const accordionOnly = sec.hasAttribute("data-tb-accordion");
-  const mq = window.matchMedia(
-    "(min-width: 1200px) and (min-height: 600px) and (prefers-reduced-motion: no-preference)"
-  );
+  const faq = sec.hasAttribute("data-tb-accordion");
+  const desktop = window.matchMedia("(min-width: 1025px)");
 
-  const MIN_SCALE = 0.4;
-  let ctx = null;
   let controller = null;
   let timer = null;
 
   const reset = () => {
-    if (ctx) {
-      ctx.revert();
-      ctx = null;
-    }
     if (controller) {
       controller.abort();
       controller = null;
     }
-    // Tab-Inhalte zurück in die Bühne, Aufklapp-Hüllen und Trennstrich entfernen
-    right.querySelector(".tb-line")?.remove();
+    // Tab-Inhalte zurück in die Bühne, Aufklapp-Hüllen entfernen
     panels.forEach((p) => view.appendChild(p));
     tabs.forEach((li) => li.querySelector(".tb-collapse")?.remove());
-    sec.classList.remove("tb--pin", "tb--ui", "tb--compact");
-    sec.style.height = "";
-    sec.style.removeProperty("--tb-s");
-    left.style.transform = "";
-    tabLists.forEach((l) => {
-      l.setAttribute("aria-hidden", "true");
-      l.classList.remove("has-active");
-    });
+    sec.classList.remove("tb--ui");
+    tabLists.forEach((l) => l.setAttribute("aria-hidden", "true"));
     tabs.forEach((li, i) => {
       li.classList.remove("is-on");
       buttons[i].setAttribute("tabindex", "-1");
@@ -62,19 +40,20 @@ function initTabs(sec) {
       p.classList.remove("is-on");
       p.inert = false;
     });
-    inners.forEach((i) => (i.style.transform = ""));
   };
 
   // ---------- Tab-Liste zum Antippen ----------
-  const buildTabs = () => {
+  const build = () => {
+    reset();
     sec.classList.add("tb--ui");
     tabLists.forEach((l) => l.removeAttribute("aria-hidden"));
     controller = new AbortController();
+    const keepOpen = desktop.matches && !faq; // Desktop: immer ein Tab offen
 
     let current = -1;
     let settle = null;
     // Öffnet sich ein Tab, während ein anderer offen war, schiebt das Zuklappen den Inhalt: Der neue Tab würde mitten
-    // im Feld beginnen. Nach dem Zuklappen wird deshalb seine Kopfzeile unter die schwebende Menü-Pille gerückt.
+    // im Feld beginnen. Nach dem Zuklappen wird deshalb seine Kopfzeile unter die schwebende Menü-Pille gerückt (nur Handy/Tablet).
     const alignTo = (i, wasOpen) => {
       clearTimeout(settle);
       settle = setTimeout(() => {
@@ -87,8 +66,8 @@ function initTabs(sec) {
     };
     const toggle = (index, user = false) => {
       const was = current;
-      current = current === index ? -1 : index;
-      if (user && current >= 0) alignTo(current, was >= 0);
+      current = current === index && !keepOpen ? -1 : index;
+      if (user && current >= 0 && !desktop.matches) alignTo(current, was >= 0);
       tabs.forEach((li, k) => {
         const open = k === current;
         const collapse = li.querySelector(".tb-collapse");
@@ -111,129 +90,7 @@ function initTabs(sec) {
       buttons[i].removeAttribute("tabindex");
       buttons[i].addEventListener("click", () => toggle(i, true), { signal: controller.signal });
     });
-    toggle(-1); // zu Beginn sind alle Tabs geschlossen (Fachsektion und FAQ), geöffnet wird per Antippen
-  };
-
-  // ---------- Pin mit Ein- und Ausblenden ----------
-  // Die Schrift bleibt in den Stufen der Skala. Passt der höchste Tab nicht in die Bühne, werden zuerst nur die Abstände
-  // (--tb-s) verkleinert, reicht das nicht, schaltet .tb--compact Lede, Listenpunkte, Hinweis und Tabellenzellen auf die Stufe small.
-  const fitPanels = () => {
-    const avail = view.clientHeight * 0.97;
-    const tallest = () => Math.max(...inners.map((i) => i.offsetHeight));
-    sec.classList.remove("tb--compact");
-    for (const compact of [false, true]) {
-      sec.classList.toggle("tb--compact", compact);
-      for (const scale of [1, 0.85, 0.7, 0.55, MIN_SCALE]) {
-        sec.style.setProperty("--tb-s", String(scale));
-        if (tallest() <= avail) return true;
-      }
-    }
-    return false;
-  };
-
-  // Lange Tab-Listen (FAQ) links ebenfalls in die Bühne passen lassen
-  const fitLeft = () => {
-    left.style.transform = "";
-    const avail = stage.clientHeight - 100;
-    const height = left.offsetHeight;
-    if (height > avail) {
-      const scale = Math.max(0.55, avail / height);
-      left.style.transformOrigin = "0 50%";
-      left.style.transform = `scale(${scale.toFixed(3)})`;
-    }
-  };
-
-  // false, wenn der höchste Tab selbst mit den kleinsten Abständen und der Stufe small nicht in die Bühne passt (niedrige Fenster)
-  const buildPin = () => {
-    sec.classList.add("tb--pin");
-    if (!fitPanels()) return false;
-    fitLeft();
-
-    const vh = window.innerHeight;
-    // Tempo wie der Bilderstreifen im Hero (dort 0,2 px Bewegung je Scroll-Pixel), hier etwas schneller: 0,3.
-    // Der Text legt nur eine kurze Strecke zurück und blendet dabei ein bzw. aus.
-    const SPEED = 0.3;
-    const TRAVEL = Math.min(300, window.innerWidth * 0.21);
-    const HALF = TRAVEL / SPEED; // Scroll-Pixel für Einblenden oder Ausblenden
-    const LEAD = 0.25 * vh; // zu Beginn steht nur der Strich
-    const TAIL = 0.2 * vh; // letzter Tab bleibt kurz stehen, dann Pin lösen
-    const holdOf = (i) => (parseFloat(panels[i].dataset.hold) || 0.5) * vh; // jeder Tab bleibt eine Weile stehen
-
-    // Zeitplan in Scroll-Pixeln
-    let pos = LEAD;
-    const plan = panels.map((_, i) => {
-      const start = pos;
-      const inAt = start + (i > 0 ? HALF * 0.5 : 0); // der neue Text beginnt, wenn der alte halb draußen ist
-      const end = inAt + HALF + holdOf(i);
-      pos = end;
-      return { start, inAt, end };
-    });
-    const total = pos + TAIL;
-
-    sec.style.height = vh + total + "px";
-
-    const update = (t) => {
-      let active = -1;
-      plan.forEach((p, i) => {
-        if (t >= p.inAt) active = i;
-      });
-      tabList.classList.toggle("has-active", active >= 0);
-      tabs.forEach((tab, i) => tab.classList.toggle("is-on", i === active));
-    };
-
-    ctx = gsap.context(() => {
-      // Feststehender Trennstrich am linken Rand der Bühne, rechts mit leichtem Schatten (wirkt wie eine Erhebung)
-      const line = document.createElement("div");
-      line.className = "tb-line";
-      line.setAttribute("aria-hidden", "true");
-      right.appendChild(line);
-      // Der Strich reicht über den höchsten Text hinaus (mittig zur Bühne, höchstens bis kurz vor den Bildschirmrand)
-      const tallest = Math.max(...inners.map((inner) => inner.offsetHeight));
-      const lineH = Math.min(tallest + 0.16 * vh, stage.clientHeight - 48);
-      line.style.height = lineH + "px";
-      line.style.top = view.offsetTop + (view.clientHeight - lineH) / 2 + "px";
-
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: sec,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => update(self.progress * total),
-        },
-      });
-
-      // Wechsel (Scroll-gesteuert, rückwärts genauso): Zu Beginn steht nur der Strich. Der Text gleitet von links unter
-      // dem Strich hindurch nach rechts heraus (die Bühne schneidet nur am Strich ab) und blendet dabei ein. Beim Tab-Wechsel
-      // gleitet der alte Text nach rechts und blendet aus, der neue kommt überlappend unter dem Strich heraus.
-      gsap.set(panels, { autoAlpha: 1 });
-      gsap.set(inners, { x: -TRAVEL, autoAlpha: 0 });
-
-      plan.forEach((p, i) => {
-        if (i > 0) {
-          tl.to(inners[i - 1], { x: TRAVEL, autoAlpha: 0, duration: HALF, ease: "power2.inOut" }, p.start);
-        }
-        tl.fromTo(
-          inners[i],
-          { x: -TRAVEL, autoAlpha: 0 },
-          { x: 0, autoAlpha: 1, duration: HALF, ease: "power2.inOut", immediateRender: false },
-          p.inAt
-        );
-      });
-
-      tl.to({}, { duration: TAIL }, plan[plan.length - 1].end);
-    }, sec);
-    return true;
-  };
-
-  const build = () => {
-    reset();
-    if (!(!accordionOnly && mq.matches && buildPin())) {
-      reset();
-      buildTabs();
-    }
+    toggle(keepOpen ? 0 : -1);
     requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 
@@ -247,6 +104,6 @@ function initTabs(sec) {
     clearTimeout(timer);
     timer = setTimeout(build, 250);
   });
-  mq.addEventListener("change", build);
+  desktop.addEventListener("change", build);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(build);
 }

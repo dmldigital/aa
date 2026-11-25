@@ -221,7 +221,7 @@ export function breadcrumbs(path: string, topic: string, siteKind: Site): Crumb[
 const CONTACT_PATHS = ['/kontakt/', '/schnellkontakt/', '/meisterwerk-exklusive/kontakt/'];
 const ABOUT_PATHS = ['/studio/', '/qualifikationen/'];
 const COLLECTION_PATHS = ['/projekte/', '/leistungen/', '/meisterwerk-exklusive/projekte/', '/meisterwerk-exklusive/unsere-leistungen/'];
-const PROFILE_PATHS = ['/baldassarre-fortino/', '/fabio-fortino/', '/lorenzo-fortino/', '/samet-erenuglu/', '/vincenzo-fortino/'];
+const PROFILE_PATHS = ['/baldassarre-fortino/', '/fabio-fortino/', '/lorenzo-fortino/', '/samet-erenuglu/'];
 
 /**
  * Knoten der Seite selbst: gehört zur Website, handelt vom Betrieb und verweist auf die Brotkrumen. Profilseiten sind `ProfilePage`

@@ -17,11 +17,12 @@ import ToTop from '../footer/ToTop.astro';
  * Logos, Social Media, Kontaktdaten, rechtliche Links, Pfeil nach oben und der schwebende Button "Projekt starten"
  * (Sticker). Wann der Sticker wegbleibt, steht im Skript unten.
  * Ab Tablet: Überschrift mit Button, darunter Bewertungs-Badge und Siegel nebeneinander; rechts Logo mit Kontakt und zweites
- * Logo mit Links. Beide Logos gleich hoch (56 px, Exklusive-Logo ohne Rand zugeschnitten), damit die Texte darunter auf einer Linie beginnen. Dazu eine
+ * Logo mit Links. Beide Logos optisch gleich groß, damit die Texte darunter auf einer Linie beginnen. Hauptseite und Meisterwerke Exklusive haben
+ * denselben Aufbau (Badge, Siegel, Logo-Plätze, Maße) und unterscheiden sich nur in den Links (Kontakt, Impressum, Datenschutz). Dazu eine
  * schmale Leiste; auf dem Handy eine Spalte in anderer Reihenfolge (die Spalten lösen sich per `contents` auf).
  */
 interface Props {
-  /** Auftritt: Hauptseite oder Teil-Website „Meisterwerke Exklusive“ (eigene Links, Logos, ohne Bewertungs-Badge). */
+  /** Auftritt: Hauptseite oder Teil-Website „Meisterwerke Exklusive“ (eigene Links, sonst gleicher Aufbau). */
   site?: Site;
   /** Bewertungs-Badge zeigen (Standard); die Anzeigen-Zielseiten zeigen keine Google-Bewertung */
   rating?: boolean;
@@ -34,7 +35,6 @@ const f = footers[site];
 const sizeMaler = 'md:h-[72px] md:w-auto';
 const sizeExk = 'md:h-[58px] md:w-[174px]';
 const logoBox = 'md:flex md:h-[72px] md:items-center';
-const exkSite = site === 'exklusive';
 ---
 
 <footer data-section="80dbe99" class="relative z-10 overflow-x-clip bg-white">
@@ -67,7 +67,7 @@ const exkSite = site === 'exklusive';
         data-anim-delay="240"
         data-anim-mobile="fadeInUp"
       >
-        <Logos {site} which="main" wrapperClass={logoBox} class={`w-36 ${exkSite ? sizeExk : sizeMaler}`} />
+        <Logos site="main" which="main" wrapperClass={logoBox} class={`w-36 ${sizeMaler}`} />
         <Contact {site} class="gap-4 md:mt-2 md:gap-1.5" />
         <Social class="-ml-2.5 -mt-2 md:mt-0" />
       </div>
@@ -77,7 +77,7 @@ const exkSite = site === 'exklusive';
         data-anim-delay="360"
         data-anim-mobile="none"
       >
-        <Logos {site} which="other" wrapperClass={`order-3 col-span-1 self-center justify-self-end md:order-none md:self-auto md:justify-self-auto ${logoBox}`} class={`w-32 ${exkSite ? sizeMaler : sizeExk}`} />
+        <Logos site="main" which="other" wrapperClass={`order-3 col-span-1 self-center justify-self-end md:order-none md:self-auto md:justify-self-auto ${logoBox}`} class={`w-32 ${sizeExk}`} />
         <Legal
           {site}
           copyright={false}

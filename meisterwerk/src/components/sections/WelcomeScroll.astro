@@ -57,6 +57,19 @@ const defaultImages = [
   },
 ];
 const images = customImages ?? defaultImages;
+// Das letzte Bild wächst am Desktop beim Weiterscrollen auf Vollbild (scripts/home/welcome-zoom.js). Der Browser wählt die Datei
+// nach `sizes` und kennt nur die kleine Ausgangsgröße; damit das Bild im Vollbild nicht vergrößert und weich wirkt, bekommt es
+// die Endbreite als `sizes` (Fensterbreite minus 24 px Rand rechts und links) und Dateien bis zur Breite des Originals.
+const WIDTHS = [680, 840, 1360, 1680];
+const ZOOM_WIDTHS = [680, 840, 1360, 1680, 2200, 2560];
+const SIZES = '(min-width: 1760px) 840px, (min-width: 1025px) calc(50vw - 40px), calc(100vw - 40px)';
+const ZOOM_SIZES = '(min-width: 1025px) calc(100vw - 48px), calc(100vw - 40px)';
+const widthsFor = (src: ImageMetadata, zoom: boolean) => {
+  if (!zoom) return WIDTHS;
+  const ok = ZOOM_WIDTHS.filter((w) => w <= src.width);
+  return ok.length ? ok : WIDTHS;
+};
+import { flugEndDesktop } from '../../data/flug';
 ---
 
 <section
@@ -132,11 +145,23 @@ const images = customImages ?? defaultImages;
                 fallbackFormat="webp"
                 src={img.src}
                 alt={img.alt}
-                widths={[680, 840, 1360, 1680]}
-                sizes="(min-width: 1760px) 840px, (min-width: 1025px) calc(50vw - 40px), calc(100vw - 40px)"
+                widths={widthsFor(img.src, i === images.length - 1)}
+                sizes={i === images.length - 1 ? ZOOM_SIZES : SIZES}
                 loading={i === 0 ? 'eager' : 'lazy'}
-                class="block h-auto w-full ws-m:size-full ws-m:object-cover"
+                class:list={['block h-auto w-full ws-m:size-full ws-m:object-cover', home && i === 0 && 'ws-end:hidden']}
               />
+              {home && i === 0 && (
+                <img
+                  data-ws-end
+                  src={flugEndDesktop()}
+                  width="1600"
+                  height="900"
+                  alt="Heller Wohn- und Essbereich mit Holztreppe, Pendelleuchten und indirekter Deckenbeleuchtung, das Ziel des Kameraflugs"
+                  loading="lazy"
+                  decoding="async"
+                  class="hidden size-full object-cover object-[42%_50%] ws-end:block"
+                />
+              )}
             </div>
           </div>
         ))}
@@ -148,6 +173,7 @@ const images = customImages ?? defaultImages;
 <script>
   import { gsap } from '../../scripts/motion';
   import '../../scripts/home/welcome-chain.js';
+  import '../../scripts/home/welcome-enter.js';
   import '../../scripts/home/welcome-zoom.js';
   import '../../scripts/home/welcome-grow.js';
 

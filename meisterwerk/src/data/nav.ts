@@ -30,6 +30,16 @@ export const items: Item[] = [
       },
     ],
   },
+  {
+    label: 'Meisterwerk Exklusive',
+    href: '/meisterwerk-exklusive/',
+    children: [
+      { label: 'Fugenlose Bäder', href: '/meisterwerk-exklusive/fugenlose-baeder/' },
+      { label: 'Fugenlose Böden', href: '/meisterwerk-exklusive/fugenloser-boden/' },
+      { label: 'Spachteltechniken', href: '/meisterwerk-exklusive/spachteltechniken/' },
+      { label: 'Stuckleisten', href: '/meisterwerk-exklusive/stuckleisten/' },
+    ],
+  },
   { label: 'Qualifikationen', href: '/qualifikationen/' },
   { label: 'Projekte', href: '/projekte/' },
   { label: 'Urlaubsservice', href: '/urlaubsservice/' },

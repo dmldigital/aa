@@ -1,27 +1,66 @@
 ---
-/** Ruhige Kontaktzeile unter den Projektanfrage-Varianten: Telefon, E-Mail, Showroom mit Anfahrt. */
+/**
+ * Kontaktwege unter der Projektanfrage: „Lieber persönlich?“ mit drei Karten (Anrufen, Schreiben, Showroom mit Anfahrt) im Stil
+ * der Leistungen-Karten: weiße Karten auf hellgrauem Grund, ein runder Symbol-Knopf, die Angabe groß, darunter ein Button.
+ * Die Daten kommen aus `data/site.ts`.
+ */
 import Button from '../ui/Button.astro';
+import ContactIcon from '../ui/ContactIcon.astro';
 import { site } from '../../data/site';
 
 const eyebrow = 'font-display text-label font-medium tracking-label text-ink uppercase';
-const link = 'group/ul inline-block text-body text-black';
+const cards = [
+  {
+    icon: 'phone' as const,
+    label: 'Anrufen',
+    value: site.phone,
+    note: 'Wir nehmen uns Zeit für Ihr Projekt.',
+    cta: 'Jetzt anrufen',
+    href: `tel:${site.phoneHref}`,
+  },
+  {
+    icon: 'mail' as const,
+    label: 'Schreiben',
+    value: site.email,
+    note: 'Wir melden uns persönlich bei Ihnen.',
+    cta: 'E-Mail schreiben',
+    href: `mailto:${site.email}`,
+  },
+  {
+    icon: 'pin' as const,
+    label: 'Showroom',
+    value: `${site.street}, ${site.postalCode} ${site.city}`,
+    note: 'Muster zum Anfassen und Beratung vor Ort.',
+    cta: 'Anfahrt',
+    href: site.mapsUrl,
+    external: true,
+  },
+];
 ---
 
-<section data-cta-off data-section="kontakt-zeile" class="bg-soft px-page py-section">
-  <div class="mx-auto grid w-full max-w-page gap-8 md:grid-cols-3 lg:gap-x-[6vw]">
-    <div class="flex flex-col gap-3.75">
-      <p class={eyebrow}>Lieber persönlich?</p>
-      <p class="text-body">Rufen Sie uns an oder schreiben Sie uns. Wir nehmen uns Zeit für Ihr Projekt.</p>
-    </div>
-    <div class="flex flex-col gap-3.75">
+<section data-cta-off data-section="kontakt-zeile" aria-labelledby="kz-title" class="bg-soft px-page py-section">
+  <div class="mx-auto flex w-full max-w-page flex-col gap-group">
+    <div class="flex max-w-[44rem] flex-col gap-text">
       <p class={eyebrow}>Kontakt</p>
-      <a href={`tel:${site.phoneHref}`} class={link}><span class="underline-anim [--underline-gap:3px]">07141 / 23 982 90</span></a>
-      <a href={`mailto:${site.email}`} class={link}><span class="underline-anim [--underline-gap:3px]">{site.email}</span></a>
+      <h2 id="kz-title" class="font-display text-h2 font-medium text-gold">Lieber persönlich?</h2>
+      <p class="text-body text-muted">Rufen Sie uns an oder schreiben Sie uns. Wir nehmen uns Zeit für Ihr Projekt.</p>
     </div>
-    <div class="flex flex-col items-start gap-3.75">
-      <p class={eyebrow}>Studio di Stile / Showroom</p>
-      <p class="text-body">{site.street}, {site.postalCode} {site.city}</p>
-      <Button href="https://maps.app.goo.gl/TKguvHRLF81DRLoH6">Anfahrt</Button>
-    </div>
+    <ul class="grid gap-stack md:grid-cols-3">
+      {
+        cards.map((c) => (
+          <li class="flex flex-col gap-text bg-white p-inner">
+            <span class="grid size-11 place-items-center rounded-full bg-soft text-ink" aria-hidden="true">
+              <ContactIcon name={c.icon} class="size-5" />
+            </span>
+            <p class={eyebrow}>{c.label}</p>
+            <p class="font-display text-h3 font-medium break-words text-ink">{c.value}</p>
+            <p class="text-body text-muted">{c.note}</p>
+            <div class="mt-auto pt-text">
+              <Button href={c.href} {...(c.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>{c.cta}</Button>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
   </div>
 </section>
