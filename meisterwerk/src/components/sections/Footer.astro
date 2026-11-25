@@ -16,7 +16,8 @@ import ToTop from '../footer/ToTop.astro';
  * Fußbereich (Original: Elementor-Container 80dbe99), Inhalte wie im Original: Kontaktaufruf, Bewertungs-Badge,
  * Logos, Social Media, Kontaktdaten, rechtliche Links, Pfeil nach oben und der schwebende Button "Projekt starten"
  * (Sticker). Wann der Sticker wegbleibt, steht im Skript unten.
- * Ab Tablet vier Spalten in einer Zeile (Überschrift, Badge, Logo mit Kontakt, zweites Logo mit Links) und eine
+ * Ab Tablet: Überschrift mit Button, darunter Bewertungs-Badge und Siegel nebeneinander; rechts Logo mit Kontakt und zweites
+ * Logo mit Links. Beide Logos gleich hoch (56 px, Exklusive-Logo ohne Rand zugeschnitten), damit die Texte darunter auf einer Linie beginnen. Dazu eine
  * schmale Leiste; auf dem Handy eine Spalte in anderer Reihenfolge (die Spalten lösen sich per `contents` auf).
  */
 interface Props {
@@ -27,6 +28,10 @@ interface Props {
 }
 const { site = 'main', rating = true } = Astro.props;
 const f = footers[site];
+// Gleiche Höhe für beide Logos (Tablet und Desktop): 56 px, das Exklusive-Logo ist ohne Rand zugeschnitten (801 × 267)
+const sizeMaler = 'md:h-14 md:w-auto';
+const sizeExk = 'md:h-14 md:w-[168px]';
+const exkSite = site === 'exklusive';
 ---
 
 <footer data-section="80dbe99" class="relative z-10 overflow-x-clip bg-white">
@@ -44,29 +49,22 @@ const f = footers[site];
 
   <div class="px-page pt-section pb-stack md:pt-group lg:px-7.5">
     <div class="mx-auto grid w-full max-w-[min(100%,767px)] grid-cols-2 gap-x-stack gap-y-group md:max-w-[min(100%,1024px)] md:grid-cols-6 lg:max-w-[min(100%,1700px)] lg:grid-cols-12">
-      <div class="order-1 col-span-2 md:order-none md:col-span-3 lg:col-span-4 min-[1300px]:col-span-5">
+      <div class="order-1 col-span-2 flex flex-col items-start gap-group md:order-none md:col-span-3 lg:col-span-4 min-[1300px]:col-span-5">
         <Frage {site} />
-      </div>
-      <div
-        data-anim="fadeInUp"
-        data-anim-delay="120"
-        data-anim-mobile="fadeInUp"
-        class="order-3 col-span-1 self-center md:order-none md:col-span-3 md:self-auto lg:col-span-2"
-      >
         {f.badge && rating && (
-          <div class="inline-flex flex-col items-center gap-stack">
+          <div class="flex items-center gap-group" data-anim="fadeInUp" data-anim-delay="120" data-anim-mobile="fadeInUp">
             <Badge />
             <Siegel />
           </div>
         )}
       </div>
       <div
-        class="order-2 col-span-2 flex flex-col gap-stack bg-soft p-inner md:order-none md:col-span-3 md:gap-3 md:bg-transparent md:p-0 lg:col-span-3"
+        class="order-2 col-span-2 flex flex-col gap-stack bg-soft p-inner md:order-none md:col-span-3 md:gap-3 md:bg-transparent md:p-0 lg:col-span-3 lg:col-start-7 min-[1300px]:col-start-8"
         data-anim="fadeInUp"
         data-anim-delay="240"
         data-anim-mobile="fadeInUp"
       >
-        <Logos {site} which="main" class="w-36 md:w-44.5" />
+        <Logos {site} which="main" class={`w-36 ${exkSite ? sizeExk : sizeMaler}`} />
         <Contact {site} class="gap-4 md:gap-1.5" />
         <Social class="-ml-2.5 -mt-2 md:mt-0" />
       </div>
@@ -76,7 +74,7 @@ const f = footers[site];
         data-anim-delay="360"
         data-anim-mobile="none"
       >
-        <Logos {site} which="other" wrapperClass="order-3 col-span-1 self-center justify-self-end md:order-none md:self-auto md:justify-self-auto" class="w-32 md:w-44.5" />
+        <Logos {site} which="other" wrapperClass="order-3 col-span-1 self-center justify-self-end md:order-none md:self-auto md:justify-self-auto" class={`w-32 ${exkSite ? sizeMaler : sizeExk}`} />
         <Legal
           {site}
           copyright={false}

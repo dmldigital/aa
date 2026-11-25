@@ -4,7 +4,8 @@ import { href } from '../../data/links';
 import { footers } from '../../data/footer';
 import type { Site } from '../../data/nav';
 import logo from '../../assets/img/cropped-meisterwerk_malerbetrieb_logo.png';
-import exklusive from '../../assets/img/logo_exklusive.png';
+// Exklusive-Logo ohne Leerraum am Rand (Zuschnitt von logo_exklusive.png), damit es im Fuß bündig mit dem anderen Logo steht
+import exklusive from '../../assets/img/logo_exklusive_zugeschnitten.png';
 import malermanufaktur from '../../assets/img/Malermanufaktur_neu.png';
 /**
  * Die beiden Logos des Fußes. `main`: Logo der aktuellen Seite (Link zur Startseite),
@@ -37,7 +38,7 @@ const mask = `-webkit-mask:url(${exklusive.src}) center/contain no-repeat;mask:u
       }
     >
       {exk ? (
-        <span role="img" aria-label="Meisterwerke Exklusive" class:list={['block aspect-[831/325] bg-ink', className]} style={mask}></span>
+        <span role="img" aria-label="Meisterwerke Exklusive" class:list={['block aspect-[801/267] bg-ink', className]} style={mask}></span>
       ) : (
         <Picture
           formats={['avif']}
@@ -64,7 +65,7 @@ const mask = `-webkit-mask:url(${exklusive.src}) center/contain no-repeat;mask:u
     </a>
   ) : (
     <a href="https://meisterwerk-exklusive.de/" class="block" aria-label="Meisterwerk Exklusive">
-      <span role="img" aria-label="Meisterwerke Exklusive" class:list={['block aspect-[831/325] bg-ink', className]} style={mask}></span>
+      <span role="img" aria-label="Meisterwerke Exklusive" class:list={['block aspect-[801/267] bg-ink', className]} style={mask}></span>
     </a>
   )}
 </div>
