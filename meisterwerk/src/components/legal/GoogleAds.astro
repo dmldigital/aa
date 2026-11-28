@@ -5,11 +5,13 @@
  * Conversion „Anfrage gesendet“:
  * - auf der Dankeseite der Anzeigen-Zielseiten (/anfrage/danke/), einmal je Sitzung (Neuladen zählt nicht doppelt),
  * - bei allen übrigen Formularen über das Ereignis `mw-lead` aus `scripts/senden.ts` (Formulare ohne Weiterleitung).
+ * Conversion „Anruf-Klick Website“: Klick auf einen tel:-Link (Kopfzeile, Menü, Kontakt, Fuß), einmal je Seitenaufruf.
  */
 import { googleAds } from '../../data/ads';
 
-const { id, leadLabel } = googleAds;
+const { id, leadLabel, callLabel } = googleAds;
 const sendTo = `${id}/${leadLabel}`;
+const callTo = `${id}/${callLabel}`;
 const code = `
 window.dataLayer = window.dataLayer || [];
 function gtag(){ dataLayer.push(arguments); }
@@ -24,11 +26,18 @@ if (/\\/anfrage\\/danke\\/?$/.test(location.pathname)) {
   } catch (e) { mwLead(); }
 }
 window.addEventListener('mw-lead', mwLead);
+var mwCallSent = false;
+document.addEventListener('click', function (e) {
+  var a = e.target && e.target.closest ? e.target.closest('a[href^="tel:"]') : null;
+  if (!a || mwCallSent) return;
+  mwCallSent = true;
+  gtag('event', 'conversion', { send_to: '${callTo}' });
+}, true);
 `;
 ---
 
 {
-  id && leadLabel && (
+  id && leadLabel && callLabel && (
     <>
       <script type="text/plain" data-consent="marketing" set:html={code} />
       <script type="text/plain" data-consent="marketing" data-src={`https://www.googletagmanager.com/gtag/js?id=${id}`} />

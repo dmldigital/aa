@@ -9,4 +9,6 @@ export const googleAds = {
   id: 'AW-17951684022',
   /** Label der Conversion-Aktion „Anfrage gesendet“ (Teil nach dem Schrägstrich in send_to) */
   leadLabel: 'e8uXCJfX174dELbrg_BC',
+  /** Label der Conversion-Aktion „Anruf-Klick Website“ (Klick auf einen tel:-Link) */
+  callLabel: 'V32MCPzrlMEdELbrg_BC',
 };
