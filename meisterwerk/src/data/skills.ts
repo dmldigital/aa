@@ -50,9 +50,8 @@ export const accordions: Accordion[] = [
         heading: 'Unser Team im Überblick:',
         items: list([
           '<strong>1 Meister</strong> garantiert höchste Qualitätsstandards und Arbeiten nach dem aktuellen Stand der Technik',
-          '<strong>1 Projektleiter</strong> begleitet die Baustellen, optimiert Abläufe und ist Ansprechpartner für Mitarbeiter &amp; Kunden',
           '<strong>1 Vorarbeiter</strong> verantwortlich für die Organisation und Qualität direkt auf der Baustelle',
-          '<strong>1 Geselle &amp; 2 Auszubildende</strong> bringen Fachwissen, Leidenschaft und Motivation in jedes Projekt',
+          '<strong>1 Geselle &amp; 1 Auszubildender</strong> bringen Fachwissen, Leidenschaft und Motivation in jedes Projekt',
         ]),
       },
       {
