@@ -24,7 +24,7 @@ const selectField = `${field} appearance-none py-3.75 pr-10 pl-3.75 text-body le
 const exklusive = variant === 'exklusive';
 // Exklusive: andere Leistungen und „Haus oder Wohnung?“ statt „Art der Arbeiten“
 const arbeiten = exklusive
-  ? ['Fugenloses Bad', 'Fugenloser Boden', 'Spachteltechnik']
+  ? ['Fugenloses Bad', 'Fugenloser Boden', 'Spachteltechnik', 'Stuckleisten']
   : ['Spachteltechnik', 'Streichen', 'Lackieren', 'Tapezieren', 'Verputzen'];
 const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12 Monaten', 'Noch offen'];
 ---
@@ -150,10 +150,6 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
             />
           </div>
         </div>
-        <input type="hidden" name="berechneter_preis" />
-        <input type="hidden" name="ausgewaehlte_leistungen" />
-        <input type="hidden" name="preis_pro_qm" />
-        <input type="hidden" name="berechnungsdetails" />
       </>
     )}
     {exklusive && <div class="h-8 w-full" />}
@@ -297,7 +293,6 @@ const zeitpunkte = ['Sofort', 'Innerhalb von 1 bis 3 Monaten', 'Innerhalb von 12
           'leistungen[]': 'Leistungen',
           flaeche_qm: 'Fläche in m²',
           zeitpunkt: 'Zeitpunkt der Ausführung',
-          berechneter_preis: 'Berechneter Preis',
           name: 'Name',
           telefon: 'Rufnummer',
           email: 'E-Mail',
