@@ -39,7 +39,6 @@ const ASTRO_PAGES: string[] = [
   '/meisterwerk-exklusive/spachteltechniken/',
   '/meisterwerk-exklusive/stuckleisten/',
   '/meisterwerk-exklusive/unsere-leistungen/',
-  '/meisterwerk-exklusive/urlaub/',
   '/projekte/',
   '/qualifikationen/',
   '/reviews/',

@@ -21,6 +21,8 @@
 # Übersichtsseiten, die es neu unter anderem Namen gibt
 /services/ /leistungen/ 301
 /meisterwerk-exklusive/services/ /meisterwerk-exklusive/unsere-leistungen/ 301
+# Urlaubsservice gab es doppelt, bleibt nur auf der Hauptseite
+/meisterwerk-exklusive/urlaub/ /urlaubsservice/ 301
 
 # Üblicher Sitemap-Name und alte WordPress-Namen auf die neue Sitemap
 /sitemap.xml /sitemap-index.xml 301

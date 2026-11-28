@@ -40,7 +40,7 @@ const TARGETS: Target[] = [
   { path: { main: '/meisterwerk-exklusive/spachteltechniken/', exklusive: '/meisterwerk-exklusive/spachteltechniken/' }, re: local('Spachteltechniken|Spachteltechnik') },
   { path: { main: '/meisterwerk-exklusive/stuckleisten/', exklusive: '/meisterwerk-exklusive/stuckleisten/' }, re: local('Stuckleisten|Stuckarbeiten') },
   { path: { main: '/2025/05/03/unser-showroom/', exklusive: '/2025/05/03/unser-showroom/' }, re: local('Showroom') },
-  { path: { main: '/urlaubsservice/', exklusive: '/meisterwerk-exklusive/urlaub/' }, re: word('Urlaubsservice') },
+  { path: { main: '/urlaubsservice/', exklusive: '/urlaubsservice/' }, re: word('Urlaubsservice') },
   { path: { main: '/qualifikationen/' }, re: word('Meisterbriefe?|Meisterbetrieb|Qualifikationen|Zertifikate') },
   { path: { main: '/meisterwerk-exklusive/' }, re: word('Meisterwerke? Exklusive') },
   { path: { main: '/projekte/', exklusive: '/meisterwerk-exklusive/projekte/' }, re: word('Referenzen|[Uu]nsere Projekte|Projektübersicht') },
