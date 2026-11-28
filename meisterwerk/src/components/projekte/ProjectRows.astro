@@ -56,6 +56,7 @@ const facts = (i: { year: string; place: string; duration: string; area: string 
               widths={[350, 700, 960, 1400]}
               sizes="(min-width: 1025px) 58vw, calc(100vw - 40px)"
               loading={i === 0 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : undefined}
               class="block aspect-[3/2] h-auto w-full object-cover transition-transform duration-[450ms] ease-in-out group-hover/card:scale-110 group-hover/card:opacity-80"
             />
           </div>

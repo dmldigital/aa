@@ -1,4 +1,4 @@
-// FAQ schiebt sich von unten über "Unsere Exklusive Projekte", wie diese Sektion zuvor über die Bild-Sektion:
+// FAQ schiebt sich von unten über "Unsere exklusiven Projekte", wie diese Sektion zuvor über die Bild-Sektion:
 // Die Projekte-Sektion bleibt stehen (Sticky), das FAQ beginnt eine Sektionshöhe weiter oben und deckt sie zu.
 // Der Wrapper der Projekte ist dafür eine Fensterhöhe länger. Bei reduzierter Bewegung bleibt alles wie vorher.
 // Der Header bleibt nur gesperrt, solange das FAQ noch darüberfährt; danach gilt wieder hoch = ein, runter = aus.

@@ -4,7 +4,7 @@
   "description": "Exklusive Malerarbeiten für Ihr Zuhause. Wir bieten präzise Anstriche, Farbberatung & höchste Sauberkeit in Ludwigsburg & Stuttgart. Jetzt loslegen!",
   "hero": {
     "title": "Malerarbeiten in Ludwigsburg: Farben, die Ihrem Zuhause Persönlichkeit verleihen",
-    "text": "Ihre Vision, unser Handwerk: Professionelle Malerarbeiten sind mehr als ein neuer Anstrich, sie verwandeln Räume in lebendige und stilvolle Lebenswelten. Bei der Meisterwerk Maler Manufaktur setzen wir auf höchste Präzision, Qualität und Liebe zum Detail. Unser Ziel ist es, Ihre Räume mit frischen Farben und sauberen Oberflächen zu einem Meisterwerk zu machen.",
+    "text": "Ihre Vision, unser Handwerk: Professionelle Malerarbeiten sind mehr als ein neuer Anstrich, sie verwandeln Räume in lebendige und stilvolle Lebenswelten. Bei der Meisterwerk Malermanufaktur setzen wir auf höchste Präzision, Qualität und Liebe zum Detail. Unser Ziel ist es, Ihre Räume mit frischen Farben und sauberen Oberflächen zu einem Meisterwerk zu machen.",
     "img": "../../assets/img/2026-04-14-malerarbeiten-flur-gesamt.jpg",
     "alt": "Malerarbeiten in Ludwigsburg: Flur mit grün gestrichenen Wänden und weißen Türrahmen, Blick bis ins Wohnzimmer",
     "local": "Als Malerbetrieb aus Freiberg am Neckar sind wir für Malerarbeiten in Ludwigsburg, Marbach, Bietigheim-Bissingen und Stuttgart im Einsatz."
@@ -70,7 +70,7 @@
     },
     {
       "title": "Ihr Weg zu neuen Räumen",
-      "html": "<p>Von der <strong>Beratung über die Farbauswahl bis zur Umsetzung</strong> begleiten wir Sie Schritt für Schritt. Mit der <strong>Meisterwerk Maler Manufaktur</strong> erhalten Ihre Räume einen neuen Glanz, präzise, sauber und professionell ausgeführt.</p>"
+      "html": "<p>Von der <strong>Beratung über die Farbauswahl bis zur Umsetzung</strong> begleiten wir Sie Schritt für Schritt. Mit der <strong>Meisterwerk Malermanufaktur</strong> erhalten Ihre Räume einen neuen Glanz, präzise, sauber und professionell ausgeführt.</p>"
     }
   ]
 }

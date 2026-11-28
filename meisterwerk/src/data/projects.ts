@@ -27,7 +27,7 @@ export const projects = [
     title: 'Unser Showroom',
     href: '/2025/05/03/unser-showroom/',
     img: showroom,
-    alt: 'Showroom der Meisterwerk Maler Manufaktur',
+    alt: 'Showroom der Meisterwerk Malermanufaktur',
   },
   {
     title: 'Kernsanierung',

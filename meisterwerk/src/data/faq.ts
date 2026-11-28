@@ -66,7 +66,7 @@ export const faqs: Faq[] = [
           { text: 'Brillux', href: 'https://www.brillux.de/' },
           ' und ',
           { text: 'Sto', href: 'https://www.sto.de/s/' },
-          ', zwei deutsche Premium-Hersteller aus der Region. Mit dieser Auswahl können wir für jedes Objekt und jede Anforderung das passende Produkt anbieten, inklusive Service und Produktgarantie.',
+          ', zwei deutsche Premium-Hersteller. Mit dieser Auswahl können wir für jedes Objekt und jede Anforderung das passende Produkt anbieten, inklusive Service und Produktgarantie.',
         ],
       },
     ],

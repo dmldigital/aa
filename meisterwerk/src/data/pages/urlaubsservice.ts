@@ -11,7 +11,7 @@ export const meta = {
 
 export const intro = {
   heading: 'Unser Urlaubsservice für Sie',
-  text: 'Perfekt getimed: Während Sie entspannen, arbeiten wir! Unser exklusiver Urlaubsservice bietet Ihnen genau das: Während Ihrer Abwesenheit führen wir alle vereinbarten Renovierungsarbeiten durch. So kehren Sie in ein frisch renoviertes Zuhause zurück, ganz ohne Schmutz, Lärm oder Einschränkungen',
+  text: 'Perfekt abgestimmt: Während Sie entspannen, arbeiten wir! Unser exklusiver Urlaubsservice bietet Ihnen genau das: Während Ihrer Abwesenheit führen wir alle vereinbarten Renovierungsarbeiten durch. So kehren Sie in ein frisch renoviertes Zuhause zurück, ganz ohne Schmutz, Lärm oder Einschränkungen',
   image,
   alt: '',
 };

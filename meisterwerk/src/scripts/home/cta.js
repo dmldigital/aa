@@ -5,7 +5,7 @@
 //    und bleibt stehen (rechts derselbe Randabstand wie links bei der CTA-Box). Kurzer Stopp.
 // 4. Beim Weiterscrollen schiebt sich die Kontaktbox nach rechts hinaus, zeitversetzt und schneller folgt die CTA-Box
 //    nach links, beide verschwinden kurz hintereinander.
-// 5. Die Sektion bleibt stehen, "Unsere Exklusive Projekte" schiebt sich von unten darüber.
+// 5. Die Sektion bleibt stehen, "Unsere exklusiven Projekte" schiebt sich von unten darüber.
 //    Die Bühne wird nur dort sichtbar gehalten, wo die Projekte noch nicht darüberliegen.
 // Unter 1025 px ist die Kontaktbox so breit wie die Zeile und fährt von rechts über die CTA-Box.
 import { gsap } from "../motion";

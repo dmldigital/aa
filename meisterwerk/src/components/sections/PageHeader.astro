@@ -66,6 +66,7 @@ const { label, title, lead, paragraphs = [], button, buttons = [], image, imageA
           widths={[390, 780, 1200, 1700]}
           sizes="(min-width: 1025px) 50vw, calc(100vw - 40px)"
           loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : undefined}
           class="block aspect-[4/3] h-auto w-full object-cover"
         />
       </div>

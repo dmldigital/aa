@@ -38,7 +38,7 @@ export const partnerGroups: PartnerGroup[] = [
     ],
   },
   {
-    title: 'Partner Meister Betriebe',
+    title: 'Partner-Meisterbetriebe',
     links: [
       {
         name: 'Madera Bedachungen',
@@ -118,7 +118,7 @@ export const partnerGroups: PartnerGroup[] = [
       { name: 'Wagner', href: 'https://www.wagner-group.com/de/handwerker/' },
       {
         name: 'Festool',
-        href: 'https://www.festool.de/?srsltid=AfmBOorRhr4vRHHV9dLjnBA5MYG7smGqcy4ZtonpYQzCrV3Mve8CJyPo',
+        href: 'https://www.festool.de/',
       },
       { name: 'Mirka', href: 'https://www.mirka.com/de-de/' },
       { name: 'Metabo', href: 'https://www.metabo.com/de/de' },
@@ -126,7 +126,7 @@ export const partnerGroups: PartnerGroup[] = [
       { name: 'Nela Tools', href: 'https://nela-tools.com/stainless-steel-putty-knife' },
       {
         name: 'Storch',
-        href: 'https://shop.storch.de/de/?gad_source=1&gad_campaignid=21934043432&gbraid=0AAAAAD_VBfiBPBlNsromxpauTmssh_64m&gclid=Cj0KCQiA7rDMBhCjARIsAGDBuEB_62SyOYIRErc_376ldcNhpvU7lFmk_WCIv42Ufh8Mh9wkBq3yz1YaAt03EALw_wcB',
+        href: 'https://shop.storch.de/de/',
       },
       { name: 'Pajarito', href: 'https://de.pajarito-tools.com/' },
     ],

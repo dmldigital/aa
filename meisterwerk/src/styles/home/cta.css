@@ -1,7 +1,7 @@
 @reference "../global.css";
 /* Sektion mit Hintergrundbild, Linien und CTA-Box ("Jede Oberfläche ist einzigartig"):
    Bild kommt per Parallax hoch, Sektion wird gepinnt, senkrechte Linien und CTA-Box gleiten von links
-   herein, kurzer Stopp, gleiten nach links wieder hinaus. Danach schiebt sich "Unsere Exklusive Projekte"
+   herein, kurzer Stopp, gleiten nach links wieder hinaus. Danach schiebt sich "Unsere exklusiven Projekte"
    von unten über die stehende Sektion. Ohne Skript oder bei reduzierter Bewegung bleibt alles wie vorher. */
 
 .mz{position:relative;margin-top:var(--space-section)}
@@ -62,7 +62,7 @@
   .mz-direct{display:none}
 }
 
-/* "Unsere Exklusive Projekte" bleiben stehen, das FAQ schiebt sich von unten darüber */
+/* "Unsere exklusiven Projekte" bleiben stehen, das FAQ schiebt sich von unten darüber */
 .ep{position:relative}
 .ep-lockzone{position:absolute;top:0;left:0;right:0;height:0;pointer-events:none}
 .ep-sheet{display:flow-root}

@@ -92,7 +92,7 @@ export const timeline = [
   },
   {
     date: '2024',
-    text: 'Zentral­isierung aller Bereiche in Freiberg unter einem Dach: Büro, Lager, Show­room und Werk­statt.',
+    text: 'Zentrali­sierung aller Bereiche in Freiberg unter einem Dach: Büro, Lager, Show­room und Werk­statt.',
   },
 ];
 

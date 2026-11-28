@@ -15,7 +15,7 @@ export const cards = [
   {
     href: '/services/lackierarbeiten/',
     title: 'Lackierarbeiten',
-    subtitle: 'Erwecke Altes zu neuem Leben',
+    subtitle: 'Wir erwecken Altes zu neuem Leben',
     img: lackieren,
     alt: 'Lackiertes weißes Treppengeländer mit Holzhandlauf vor einem Fenster.',
   },

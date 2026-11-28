@@ -1,4 +1,4 @@
-// Tab-Sektionen: „Meisterliche Malerarbeiten“ (Startseite), die Firmenskills bei Meisterwerke Exklusive und das FAQ.
+// Tab-Sektionen: „Meisterliche Malerarbeiten“ (Startseite), die Stärken bei Meisterwerke Exklusive und das FAQ.
 // Die Titel sind echte Tabs, der Inhalt klappt direkt darunter auf, immer nur ein Tab ist offen (öffnet sich einer, schließt der andere).
 // Desktop (ab 1025 px, Startseite und Exklusive): Text links, rechts die Tabs; der erste Tab ist offen, ein Klick auf einen anderen
 //   tauscht den offenen Tab, der offene bleibt immer offen (die rechte Seite ist nie leer). Keine Scroll-Animation, kein Pin.

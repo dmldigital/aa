@@ -153,7 +153,7 @@ export const banner = {
 };
 
 export const projekte = {
-  heading: 'Unsere Exklusive Projekte',
+  heading: 'Unsere exklusiven Projekte',
   link: '/meisterwerk-exklusive/projekte/',
   items: [
     {

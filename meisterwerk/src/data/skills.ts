@@ -10,7 +10,7 @@ const compare = (good: string, bad: string) => [
 
 export const accordions: Accordion[] = [
   {
-    title: 'Unsere Firmenskills',
+    title: 'Unsere Stärken',
     intro:
       'Hinter Meisterwerk steht ein starkes Team, bestens ausgebildet, modern ausgestattet und motiviert.',
     groups: [
@@ -91,7 +91,7 @@ export const accordions: Accordion[] = [
       {
         heading: 'Ausstattung',
         items: compare(
-          'Mehr als 60 moderne Maschinen &amp; Geräte. Dank neuester Technik verkürzen wir die Baustellendauer um bis zu 70 %, das bedeutet: schnellere Fertigstellung, weniger Belastung für Sie und ein rascherer Rückkehr in den Alltag.',
+          'Mehr als 60 moderne Maschinen &amp; Geräte. Dank neuester Technik verkürzen wir die Baustellendauer um bis zu 70 %, das bedeutet: schnellere Fertigstellung, weniger Belastung für Sie und eine raschere Rückkehr in den Alltag.',
           'Oft veraltete oder wenige Geräte, dadurch längere Baustellenzeiten',
         ),
       },

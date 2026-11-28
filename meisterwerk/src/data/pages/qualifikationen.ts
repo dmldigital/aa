@@ -10,7 +10,7 @@ export const heading = 'Unser Versprechen an höchste Qualität';
 export const pillars = [
   {
     title: 'Handwerkskunst auf Meisterniveau',
-    html: '<p>Bei der <strong>Meisterwerk Maler Manufaktur</strong> verstehen wir uns nicht nur als Handwerker, sondern als Künstler des Raums. Unsere Leidenschaft für exklusive Oberflächen, fugenlose Bäder und kreative Farbkonzepte spiegelt sich in jedem Projekt wider. Wir kombinieren traditionelles Handwerk mit modernster Technik.</p><h3 aria-hidden="true">&nbsp;</h3>',
+    html: '<p>Bei der <strong>Meisterwerk Malermanufaktur</strong> verstehen wir uns nicht nur als Handwerker, sondern als Künstler des Raums. Unsere Leidenschaft für exklusive Oberflächen, fugenlose Bäder und kreative Farbkonzepte spiegelt sich in jedem Projekt wider. Wir kombinieren traditionelles Handwerk mit modernster Technik.</p><h3 aria-hidden="true">&nbsp;</h3>',
   },
   {
     title: 'Ständige Weiterbildung für Spitzenleistung',
